@@ -25,6 +25,7 @@ namespace GKModule
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
+		GuardViewModel GuardViewModel;
 		FiltersViewModel FiltersViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
@@ -43,6 +44,7 @@ namespace GKModule
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
+			GuardViewModel = new GuardViewModel();
 			FiltersViewModel = new FiltersViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
@@ -57,6 +59,7 @@ namespace GKModule
 			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
+			GuardViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 
@@ -73,6 +76,7 @@ namespace GKModule
 					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
                     new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),

@@ -38,17 +38,17 @@ namespace GKModule
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 
 					var globalStateClass = XStateClass.No;
-					foreach (var device in XManager.DeviceConfiguration.Devices)
+					foreach (var device in XManager.Devices)
 					{
 						if (device.DeviceState.StateClass < globalStateClass)
 							globalStateClass = device.DeviceState.StateClass;
 					}
-					foreach (var zone in XManager.DeviceConfiguration.Zones)
+					foreach (var zone in XManager.Zones)
 					{
 						if (zone.ZoneState.StateClass < globalStateClass)
 							globalStateClass = zone.ZoneState.StateClass;
 					}
-					foreach (var direction in XManager.DeviceConfiguration.Directions)
+					foreach (var direction in XManager.Directions)
 					{
 						if (direction.DirectionState.StateClass < globalStateClass)
 							globalStateClass = direction.DirectionState.StateClass;
@@ -60,7 +60,7 @@ namespace GKModule
 						switch (journalItem.JournalItemType)
 						{
 							case JournalItemType.Device:
-								var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var device = XManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (device != null)
 								{
 									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementXDevices.Any(y => y.XDeviceUID == device.UID); });
@@ -72,7 +72,7 @@ namespace GKModule
 								break;
 
 							case JournalItemType.Zone:
-								var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var zone = XManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (zone != null)
 								{
 									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.UID); });

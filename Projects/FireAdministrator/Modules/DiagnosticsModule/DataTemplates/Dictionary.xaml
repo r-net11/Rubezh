@@ -6,25 +6,5 @@
     <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
         <Views:DiagnosticsView />
     </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:DevicesTreeViewModel}">
-        <Views:DevicesTreeView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:DeviceIconTestViewModel}">
-        <Views:DeviceIconTestView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ZoneTestViewModel}">
-        <Views:ZoneTestView />
-    </DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:TreeViewTestViewModel}">
-		<Views:TreeViewTestView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:SVGTestViewModel}">
-		<Views:SVGTestView />
-	</DataTemplate>
 	
 </ResourceDictionary>

@@ -18,7 +18,6 @@ namespace XFiresecAPI
             OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
-
 		public XDirectionState DirectionState { get; set; }
 		public override XBaseState GetXBaseState() { return DirectionState; }
 		public List<XZone> InputZones { get; set; }

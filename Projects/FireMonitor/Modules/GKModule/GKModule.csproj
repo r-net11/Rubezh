@@ -38,6 +38,15 @@
     <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
     </Reference>
@@ -49,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -98,6 +108,7 @@
     <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
@@ -268,10 +279,10 @@
     <Resource Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Reports\DeviceParametersReport.xaml">
+    <Resource Include="Reports\DeviceParametersReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </Resource>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

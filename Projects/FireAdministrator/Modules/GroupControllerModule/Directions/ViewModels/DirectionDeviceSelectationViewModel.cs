@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 			Title = "Выбор устройства";
 
 			var devices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.IsControlDevice)
 				{

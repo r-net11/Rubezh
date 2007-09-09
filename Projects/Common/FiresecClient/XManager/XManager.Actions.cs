@@ -76,7 +76,7 @@ namespace FiresecClient
 			}
 			device.OnChanged();
 			parentDevice.Children.Remove(device);
-			DeviceConfiguration.Devices.Remove(device);
+			Devices.Remove(device);
 
 			if (parentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
@@ -108,7 +108,7 @@ namespace FiresecClient
 
 		public static void AddZone(XZone zone)
 		{
-			DeviceConfiguration.Zones.Add(zone);
+			Zones.Add(zone);
 		}
 
 		public static void RemoveZone(XZone zone)
@@ -131,7 +131,7 @@ namespace FiresecClient
 				direction.OnChanged();
 			}
 			zone.OnChanged();
-			DeviceConfiguration.Zones.Remove(zone);
+			Zones.Remove(zone);
 		}
 
 		public static void EditZone(XZone zone)
@@ -153,7 +153,7 @@ namespace FiresecClient
 
 		public static void AddDirection(XDirection direction)
 		{
-			DeviceConfiguration.Directions.Add(direction);
+			Directions.Add(direction);
 		}
 
 		public static void RemoveDirection(XDirection direction)
@@ -164,7 +164,7 @@ namespace FiresecClient
 				zone.OnChanged();
 			}
 			direction.OnChanged();
-			DeviceConfiguration.Directions.Remove(direction);
+			Directions.Remove(direction);
 		}
 
 		public static void ChangeDirectionZones(XDirection direction, List<XZone> zones)

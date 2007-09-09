@@ -99,19 +99,19 @@ namespace FiresecClient
 			{
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.DeviceConfiguration.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				XManager.DeviceConfiguration.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
-				XManager.DeviceConfiguration.Devices.ForEach(xdevice => xdeviceMap.Add(xdevice.UID, xdevice));
+				XManager.Devices.ForEach(xdevice => xdeviceMap.Add(xdevice.UID, xdevice));
 				var zoneMap = new Dictionary<Guid, Zone>();
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 				var xzoneMap = new Dictionary<Guid, XZone>();
-				XManager.DeviceConfiguration.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
+				XManager.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
 				var xdirectionMap = new Dictionary<Guid, XDirection>();
-				XManager.DeviceConfiguration.Directions.ForEach(xdirection => xdirectionMap.Add(xdirection.UID, xdirection));
+				XManager.Directions.ForEach(xdirection => xdirectionMap.Add(xdirection.UID, xdirection));
 				var planMap = new Dictionary<Guid, Plan>();
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)

@@ -24,6 +24,7 @@ namespace Infrustructure.Plans.Painters
 		public static Brush GridLineBrush { get; private set; }
 		public static Brush BlackBrush { get; private set; }
 		public static Brush WhiteBrush { get; private set; }
+		public static Brush TransparentBrush { get; private set; }
 		public static RectangleGeometry PointGeometry { get; private set; }
 		public static double Zoom { get; private set; }
 		public static double PointZoom { get; private set; }
@@ -32,6 +33,8 @@ namespace Infrustructure.Plans.Painters
 		{
 			try
 			{
+				TransparentBrush = new SolidColorBrush(Colors.Transparent);
+				TransparentBrush.Freeze();
 				BlackBrush = new SolidColorBrush(Colors.Black);
 				BlackBrush.Freeze();
 				WhiteBrush = new SolidColorBrush(Colors.White);

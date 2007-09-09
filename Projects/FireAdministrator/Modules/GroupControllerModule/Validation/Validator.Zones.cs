@@ -12,7 +12,7 @@ namespace GKModule.Validation
 		{
 			ValidateZoneNoEquality();
 
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
@@ -27,7 +27,7 @@ namespace GKModule.Validation
 		static void ValidateZoneNoEquality()
 		{
 			var zoneNos = new HashSet<int>();
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (!zoneNos.Add(zone.No))
 					Errors.Add(new ZoneValidationError(zone, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));

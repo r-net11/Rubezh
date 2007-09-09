@@ -22,17 +22,17 @@ namespace GKModule.Plans.Designer
 		public static void BuildXDeviceMap()
 		{
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
-			XManager.DeviceConfiguration.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
 		}
 		public static void BuildXZoneMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();
-			XManager.DeviceConfiguration.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+			XManager.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
 		}
 		public static void BuildXDirectionMap()
 		{
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
-			XManager.DeviceConfiguration.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
+			XManager.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
 		}
 	
 		public static string GetXZoneTitle(IElementZone element)
@@ -131,6 +131,11 @@ namespace GKModule.Plans.Designer
 		{
 			var device = GetXDevice(element);
 			return device == null ? "Неизвестное устройство" : device.DottedAddress + " " + device.Driver.ShortName;
+		}
+		public static string GetXDeviceImageSource(ElementXDevice element)
+		{
+			var device = GetXDevice(element);
+			return device == null ? null : device.Driver.ImageSource;
 		}
 		public static XDevice SetXDevice(ElementXDevice element)
 		{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using XFiresecAPI;
 
 namespace FiresecAPI.Models
 {
@@ -40,7 +41,7 @@ namespace FiresecAPI.Models
 		public bool IgnoreMoveResize { get; set; }
 
 		[DataMember]
-		public StateType StateType { get; set; }
+		public XStateClass StateClass { get; set; }
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }

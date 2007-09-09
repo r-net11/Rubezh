@@ -7,17 +7,28 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;
+using System.Linq;
 using System.Diagnostics;
+using FiresecClient;
 
 namespace GKModule
 {
 	public partial class Watcher
 	{
+		bool IsAnyDBMissmatch = false;
+
 		void GetAllStates()
 		{
+			IsAnyDBMissmatch = false;
+
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
+				if (binaryObject.BinaryBase is XDelay)
+				{
+					;
+				}
+
 				bool result = GetState(binaryObject.BinaryBase);
 				if (!result)
 				{
@@ -30,6 +41,18 @@ namespace GKModule
 				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
 			StopProgress();
+
+			if (IsAnyDBMissmatch)
+			{
+				foreach (var binaryObject in GkDatabase.BinaryObjects)
+				{
+					var baseState = binaryObject.BinaryBase.GetXBaseState();
+					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+					baseState.IsGKMissmatch = true;
+				}
+			}
+			CheckTechnologicalRegime();
+
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
 		}
 
@@ -44,7 +67,8 @@ namespace GKModule
 			}
 			if (sendResult.Bytes.Count != 68)
 			{
-				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsMissmatch = true; });
+				IsAnyDBMissmatch = true;
+				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsGKMissmatch = true; });
 				return false;
 			}
 			ConnectionChanged(true);
@@ -107,7 +131,21 @@ namespace GKModule
 				if (binaryObjectState.TypeNo != 0x106)
 					isMissmatch = true;
 			}
-			binaryBase.GetXBaseState().IsMissmatch = isMissmatch;
+			if (binaryBase is XDelay)
+			{
+				var delay = binaryBase as XDelay;
+				if (binaryObjectState.TypeNo != 0x101)
+					isMissmatch = true;
+			}
+
+			if (binaryBase.GetBinaryDescription() != binaryObjectState.Description)
+				isMissmatch = true;
+
+			binaryBase.GetXBaseState().IsRealMissmatch = isMissmatch;
+			if (isMissmatch)
+			{
+				IsAnyDBMissmatch = true;
+			}
 		}
 
 		void CheckServiceRequired(XBinaryBase binaryBase, JournalItem journalItem)
@@ -122,5 +160,54 @@ namespace GKModule
 				ApplicationService.Invoke(() => { device.DeviceState.IsService = isDusted; });
 			}
 		}
+
+		#region TechnologicalRegime
+		void CheckTechnologicalRegime()
+		{
+			if (IsInTechnologicalRegime(GkDatabase.RootDevice))
+			{
+				foreach (var binaryObject in GkDatabase.BinaryObjects)
+				{
+					var baseState = binaryObject.BinaryBase.GetXBaseState();
+					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+					baseState.IsInTechnologicalRegime = true;
+				}
+			}
+			else
+			{
+				foreach (var kauDatabase in GkDatabase.KauDatabases)
+				{
+					if (IsInTechnologicalRegime(kauDatabase.RootDevice))
+					{
+						var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
+						allChildren.Add(kauDatabase.RootDevice);
+						foreach (var device in allChildren)
+						{
+							var baseState = device.GetXBaseState();
+							baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+							baseState.IsInTechnologicalRegime = true;
+						}
+					}
+				}
+			}
+		}
+
+		bool IsInTechnologicalRegime(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
+			if (!sendResult.HasError)
+			{
+				if (sendResult.Bytes.Count > 0)
+				{
+					var version = sendResult.Bytes[0];
+					if (version > 127)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		#endregion
 	}
 }

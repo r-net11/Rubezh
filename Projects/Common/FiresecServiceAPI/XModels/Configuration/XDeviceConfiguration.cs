@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			Directions = new List<XDirection>();
 			JournalFilters = new List<XJournalFilter>();
 			Instructions = new List<XInstruction>();
+			GuardUsers = new List<XGuardUser>();
 		}
 
 		[DataMember]
@@ -38,6 +39,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XInstruction> Instructions { get; set; }
+
+		[DataMember]
+		public List<XGuardUser> GuardUsers { get; set; }
 
 		public void Update()
 		{
@@ -222,6 +226,12 @@ namespace XFiresecAPI
 			if (Instructions == null)
 			{
 				Instructions = new List<XInstruction>();
+				result = false;
+			}
+
+			if (GuardUsers == null)
+			{
+				GuardUsers = new List<XGuardUser>();
 				result = false;
 			}
 

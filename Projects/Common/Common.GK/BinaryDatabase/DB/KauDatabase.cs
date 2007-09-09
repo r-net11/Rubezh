@@ -10,10 +10,10 @@ namespace Common.GK
 			DatabaseType = DatabaseType.Kau;
 			RootDevice = kauDevice;
 
-			foreach (var child in KauChildrenHelper.GetRealChildren(kauDevice))
+			foreach (var device in KauChildrenHelper.GetRealChildren(kauDevice))
 			{
-				child.KauDatabaseParent = kauDevice;
-				AddDevice(child);
+				device.KauDatabaseParent = kauDevice;
+				AddDevice(device);
 			}
 		}
 

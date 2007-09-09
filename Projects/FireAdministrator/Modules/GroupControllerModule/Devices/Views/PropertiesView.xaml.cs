@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class PropertiesView : UserControl
-    {
-        public PropertiesView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class PropertiesView : UserControl
+	{
+		public PropertiesView()
+		{
+			InitializeComponent();
+		}
+	}
 }

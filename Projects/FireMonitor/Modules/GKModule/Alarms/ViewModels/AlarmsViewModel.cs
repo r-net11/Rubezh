@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 		void OnGKObjectsStateChanged(object obj)
 		{
 			alarms = new List<Alarm>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if ((device.Driver.IsGroupDevice)
 					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU)
@@ -88,13 +88,13 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				if (device.DeviceState.IsService || device.DeviceState.IsMissmatch)
+				if (device.DeviceState.IsService || device.DeviceState.IsRealMissmatch)
 				{
 					alarms.Add(new Alarm(XAlarmType.Service, device));
 				}
 			}
 
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				foreach (var stateType in zone.ZoneState.StateBits)
 				{
@@ -117,9 +117,14 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
+
+				if (zone.ZoneState.IsRealMissmatch)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, zone));
+				}
 			}
 
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				foreach (var stateType in direction.DirectionState.StateBits)
 				{
@@ -139,6 +144,11 @@ namespace GKModule.ViewModels
 				!direction.DirectionState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
+				}
+
+				if (direction.DirectionState.IsRealMissmatch)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, direction));
 				}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
@@ -184,7 +194,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
 		void OnResetIgnoreAll()
 		{
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (!device.Driver.IsDeviceOnShleif)
 					continue;
@@ -195,7 +205,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
 				{
@@ -203,7 +213,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
 				{
@@ -213,7 +223,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (!device.Driver.IsDeviceOnShleif)
 					continue;
@@ -222,13 +232,13 @@ namespace GKModule.ViewModels
 					return true;
 			}
 
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
 					return true;
 			}
 
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
 					return true;
@@ -241,7 +251,7 @@ namespace GKModule.ViewModels
 			if (CanResetAll())
 			{
 				var passwordValidated = false;
-				foreach (var zone in XManager.DeviceConfiguration.Zones)
+				foreach (var zone in XManager.Zones)
 				{
 					if (zone.ZoneState.StateBits.Contains(XStateBit.Fire1))
 					{
@@ -264,7 +274,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetAll()
 		{
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (zone.ZoneState.StateBits.Contains(XStateBit.Fire1))
 					return true;

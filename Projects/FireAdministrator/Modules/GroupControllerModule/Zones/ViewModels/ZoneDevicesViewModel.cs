@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			var devices = new HashSet<XDevice>();
 			var availableDevices = new HashSet<XDevice>();
 
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (!device.Driver.HasZone)
 					continue;

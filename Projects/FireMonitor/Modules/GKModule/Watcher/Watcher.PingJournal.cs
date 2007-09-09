@@ -47,10 +47,10 @@ namespace GKModule
 
 		JournalItem ReadJournal(int index)
 		{
-			var data = BitConverter.GetBytes(index).ToList();
-			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
 			if (IsStopping)
 				return null;
+			var data = BitConverter.GetBytes(index).ToList();
+			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
@@ -136,7 +136,7 @@ namespace GKModule
 
 		void CheckDelays()
 		{
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				bool mustGetState = false;
 				switch(direction.DirectionState.StateClass)
@@ -157,7 +157,7 @@ namespace GKModule
 				}
 			}
 
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				bool mustGetState = false;
 				switch (device.DeviceState.StateClass)

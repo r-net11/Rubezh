@@ -57,31 +57,16 @@
               </Directory>
             </Directory>
           </Directory>
-          <Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
-            <Directory Id="Monitor.ShellFolder" Name="Shell" />
-            <Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
-            <Directory Id="Monitor.ConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="Monitor.SoundsFolder" Name="$(var.SoundsFolder)" />
-            </Directory>
-          </Directory>
           <Directory Id="FSAGENTLOCATION" Name="FSAgent" />
           <Directory Id="FS2LOCATION" Name="FS2">
             <Directory Id="FS2.MetadataFolder" Name="Metadata" />
           </Directory>
           <Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
-          <Directory Id="UTILSLOCATION" Name="Утилиты" />
           <Directory Id="OPCLOCATION" Name="OPC">
             <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">
             </Directory>
           </Directory>
-          <Directory Id="FIRESECLOCATION5" Name="Firesec5">
-            <Directory Id="FIRESECLOCATION5_CONFIG" Name="Config" />
-            <Directory Id="FIRESECLOCATION5_LIB" Name="lib">
-              <Directory Id="FIRESECLOCATION5_FireBird" Name="FireBird">
-                <Directory Id="FIRESECLOCATION5_INTL" Name="intl" />
-              </Directory>
-            </Directory>
-          </Directory>
+          <Directory Id="SDKLOCATION" Name="SDK" />
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -90,12 +75,6 @@
             <Component Id="ProgramMenuDir.Additional" Guid="0C15958E-D695-4F12-B440-B19279EF218B">
               <RemoveFolder Id='ProgramMenuDir.AdditionalFolder' On='uninstall' />
               <RemoveFolder Id='RemoveProgramMenuDir' Directory='ProgramMenuDir' On='uninstall' />
-              <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
-            </Component>
-          </Directory>
-          <Directory Id="ProgramMenuDir.UtilsFolder" Name="Утилиты">
-            <Component Id="ProgramMenuDir.Utils" Guid="3CD226CF-F3D8-4267-8E6D-F6852A425217">
-              <RemoveFolder Id='ProgramMenuDir.UtilsFolder' On='uninstall' />
               <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
             </Component>
           </Directory>
@@ -117,16 +96,7 @@
       <Custom Action="CloseApplications" Sequence="1" />
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
-
-      <?if $(var.Firesec1Version)=50?>
-      <Custom Action="RegisterFS_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      <?endif?>
-
-      <?if $(var.Firesec1Version)=48?>
-      <Custom Action="RegisterFS48_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      <?endif?>
-      <Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
-      <Custom Action="StartOPCServerOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
+      <Custom Action="StartOPCServerOnExit" After="InstallFinalize">INSTALLMODE</Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

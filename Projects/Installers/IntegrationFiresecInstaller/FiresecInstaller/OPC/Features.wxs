@@ -3,7 +3,7 @@
 	<?include Variables.wxi?>
 	<Fragment>
 		<Feature Id="OPC.Features" Title="OPC Сервер" Description="Программа установит компопненты необходимые для работы приложения OPC Сервер"
-						 Level="2" Display="expand" ConfigurableDirectory="OPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+						 Level="1" Display="expand" ConfigurableDirectory="OPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="OPC.Files" />
       <ComponentRef Id="Administrator.OPC_MODULE" />
       <ComponentRef Id="OPC.AutorunComponent" />

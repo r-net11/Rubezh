@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
 
-namespace DevicesModule.ViewModels
+namespace Infrastructure
 {
 	public class FS1ConvertationHelper
 	{
@@ -32,8 +32,8 @@ namespace DevicesModule.ViewModels
 						MessageBoxService.ShowError(convertationResult.Error);
 						return;
 					}
-                    LoadingService.ShowProgress("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
-                    FiresecManager.FiresecDriver.Synchronyze(false);
+					LoadingService.ShowProgress("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
+					FiresecManager.FiresecDriver.Synchronyze(false);
 
 					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;

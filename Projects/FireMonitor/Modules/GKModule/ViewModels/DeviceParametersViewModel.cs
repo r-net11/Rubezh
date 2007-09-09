@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Devices = new ObservableCollection<DeviceParameterViewModel>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.AUParameters.Where(x => !x.IsDelay).Count() > 0)
 				{
@@ -119,6 +119,7 @@ namespace GKModule.ViewModels
 
 					case "Dustinness":
 						deviceParameterViewModel.Dustinness = auParameterValue.StringValue;
+						deviceParameterViewModel.Device.DeviceState.MeasureParameter.Dustiness = auParameterValue.StringValue;
 						break;
 
 					case "LastServiceTime":

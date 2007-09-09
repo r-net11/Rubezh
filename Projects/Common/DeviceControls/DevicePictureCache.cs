@@ -43,7 +43,7 @@ namespace DeviceControls
 		{
 			_brushes.Clear();
 			RegisterXBrush(null);
-			XManager.XDeviceLibraryConfiguration.XDevices.ForEach(item => RegisterXBrush(item));
+			XManager.DeviceLibraryConfiguration.XDevices.ForEach(item => RegisterXBrush(item));
 		}
 		public static void LoadDynamicCache()
 		{
@@ -89,7 +89,7 @@ namespace DeviceControls
 			_dynamicXBrushes.Add(Guid.Empty, new Dictionary<XStateClass, Dictionary<string, Brush>>());
 			_dynamicXBrushes[Guid.Empty].Add(XStateClass.No, new Dictionary<string, Brush>());
 			_dynamicXBrushes[Guid.Empty][XStateClass.No].Add(string.Empty, EmptyBrush);
-			XManager.XDeviceLibraryConfiguration.XDevices.ForEach(item =>
+			XManager.DeviceLibraryConfiguration.XDevices.ForEach(item =>
 			{
 				if (!_dynamicXBrushes.ContainsKey(item.XDriverId))
 					_dynamicXBrushes.Add(item.XDriverId, new Dictionary<XStateClass, Dictionary<string, Brush>>());
@@ -164,7 +164,7 @@ namespace DeviceControls
 		{
 			if (!_xbrushes.ContainsKey(driverUID))
 			{
-				var libraryDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == driverUID);
+				var libraryDevice = XManager.DeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == driverUID);
 				if (libraryDevice == null)
 				{
 					if (!_xbrushes.ContainsKey(Guid.Empty))

@@ -153,7 +153,6 @@
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Converters\XInstructionTypeToStringConverter.cs" />
-    <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
@@ -164,6 +163,7 @@
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -1121,6 +1121,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Tank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\TechnologicalRegime.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Blue_Direction.png" />

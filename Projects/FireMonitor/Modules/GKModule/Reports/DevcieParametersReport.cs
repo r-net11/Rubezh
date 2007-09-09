@@ -23,45 +23,32 @@ namespace GKModule.Reports
 			table.Columns.Add("Address");
 			table.Columns.Add("Zone");
 			table.Columns.Add("Dustiness");
-			table.Columns.Add("FailureType");
 
-			if (XManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+			if (XManager.Devices.IsNotNullOrEmpty())
 			{
 				string type = "";
 				string address = "";
 				string zonePresentationName = "";
 				string dustiness = "";
-				string failureType = "";
-				foreach (var device in XManager.DeviceConfiguration.Devices)
+				foreach (var device in XManager.Devices)
 				{
-					type = "";// device.Driver.ShortName;
-					address = "";// device.DottedAddress;
+					type = device.Driver.ShortName;
+					address = device.DottedAddress;
 					zonePresentationName = "";
 					dustiness = "";
-					failureType = "";
 
-					//if (device.Driver.HasZone)
-					//{
-					//    if (FiresecManager.Zones.IsNotNullOrEmpty())
-					//    {
-					//        zonePresentationName = XManager.GetPresentationZone(device); ;
-					//    }
-					//}
+					if (device.Driver.HasZone)
+					{
+						zonePresentationName = XManager.GetPresentationZone(device); ;
+					}
 
-					//var deviceState = device.DeviceState;
-					//var parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "Dustiness"));
-					//if (parameter != null)
-					//{
-					//    if (!parameter.IsIgnore)
-					//        dustiness = parameter.Value;
-					//}
-					//parameter = deviceState.ThreadSafeParameters.FirstOrDefault(x => (x.Name == "FailureType"));
-					//if (parameter != null)
-					//{
-					//    if (!parameter.IsIgnore)
-					//        failureType = parameter.Value;
-					//}
-					table.Rows.Add(type, address, zonePresentationName, dustiness, failureType);
+					var deviceState = device.DeviceState;
+					var parameter = deviceState.MeasureParameter.Dustiness;
+					if (parameter != null)
+					{
+						dustiness = parameter;
+					}
+					table.Rows.Add(type, address, zonePresentationName, dustiness);
 				}
 			}
 			data.DataTables.Add(table);

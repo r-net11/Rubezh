@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 
         void InitializeZones()
         {
-            foreach (var zone in XManager.DeviceConfiguration.Zones)
+            foreach (var zone in XManager.Zones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())

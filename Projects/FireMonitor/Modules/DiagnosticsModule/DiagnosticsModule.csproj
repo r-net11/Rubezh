@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\ImitatorViewModel.cs" />
-    <Compile Include="ViewModels\MulticlientTestViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>

@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Directions = new ObservableCollection<DirectionViewModel>(
-				from direction in XManager.DeviceConfiguration.Directions
+				from direction in XManager.Directions
 				orderby direction.No
 				select new DirectionViewModel(direction));
 			SelectedDirection = Directions.FirstOrDefault();

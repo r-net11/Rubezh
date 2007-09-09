@@ -12,7 +12,7 @@ namespace GKModule.Diagnostics
 	{
 		public void Convert()
 		{
-			KauDevices = XManager.DeviceConfiguration.Devices.Where(x => x.Driver.IsKauOrRSR2Kau);
+			KauDevices = XManager.Devices.Where(x => x.Driver.IsKauOrRSR2Kau);
 			PanelDevices = new List<Device>();
 			CreatePaneDevices();
 			foreach (var kauDevice in KauDevices)

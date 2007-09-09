@@ -35,7 +35,7 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-            get { return "Количество устройств ГК по типам"; }
+            get { return "Количество устройств по типам"; }
 		}
 
 		public bool IsEnabled
@@ -47,7 +47,7 @@ namespace GKModule.Reports
 		private void AddDrivers(XDriver driver, DataTable table)
 		{
 			var count = 0;
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.DriverType == driver.DriverType)
 				{

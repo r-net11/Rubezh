@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (device != null)
 					{
 						DeviceState = device.DeviceState;
@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.Zone:
-					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (zone != null)
 					{
 						ZoneState = zone.ZoneState;
@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.Direction:
-					var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (direction != null)
 					{
 						DirectionState = direction.DirectionState;
@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.GK:
-					var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (gkDevice != null)
 					{
 						DeviceState = gkDevice.DeviceState;
@@ -86,8 +86,6 @@ namespace GKModule.ViewModels
 				stringBuilder.Append(state.ToDescription() + " ");
 			}
 			StringStates = stringBuilder.ToString();
-
-			//journalItem.InternalJournalItem.GKObjectNo
 		}
 
 		public string ImageSource
@@ -97,7 +95,7 @@ namespace GKModule.ViewModels
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
-						var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						return device.Driver.ImageSource;
 						
 					case JournalItemType.Zone:
@@ -117,7 +115,6 @@ namespace GKModule.ViewModels
 						
 					default:
 						return "";
-						
 				}
 			}
 		}

@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			if (sourceDevices != null)
 				SourceDevices = sourceDevices;
 			else
-				SourceDevices = XManager.DeviceConfiguration.Devices;
+				SourceDevices = XManager.Devices;
 			DevicesList = new List<XDevice>(devices);
 			UpdateDevices();
 		}

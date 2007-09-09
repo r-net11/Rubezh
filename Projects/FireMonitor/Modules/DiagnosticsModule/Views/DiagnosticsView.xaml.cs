@@ -5,21 +5,11 @@ using Infrastructure.Events;
 
 namespace DiagnosticsModule.Views
 {
-    public partial class DiagnosticsView : UserControl
-    {
-        public DiagnosticsView()
-        {
-            InitializeComponent();
-        }
-
-        private void WarningButton_Click(object sender, RoutedEventArgs e)
-        {
-            ServiceFactory.Events.GetEvent<WarningItemEvent>().Publish(null);
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-    }
+	public partial class DiagnosticsView : UserControl
+	{
+		public DiagnosticsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

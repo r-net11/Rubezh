@@ -83,6 +83,19 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserViewModel.cs" />
+    <Compile Include="Guard\Views\GuardMenuView.xaml.cs">
+      <DependentUpon>GuardMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardView.xaml.cs">
+      <DependentUpon>GuardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
@@ -424,6 +437,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Diagnostics\ConfigurationConverter\Views\ConvertationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\GuardMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\UserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,8 +13,14 @@ namespace PlansModule.ViewModels
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			DesignerItem = designerItem;
-			DesignerItem.TitleChanged += (s, e) => OnPropertyChanged("Name");
+			DesignerItem.TitleChanged += (s, e) => OnPropertyChanged(() => Name);
 			IsGroupHasChild = true;
+			IconSource = DesignerItem.IconSource;
+			DesignerItem.IconSourceChanged += (s, e) =>
+			{
+				IconSource = DesignerItem.IconSource;
+				OnPropertyChanged(() => IconSource);
+			};
 		}
 
 		public DesignerItem DesignerItem { get; private set; }

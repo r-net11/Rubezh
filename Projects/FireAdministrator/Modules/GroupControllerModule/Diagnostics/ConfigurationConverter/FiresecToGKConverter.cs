@@ -45,7 +45,7 @@ namespace GKModule.Converter
 			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
 			for (int i = 0; i < kauCount; i++)
 			{
-				XManager.AddChild(gkDevice, XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), 0, (byte)(i + 1));
+				XManager.AddChild(gkDevice, XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), 0, (byte)(i + 1));
 			}
 			XManager.UpdateConfiguration();
 		}
@@ -58,12 +58,12 @@ namespace GKModule.Converter
 			{
 				UID = Guid.NewGuid(),
 				DriverUID = XDriver.System_UID,
-				Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+				Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
 			};
 			XManager.DeviceConfiguration.Devices.Add(systemDevice);
 			XManager.DeviceConfiguration.RootDevice = systemDevice;
 
-			var gkDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+			var gkDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 			gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
 			gkDevice.UID = Guid.NewGuid();
 			XManager.DeviceConfiguration.Devices.Add(gkDevice);
@@ -80,13 +80,13 @@ namespace GKModule.Converter
 
 		public void AddDevice(Device fsDevice, XDevice kauDevice, byte shleifNo)
 		{
-			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
+			var driver = XManager.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
 			if (driver == null)
 			{
 				return;
 			}
 
-			var xDevice = new XDevice()
+			var device = new XDevice()
 			{
 				UID = fsDevice.UID,
 				DriverUID = driver.UID,
@@ -95,13 +95,13 @@ namespace GKModule.Converter
 				IntAddress = (byte)(fsDevice.IntAddress & 0xff),
 				Description = fsDevice.Description
 			};
-			XManager.DeviceConfiguration.Devices.Add(xDevice);
-			kauDevice.Children.Add(xDevice);
-			xDevice.Parent = kauDevice;
+			XManager.DeviceConfiguration.Devices.Add(device);
+			kauDevice.Children.Add(device);
+			device.Parent = kauDevice;
 
 			foreach (var fsChildDevice in fsDevice.Children)
 			{
-				AddDevice(fsChildDevice, xDevice, shleifNo);
+				AddDevice(fsChildDevice, device, shleifNo);
 			}
 		}
 
@@ -117,18 +117,18 @@ namespace GKModule.Converter
 					Description = zone.Description,
 					Fire1Count = (ushort)zone.DetectorCount,
 				};
-				XManager.DeviceConfiguration.Zones.Add(xZone);
+				XManager.Zones.Add(xZone);
 			}
 
 			foreach (var device in FiresecManager.Devices)
 			{
-				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+				var xDevice = XManager.Devices.FirstOrDefault(x => x.UID == device.UID);
 				if (xDevice != null)
 				{
 					if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty) && (device.Driver.DriverType != DriverType.MPT))
 					{
 						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-						var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+						var xZone = XManager.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
 						if (zone != null)
 						{
 							xDevice.ZoneUIDs.Add(xZone.UID);
@@ -140,7 +140,7 @@ namespace GKModule.Converter
 
 		void ConvertLogic()
 		{
-			foreach (var xDevice in XManager.DeviceConfiguration.Devices)
+			foreach (var xDevice in XManager.Devices)
 			{
 				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
 				if (device != null)
@@ -188,7 +188,7 @@ namespace GKModule.Converter
 
 							foreach (var zoneUID in clause.ZoneUIDs)
 							{
-								var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+								var xZone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 								xClause.ZoneUIDs.Add(xZone.UID);
 							}
 

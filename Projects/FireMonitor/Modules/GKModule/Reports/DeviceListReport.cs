@@ -20,7 +20,7 @@ namespace GKModule.Reports
 
 			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
-				foreach (var device in XManager.DeviceConfiguration.Devices)
+				foreach (var device in XManager.Devices)
 				{
 					if (device.Driver.DriverType == XFiresecAPI.XDriverType.System)
 						continue;
@@ -46,7 +46,7 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-			get { return "Список устройств ГК"; }
+			get { return "Список устройств"; }
 		}
 
 		public bool IsEnabled

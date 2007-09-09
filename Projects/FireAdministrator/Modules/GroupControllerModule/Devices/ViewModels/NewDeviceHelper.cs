@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 
 			if (xDevice.Driver.IsGroupDevice)
 			{
-				var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.GroupDeviceChildType);
+				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.GroupDeviceChildType);
 
 				for (byte i = 0; i < xDevice.Driver.GroupDeviceChildrenCount; i++)
 				{
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 
 			if (device.Driver.IsGroupDevice)
 			{
-				var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{

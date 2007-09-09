@@ -20,7 +20,7 @@ namespace PlansModule.Kursk.ViewModels
 			_element = element;
 			Title = "Свойства фигуры: Бак";
 
-			XDevices = new ObservableCollection<XDevice>(XManager.DeviceConfiguration.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush));
+			XDevices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush));
 			if (_element.XDeviceUID != Guid.Empty)
 				SelectedXDevice = XDevices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
 		}

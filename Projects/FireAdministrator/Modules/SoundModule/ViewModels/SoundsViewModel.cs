@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.ViewModels;
 using Infrastructure.Common.Ribbon;
 using System.Collections.Generic;
+using XFiresecAPI;
 
 namespace SoundsModule.ViewModels
 {
@@ -24,17 +25,25 @@ namespace SoundsModule.ViewModels
 			IsNowPlaying = false;
 
 			Sounds = new ObservableCollection<SoundViewModel>();
-			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
+			var stateClasses = new List<XStateClass>();
+			stateClasses.Add(XStateClass.Attention);
+			stateClasses.Add(XStateClass.Fire1);
+			stateClasses.Add(XStateClass.Fire2);
+			stateClasses.Add(XStateClass.AutoOff);
+			stateClasses.Add(XStateClass.ConnectionLost);
+			stateClasses.Add(XStateClass.Failure);
+			stateClasses.Add(XStateClass.Ignore);
+			stateClasses.Add(XStateClass.Off);
+			stateClasses.Add(XStateClass.On);
+			stateClasses.Add(XStateClass.TurningOff);
+			stateClasses.Add(XStateClass.TurningOn);
+			foreach (var stateClass in stateClasses)
 			{
-				if (stateType == StateType.No)
-				{
-					continue;
-				}
-				var newSound = new Sound() { StateType = stateType };
+				var newSound = new Sound() { StateClass = stateClass };
 
 				if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
 				{
-					var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateType == stateType);
+					var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
 					if (sound == null)
 						FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
 					else

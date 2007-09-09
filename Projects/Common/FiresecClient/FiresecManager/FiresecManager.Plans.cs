@@ -64,7 +64,7 @@ namespace FiresecClient
                     var elementRectangleXZones = new List<ElementRectangleXZone>();
                     foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
                     {
-                        var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementRectangleXZone.ZoneUID);
+                        var zone = XManager.Zones.FirstOrDefault(x => x.UID == elementRectangleXZone.ZoneUID);
                         if (zone != null)
                         {
                             elementRectangleXZones.Add(elementRectangleXZone);
@@ -75,7 +75,7 @@ namespace FiresecClient
                     var elementPolygonXZones = new List<ElementPolygonXZone>();
                     foreach (var elementPolygonXZone in Plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty))
                     {
-                        var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementPolygonXZone.ZoneUID);
+                        var zone = XManager.Zones.FirstOrDefault(x => x.UID == elementPolygonXZone.ZoneUID);
                         if (zone != null)
                         {
                             elementPolygonXZones.Add(elementPolygonXZone);
@@ -89,7 +89,7 @@ namespace FiresecClient
                         if (elementXDevice.XDeviceUID == Guid.Empty)
                             continue;
 
-                        var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
+                        var device = XManager.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
                         if (device != null)
                         {
                             elementXDevices.Add(elementXDevice);

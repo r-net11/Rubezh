@@ -117,7 +117,7 @@ namespace FireAdministrator
 				if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
-					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.XDeviceLibraryConfiguration, 1, 1);
+					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
 				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
@@ -209,7 +209,7 @@ namespace FireAdministrator
 			else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 			{
 				var deviceUID = Guid.Empty;
-				var firstDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault();
+				var firstDevice = XManager.Devices.FirstOrDefault();
 				if (firstDevice != null)
 					deviceUID = firstDevice.UID;
 				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);

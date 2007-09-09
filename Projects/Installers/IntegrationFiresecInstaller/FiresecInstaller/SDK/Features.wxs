@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Feature Id="SDK.Features" Title="SDK" Description="Программа установит компопненты SDK необходимые для интеграции"
+						 Level="1" Display="expand" ConfigurableDirectory="SDKLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="SDK.Files" />
+    </Feature>
+	</Fragment>
+</Wix>
