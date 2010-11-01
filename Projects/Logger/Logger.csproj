@@ -99,10 +99,6 @@
       <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DeviceViewer\DeviceViewer.csproj">
-      <Project>{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}</Project>
-      <Name>DeviceViewer</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

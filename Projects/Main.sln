@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sockets", "Sockets\Sockets.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{A56667E0-D355-425E-AAE3-7F9A09C2D9BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceViewer", "DeviceViewer\DeviceViewer.csproj", "{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComServerEmulator", "ComServerEmulator\ComServerEmulator.csproj", "{28D94624-FC17-4A43-A045-4F551ED6F78A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssadEmulator", "AssadEmulator\AssadEmulator.csproj", "{538B9A08-DBF5-4615-BCDD-A69E724D5BFE}"
@@ -39,10 +37,6 @@ Global
 		{A56667E0-D355-425E-AAE3-7F9A09C2D9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A56667E0-D355-425E-AAE3-7F9A09C2D9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A56667E0-D355-425E-AAE3-7F9A09C2D9BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBD48464-BD19-4579-AB2A-E5FB0FE62B2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28D94624-FC17-4A43-A045-4F551ED6F78A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28D94624-FC17-4A43-A045-4F551ED6F78A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28D94624-FC17-4A43-A045-4F551ED6F78A}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -21,10 +21,16 @@ namespace ComServerEmulator
             devices.Add(ComDeviceManager.Devices[0]);
 
             GetStateCommand = new RelayCommand(OnGetState);
+            GetCoreStateCommand = new RelayCommand(OnGetCoreState);
         }
 
         public RelayCommand GetStateCommand { get; private set; }
+        public RelayCommand GetCoreStateCommand { get; private set; }
 
+        public void OnGetCoreState(object parameter)
+        {
+            ComServer.CoreState.config coreState = ComServer.ComServer.GetCoreState();
+        }
 
         ComServer.CoreState.config config = new ComServer.CoreState.config();
 
