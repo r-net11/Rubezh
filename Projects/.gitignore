@@ -31,5 +31,5 @@ _ReSharper*/
 *.gpState
 *-Results.xml
 ClientAPI.Test/
-tools/
-!DeviceModels/
+!DeviceInfos/
+!Projects/Tools/MakeDeviceModel/bin/Debug/DeviceInfos/
