@@ -1,0 +1,28 @@
+﻿<type name="Пожарная адресная метка АМ1" type="rubezh.usb.rubezh2am.am_1.__VERSION__" model="1.0">
+  <param param="Номер шлейфа (АЛС)" type="single" default="1" order="1">
+    <value value="1"/>
+    <value value="2"/>
+  </param>
+    <param param="Адрес" type="edit" default="1" order="2"/>
+  <state state="Состояние">
+    <value value="Тревога"/>
+    <value value="Внимание (предтревожное)"/>
+    <value value="Неисправность"/>
+    <value value="Требуется обслуживание"/>
+    <value value="Обход устройств"/>
+    <value value="Неизвестно"/>
+    <value value="Норма(*)"/>
+    <value value="Норма"/>
+    <value value="Нет состояния"/>
+  </state>
+  <event event="Мониторинг устройства отключен" />
+  <event event="Не удалось включить устройство"/>
+  <event event="Устройство инициализируется"/>
+  <event event="Устройство в списке обхода"/>
+  <event event="Потеря связи"/>
+  <event event="Тревога"/>
+  <event event="Внимание"/>
+  <event event="Тест"/>
+  <event event="Неисправность устройства"/>
+  <event event="Аппаратный обход устройства"/>
+</type>

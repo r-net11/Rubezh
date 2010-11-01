@@ -115,9 +115,11 @@
             this.RTB_outgoing.ForeColor = System.Drawing.SystemColors.WindowText;
             this.RTB_outgoing.Location = new System.Drawing.Point(495, 3);
             this.RTB_outgoing.Name = "RTB_outgoing";
+            this.RTB_outgoing.ReadOnly = true;
             this.RTB_outgoing.Size = new System.Drawing.Size(480, 466);
             this.RTB_outgoing.TabIndex = 13;
             this.RTB_outgoing.Text = "";
+            this.RTB_outgoing.WordWrap = false;
             // 
             // tabPage2
             // 
