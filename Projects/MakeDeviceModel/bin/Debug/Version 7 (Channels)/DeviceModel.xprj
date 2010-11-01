@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<message xmlns="baseMessages" msgId="___MESSAGENO___" msgTime="___TIME___" refMsg="___MESSAGEID___">
+  <CPconfirmation commandId="MHqueryCP">
+    <type type="rubezh.api.__VERSION__" model="1.0" name="__TEXT_VERSION__">
+      <param param="порт" type="edit" default="2002" order="1"/>
+      <param param="IP адрес" type="edit" order="2"/>
+      <event event="Выгрузка АПИ" />
+      <event event="Загрузка АПИ" />
+      <event event="Появление связи с сервером оборудования" />
+      <event event="Пропадание связи с сервером оборудования" />
+      <type name="USB Рубеж-2AM" type="rubezh.usb.rubezh2am.__VERSION__" model="1.0">
+        <param param="Адрес" type="edit" default="1" order="1"/>
+        <state state="Состояние">
+          <value value="Тревога"/>
+          <value value="Внимание (предтревожное)"/>
+          <value value="Неисправность"/>
+          <value value="Требуется обслуживание"/>
+          <value value="Обход устройств"/>
+          <value value="Неизвестно"/>
+          <value value="Норма(*)"/>
+          <value value="Норма"/>
+          <value value="Нет состояния"/>
+        </state>
+        <event event="Мониторинг устройства отключен" />
+        <event event="Не удалось включить устройство" />
+        <event event="Устройство инициализируется" />
+        <event event="Устройство в списке обхода" />
+        <event event="Потеря связи с устройством" />
+        <event event="Неисправность устройства" />
+        <event event="Пожар" />
+        <event event="Тревога" />
+        <event event="Запыленность: критический уровень" />
+        <event event="Запыленность: предупреждение" />
+        <event event="GuardZoneExitTimer" />
+        <event event="statusArmedZone" />
+        <event event="Внимание" />
+        <event event="Включен модуль пожаротушения" />
+        <event event="Имеются зоны в режиме ТЕСТ" />
+        <event event="Обрыв кольцевого шлейфа" />
+        <event event="На охране" />
+        <event event="Конфигурация" />
+        <event event="" />
+        <event event="Подтверждение включения СПТ" />
+        <event event="Задержка перед включением СПТ" />
+        <event event="Тест" />
+        <event event="Обход" />
+        <event event="КЗ или перегрузка АЛС" />
+        <event event="КЗ или перегрузка АЛС 2" />
+        <event event="Включено звуковое оповещение" />
+        <event event="" />
+        <event event="Запущена НС" />
+        <event event="" />
+        <event event="Вскрытие" />
+        <event event="Автоматика отключена" />
+        <event event="Проблема с контроллером RS-R - прибор неработоспособен" />
+        <event event="Неисправность насосной станции" />
+        <event event="Есть обойденные зоны" />
+        <event event="Системная неисправность" />
+        <event event="Cработал датчик в зоне, которая в тесте" />
+        <event event="Потеря связи с прибором" />
+        <event event="База данных прибора не соответствует базе данных ПК" />
+        <event event="Ошибка Firesec при сопоставлении устройств" />
+        <event event="Сброс состояния" />
+        <event event="Резервный канал 1 неисправен" />
+        <event event="Резервный канал 2 неисправен" />
+        <event event="АЛС 1 неисправна" />
+        <event event="АЛС 2 неисправна" />
+        <event event="АЛС 3 неисправна" />
+        <event event="АЛС 4 неисправна" />
+        <event event="АЛС 5 неисправна" />
+        <event event="АЛС 6 неисправна" />
+        <event event="АЛС 7 неисправна" />
+        <event event="АЛС 8 неисправна" />
+        <event event="АЛС 9 неисправна" />
+        <event event="АЛС 10 неисправна" />
+        _IP_212_101_USB_
+        _IP_101_USB_
+        _IP_212_USB_
+        _IPR_513_USB_
+        _AM_1_USB_
+        _AM_1_T_USB_
+        _AMP_4_USB_
+        _AMT_4_USB_
+        _KZ_SPT_USB_
+        _KO_SPT_USB_
+        _KUA_USB_
+        _VALVE_USB_
+        _MP_USB_
+        _MRO_USB_
+        _MUKD_USB_
+        _MUKO_USB_
+        _RM_1_USB_
+      </type>
+    </type>
+  </CPconfirmation>
+</message>

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComServerEmulator", "ComSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{B6B77E98-2145-43A0-A4B3-7A6B6DFAAE11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakeDeviceModel", "MakeDeviceModel\MakeDeviceModel.csproj", "{FAC3B040-D805-4B25-84E5-A575E98F5512}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{B6B77E98-2145-43A0-A4B3-7A6B6DFAAE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B77E98-2145-43A0-A4B3-7A6B6DFAAE11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B77E98-2145-43A0-A4B3-7A6B6DFAAE11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC3B040-D805-4B25-84E5-A575E98F5512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC3B040-D805-4B25-84E5-A575E98F5512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC3B040-D805-4B25-84E5-A575E98F5512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC3B040-D805-4B25-84E5-A575E98F5512}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

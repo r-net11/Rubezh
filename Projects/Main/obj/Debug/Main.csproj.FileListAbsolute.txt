@@ -32,3 +32,5 @@ G:\Assad\Projects\Main\obj\Debug\ComServerTreeView.baml
 G:\Assad\Projects\Main\obj\Debug\AssadDeviceDetails.g.cs
 G:\Assad\Projects\Main\obj\Debug\ComDeviceDetails.g.cs
 G:\Assad\Projects\Main\obj\Debug\ComServerTreeView.g.cs
+D:\SVB\_WORK_\Assad\Projects\Main\obj\Debug\Main.exe
+D:\SVB\_WORK_\Assad\Projects\Main\obj\Debug\Main.pdb

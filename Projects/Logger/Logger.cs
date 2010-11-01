@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -19,15 +20,20 @@ namespace Logger
     {
         static public LoggerCollection logCollection;
 //        static LogCollection
+        static bool FirstMsg; // признак первой записи в любой из боксов для фиксации в имени начала лога
+        static public bool FinalMsg; // признак прекращения работы приложения - для фиксации конечного времени
+        
+        static string StartDataTime;
+        static DateTime dt;
         public Logger()
         {
             InitializeComponent();
             form = this;
             logCollection = new LoggerCollection();
+            FirstMsg = false;
+            FinalMsg = false;
         }
 
-        static StreamReader infile;
-        static StreamReader outfile;
         static long MsgInLog;
         struct MessageInfo
         {
@@ -70,6 +76,11 @@ namespace Logger
 
         public static void PrintOutgoing(byte[] bytes)
         {
+            if(FirstMsg == false)
+            {
+                dt = DateTime.Now;
+                FirstMsg = true;
+            }
             try
             {
                 form.Invoke(new PrintDelegate(form.printOutgoing), bytes);
@@ -80,6 +91,11 @@ namespace Logger
         }
         public static void PrintIncomming(byte[] bytes)
         {
+            if (FirstMsg == false)
+            {
+                dt = DateTime.Now;
+                FirstMsg = true;
+            }
             try
             {
                 form.Invoke(new PrintDelegate(form.printIncomming), bytes);
@@ -128,16 +144,9 @@ namespace Logger
             + msgInfo.msgRefId);
 
 //            message = Encoding.Unicode.GetString(bytes).Trim(); ;
-            try
-            {
                 int endIndex = message.IndexOf("\0");
                 if (endIndex > 0)
                     message = message.Remove(message.IndexOf("\0"));
-            }
-            catch (Exception e)
-            {
-                int val = 1;
-            }
 
             logCollection.AddToInCollection(message);
             int count = logCollection.InColCount;
@@ -155,27 +164,6 @@ namespace Logger
 
         private void button1_Click(object sender, EventArgs e)
         {
-/*
-            string str = null;
-            infile = File.OpenText("in.xml");
-            while ((str = infile.ReadLine()) != null)
-            {
-                str.Trim();
-                if(str !="")
-             incomminglistBox.Items.Add(str);
-            }
-            infile.Close();
-            str = null;
-            outfile = File.OpenText("out.xml");
-
-            while ((str = outfile.ReadLine()) != null)
-            {
-                str.Trim();
-                if (str != "")
-                    outgoinglistBox.Items.Add(str);
-            }
-            outfile.Close();
-            */
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -185,6 +173,7 @@ namespace Logger
 
         private void incomminglistBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            XDocument xc;
             string message; 
             int i;
             RTB_incomming.Clear();
@@ -192,12 +181,16 @@ namespace Logger
             {
                 i = incomminglistBox.SelectedIndex;
                 message = logCollection.GetStringFromInCollection(i);
-                RTB_incomming.Text += message;  
+                xc = XDocument.Parse(message);
+                RTB_incomming.Text += xc.ToString();
+                
+                //RTB_incomming.Text += message;
             }
         }
 
         private void outgoinglistBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            XDocument xc;
             string message;
             int i;
             RTB_outgoing.Clear();
@@ -205,7 +198,9 @@ namespace Logger
             {
                 i = outgoinglistBox.SelectedIndex;
                 message = logCollection.GetStringFromOutCollection(i);
-                RTB_outgoing.Text += message;
+                xc = XDocument.Parse(message);
+                RTB_outgoing.Text += xc.ToString();
+//                RTB_outgoing.Text += message;
             }
 
         }
@@ -315,20 +310,26 @@ namespace Logger
         private void button4_Click(object sender, EventArgs e)
         {
             string fileName;
-            saveFileDialog1.ShowDialog();
+            DialogResult result = saveFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
             fileName = saveFileDialog1.FileName;
             SaveLogToFileAs(fileName);
+        }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             string fileName;
+            DialogResult result;
             if (MsgInLog != 0)
             {
                 MessageBox.Show("Невозможно выполнить операцию пока идет обмен с АПИ");
                 return;
             }
-            openFileDialog1.ShowDialog();
+
+            if ((result = openFileDialog1.ShowDialog()) == DialogResult.OK)
+            {
             fileName = openFileDialog1.FileName;
             ReadLogFromUserFile(fileName);
             string message;
@@ -368,13 +369,13 @@ namespace Logger
         
         }
     
-
     }
    
     
     
     
-    [Serializable] public class LoggerCollection
+        [Serializable]
+        public class LoggerCollection
     {
         List<string> inCollection;
         List<string> outCollection;
@@ -425,6 +426,6 @@ namespace Logger
 
     }    
 
-
+    }
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message xmlns="baseMessages" msgId="___MESSAGENO___" msgTime="___TIME___" refMsg="___MESSAGEID___">
+    <CPconfirmation commandId="MHqueryCP">
+      <type type="rubezh.test.processor.algo421" model="1.0" name="АПИ РУБЕЖ ТЕСТ 421">
+        <type type="rubezh.test.port.485" model="1.0" name="линия 485">
+          <param param="порт" type="edit" default="COM1" order="1"/>
+          <param param="скорость" type="single" default="3" order="2">
+            <value value="1200"/>
+            <value value="2400"/>
+            <value value="4800"/>
+            <value value="9600"/>
+          </param>
+          <state state="состояние">
+            <value value="норма"/>
+            <value value="ошибка"/>
+          </state>
+          <state state="ошибка">
+            <value value="есть"/>
+            <value value="нет"/>
+            <value value="информация"/>
+          </state>
+          <command command="команда 1" order="1">
+            <param param="параметр1"/>
+          </command>
+          <command command="команда 2" order="2"/>
+          <command command="команда 3" order="3"/>
+          <event event="событие 1" />
+          <event event="событие 2" />
+          <event event="событие 3" />
+        </type>
+      </type>
+    </CPconfirmation>
+  </message>
