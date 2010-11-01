@@ -43,3 +43,13 @@ D:\Assad\Projects\Common\bin\Debug\Common.dll
 D:\Assad\Projects\Common\bin\Debug\Common.pdb
 D:\Assad\Projects\Common\bin\Debug\Interop.FS_Types.dll
 D:\Assad\Projects\Common\bin\Debug\Interop.mscoree.dll
+D:\Personal\Assad\Projects\Common\bin\Debug\Common.dll
+D:\Personal\Assad\Projects\Common\bin\Debug\Common.pdb
+D:\Personal\Assad\Projects\Common\bin\Debug\Interop.FS_Types.dll
+D:\Personal\Assad\Projects\Common\bin\Debug\Interop.mscoree.dll
+D:\Personal\Assad\Projects\Common\obj\Debug\ResolveAssemblyReference.cache
+D:\Personal\Assad\Projects\Common\obj\Debug\Interop.FS_Types.dll
+D:\Personal\Assad\Projects\Common\obj\Debug\Interop.mscoree.dll
+D:\Personal\Assad\Projects\Common\obj\Debug\Common.csproj.ResolveComReference.cache
+D:\Personal\Assad\Projects\Common\obj\Debug\Common.dll
+D:\Personal\Assad\Projects\Common\obj\Debug\Common.pdb

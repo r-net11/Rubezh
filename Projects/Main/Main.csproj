@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B6B77E98-2145-43A0-A4B3-7A6B6DFAAE11}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -108,9 +108,6 @@
       <DependentUpon>ComServerTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DeviceWather.cs" />
-    <Compile Include="Device\AssadState.cs" />
-    <Compile Include="Device\AssadDevice.cs" />
-    <Compile Include="Device\AssadDeviceManager.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="NetManager.cs" />
@@ -139,9 +136,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssadDevices\AssadDevices.csproj">
+      <Project>{55139F81-9B17-422B-BBA3-EB8F19E1D5FF}</Project>
+      <Name>AssadDevices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AssadEmulator\AssadEmulator.csproj">
       <Project>{538B9A08-DBF5-4615-BCDD-A69E724D5BFE}</Project>
       <Name>AssadEmulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComDevices\ComDevices.csproj">
+      <Project>{87CECCA9-53BA-4ADE-9B4B-360272A2F117}</Project>
+      <Name>ComDevices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>

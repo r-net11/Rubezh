@@ -6,6 +6,8 @@ using Common;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Threading;
+using AssadDdevices;
+using ComDevices;
 
 namespace Main
 {
@@ -32,7 +34,7 @@ namespace Main
             deviceWather.PropertyChanged += new Action<string>(deviceWather_PropertyChanged);
             deviceWather.Start();
 
-            ComDevices = new ObservableCollection<Common.ComDevice>();
+            ComDevices = new ObservableCollection<ComDevice>();
             ComDevices.Add(ComDeviceManager.Devices[0]);
 
             ConnectCommand = new RelayCommand(OnConnect);
@@ -81,8 +83,8 @@ namespace Main
             }
         }
 
-        ObservableCollection<Common.ComDevice> comDevices;
-        public ObservableCollection<Common.ComDevice> ComDevices
+        ObservableCollection<ComDevice> comDevices;
+        public ObservableCollection<ComDevice> ComDevices
         {
             get { return comDevices; }
             set
@@ -92,8 +94,8 @@ namespace Main
             }
         }
 
-        Common.ComDevice selectedComDevice;
-        public Common.ComDevice SelectedComDevice
+        ComDevice selectedComDevice;
+        public ComDevice SelectedComDevice
         {
             get { return selectedComDevice; }
             set

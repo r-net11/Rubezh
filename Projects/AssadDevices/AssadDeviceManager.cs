@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 
-namespace Main
+namespace AssadDdevices
 {
     public static class AssadDeviceManager
     {

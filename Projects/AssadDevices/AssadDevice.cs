@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 
-namespace Main
+namespace AssadDdevices
 {
     public class AssadDevice : TreeBase
     {
@@ -112,7 +112,7 @@ namespace Main
             eventType.state[0].state = State.Name;
             eventType.state[0].value = State.State;
 
-            NetManager.Send(eventType, null);
+            //NetManager.Send(eventType, null);
         }
     }
 }

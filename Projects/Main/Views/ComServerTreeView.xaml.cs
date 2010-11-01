@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ComDevices;
 
 namespace Main
 {
@@ -26,7 +27,7 @@ namespace Main
 
         private void ComServerTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Common.ComDevice device = e.NewValue as Common.ComDevice;
+            ComDevice device = e.NewValue as ComDevice;
             (DataContext as MainWindowViewModel).SelectedComDevice = device;
         }
     }

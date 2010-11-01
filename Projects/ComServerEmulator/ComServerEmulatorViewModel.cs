@@ -9,6 +9,7 @@ using Common;
 using System.Xml.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using ComDevices;
 
 namespace ComServerEmulator
 {

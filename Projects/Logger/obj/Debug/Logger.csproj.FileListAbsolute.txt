@@ -92,3 +92,15 @@ D:\Assad\Projects\Logger\obj\Debug\Logger.Properties.Resources.resources
 D:\Assad\Projects\Logger\obj\Debug\Logger.csproj.GenerateResource.Cache
 D:\Assad\Projects\Logger\obj\Debug\Logger.exe
 D:\Assad\Projects\Logger\obj\Debug\Logger.pdb
+D:\Personal\Assad\Projects\Logger\bin\Debug\Logger.exe
+D:\Personal\Assad\Projects\Logger\bin\Debug\Logger.pdb
+D:\Personal\Assad\Projects\Logger\bin\Debug\Common.dll
+D:\Personal\Assad\Projects\Logger\bin\Debug\Interop.FS_Types.dll
+D:\Personal\Assad\Projects\Logger\bin\Debug\Interop.mscoree.dll
+D:\Personal\Assad\Projects\Logger\bin\Debug\Common.pdb
+D:\Personal\Assad\Projects\Logger\obj\Debug\ResolveAssemblyReference.cache
+D:\Personal\Assad\Projects\Logger\obj\Debug\Logger.Logger.resources
+D:\Personal\Assad\Projects\Logger\obj\Debug\Logger.Properties.Resources.resources
+D:\Personal\Assad\Projects\Logger\obj\Debug\Logger.csproj.GenerateResource.Cache
+D:\Personal\Assad\Projects\Logger\obj\Debug\Logger.exe
+D:\Personal\Assad\Projects\Logger\obj\Debug\Logger.pdb

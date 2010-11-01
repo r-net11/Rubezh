@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 using Common;
 
-namespace Common
+namespace ComDevices
 {
     public static class ComDeviceManager
     {

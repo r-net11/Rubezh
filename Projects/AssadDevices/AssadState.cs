@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace Main
+namespace AssadDdevices
 {
     public class AssadState : INotifyPropertyChanged
     {

@@ -5,7 +5,7 @@ using System.Text;
 using Common;
 using ComServer;
 
-namespace Common
+namespace ComDevices
 {
     public class ComDevice : TreeBase
     {
