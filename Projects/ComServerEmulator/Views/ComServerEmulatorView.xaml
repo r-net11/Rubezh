@@ -17,7 +17,8 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel>
+                <local:DeviceTreeView Grid.Column="0" />
+                <!--<StackPanel>
                     <TreeView Name="treeView" ItemsSource="{Binding Devices}" SelectedItemChanged="treeView_SelectedItemChanged" Height="500">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
@@ -25,9 +26,11 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-                </StackPanel>
+                </StackPanel>-->
 
-                <StackPanel Grid.Column="1">
+                <local:DeviceDetailsView Grid.Column="1" />
+                
+                <!--<StackPanel Grid.Column="1">
                     <StackPanel DataContext="{Binding SelectedDevice}">
                         <TextBox Text="{Binding DeviceName}" />
                         <TextBox Text="{Binding Address}" />
@@ -50,7 +53,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
 
             <TextBox Text="{Binding StateMessage}" />

@@ -38,16 +38,5 @@ namespace ComDevices
                     AddChild(comChild, child);
                 }
         }
-
-        static public void ClearStates()
-        {
-            foreach (ComDevice device in Devices)
-            {
-                foreach (ComState state in device.States)
-                {
-                    state.IsActive = false;
-                }
-            }
-        }
     }
 }

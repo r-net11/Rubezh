@@ -35,7 +35,6 @@ D:\Assad\Projects\ComServerEmulator\obj\Debug\ComServerEmulator.csproj.GenerateR
 D:\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1.exe
 D:\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1.pdb
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\ResolveAssemblyReference.cache
-D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\ComServerEmulatorView.g.cs
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\App.g.cs
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1_MarkupCompile.cache
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1_MarkupCompile.lref
@@ -47,9 +46,15 @@ D:\Personal\Assad\Projects\ComServerEmulator\bin\Debug\Interop.FS_Types.dll
 D:\Personal\Assad\Projects\ComServerEmulator\bin\Debug\Interop.mscoree.dll
 D:\Personal\Assad\Projects\ComServerEmulator\bin\Debug\Common.pdb
 D:\Personal\Assad\Projects\ComServerEmulator\bin\Debug\ComDevices.pdb
-D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\ComServerEmulatorView.baml
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1.g.resources
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\ComServerEmulator.Properties.Resources.resources
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\ComServerEmulator.csproj.GenerateResource.Cache
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1.exe
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\WpfApplication1.pdb
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\DeviceDetailsView.baml
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\DeviceTreeView.baml
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\ComServerEmulatorView.g.cs
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\DeviceDetailsView.g.cs
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\DeviceTreeView.g.cs
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\ComServerEmulatorView.baml

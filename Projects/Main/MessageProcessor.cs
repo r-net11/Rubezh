@@ -93,7 +93,7 @@ namespace Main
                 case "MHremoveDeviceType":
                     //MainForm.RemoveDevice((x.MHremoveDeviceType)content, refMessageId);
                     throw new NotImplementedException("MHremoveDeviceType");
-                    break;
+                    //break;
 
                 case "MHconfirmationType":
                     break;

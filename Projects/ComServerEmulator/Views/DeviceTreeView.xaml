@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ComServerEmulator.DeviceTreeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TreeView Name="treeView" ItemsSource="{Binding Devices}" SelectedItemChanged="treeView_SelectedItemChanged" Height="500">
+
+            <TreeView.ItemContainerStyle>
+                <Style>
+                    <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Type}" Value="menu">
+                            <Setter Property="TreeViewItem.IsSelected" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                    <TextBlock Text="{Binding DeviceName}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </StackPanel>
+</UserControl>
