@@ -94,6 +94,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Views\AssadDeviceDetails.xaml.cs">
       <DependentUpon>AssadDeviceDetails.xaml</DependentUpon>
     </Compile>
