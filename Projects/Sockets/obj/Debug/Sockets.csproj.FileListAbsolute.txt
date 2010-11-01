@@ -46,3 +46,11 @@ G:\Assad\Projects\Sockets\obj\Debug\Socktes.ParserSocket.resources
 G:\Assad\Projects\Sockets\obj\Debug\Sockets.csproj.GenerateResource.Cache
 G:\Assad\Projects\Sockets\obj\Debug\Sockets.dll
 G:\Assad\Projects\Sockets\obj\Debug\Sockets.pdb
+D:\Assad\Projects\Sockets\bin\Debug\Sockets.dll
+D:\Assad\Projects\Sockets\bin\Debug\Sockets.pdb
+D:\Assad\Projects\Sockets\obj\Debug\ResolveAssemblyReference.cache
+D:\Assad\Projects\Sockets\obj\Debug\Socktes.ConnectSocket.resources
+D:\Assad\Projects\Sockets\obj\Debug\Socktes.ParserSocket.resources
+D:\Assad\Projects\Sockets\obj\Debug\Sockets.csproj.GenerateResource.Cache
+D:\Assad\Projects\Sockets\obj\Debug\Sockets.dll
+D:\Assad\Projects\Sockets\obj\Debug\Sockets.pdb
