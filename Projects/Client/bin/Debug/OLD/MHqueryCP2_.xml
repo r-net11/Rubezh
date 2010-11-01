@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message xmlns="baseMessages" msgId="___MESSAGENO___" msgTime="___TIME___" refMsg="___MESSAGEID___">
+    <CPconfirmation commandId="MHqueryCP">
+      <type type="rubezh.rubezh_2am" model="1.0" name="АПИ Прибора Рубеж 2-АМ Тестовая вервия 1">
+        <param param="порт" type="edit" default="COM1" order="1"/>
+        <param param="IP адрес" type="edit" order="2"/>
+        <event event="Выгрузка АПИ" />
+        <event event="Загрузка АПИ" />
+        <event event="Появление связи с сервером оборудования" />
+        <event event="Пропадание связи с сервером оборудования" />
+        <type type="rubezh.line485" model="1.0" name="Интерфейс 485 прибора Рубеж 2-АМ">
+          <param param="Порт" type="edit" default="COM1" order="1"/>
+          <param param="Скорость" type="single" default="3" order="2">
+            <value value="9600"/>
+            <value value="19200"/>
+            <value value="38400"/>
+            <value value="57600"/>
+            <value value="115200"/>
+          </param>
+          <state state="Порт">
+            <value value="Закрыт"/>
+            <value value="Открыт"/>
+          </state>
+          <state state="Протоколирование">
+            <value value="Включено"/>
+            <value value="Выключено"/>
+          </state>
+          <command command="Включить протоколирование" order="1" />
+          <command command="Выключить протоколирование" order="2"/>
+          <event event="Закрытие порта" />
+          <event event="Захват линии" />
+          <event event="Открытие порта" />
+          <event event="Ошибка закрытия порта" />
+          <event event="Ошибка записи в порт" />
+          <event event="Ошибка открытия порта" />
+          <event event="Ошибка чтения из порта" />
+          <event event="Прослушивание линии" />
+          <type type="rubezh.ppkp" model="1.0" name="Прибор приемно-контрольный пожарный адресный Рубеж 2-АМ">
+            <param param="Адрес" type="edit" default="1" order="1"/>
+            <state state="Связь">
+              <value value="Есть"/>
+              <value value="Нет"/>
+            </state>
+            <state state="Состояние">
+              <value value="Внимание"/>
+              <value value="Вскытие"/>
+              <value value="Неисправность"/>
+              <value value="Норма"/>
+              <value value="Пожар"/>
+              <value value="Пожаротушение"/>
+              <value value="Тест"/>
+              <value value="Тревога"/>
+            </state>
+            <command command="Сбросить ТЕСТ" order="1" />
+            <command command="Сбросить ПОЖАР" order="2"/>
+            <command command="Сбросить состояния ИУ" order="3"/>
+            <event event="АЛС-1 исправна" />
+            <event event="АЛС-1 неисправна" />
+            <event event="АЛС-2 исправна" />
+            <event event="АЛС-2 неисправна" />
+            <event event="Включение питания" />
+            <event event="ВСКРЫТИЕ ПРРИБОРА" />
+            <event event="Замените электропитание" />
+            <event event="Команда на смену ПО" />
+            <event event="Корпус прибора закрыт" />
+            <event event="Обновление базы" />
+            <event event="Обрыв кольца" />
+            <event event="Отсутствие в базе" />
+            <event event="Перегрузка АЛС-1" />
+            <event event="Перегрузка АЛС-2" />
+            <event event="Питание основное" />
+            <event event="Питание резервное" />
+            <event event="Появление связи" />
+            <event event="Пропадание связи" />
+            <event event="Сброс события ПОЖАР" />
+            <event event="Система восстановлена" />
+            <event event="Система неисправно" />
+            <event event="Тест системы" />
+            <type type="rubezh.ip212_64" model="1.0" name="Извещатель пожарный дымовой ИП212-64">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+          </type>
+        </type>
+      </type>
+    </CPconfirmation>
+  </message>

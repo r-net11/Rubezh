@@ -1,0 +1,16 @@
+G:\Assad\Projects\Test\bin\Debug\Test.exe
+G:\Assad\Projects\Test\bin\Debug\Test.pdb
+G:\Assad\Projects\Test\bin\Debug\Common.dll
+G:\Assad\Projects\Test\bin\Debug\Interop.FS_Types.dll
+G:\Assad\Projects\Test\bin\Debug\Interop.mscoree.dll
+G:\Assad\Projects\Test\bin\Debug\Common.pdb
+G:\Assad\Projects\Test\obj\Debug\ResolveAssemblyReference.cache
+G:\Assad\Projects\Test\obj\Debug\Window1.baml
+G:\Assad\Projects\Test\obj\Debug\Window1.g.cs
+G:\Assad\Projects\Test\obj\Debug\App.g.cs
+G:\Assad\Projects\Test\obj\Debug\Test_MarkupCompile.cache
+G:\Assad\Projects\Test\obj\Debug\Test.g.resources
+G:\Assad\Projects\Test\obj\Debug\Test.Properties.Resources.resources
+G:\Assad\Projects\Test\obj\Debug\Test.csproj.GenerateResource.Cache
+G:\Assad\Projects\Test\obj\Debug\Test.exe
+G:\Assad\Projects\Test\obj\Debug\Test.pdb

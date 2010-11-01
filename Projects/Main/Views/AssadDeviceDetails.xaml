@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Main.AssadDeviceDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel DataContext="{Binding SelectedDevice}">
+        <TextBlock Text="{Binding DeviceName}" />
+        <TextBlock Text="{Binding DeviceId, Mode=OneWay}" />
+        <TextBlock Text="{Binding DeviceType, Mode=OneWay}" />
+        <TextBlock Text="{Binding Address}" />
+        <TextBlock Text="{Binding ParentAddress}" />
+        <TextBlock Text="{Binding State.Name, Mode=OneWay}" />
+        <TextBlock Text="{Binding State.State, Mode=OneWay}" />
+    </StackPanel>
+</UserControl>

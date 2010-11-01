@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<modelInfoType type="rubezh.api" model="1.0" name="АПИ ОПС Рубеж. Версия 1">
+  <type type="rubezh.usb.rubezh2am" model="1.0" name="USB Рубеж-2AM" xmlns="baseMessages">
+    <type type="rubezh.usb.rubezh2am.combSensor" model="1.0" name="Пожарный комбинированный извещатель ИП212/101-64-А2R1">
+      <state state="Мониторинг устройства отключен">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Не удалось включить устройство">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство инициализируется">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство в списке обхода">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Потеря связи">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тревога">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Внимание">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тест">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Неисправность устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Предварительный уровень запыленности">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Критический уровень запыленности">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Аппаратный обход устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <event event="Общее событие" />
+      <param param="Адрес" type="edit" default="1" />
+    </type>
+    <type type="rubezh.usb.rubezh2am.heatSensor" model="1.0" name="Пожарный тепловой извещатель ИП 101-29-A3R1">
+      <state state="Мониторинг устройства отключен">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Не удалось включить устройство">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство инициализируется">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство в списке обхода">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Потеря связи">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тревога">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Внимание">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тест">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Неисправность устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Аппаратный обход устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <event event="Общее событие" />
+      <param param="Адрес" type="edit" default="1" />
+    </type>
+    <type type="rubezh.usb.rubezh2am.smokeSensor" model="1.0" name="Пожарный дымовой извещатель ИП 212-64">
+      <state state="Мониторинг устройства отключен">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Не удалось включить устройство">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство инициализируется">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство в списке обхода">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Потеря связи">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тревога">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Внимание">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тест">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Неисправность устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Предварительный уровень запыленности">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Критический уровень запыленности">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Аппаратный обход устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <event event="Общее событие" />
+      <param param="Адрес" type="edit" default="1" />
+    </type>
+    <type type="rubezh.usb.rubezh2am.handAlarm" model="1.0" name="Ручной извещатель ИПР513-11">
+      <state state="Мониторинг устройства отключен">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Не удалось включить устройство">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство инициализируется">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Устройство в списке обхода">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Потеря связи">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тревога">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Внимание">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Тест">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Неисправность устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <state state="Аппаратный обход устройства">
+        <value value="Нет" />
+        <value value="Да" />
+      </state>
+      <event event="Общее событие" />
+      <param param="Адрес" type="edit" default="1" />
+    </type>
+    <state state="Мониторинг устройства отключен">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Не удалось включить устройство">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Устройство инициализируется">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Устройство в списке обхода">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Потеря связи с устройством">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Неисправность устройства">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Пожар">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Тревога">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Запыленность: критический уровень">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Запыленность: предупреждение">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="GuardZoneExitTimer">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="statusArmedZone">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Внимание">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Включен модуль пожаротушения">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Имеются зоны в режиме ТЕСТ">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Обрыв кольцевого шлейфа">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="На охране">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Конфигурация">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Подтверждение включения СПТ">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Задержка перед включением СПТ">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Тест">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Обход">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="КЗ или перегрузка АЛС">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="КЗ или перегрузка АЛС 2">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Включено звуковое оповещение">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Запущена НС">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Вскрытие">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Автоматика отключена">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Проблема с контроллером RS-R - прибор неработоспособен">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Неисправность насосной станции">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Есть обойденные зоны">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Системная неисправность">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Cработал датчик в зоне, которая в тесте">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Потеря связи с прибором">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="База данных прибора не соответствует базе данных ПК">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Ошибка Firesec при сопоставлении устройств">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Сброс состояния">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Резервный канал 1 неисправен">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="Резервный канал 2 неисправен">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 1 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 2 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 3 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 4 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 5 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 6 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 7 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 8 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 9 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <state state="АЛС 10 неисправна">
+      <value value="Нет" />
+      <value value="Да" />
+    </state>
+    <event event="Общее событие" />
+    <param param="Адрес" type="edit" default="1" />
+  </type>
+  <event event="Выгрузка АПИ" xmlns="baseMessages" />
+  <event event="Загрузка АПИ" xmlns="baseMessages" />
+  <event event="Появление связи с сервером оборудования" xmlns="baseMessages" />
+  <event event="Пропадание связи с сервером оборудования" xmlns="baseMessages" />
+  <param param="порт" type="edit" default="2002" xmlns="baseMessages" />
+  <param param="IP адрес" type="edit" xmlns="baseMessages" />
+</modelInfoType>

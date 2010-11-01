@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message xmlns="baseMessages" msgId="___MESSAGENO___" msgTime="___TIME___" refMsg="___MESSAGEID___">
+    <CPconfirmation commandId="MHqueryCP">
+      <type type="rubezh.rubezh_2am" model="1.0" name="АПИ Прибора Рубеж 2-АМ Тестовая версия 1">
+        <param param="порт" type="edit" default="COM1" order="1"/>
+        <param param="IP адрес" type="edit" order="2"/>
+        <event event="Выгрузка АПИ" />
+        <event event="Загрузка АПИ" />
+        <event event="Появление связи с сервером оборудования" />
+        <event event="Пропадание связи с сервером оборудования" />
+ <!-- Порт RS-485  -->
+        <type type="rubezh.line485" model="1.0" name="Интерфейс 485 прибора Рубеж 2-АМ">
+          <param param="Порт" type="edit" default="COM1" order="1"/>
+          <param param="Скорость" type="single" default="3" order="2">
+            <value value="9600"/>
+            <value value="19200"/>
+            <value value="38400"/>
+            <value value="57600"/>
+            <value value="115200"/>
+          </param>
+          <state state="Порт">
+            <value value="Закрыт"/>
+            <value value="Открыт"/>
+          </state>
+          <state state="Протоколирование">
+            <value value="Включено"/>
+            <value value="Выключено"/>
+          </state>
+          <command command="Включить протоколирование" order="1" />
+          <command command="Выключить протоколирование" order="2"/>
+          <event event="Закрытие порта" />
+          <event event="Захват линии" />
+          <event event="Открытие порта" />
+          <event event="Ошибка закрытия порта" />
+          <event event="Ошибка записи в порт" />
+          <event event="Ошибка открытия порта" />
+          <event event="Ошибка чтения из порта" />
+          <event event="Прослушивание линии" />
+          <type type="rubezh.ppkp" model="1.0" name="Прибор приемно-контрольный пожарный адресный Рубеж 2-АМ">
+            <param param="Адрес" type="edit" default="1" order="1"/>
+            <state state="Связь">
+              <value value="Есть"/>
+              <value value="Нет"/>
+            </state>
+            <state state="Состояние">
+              <value value="Внимание"/>
+              <value value="Вскытие"/>
+              <value value="Неисправность"/>
+              <value value="Норма"/>
+              <value value="Пожар"/>
+              <value value="Пожаротушение"/>
+              <value value="Тест"/>
+              <value value="Тревога"/>
+            </state>
+            <command command="Сбросить ТЕСТ" order="1" />
+            <command command="Сбросить ПОЖАР" order="2"/>
+            <command command="Сбросить состояния ИУ" order="3"/>
+            <event event="АЛС-1 исправна" />
+            <event event="АЛС-1 неисправна" />
+            <event event="АЛС-2 исправна" />
+            <event event="АЛС-2 неисправна" />
+            <event event="Включение питания" />
+            <event event="ВСКРЫТИЕ ПРИБОРА" />
+            <event event="Замените электропитание" />
+            <event event="Команда на смену ПО" />
+            <event event="Корпус прибора закрыт" />
+            <event event="Обновление базы" />
+            <event event="Обрыв кольца" />
+            <event event="Отсутствие в базе" />
+            <event event="Перегрузка АЛС-1" />
+            <event event="Перегрузка АЛС-2" />
+            <event event="Питание основное" />
+            <event event="Питание резервное" />
+            <event event="Появление связи" />
+            <event event="Пропадание связи" />
+            <event event="Сброс события ПОЖАР" />
+            <event event="Система восстановлена" />
+            <event event="Система неисправно" />
+            <event event="Тест системы" />
+            <type type="rubezh.ip212_64" model="1.0" name="Извещатель пожарный дымовой ИП212-64">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+            <!--Извещатель пожарный тепловой ИП101-29-A3R1  -->
+            <type type="rubezh.ip101_29" model="1.0" name="Извещатель пожарный тепловой ИП101-29-A3R1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+            <!--Извещатель пожарный комбинированный ИП212/101-64-A2R1  -->
+            <type type="rubezh.ip212_101" model="1.0" name="Извещатель пожарный комбинированный ИП212/101-64-A2R1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+
+            <!--Адресная метка АМ-1 -->
+            <type type="rubezh.am1" model="1.0" name="Адресная метка АМ1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Метка адресная пожарная АМП-4 -->
+            <type type="rubezh.amp4" model="1.0" name="Метка адресная пожарная АМП-4">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Модуль управления пожаротушением МПТ-1 -->
+            <type type="rubezh.mpt1" model="1.0" name="Модуль управления пожаротушением МПТ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Вскрытие"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Автоматика включена" />
+              <event event="Автоматика отключена" />
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Восстановление датчика ДАВЛЕНИЕ" />
+              <event event="Восстановление датчика МАССА" />
+              <event event="Вскрытие корпуса" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Запуск возобновлен" />
+              <event event="Запуск возобновлен: востановление датчика двери-окна" />
+              <event event="Изменение автоматики по датчику двери-окна" />
+              <event event="Изменение автоматики по кнопке СТОП" />
+              <event event="Изменение автоматики по неисправности" />
+              <event event="Изменение автоматики по ТМ" />
+              <event event="КЗ выхода 1" />
+              <event event="КЗ выхода 2" />
+              <event event="КЗ выхода 3" />
+              <event event="КЗ выхода 4" />
+              <event event="КЗ выхода 5" />
+              <event event="КЗ ШС" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Напряжение питания МПТ ниже нормы" />
+              <event event="Напряжение питания ШС ниже нормы" />
+              <event event="Нарушение датчика ДАВЛЕНИЕ" />
+              <event event="Нарушение датчика МАССА" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обрыв выхода 1" />
+              <event event="Обрыв выхода 2" />
+              <event event="Обрыв выхода 3" />
+              <event event="Обрыв выхода 4" />
+              <event event="Обрыв выхода 5" />
+              <event event="Обрыв ШС" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отложенный запуск" />
+              <event event="Отложенный запуск: нарушение датчика двери-окна" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="Ошибка памяти" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Пуск АУП завершен" />
+              <event event="Пуск блокирован" />
+              <event event="Ручной запуск" />
+              <event event="Ручной останов" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Модуль управления клапаном дымоудаления МДУ-1-->
+            <type type="rubezh.mdu1" model="1.0" name="Модуль управления клапаном дымоудаления МДУ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Вскрытие"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Вскрытие корпуса" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Напряжение запуска реле ниже нормы" />
+              <event event="Напряжение питания ШС ниже нормы" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отложенный запуск" />
+              <event event="Отложенный запуск: нарушение датчика двери-окна" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="Ошибка памяти" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+              <event event="Шлейф S1 неисправен" />
+              <event event="Шлейф S2 неисправен" />
+              <event event="Шлейф ЗАЩИТА неисправен" />
+              <event event="Электропривод неисправен" />
+            </type>
+
+            <!--Модуль речевого оповещения МРО-2-->
+            <type type="rubezh.mro2" model="1.0" name="Модуль речевого оповещения МРО-2">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="КЗ линии OUT1" />
+              <event event="КЗ линии OUT2" />
+              <event event="КЗ линии OUT3" />
+              <event event="КЗ линии реле" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Некорректное сопротивление линии OUT1" />
+              <event event="Некорректное сопротивление линии OUT2" />
+              <event event="Некорректное сопротивление линии OUT3" />
+              <event event="Обрыв линии OUT1" />
+              <event event="Обрыв линии OUT2" />
+              <event event="Обрыв линии реле" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Извещатель пожарный ручной ИПР513-11-->
+            <type type="rubezh.ipr513" model="1.0" name="Извещатель пожарный ручной ИПР513-11">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="ПОЖАР" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-1 -->
+            <type type="rubezh.rm1" model="1.0" name="Релейный модуль РМ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-2 -->
+            <type type="rubezh.rm2" model="1.0" name="Релейный модуль РМ-2">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-1K -->
+            <type type="rubezh.rm1k" model="1.0" name="Релейный модуль РМ-1K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-2K -->
+            <type type="rubezh.rm2k" model="1.0" name="Релейный модуль РМ-2K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-3K -->
+            <type type="rubezh.rm3k" model="1.0" name="Релейный модуль РМ-3K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-4K -->
+            <type type="rubezh.rm4k" model="1.0" name="Релейный модуль РМ-4K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-5K -->
+            <type type="rubezh.rm5k" model="1.0" name="Релейный модуль РМ-5K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+          </type>
+        </type>  <!-- Завершение описания устройства Порт RS-485  -->
+        <!-- USB Рубеж-2АМ  -->
+        <type type="rubezh.usb_rubezh2AM" model="1.0" name="USB Рубеж 2-АМ">
+          <state state="Порт">
+            <value value="Закрыт"/>
+            <value value="Открыт"/>
+          </state>
+          <state state="Протоколирование">
+            <value value="Включено"/>
+            <value value="Выключено"/>
+          </state>
+          <command command="Включить протоколирование" order="1" />
+          <command command="Выключить протоколирование" order="2"/>
+          <event event="Закрытие порта" />
+          <event event="Захват линии" />
+          <event event="Открытие порта" />
+          <event event="Ошибка закрытия порта" />
+          <event event="Ошибка записи в порт" />
+          <event event="Ошибка открытия порта" />
+          <event event="Ошибка чтения из порта" />
+          <event event="Прослушивание линии" />
+          <type type="rubezh.ppkp" model="1.0" name="Прибор приемно-контрольный пожарный адресный Рубеж 2-АМ">
+            <param param="Адрес" type="edit" default="1" order="1"/>
+            <state state="Связь">
+              <value value="Есть"/>
+              <value value="Нет"/>
+            </state>
+            <state state="Состояние">
+              <value value="Внимание"/>
+              <value value="Вскытие"/>
+              <value value="Неисправность"/>
+              <value value="Норма"/>
+              <value value="Пожар"/>
+              <value value="Пожаротушение"/>
+              <value value="Тест"/>
+              <value value="Тревога"/>
+            </state>
+            <command command="Сбросить ТЕСТ" order="1" />
+            <command command="Сбросить ПОЖАР" order="2"/>
+            <command command="Сбросить состояния ИУ" order="3"/>
+            <event event="АЛС-1 исправна" />
+            <event event="АЛС-1 неисправна" />
+            <event event="АЛС-2 исправна" />
+            <event event="АЛС-2 неисправна" />
+            <event event="Включение питания" />
+            <event event="ВСКРЫТИЕ ПРИБОРА" />
+            <event event="Замените электропитание" />
+            <event event="Команда на смену ПО" />
+            <event event="Корпус прибора закрыт" />
+            <event event="Обновление базы" />
+            <event event="Обрыв кольца" />
+            <event event="Отсутствие в базе" />
+            <event event="Перегрузка АЛС-1" />
+            <event event="Перегрузка АЛС-2" />
+            <event event="Питание основное" />
+            <event event="Питание резервное" />
+            <event event="Появление связи" />
+            <event event="Пропадание связи" />
+            <event event="Сброс события ПОЖАР" />
+            <event event="Система восстановлена" />
+            <event event="Система неисправно" />
+            <event event="Тест системы" />
+            <type type="rubezh.ip212_64" model="1.0" name="Извещатель пожарный дымовой ИП212-64">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+            <!--Извещатель пожарный тепловой ИП101-29-A3R1  -->
+            <type type="rubezh.ip101_29" model="1.0" name="Извещатель пожарный тепловой ИП101-29-A3R1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+            <!--Извещатель пожарный комбинированный ИП212/101-64-A2R1  -->
+            <type type="rubezh.ip212_101" model="1.0" name="Извещатель пожарный комбинированный ИП212/101-64-A2R1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+
+            <!--Адресная метка АМ-1 -->
+            <type type="rubezh.am1" model="1.0" name="Адресная метка АМ1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Метка адресная пожарная АМП-4 -->
+            <type type="rubezh.amp4" model="1.0" name="Метка адресная пожарная АМП-4">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Внимание"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Неисправность оптопары или фотоусилителя" />
+              <event event="Неисправность питания" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Модуль управления пожаротушением МПТ-1 -->
+            <type type="rubezh.mpt1" model="1.0" name="Модуль управления пожаротушением МПТ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Вскрытие"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Автоматика включена" />
+              <event event="Автоматика отключена" />
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Восстановление датчика ДАВЛЕНИЕ" />
+              <event event="Восстановление датчика МАССА" />
+              <event event="Вскрытие корпуса" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Запуск возобновлен" />
+              <event event="Запуск возобновлен: востановление датчика двери-окна" />
+              <event event="Изменение автоматики по датчику двери-окна" />
+              <event event="Изменение автоматики по кнопке СТОП" />
+              <event event="Изменение автоматики по неисправности" />
+              <event event="Изменение автоматики по ТМ" />
+              <event event="КЗ выхода 1" />
+              <event event="КЗ выхода 2" />
+              <event event="КЗ выхода 3" />
+              <event event="КЗ выхода 4" />
+              <event event="КЗ выхода 5" />
+              <event event="КЗ ШС" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Напряжение питания МПТ ниже нормы" />
+              <event event="Напряжение питания ШС ниже нормы" />
+              <event event="Нарушение датчика ДАВЛЕНИЕ" />
+              <event event="Нарушение датчика МАССА" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обрыв выхода 1" />
+              <event event="Обрыв выхода 2" />
+              <event event="Обрыв выхода 3" />
+              <event event="Обрыв выхода 4" />
+              <event event="Обрыв выхода 5" />
+              <event event="Обрыв ШС" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отложенный запуск" />
+              <event event="Отложенный запуск: нарушение датчика двери-окна" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="Ошибка памяти" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Пуск АУП завершен" />
+              <event event="Пуск блокирован" />
+              <event event="Ручной запуск" />
+              <event event="Ручной останов" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Модуль управления клапаном дымоудаления МДУ-1-->
+            <type type="rubezh.mdu1" model="1.0" name="Модуль управления клапаном дымоудаления МДУ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Вскрытие"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Вскрытие корпуса" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Критическая запыленность" />
+              <event event="Критическая запыленность устранена" />
+              <event event="Напряжение запуска реле ниже нормы" />
+              <event event="Напряжение питания ШС ниже нормы" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отложенный запуск" />
+              <event event="Отложенный запуск: нарушение датчика двери-окна" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="Ошибка памяти" />
+              <event event="ПОЖАР" />
+              <event event="Предварительная запыленность" />
+              <event event="Предварительная запыленность устранена" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="Тест: Кнопка" />
+              <event event="Тест: Лазер" />
+              <event event="ТРЕВОГА - обойденное" />
+              <event event="Шлейф S1 неисправен" />
+              <event event="Шлейф S2 неисправен" />
+              <event event="Шлейф ЗАЩИТА неисправен" />
+              <event event="Электропривод неисправен" />
+            </type>
+
+            <!--Модуль речевого оповещения МРО-2-->
+            <type type="rubezh.mro2" model="1.0" name="Модуль речевого оповещения МРО-2">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="Включен"/>
+                <value value="Внимание"/>
+                <value value="Выключен"/>
+                <value value="Запыленность"/>
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+                <value value="Тест"/>
+                <value value="Тревога"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="КЗ линии OUT1" />
+              <event event="КЗ линии OUT2" />
+              <event event="КЗ линии OUT3" />
+              <event event="КЗ линии реле" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Некорректное сопротивление линии OUT1" />
+              <event event="Некорректное сопротивление линии OUT2" />
+              <event event="Некорректное сопротивление линии OUT3" />
+              <event event="Обрыв линии OUT1" />
+              <event event="Обрыв линии OUT2" />
+              <event event="Обрыв линии реле" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Отмена Автозапуска АСПТ" />
+              <event event="Отмена Автозапуска МУКД" />
+              <event event="Отмена Автозапуска МУКО" />
+              <event event="ПОЖАР" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Извещатель пожарный ручной ИПР513-11-->
+            <type type="rubezh.ipr513" model="1.0" name="Извещатель пожарный ручной ИПР513-11">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Неисправность"/>
+                <value value="Норма"/>
+                <value value="Пожар"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="ПОЖАР" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-1 -->
+            <type type="rubezh.rm1" model="1.0" name="Релейный модуль РМ-1">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-2 -->
+            <type type="rubezh.rm2" model="1.0" name="Релейный модуль РМ-2">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-1K -->
+            <type type="rubezh.rm1k" model="1.0" name="Релейный модуль РМ-1K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-2K -->
+            <type type="rubezh.rm2k" model="1.0" name="Релейный модуль РМ-2K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-3K -->
+            <type type="rubezh.rm3k" model="1.0" name="Релейный модуль РМ-3K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-4K -->
+            <type type="rubezh.rm4k" model="1.0" name="Релейный модуль РМ-4K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+            <!--Релейный модуль РМ-5K -->
+            <type type="rubezh.rm5k" model="1.0" name="Релейный модуль РМ-5K">
+              <param param="Адрес" type="edit" default="1" order="1"/>
+              <state state="Связь">
+                <value value="Есть"/>
+                <value value="Нет"/>
+              </state>
+              <state state="Состояние">
+                <value value="[Неизвестно]"/>
+                <value value="Выключен"/>
+                <value value="Включен"/>
+                <value value="Неисправность"/>
+              </state>
+              <event event="Включено" />
+              <event event="Включено в ручном режиме" />
+              <event event="ВНИМАНИЕ" />
+              <event event="ВНИМАНИЕ - обойденное" />
+              <event event="Выключено" />
+              <event event="Выключено в ручном режиме" />
+              <event event="Неисправность устранена" />
+              <event event="Неисправность устройства" />
+              <event event="Низкое напряжение запуска" />
+              <event event="Обход" />
+              <event event="Обход снят" />
+              <event event="Реле не реагирует на команды" />
+              <event event="Связь восстановлена" />
+              <event event="Связь потеряна" />
+              <event event="ТРЕВОГА - обойденное" />
+            </type>
+
+          </type>
+        </type> <!-- USB Рубеж-2АМ  -->
+        
+
+      </type>
+    </CPconfirmation>
+  </message>
