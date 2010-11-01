@@ -110,7 +110,12 @@ namespace ComServer
             FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo();
             serverInfo.Port = 211;
             serverInfo.ServerName = "localhost";
+
+            //NotificationCallBack notificationCallBack = new NotificationCallBack();
+
+            //FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
             FS_Types.IFSC_Connection connectoin = library.Connect("adm", "", serverInfo);
+
             return connectoin;
         }
 

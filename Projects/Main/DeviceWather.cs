@@ -110,7 +110,7 @@ namespace Main
                     {
                         ComState newValue = comDevice.States.First(x => x.Id == innerState.id);
                         ComState oldValue = oldComStates.First(x => x.Id == innerState.id);
-                        if ((oldValue.IsActive == false) && (newValue.IsActive == true))
+                        //if ((oldValue.IsActive == false) && (newValue.IsActive == true))
                         {
                             assadDevice.FireEvent(newValue.Name);
                         }

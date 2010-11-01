@@ -105,8 +105,8 @@ namespace Main
 
         public void RefreshTree()
         {
-            mainWindowView.Dispatcher.Invoke(new Action(OnRefresh), DispatcherPriority.Normal);
-            //mainWindowView.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(OnRefresh));
+            //mainWindowView.Dispatcher.Invoke(new Action(OnRefresh), DispatcherPriority.Normal);
+            mainWindowView.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(OnRefresh));
         }
 
         public void OnRefresh()

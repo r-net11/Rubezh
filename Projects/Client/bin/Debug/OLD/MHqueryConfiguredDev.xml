@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<message msgId="___MESSAGENO___" msgTime="___TIME___" refMsg="___MESSAGEID___">
-  <CPconfirmation commandId="MHqueryConfiguredDev" status="OK">
-    <device changeDate="21-09-2010 09:34:31" deviceId="7723" deviceName="АПИ ОПС Рубеж. Версия 1" model="1.0" type="rubezh.api">
-      <param param="IP адрес" value="172.16.6.177"/>
-      <param param="порт" value="2002"/>
-    </device>
-  </CPconfirmation>
-</message>

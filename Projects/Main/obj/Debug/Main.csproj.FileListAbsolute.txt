@@ -52,3 +52,17 @@ D:\Assad\Projects\Main\obj\Debug\Views\MainWindowView.baml
 D:\Assad\Projects\Main\obj\Debug\Main.g.resources
 D:\Assad\Projects\Main\obj\Debug\Main.Properties.Resources.resources
 D:\Assad\Projects\Main\obj\Debug\Main.csproj.GenerateResource.Cache
+D:\Assad\Projects\Main\bin\Debug\Main.exe
+D:\Assad\Projects\Main\bin\Debug\Main.pdb
+D:\Assad\Projects\Main\bin\Debug\AssadEmulator.exe
+D:\Assad\Projects\Main\bin\Debug\Common.dll
+D:\Assad\Projects\Main\bin\Debug\Logger.exe
+D:\Assad\Projects\Main\bin\Debug\Sockets.dll
+D:\Assad\Projects\Main\bin\Debug\WpfApplication1.exe
+D:\Assad\Projects\Main\bin\Debug\Interop.mscoree.dll
+D:\Assad\Projects\Main\bin\Debug\Interop.FS_Types.dll
+D:\Assad\Projects\Main\bin\Debug\Logger.pdb
+D:\Assad\Projects\Main\bin\Debug\Common.pdb
+D:\Assad\Projects\Main\bin\Debug\Sockets.pdb
+D:\Assad\Projects\Main\bin\Debug\WpfApplication1.pdb
+D:\Assad\Projects\Main\bin\Debug\AssadEmulator.pdb
