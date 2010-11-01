@@ -97,7 +97,6 @@
     <Compile Include="Views\AssadDeviceDetails.xaml.cs">
       <DependentUpon>AssadDeviceDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AssadDeviceTypesManager.cs" />
     <Compile Include="Views\AssadTreeView.xaml.cs">
       <DependentUpon>AssadTreeView.xaml</DependentUpon>
     </Compile>

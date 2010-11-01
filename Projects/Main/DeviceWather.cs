@@ -114,7 +114,8 @@ namespace Main
                         ComState oldValue = oldComStates.First(x => x.Id == innerState.id);
                         //if ((oldValue.IsActive == false) && (newValue.IsActive == true))
                         {
-                            assadDevice.FireEvent(newValue.Name);
+                            x.CPeventType eventType = assadDevice.CreateEvent(newValue.Name);
+                            NetManager.Send(eventType, null);
                         }
                     }
                 }

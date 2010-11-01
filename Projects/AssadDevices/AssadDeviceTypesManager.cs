@@ -37,16 +37,6 @@ namespace AssadDdevices
             x.CPconfirmationType confirmation = (x.CPconfirmationType)message.Item;
             rootModelInfo = (x.modelInfoType)confirmation.Items[0];
 
-            //XmlSerializer deSerializer = new XmlSerializer(typeof(x.modelInfoType));
-            //FileStream fileStreamOut = new FileStream("xxx.xml", FileMode.CreateNew);
-            //deSerializer.Serialize(fileStreamOut, rootModelInfo);
-            //fileStreamOut.Close();
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(x.modelInfoType));
-            //FileStream fileStream = new FileStream("xxx.xml", FileMode.Open);
-            //x.modelInfoType rootModelInfo = (x.modelInfoType)serializer.Deserialize(fileStream);
-            //fileStream.Close();
-
             modelInfos.Add(rootModelInfo);
             AddChild(rootModelInfo);
         }

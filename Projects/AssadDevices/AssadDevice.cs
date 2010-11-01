@@ -98,7 +98,7 @@ namespace AssadDdevices
             Commands.Add(controlType.cmdId);
         }
 
-        public void FireEvent(string eventName)
+        public x.CPeventType CreateEvent(string eventName)
         {
             x.CPeventType eventType = new x.CPeventType();
 
@@ -112,7 +112,7 @@ namespace AssadDdevices
             eventType.state[0].state = State.Name;
             eventType.state[0].value = State.State;
 
-            //NetManager.Send(eventType, null);
+            return eventType;
         }
     }
 }
