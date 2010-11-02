@@ -60,27 +60,25 @@
                 </Grid>
             </HeaderedContentControl.Header>
             <HeaderedContentControl.Content>
-                <ScrollViewer Margin="5">
-                    <StackPanel Margin="1">
-                        <StackPanel  Orientation="Horizontal" Margin="10">
-                            <Button Template="{StaticResource GlassButton}" Command="{Binding GetStateCommand}" Margin="2" >
-                                <TextBlock Padding="1" Margin="3" Text="Get State" Foreground="White" FontSize="16"></TextBlock>
-                            </Button>
-                            <Button Template="{StaticResource GlassButton}" Command="{Binding GetCoreStateCommand}" Margin="2" >
-                                <TextBlock Padding="1" Margin="3" Text="GetCoreState" Foreground="White" FontSize="16"></TextBlock>
-                            </Button>
-                        </StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <local:DeviceTreeView Grid.Column="0" />
-                            <local:DeviceDetailsView Grid.Column="1" />
-                        </Grid>
-                        <TextBox Text="{Binding StateMessage}" />
+                <StackPanel Margin="1">
+                    <StackPanel  Orientation="Horizontal" Margin="10">
+                        <Button Template="{StaticResource GlassButton}" Command="{Binding GetStateCommand}" Margin="2" >
+                            <TextBlock Padding="1" Margin="3" Text="Get State" Foreground="White" FontSize="16"></TextBlock>
+                        </Button>
+                        <Button Template="{StaticResource GlassButton}" Command="{Binding GetCoreStateCommand}" Margin="2" >
+                            <TextBlock Padding="1" Margin="3" Text="GetCoreState" Foreground="White" FontSize="16"></TextBlock>
+                        </Button>
                     </StackPanel>
-                </ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <local:DeviceTreeView Grid.Column="0" />
+                        <local:DeviceDetailsView Grid.Column="1" />
+                    </Grid>
+                    <TextBox Text="{Binding StateMessage}" />
+                </StackPanel>
             </HeaderedContentControl.Content>
         </HeaderedContentControl>
     </Border>
