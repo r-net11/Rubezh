@@ -2,7 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
-        <TreeView Name="treeView" ItemsSource="{Binding Devices}" SelectedItemChanged="treeView_SelectedItemChanged" Height="500">
+        <TreeView Name="treeView" ItemsSource="{Binding Devices}"
+                  SelectedItemChanged="treeView_SelectedItemChanged"
+                  Height="500"
+                  Background="Transparent"
+                  BorderThickness="0">
 
             <TreeView.ItemContainerStyle>
                 <Style>
@@ -17,7 +21,9 @@
             
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                    <TextBlock Text="{Binding DeviceName}" />
+                    <TextBlock Text="{Binding DeviceName}"
+                               Foreground="DarkRed"
+                               FontSize="14"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
