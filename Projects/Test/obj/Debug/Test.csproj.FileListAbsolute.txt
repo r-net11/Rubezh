@@ -46,3 +46,5 @@ D:\Personal\Assad\Projects\Test\obj\Debug\Test.Properties.Resources.resources
 D:\Personal\Assad\Projects\Test\obj\Debug\Test.csproj.GenerateResource.Cache
 D:\Personal\Assad\Projects\Test\obj\Debug\Test.exe
 D:\Personal\Assad\Projects\Test\obj\Debug\Test.pdb
+D:\Personal\Assad\Projects\Test\bin\Debug\CustomControls.dll
+D:\Personal\Assad\Projects\Test\bin\Debug\CustomControls.pdb

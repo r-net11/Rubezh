@@ -59,3 +59,4 @@ D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\DeviceTreeView.g.cs
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\ComServerEmulatorView.baml
 D:\Personal\Assad\Projects\ComServerEmulator\obj\Debug\Views\ButtonInVistaStyle.baml
+D:\Personal\Assad\Projects\ComServerEmulator\bin\Debug\CustomControls.dll
