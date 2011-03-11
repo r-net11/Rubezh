@@ -30,7 +30,7 @@ namespace ComDevices
 
                     ComServer.CoreState.devType innerDevice = FindDevice(coreState.dev, device.PlaceInTree);
 
-                    if (innerDevice != null)
+                    if ((innerDevice != null) && (innerDevice.state != null))
                     {
                         foreach (State state in device.States)
                         {
@@ -72,15 +72,46 @@ namespace ComDevices
 
                     // выставить нужное состояние
                     int minPriority = 7;
+                    State sourceState = null;
+
                     foreach (State state in device.States)
                     {
                         if (state.IsActive)
                         {
                             if (state.Priority < minPriority)
+                            {
                                 minPriority = state.Priority;
+                                sourceState = state;
+                            }
                         }
                     }
                     device.State = StateHelper.GetState(minPriority);
+                    device.MinPriority = minPriority;
+
+                    if (sourceState != null)
+                    {
+                        device.SourceState = sourceState.Name;
+                        if (sourceState.AffectChildren)
+                            device.AffectChildren = true;
+                    }
+                    else
+                    {
+                        device.SourceState = "";
+                        device.AffectChildren = false;
+                    }
+                }
+
+                foreach (Device device in Services.Configuration.Devices)
+                {
+                    if (device.AffectChildren)
+                    {
+                        List<Device> childDevices = Services.Configuration.Devices.FindAll(x=>((x.PlaceInTree.StartsWith(device.PlaceInTree)) && x.PlaceInTree != device.PlaceInTree));
+                        foreach (Device childDevice in childDevices)
+                        {
+                            childDevice.MinPriority = device.MinPriority;
+                            childDevice.State = device.State;
+                        }
+                    }
                 }
 
                 OnNewDeviceEvent(DeviceEvents);
@@ -89,6 +120,36 @@ namespace ComDevices
                     Console.WriteLine("NEW EVENT");
                     deviceEvent.device.LastEvents = deviceEvent.events;
                     StateService.DeviceChanged(deviceEvent.device);
+                }
+
+                // изменить состояние зоны
+
+                if (Services.Configuration.Zones != null)
+                {
+                    foreach (Zone zone in Services.Configuration.Zones)
+                    {
+                        int minZonePriority = 7;
+                        if (zone.Devices != null)
+                        {
+                            foreach (Device zoneDevice in zone.Devices)
+                            {
+                                if (zoneDevice.MinPriority < minZonePriority)
+                                    minZonePriority = zoneDevice.MinPriority;
+                            }
+                        }
+                        string newZoneState = StateHelper.GetState(minZonePriority);
+
+                        bool isZoneChanged = false;
+                        if ((zone.State == null) || (zone.State != newZoneState))
+                        {
+                            isZoneChanged = true;
+                        }
+                        zone.State = newZoneState;
+                        if (isZoneChanged)
+                        {
+                            StateService.ZoneChanged(zone);
+                        }
+                    }
                 }
             }
             catch (Exception ex)

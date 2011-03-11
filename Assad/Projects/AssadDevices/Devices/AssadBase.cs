@@ -17,6 +17,7 @@ namespace AssadDevices
         public string DeviceName { get; set; }
         public string Description { get; set; }
         public AssadState State { get; set; }
+        public string SourceState { get; set; }
         public List<AssadProperty> Properties { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
         public List<string> Zones { get; set; }
@@ -112,12 +113,15 @@ namespace AssadDevices
 
             deviceType.state[1] = new Assad.DeviceTypeState();
             deviceType.state[1].state = "Состояние дополнительно";
-            deviceType.state[1].value = "";
+            if (string.IsNullOrEmpty(SourceState))
+                deviceType.state[1].value = " ";
+            else
+                deviceType.state[1].value = SourceState;
 
             deviceType.state[2] = new Assad.DeviceTypeState();
             deviceType.state[2].state = "Конфигурация";
             if (string.IsNullOrEmpty(ValidationError))
-            deviceType.state[2].value = " ";
+                deviceType.state[2].value = " ";
             else
                 deviceType.state[2].value = ValidationError;
 

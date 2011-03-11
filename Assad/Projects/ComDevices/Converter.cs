@@ -11,9 +11,9 @@ namespace ComDevices
 {
     public class Converter
     {
-        public ComServer.CoreConfig.config Convert(Configuration data)
+        public ComServer.CoreConfig.config Convert(Configuration configuration)
         {
-            Device rootDevice = data.Devices[0];
+            Device rootDevice = configuration.Devices[0];
 
             Device device = AddChild(rootDevice);
 
@@ -54,36 +54,36 @@ namespace ComDevices
             return Services.Configuration.CoreConfig;
         }
 
-        Device AddChild(Device parentComDevice)
+        Device AddChild(Device parentDevice)
         {
-            ComServer.CoreConfig.devType innerComDevice = new ComServer.CoreConfig.devType();
+            ComServer.CoreConfig.devType innerDevice = new ComServer.CoreConfig.devType();
 
-            SetAddress(innerComDevice, parentComDevice);
+            SetAddress(innerDevice, parentDevice);
 
-            innerComDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentComDevice.DriverId).idx;
+            innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentDevice.DriverId).idx;
 
-            AddZone(parentComDevice, innerComDevice);
-            DeviceHelper.SetDeviceInnerDevice(parentComDevice, innerComDevice);
+            AddZone(parentDevice, innerDevice);
+            DeviceHelper.SetDeviceInnerDevice(parentDevice, innerDevice);
 
             // добавление прочих параметров конфигурации
-            List<ComServer.CoreConfig.propType> propertyList = AddCustomProperties(parentComDevice);
+            List<ComServer.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);
             if (propertyList.Count > 0)
-                innerComDevice.prop = propertyList.ToArray();
+                innerDevice.prop = propertyList.ToArray();
 
-            List<ComServer.CoreConfig.devType> innerComDeviceChildren = new List<ComServer.CoreConfig.devType>();
+            List<ComServer.CoreConfig.devType> innerDeviceChildren = new List<ComServer.CoreConfig.devType>();
 
-            foreach (Device childTreeBase in parentComDevice.Children)
+            foreach (Device childTreeBase in parentDevice.Children)
             {
-                Device childComDevice = AddChild((Device)childTreeBase);
-                innerComDeviceChildren.Add(childComDevice.InnerDevice);
+                Device childDevice = AddChild((Device)childTreeBase);
+                innerDeviceChildren.Add(childDevice.InnerDevice);
             }
 
-            parentComDevice.InnerDevice = innerComDevice;
-            parentComDevice.InnerDevice.dev = innerComDeviceChildren.ToArray();
-            if (innerComDeviceChildren.Count == 0)
-                parentComDevice.InnerDevice.dev = null;
+            parentDevice.InnerDevice = innerDevice;
+            parentDevice.InnerDevice.dev = innerDeviceChildren.ToArray();
+            if (innerDeviceChildren.Count == 0)
+                parentDevice.InnerDevice.dev = null;
 
-            return parentComDevice;
+            return parentDevice;
         }
 
         // установить адрес

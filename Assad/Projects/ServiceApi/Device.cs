@@ -52,7 +52,28 @@ namespace ServiceApi
         public string State { get; set; }
 
         [DataMember]
+        public int MinPriority { get; set; }
+
+        [DataMember]
+        public string SourceState { get; set; }
+
+        [DataMember]
+        public bool AffectChildren { get; set; }
+
+        [DataMember]
         public List<string> LastEvents { get; set; }
+
+        // свойство, по которому можно идентифицировать устройство в текущей конфигурации
+
+        public string PlaceInTree { get; set; }
+
+        [DataMember]
+        public string Address { get; set; }
+
+        // главное всойство, по которому можно идентифицировать устройство в системе
+
+        [DataMember]
+        public string Path { get; set; }
 
         public void ExecuteCommand(string commandName)
         {
@@ -101,17 +122,5 @@ namespace ServiceApi
                 children = value;
             }
         }
-
-        // свойство, по которому можно идентифицировать устройство в текущей конфигурации
-
-        public string PlaceInTree { get; set; }
-
-        [DataMember]
-        public string Address { get; set; }
-
-        // главное всойство, по которому можно идентифицировать устройство в системе
-
-        [DataMember]
-        public string Path { get; set; }
     }
 }

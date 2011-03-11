@@ -33,6 +33,9 @@ namespace ServiceApi
             }
         }
 
+        [DataMember]
+        public bool AffectChildren { get; set; }
+
         public int Priority { get; set; }
 
         bool isActive = false;

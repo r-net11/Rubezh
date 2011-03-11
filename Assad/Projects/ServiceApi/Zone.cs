@@ -26,5 +26,11 @@ namespace ServiceApi
 
         [DataMember]
         public string ValidationError { get; set; }
+
+        [DataMember]
+        public List<Device> Devices { get; set; }
+
+        [DataMember]
+        public string State { get; set; }
     }
 }

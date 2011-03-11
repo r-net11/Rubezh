@@ -84,12 +84,43 @@ namespace Processor
 
         public void QueryState()
         {
-            foreach (Device device in ServiceClient.Configuration.Devices)
+            // сделать наоборот
+            //foreach (Device device in ServiceClient.Configuration.Devices)
+            //{
+            //    AssadBase assadDevice = Helper.ConvertDevice(device);
+            //    if (assadDevice != null)
+            //    {
+            //        assadDevice.State.State = device.State;
+            //        assadDevice.SourceState = device.SourceState;
+            //    }
+            //}
+
+            foreach (AssadBase assadBase in AssadConfiguration.Devices)
             {
-                AssadBase assadDevice = Helper.ConvertDevice(device);
-                if (assadDevice != null)
+                if (assadBase is AssadZone)
                 {
-                    assadDevice.State.State = device.State;
+                    AssadZone assadZone = assadBase as AssadZone;
+                    if (ServiceClient.Configuration.Zones.Any(x => x.Id == assadZone.ZoneId))
+                    {
+                        Zone zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == assadZone.ZoneId);
+                        assadZone.State.State = zone.State;
+                    }
+                    else
+                    {
+                        assadZone.State.State = "Отсутствует в конфигурации";
+                    }
+                }
+                else
+                {
+                    if (ServiceClient.Configuration.Devices.Any(x=>x.Path == assadBase.Path))
+                    {
+                        Device device = ServiceClient.Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
+                        assadBase.State.State = device.State;
+                    }
+                    else
+                    {
+                        assadBase.State.State = "Отсутствует в конфигурации";
+                    }
                 }
             }
         }

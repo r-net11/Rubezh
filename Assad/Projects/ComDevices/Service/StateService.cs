@@ -34,6 +34,14 @@ namespace ComDevices
             }
         }
 
+        public static void ZoneChanged(Zone zone)
+        {
+            if (callback != null)
+            {
+                callback.ZoneChanged(zone);
+            }
+        }
+
         public Configuration GetConfiguration()
         {
             return Services.Configuration;

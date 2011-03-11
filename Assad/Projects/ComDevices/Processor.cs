@@ -44,6 +44,8 @@ namespace ComDevices
             Services.Configuration.Metadata = ComServer.ComServer.GetMetaData();
             Services.Configuration.CoreConfig = ComServer.ComServer.GetCoreConfig();
 
+            BuildZones();
+
             Services.Configuration.Devices = new List<Device>();
 
             ComServer.CoreConfig.devType innerDevice = Services.Configuration.CoreConfig.dev[0];
@@ -66,6 +68,24 @@ namespace ComDevices
                     DeviceHelper.SetDeviceInnerDevice(child, comChild);
                     Services.Configuration.Devices.Add(child);
                     AddChild(comChild, child);
+                }
+            }
+        }
+
+        // заполить зоны конфигурацией из ком-сервера
+
+        void BuildZones()
+        {
+            Services.Configuration.Zones = new List<Zone>();
+            if (Services.Configuration.CoreConfig.zone != null)
+            {
+                foreach(ComServer.CoreConfig.zoneType innerZone in Services.Configuration.CoreConfig.zone)
+                {
+                    Zone zone = new Zone();
+                    zone.Id = innerZone.idx;
+                    zone.Name = innerZone.name;
+                    zone.Devices = new List<Device>();
+                    Services.Configuration.Zones.Add(zone);
                 }
             }
         }

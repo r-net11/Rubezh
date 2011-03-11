@@ -27,7 +27,8 @@ namespace ComDevices
                     {
                         Id = innerState.id,
                         Name = innerState.name,
-                        Priority = Convert.ToInt32(innerState.@class)
+                        Priority = Convert.ToInt32(innerState.@class),
+                        AffectChildren = innerState.affectChildren == "1" ? true : false
                     };
                     device.States.Add(state);
                 }
@@ -59,6 +60,7 @@ namespace ComDevices
             SetAddress(device, innerDevice);
             SetPath(device);
             SetPlaceInTree(device);
+            SetZone(device, innerDevice);
         }
 
         static void SetAddress(Device device, ComServer.CoreConfig.devType innerDevice)
@@ -135,6 +137,21 @@ namespace ComDevices
                 else
                 {
                     device.PlaceInTree = device.Parent.PlaceInTree + @"\" + localPlaceInTree;
+                }
+            }
+        }
+
+        static void SetZone(Device device, ComServer.CoreConfig.devType innerDevice)
+        {
+            device.Zones = new List<string>();
+            if (innerDevice.inZ != null)
+            {
+                foreach (ComServer.CoreConfig.inZType innerZone in innerDevice.inZ)
+                {
+                    string zoneId = innerZone.idz;
+                    device.Zones.Add(zoneId);
+                    Zone zone = Services.Configuration.Zones.FirstOrDefault(x => x.Id == zoneId);
+                    zone.Devices.Add(device);
                 }
             }
         }
