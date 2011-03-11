@@ -1,0 +1,7 @@
+﻿<UserControl x:Class="Runner.Views.FunctionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <Button Content="{Binding Name}" Command="{Binding CallFunction}" />
+    </StackPanel>
+</UserControl>

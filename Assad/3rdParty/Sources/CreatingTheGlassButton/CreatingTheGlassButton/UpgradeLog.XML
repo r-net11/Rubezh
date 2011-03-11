@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="CreatingTheGlassButton">
+</Property><Property Name="Solution File" Value="C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton.sln">
+</Property><Property Name="Date" Value="3 ноября 2010 г.">
+</Property><Property Name="Time" Value="16:32:03">
+</Property></Properties><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="CreatingTheGlassButton.csproj" Description="Project file successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\CreatingTheGlassButton.csproj">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="App.xaml.cs" Description="File successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\App.xaml.cs">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="AssemblyInfo.cs" Description="File successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="Window1.xaml.cs" Description="File successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\Window1.xaml.cs">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="App.xaml" Description="File successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\App.xaml">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="Window1.xaml" Description="File successfully backed up as C:\Documents and Settings\asevastyanov.GRIDDYNAMICS\Мои документы\Загрузки\CreatingTheGlassButton\CreatingTheGlassButton\CreatingTheGlassButton\Backup\Window1.xaml">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="CreatingTheGlassButton.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="CreatingTheGlassButton" Source="CreatingTheGlassButton.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CreatingTheGlassButton" Source="CreatingTheGlassButton.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

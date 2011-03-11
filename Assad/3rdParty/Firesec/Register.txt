@@ -1,0 +1,2 @@
+regsvr32.exe "C:\Program Files\Firesec\FS_Types.dll"
+regsvr32.exe "C:\Program Files\Firesec\SockProxy.dll"

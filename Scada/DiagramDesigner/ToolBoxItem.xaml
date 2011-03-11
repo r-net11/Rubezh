@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="DiagramDesigner.ToolBoxItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel PreviewMouseDown="Image_PreviewMouseDown" MouseMove="Image_MouseMove" Orientation="Horizontal">
+            <Image Name="IconImage" Width="50" Height="50"/>
+            <TextBlock Name="ControlName" VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,10 @@
+D:\DiagramDesignerPart2\Common\obj\Debug\ResolveAssemblyReference.cache
+D:\DiagramDesignerPart2\Common\bin\Debug\Common.dll
+D:\DiagramDesignerPart2\Common\bin\Debug\Common.pdb
+D:\DiagramDesignerPart2\Common\obj\Debug\Common.dll
+D:\DiagramDesignerPart2\Common\obj\Debug\Common.pdb
+D:\Projects\Scada\Common\bin\Debug\Common.dll
+D:\Projects\Scada\Common\bin\Debug\Common.pdb
+D:\Projects\Scada\Common\obj\Debug\ResolveAssemblyReference.cache
+D:\Projects\Scada\Common\obj\Debug\Common.dll
+D:\Projects\Scada\Common\obj\Debug\Common.pdb

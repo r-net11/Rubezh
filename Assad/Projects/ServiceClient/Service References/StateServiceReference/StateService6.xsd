@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ComServer.Metadata" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ComServer.Metadata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfparamInfoType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="paramInfoType" nillable="true" type="tns:paramInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfparamInfoType" nillable="true" type="tns:ArrayOfparamInfoType" />
+  <xs:complexType name="paramInfoType">
+    <xs:sequence>
+      <xs:element name="captionField" nillable="true" type="xs:string" />
+      <xs:element name="defaultField" nillable="true" type="xs:string" />
+      <xs:element name="editTypeField" nillable="true" type="xs:string" />
+      <xs:element name="helpIndexField" nillable="true" type="xs:string" />
+      <xs:element name="hiddenField" nillable="true" type="xs:string" />
+      <xs:element name="hintField" nillable="true" type="xs:string" />
+      <xs:element name="maxField" nillable="true" type="xs:string" />
+      <xs:element name="minField" nillable="true" type="xs:string" />
+      <xs:element name="nameField" nillable="true" type="xs:string" />
+      <xs:element name="nameSourceField" nillable="true" type="xs:string" />
+      <xs:element name="paramIDField" nillable="true" type="xs:string" />
+      <xs:element name="showOnlyInStateField" nillable="true" type="xs:string" />
+      <xs:element name="tslenField" nillable="true" type="xs:string" />
+      <xs:element name="typeField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="paramInfoType" nillable="true" type="tns:paramInfoType" />
+  <xs:complexType name="ArrayOfpropInfoType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="propInfoType" nillable="true" type="tns:propInfoType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfpropInfoType" nillable="true" type="tns:ArrayOfpropInfoType" />
+  <xs:complexType name="propInfoType">
+    <xs:sequence>
+      <xs:element name="captionField" nillable="true" type="xs:string" />
+      <xs:element name="defaultField" nillable="true" type="xs:string" />
+      <xs:element name="editTypeField" nillable="true" type="xs:string" />
+      <xs:element name="helpIndexField" nillable="true" type="xs:string" />
+      <xs:element name="hiddenField" nillable="true" type="xs:string" />
+      <xs:element name="hintField" nillable="true" type="xs:string" />
+      <xs:element name="maxField" nillable="true" type="xs:string" />
+      <xs:element name="minField" nillable="true" type="xs:string" />
+      <xs:element name="nameField" nillable="true" type="xs:string" />
+      <xs:element name="paramField" nillable="true" type="tns:ArrayOfparamType" />
+      <xs:element name="paramIDField" nillable="true" type="xs:string" />
+      <xs:element name="showOnlyInStateField" nillable="true" type="xs:string" />
+      <xs:element name="tslenField" nillable="true" type="xs:string" />
+      <xs:element name="typeField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="propInfoType" nillable="true" type="tns:propInfoType" />
+  <xs:complexType name="ArrayOfparamType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="paramType" nillable="true" type="tns:paramType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfparamType" nillable="true" type="tns:ArrayOfparamType" />
+  <xs:complexType name="paramType">
+    <xs:sequence>
+      <xs:element name="nameField" nillable="true" type="xs:string" />
+      <xs:element name="typeField" nillable="true" type="xs:string" />
+      <xs:element name="valueField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="paramType" nillable="true" type="tns:paramType" />
+</xs:schema>

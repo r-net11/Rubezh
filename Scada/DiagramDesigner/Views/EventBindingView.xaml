@@ -1,0 +1,15 @@
+﻿<Window x:Class="DiagramDesigner.Views.EventBindingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:view="clr-namespace:DiagramDesigner.Views"
+    Title="EventBindingView" Height="600" Width="600">
+    <StackPanel>
+        <ItemsControl ItemsSource="{Binding UserControlsItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <view:UserControlFunctionView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</Window>

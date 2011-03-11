@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ComDevices" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ComDevices" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8001/StateService?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:8001/StateService?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/ComServer.CoreConfig" />
+  <xs:import schemaLocation="http://localhost:8001/StateService?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/ComServer.Metadata" />
+  <xs:import schemaLocation="http://localhost:8001/StateService?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Common" />
+  <xs:complexType name="ArrayOfComDevice">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ComDevice" nillable="true" type="tns:ComDevice" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComDevice" nillable="true" type="tns:ArrayOfComDevice" />
+  <xs:complexType name="ComDevice">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/Common" base="q1:TreeBase">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AvailableEvents" nillable="true" type="q2:ArrayOfstring" />
+          <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="AvailableFunctions" nillable="true" type="q3:ArrayOfstring" />
+          <xs:element minOccurs="0" name="DeviceName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DriverId" nillable="true" type="xs:string" />
+          <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ComServer.CoreConfig" minOccurs="0" name="InnerType" nillable="true" type="q4:devType" />
+          <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LastEvents" nillable="true" type="q5:ArrayOfstring" />
+          <xs:element minOccurs="0" name="MetadataDriverId" nillable="true" type="xs:string" />
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ComServer.Metadata" minOccurs="0" name="Parameters" nillable="true" type="q6:ArrayOfparamInfoType" />
+          <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ComServer.Metadata" minOccurs="0" name="Properties" nillable="true" type="q7:ArrayOfpropInfoType" />
+          <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="States" nillable="true" type="tns:ArrayOfComState" />
+          <xs:element minOccurs="0" name="Zone" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ComDevice" nillable="true" type="tns:ComDevice" />
+  <xs:complexType name="ArrayOfComState">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ComState" nillable="true" type="tns:ComState" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfComState" nillable="true" type="tns:ArrayOfComState" />
+  <xs:complexType name="ComState">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsActive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Priority" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ComState" nillable="true" type="tns:ComState" />
+</xs:schema>
