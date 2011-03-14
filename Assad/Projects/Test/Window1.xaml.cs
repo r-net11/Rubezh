@@ -64,5 +64,10 @@ namespace DeviveModelManager
         {
             textBox1.Text = ComServer.NativeComServer.GetCoreDeviceParams();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            textBox1.Text = ComServer.NativeComServer.ReadEvents(0, 100);
+        }
     }
 }

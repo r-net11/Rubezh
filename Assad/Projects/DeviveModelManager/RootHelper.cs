@@ -12,7 +12,7 @@ namespace DeviveModelManager
             TreeItem rootTreeItem = new TreeItem();
             rootTreeItem.ModelInfo = new Assad.modelInfoType();
             rootTreeItem.ModelInfo.name = "АПИ ОПС Рубеж." + ViewModel.StaticVersion;
-            rootTreeItem.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "F8340ECE-C950-498D-88CD-DCBABBC604F3" + "." + Common.IdManager.Next.ToString();
+            rootTreeItem.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "F8340ECE-C950-498D-88CD-DCBABBC604F3";
             rootTreeItem.ModelInfo.model = "1.0";
 
             List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();

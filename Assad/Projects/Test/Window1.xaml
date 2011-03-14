@@ -9,6 +9,7 @@
             <Button Click="Button_Click_2" Content="GetCoreState" />
             <Button Click="Button_Click_3" Content="GetMetadata" />
             <Button Click="Button_Click_4" Content="GetCoreDeviceParams" />
+            <Button Click="Button_Click_5" Content="ReadEvents" />
             <TextBox Name="textBox1" Height="500" VerticalScrollBarVisibility="Visible" />
         </StackPanel>
     </Grid>

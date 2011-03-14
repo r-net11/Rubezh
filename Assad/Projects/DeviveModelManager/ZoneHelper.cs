@@ -15,7 +15,7 @@ namespace DeviveModelManager
         {
             TreeItem zoneTreeItem = new TreeItem();
             zoneTreeItem.ModelInfo = new Assad.modelInfoType();
-            zoneTreeItem.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "zone" + "." + Common.IdManager.Next.ToString();
+            zoneTreeItem.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "zone";
             zoneTreeItem.ModelInfo.model = "1.0";
             zoneTreeItem.ModelInfo.name = "Зона";
 

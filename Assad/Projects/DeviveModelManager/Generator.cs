@@ -60,7 +60,7 @@ namespace DeviveModelManager
                 foreach (ComServer.Metadata.drvType driver in ComServerHelper.Metadata.drv)
                 {
                     // игнорировать все старые приборы
-                    if (IgnoreHelper.IsIgnore(driver))
+                    if (Common.DriversHelper.IsIgnore(driver.id))
                     {
                         continue;
                     }

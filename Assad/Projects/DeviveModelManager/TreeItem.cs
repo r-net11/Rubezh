@@ -196,7 +196,7 @@ namespace DeviveModelManager
             ModelInfo = new Assad.modelInfoType();
             ModelInfo.name = Name;
             DriverId = driver.id;
-            ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + DriverId.ToString() + "." + Common.IdManager.Next.ToString();
+            ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + DriverId.ToString();
             ModelInfo.model = "1.0";
 
             if (AssadEvents.Count > 0)
