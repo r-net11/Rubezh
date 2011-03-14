@@ -29,16 +29,16 @@ namespace DeviveModelManager
         void CreateRootTreeItem()
         {
             RootTreeItem = RootHelper.CreateRoot();
-            ComServer.Metadata.classType rootClass = ComServerHelper.Metadata.@class.First(x => x.parent == null);
+            Firesec.Metadata.classType rootClass = ComServerHelper.Metadata.@class.First(x => x.parent == null);
             RootTreeItem.Clsid = rootClass.clsid;
             RootTreeItem.Name = ComServerHelper.Metadata.drv.First(x => x.clsid == rootClass.clsid).name;
         }
 
         void AddTreeItem(TreeItem parentTreeItem)
         {
-            List<ComServer.Metadata.classType> childClasses = new List<ComServer.Metadata.classType>();
+            List<Firesec.Metadata.classType> childClasses = new List<Firesec.Metadata.classType>();
 
-            foreach (ComServer.Metadata.classType child in ComServerHelper.Metadata.@class)
+            foreach (Firesec.Metadata.classType child in ComServerHelper.Metadata.@class)
             {
                 bool IsChild = true;
                 try
@@ -55,9 +55,9 @@ namespace DeviveModelManager
                 }
             }
 
-            foreach (ComServer.Metadata.classType child in childClasses)
+            foreach (Firesec.Metadata.classType child in childClasses)
             {
-                foreach (ComServer.Metadata.drvType driver in ComServerHelper.Metadata.drv)
+                foreach (Firesec.Metadata.drvType driver in ComServerHelper.Metadata.drv)
                 {
                     // игнорировать все старые приборы
                     if (Common.DriversHelper.IsIgnore(driver.id))

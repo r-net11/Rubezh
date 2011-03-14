@@ -25,11 +25,11 @@ namespace DeviveModelManager
         // этот метод формирует свойство ModelInfo на основе информации о драйвере устройства,
         // полученной из метаданных
 
-        public void SetDriver(ComServer.Metadata.drvType driver)
+        public void SetDriver(Firesec.Metadata.drvType driver)
         {
             List<Assad.modelInfoTypeEvent> AssadEvents = new List<Assad.modelInfoTypeEvent>();
             AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = "Валидация" });
-            foreach (ComServer.Metadata.stateType comState in driver.state)
+            foreach (Firesec.Metadata.stateType comState in driver.state)
             {
                 AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = comState.name });
                 AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = "Сброс " + comState.name });
@@ -41,7 +41,7 @@ namespace DeviveModelManager
                 AssadCommands.Add(new Assad.modelInfoTypeCommand() { command = "Записать Конфигурацию" });
             }
 
-            foreach (ComServer.Metadata.stateType comState in driver.state)
+            foreach (Firesec.Metadata.stateType comState in driver.state)
             {
                 if (comState.manualReset == "1")
                 {
@@ -96,7 +96,7 @@ namespace DeviveModelManager
 
             if (driver.propInfo != null)
             {
-                foreach (ComServer.Metadata.propInfoType propInfo in driver.propInfo)
+                foreach (Firesec.Metadata.propInfoType propInfo in driver.propInfo)
                 {
                     Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
                     if (propInfo.hidden == "0")
@@ -121,7 +121,7 @@ namespace DeviveModelManager
                                     {
                                         customParam.type = "single";
                                         List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-                                        foreach (ComServer.Metadata.paramType paramType in propInfo.param)
+                                        foreach (Firesec.Metadata.paramType paramType in propInfo.param)
                                         {
                                             Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
                                             modelInfoTypeParamValue.value = paramType.name;
@@ -175,7 +175,7 @@ namespace DeviveModelManager
             Assad.modelInfoTypeState AdditionalState = new Assad.modelInfoTypeState();
             AdditionalState.state = "Состояние дополнительно";
             List<Assad.modelInfoTypeStateValue> AdditionalStateValues = new List<Assad.modelInfoTypeStateValue>();
-            foreach (ComServer.Metadata.stateType comState in driver.state)
+            foreach (Firesec.Metadata.stateType comState in driver.state)
             {
                 AdditionalStateValues.Add(new Assad.modelInfoTypeStateValue() { value = comState.name });
             }

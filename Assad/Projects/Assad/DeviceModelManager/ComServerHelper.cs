@@ -9,9 +9,9 @@ namespace DeviveModelManager
     {
         static ComServerHelper()
         {
-            Metadata = ComServer.ComServer.GetMetaData();
+            Metadata = Firesec.ComServer.GetMetaData();
         }
 
-        public static ComServer.Metadata.config Metadata { get; set; }
+        public static Firesec.Metadata.config Metadata { get; set; }
     }
 }

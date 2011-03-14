@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<DeviceManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Devices>
+    <Device>
+      <Id>АПИ:'ИП 212-64'</Id>
+      <States>
+        <State>
+          <Id>Базовый рисунок</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Обнаружена неисправность</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>200</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#ffffff" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>1600</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Обход устройств</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808080" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Состояние - норма</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Состояние - норма(*)</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>800</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>800</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FFFF" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Состояние внимание</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>200</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#ffffff" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>2400</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FF9900" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Состояние неизвестно</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>200</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#ffffff" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>2000</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#C0C0C0" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Состояние тревоги</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>200</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#ffffff" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>1000</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ff0000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>Требуется обслуживание</Id>
+          <TickEnable>true</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>500</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#ffffff" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr>
+              <Id>1</Id>
+              <Duration>500</Duration>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+      </States>
+    </Device>
+    <Device>
+      <Id>Дев2</Id>
+      <States>
+        <State>
+          <Id>норма</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>&lt;svg width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;g&gt; &lt;title&gt;Layer 1&lt;/title&gt; &lt;rect stroke-width="5" stroke="#000000" fill="#FF0000" id="svg_1" height="232" width="404" y="88.5" x="97"/&gt;   &lt;line fill="none" stroke-width="5" stroke="#000000" id="svg_2" y2="278.5" x2="468" y1="128.5" x1="141"/&gt;   &lt;line fill="none" stroke-width="5" stroke="#000000" id="svg_3" y2="283.5" x2="154" y1="140.5" x1="450"/&gt; &lt;/g&gt; &lt;/svg&gt;</Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State>
+          <Id>тревога</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>&lt;svg width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;g&gt; &lt;title&gt;Layer 1&lt;/title&gt; &lt;rect stroke-width="5" stroke="#000000" fill="#FF0000" id="svg_1" height="232" width="404" y="88.5" x="97"/&gt;   &lt;line fill="none" stroke-width="5" stroke="#000000" id="svg_2" y2="278.5" x2="468" y1="128.5" x1="141"/&gt;   &lt;line fill="none" stroke-width="5" stroke="#000000" id="svg_3" y2="283.5" x2="154" y1="140.5" x1="450"/&gt; &lt;/g&gt; &lt;/svg&gt;</Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+      </States>
+    </Device>
+    <Device>
+      <Id>Дев123</Id>
+      <States>
+        <State>
+          <Id>тревога</Id>
+          <TickEnable>false</TickEnable>
+          <Cadrs>
+            <Cadr>
+              <Id>0</Id>
+              <Duration>0</Duration>
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+ &lt;!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --&gt;
+ &lt;g&gt;
+  &lt;title&gt;Layer 1&lt;/title&gt;
+  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+  &lt;line fill="none" stroke-width="40" stroke="#000000" id="svg_4" y2="500" x2="0" y1="0" x1="0"/&gt;
+
+  &lt;line fill="none" stroke-width="40" stroke="#000000" id="svg_5" y2="500" x2="500" y1="500" x1="0"/&gt;
+  &lt;line fill="none" stroke-width="40" stroke="#000000" id="svg_6" y2="500" x2="500" y1="0" x1="500"/&gt;
+  &lt;line fill="none" stroke-width="40" stroke="#000000" id="svg_7" y2="0" x2="500" y1="0" x1="0"/&gt;
+ &lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+      </States>
+    </Device>
+  </Devices>
+</DeviceManager>

@@ -16,9 +16,9 @@ namespace ServiceApi
         public List<Zone> Zones { get; set; }
 
         [IgnoreDataMember]
-        public ComServer.CoreConfig.config CoreConfig { get; set; }
+        public Firesec.CoreConfig.config CoreConfig { get; set; }
 
         [IgnoreDataMember]
-        public ComServer.Metadata.config Metadata { get; set; }
+        public Firesec.Metadata.config Metadata { get; set; }
     }
 }

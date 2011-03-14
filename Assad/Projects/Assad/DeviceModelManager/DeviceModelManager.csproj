@@ -117,9 +117,9 @@
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RubezhService\ComServer\ComServer.csproj">
-      <Project>{86CD64AD-BF05-47AB-95AC-A350189292BB}</Project>
-      <Name>ComServer</Name>
+    <ProjectReference Include="..\..\RubezhService\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

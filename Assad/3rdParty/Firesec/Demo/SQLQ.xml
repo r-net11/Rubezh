@@ -1,0 +1,1204 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<SQLList>
+
+
+<!-- Meta -->
+
+<SQL name="META_IGNORE_LIST_BI"><![CDATA[
+CREATE TRIGGER IGNORE_LIST_BI FOR IGNORE_LIST
+ACTIVE BEFORE INSERT POSITION 0
+AS
+BEGIN
+  IF (NEW.IDIGNORE_LIST IS NULL) THEN
+    NEW.IDIGNORE_LIST = GEN_ID(GNIGNORE_LIST,1);
+END
+]]></SQL>
+
+
+<SQL name="META_PARTZONE_INSERT"><![CDATA[
+create procedure PARTZONE_INSERT (
+    IDPART integer,
+    IDZONE integer)
+returns (
+    ID_PARTZONE integer)
+as
+begin
+  select pz.IdPartZone from PARTZONE pz where pz.IDPartitions = :IDPART and pz.IDZones = :IDZONE
+  into :ID_PARTZONE;
+  if (ID_PARTZONE is Null) then
+  begin
+    ID_PARTZONE= Gen_ID(GNPARTZONE, 1);
+    insert into PARTZONE
+      (IdPartZone, IdPartitions, IdZones)
+    values (:ID_PARTZONE, :IDPART, :IDZONE);
+  end
+  suspend;
+end
+]]></SQL>
+
+<SQL name="META_PARTITION_INSERT"><![CDATA[
+create procedure PARTITION_INSERT (
+    IDPARTITIONS integer,
+    PARTTYPE varchar(64) character set WIN1251,
+    NUMBER integer,
+    NAME varchar(64) character set WIN1251,
+    PROPERTIES blob sub_type 1 segment size 80 character set WIN1251,
+    DESCRIPTION varchar(256) character set WIN1251)
+returns (
+    ID_PARTITIONS integer)
+as
+BEGIN
+  select p.IDPartitions from Partitions p where p.IDPartitions = :IDPARTITIONS into :ID_PARTITIONS;
+  if (ID_PARTITIONS is Null) then
+  begin
+  if (IDPartitions is Null) then
+    ID_PARTITIONS = Gen_ID(GnPartitions, 1); else
+    ID_PARTITIONS = IDPartitions;
+  insert into Partitions
+    (IDPartitions, PartType, Number, Name, Description, Properties)
+  values
+    (:ID_PARTITIONS, :PartType, :Number, :Name, :Description, :Properties);
+  end
+  else
+  begin
+     Update Partitions p set
+      p.PartType = :PartType,
+      p.Number = :Number,
+      p.Name = :Name,
+      p.Description = :Description,
+      p.Properties = :Properties
+    where p.IDPartitions = :ID_PARTITIONS;
+  end
+  suspend;
+END
+]]></SQL>
+
+
+<SQL name="META_TRGPARTZONE_BI"><![CDATA[
+CREATE TRIGGER TRGPARTZONE_BI_GENID FOR PARTZONE
+ACTIVE BEFORE INSERT POSITION 0
+AS
+begin
+  if (New.IDPARTZONE is Null) then
+    New.IDPARTZONE = Gen_ID(gnPartZone, 1);
+end
+]]></SQL>
+
+
+
+<SQL name="META_TRGPARTITIONS_BI"><![CDATA[
+CREATE TRIGGER TRGPARTITIONS_BI_GENID FOR PARTITIONS
+ACTIVE BEFORE INSERT POSITION 0
+AS 
+begin 
+  if (New.IDPARTITIONS is Null) then 
+    New.IDPARTITIONS = Gen_ID(gnPartitions, 1); 
+end
+]]></SQL>
+
+
+
+<SQL name="GETTIMEDIAP"><![CDATA[
+CREATE PROCEDURE GETTIMEDIAP(
+    IDDEVICENodes INTEGER,
+    STARTTIME DOUBLE PRECISION,
+    ENDTIME DOUBLE PRECISION,
+    IDFLTRPARAMNAMES INTEGER,
+    INDCOUNT INTEGER)
+RETURNS (
+    IDPARAMNAMES INTEGER,
+    MINVALUE DOUBLE PRECISION,
+    MAXVALUE DOUBLE PRECISION,
+    AVGVALUE DOUBLE PRECISION,
+    RTIME DOUBLE PRECISION)
+AS
+  declare variable StepTime Double Precision;
+  declare variable sTime Double Precision;
+  declare variable eTime Double Precision;
+  declare variable CurTime Double Precision;
+  declare variable CurValue Double Precision;
+  declare variable cnt Integer;
+begin
+  IDPARAMNames = IDFLTRParamNames;
+  IndCount = IndCount - 2;
+  StepTime = (EndTime - StartTime) / IndCount;
+  sTime = StartTime;
+  eTime = StartTime + StepTime;
+  RTime = (eTime + sTime) / 2;
+  cnt = 0;
+
+  /* Левая точка */
+  for select first 1 i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime < :StartTime
+  order by i.PTime desc
+  into :CurValue, :CurTime do
+  begin
+    RTIME = StartTime;
+    MinValue = curvalue;
+    maxvalue = curvalue;
+    avgvalue = NULL;
+    suspend;
+  end
+
+  RTime = NULL;
+  MinValue = NULL;
+  MaxValue = NULL;
+  AvgValue = NULL;
+  CurTime = NULL;
+
+
+  for select i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime between :StartTime and :EndTime
+  order by i.PTime
+  into :CurValue, :CurTime do
+  begin
+    cnt = cnt + 1;
+    if (CurTime between sTime and eTime) then
+    begin
+      if (MinValue is Null) then MinValue = CurValue; else
+        if (CurValue < MinValue) then MinValue = CurValue;
+      if (CurValue > MaxValue) then MaxValue = CurValue; else
+        if (MaxValue is Null) then MaxValue = CurValue;
+      if (cnt = 1) then
+        AVGValue = CurValue; else
+        AVGValue = AVGValue / cnt  * (cnt - 1) + CurValue / cnt;
+    end
+    if (CurTime > eTime) then
+    begin
+      if (MinValue is Not Null) then suspend;
+      cnt = 1;
+      AvgValue = CurValue;
+      if (CurTime between eTime and eTime + StepTime) then
+      begin
+        /* Проверили, что следующий отсчет в следующем шаге*/
+        sTime = sTime + StepTime;
+        eTime = eTime + StepTime;
+        RTime = (eTime + sTime) / 2;
+        MinValue = CurValue;
+        MaxValue = CurValue;
+        CurTime = Null;
+      end else
+      begin
+        /* Попали в разрыв данных */
+        while (not CurTime between sTime and sTime + StepTime) do
+          stime = stime + StepTime;
+
+        etime = stime + StepTime;
+        RTime = (eTime + sTime) / 2;
+        MinValue = CurValue;
+        MaxValue = CurValue;
+      end
+    end
+  end
+  if (CurTime is Not Null) then suspend;
+
+  /* Дополнительно выбираем точки лежащие за диапазоном */
+
+  /* Правая точка */
+  for select first 1 i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime > :EndTime
+  order by i.PTime
+  into :CurValue, :CurTime do
+  begin
+    RTIME = EndTime;
+    MaxValue = curvalue;
+    Minvalue = curvalue;
+    avgvalue = NULL;
+    suspend;
+  end
+end
+]]></SQL>
+
+
+<SQL name="GETTIMEDIAP_A"><![CDATA[
+ALTER PROCEDURE GETTIMEDIAP(
+    IDDEVICENodes INTEGER,
+    STARTTIME DOUBLE PRECISION,
+    ENDTIME DOUBLE PRECISION,
+    IDFLTRPARAMNAMES INTEGER,
+    INDCOUNT INTEGER)
+RETURNS (
+    IDPARAMNAMES INTEGER,
+    MINVALUE DOUBLE PRECISION,
+    MAXVALUE DOUBLE PRECISION,
+    AVGVALUE DOUBLE PRECISION,
+    RTIME DOUBLE PRECISION)
+AS
+  declare variable StepTime Double Precision;
+  declare variable sTime Double Precision;
+  declare variable eTime Double Precision;
+  declare variable CurTime Double Precision;
+  declare variable CurValue Double Precision;
+  declare variable cnt Integer;
+begin
+  IDPARAMNames = IDFLTRParamNames;
+  IndCount = IndCount - 2;
+  StepTime = (EndTime - StartTime) / IndCount;
+  sTime = StartTime;
+  eTime = StartTime + StepTime;
+  RTime = (eTime + sTime) / 2;
+  cnt = 0;
+
+  /* Левая точка */
+  for select first 1 i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime < :StartTime
+  order by i.PTime desc
+  into :CurValue, :CurTime do
+  begin
+    RTIME = StartTime;
+    MinValue = curvalue;
+    maxvalue = curvalue;
+    avgvalue = NULL;
+    suspend;
+  end
+
+  RTime = NULL;
+  MinValue = NULL;
+  MaxValue = NULL;
+  AvgValue = NULL;
+  CurTime = NULL;
+
+
+  for select i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime between :StartTime and :EndTime
+  order by i.PTime
+  into :CurValue, :CurTime do
+  begin
+    cnt = cnt + 1;
+    if (CurTime between sTime and eTime) then
+    begin
+      if (MinValue is Null) then MinValue = CurValue; else
+        if (CurValue < MinValue) then MinValue = CurValue;
+      if (CurValue > MaxValue) then MaxValue = CurValue; else
+        if (MaxValue is Null) then MaxValue = CurValue;
+      if (cnt = 1) then
+        AVGValue = CurValue; else
+        AVGValue = AVGValue / cnt  * (cnt - 1) + CurValue / cnt;
+    end
+    if (CurTime > eTime) then
+    begin
+      if (MinValue is Not Null) then suspend;
+      cnt = 1;
+      AvgValue = CurValue;
+      if (CurTime between eTime and eTime + StepTime) then
+      begin
+        /* Проверили, что следующий отсчет в следующем шаге*/
+        sTime = sTime + StepTime;
+        eTime = eTime + StepTime;
+        RTime = (eTime + sTime) / 2;
+        MinValue = CurValue;
+        MaxValue = CurValue;
+        CurTime = Null;
+      end else
+      begin
+        /* Попали в разрыв данных */
+        while (not CurTime between sTime and sTime + StepTime) do
+          stime = stime + StepTime;
+
+        etime = stime + StepTime;
+        RTime = (eTime + sTime) / 2;
+        MinValue = CurValue;
+        MaxValue = CurValue;
+      end
+    end
+  end
+  if (CurTime is Not Null) then suspend;
+
+  /* Дополнительно выбираем точки лежащие за диапазоном */
+
+  /* Правая точка */
+  for select first 1 i.paramvalue, i.Ptime from paramhistory i
+  where i.iddeviceNodes = :iddeviceNodes and
+        i.idparamnames = :idfltrparamnames and
+        i.Ptime > :EndTime
+  order by i.PTime
+  into :CurValue, :CurTime do
+  begin
+    RTIME = EndTime;
+    MaxValue = curvalue;
+    Minvalue = curvalue;
+    avgvalue = NULL;
+    suspend;
+  end
+end
+]]></SQL>
+
+
+<SQL name="GETMINMAXTIME"><![CDATA[
+CREATE PROCEDURE GETMINMAXTIME(
+    IDDEVICENODES INTEGER,
+    IDPARAMNAMES INTEGER)
+RETURNS (
+    MINTIME DOUBLE PRECISION,
+    MAXTIME DOUBLE PRECISION)
+AS
+begin
+  select Min(PTime) from paramhistory where idDeviceNodes = :IDDeviceNodes and
+  IDParamNames = :IDParamNames
+  PLAN (paramhistory INDEX (ParamHistory_PTime, FK_ParamHistory_IDDeviceNodes, FK_ParamHistory_IDParamNames))
+  into :MinTime;
+
+  select Max(PTime) from paramhistory where idDeviceNodes = :IDDeviceNodes and
+  IDParamNames = :IDParamNames
+  PLAN (paramhistory INDEX (ParamHistory_PTimeD, FK_ParamHistory_IDDeviceNodes, FK_ParamHistory_IDParamNames))
+  into :MaxTime;
+
+  suspend;
+end
+]]></SQL>
+
+<SQL name="GETMINMAXTIME_A"><![CDATA[
+ALTER PROCEDURE GETMINMAXTIME(
+    IDDEVICENODES INTEGER,
+    IDPARAMNAMES INTEGER)
+RETURNS (
+    MINTIME DOUBLE PRECISION,
+    MAXTIME DOUBLE PRECISION)
+AS
+begin
+  select Min(PTime) from paramhistory where idDeviceNodes = :IDDeviceNodes and
+  IDParamNames = :IDParamNames
+  PLAN (paramhistory INDEX (ParamHistory_PTime, FK_ParamHistory_IDDeviceNodes, FK_ParamHistory_IDParamNames))
+  into :MinTime;
+
+  select Max(PTime) from paramhistory where idDeviceNodes = :IDDeviceNodes and
+  IDParamNames = :IDParamNames
+  PLAN (paramhistory INDEX (ParamHistory_PTimeD, FK_ParamHistory_IDDeviceNodes, FK_ParamHistory_IDParamNames))
+  into :MaxTime;
+
+  suspend;
+end
+]]></SQL>
+
+
+<SQL name="Meta_PARAMNAMES_BI"><![CDATA[
+CREATE TRIGGER PARAMNAMES_BI FOR PARAMNAMES
+ACTIVE BEFORE INSERT POSITION 0
+AS
+BEGIN
+  IF (NEW.IDPARAMNAMES IS NULL) THEN
+    NEW.IDPARAMNAMES = GEN_ID(GNPARAMNAMES,1);
+END
+]]></SQL>
+
+<SQL name="Meta_PARAMHISTORY_BI"><![CDATA[
+CREATE TRIGGER PARAMHISTORY_BI FOR PARAMHISTORY
+ACTIVE BEFORE INSERT POSITION 0
+AS
+BEGIN
+  IF (NEW.IDPARAMHISTORY IS NULL) THEN
+    NEW.IDPARAMHISTORY = GEN_ID(GNPARAMHISTORY,1);
+END
+]]></SQL>
+
+<SQL name="GETIDPARAMNAMES"><![CDATA[
+CREATE PROCEDURE GETIDPARAMNAMES(
+    PARAMNAME VARCHAR(32) CHARACTER SET WIN1251)
+RETURNS (
+    IDPARAMNAMES INTEGER)
+AS
+begin
+  Select IDParamNames from paramnames where paramName = :ParamName into :idparamnames;
+  if (idparamnames is NULL) then
+  begin
+    idparamnames = Gen_ID(gnparamnames, 1);
+    insert into paramnames(idparamnames, paramname) values(:idparamnames, :paramname);
+  end
+  suspend;
+end
+]]></SQL>
+
+<SQL name="Meta_AlterZONEINSERT"><![CDATA[
+ALTER PROCEDURE ZONE_INSERT(
+    IDZONES INTEGER,
+    NAME VARCHAR(64) CHARACTER SET WIN1251,
+    DESCRIPTION VARCHAR(256) CHARACTER SET WIN1251,
+    ZONEID INTEGER,
+    PROPERTIES BLOB SUB_TYPE 0 SEGMENT SIZE 80)
+RETURNS (
+    ID_ZONES INTEGER,
+    ID_SECOBJ INTEGER)
+AS
+declare variable IDSecObjtype Integer;
+BEGIN
+  select z.IDZones, z.idsecobj from Zones z where z.IDZones = :IDZones into :ID_ZONES, :id_secobj;
+  if (ID_ZONES is Null) then
+  begin
+    select IDSecObjtype from secobjtype where Num = 2 into :IDSecObjtype;
+
+    ID_SecObj = Gen_ID(gnsecobj, 1);
+    if (IDSecObjtype is not NULL) then
+      insert into SecObj(IDSecObj, Name, IDSecObjtype) values(:id_secobj, :name, :idsecobjtype);
+
+    if (IdZones is Null) then
+      ID_ZONES = Gen_ID(GnZones, 1); else
+      ID_ZONES = IdZones;
+    insert into Zones
+      (IdZones, Name, Description, IDSecObj, ZoneID, Properties)
+    values
+      (:ID_ZONES, :Name, :Description, :ID_SecObj, :ZoneID, :Properties);
+  end
+  else
+  begin
+    Update Zones z set
+      z.Name = :Name,
+      z.Description = :Description,
+      z.zoneid = :ZoneID,
+      z.Properties = :Properties
+    where z.IDZones = :ID_ZONES;
+
+    Update SecObj so set
+      so.name = :Name
+    where so.idsecobj = :id_secobj;
+  end
+  suspend;
+END
+]]></SQL>
+
+
+<SQL name="Meta_USERS_INSERT"><![CDATA[
+ALTER PROCEDURE USERS_INSERT(
+    IDUSERS INTEGER,
+    NAME VARCHAR(64) CHARACTER SET WIN1251,
+    PASSWRD VARCHAR(64),
+    FULLNAME VARCHAR(64) CHARACTER SET WIN1251,
+    EXTSecurity BLOB SUB_TYPE 1 SEGMENT SIZE 80 CHARACTER SET WIN1251)
+RETURNS (
+    ID_USERS INTEGER)
+AS
+BEGIN
+  select U.idusers from users U where U.idusers = :IDUSERS into :ID_USERS;
+  if (ID_USERS is Null) then
+  begin
+    if (IDUSERS is Null) then
+      ID_USERS = Gen_ID(gnusers, 1); else
+      ID_userS = IDuserS;
+    insert into users
+      (IDuserS, Name, passwrd, FullName, ExtSecurity)
+    values
+      (:ID_userS, :Name, :passwrd, :fullname, :ExtSecurity);
+  end
+  else
+  begin
+    Update users u set
+      u.Name = :Name,
+      u.passwrd = :passwrd,
+      u.fullname = :fullname,
+      u.ExtSecurity = :ExtSecurity
+    where u.IDusers = :ID_users;
+  end
+  suspend;
+END
+]]></SQL>
+
+<SQL name="Meta_USERGROUPS_INSERT"><![CDATA[
+ALTER PROCEDURE USERGROUPS_INSERT(
+    IDUSERGROUPS INTEGER,
+    NAME VARCHAR(64) CHARACTER SET WIN1251,
+    EXTSecurity BLOB SUB_TYPE 1 SEGMENT SIZE 80 CHARACTER SET WIN1251)
+RETURNS (
+    ID_USERGROUPS INTEGER)
+AS
+BEGIN
+  select UG.idusergroups from usergroups UG where UG.idusergroups = :IDUSERGROUPS into :ID_USERGROUPS;
+  if (ID_USERGROUPS is Null) then
+  begin
+    if (IDUSERGROUPS is Null) then
+      ID_USERGROUPS = Gen_ID(gnusergroups, 1); else
+      ID_USERGROUPS = IDUSERGROUPS;
+    insert into usergroups
+      (IDUSERGROUPS, Name, ExtSecurity)
+    values
+      (:ID_USERGROUPS, :Name, :ExtSecurity);
+  end
+  else
+  begin
+    Update usergroups ug set
+      ug.Name = :Name,
+      ug.ExtSecurity = :ExtSecurity
+	
+    where ug.IDusergroups = :ID_usergroups;
+  end
+  suspend;
+END
+]]></SQL>
+
+
+<SQL name="Meta_TRSETTINGS_BI_GENID"><![CDATA[
+CREATE TRIGGER SETTINGS_BI_GENID FOR SETTINGS
+ACTIVE BEFORE INSERT POSITION 0
+as
+begin
+  if (New.IDSettings is Null) then
+    New.IDSettings = Gen_ID(gnSettings, 1);
+end
+]]></SQL>
+
+<SQL name="Meta_TREVENTTEXT_BI_GENID"><![CDATA[
+CREATE TRIGGER TREVENTTEXT_BI_GENID FOR EventText
+ACTIVE BEFORE INSERT POSITION 0
+as
+begin
+  if (New.IDEventText is Null) then
+    New.IDEventText = Gen_ID(gnEventText, 1);
+end
+]]></SQL>
+
+<SQL name="Meta_GetIDEventText"><![CDATA[
+create procedure GetIDEventText (
+  EventText VarChar(256) CHARACTER SET WIN1251)
+returns (
+  IDEventText Integer)
+as
+begin
+  Select first 1 IDEventText from EventText where EventText = :Eventtext into :IdeventText;
+  if (IDEventText is NULL) then
+  begin
+    IDEventText = Gen_ID(Gneventtext, 1);
+    insert into EventText(IDEventText, Eventtext) values(:Ideventtext, :Eventtext);
+  end
+  suspend;
+end
+]]></SQL>
+
+<SQL name="Meta_AlterGetIDEventText"><![CDATA[
+alter procedure GetIDEventText (
+  EventText VarChar(256) CHARACTER SET WIN1251)
+returns (
+  IDEventText Integer)
+as
+begin
+  Select first 1 IDEventText from EventText where EventText = :Eventtext into :IdeventText;
+  if (IDEventText is NULL) then
+  begin
+    IDEventText = Gen_ID(Gneventtext, 1);
+    insert into EventText(IDEventText, Eventtext) values(:Ideventtext, :Eventtext);
+  end
+  suspend;
+end
+]]></SQL>
+
+
+<SQL name="Meta_DeviceUID_BI_GENID"><![CDATA[
+CREATE TRIGGER DEVICEUID_BI_GENID FOR DEVICEUID
+ACTIVE BEFORE INSERT POSITION 0
+as
+begin
+  if (New.Iddeviceuid is Null) then
+    New.Iddeviceuid = Gen_ID(Gndeviceuid, 1);
+end
+]]></SQL>
+
+
+<SQL name="Meta_DeviceUID_Insert"><![CDATA[
+create procedure DeviceUID_Insert (
+  UID VarChar(64))
+returns (
+  IDDeviceUID Integer)
+as
+begin
+  select IDDeviceUID from Deviceuid where UID = :UID into :Iddeviceuid;
+  if (IDDeviceUID is NULL) then
+  begin
+    IDDeviceUID = Gen_ID(Gndeviceuid, 1);
+    insert into Deviceuid(IDDeviceUID, UID) values(:Iddeviceuid, :Uid);
+  end
+  suspend;
+end
+]]></SQL>
+
+<SQL name="Meta_AlterDevicesInsert"><![CDATA[
+ALTER PROCEDURE DEVICES_INSERT(
+    IN_IDDEVICENODES INTEGER,
+    DRIVERID VARCHAR(64),
+    ADDRESS INTEGER,
+    PLACEMENT VARCHAR(128) CHARACTER SET WIN1251,
+    IDDEVICENODESPARENT INTEGER,
+    NEWIDVERSIONS INTEGER,
+    PROPERTIES BLOB SUB_TYPE 0 SEGMENT SIZE 80,
+    DISABLED INTEGER,
+    DEVPARAMS BLOB SUB_TYPE 0 SEGMENT SIZE 80)
+RETURNS (
+    IDDEVICENODES INTEGER,
+    IDDEVICES INTEGER)
+AS
+declare variable IDDrivers Integer;
+declare variable IDVersions Integer;
+BEGIN
+  IDDeviceNodes = IN_IDDeviceNodes;
+  if (IDDeviceNodes is NULL) then
+  begin
+    if (IDDeviceNodesParent is NULL) then
+    begin
+      select Max(IDVersions) from Devices where IDDeviceNodesParent is NULL
+        and DeleteIDVersions is NULL
+      into :IDVersions;
+
+      select IDDeviceNodes from Devices where IDDeviceNodesParent is NULL
+        and IDVersions = :IDVersions
+      into :IDDeviceNodes;
+    end
+
+    if (IDDeviceNodes is NULL) then
+    begin
+      IDDeviceNodes = GEN_ID(gndevicenodes, 1);
+      insert into DeviceNodes(IDDeviceNodes) values(:IDDeviceNodes);
+    end
+  end
+
+  select IDDrivers from drivers where DriverID = :driverid into :idDrivers;
+  if (IDDrivers is NULL) then
+  begin
+    IDDrivers = Gen_ID(gnDrivers, 1);
+    insert into Drivers(IDDrivers, DriverID) values(:IDDrivers, :DriverID);
+  end
+
+  if (NewIDVersions is NULL) then
+    select IDVersions from version_create into :NewIDVersions;
+
+  IDDevices = Gen_ID(gndevices, 1);
+
+  INSERT INTO
+   DEVICES (IDDevices, IDDRIVERS, ADDRESS, PLACEMENT, IDDeviceNodesParent, IDDeviceNodes, IDVersions, Properties, Disabled, DevParams)
+    VALUES (:IDDevices, :IDDRIVERS, :ADDRESS, :PLACEMENT, :IDDeviceNodesParent, :iddevicenodes, :NEWIDVERSIONS, :Properties, :Disabled, :DevParams);
+
+  suspend;
+END
+]]></SQL>
+
+
+<SQL name="Meta_AlterDEVICES_SELECTACTUAL"><![CDATA[
+create or alter procedure DEVICES_SELECTACTUAL (
+    IDDEVICENODESPARENT integer,
+    RECURSIVE integer)
+returns (
+    IDDEVICES integer,
+    IDDEVICENODES integer,
+    IDVERSIONS integer)
+AS
+declare variable CurNodeID Integer;
+declare variable DeleteIDVersions Integer;
+begin
+  /* Когда в FireBird введут оператор == нужно будет убрать две ветки */
+  if (:iddevicenodesparent is NULL) then
+  for select D.iddevicenodes, Max(D.idversions) from
+    devices D
+  where D.iddevicenodesparent is NULL
+  group by D.iddevicenodes
+    into :iddevicenodes, :idversions do
+  begin
+    CurNodeID = iddevicenodes;
+    select IDDevices, deleteidversions from Devices where iddevicenodes = :CurNodeid and IDVersions = :idversions
+      into :iddevices, :DeleteIDVersions;
+    if (DeleteIDVersions is NULL) then
+    begin
+      suspend;
+      if (Recursive = 1) then
+        if (Exists(select IDDevices from devices DC where DC.iddevicenodesparent = :CurNodeID)) then
+        begin
+          for select IDDevices, IDDeviceNodes, IDVersions from DEVICES_SELECTACTUAL(:CurNodeID, :recursive)
+            into :iddevices, :IDDeviceNodes, :idversions do
+              suspend;
+        end
+    end
+  end else
+  for select D.iddevicenodes, Max(D.idversions) from
+    devices D
+  where D.iddevicenodesparent = :iddevicenodesparent
+  group by D.iddevicenodes
+    into :iddevicenodes, :idversions do
+  begin
+    CurNodeID = iddevicenodes;
+    for select IDDevices from Devices where iddevicenodes = :CurNodeid and IDVersions = :idversions and DeleteIDVersions is NULL
+    into :iddevices do
+    begin
+      suspend;
+      if (Recursive = 1) then
+        if (Exists(select IDDevices from devices DC where DC.iddevicenodesparent = :CurNodeID)) then
+        begin
+          for select IDDevices, IDDeviceNodes, IDVersions from DEVICES_SELECTACTUAL(:CurNodeID, :recursive)
+            into :iddevices, :IDDeviceNodes, :idversions do
+              suspend;
+        end
+    end
+  end
+
+end
+]]></SQL>
+
+<!-- Устройства -->
+
+
+<SQL name="SQL_CurrentDeviceConfig">select p.IDDevices, p.iddevicenodes, p.IDVersions,
+  d.address, d.placement, d.IDDeviceNodesParent, d.Properties, DR.driverid, d.disabled,
+  d.DevParams
+from DEVICES_SELECTACTUAL(?IDDeviceNodesParent, ?Recursive) p
+  left join devices D on D.iddevices = p.iddevices
+  left join drivers DR on DR.iddrivers = d.idDrivers
+</SQL>
+
+<SQL name="SQL_VersionCreate">select IDVersions from version_create</SQL>
+
+<SQL name="SQL_DeviceDisable">update Devices set Disabled=?Disabled where IDDevices=?IDDevices</SQL>
+
+<SQL name="SQL_DeviceInsert">select IDDeviceNodes, IDDevices from
+devices_insert(?IDDeviceNodes, ?DriverID, ?Address, ?Placement,
+  ?IDDeviceNodesParent, ?IDVersions, ?Properties, ?Disabled, ?DevParams)
+</SQL>
+
+<SQL name="SQL_DeviceDelete">execute procedure devices_delete(?IDDeviceNodes, ?IDVersions, 0)</SQL>
+
+
+<!-- Зоны -->
+
+
+<SQL name="SQL_CurrentZoneConfig">
+select 0 as IDParentZone, z.IDZones, z.Name, z.Description, z.IDSecObj, z.ZoneID, z.Properties
+from Zones z
+order by z.Name
+</SQL>
+
+<SQL name="SQL_CurrentZoneDev">
+select zd.idzones from ZoneDev zd where zd.IDDevices = ?IDDevices
+</SQL>
+
+<SQL name="SQL_ZoneDel">
+delete from Zones where IDZones = :IDZones
+</SQL>
+
+<SQL name="SQL_ZoneInsUpd">
+select ID_Zones, ID_SecObj from ZONE_INSERT(?IDZones, ?Name, ?Description, ?ZoneID, ?Properties)
+</SQL>
+
+<SQL name="SQL_ZoneDevInsUpd">
+select ID_ZoneDev from ZONEDEV_INSERT (?IDZones, ?IDDevices)
+</SQL>
+
+
+<!-- Универсальные группы зон (Разделы, Пользователи, ..)  -->
+
+
+<SQL name="SQL_CurrentPartConfig">
+select 0 as IDParentPartition, P.IDPartitions, P.PartType, P.Number, P.Name, P.Properties, P.Description
+from Partitions P
+order by P.Name
+</SQL>
+
+<SQL name="SQL_CurrentPartZone">
+select pz.IDPartZone, pz.IDZones from PartZone pz where pz.IDPartitions = ?IDPartition
+</SQL>
+
+<SQL name="SQL_PartDel">
+delete from PARTITIONS where IDPARTITIONS = :IDPart
+</SQL>
+
+<SQL name="SQL_PartInsUpd">
+select ID_Partitions from PARTITION_INSERT(?IDPartitions, ?PartType, ?Number, ?Name, ?Properties, ?Description)
+</SQL>
+
+<SQL name="SQL_PartZoneInsUpd">
+select ID_PARTZONE from PARTZONE_INSERT (?IDPart, ?IDZone)
+</SQL>
+
+<SQL name="SQL_PartZoneClearByPart">
+delete from PARTZONE where IDPARTITIONS = :IDPartition
+</SQL>
+
+
+<!-- Прочие объекты безопастности -->
+
+<SQL name="SQL_SecObjGetByNum">
+select SO.idsecobj, SO.name from secobj SO where SO.idsecobjtype =
+  (select IDSecObjtype from SecObjtype where NUM = ?Num)
+</SQL>
+
+
+
+<!-- Группы -->
+
+<SQL name="SQL_GetUserGroups">
+select Name,IDUserGroups,ExtSecurity from USERGROUPS
+</SQL>
+
+<!--
+<SQL name="SQL_EditGroups">
+update USERGROUPS set NAME=:Name where IDUSERGROUPS=:IDGroups
+</SQL>
+-->
+
+<SQL name="SQL_UserGroupsInsUpd">
+select ID_UserGroups from USERGROUPS_INSERT(?IDUserGroups, ?Name, ?ExtSecurity)
+</SQL>
+
+<SQL name="SQL_UserGroupsDelete">
+delete from UserGroups where IDUserGroups = :IDUserGroups
+</SQL>
+
+<!-- Пользователи -->
+
+
+<SQL name="SQL_GetUsers"><![CDATA[
+select Name,FullName,Passwrd,IDUsers,ExtSecurity,IsBuiltIn from USERS where Coalesce(Deleted, 0) <> 1
+]]></SQL>
+
+<SQL name="SQL_UsersInsUpd">
+select ID_Users from USERS_INSERT(?IDUsers, ?Name, ?Passwrd, ?FullName, ?ExtSecurity)
+</SQL>
+
+<SQL name="SQL_UsersDelete">
+execute procedure Users_Delete(?IDUsers)
+</SQL>
+
+
+<!-- Привязка пользователей к группам -->
+
+
+<SQL name="SQL_GetUser_Groups">
+select IDUserGroups from USERS_GROUPS G where (G.IDUSERS=?IDUSERS)
+</SQL>
+
+<SQL name="SQL_Users_GroupsInsUpd">
+select IDUsers_Groups from USERS_GROUPS_INSERT (?IDUsers, ?IDUserGroups)
+</SQL>
+
+<SQL name="SQL_Users_GroupsDelete">
+delete from users_groups where IDUsers = ?IDUsers and IDUserGroups = ?IDUserGroups
+</SQL>
+
+
+<!-- Типы объектов и права -->
+
+
+<SQL name="SQL_GetSecObjtypes">
+select sot.IDSecObjtype, sot.name, sot.num from secobjtype sot
+</SQL>
+
+<SQL name="SQL_GetUserRightsByObj">
+select UR.idusers, UR.idsecact, UR.DeleteFlag from userrights UR where UR.idsecobj = ?IDSecObj
+</SQL>
+
+<SQL name="SQL_GetGroupRightsByObj">
+select GR.idusergroups, GR.idsecact from grouprights GR
+  where GR.idsecobj = ?IDSecObj
+</SQL>
+
+<SQL name="SQL_GroupRightsInsert">
+insert into grouprights(IDUserGroups, IDSecAct, IDSecObj) values(?IDUserGroups, ?IDSecAct, ?IDSecObj)
+</SQL>
+
+<SQL name="SQL_UserRightsInsert">
+insert into userrights(IDUsers, IDSecAct, IDSecObj, DeleteFlag) values(?IDUsers, ?IDSecAct, ?IDSecObj, ?DeleteFlag)
+</SQL>
+
+<SQL name="SQL_GroupRightsDelete">
+delete from grouprights where IDUserGroups = ?IDUserGroups and IDSecAct = ?IDSecAct and IDSecObj = ?IDSecObj
+</SQL>
+
+<SQL name="SQL_UserRightsDelete">
+delete from userrights where IDUsers = ?IDUsers and IDSecAct = ?IDSecAct and IDSecObj = ?IDSecObj
+</SQL>
+
+
+<!-- Действия -->
+
+<SQL name="SQL_GetSecActions">
+select sa.idsecact, sa.name, sa.num from secact sa where sa.idsecobjtype = ?IDSecObjtype
+</SQL>
+
+<!-- <SQL name="SQL_GetActions">
+select Name,Num,IDSecAct from SECACT
+</SQL>
+
+<SQL name="SQL_NewActions">
+insert into SecAct(Name,Num) Values(?Name,?Num)
+</SQL>
+
+<SQL name="SQL_DeleteActions">
+delete from SecAct where IDSecAct = :IDSecAct
+</SQL>
+
+<SQL name="SQL_EditActions">
+update SecAct set Name=:Name, Num=:Number where IDsecAct=:IDSecAct
+</SQL>
+
+<SQL name="SQL_GetTypeObjects">
+select Name,IDSecTypeObj from SECTYPEOBJ
+</SQL>
+
+<SQL name="SQL_NewTypeObject">
+insert into SecTypeObj(Name) Values(?Name)
+</SQL>
+
+<SQL name="SQL_EditTypeObjects">
+update SecTypeObj set Name=:Name where IDSecTypeObj=:IDSecTypeObj
+</SQL>
+
+<SQL name="SQL_DeleteTypeObjects">
+delete from SecTypeObj where IDSecTypeObj = ?IDSecTypeObj
+</SQL>
+
+<SQL name="SQL_GetObjects">
+select Name, ObjType, IDSecObj from SecObj
+</SQL>
+
+<SQL name="SQL_NewObjects">
+insert into SecObj(Name, ObjType) Values(?Name, ?ObjType)
+</SQL>
+
+<SQL name="SQL_EditObjects">
+update SecObj set Name=?Name, ObjType=?ObjType where IDSecObj=?IDSecObj
+</SQL>
+
+<SQL name="SQL_DeleteObjects">
+delete from SecObj where IDSecObj = ?IDSecObj
+</SQL> -->
+
+
+<!-- События - сервер -->
+
+<SQL name="SQL_LastEventDT">select Max(EV.DT) DT from
+  Devices D left join events EV on D.iddevices = EV.iddevicessource
+  where D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+<SQL name="SQL_LastEventIndexOvf">select Max(EV.devindex_ovf) devindex_ovf from
+  Devices D left join events EV on D.iddevices = EV.iddevicessource
+where D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+<SQL name="SQL_LastEventSecIndexOvf">select Max(EV.devsecindex_ovf) devsecindex_ovf from
+  Devices D left join events EV on D.iddevices = EV.iddevicessource
+where D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+<SQL name="SQL_LastEventIndex">
+select Max(EV.devindex) devindex
+from
+  Devices D left join events EV on D.iddevices = EV.iddevicessource
+where EV.devindex_ovf = ?devindex_ovf and D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+<SQL name="SQL_LastSecEventIndex">
+select Max(EV.devsecindex) devsecindex
+from
+  Devices D left join events EV on D.iddevices = EV.iddevicessource
+where EV.devsecindex_ovf = ?devsecindex_ovf and D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+<SQL name="SQL_LastEventOvfByUID">
+select EV.Iddeviceuid, Max(EV.devindex_ovf) devindex_ovf from events EV
+where EV.Iddeviceuid is not NULL
+group by EV.Iddeviceuid
+</SQL>
+
+<SQL name="SQL_LastSecEventOvfByUID">
+select EV.Iddeviceuid, Max(EV.devsecindex_ovf) devsecindex_ovf from events EV
+where EV.Iddeviceuid is not NULL
+group by EV.Iddeviceuid
+</SQL>
+
+<SQL name="SQL_LastEventIndexByUID">
+select Max(EV.Devindex) devindex from events EV
+where EV.Iddeviceuid = ?IDDeviceUID and EV.Devindex_Ovf = ?Devindex_Ovf
+</SQL>
+
+<SQL name="SQL_LastSecEventIndexByUID">
+select Max(EV.DevSecindex) devsecindex from events EV
+where EV.Iddeviceuid = ?IDDeviceUID and EV.Devsecindex_Ovf = ?Devsecindex_Ovf
+</SQL>
+
+<SQL name="SQL_GetDeviceUID">
+select UID from Deviceuid where IDDeviceUID = ?IDDeviceUID
+</SQL>
+
+<SQL name="SQL_DeviceUIDInsert">
+select IDDeviceUID from deviceUID_Insert(?UID)
+</SQL>
+
+<SQL name="SQL_VersionDT">
+select v.dt DT from
+  Devices D left join versions v on v.idversions = d.idversions
+where D.iddevicenodes = ?IDDeviceNodes
+</SQL>
+
+
+<SQL name="SQL_InsertEvent">
+insert into Events(IDSubSystem, IDTypeEvents, IDDevices, IDDevicesSource, IDEventText, DT, SysDT,
+  IDZones, DevIndex, DevSecIndex, DevIndex_OVF, DevSecIndex_OVF, EventAttr, UserInfo, IDDeviceUID)
+Values(?IDSubSystem, ?IDTypeEvents, ?IDDevices, ?IDDevicesSource, (select IDEventText from Getideventtext(:EventDesc)), ?DT, ?SysDT,
+?IDZones, ?DevIndex, ?DevSecIndex, ?DevIndex_OVF, ?DevSecIndex_OVF, ?EventAttr, ?UserInfo, ?IDDeviceUID)
+</SQL>
+
+<SQL name="SQL_GetEventAttr">
+select EV.eventattr, Drv.driverid, EV.IDZones, EV.DT
+from Events EV
+  left join devices Dev on Ev.iddevicesSource = Dev.iddevices
+  left join drivers Drv on drv.iddrivers = Dev.iddrivers
+where EV.idevents = ?IDEvents
+</SQL>
+
+<!-- События - клиент -->
+
+
+
+<!--
+  Все события с ActionNo < :ActionNo
+  и IDTypeEvents < :IDTYPEEVENTS
+-->
+<SQL name="SQL_NewEventAction">
+insert into EventActions (IDEvents, IDUsers, DT, ACtionNO, Comment)
+ values (:IDEvents,:IDUsers,:DT,:ActionNo,:Comment)
+</SQL>
+
+<SQL name="Q_GET_EVENTS_NOT_MAKE"><![CDATA[
+select Ev.idevents, Ev.dt, Ev.SysDt, Ev.idtypeevents, Z.ZoneID||'.'||Z.name as Name,
+  (select first 1 T.EventText from EventText T where T.Ideventtext = ev.Ideventtext) as eventdesc,
+  Dev.placement, 
+  EV.IDSubSystem,
+  Ev.eventpriority,
+  ev.iddevices,
+  ev.iddevicessource,
+  (case when ev.eventattr is null then 0 else 1 end) HasEventAttr,
+  Z.IDZones
+from events Ev
+  left join zones Z on Ev.idzones = Z.idzones
+  left join devices Dev on Ev.iddevices = Dev.iddevices
+where (Ev.idtypeevents < :IDTYPEEVENTS) and
+  (not exists(select ea.ideventactions from eventactions ea where ea.idevents = ev.idevents
+    and ea.actionno = ?AN_Closed))
+order by ev.sysdt desc, Ev.DT desc, Ev.IDEvents desc
+]]></SQL>
+
+<SQL name="Q_GET_EVENT_ACTIONS">
+select ea.dt, ea.actionno, ea.comment,
+  coalesce(u.fullname, u.name) UserName
+from eventactions ea
+  left join users U on U.idusers = ea.idusers
+where ea.idevents = ?IDEvents
+</SQL>
+
+<SQL name="Q_GET_EVENTS"><![CDATA[
+select Ev.idevents, Ev.dt, Ev.SysDt, Ev.idtypeevents,
+  Z.ZoneID||'.'||Z.name as Name, 
+  (select first 1 T.EventText from EventText T where T.Ideventtext = ev.Ideventtext) as eventdesc,
+  Dev.placement,
+  EV.IDSubSystem,
+  Ev.eventpriority,
+  ev.iddevices,
+  ev.iddevicessource,
+  ev.UserInfo,
+  (case when ev.eventattr is null then 0 else 1 end) HasEventAttr,
+  Z.IDZones
+from fast_selectevents(?N, ?D1, ?D2, ?UseSysDate) p
+  left join events Ev on EV.idevents = p.idevents
+  left join zones Z on Z.idzones =  Ev.idzones
+  left join devices Dev on Dev.iddevices = Ev.iddevices
+]]></SQL>
+
+<SQL name="Q_GET_NEW_EVENTS"><![CDATA[
+select Ev.idevents, Ev.dt, Ev.SysDt, Ev.idtypeevents, Z.ZoneID||"."||Z.name as Name,
+  (select first 1 T.EventText from EventText T where T.Ideventtext = ev.Ideventtext) as eventdesc,
+  Dev.placement, 
+  EV.IDSubSystem,
+  Ev.eventpriority,
+  ev.iddevices,
+  ev.iddevicessource,
+  ev.UserInfo,
+  (case when ev.eventattr is null then 0 else 1 end) HasEventAttr,
+  Z.IDZones
+  from events Ev left join zones Z on Ev.idzones = Z.idzones
+  left join devices Dev on Ev.iddevices = Dev.iddevices
+where Ev.idevents > ?IDEVENTS
+order by ev.sysdt, Ev.DT, Ev.IDEvents
+]]></SQL>
+
+<SQL name="Q_GET_EVENTS_L"><![CDATA[
+select First ?N Ev.idevents, Ev.dt, Ev.SysDt, Ev.idtypeevents,
+  Z.ZoneID||'.'||Z.name as Name,
+  (select first 1 T.EventText from EventText T where T.Ideventtext = ev.Ideventtext) as eventdesc,
+  Dev.placement,
+  EV.IDSubSystem,
+  Ev.eventpriority,
+  ev.iddevices,
+  ev.iddevicessource,
+  ev.UserInfo,
+  (case when ev.eventattr is null then 0 else 1 end) HasEventAttr,
+  Z.IDZones
+from fast_selectevents(?NM, ?D1, ?D2, ?UseSysDate) p
+  left join events Ev on EV.idevents = p.idevents
+  left join zones Z on Z.idzones =  Ev.idzones
+  left join devices Dev on Dev.iddevices = Ev.iddevices
+  left join devices DevS on DevS.iddevices = Ev.iddevicesSource
+  left join drivers Drv on Drv.IDDrivers = Dev.IDDrivers
+  left join drivers DrvS on DrvS.IDDrivers = DevS.IDDrivers
+]]></SQL>
+
+<SQL name="SQL_GET_DEVICE_INFO"><![CDATA[
+select d.address, d.placement, dr.driverid, d.IDDeviceNodes,
+  (select first 1 pd.iddevices from devices pd where pd.iddevicenodes = d.iddevicenodesparent /* and
+    pd.idversions <= d.idversions */ order by pd.idversions desc) as IDDevicesParent,
+    dr.Category
+from devices d
+  left join drivers dr on dr.iddrivers = d.iddrivers
+where d.iddevices = ?IdDevices
+]]></SQL>
+
+<SQL name="SQL_Clear_Register"><![CDATA[
+delete from events where idevents in
+(select ev.idevents from Events ev
+where ev.sysdt between ?When and ?Till)
+]]></SQL>
+
+<!-- Права текущего пользователя -->
+
+
+<SQL name="SQL_CheckPassword"><![CDATA[
+select IDUsers, Name, FullName, ExtSecurity from USERS where ((NAME=?NAME) and (PASSWRD=?PSW) and Coalesce(Deleted, 0) <> 1)
+]]></SQL>
+
+<SQL name="SQL_GetRights">
+select UR.IDSecAct, UR.IDSecObj, SA.Num from GetUserRights(?Name) UR left join SecAct SA on SA.IdSecAct = UR.IdSecAct
+</SQL>
+
+
+<!-- История параметров -->
+<SQL name="SQL_HistoryLast">
+select First 1 ParamValue, PTime from paramhistory where
+IDDeviceNodes = ?IDDeviceNodes and IDParamNames = ?IDParamNames
+order by PTime desc
+</SQL>
+
+<SQL name="SQL_HistoryInsert">
+insert into paramhistory(IDDeviceNodes, IDParamNames, ParamValue, PTime)
+values(?IDDeviceNodes, ?IDParamNames, ?ParamValue, ?PTime)
+</SQL>
+
+<SQL name="SQL_GetIDParamNames">
+select IDParamNames from getidparamnames(?ParamName)
+</SQL>
+
+<!-- Список обхода -->
+<SQL name="SQL_IgnoreList_Insert">
+insert into ignore_list(IDDevices, UserInfo, Ignored_Since)
+values(?IDDevices, ?UserInfo, ?Ignored_Since)
+</SQL>
+
+<SQL name="SQL_IgnoreList_Delete">
+delete from ignore_list where IDDevices = ?IDDevices
+</SQL>
+
+<SQL name="SQL_IgnoreList_Select">
+select IDDevices, UserInfo, Ignored_Since from ignore_list
+</SQL>
+
+</SQLList>

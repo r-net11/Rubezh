@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common;
-using ComServer;
+using Firesec;
 using System.Runtime.Serialization;
 
 namespace ServiceApi
@@ -38,12 +38,12 @@ namespace ServiceApi
         public List<DeviceProperty> DeviceProperties { get; set; }
 
         [IgnoreDataMember]
-        public List<ComServer.Metadata.paramInfoType> Parameters { get; set; }
+        public List<Firesec.Metadata.paramInfoType> Parameters { get; set; }
         [IgnoreDataMember]
-        public List<ComServer.Metadata.propInfoType> Properties { get; set; }
+        public List<Firesec.Metadata.propInfoType> Properties { get; set; }
 
         [IgnoreDataMember]
-        public ComServer.CoreConfig.devType InnerDevice { get; set; }
+        public Firesec.CoreConfig.devType InnerDevice { get; set; }
 
         public List<string> AvailableFunctions { get; set; }
         public List<string> AvailableEvents { get; set; }
@@ -74,23 +74,6 @@ namespace ServiceApi
 
         [DataMember]
         public string Path { get; set; }
-
-        public void ExecuteCommand(string commandName)
-        {
-            commandName = commandName.Remove(0, "Сброс ".Length);
-            State comState = States.First(x => x.Name == commandName);
-            string id = comState.Id;
-
-            ComServer.CoreState.config coreState = new ComServer.CoreState.config();
-            coreState.dev = new ComServer.CoreState.devType[1];
-            coreState.dev[0] = new ComServer.CoreState.devType();
-            coreState.dev[0].name = PlaceInTree;
-            coreState.dev[0].state = new ComServer.CoreState.stateType[1];
-            coreState.dev[0].state[0] = new ComServer.CoreState.stateType();
-            coreState.dev[0].state[0].id = id;
-
-            ComServer.ComServer.ResetStates(coreState);
-        }
 
         Device parent;
         [DataMember]
