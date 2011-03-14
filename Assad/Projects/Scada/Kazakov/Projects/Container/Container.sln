@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Container", "Container.csproj", "{92115E3D-23D8-4709-BCAC-34AC74719AE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostingWpfUserControlInWf", "..\HostingWpfUserControlInWf\HostingWpfUserControlInWf\HostingWpfUserControlInWf.csproj", "{83DAEB61-43C5-44DA-88FA-C467602F6CB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserControls", "UserControls\UserControls.csproj", "{1DDAE41D-8F1F-4613-B0F5-27201E17C454}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92115E3D-23D8-4709-BCAC-34AC74719AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92115E3D-23D8-4709-BCAC-34AC74719AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92115E3D-23D8-4709-BCAC-34AC74719AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92115E3D-23D8-4709-BCAC-34AC74719AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83DAEB61-43C5-44DA-88FA-C467602F6CB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83DAEB61-43C5-44DA-88FA-C467602F6CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83DAEB61-43C5-44DA-88FA-C467602F6CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83DAEB61-43C5-44DA-88FA-C467602F6CB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DDAE41D-8F1F-4613-B0F5-27201E17C454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDAE41D-8F1F-4613-B0F5-27201E17C454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDAE41D-8F1F-4613-B0F5-27201E17C454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DDAE41D-8F1F-4613-B0F5-27201E17C454}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
