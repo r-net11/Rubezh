@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4fbce325-b2c7-4187-b655-c8f0f73a3ab4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8001/StateService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="StateService.xsd" MetadataType="Schema" ID="af2e7250-4ba8-4323-87ad-a130f4afbfa5" SourceId="1" SourceUrl="http://localhost:8001/StateService?xsd=xsd1" />
+    <MetadataFile FileName="StateService1.xsd" MetadataType="Schema" ID="ebc7d92d-e615-47ff-84bc-b7f5de9f4b2f" SourceId="1" SourceUrl="http://localhost:8001/StateService?xsd=xsd2" />
+    <MetadataFile FileName="StateService2.xsd" MetadataType="Schema" ID="24feb795-393b-4ebf-9915-c74b6a1790fe" SourceId="1" SourceUrl="http://localhost:8001/StateService?xsd=xsd3" />
+    <MetadataFile FileName="StateService.wsdl" MetadataType="Wsdl" ID="01ede27e-f7dc-4231-b48e-c1f765c26f57" SourceId="1" SourceUrl="http://localhost:8001/StateService" />
+    <MetadataFile FileName="StateService3.xsd" MetadataType="Schema" ID="6ad1cd3b-b898-4b2b-9712-70195bb0b266" SourceId="1" SourceUrl="http://localhost:8001/StateService?xsd=xsd4" />
+    <MetadataFile FileName="StateService4.xsd" MetadataType="Schema" ID="41b53f1d-02df-45d9-965d-54d63009f694" SourceId="1" SourceUrl="http://localhost:8001/StateService?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
