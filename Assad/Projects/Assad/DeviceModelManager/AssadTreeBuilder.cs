@@ -28,7 +28,6 @@ namespace DeviveModelManager
         {
             RootTreeItem = RootHelper.CreateRoot();
             Firesec.Metadata.classType rootClass = MetadataHelper.Metadata.@class.First(x => x.parent == null);
-            RootTreeItem.Clsid = rootClass.clsid;
             RootTreeItem.Name = MetadataHelper.Metadata.drv.First(x => x.clsid == rootClass.clsid).name;
         }
 
@@ -38,8 +37,6 @@ namespace DeviveModelManager
             {
                 Firesec.Metadata.drvType driver = MetadataHelper.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
                 TreeItem childTree = new TreeItem();
-                childTree.Name = driver.name;
-                childTree.ParentName = parentTreeItem.Name;
                 childTree.Parent = parentTreeItem;
                 childTree.SetDriver(driver);
                 parentTreeItem.Children.Add(childTree);

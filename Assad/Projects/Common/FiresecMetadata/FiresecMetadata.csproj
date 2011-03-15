@@ -51,10 +51,6 @@
     <Compile Include="TreeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\RubezhService\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FiresecApi\FiresecApi.csproj">
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>

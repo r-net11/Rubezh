@@ -39,12 +39,22 @@ namespace DeviveModelManager
             rootTreeItem.ModelInfo.param = parameters.ToArray();
 
             rootTreeItem.ModelInfo.state = new Assad.modelInfoTypeState[1];
+
             rootTreeItem.ModelInfo.state[0] = new Assad.modelInfoTypeState();
-            rootTreeItem.ModelInfo.state[0].state = "Состояние АПИ";
-            List<Assad.modelInfoTypeStateValue> stateValues = new List<Assad.modelInfoTypeStateValue>();
-            stateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Состояние 1" });
-            stateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Состояние 2" });
-            rootTreeItem.ModelInfo.state[0].value = stateValues.ToArray();
+            rootTreeItem.ModelInfo.state[0] = new Assad.modelInfoTypeState();
+            rootTreeItem.ModelInfo.state[0].state = "Состояние";
+            List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Тревога" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Внимание (предтревожное)" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неисправность" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Требуется обслуживание" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Обход устройств" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неопределено" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма(*)" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
+            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
+            rootTreeItem.ModelInfo.state[0].value = StateValues.ToArray();
 
             return rootTreeItem;
         }

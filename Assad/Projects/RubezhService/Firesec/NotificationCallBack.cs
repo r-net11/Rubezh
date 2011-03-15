@@ -11,9 +11,25 @@ namespace Firesec
         public void NewEventsAvailable(int EventMask)
         {
             Trace.WriteLine("NewEventsAvailable");
-            string coreStateString = NativeComServer.GetCoreState();
-            CoreState.config coreState = ComServer.GetCoreState();
-            FiresecEventAggregator.OnNewEvent(coreStateString, coreState);
+
+            bool evmNewEvents = ((EventMask & 1) == 1);
+            bool evmStateChanged = ((EventMask & 2) == 1);
+            bool evmConfigChanged = ((EventMask & 4) == 1);
+            bool evmDeviceParamsUpdated = ((EventMask & 8) == 1);
+            bool evmPong = ((EventMask & 10) == 1);
+            bool evmDatabaseChanged = ((EventMask & 20) == 1);
+            bool evmReportsChanged = ((EventMask & 40) == 1);
+            bool evmSoundsChanged = ((EventMask & 80) == 1);
+            bool evmLibraryChanged = ((EventMask & 100) == 1);
+            bool evmPing = ((EventMask & 200) == 1);
+            bool evmIgnoreListChanged = ((EventMask & 400) == 1);
+            bool evmEventViewChanged = ((EventMask & 800) == 1);
+
+            if (evmStateChanged)
+            {
+                CoreState.config coreState = ComServer.GetCoreState();
+                FiresecEventAggregator.OnNewEvent(ComServer.CoreStateString, coreState);
+            }
         }
     }
 }

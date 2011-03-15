@@ -76,7 +76,7 @@ namespace FiresecMetadata
 
         public static string GetDriverNameById(string driverId)
         {
-            return drivers.FirstOrDefault(x => (x.DriverId == driverId) && (x.IgnoreLevel == 0)).Name;
+            return drivers.FirstOrDefault(x => (x.DriverId == driverId) && (x.IgnoreLevel < 2)).Name;
         }
 
         public static bool IsIgnore(string driverId)

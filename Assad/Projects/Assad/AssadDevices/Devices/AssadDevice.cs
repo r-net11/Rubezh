@@ -13,10 +13,10 @@ namespace AssadDevices
             base.SetInnerDevice(innerDevice);
 
             string stringAddress = Properties.First(x => x.Name == "Адрес").Value;
-            string shleifNo = Properties.First(x => x.Name == "Номер шлейфа (АЛС)").Value;
+            string shleifNo = Properties.First(x => x.Name == "Шлейф").Value;
 
             Properties.Remove(Properties.First(x => x.Name == "Адрес"));
-            Properties.Remove(Properties.First(x => x.Name == "Номер шлейфа (АЛС)"));
+            Properties.Remove(Properties.First(x => x.Name == "Шлейф"));
 
             int intAddress;
             try
