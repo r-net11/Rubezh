@@ -18,7 +18,7 @@ namespace ServiceApi
         {
             get
             {
-                return Common.DriversHelper.GetDriverNameById(DriverId);
+                return FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
             }
         }
 
