@@ -107,7 +107,7 @@ namespace AssadProcessor
                     }
                     else
                     {
-                        assadZone.State.State = "Отсутствует в конфигурации";
+                        assadZone.State.State = "Отсутствует в конфигурации сервера оборудования";
                     }
                 }
                 else
@@ -119,7 +119,7 @@ namespace AssadProcessor
                     }
                     else
                     {
-                        assadBase.State.State = "Отсутствует в конфигурации";
+                        assadBase.State.State = "Отсутствует в конфигурации сервера оборудования";
                     }
                 }
             }

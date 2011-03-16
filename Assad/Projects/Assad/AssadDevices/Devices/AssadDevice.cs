@@ -64,7 +64,7 @@ namespace AssadDevices
                 case "Задвижка":
                 case "Модуль речевого оповещения":
                 case "Модуль дымоудаления-1.02//3":
-                    Zones = ExtractZones(Properties.First(x => x.Name == "Зоны").Value);
+                    Zones = ExtractZones(Properties.First(x => x.Name == "Настройка включения по состоянию зон").Value);
                     //if (Zones == null)
                     //{
                     //    ;
