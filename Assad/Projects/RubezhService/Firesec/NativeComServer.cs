@@ -45,12 +45,12 @@ namespace Firesec
         {
             return Connectoin.GetCoreDeviceParams();
         }
-
+        /*
         public static string ReadEvents(int fromId, int limit)
         {
             return Connectoin.ReadEvents(fromId, limit);
         }
-
+        */
         internal static void SetNewConfig(string coreConfig)
         {
             Connectoin.SetNewConfig(coreConfig);

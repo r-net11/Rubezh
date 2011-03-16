@@ -79,9 +79,9 @@
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>
       <Name>AssadApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\Common\Common.csproj">
-      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
-      <Name>Common</Name>
+    <ProjectReference Include="..\..\Common\FiresecMetadata\FiresecMetadata.csproj">
+      <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
+      <Name>FiresecMetadata</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

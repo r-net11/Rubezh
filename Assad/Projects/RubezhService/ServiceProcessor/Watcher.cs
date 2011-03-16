@@ -16,6 +16,11 @@ namespace ServiseProcessor
             Firesec.FiresecEventAggregator.NewEvent += new Action<string, Firesec.CoreState.config>(OnComServerStateChanged);
         }
 
+        public void OnComServerStateChanged2(string coreStateString, Firesec.CoreState.config coreState)
+        {
+
+        }
+
         public void OnComServerStateChanged(string coreStateString, Firesec.CoreState.config coreState)
         {
             try

@@ -66,5 +66,13 @@ namespace FiresecDirect
         {
             textBox1.Text = Firesec.NativeComServer.ReadEvents(0, 100);
         }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            Firesec.Metadata.config metadataConfig = Firesec.ComServer.GetMetaData();
+            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
+            FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
+            serializer.Serialize(fileStream, metadataConfig);
+        }
     }
 }

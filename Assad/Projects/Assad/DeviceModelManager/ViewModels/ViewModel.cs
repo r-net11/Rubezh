@@ -18,18 +18,18 @@ namespace DeviveModelManager
         public ViewModel()
         {
             GenarateCommand = new RelayCommand(OnGenarateCommand);
-            Version = "1";
+            Version = "2";
         }
 
         public RelayCommand GenarateCommand { get; private set; }
         void OnGenarateCommand(object parameter)
         {
-            Generator generator = new Generator();
-            generator.CreateTree();
-            TreeItem RootTreeItem = generator.RootTreeItem;
-
+            AssadTreeBuilder assadTreeBuilder = new AssadTreeBuilder();
+            assadTreeBuilder.Build();
+            TreeItem RootTreeItem = assadTreeBuilder.RootTreeItem;
             Devices = new ObservableCollection<TreeItem>();
             Devices.Add(RootTreeItem);
+            return;
         }
 
         ObservableCollection<TreeItem> devices;

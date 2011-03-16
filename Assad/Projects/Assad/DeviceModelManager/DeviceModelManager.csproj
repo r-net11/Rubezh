@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DeviveModelManager</RootNamespace>
-    <AssemblyName>DeviveModelManager</AssemblyName>
+    <AssemblyName>DeviceModelManager</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,6 +24,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -71,7 +73,6 @@
   <ItemGroup>
     <Compile Include="AddressHelper.cs" />
     <Compile Include="PanelHelper.cs" />
-    <Compile Include="Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,9 +86,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="AssadTreeBuilder.cs" />
     <Compile Include="TreeItem.cs" />
     <Compile Include="RootHelper.cs" />
-    <Compile Include="ComServerHelper.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="ZoneHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -117,9 +118,9 @@
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RubezhService\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
+    <ProjectReference Include="..\..\Common\FiresecMetadata\FiresecMetadata.csproj">
+      <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
+      <Name>FiresecMetadata</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

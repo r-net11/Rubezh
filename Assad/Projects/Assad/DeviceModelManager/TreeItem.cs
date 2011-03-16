@@ -14,46 +14,72 @@ namespace DeviveModelManager
         {
             Children = new ObservableCollection<TreeItem>();
         }
-        public string Clsid { get; set; }
+
         public string DriverId { get; set; }
         public string Name { get; set; }
-        public string ParentName { get; set; }
         public Assad.modelInfoType ModelInfo { get; set; }
         public ObservableCollection<TreeItem> Children { get; set; }
         public TreeItem Parent { get; set; }
+        Firesec.Metadata.drvType Driver { get; set; }
 
         // этот метод формирует свойство ModelInfo на основе информации о драйвере устройства,
         // полученной из метаданных
 
         public void SetDriver(Firesec.Metadata.drvType driver)
         {
-            List<Assad.modelInfoTypeEvent> AssadEvents = new List<Assad.modelInfoTypeEvent>();
-            AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = "Валидация" });
-            foreach (Firesec.Metadata.stateType comState in driver.state)
-            {
-                AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = comState.name });
-                AssadEvents.Add(new Assad.modelInfoTypeEvent() { @event = "Сброс " + comState.name });
-            }
+            this.Driver = driver;
+            Name = driver.name;
 
-            List<Assad.modelInfoTypeCommand> AssadCommands = new List<Assad.modelInfoTypeCommand>();
-            if (PanelHelper.IsPanel(Name))
-            {
-                AssadCommands.Add(new Assad.modelInfoTypeCommand() { command = "Записать Конфигурацию" });
-            }
+            ModelInfo = new Assad.modelInfoType();
+            ModelInfo.name = driver.name;
+            DriverId = driver.id;
+            ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + DriverId.ToString();
+            ModelInfo.model = "1.0";
 
-            foreach (Firesec.Metadata.stateType comState in driver.state)
+            ModelInfo.@event = AddEvents().ToArray();
+            ModelInfo.command = AddCommands().ToArray();
+            ModelInfo.param = AddParameters().ToArray();
+            ModelInfo.state = AddStates().ToArray();
+        }
+
+        List<Assad.modelInfoTypeEvent> AddEvents()
+        {
+            List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Тревога" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Внимание (предтревожное)" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неисправность" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Требуется обслуживание" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Обход устройств" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неопределено" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма(*)" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Отсутствует в конфигурации сервера оборудования" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Нет связи с сервером оборудования" });
+            return events;
+        }
+
+
+        List<Assad.modelInfoTypeCommand> AddCommands()
+        {
+            List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
+            foreach (Firesec.Metadata.stateType comState in Driver.state)
             {
                 if (comState.manualReset == "1")
                 {
-                    AssadCommands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + comState.name });
+                    commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + comState.name });
                 }
             }
+            return commands;
+        }
 
-            List<Assad.modelInfoTypeParam> AssadParams = new List<Assad.modelInfoTypeParam>();
+
+        List<Assad.modelInfoTypeParam> AddParameters()
+        {
+            List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
             {
-                AssadParams.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+                parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
 
-                if (driver.ar_no_addr == "0")
+                if (Driver.ar_no_addr == "0")
                 {
                     //Assad.modelInfoTypeParam addressParameter = new Assad.modelInfoTypeParam();
                     //addressParameter.param = "Адрес";
@@ -67,23 +93,23 @@ namespace DeviveModelManager
                     //addressParameter.value = addressParameterValues.ToArray();
                     //AssadParams.Add(addressParameter);
 
-                    AssadParams.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
+                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
                 }
 
-                if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
+                if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
                 {
-                    AssadParams.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
+                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
                 }
-                if (driver.maxZoneCardinality == "-1")
+                if (Driver.maxZoneCardinality == "-1")
                 {
-                    AssadParams.Add(new Assad.modelInfoTypeParam() { param = "Зоны", type = "edit" });
+                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зоны", type = "edit" });
                 }
             }
-            int shleifCount = PanelHelper.GetShleifCount(ParentName);
+            int shleifCount = PanelHelper.GetShleifCount(Parent.Name);
             if (shleifCount > 0)
             {
                 Assad.modelInfoTypeParam shleifParameter = new Assad.modelInfoTypeParam();
-                shleifParameter.param = "Номер шлейфа (АЛС)";
+                shleifParameter.param = "Шлейф";
                 shleifParameter.type = "single";
                 shleifParameter.value = new Assad.modelInfoTypeParamValue[shleifCount];
                 for (int i = 0; i < shleifCount; i++)
@@ -91,12 +117,12 @@ namespace DeviveModelManager
                     shleifParameter.value[i] = new Assad.modelInfoTypeParamValue();
                     shleifParameter.value[i].value = (i + 1).ToString();
                 }
-                AssadParams.Add(shleifParameter);
+                parameters.Add(shleifParameter);
             }
 
-            if (driver.propInfo != null)
+            if (Driver.propInfo != null)
             {
-                foreach (Firesec.Metadata.propInfoType propInfo in driver.propInfo)
+                foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
                 {
                     Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
                     if (propInfo.hidden == "0")
@@ -147,14 +173,18 @@ namespace DeviveModelManager
                                     }
                                 }
 
-                                AssadParams.Add(customParam);
+                                parameters.Add(customParam);
                             }
                         }
                     }
                 }
             }
+            return parameters;
+        }
 
-            List<Assad.modelInfoTypeState> AssadStates = new List<Assad.modelInfoTypeState>();
+        List<Assad.modelInfoTypeState> AddStates()
+        {
+            List<Assad.modelInfoTypeState> States = new List<Assad.modelInfoTypeState>();
             Assad.modelInfoTypeState AssadState = new Assad.modelInfoTypeState();
             AssadState.state = "Состояние";
             List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
@@ -166,21 +196,20 @@ namespace DeviveModelManager
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неопределено" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма(*)" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет состояния" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
             AssadState.value = StateValues.ToArray();
-            AssadStates.Add(AssadState);
+            States.Add(AssadState);
 
             Assad.modelInfoTypeState AdditionalState = new Assad.modelInfoTypeState();
             AdditionalState.state = "Состояние дополнительно";
             List<Assad.modelInfoTypeStateValue> AdditionalStateValues = new List<Assad.modelInfoTypeStateValue>();
-            foreach (Firesec.Metadata.stateType comState in driver.state)
+            foreach (Firesec.Metadata.stateType comState in Driver.state)
             {
                 AdditionalStateValues.Add(new Assad.modelInfoTypeStateValue() { value = comState.name });
             }
             AdditionalState.value = AdditionalStateValues.ToArray();
-            AssadStates.Add(AdditionalState);
+            States.Add(AdditionalState);
 
             Assad.modelInfoTypeState AssadConfigurationState = new Assad.modelInfoTypeState();
             AssadConfigurationState.state = "Конфигурация";
@@ -188,28 +217,9 @@ namespace DeviveModelManager
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "" });
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Ошибка" });
             AssadConfigurationState.value = ConfigurationStateValues.ToArray();
-            AssadStates.Add(AssadConfigurationState);
+            States.Add(AssadConfigurationState);
 
-            // для теста
-            AssadStates.Add(new Assad.modelInfoTypeState() { state = "Дополнительно" });
-
-            ModelInfo = new Assad.modelInfoType();
-            ModelInfo.name = Name;
-            DriverId = driver.id;
-            ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + DriverId.ToString();
-            ModelInfo.model = "1.0";
-
-            if (AssadEvents.Count > 0)
-                ModelInfo.@event = AssadEvents.ToArray();
-
-            if (AssadCommands.Count > 0)
-                ModelInfo.command = AssadCommands.ToArray();
-
-            if (AssadParams.Count > 0)
-                ModelInfo.param = AssadParams.ToArray();
-
-            if (AssadStates.Count > 0)
-                ModelInfo.state = AssadStates.ToArray();
+            return States;
         }
 
         // возвращается свойство ModelInfo в текстовом виде

@@ -18,6 +18,24 @@ namespace RubezhAX
     public partial class UCRubezh : UserControl, Microsoft.VisualStudio.OLE.Interop.ISpecifyPropertyPages
     {
         [ComVisible(true)]
+
+        public bool DisableWrite { get; set; }
+
+
+        //private string deviceName;
+        //public string DeviceName
+        //{
+        //    set { if (!DisableWrite) deviceName = value; }
+        //    get { return deviceName;}
+        //}
+
+        public string DeviceName
+        {
+            set;
+            get;
+        }
+
+
         private int intStatus;
         public int IntStatus
         {
@@ -50,7 +68,9 @@ namespace RubezhAX
         public UCRubezh()
         {
             intStatus = 0;
+//            DeviceName = "Компьютер";
             InitializeComponent();
+        //    DeviceNameLabel.Text = DeviceName;
         }
 
 
@@ -127,20 +147,15 @@ public void  GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
     }
      if(stream != null)  stream.WriteLine("Запуск ProperyPage");    
     //    Window1 view = new Window1();
-    ViewModel viewModel = new ViewModel();
+    ViewModel viewModel = new ViewModel( this);
     if (stream != null) stream.WriteLine("Создана  viewModel");
-    ControlService controller = new ControlService();
-    if (stream != null) stream.WriteLine("Создан  controller");
-    controller.form = axpp;
     viewModel.form = axpp;
-    controller.viewModel = viewModel;
-    viewModel.controller = controller;
     if (stream != null) stream.WriteLine("Присвоены указатели");
 
     if (stream != null) stream.WriteLine("Запуск goMethod");
     try
     {
-        if (viewModel.goMethod() == false)
+        if (viewModel.goMethodAPI() == false)
             MessageBox.Show(" Ошибка запуска goMethod()");
     }
     catch (Exception e)
@@ -158,6 +173,11 @@ public void  GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
 #endregion
 
 public static UCRubezh Current;
+
+private void UCRubezh_Load(object sender, EventArgs e)
+{
+    DeviceNameLabel.Text = DeviceName;
+}
 
 
     } // end class declaration

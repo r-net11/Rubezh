@@ -20,8 +20,16 @@ namespace DeviveModelManager
             zoneTreeItem.ModelInfo.name = "Зона";
 
             List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Событие с зоной" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Валидация" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Тревога" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Внимание (предтревожное)" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неисправность" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Требуется обслуживание" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Обход устройств" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неопределено" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма(*)" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Отсутствует в конфигурации сервера оборудования" });
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Нет связи с сервером оборудования" });
             zoneTreeItem.ModelInfo.@event = events.ToArray();
 
             List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
@@ -56,7 +64,6 @@ namespace DeviveModelManager
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неопределено" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма(*)" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет состояния" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
             zoneTreeItem.ModelInfo.state[0].value = StateValues.ToArray();

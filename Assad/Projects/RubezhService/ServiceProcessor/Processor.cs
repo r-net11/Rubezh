@@ -69,7 +69,7 @@ namespace ServiseProcessor
 
             Device device = new Device();
             device.Parent = null;
-            DeviceHelper.SetDeviceInnerDevice(device, innerDevice);
+            DeviceHelper.SetInnerDevice(device, innerDevice);
             Services.Configuration.Devices.Add(device);
             AddChild(innerDevice, device);
         }
@@ -82,7 +82,7 @@ namespace ServiseProcessor
                 {
                     Device child = new Device();
                     child.Parent = parent;
-                    DeviceHelper.SetDeviceInnerDevice(child, comChild);
+                    DeviceHelper.SetInnerDevice(child, comChild);
                     Services.Configuration.Devices.Add(child);
                     AddChild(comChild, child);
                 }

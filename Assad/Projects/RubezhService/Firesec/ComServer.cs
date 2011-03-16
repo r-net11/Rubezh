@@ -11,10 +11,15 @@ namespace Firesec
 {
     public class ComServer
     {
+        public static string CoreConfigString { get; set; }
+        public static string CoreStateString { get; set; }
+        public static string MetadataString { get; set; }
+        public static string DeviceParamsString { get; set; }
+
         public static CoreConfig.config GetCoreConfig()
         {
-            string coreConfigString = NativeComServer.GetCoreConfig();
-            byte[] bytes = Encoding.Default.GetBytes(coreConfigString);
+            CoreConfigString = NativeComServer.GetCoreConfig();
+            byte[] bytes = Encoding.Default.GetBytes(CoreConfigString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
             XmlSerializer serializer = new XmlSerializer(typeof(CoreConfig.config));
@@ -25,8 +30,8 @@ namespace Firesec
 
         public static CoreState.config GetCoreState()
         {
-            string coreStateString = NativeComServer.GetCoreState();
-            byte[] bytes = Encoding.Default.GetBytes(coreStateString);
+            CoreStateString = NativeComServer.GetCoreState();
+            byte[] bytes = Encoding.Default.GetBytes(CoreStateString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
             XmlSerializer serializer = new XmlSerializer(typeof(CoreState.config));
@@ -37,8 +42,8 @@ namespace Firesec
 
         public static Metadata.config GetMetaData()
         {
-            string metadataString = NativeComServer.GetMetaData();
-            byte[] bytes = Encoding.Default.GetBytes(metadataString);
+            MetadataString = NativeComServer.GetMetaData();
+            byte[] bytes = Encoding.Default.GetBytes(MetadataString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
             XmlSerializer serializer = new XmlSerializer(typeof(Metadata.config));
@@ -49,7 +54,7 @@ namespace Firesec
 
         public static DeviceParams.config GetDeviceParams()
         {
-            string DeviceParamsString = NativeComServer.GetCoreDeviceParams();
+            DeviceParamsString = NativeComServer.GetCoreDeviceParams();
             byte[] bytes = Encoding.Default.GetBytes(DeviceParamsString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
