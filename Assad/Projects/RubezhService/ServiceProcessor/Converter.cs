@@ -63,7 +63,7 @@ namespace ServiseProcessor
             innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentDevice.DriverId).idx;
 
             AddZone(parentDevice, innerDevice);
-            DeviceHelper.SetDeviceInnerDevice(parentDevice, innerDevice);
+            DeviceHelper.SetInnerDevice(parentDevice, innerDevice);
 
             // добавление прочих параметров конфигурации
             List<Firesec.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);

@@ -8,7 +8,7 @@ namespace ServiseProcessor
 {
     public static class DeviceHelper
     {
-        public static void SetDeviceInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
+        public static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             if (innerDevice == null)
                 return;
@@ -33,23 +33,23 @@ namespace ServiseProcessor
                     device.States.Add(state);
                 }
 
-                foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
-                {
-                    if (innerState.manualReset == "1")
-                    {
-                        if (device.AvailableFunctions == null)
-                            device.AvailableFunctions = new List<string>();
-                        device.AvailableFunctions.Add("Сброс " + innerState.name);
-                    }
-                }
+                //foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+                //{
+                //    if (innerState.manualReset == "1")
+                //    {
+                //        if (device.AvailableFunctions == null)
+                //            device.AvailableFunctions = new List<string>();
+                //        device.AvailableFunctions.Add("Сброс " + innerState.name);
+                //    }
+                //}
 
-                foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
-                {
-                    if (device.AvailableEvents == null)
-                        device.AvailableEvents = new List<string>();
-                    device.AvailableEvents.Add(innerState.name);
-                    device.AvailableEvents.Add("Сброс " + innerState.name);
-                }
+                //foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+                //{
+                //    if (device.AvailableEvents == null)
+                //        device.AvailableEvents = new List<string>();
+                //    device.AvailableEvents.Add(innerState.name);
+                //    device.AvailableEvents.Add("Сброс " + innerState.name);
+                //}
 
             }
             if (metadataDriver.paramInfo != null)

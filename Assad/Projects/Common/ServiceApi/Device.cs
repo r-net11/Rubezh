@@ -45,17 +45,20 @@ namespace ServiceApi
         [IgnoreDataMember]
         public Firesec.CoreConfig.devType InnerDevice { get; set; }
 
-        public List<string> AvailableFunctions { get; set; }
-        public List<string> AvailableEvents { get; set; }
-
-        [DataMember]
-        public string State { get; set; }
+        //public List<string> AvailableFunctions { get; set; }
+        //public List<string> AvailableEvents { get; set; }
 
         [DataMember]
         public int MinPriority { get; set; }
 
         [DataMember]
+        public string State { get; set; }
+
+        [DataMember]
         public string SourceState { get; set; }
+
+        [DataMember]
+        public List<string> ParentStates { get; set; }
 
         [DataMember]
         public bool AffectChildren { get; set; }

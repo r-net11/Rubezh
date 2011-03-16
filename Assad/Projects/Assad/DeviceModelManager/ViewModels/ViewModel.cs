@@ -18,7 +18,7 @@ namespace DeviveModelManager
         public ViewModel()
         {
             GenarateCommand = new RelayCommand(OnGenarateCommand);
-            Version = "2";
+            Version = "3";
         }
 
         public RelayCommand GenarateCommand { get; private set; }

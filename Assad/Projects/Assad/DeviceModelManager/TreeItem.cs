@@ -76,35 +76,37 @@ namespace DeviveModelManager
         List<Assad.modelInfoTypeParam> AddParameters()
         {
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
+            parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+
+            if (Driver.ar_no_addr == "0")
             {
-                parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+                //Assad.modelInfoTypeParam addressParameter = new Assad.modelInfoTypeParam();
+                //addressParameter.param = "Адрес";
+                //addressParameter.type = "single";
 
-                if (Driver.ar_no_addr == "0")
+                //List<Assad.modelInfoTypeParamValue> addressParameterValues = new List<Assad.modelInfoTypeParamValue>();
+                //for (int i = AddressHelper.GetMinAddress(Name); i <= AddressHelper.GetMaxAddress(Name); i++)
+                //{
+                //    addressParameterValues.Add(new Assad.modelInfoTypeParamValue() { value = i.ToString() });
+                //}
+                //addressParameter.value = addressParameterValues.ToArray();
+                //AssadParams.Add(addressParameter);
+
+                parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
+            }
+
+            if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
+            {
+                parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
+            }
+            else
+            {
+                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
                 {
-                    //Assad.modelInfoTypeParam addressParameter = new Assad.modelInfoTypeParam();
-                    //addressParameter.param = "Адрес";
-                    //addressParameter.type = "single";
-
-                    //List<Assad.modelInfoTypeParamValue> addressParameterValues = new List<Assad.modelInfoTypeParamValue>();
-                    //for (int i = AddressHelper.GetMinAddress(Name); i <= AddressHelper.GetMaxAddress(Name); i++)
-                    //{
-                    //    addressParameterValues.Add(new Assad.modelInfoTypeParamValue() { value = i.ToString() });
-                    //}
-                    //addressParameter.value = addressParameterValues.ToArray();
-                    //AssadParams.Add(addressParameter);
-
-                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
-                }
-
-                if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
-                {
-                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
-                }
-                if (Driver.maxZoneCardinality == "-1")
-                {
-                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зоны", type = "edit" });
+                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Настройка включения по состоянию зон", type = "edit" });
                 }
             }
+
             int shleifCount = PanelHelper.GetShleifCount(Parent.Name);
             if (shleifCount > 0)
             {
@@ -160,12 +162,7 @@ namespace DeviveModelManager
                                 {
                                     if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
                                     {
-                                        customParam.type = "single";
-                                        customParam.value = new Assad.modelInfoTypeParamValue[2];
-                                        customParam.value[0] = new Assad.modelInfoTypeParamValue();
-                                        customParam.value[0].value = "Нет";
-                                        customParam.value[1] = new Assad.modelInfoTypeParamValue();
-                                        customParam.value[1].value = "Да";
+                                        customParam.type = "checkbox";
                                     }
                                     else
                                     {
@@ -201,16 +198,6 @@ namespace DeviveModelManager
             AssadState.value = StateValues.ToArray();
             States.Add(AssadState);
 
-            Assad.modelInfoTypeState AdditionalState = new Assad.modelInfoTypeState();
-            AdditionalState.state = "Состояние дополнительно";
-            List<Assad.modelInfoTypeStateValue> AdditionalStateValues = new List<Assad.modelInfoTypeStateValue>();
-            foreach (Firesec.Metadata.stateType comState in Driver.state)
-            {
-                AdditionalStateValues.Add(new Assad.modelInfoTypeStateValue() { value = comState.name });
-            }
-            AdditionalState.value = AdditionalStateValues.ToArray();
-            States.Add(AdditionalState);
-
             Assad.modelInfoTypeState AssadConfigurationState = new Assad.modelInfoTypeState();
             AssadConfigurationState.state = "Конфигурация";
             List<Assad.modelInfoTypeStateValue> ConfigurationStateValues = new List<Assad.modelInfoTypeStateValue>();
@@ -218,6 +205,17 @@ namespace DeviveModelManager
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Ошибка" });
             AssadConfigurationState.value = ConfigurationStateValues.ToArray();
             States.Add(AssadConfigurationState);
+
+            if (Driver.paramInfo != null)
+            {
+                foreach (Firesec.Metadata.paramInfoType paramInfo in Driver.paramInfo)
+                {
+                    if ((paramInfo.hidden == "0") && (paramInfo.showOnlyInState == "0"))
+                    {
+                        States.Add(new Assad.modelInfoTypeState() { state = paramInfo.caption });
+                    }
+                }
+            }
 
             return States;
         }
