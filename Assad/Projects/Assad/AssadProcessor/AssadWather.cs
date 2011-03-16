@@ -22,10 +22,15 @@ namespace AssadProcessor
                 if (assadReady)
                 {
                     AssadBase assadDevice = Helper.ConvertDevice(device);
-                    assadDevice.State.State = device.State;
-                    foreach (string lastEvent in device.LastEvents)
+                    if (assadDevice != null)
                     {
-                        Assad.CPeventType eventType = assadDevice.CreateEvent(lastEvent);
+                        assadDevice.State.State = device.State;
+
+                        string eventName = null;
+                        if (device.StateChanged)
+                            eventName = device.State;
+
+                        Assad.CPeventType eventType = assadDevice.CreateEvent(eventName);
                         NetManager.Send(eventType, null);
                     }
                 }

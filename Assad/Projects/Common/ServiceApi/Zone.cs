@@ -32,5 +32,7 @@ namespace ServiceApi
 
         [DataMember]
         public string State { get; set; }
+
+        public bool ZoneChanged { get; set; }
     }
 }

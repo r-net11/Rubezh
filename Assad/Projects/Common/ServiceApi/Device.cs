@@ -11,6 +11,13 @@ namespace ServiceApi
     [DataContract(IsReference=true)]
     public class Device
     {
+        public Device()
+        {
+            SelfStates = new List<string>();
+            ParentStringStates = new List<string>();
+            States = new List<State>();
+        }
+
         [DataMember]
         public string Description { get; set; }
 
@@ -58,13 +65,18 @@ namespace ServiceApi
         public string SourceState { get; set; }
 
         [DataMember]
-        public List<string> ParentStates { get; set; }
+        public List<string> ParentStringStates { get; set; }
+
+        [DataMember]
+        public List<string> SelfStates { get; set; }
 
         [DataMember]
         public bool AffectChildren { get; set; }
 
-        [DataMember]
-        public List<string> LastEvents { get; set; }
+        public List<State> ParentStates { get; set; }
+
+        //[DataMember]
+        //public List<string> LastEvents { get; set; }
 
         // свойство, по которому можно идентифицировать устройство в текущей конфигурации
 
@@ -72,6 +84,12 @@ namespace ServiceApi
 
         [DataMember]
         public string Address { get; set; }
+
+        [DataMember]
+        public bool StatesChanged { get; set; }
+
+        [DataMember]
+        public bool StateChanged { get; set; }
 
         // главное всойство, по которому можно идентифицировать устройство в системе
 
