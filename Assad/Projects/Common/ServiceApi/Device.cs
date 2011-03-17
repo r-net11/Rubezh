@@ -109,4 +109,17 @@ namespace ServiceApi
             }
         }
     }
+
+    [DataContract(IsReference = true)]
+    public class ShortDevice
+    {
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public ShortDevice Parent { get; set; }
+
+        [DataMember]
+        public List<ShortDevice> Children { get; set; }
+    }
 }
