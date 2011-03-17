@@ -20,7 +20,7 @@ namespace Common
             StateClasses.Add(new StateClass() { Id = 5, Name = "Неопределено" });
             StateClasses.Add(new StateClass() { Id = 6, Name = "Норма(*)" });
             StateClasses.Add(new StateClass() { Id = 7, Name = "Норма" });
-            StateClasses.Add(new StateClass() { Id = 8, Name = "Нет состояния" });
+            //StateClasses.Add(new StateClass() { Id = 8, Name = "Нет состояния" });
         }
 
         public static string GetState(int id)

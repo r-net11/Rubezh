@@ -14,29 +14,46 @@ namespace ServiseProcessor
         internal void Start()
         {
             Firesec.FiresecEventAggregator.NewEvent += new Action<string, Firesec.CoreState.config>(OnComServerStateChanged2);
+
+            // первый опрос не должен выкидывать события сервера
+            Firesec.CoreState.config coreState = Firesec.ComServer.GetCoreState();
+            OnComServerStateChanged2(Firesec.ComServer.CoreStateString, coreState);
         }
 
         public void OnComServerStateChanged2(string coreStateString, Firesec.CoreState.config coreState)
         {
-            SetStates(coreState);
-            PropogateStates();
-            CalculateStates();
-            CalculateZones();
-
-            foreach (Device device in Services.Configuration.Devices)
+            try
             {
-                if ((device.StatesChanged) || (device.StateChanged))
+                Trace.WriteLine("OnComServerStateChanged");
+                SetStates(coreState);
+                PropogateStates();
+                CalculateStates();
+                CalculateZones();
+
+                foreach (Device device in Services.Configuration.Devices)
                 {
-                    StateService.DeviceChanged(device);
+                    if ((device.StatesChanged) || (device.StateChanged))
+                    {
+                        StateService.DeviceChanged(device);
+                        if (device.StateChanged)
+                        {
+                            string state = device.State;
+                        }
+                    }
                 }
+
+                foreach (Zone zone in Services.Configuration.Zones)
+                {
+                    if (zone.ZoneChanged)
+                    {
+                        StateService.ZoneChanged(zone);
+                    }
+                }
+                Trace.WriteLine("OnComServerStateChanged End");
             }
-
-            foreach (Zone zone in Services.Configuration.Zones)
+            catch (Exception e)
             {
-                if (zone.ZoneChanged)
-                {
-                    StateService.ZoneChanged(zone);
-                }
+                Trace.WriteLine("Watcher Error: " + e.ToString());
             }
         }
 
@@ -90,6 +107,7 @@ namespace ServiseProcessor
             foreach (Device device in Services.Configuration.Devices)
             {
                 device.ParentStates = new List<State>();
+                device.ParentStringStates = new List<string>();
             }
 
             foreach (Device device in Services.Configuration.Devices)
@@ -121,15 +139,21 @@ namespace ServiseProcessor
 
                 foreach (State state in device.States)
                 {
-                    if (minPriority < state.Priority)
-                        minPriority = state.Priority;
+                    if (state.IsActive)
+                    {
+                        if (minPriority > state.Priority)
+                            minPriority = state.Priority;
+                    }
                 }
                 foreach (State state in device.ParentStates)
                 {
-                    if (minPriority < state.Priority)
+                    if (state.IsActive)
                     {
-                        minPriority = state.Priority;
-                        sourceState = state;
+                        if (minPriority > state.Priority)
+                        {
+                            minPriority = state.Priority;
+                            sourceState = state;
+                        }
                     }
                 }
                 if (device.MinPriority != minPriority)
@@ -172,7 +196,6 @@ namespace ServiseProcessor
                     }
                     string newZoneState = StateHelper.GetState(minZonePriority);
 
-                    bool isZoneChanged = false;
                     if ((zone.State == null) || (zone.State != newZoneState))
                     {
                         zone.ZoneChanged = true;
