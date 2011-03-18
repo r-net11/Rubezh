@@ -14,14 +14,14 @@ namespace AssadProcessor
         {
             Configuration configuration = new Configuration();
 
-            Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
-            configuration.Zones = FindAllZones(AssadConfiguration.Devices[0]);
-            configuration.Devices = new List<Device>();
-            configuration.Devices.Add(rootDevice);
+            ClientApi.FullDevice rootDevice = AddChild(AssadConfiguration.Devices[0]);
+            //configuration.Zones = FindAllZones(AssadConfiguration.Devices[0]);
+            //configuration.Devices = new List<Device>();
+            //configuration.Devices.Add(rootDevice);
             return configuration;
         }
 
-        static Device AddChild(AssadBase assadParent)
+        static ClientApi.FullDevice AddChild(AssadBase assadParent)
         {
             if (assadParent is AssadZone)
             {
@@ -30,15 +30,15 @@ namespace AssadProcessor
 
             if ((assadParent is AssadDevice) || (assadParent is AssadMC) || (assadParent is AssadChannel) || (assadParent is AssadPanel) || (assadParent is AssadMC34) || (assadParent is AssadPage) || (assadParent is AssadIndicator) || (assadParent is AssadComputer) || (assadParent is AssadASPT) || (assadParent is AssadPumpStation) || (assadParent is AssadPump))
             {
-                Device device = new Device();
+                ClientApi.FullDevice device = new ClientApi.FullDevice();
                 device.Address = assadParent.Address;
                 device.DriverId = assadParent.DriverId;
                 device.Description = assadParent.Description;
 
                 if (assadParent is AssadDevice)
-                    device.Zones = (assadParent as AssadDevice).Zones;
+                    device.Zone = (assadParent as AssadDevice).Zones[0];
                 if (assadParent is AssadPumpStation)
-                    device.Zones = (assadParent as AssadPumpStation).Zones;
+                    device.Zone = (assadParent as AssadPumpStation).Zones[0];
 
 
                 // скопировать все свойства
@@ -60,11 +60,11 @@ namespace AssadProcessor
                 foreach (AssadTreeBase childTreeBase in assadParent.Children)
                 {
                     AssadBase childAssad = (AssadBase)childTreeBase;
-                    Device childDevice = AddChild(childAssad);
+                    ClientApi.FullDevice childDevice = AddChild(childAssad);
                     if (childDevice != null)
                     {
                         if (device.Children == null)
-                            device.Children = new List<Device>();
+                            device.Children = new List<ClientApi.FullDevice>();
                         device.Children.Add(childDevice);
                     }
                 }

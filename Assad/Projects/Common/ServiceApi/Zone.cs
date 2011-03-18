@@ -34,5 +34,16 @@ namespace ServiceApi
         public string State { get; set; }
 
         public bool ZoneChanged { get; set; }
+
+        public ShortZone Copy()
+        {
+            ShortZone shortZone = new ShortZone();
+            shortZone.Id = this.Id;
+            shortZone.Name = this.Name;
+            shortZone.DetectorCount = this.DetectorCount;
+            shortZone.EvacuationTime = this.EvacuationTime;
+            shortZone.Description = this.Description;
+            return shortZone;
+        }
     }
 }

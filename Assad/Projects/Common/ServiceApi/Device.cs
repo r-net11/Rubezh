@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace ServiceApi
 {
-    [DataContract(IsReference=true)]
+    [DataContract(IsReference = true)]
     public class Device
     {
         public Device()
@@ -127,18 +127,35 @@ namespace ServiceApi
                 children = value;
             }
         }
-    }
 
-    [DataContract(IsReference = true)]
-    public class ShortDevice
-    {
-        [DataMember]
-        public string Name { get; set; }
+        public ShortDevice Copy()
+        {
+            ShortDevice shortDevice = new ShortDevice();
+            shortDevice.DriverId = this.DriverId;
+            shortDevice.Address = this.Address;
+            shortDevice.PlaceInTree = this.PlaceInTree;
+            shortDevice.Path = this.Path;
+            shortDevice.Description = this.Description;
+            if ((this.Zones != null) && (this.Zones.Count > 0))
+            {
+            shortDevice.Zone = this.Zones[0];
+            }
+            if (this.Parameters != null)
+            {
+                shortDevice.Parameters = new List<Parameter>();
+                foreach (Parameter parameter in this.Parameters)
+                {
+                    shortDevice.Parameters.Add(new Parameter()
+                    {
+                        Name = parameter.Name,
+                        Caption = parameter.Caption,
+                        Visible = parameter.Visible,
+                        Value = parameter.Value
+                    });
+                }
+            }
 
-        [DataMember]
-        public ShortDevice Parent { get; set; }
-
-        [DataMember]
-        public List<ShortDevice> Children { get; set; }
+            return shortDevice;
+        }
     }
 }

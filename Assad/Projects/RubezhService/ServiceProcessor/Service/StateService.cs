@@ -30,7 +30,25 @@ namespace ServiseProcessor
         {
             if (callback != null)
             {
-                callback.DeviceChanged(device);
+                ShortDeviceState shortDeviceState = new ShortDeviceState();
+                shortDeviceState.Path = device.Path;
+
+                shortDeviceState.States = new List<string>();
+                foreach (string state in device.SelfStates)
+                {
+                    shortDeviceState.States.Add(state);
+                }
+                foreach (string parentState in device.ParentStringStates)
+                {
+                    shortDeviceState.States.Add(parentState);
+                }
+                shortDeviceState.Parameters = new List<Parameter>();
+                foreach (Parameter parameter in device.Parameters)
+                {
+                    shortDeviceState.Parameters.Add(new Parameter() { Caption = parameter.Caption, Value = parameter.Value });
+                }
+                shortDeviceState.MustUpdate = ((device.StateChanged) || (device.StatesChanged) || (device.VisibleParameterChanged));
+                callback.DeviceChanged(shortDeviceState);
             }
         }
 
@@ -38,19 +56,28 @@ namespace ServiseProcessor
         {
             if (callback != null)
             {
-                callback.ZoneChanged(zone);
+                ShortZoneState shortZoneState = new ShortZoneState();
+                shortZoneState.State = zone.State;
+                callback.ZoneChanged(shortZoneState);
             }
         }
 
         public Configuration GetConfiguration()
         {
             Device rootDevice = Services.Configuration.Devices[0];
-            ShortDevice rootShortDevice = new ShortDevice();
-            rootShortDevice.Name = rootDevice.DriverName;
-            rootShortDevice.Parent = null;
+            ShortDevice rootShortDevice = rootDevice.Copy();
             AddShortDevice(rootDevice, rootShortDevice);
-
             Services.Configuration.shortDevice = rootShortDevice;
+
+            Services.Configuration.ShortZones = new List<ShortZone>();
+            foreach (Zone zone in Services.Configuration.Zones)
+            {
+                ShortZone shortZone = zone.Copy();
+                Services.Configuration.ShortZones.Add(shortZone);
+            }
+
+            Services.Configuration.Devices = null;
+            Services.Configuration.Zones = null;
             return Services.Configuration;
         }
 
@@ -59,9 +86,7 @@ namespace ServiseProcessor
             parentShortDevice.Children = new List<ShortDevice>();
             foreach (Device device in parentDevice.Children)
             {
-                ShortDevice shortDevice = new ShortDevice();
-                shortDevice.Name = device.DriverName;
-                shortDevice.Parent = parentShortDevice;
+                ShortDevice shortDevice = device.Copy();
                 parentShortDevice.Children.Add(shortDevice);
                 AddShortDevice(device, shortDevice);
             }

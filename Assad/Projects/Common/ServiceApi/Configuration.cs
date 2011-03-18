@@ -16,6 +16,9 @@ namespace ServiceApi
         public ShortDevice shortDevice { get; set; }
 
         [DataMember]
+        public List<ShortZone> ShortZones { get; set; }
+
+        [DataMember]
         public List<Zone> Zones { get; set; }
 
         [IgnoreDataMember]

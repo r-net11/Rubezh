@@ -22,11 +22,11 @@ namespace AssadProcessor
             }
         }
 
-        internal static Device ConvertDevice(AssadBase assadDevice)
+        internal static FullDevice ConvertDevice(AssadBase assadDevice)
         {
             try
             {
-                return ServiceClient.Configuration.Devices.FirstOrDefault(x => x.Path == assadDevice.Path);
+                return ServiceClient._Configuration.Devices.FirstOrDefault(x => x.Path == assadDevice.Path);
             }
             catch (Exception ex)
             {
