@@ -49,6 +49,7 @@ namespace ServiseProcessor
                 Services.StateConfiguration.ShortZones.Add(shortZone);
             }
 
+            Services.StateConfiguration.Metadata = Services.Configuration.Metadata;
             return Services.StateConfiguration;
         }
 

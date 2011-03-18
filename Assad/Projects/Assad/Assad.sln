@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLViewer", "XMLViewer\XMLV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecMetadata", "..\Common\FiresecMetadata\FiresecMetadata.csproj", "{729A5C7F-C908-40A4-8D99-06D80EBC3816}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVisualizer", "ServiceVisualizer\ServiceVisualizer.csproj", "{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

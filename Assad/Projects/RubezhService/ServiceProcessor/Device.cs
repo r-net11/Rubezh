@@ -107,6 +107,8 @@ namespace ServiseProcessor
             ShortDeviceState shortDeviceState = new ShortDeviceState();
             shortDeviceState.Path = this.Path;
 
+            shortDeviceState.State = this.State;
+
             shortDeviceState.States = new List<string>();
             foreach (string state in this.SelfStates)
             {

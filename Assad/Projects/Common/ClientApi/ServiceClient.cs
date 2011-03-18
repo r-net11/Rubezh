@@ -27,6 +27,7 @@ namespace ClientApi
             stateService.Initialize();
             SetParents();
             SetZones();
+            SetStates();
         }
 
         void SetParents()
@@ -71,7 +72,6 @@ namespace ClientApi
         void SetStates()
         {
             ShortStates shortStates = stateService.GetStates();
-
 
             foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
             {

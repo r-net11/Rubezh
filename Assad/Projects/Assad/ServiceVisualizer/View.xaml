@@ -1,0 +1,32 @@
+﻿<Window x:Class="ServiceVisualizer.View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ServiceVisualizer"
+    Title="View" Height="600" Width="600">
+    <Grid>
+        <StackPanel>
+            <Button Content="Connect" Command="{Binding ConnectCommand}" />
+
+            <TreeView ItemsSource="{Binding DevicesViewModels}">
+                <TreeView.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                        <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:DeviceViewModel}" ItemsSource="{Binding Path=Children}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <StackPanel DataContext="{Binding SelectedDevicesViewModel}">
+                <TextBlock Text="{Binding Name}" />
+                <TextBlock Text="{Binding State}" />
+                <TextBlock Text="{Binding States}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
