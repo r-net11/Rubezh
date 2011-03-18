@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,13 +29,26 @@ namespace Firesec
             if (evmStateChanged)
             {
                 Trace.WriteLine("evmStateChanged " + EventMask.ToString());
-
                 CoreState.config coreState = ComServer.GetCoreState();
-                FiresecEventAggregator.OnNewEvent(ComServer.CoreStateString, coreState);
+                FiresecEventAggregator.OnStateChanged(ComServer.CoreStateString, coreState);
             }
             if (evmDeviceParamsUpdated)
             {
                 Trace.WriteLine("evmDeviceParamsUpdated " + EventMask.ToString());
+                DeviceParams.config coreParameters = ComServer.GetDeviceParams();
+                FiresecEventAggregator.OnParametersChanged(ComServer.DeviceParametersString, coreParameters);
+            }
+            if (evmNewEvents)
+            {
+                int lastEvent = 24423;
+
+                ReadEvents.document journal = ComServer.ReadEvents(0, 100);
+                string journalString = ComServer.JournalString;
+
+                int EventId = Convert.ToInt32(journal.Journal[0].IDEvents);
+                Trace.WriteLine("Last Event Id: " + EventId.ToString());
+                if (EventId > lastEvent)
+                    Trace.WriteLine("NEW EVENT: " + EventId.ToString());
             }
         }
     }

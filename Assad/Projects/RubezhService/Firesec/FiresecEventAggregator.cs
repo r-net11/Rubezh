@@ -7,11 +7,18 @@ namespace Firesec
 {
     public class FiresecEventAggregator
     {
-        public static event Action<string, CoreState.config> NewEvent;
-        public static void OnNewEvent(string coreStateString, CoreState.config coreState)
+        public static event Action<string, CoreState.config> StateChanged;
+        public static void OnStateChanged(string coreStateString, CoreState.config coreState)
         {
-            if (NewEvent != null)
-                NewEvent(coreStateString, coreState);
+            if (StateChanged != null)
+                StateChanged(coreStateString, coreState);
+        }
+
+        public static event Action<string, DeviceParams.config> ParametersChanged;
+        public static void OnParametersChanged(string coreParametersString, DeviceParams.config coreParameters)
+        {
+            if (ParametersChanged != null)
+                ParametersChanged(coreParametersString, coreParameters);
         }
     }
 }

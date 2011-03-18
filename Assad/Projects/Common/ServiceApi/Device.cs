@@ -44,16 +44,14 @@ namespace ServiceApi
         [DataMember]
         public List<DeviceProperty> DeviceProperties { get; set; }
 
-        [IgnoreDataMember]
-        public List<Firesec.Metadata.paramInfoType> Parameters { get; set; }
-        [IgnoreDataMember]
-        public List<Firesec.Metadata.propInfoType> Properties { get; set; }
+        [DataMember]
+        public List<Parameter> Parameters { get; set; }
 
         [IgnoreDataMember]
         public Firesec.CoreConfig.devType InnerDevice { get; set; }
 
-        //public List<string> AvailableFunctions { get; set; }
-        //public List<string> AvailableEvents { get; set; }
+        [DataMember]
+        public List<string> AvailableFunctions { get; set; }
 
         [DataMember]
         public int MinPriority { get; set; }
@@ -75,9 +73,6 @@ namespace ServiceApi
 
         public List<State> ParentStates { get; set; }
 
-        //[DataMember]
-        //public List<string> LastEvents { get; set; }
-
         // свойство, по которому можно идентифицировать устройство в текущей конфигурации
 
         public string PlaceInTree { get; set; }
@@ -86,10 +81,16 @@ namespace ServiceApi
         public string Address { get; set; }
 
         [DataMember]
+        public bool StateChanged { get; set; }
+
+        [DataMember]
         public bool StatesChanged { get; set; }
 
         [DataMember]
-        public bool StateChanged { get; set; }
+        public bool ParameterChanged { get; set; }
+
+        [DataMember]
+        public bool VisibleParameterChanged { get; set; }
 
         // главное всойство, по которому можно идентифицировать устройство в системе
 

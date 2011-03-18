@@ -19,21 +19,24 @@ namespace AssadProcessor
         {
             bool assadReady = (AssadConfiguration.Devices == null) ? false : true;
 
-                if (assadReady)
+            if (assadReady)
+            {
+                AssadBase assadDevice = Helper.ConvertDevice(device);
+                if (assadDevice != null)
                 {
-                    AssadBase assadDevice = Helper.ConvertDevice(device);
-                    if (assadDevice != null)
+                    assadDevice.State.State = device.State;
+
+                    string eventName = null;
+                    if (device.StateChanged)
+                        eventName = device.State;
+
+                    if ((device.StateChanged) || (device.StatesChanged) || (device.VisibleParameterChanged))
                     {
-                        assadDevice.State.State = device.State;
-
-                        string eventName = null;
-                        if (device.StateChanged)
-                            eventName = device.State;
-
                         Assad.CPeventType eventType = assadDevice.CreateEvent(eventName);
                         NetManager.Send(eventType, null);
                     }
                 }
+            }
         }
     }
 }

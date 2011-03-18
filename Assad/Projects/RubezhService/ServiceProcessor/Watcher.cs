@@ -6,6 +6,7 @@ using ServiseProcessor;
 using Common;
 using System.Diagnostics;
 using ServiceApi;
+using Firesec;
 
 namespace ServiseProcessor
 {
@@ -13,18 +14,63 @@ namespace ServiseProcessor
     {
         internal void Start()
         {
-            Firesec.FiresecEventAggregator.NewEvent += new Action<string, Firesec.CoreState.config>(OnComServerStateChanged2);
+            Firesec.FiresecEventAggregator.StateChanged += new Action<string, Firesec.CoreState.config>(OnStateChanged);
+            Firesec.FiresecEventAggregator.ParametersChanged += new Action<string, Firesec.DeviceParams.config>(OnParametersChanged);
 
             // первый опрос не должен выкидывать события сервера
             Firesec.CoreState.config coreState = Firesec.ComServer.GetCoreState();
-            OnComServerStateChanged2(Firesec.ComServer.CoreStateString, coreState);
+            OnStateChanged(Firesec.ComServer.CoreStateString, coreState);
+
+            Firesec.DeviceParams.config coreParameters = Firesec.ComServer.GetDeviceParams();
+            OnParametersChanged(ComServer.DeviceParametersString, coreParameters);
         }
 
-        public void OnComServerStateChanged2(string coreStateString, Firesec.CoreState.config coreState)
+        void OnParametersChanged(string coreParametersString, Firesec.DeviceParams.config coreParameters)
         {
             try
             {
-                Trace.WriteLine("OnComServerStateChanged");
+                Trace.WriteLine("OnParametersChanged");
+
+                foreach (Device device in Services.Configuration.Devices)
+                {
+                    device.StateChanged = false;
+                    device.StatesChanged = false;
+                    device.ParameterChanged = false;
+                    device.VisibleParameterChanged = false;
+
+                    Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == device.PlaceInTree);
+                    foreach(Parameter parameter in device.Parameters)
+                    {
+                        Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
+                        if (parameter.Value != innerParameter.value)
+                        {
+                            device.ParameterChanged = true;
+                            if (parameter.Visible)
+                                device.VisibleParameterChanged = true;
+                        }
+                        parameter.Value = innerParameter.value;
+                    }
+                }
+
+                foreach (Device device in Services.Configuration.Devices)
+                {
+                    if (device.ParameterChanged)
+                    {
+                        StateService.DeviceChanged(device);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("OnParametersChanged Error: " + e.ToString());
+            }
+        }
+
+        public void OnStateChanged(string coreStateString, Firesec.CoreState.config coreState)
+        {
+            try
+            {
+                Trace.WriteLine("OnStateChanged");
                 SetStates(coreState);
                 PropogateStates();
                 CalculateStates();
@@ -49,7 +95,7 @@ namespace ServiseProcessor
                         StateService.ZoneChanged(zone);
                     }
                 }
-                Trace.WriteLine("OnComServerStateChanged End");
+                Trace.WriteLine("OnStateChanged End");
             }
             catch (Exception e)
             {
@@ -379,17 +425,17 @@ namespace ServiseProcessor
             return innerDevice;
         }
 
-        public static event Action<List<DeviceEvent>> NewDeviceEvent;
-        public static void OnNewDeviceEvent(List<DeviceEvent> DeviceEvents)
-        {
-            if (NewDeviceEvent != null)
-                NewDeviceEvent(DeviceEvents);
-        }
+        //public static event Action<List<DeviceEvent>> NewDeviceEvent;
+        //public static void OnNewDeviceEvent(List<DeviceEvent> DeviceEvents)
+        //{
+        //    if (NewDeviceEvent != null)
+        //        NewDeviceEvent(DeviceEvents);
+        //}
     }
 
-    public class DeviceEvent
-    {
-        public Device device { get; set; }
-        public List<string> events { get; set; }
-    }
+    //public class DeviceEvent
+    //{
+    //    public Device device { get; set; }
+    //    public List<string> events { get; set; }
+    //}
 }

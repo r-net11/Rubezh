@@ -33,29 +33,29 @@ namespace ServiseProcessor
                     device.States.Add(state);
                 }
 
-                //foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
-                //{
-                //    if (innerState.manualReset == "1")
-                //    {
-                //        if (device.AvailableFunctions == null)
-                //            device.AvailableFunctions = new List<string>();
-                //        device.AvailableFunctions.Add("Сброс " + innerState.name);
-                //    }
-                //}
-
-                //foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
-                //{
-                //    if (device.AvailableEvents == null)
-                //        device.AvailableEvents = new List<string>();
-                //    device.AvailableEvents.Add(innerState.name);
-                //    device.AvailableEvents.Add("Сброс " + innerState.name);
-                //}
-
+                foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+                {
+                    if (innerState.manualReset == "1")
+                    {
+                        if (device.AvailableFunctions == null)
+                            device.AvailableFunctions = new List<string>();
+                        device.AvailableFunctions.Add("Сброс " + innerState.name);
+                    }
+                }
             }
+
+            device.Parameters = new List<Parameter>();
             if (metadataDriver.paramInfo != null)
-                device.Parameters = new List<Firesec.Metadata.paramInfoType>(metadataDriver.paramInfo);
-            if (metadataDriver.propInfo != null)
-                device.Properties = new List<Firesec.Metadata.propInfoType>(metadataDriver.propInfo);
+            {
+                foreach (Firesec.Metadata.paramInfoType paramInfo in metadataDriver.paramInfo)
+                {
+                    Parameter parameter = new Parameter();
+                    parameter.Name = paramInfo.name;
+                    parameter.Caption = paramInfo.caption;
+                    parameter.Visible = ((paramInfo.hidden == "0") && (paramInfo.showOnlyInState == "0")) ? true : false;
+                    device.Parameters.Add(parameter);
+                }
+            }
 
             SetAddress(device, innerDevice);
             SetPath(device);

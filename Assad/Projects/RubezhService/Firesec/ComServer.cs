@@ -14,7 +14,8 @@ namespace Firesec
         public static string CoreConfigString { get; set; }
         public static string CoreStateString { get; set; }
         public static string MetadataString { get; set; }
-        public static string DeviceParamsString { get; set; }
+        public static string DeviceParametersString { get; set; }
+        public static string JournalString { get; set; }
 
         public static CoreConfig.config GetCoreConfig()
         {
@@ -54,14 +55,26 @@ namespace Firesec
 
         public static DeviceParams.config GetDeviceParams()
         {
-            DeviceParamsString = NativeComServer.GetCoreDeviceParams();
-            byte[] bytes = Encoding.Default.GetBytes(DeviceParamsString);
+            DeviceParametersString = NativeComServer.GetCoreDeviceParams();
+            byte[] bytes = Encoding.Default.GetBytes(DeviceParametersString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceParams.config));
             DeviceParams.config deviceParamsConfig = (DeviceParams.config)serializer.Deserialize(memoryStream);
             memoryStream.Close();
             return deviceParamsConfig;
+        }
+
+        public static ReadEvents.document ReadEvents(int fromId, int limit)
+        {
+            JournalString = NativeComServer.ReadEvents(fromId, limit);
+            byte[] bytes = Encoding.Default.GetBytes(JournalString);
+            MemoryStream memoryStream = new MemoryStream(bytes);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(ReadEvents.document));
+            ReadEvents.document journal = (ReadEvents.document)serializer.Deserialize(memoryStream);
+            memoryStream.Close();
+            return journal;
         }
 
         public static void SetNewConfig(CoreConfig.config coreConfig)
