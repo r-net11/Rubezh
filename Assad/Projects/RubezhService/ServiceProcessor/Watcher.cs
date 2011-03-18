@@ -52,13 +52,19 @@ namespace ServiseProcessor
                     }
                 }
 
+                ShortStates shortStates = new ShortStates();
+                shortStates.ShortDeviceStates = new List<ShortDeviceState>();
+                shortStates.ShortZoneStates = new List<ShortZoneState>();
+
                 foreach (Device device in Services.Configuration.Devices)
                 {
                     if (device.ParameterChanged)
                     {
-                        StateService.DeviceChanged(device);
+                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
                     }
                 }
+
+                StateService.StatesChanged(shortStates);
             }
             catch (Exception e)
             {
@@ -76,15 +82,15 @@ namespace ServiseProcessor
                 CalculateStates();
                 CalculateZones();
 
+                ShortStates shortStates = new ShortStates();
+                shortStates.ShortDeviceStates = new List<ShortDeviceState>();
+                shortStates.ShortZoneStates = new List<ShortZoneState>();
+
                 foreach (Device device in Services.Configuration.Devices)
                 {
                     if ((device.StatesChanged) || (device.StateChanged))
                     {
-                        StateService.DeviceChanged(device);
-                        if (device.StateChanged)
-                        {
-                            string state = device.State;
-                        }
+                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
                     }
                 }
 
@@ -92,9 +98,11 @@ namespace ServiseProcessor
                 {
                     if (zone.ZoneChanged)
                     {
-                        StateService.ZoneChanged(zone);
+                        shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
                     }
                 }
+
+                StateService.StatesChanged(shortStates);
                 Trace.WriteLine("OnStateChanged End");
             }
             catch (Exception e)

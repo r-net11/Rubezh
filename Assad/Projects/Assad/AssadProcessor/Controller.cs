@@ -45,7 +45,7 @@ namespace AssadProcessor
                 {
                     waitForConfiguration = false;
 
-                    ServiceApi.Configuration configuration = AssadToComConverter.Convert();
+                    ServiceApi.StateConfiguration configuration = AssadToComConverter.Convert();
                     serviceClient.SetNewConfig(configuration);
                 }
             }
@@ -77,7 +77,7 @@ namespace AssadProcessor
             }
             else
             {
-                FullDevice device = Helper.ConvertDevice(assadDevice);
+                Device device = Helper.ConvertDevice(assadDevice);
                 serviceClient.ExecuteCommand(device, controlType.cmdId);
             }
         }
@@ -100,9 +100,9 @@ namespace AssadProcessor
                 if (assadBase is AssadZone)
                 {
                     AssadZone assadZone = assadBase as AssadZone;
-                    if (ServiceClient._Configuration.Zones.Any(x => x.Id == assadZone.ZoneId))
+                    if (ServiceClient.Configuration.Zones.Any(x => x.Id == assadZone.ZoneId))
                     {
-                        Zone zone = ServiceClient._Configuration.Zones.FirstOrDefault(x => x.Id == assadZone.ZoneId);
+                        Zone zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == assadZone.ZoneId);
                         assadZone.State.State = zone.State;
                     }
                     else
@@ -112,9 +112,9 @@ namespace AssadProcessor
                 }
                 else
                 {
-                    if (ServiceClient._Configuration.Devices.Any(x=>x.Path == assadBase.Path))
+                    if (ServiceClient.Configuration.Devices.Any(x=>x.Path == assadBase.Path))
                     {
-                        FullDevice device = ServiceClient._Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
+                        Device device = ServiceClient.Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
                         assadBase.State.State = device.State;
                     }
                     else

@@ -11,8 +11,8 @@ namespace ClientApi
     {
         DuplexChannelFactory<IStateService> duplexChannelFactory;
         IStateService stateService;
-        public static ServiceApi.Configuration Configuration { get; private set; }
-        public static Configuration _Configuration { get; private set; }
+        public static ServiceApi.StateConfiguration StateConfiguration { get; private set; }
+        public static Configuration Configuration { get; private set; }
 
         public void Start()
         {
@@ -23,7 +23,7 @@ namespace ClientApi
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
             duplexChannelFactory = new DuplexChannelFactory<IStateService>(new InstanceContext(this), binding, endpointAddress);
             stateService = duplexChannelFactory.CreateChannel();
-            Configuration = stateService.GetConfiguration();
+            StateConfiguration = stateService.GetConfiguration();
             stateService.Initialize();
             SetParents();
             SetZones();
@@ -31,25 +31,27 @@ namespace ClientApi
 
         void SetParents()
         {
-            _Configuration = new Configuration();
-            _Configuration.Devices = new List<FullDevice>();
+            Configuration = new Configuration();
+            Configuration.Devices = new List<Device>();
 
-            ShortDevice rootShortDevice = Configuration.shortDevice;
-            FullDevice rootFullDevice = new FullDevice(rootShortDevice);
+            ShortDevice rootShortDevice = StateConfiguration.RootShortDevice;
+            Device rootFullDevice = new Device();
+            rootFullDevice.SetConfig(rootShortDevice);
             rootFullDevice.Parent = null;
-            _Configuration.Devices.Add(rootFullDevice);
+            Configuration.Devices.Add(rootFullDevice);
             AddMyDevice(rootShortDevice, rootFullDevice);    
         }
 
-        void AddMyDevice(ShortDevice parentShortDevice, FullDevice parentFullDevice)
+        void AddMyDevice(ShortDevice parentShortDevice, Device parentFullDevice)
         {
-            parentFullDevice.Children = new List<FullDevice>();
+            parentFullDevice.Children = new List<Device>();
             foreach (ShortDevice shortDevice in parentShortDevice.Children)
             {
-                FullDevice fullDevice = new FullDevice(shortDevice);
+                Device fullDevice = new Device();
+                fullDevice.SetConfig(shortDevice);
                 fullDevice.Parent = parentFullDevice;
                 parentFullDevice.Children.Add(fullDevice);
-                _Configuration.Devices.Add(fullDevice);
+                Configuration.Devices.Add(fullDevice);
                 AddMyDevice(shortDevice, fullDevice);
             }
         }
@@ -57,11 +59,30 @@ namespace ClientApi
         void SetZones()
         {
             // добавить ссылки на устройства
-            _Configuration.Zones = new List<FullZone>();
-            foreach (ShortZone shortZone in Configuration.ShortZones)
+            Configuration.Zones = new List<Zone>();
+            foreach (ShortZone shortZone in StateConfiguration.ShortZones)
             {
-                FullZone fullZone = new FullZone(shortZone);
-                _Configuration.Zones.Add(fullZone);
+                Zone fullZone = new Zone();
+                fullZone.SetConfig(shortZone);
+                Configuration.Zones.Add(fullZone);
+            }
+        }
+
+        void SetStates()
+        {
+            ShortStates shortStates = stateService.GetStates();
+
+
+            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
+            {
+                Device device = Configuration.Devices.FirstOrDefault(x => x.Path == shortDeviceState.Path);
+                device.SetState(shortDeviceState);
+            }
+
+            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
+            {
+                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
+                zone.SetState(shortZoneState);
             }
         }
 
@@ -78,31 +99,46 @@ namespace ClientApi
         {
         }
 
-        public void DeviceChanged(Device device)
+        public void StateChanged(ShortStates shortStates)
         {
-            OnDeviceStateChanged(device);
+            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
+            {
+                Device device = Configuration.Devices.FirstOrDefault(x => x.Path == shortDeviceState.Path);
+                device.SetState(shortDeviceState);
+            }
+
+            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
+            {
+                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
+                zone.SetState(shortZoneState);
+            }
+
+            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
+            {
+                OnDeviceStateChanged(shortDeviceState);
+            }
+            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
+            {
+                // OnZoneChanged
+            }
         }
 
-        public void ZoneChanged(Zone zone)
+        public void SetNewConfig(StateConfiguration configuration)
         {
+            //stateService.SetConfiguration(configuration);
         }
 
-        public void SetNewConfig(ServiceApi.Configuration configuration)
-        {
-            stateService.SetConfiguration(configuration);
-        }
-
-        public void ExecuteCommand(FullDevice device, string command)
+        public void ExecuteCommand(Device device, string command)
         {
             stateService.ExecuteCommand(device.Path, command);
         }
 
-        public static event Action<Device> DeviceStateChanged;
-        static void OnDeviceStateChanged(Device device)
+        public static event Action<ShortDeviceState> DeviceStateChanged;
+        static void OnDeviceStateChanged(ShortDeviceState shortDeviceState)
         {
             if (DeviceStateChanged != null)
             {
-                DeviceStateChanged(device);
+                DeviceStateChanged(shortDeviceState);
             }
         }
     }

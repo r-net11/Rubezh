@@ -7,7 +7,7 @@ namespace ClientApi
 {
     public class Configuration
     {
-        public List<FullDevice> Devices { get; set; }
-        public List<FullZone> Zones { get; set; }
+        public List<Device> Devices { get; set; }
+        public List<Zone> Zones { get; set; }
     }
 }

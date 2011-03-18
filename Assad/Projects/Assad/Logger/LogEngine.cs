@@ -27,6 +27,7 @@ namespace Logger
 
         void SaveFile(string fileName)
         {
+            Directory.CreateDirectory("Logs");
             StreamWriter writer = new StreamWriter("Logs/" + fileName);
             XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
             serializer.Serialize(writer, Logs);

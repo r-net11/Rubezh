@@ -6,18 +6,18 @@ using ServiceApi;
 
 namespace ClientApi
 {
-    public class FullZone
+    public class Zone
     {
-        public string Name { get; set; }
         public string Id { get; set; }
+        public string Name { get; set; }
         public string DetectorCount { get; set; }
         public string EvacuationTime { get; set; }
         public string Description { get; set; }
+        public List<Device> Devices { get; set; }
         public string ValidationError { get; set; }
-        public List<FullDevice> Devices { get; set; }
         public string State { get; set; }
 
-        public FullZone(ShortZone shortZone)
+        public void SetConfig(ShortZone shortZone)
         {
             this.Name = shortZone.Name;
             this.Id = shortZone.Id;
@@ -26,8 +26,9 @@ namespace ClientApi
             this.Description = shortZone.Description;
         }
 
-        public FullZone()
+        public void SetState(ShortZoneState shortZoneState)
         {
+            this.State = shortZoneState.State;
         }
     }
 }

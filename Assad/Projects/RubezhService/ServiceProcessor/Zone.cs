@@ -3,39 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using ServiceApi;
 
-namespace ServiceApi
+namespace ServiseProcessor
 {
-    [DataContract(IsReference = true)]
     public class Zone
     {
-        [DataMember]
         public string Name { get; set; }
-
-        [DataMember]
         public string Id { get; set; }
-
-        [DataMember]
         public string DetectorCount { get; set; }
-
-        [DataMember]
         public string EvacuationTime { get; set; }
-
-        [DataMember]
         public string Description { get; set; }
-
-        [DataMember]
         public string ValidationError { get; set; }
-
-        [DataMember]
         public List<Device> Devices { get; set; }
-
-        [DataMember]
         public string State { get; set; }
-
         public bool ZoneChanged { get; set; }
 
-        public ShortZone Copy()
+        public ShortZone ToShortZone()
         {
             ShortZone shortZone = new ShortZone();
             shortZone.Id = this.Id;
@@ -44,6 +28,14 @@ namespace ServiceApi
             shortZone.EvacuationTime = this.EvacuationTime;
             shortZone.Description = this.Description;
             return shortZone;
+        }
+
+        public ShortZoneState ToShortZoneState()
+        {
+            ShortZoneState shortZoneState = new ShortZoneState();
+            shortZoneState.Id = this.Id;
+            shortZoneState.State = this.State;
+            return shortZoneState;
         }
     }
 }

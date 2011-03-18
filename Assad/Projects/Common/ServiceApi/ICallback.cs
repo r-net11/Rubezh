@@ -15,9 +15,6 @@ namespace ServiceApi
         void ConfigurationChanged();
 
         [OperationContract(IsOneWay = true)]
-        void DeviceChanged(ShortDeviceState shortDeviceState);
-
-        [OperationContract(IsOneWay=true)]
-        void ZoneChanged(ShortZoneState shortZoneState);
+        void StateChanged(ShortStates shortStates);
     }
 }

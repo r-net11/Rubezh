@@ -10,18 +10,17 @@ namespace AssadProcessor
 {
     public static class AssadToComConverter
     {
-        public static Configuration Convert()
+        public static StateConfiguration Convert()
         {
-            Configuration configuration = new Configuration();
+            StateConfiguration configuration = new StateConfiguration();
 
-            ClientApi.FullDevice rootDevice = AddChild(AssadConfiguration.Devices[0]);
-            //configuration.Zones = FindAllZones(AssadConfiguration.Devices[0]);
-            //configuration.Devices = new List<Device>();
-            //configuration.Devices.Add(rootDevice);
+            ClientApi.Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
+            configuration.ShortZones = FindAllZones(AssadConfiguration.Devices[0]);
+            //configuration.shortDevice = rootDevice;
             return configuration;
         }
 
-        static ClientApi.FullDevice AddChild(AssadBase assadParent)
+        static ClientApi.Device AddChild(AssadBase assadParent)
         {
             if (assadParent is AssadZone)
             {
@@ -30,7 +29,7 @@ namespace AssadProcessor
 
             if ((assadParent is AssadDevice) || (assadParent is AssadMC) || (assadParent is AssadChannel) || (assadParent is AssadPanel) || (assadParent is AssadMC34) || (assadParent is AssadPage) || (assadParent is AssadIndicator) || (assadParent is AssadComputer) || (assadParent is AssadASPT) || (assadParent is AssadPumpStation) || (assadParent is AssadPump))
             {
-                ClientApi.FullDevice device = new ClientApi.FullDevice();
+                ClientApi.Device device = new ClientApi.Device();
                 device.Address = assadParent.Address;
                 device.DriverId = assadParent.DriverId;
                 device.Description = assadParent.Description;
@@ -60,11 +59,11 @@ namespace AssadProcessor
                 foreach (AssadTreeBase childTreeBase in assadParent.Children)
                 {
                     AssadBase childAssad = (AssadBase)childTreeBase;
-                    ClientApi.FullDevice childDevice = AddChild(childAssad);
+                    ClientApi.Device childDevice = AddChild(childAssad);
                     if (childDevice != null)
                     {
                         if (device.Children == null)
-                            device.Children = new List<ClientApi.FullDevice>();
+                            device.Children = new List<ClientApi.Device>();
                         device.Children.Add(childDevice);
                     }
                 }
@@ -74,16 +73,16 @@ namespace AssadProcessor
             throw new Exception("Неизвестное устройство");
         }
 
-        static List<ServiceApi.Zone> FindAllZones(AssadBase assadParent)
+        static List<ShortZone> FindAllZones(AssadBase assadParent)
         {
-            List<ServiceApi.Zone> Zones = new List<ServiceApi.Zone>();
+            List<ShortZone> Zones = new List<ShortZone>();
 
             foreach (AssadTreeBase childTreeBase in assadParent.Children)
             {
                 if (childTreeBase is AssadZone)
                 {
                     AssadZone assadZone = childTreeBase as AssadZone;
-                    ServiceApi.Zone zone = new ServiceApi.Zone();
+                    ShortZone zone = new ShortZone();
                     zone.Name = assadZone.ZoneName;
                     zone.Id = assadZone.ZoneId;
                     zone.DetectorCount = assadZone.DetectorCount;

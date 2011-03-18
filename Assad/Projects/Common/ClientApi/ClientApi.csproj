@@ -49,8 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
-    <Compile Include="FullDevice.cs" />
-    <Compile Include="FullZone.cs" />
+    <Compile Include="Device.cs" />
+    <Compile Include="Zone.cs" />
     <Compile Include="ServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

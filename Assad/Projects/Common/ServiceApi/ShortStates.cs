@@ -7,12 +7,12 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class ShortZoneState
+    public class ShortStates
     {
         [DataMember]
-        public string Id { get; set; }
+        public List<ShortDeviceState> ShortDeviceStates { get; set; }
 
         [DataMember]
-        public string State { get; set; }
+        public List<ShortZoneState> ShortZoneStates { get; set; }
     }
 }

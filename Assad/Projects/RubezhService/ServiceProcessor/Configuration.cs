@@ -4,27 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ServiseProcessor
 {
-    [DataContract(IsReference = true)]
     public class Configuration
     {
-        [DataMember]
         public List<Device> Devices { get; set; }
-
-        [DataMember]
-        public ShortDevice shortDevice { get; set; }
-
-        [DataMember]
-        public List<ShortZone> ShortZones { get; set; }
-
-        [DataMember]
         public List<Zone> Zones { get; set; }
-
-        [IgnoreDataMember]
         public Firesec.CoreConfig.config CoreConfig { get; set; }
-
-        [IgnoreDataMember]
         public Firesec.Metadata.config Metadata { get; set; }
     }
 }

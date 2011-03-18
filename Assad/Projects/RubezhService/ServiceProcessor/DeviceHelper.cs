@@ -18,6 +18,7 @@ namespace ServiseProcessor
             device.DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == coreConfigDriverId).id;
 
             Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
+            device.DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(device.DriverId);
             if (metadataDriver.state != null)
             {
                 device.States = new List<State>();

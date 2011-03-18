@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ServiseProcessor
 {
     public class State : INotifyPropertyChanged
     {
