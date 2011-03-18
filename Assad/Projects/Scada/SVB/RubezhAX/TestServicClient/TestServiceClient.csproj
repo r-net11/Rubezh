@@ -91,7 +91,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlService.cs" />
     <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="DeviceDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -151,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Service References\ServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

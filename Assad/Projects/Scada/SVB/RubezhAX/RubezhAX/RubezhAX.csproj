@@ -73,19 +73,14 @@
       <DependentUpon>AXPropertyPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Component.cs" />
+    <Compile Include="Converters\BoolToColorConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyPage\ControlService.cs" />
     <Compile Include="PropertyPage\Converters\BoolToColorConverter.cs" />
     <Compile Include="PropertyPage\DeviceDescriptor.cs" />
     <Compile Include="PropertyPage\RelayCommand.cs" />
     <Compile Include="PropertyPage\ViewModels\ViewModel.cs" />
     <Compile Include="PropertyPage\Views\ComTree.xaml.cs" />
     <Compile Include="PropertyPage\Views\DetailInfo.xaml.cs" />
-    <Compile Include="Service References\ServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="UC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,35 +108,25 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
-    <None Include="Service References\ServiceReference\StateService.wsdl" />
-    <None Include="Service References\ServiceReference\StateService.xsd" />
-    <None Include="Service References\ServiceReference\StateService1.xsd" />
-    <None Include="Service References\ServiceReference\StateService2.xsd" />
-    <None Include="Service References\ServiceReference\StateService3.xsd" />
-    <None Include="Service References\ServiceReference\StateService4.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="Service References\ServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\ServiceReference\RubezhAX.ServiceReference.ComDevice.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
+    <ProjectReference Include="..\..\..\..\Common\ClientApi\ClientApi.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>ClientApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
+      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\FiresecApi\FiresecApi.csproj">
+      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
+      <Name>FiresecApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\ServiceApi\ServiceApi.csproj">
+      <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
+      <Name>ServiceApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

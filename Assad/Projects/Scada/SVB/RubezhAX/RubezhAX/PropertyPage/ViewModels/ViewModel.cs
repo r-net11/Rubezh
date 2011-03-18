@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using RubezhAX.ServiceReference;
 using System.Collections.ObjectModel;
-using RubezhAX.Common;
 //using TestServiceClient.Window1;
-//using Common;
+using Common;
+using ServiceApi;
+using ClientApi;
 
 namespace RubezhAX
 {
@@ -19,8 +19,9 @@ namespace RubezhAX
     {
 
         public AXPropertyPage form;
+        UCRubezh parentForm;
+        public static ServiceClient controllerAPI;
 
-        public ControlService controller { get; set; }
         ObservableCollection<MetaDataID> mDataID;
         public ObservableCollection<MetaDataID> MDataID
         {
@@ -28,26 +29,93 @@ namespace RubezhAX
         }
 
 
-
-        public bool goMethod()
+        public bool goMethodAPI()
         {
-            
-            if (controller == null) return false;
-
             form.MyMetadataDriverID = mDataID[0].StrID;
-            form.ChoiceIDDevice.SelectedItem = 0;
-            bool ret = controller.Start();
 
-            if (ret == false)
+            form.ChoiceIDDevice.SelectedItem = 0;
+
+            controllerAPI.Start();
+
+
+            //            devicesAPI =  figuration;
+
+            List<DeviceDescriptor> innerdevices = new List<DeviceDescriptor>();
+            foreach (Device dev in ClientApi.ServiceClient.Configuration.Devices)
             {
-                MessageBox.Show("Нет связи со службой WCFService");
-                return false;
+                DeviceDescriptor innerdevice = new DeviceDescriptor();
+                innerdevice.DriverId = dev.DriverId;
+                innerdevice.Address = dev.Address;
+                innerdevice.DeviceName = dev.DriverName;
+                innerdevice.LastEvents = dev.LastEvents;
+                innerdevice.State = dev.State;
+                if (dev.States != null)
+                {
+                    if (dev.States.Count != 0)
+                    {
+                        innerdevice.States = dev.States.ToList();
+                    }
+
+                }
+                innerdevice.Zones = dev.Zones;
+                innerdevice.Path = dev.Path;
+                if (innerdevice.DriverId == form.MyMetadataDriverID)
+                    innerdevice.Enable = true;
+
+                string strName = innerdevice.DeviceName;
+                strName = strName.Replace("Пожарный", " ");
+                strName = strName.Replace("дымовой", " ");
+                strName = strName.Replace("тепловой", " ");
+                strName = strName.Replace("извещатель", " ");
+                strName = strName.Replace("Ручной", "");
+                strName = strName.Trim();
+                innerdevice.DeviceName = strName.TrimStart(' ');
+
+                innerdevices.Add(innerdevice);
             }
-            
+
+
+            foreach (Device device in ClientApi.ServiceClient.Configuration.Devices)
+            {
+
+                //                Device parent = device.Parent;
+                DeviceDescriptor mydevice = innerdevices.First(x => x.Path == device.Path);
+                if (device.Parent != null)
+                {
+                    DeviceDescriptor parentDevice = innerdevices.First(x => x.Path == device.Parent.Path);
+                    mydevice.Parent = parentDevice;
+                    //if (parentDevice != null)
+                    //{
+                    //    if (parentDevice.Children == null)
+                    //    {
+                    //        parentDevice.Children = new List<DeviceDescriptor>();
+
+                    //    }
+                    //    parentDevice.Children.Add(mydevice);
+                    //}
+                }
+
+            }
+
+            //viewModel.ComDevices = new System.Collections.ObjectModel.ObservableCollection<TestServiceClient.ServiceReference.ComDevice>();
+            //viewModel.ComDevices.Add(devices[0]);
+            Devices = new System.Collections.ObjectModel.ObservableCollection<RubezhAX.DeviceDescriptor>();
+            //                viewModel.Devices.Add(innerdevices[0]);
+            //for (int i = 0; i < innerdevices.Count; i++ )
+            Devices.Add(innerdevices[0]);
             return true;
+
+
         }
-        public ViewModel()
+
+
+
+
+        public ViewModel(Object parent)
         {
+            controllerAPI = new ServiceClient();
+            parentForm = parent as UCRubezh;
+            
             mDataID = new ObservableCollection<MetaDataID>();
             mDataID.Add(new MetaDataID("Компьютер", "F8340ECE-C950-498D-88CD-DCBABBC604F3"));
             mDataID.Add(new MetaDataID("Страница", "6298807D-850B-4C65-8792-A4EAB2A4A72A"));
@@ -101,7 +169,12 @@ namespace RubezhAX
 
         void OnSelect(object o)
         {
-            MessageBox.Show(selectedDevice.DeviceName);
+            
+//            MessageBox.Show(selectedDevice.DeviceName);
+            parentForm.DeviceNameLabel.Text = selectedDevice.DeviceName;
+            parentForm.DeviceName = selectedDevice.DeviceName;
+            form.Close();      
+        
         }
 
         bool flag;
@@ -166,7 +239,7 @@ namespace RubezhAX
                 // работаем с деревом устройств
                 foreach (DeviceDescriptor device in devices)
                 {
-                    if (device.MetadataDriverId == id)
+                    if (device.DriverId == id)
                         device.Enable = true;
                     else
                         device.Enable = false;
@@ -175,7 +248,7 @@ namespace RubezhAX
                     {
                         foreach (DeviceDescriptor deviceLevel1 in device.Children)
                         {
-                            if (deviceLevel1.MetadataDriverId == id)
+                            if (deviceLevel1.DriverId == id)
                                 deviceLevel1.Enable = true;
                             else
                                 deviceLevel1.Enable = false;
@@ -183,19 +256,13 @@ namespace RubezhAX
                             {
                                 foreach (DeviceDescriptor deviceLevel2 in deviceLevel1.Children)
                                 {
-                                    if (deviceLevel2.MetadataDriverId == id)
+                                    if (deviceLevel2.DriverId == id)
                                         deviceLevel2.Enable = true;
                                     else
                                         deviceLevel2.Enable = false;
                                 }
-                            
-                            
                             }
-                        
-                        
                         }
-                    
-                    
                     }
                 
                 

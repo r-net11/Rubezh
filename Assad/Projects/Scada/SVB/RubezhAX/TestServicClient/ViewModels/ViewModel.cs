@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using TestServiceClient.ServiceReference;
+//using TestServiceClient.ServiceReference;
 using System.Collections.ObjectModel;
 using TestServiceClient.Common;
 using ClientApi;
@@ -27,7 +27,8 @@ namespace TestServiceClient
 
 //        List<Device> devicesAPI;   
 
-        public ControlService controller { get; set; }
+//        public ControlService controller { get; set; }
+        
         ObservableCollection<MetaDataID> mDataID;
         public ObservableCollection<MetaDataID> MDataID
         {
@@ -36,23 +37,6 @@ namespace TestServiceClient
 
 
 
-        public bool goMethod()
-        {
-            
-            if (controller == null) return false;
-
-            form.MyMetadataDriverID = mDataID[0].StrID;
-            form.ChoiceIDDevice.SelectedItem = 0;
-            bool ret = controller.Start();
-
-            if (ret == false)
-            {
-                MessageBox.Show("Нет связи со службой WCFService");
-                return false;
-            }
-            
-            return true;
-        }
 
 
         public bool goMethodAPI()
@@ -67,59 +51,60 @@ namespace TestServiceClient
 //            devicesAPI =  figuration;
             
             List<DeviceDescriptor> innerdevices = new List<DeviceDescriptor>();
-            for (int i = 0; i < ClientApi.ServiceClient.Configuration.Devices.Count; i++)
+            foreach (Device dev in ClientApi.ServiceClient.Configuration.Devices)
             {
                 DeviceDescriptor innerdevice = new DeviceDescriptor();
-                innerdevice.MetadataDriverId = devices[i].MetadataDriverId;
-                innerdevice.Address = devices[i].Address;
-                innerdevice.AvailableEvents = devices[i].AvailableEvents;
-                innerdevice.AvailableFunctions = devices[i].AvailableFunctions;
-                innerdevice.DeviceName = devices[i].DeviceName;
-                innerdevice.DriverId = devices[i].DriverId;
-                innerdevice.ExtensionData = devices[i].ExtensionData;
-                innerdevice.Id = devices[i].Id;
-                innerdevice.LastEvents = devices[i].LastEvents;
-                innerdevice.Name = devices[i].Name;
-                innerdevice.Parent = devices[i].Parent;
-                innerdevice.ParentAddress = devices[i].ParentAddress;
-                innerdevice.ParentId = devices[i].ParentId;
-                innerdevice.Children = devices[i].Children;
-                innerdevice.State = devices[i].State;
-                innerdevice.States = devices[i].States;
-                innerdevice.Zone = devices[i].Zone;
-                if (innerdevice.MetadataDriverId == form.MyMetadataDriverID)
+                innerdevice.DriverId = dev.DriverId;
+                innerdevice.Address = dev.Address;
+                innerdevice.DeviceName = dev.DriverName;
+                innerdevice.LastEvents = dev.LastEvents;
+                innerdevice.State = dev.State;
+                if (dev.States != null)
+                {
+                    if (dev.States.Count != 0)
+                    {
+                        innerdevice.States = dev.States.ToList();
+                    }
+                
+                }
+                innerdevice.Zones = dev.Zones;
+                innerdevice.Path = dev.Path;
+                if (innerdevice.DriverId == form.MyMetadataDriverID)
                     innerdevice.Enable = true;
 
-                innerdevices.Add(innerdevice);
-            }
-
-
-            foreach (DeviceDescriptor device in innerdevices)
-            {
-                string strName = device.DeviceName;
+                string strName = innerdevice.DeviceName;
                 strName = strName.Replace("Пожарный", " ");
                 strName = strName.Replace("дымовой", " ");
                 strName = strName.Replace("тепловой", " ");
                 strName = strName.Replace("извещатель", " ");
                 strName = strName.Replace("Ручной", "");
                 strName = strName.Trim();
-                device.DeviceName = strName.TrimStart(' ');
+                innerdevice.DeviceName = strName.TrimStart(' ');
 
-                int parentId = device.ParentId;
-                if (parentId != 0)
+                innerdevices.Add(innerdevice);
+            }
+
+
+            foreach (Device device in ClientApi.ServiceClient.Configuration.Devices)
+            {
+
+//                Device parent = device.Parent;
+                DeviceDescriptor mydevice = innerdevices.First(x => x.Path == device.Path);
+                if (device.Parent != null)
                 {
-                    DeviceDescriptor parentDevice = innerdevices.First(x => x.Id == parentId);
-                    device.Parent = parentDevice;
-                    if (parentDevice != null)
-                    {
-                        if (parentDevice.Children == null)
-                        {
-                            parentDevice.Children = new List<TestServiceClient.ServiceReference.TreeBase>();
+                    DeviceDescriptor parentDevice = innerdevices.First(x => x.Path == device.Parent.Path);
+                    mydevice.Parent = parentDevice;
+                    //if (parentDevice != null)
+                    //{
+                    //    if (parentDevice.Children == null)
+                    //    {
+                    //        parentDevice.Children = new List<DeviceDescriptor>();
 
-                        }
-                        parentDevice.Children.Add(device);
-                    }
+                    //    }
+                    //    parentDevice.Children.Add(mydevice);
+                    //}
                 }
+
             }
 
             //viewModel.ComDevices = new System.Collections.ObjectModel.ObservableCollection<TestServiceClient.ServiceReference.ComDevice>();
@@ -128,9 +113,6 @@ namespace TestServiceClient
             //                viewModel.Devices.Add(innerdevices[0]);
             //for (int i = 0; i < innerdevices.Count; i++ )
             Devices.Add(innerdevices[0]);
-
-            
-            
             return true;
             
         
@@ -261,7 +243,7 @@ namespace TestServiceClient
                 // работаем с деревом устройств
                 foreach (DeviceDescriptor device in devices)
                 {
-                    if (device.MetadataDriverId == id)
+                    if (device.DriverId == id)
                         device.Enable = true;
                     else
                         device.Enable = false;
@@ -270,7 +252,7 @@ namespace TestServiceClient
                     {
                         foreach (DeviceDescriptor deviceLevel1 in device.Children)
                         {
-                            if (deviceLevel1.MetadataDriverId == id)
+                            if (deviceLevel1.DriverId == id)
                                 deviceLevel1.Enable = true;
                             else
                                 deviceLevel1.Enable = false;
@@ -278,7 +260,7 @@ namespace TestServiceClient
                             {
                                 foreach (DeviceDescriptor deviceLevel2 in deviceLevel1.Children)
                                 {
-                                    if (deviceLevel2.MetadataDriverId == id)
+                                    if (deviceLevel2.DriverId == id)
                                         deviceLevel2.Enable = true;
                                     else
                                         deviceLevel2.Enable = false;

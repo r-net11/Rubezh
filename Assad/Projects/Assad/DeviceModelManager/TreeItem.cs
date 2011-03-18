@@ -77,6 +77,7 @@ namespace DeviveModelManager
         {
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
             parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+                parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
 
             if (Driver.ar_no_addr == "0")
             {
@@ -178,6 +179,8 @@ namespace DeviveModelManager
             }
             return parameters;
         }
+            return parameters;
+        }
 
         List<Assad.modelInfoTypeState> AddStates()
         {
@@ -205,7 +208,6 @@ namespace DeviveModelManager
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Ошибка" });
             AssadConfigurationState.value = ConfigurationStateValues.ToArray();
             States.Add(AssadConfigurationState);
-
             if (Driver.paramInfo != null)
             {
                 foreach (Firesec.Metadata.paramInfoType paramInfo in Driver.paramInfo)

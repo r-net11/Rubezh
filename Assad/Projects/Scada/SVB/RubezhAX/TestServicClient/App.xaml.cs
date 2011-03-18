@@ -18,12 +18,8 @@ namespace TestServiceClient
         {
             Window1 view = new Window1();
             ViewModel viewModel = new ViewModel();
-            ControlService controller = new ControlService();
-            controller.form = view;
             viewModel.form = view;
-            controller.viewModel = viewModel;
-            viewModel.controller = controller;
-            if (viewModel.goMethod() == false) Shutdown();
+            if (viewModel.goMethodAPI() == false) Shutdown();
             view.DataContext = viewModel;
             view.Show();
 

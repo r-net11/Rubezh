@@ -44,7 +44,27 @@ namespace ServiseProcessor
 
         public Configuration GetConfiguration()
         {
+            Device rootDevice = Services.Configuration.Devices[0];
+            ShortDevice rootShortDevice = new ShortDevice();
+            rootShortDevice.Name = rootDevice.DriverName;
+            rootShortDevice.Parent = null;
+            AddShortDevice(rootDevice, rootShortDevice);
+
+            Services.Configuration.shortDevice = rootShortDevice;
             return Services.Configuration;
+        }
+
+        void AddShortDevice(Device parentDevice, ShortDevice parentShortDevice)
+        {
+            parentShortDevice.Children = new List<ShortDevice>();
+            foreach (Device device in parentDevice.Children)
+            {
+                ShortDevice shortDevice = new ShortDevice();
+                shortDevice.Name = device.DriverName;
+                shortDevice.Parent = parentShortDevice;
+                parentShortDevice.Children.Add(shortDevice);
+                AddShortDevice(device, shortDevice);
+            }
         }
 
         public void ExecuteCommand(string devicePath, string command)
