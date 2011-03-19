@@ -122,8 +122,12 @@ namespace WpfApplication1
         {
             base.OnRenderSizeChanged(sizeInfo);
             double minSize = Math.Min(window1.Width - 14, window1.Height - 36.2) / (Math.Min(window1Width - 14, window1Height - 36.2));
-            ScaleTransform scaleTransform1 = new ScaleTransform(minSize, minSize, 0, 0);
+            double widthCoefficient = (window1Width-14) / 500;
+            double heightCoefficient = (window1Height - 36.2) / 500;
+            double sizeCoefficient = Math.Min(widthCoefficient, heightCoefficient);
+            ScaleTransform scaleTransform1 = new ScaleTransform(minSize * sizeCoefficient, minSize * sizeCoefficient, 0, 0);
             contentControl1.RenderTransform = scaleTransform1;
+            textBox1.FontSize = (window1.Width + window1.Height - 50) / 20;
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -170,6 +174,7 @@ namespace WpfApplication1
             MenuItem menuItem = (MenuItem)e.OriginalSource;
             string theHeader = menuItem.Header.ToString();
             comboBox1.Visibility = System.Windows.Visibility.Visible;
+            textBox1.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 
