@@ -80,8 +80,11 @@ namespace WpfApplication1
 
         private void comboBox1_DropDownClosed(object sender, EventArgs e)
         {
-            if(comboBox1.Text != "")
+            if (comboBox1.Text != "")
+            {
                 comboBox2.Visibility = System.Windows.Visibility.Visible;
+                window1.Title = comboBox1.Text;
+            }
         }
 
         private void comboBox2_DropDownClosed(object sender, EventArgs e)

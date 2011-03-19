@@ -13,6 +13,6 @@
             <ComboBox Name="comboBox1" MouseEnter="comboBox1_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox1_DropDownClosed" />
             <ComboBox Name="comboBox2" MouseEnter="comboBox2_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox2_DropDownClosed" />
         </StackPanel>
-        <TextBox Name="textBox1" Text="Нажмите правую кнопку мыши, чтобы увидеть меню выбора устройств." TextWrapping="WrapWithOverflow" FontSize="30" Foreground="#FF23284C" IsReadOnly="True" />
+        <TextBox Name="textBox1" Text="Нажмите правую кнопку мыши, чтобы увидеть меню выбора устройств." TextWrapping="WrapWithOverflow" FontSize="30" Foreground="#FF23284C" IsReadOnly="True" IsEnabled="False" />
     </Grid>
 </Window>
