@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using Common;
+using ClientApi;
 
 namespace ServiceVisualizer
 {
@@ -14,14 +15,45 @@ namespace ServiceVisualizer
             Children = new List<DeviceViewModel>();
         }
 
-        string name;
-        public string Name
+        public void SetDevice(Device device)
         {
-            get { return name; }
+            DriverName = device.DriverName;
+            ShortDriverName = device.ShortDriverName;
+            Address = device.PresentationAddress;
+            Zone = device.Zone;
+            Description = device.Description;
+            State = device.State;
+            States = "";
+            foreach (string state in device.States)
+            {
+                States += state + "\n";
+            }
+            Parameters = "";
+            foreach (ServiceApi.Parameter parameter in device.Parameters)
+            {
+                Parameters += parameter.Caption + " - " + parameter.Value + "\n";
+            }
+        }
+
+        string shortDriverName;
+        public string ShortDriverName
+        {
+            get { return shortDriverName; }
             set
             {
-                name = value;
-                OnPropertyChanged("Name");
+                shortDriverName = value;
+                OnPropertyChanged("ShortDriverName");
+            }
+        }
+
+        string driverName;
+        public string DriverName
+        {
+            get { return driverName; }
+            set
+            {
+                driverName = value;
+                OnPropertyChanged("DriverName");
             }
         }
 
@@ -47,6 +79,17 @@ namespace ServiceVisualizer
             }
         }
 
+        string description;
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
+                OnPropertyChanged("Description");
+            }
+        }
+
         string state;
         public string State
         {
@@ -69,6 +112,19 @@ namespace ServiceVisualizer
             }
         }
 
+        string parameters;
+        public string Parameters
+        {
+            get { return parameters; }
+            set
+            {
+                parameters = value;
+                OnPropertyChanged("Parameters");
+            }
+        }
+
+        public DeviceViewModel Parent { get; set; }
+
         List<DeviceViewModel> children;
         public List<DeviceViewModel> Children
         {
@@ -80,8 +136,6 @@ namespace ServiceVisualizer
             }
         }
 
-        public DeviceViewModel Parent { get; set; }
-
         bool isSelected;
         public bool IsSelected
         {
@@ -91,6 +145,17 @@ namespace ServiceVisualizer
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
                 ViewModel.Current.SelectedDevicesViewModel = this;
+            }
+        }
+
+        bool isExpanded;
+        public bool IsExpanded
+        {
+            get { return isExpanded; }
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged("IsExpanded");
             }
         }
     }

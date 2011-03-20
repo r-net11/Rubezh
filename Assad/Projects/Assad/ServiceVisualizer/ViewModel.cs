@@ -51,17 +51,9 @@ namespace ServiceVisualizer
             Device rootDevice = ServiceClient.Configuration.Devices[0];
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
-            rootDeviceViewModel.Children = new List<DeviceViewModel>();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Name = rootDevice.DriverName;
-            rootDeviceViewModel.Address = rootDevice.PresentationAddress;
-            rootDeviceViewModel.Zone = rootDevice.Zone;
-            rootDeviceViewModel.State = rootDevice.State;
-            rootDeviceViewModel.States = "";
-            foreach(string state in rootDevice.States)
-            {
-                rootDeviceViewModel.States += state + "\n";
-            }
+            rootDeviceViewModel.SetDevice(rootDevice);
+            rootDeviceViewModel.IsExpanded = true;
             DevicesViewModels.Add(rootDeviceViewModel);
             AddDevice(rootDevice, rootDeviceViewModel);
         }
@@ -72,15 +64,8 @@ namespace ServiceVisualizer
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Name = device.DriverName;
-                deviceViewModel.Address = device.PresentationAddress;
-                deviceViewModel.Zone = device.Zone;
-                deviceViewModel.State = device.State;
-                deviceViewModel.States = "";
-                foreach (string state in device.States)
-                {
-                    deviceViewModel.States += state + "\n";
-                }
+                deviceViewModel.SetDevice(device);
+                deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }

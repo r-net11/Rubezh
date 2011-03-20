@@ -79,9 +79,9 @@ namespace ServiseProcessor
             if (innerDevice == null)
                 return;
 
-            string coreConfigDriverId = innerDevice.drv;
             Address = innerDevice.addr;
-            DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == coreConfigDriverId).id;
+            Description = innerDevice.name;
+            DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 
             Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == DriverId);
             DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
