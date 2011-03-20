@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace AutoHosting
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel : BaseViewModel
     {
         Controller controller;
 
@@ -54,13 +54,6 @@ namespace AutoHosting
                 status = value;
                 OnPropertyChanged("Status");
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

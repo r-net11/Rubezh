@@ -45,9 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComServerHelper.cs" />
+    <Compile Include="MetadataHelper.cs" />
     <Compile Include="DriversHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateHelper.cs" />
     <Compile Include="TreeBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

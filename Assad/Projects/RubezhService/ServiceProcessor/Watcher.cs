@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServiseProcessor;
-using Common;
 using System.Diagnostics;
 using ServiceApi;
 using Firesec;
+using FiresecMetadata;
 
 namespace ServiseProcessor
 {

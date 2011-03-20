@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace ServiceVisualizer
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel : BaseViewModel
     {
         public ViewModel()
         {
@@ -84,13 +84,6 @@ namespace ServiceVisualizer
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

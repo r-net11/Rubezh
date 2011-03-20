@@ -6,7 +6,6 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Runtime.Serialization;
 using ServiseProcessor;
-using Common;
 using ServiceApi;
 
 namespace ServiseProcessor
