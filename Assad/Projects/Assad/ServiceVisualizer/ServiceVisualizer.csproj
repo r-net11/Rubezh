@@ -116,6 +116,10 @@
       <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
       <Name>ServiceApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TreeListView\TreeListView.csproj">
+      <Project>{59A4159D-1038-4770-91DF-154A22CDE411}</Project>
+      <Name>TreeListView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

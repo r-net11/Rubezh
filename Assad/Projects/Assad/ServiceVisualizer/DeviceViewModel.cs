@@ -24,6 +24,17 @@ namespace ServiceVisualizer
             }
         }
 
+        string address;
+        public string Address
+        {
+            get { return address; }
+            set
+            {
+                address = value;
+                OnPropertyChanged("Address");
+            }
+        }
+
         string state;
         public string State
         {
@@ -56,6 +67,8 @@ namespace ServiceVisualizer
                 OnPropertyChanged("Children");
             }
         }
+
+        public DeviceViewModel Parent { get; set; }
 
         bool isSelected;
         public bool IsSelected

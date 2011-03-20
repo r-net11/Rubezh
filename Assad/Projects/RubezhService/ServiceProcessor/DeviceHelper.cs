@@ -66,6 +66,8 @@ namespace ServiseProcessor
 
         static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
         {
+            device.PresentationAddress = innerDevice.addr;
+
             switch (device.DriverName)
             {
                 case "Компьютер":

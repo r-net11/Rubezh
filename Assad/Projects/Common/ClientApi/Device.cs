@@ -16,6 +16,7 @@ namespace ClientApi
         public string Description { get; set; }
         public string PlaceInTree { get; set; }
         public string Address { get; set; }
+        public string PresentationAddress { get; set; }
         public string Zone { get; set; }
         public List<DeviceProperty> DeviceProperties { get; set; }
         public List<string> AvailableFunctions { get; set; }
@@ -36,6 +37,7 @@ namespace ClientApi
         {
             this.DriverId = shortDevice.DriverId;
             this.Address = shortDevice.Address;
+            this.PresentationAddress = shortDevice.PresentationAddress;
             this.PlaceInTree = shortDevice.PlaceInTree;
             this.Path = shortDevice.Path;
             this.Description = shortDevice.Description;

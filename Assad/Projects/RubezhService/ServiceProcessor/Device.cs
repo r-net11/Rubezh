@@ -37,6 +37,7 @@ namespace ServiseProcessor
         public List<State> ParentStates { get; set; }
         public string PlaceInTree { get; set; }
         public string Address { get; set; }
+        public string PresentationAddress { get; set; }
         public bool StateChanged { get; set; }
         public bool StatesChanged { get; set; }
         public bool ParameterChanged { get; set; }
@@ -77,6 +78,7 @@ namespace ServiseProcessor
             ShortDevice shortDevice = new ShortDevice();
             shortDevice.DriverId = this.DriverId;
             shortDevice.Address = this.Address;
+            shortDevice.PresentationAddress = this.PresentationAddress;
             shortDevice.PlaceInTree = this.PlaceInTree;
             shortDevice.Path = this.Path;
             shortDevice.Description = this.Description;
