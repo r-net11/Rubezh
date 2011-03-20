@@ -24,6 +24,7 @@ namespace ClientApi
 
         public string DriverName { get; set; }
         public string ShortDriverName { get; set; }
+        public string ImageName { get; set; }
 
         public string State { get; set; }
         public List<string> States { get; set; }
@@ -62,6 +63,7 @@ namespace ClientApi
             Firesec.Metadata.drvType driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == DriverId);
             DriverName = driver.name;
             ShortDriverName = driver.shortName;
+            ImageName = driver.dev_icon;
         }
 
         public void SetState(ShortDeviceState shortDeviceState)
