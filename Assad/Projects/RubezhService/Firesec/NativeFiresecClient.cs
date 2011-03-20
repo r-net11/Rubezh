@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Firesec
 {
-    public class NativeComServer
+    public class NativeFiresecClient
     {
         static FS_Types.IFSC_Connection connectoin;
         static FS_Types.IFSC_Connection Connectoin

@@ -29,21 +29,21 @@ namespace Firesec
             if (evmStateChanged)
             {
                 Trace.WriteLine("evmStateChanged " + EventMask.ToString());
-                CoreState.config coreState = ComServer.GetCoreState();
-                FiresecEventAggregator.OnStateChanged(ComServer.CoreStateString, coreState);
+                CoreState.config coreState = FiresecClient.GetCoreState();
+                FiresecEventAggregator.OnStateChanged(FiresecClient.CoreStateString, coreState);
             }
             if (evmDeviceParamsUpdated)
             {
                 Trace.WriteLine("evmDeviceParamsUpdated " + EventMask.ToString());
-                DeviceParams.config coreParameters = ComServer.GetDeviceParams();
-                FiresecEventAggregator.OnParametersChanged(ComServer.DeviceParametersString, coreParameters);
+                DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
+                FiresecEventAggregator.OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
             }
             if (evmNewEvents)
             {
                 int lastEvent = 24423;
 
-                ReadEvents.document journal = ComServer.ReadEvents(0, 100);
-                string journalString = ComServer.JournalString;
+                ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
+                string journalString = FiresecClient.JournalString;
 
                 int EventId = Convert.ToInt32(journal.Journal[0].IDEvents);
                 Trace.WriteLine("Last Event Id: " + EventId.ToString());

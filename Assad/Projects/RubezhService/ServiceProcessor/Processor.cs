@@ -33,16 +33,16 @@ namespace ServiseProcessor
             Services.Configuration.Devices = configuration.Devices;
             Services.Configuration.Zones = configuration.Zones;
 
-            Converter comDeviceToNativeConverter = new Converter();
-            Firesec.CoreConfig.config config = comDeviceToNativeConverter.Convert(configuration);
-            Firesec.ComServer.SetNewConfig(config);
+            Converter deviceToNativeConverter = new Converter();
+            Firesec.CoreConfig.config config = deviceToNativeConverter.Convert(configuration);
+            Firesec.FiresecClient.SetNewConfig(config);
         }
 
         public static void ExecuteCommand(Device device, string commandName)
         {
             commandName = commandName.Remove(0, "Сброс ".Length);
-            State comState = device.States.First(x => x.Name == commandName);
-            string id = comState.Id;
+            State state = device.States.First(x => x.Name == commandName);
+            string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
@@ -52,14 +52,14 @@ namespace ServiseProcessor
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
             coreState.dev[0].state[0].id = id;
 
-            Firesec.ComServer.ResetStates(coreState);
+            Firesec.FiresecClient.ResetStates(coreState);
         }
 
         void BuildDeviceTree()
         {
             Services.Configuration = new Configuration();
-            Services.Configuration.Metadata = Firesec.ComServer.GetMetaData();
-            Services.Configuration.CoreConfig = Firesec.ComServer.GetCoreConfig();
+            Services.Configuration.Metadata = Firesec.FiresecClient.GetMetaData();
+            Services.Configuration.CoreConfig = Firesec.FiresecClient.GetCoreConfig();
 
             BuildZones();
 

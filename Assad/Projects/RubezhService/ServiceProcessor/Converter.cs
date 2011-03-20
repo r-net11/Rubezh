@@ -87,7 +87,7 @@ namespace ServiseProcessor
         }
 
         // установить адрес
-        public void SetAddress(Firesec.CoreConfig.devType innerComDevice, Device device)
+        public void SetAddress(Firesec.CoreConfig.devType innerDevice, Device device)
         {
             switch (device.DriverName)
             {
@@ -99,7 +99,7 @@ namespace ServiseProcessor
                 case "Компрессор":
                 case "Дренажный насос":
                 case "Насос компенсации утечек":
-                    innerComDevice.addr = "0";
+                    innerDevice.addr = "0";
                     return;
                 default:
                     break;
@@ -110,24 +110,24 @@ namespace ServiseProcessor
                 throw new Exception("Адрес не может отсутствовать");
             }
 
-            innerComDevice.addr = device.Address;
+            innerDevice.addr = device.Address;
         }
 
-        List<Firesec.CoreConfig.propType> AddCustomProperties(Device parentComDevice)
+        List<Firesec.CoreConfig.propType> AddCustomProperties(Device parentDevice)
         {
             List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
 
-            if (parentComDevice.DriverName != "Компьютер")
+            if (parentDevice.DriverName != "Компьютер")
             {
-                if (parentComDevice.DeviceProperties != null)
+                if (parentDevice.DeviceProperties != null)
                 {
-                    if (parentComDevice.DeviceProperties.Count > 0)
+                    if (parentDevice.DeviceProperties.Count > 0)
                     {
-                        foreach (DeviceProperty deviceProperty in parentComDevice.DeviceProperties)
+                        foreach (DeviceProperty deviceProperty in parentDevice.DeviceProperties)
                         {
                             if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
                             {
-                                Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == parentComDevice.DriverId);
+                                Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == parentDevice.DriverId);
                                 if (metadataDriver.propInfo != null)
                                 {
                                     if (metadataDriver.propInfo.Any(x => x.caption == deviceProperty.Name))

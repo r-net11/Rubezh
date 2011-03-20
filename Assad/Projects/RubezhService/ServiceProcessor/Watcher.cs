@@ -18,11 +18,11 @@ namespace ServiseProcessor
             Firesec.FiresecEventAggregator.ParametersChanged += new Action<string, Firesec.DeviceParams.config>(OnParametersChanged);
 
             // первый опрос не должен выкидывать события сервера
-            Firesec.CoreState.config coreState = Firesec.ComServer.GetCoreState();
-            OnStateChanged(Firesec.ComServer.CoreStateString, coreState);
+            Firesec.CoreState.config coreState = Firesec.FiresecClient.GetCoreState();
+            OnStateChanged(Firesec.FiresecClient.CoreStateString, coreState);
 
-            Firesec.DeviceParams.config coreParameters = Firesec.ComServer.GetDeviceParams();
-            OnParametersChanged(ComServer.DeviceParametersString, coreParameters);
+            Firesec.DeviceParams.config coreParameters = Firesec.FiresecClient.GetDeviceParams();
+            OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
         }
 
         void OnParametersChanged(string coreParametersString, Firesec.DeviceParams.config coreParameters)

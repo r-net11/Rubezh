@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Firesec
 {
-    public class ComServer
+    public class FiresecClient
     {
         public static string CoreConfigString { get; set; }
         public static string CoreStateString { get; set; }
@@ -19,7 +19,7 @@ namespace Firesec
 
         public static CoreConfig.config GetCoreConfig()
         {
-            CoreConfigString = NativeComServer.GetCoreConfig();
+            CoreConfigString = NativeFiresecClient.GetCoreConfig();
             byte[] bytes = Encoding.Default.GetBytes(CoreConfigString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
@@ -31,7 +31,7 @@ namespace Firesec
 
         public static CoreState.config GetCoreState()
         {
-            CoreStateString = NativeComServer.GetCoreState();
+            CoreStateString = NativeFiresecClient.GetCoreState();
             byte[] bytes = Encoding.Default.GetBytes(CoreStateString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
@@ -43,7 +43,7 @@ namespace Firesec
 
         public static Metadata.config GetMetaData()
         {
-            MetadataString = NativeComServer.GetMetaData();
+            MetadataString = NativeFiresecClient.GetMetaData();
             byte[] bytes = Encoding.Default.GetBytes(MetadataString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
@@ -55,7 +55,7 @@ namespace Firesec
 
         public static DeviceParams.config GetDeviceParams()
         {
-            DeviceParametersString = NativeComServer.GetCoreDeviceParams();
+            DeviceParametersString = NativeFiresecClient.GetCoreDeviceParams();
             byte[] bytes = Encoding.Default.GetBytes(DeviceParametersString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
@@ -67,7 +67,7 @@ namespace Firesec
 
         public static ReadEvents.document ReadEvents(int fromId, int limit)
         {
-            JournalString = NativeComServer.ReadEvents(fromId, limit);
+            JournalString = NativeFiresecClient.ReadEvents(fromId, limit);
             byte[] bytes = Encoding.Default.GetBytes(JournalString);
             MemoryStream memoryStream = new MemoryStream(bytes);
 
@@ -91,7 +91,7 @@ namespace Firesec
             writer.Write(message);
             writer.Close();
 
-            NativeComServer.SetNewConfig(message);
+            NativeFiresecClient.SetNewConfig(message);
         }
 
         public static void DeviceWriteConfig(CoreConfig.config coreConfig, string DevicePath)
@@ -104,7 +104,7 @@ namespace Firesec
             string message = Encoding.UTF8.GetString(bytes);
             message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            NativeComServer.DeviceWriteConfig(message, DevicePath);
+            NativeFiresecClient.DeviceWriteConfig(message, DevicePath);
         }
 
         public static void ResetStates(CoreState.config coreState)
@@ -117,7 +117,7 @@ namespace Firesec
             string message = Encoding.UTF8.GetString(bytes);
             message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            NativeComServer.ResetStates(message);
+            NativeFiresecClient.ResetStates(message);
         }
     }
 }
