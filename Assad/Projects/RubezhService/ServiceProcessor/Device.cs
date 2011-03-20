@@ -22,7 +22,7 @@ namespace ServiseProcessor
         public string DriverName { get; set; }
         public string DriverId { get; set; }
         public string ValidationError { get; set; }
-        public List<string> Zones { get; set; }
+        public string Zone { get; set; }
         public List<State> States { get; set; }
         public List<DeviceProperty> DeviceProperties { get; set; }
         public List<Parameter> Parameters { get; set; }
@@ -43,6 +43,7 @@ namespace ServiseProcessor
         public bool ParameterChanged { get; set; }
         public bool VisibleParameterChanged { get; set; }
         public string Path { get; set; }
+        Firesec.CoreConfig.devType innerDevice;
 
         Device parent;
         public Device Parent
@@ -73,6 +74,154 @@ namespace ServiseProcessor
             }
         }
 
+        public void SetInnerDevice(Firesec.CoreConfig.devType innerDevice)
+        {
+            this.innerDevice = innerDevice;
+            if (innerDevice == null)
+                return;
+
+            string coreConfigDriverId = innerDevice.drv;
+            Address = innerDevice.addr;
+            DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == coreConfigDriverId).id;
+
+            Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == DriverId);
+            DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
+            States = new List<State>();
+            if (metadataDriver.state != null)
+            {
+                foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+                {
+                    State state = new State()
+                    {
+                        Id = innerState.id,
+                        Name = innerState.name,
+                        Priority = Convert.ToInt32(innerState.@class),
+                        AffectChildren = innerState.affectChildren == "1" ? true : false
+                    };
+                    States.Add(state);
+                }
+
+                foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+                {
+                    if (innerState.manualReset == "1")
+                    {
+                        if (AvailableFunctions == null)
+                            AvailableFunctions = new List<string>();
+                        AvailableFunctions.Add("Сброс " + innerState.name);
+                    }
+                }
+            }
+
+            Parameters = new List<Parameter>();
+            if (metadataDriver.paramInfo != null)
+            {
+                foreach (Firesec.Metadata.paramInfoType paramInfo in metadataDriver.paramInfo)
+                {
+                    Parameter parameter = new Parameter();
+                    parameter.Name = paramInfo.name;
+                    parameter.Caption = paramInfo.caption;
+                    parameter.Visible = ((paramInfo.hidden == "0") && (paramInfo.showOnlyInState == "0")) ? true : false;
+                    Parameters.Add(parameter);
+                }
+            }
+
+            SetAddress();
+            SetPath();
+            SetPlaceInTree();
+            SetZone();
+        }
+
+        void SetAddress()
+        {
+            PresentationAddress = innerDevice.addr;
+
+            switch (DriverName)
+            {
+                case "Компьютер":
+                    Address = "Компьютер";
+                    break;
+
+                case "Насосная Станция":
+                    Address = "Насосная Станция";
+                    break;
+
+                case "Жокей-насос":
+                    Address = "Жокей-насос";
+                    break;
+
+                case "Компрессор":
+                    Address = "Компрессор";
+                    break;
+
+                case "Дренажный насос":
+                    Address = "Дренажный насос";
+                    break;
+
+                case "Насос компенсации утечек":
+                    Address = "Насос компенсации утечек";
+                    break;
+
+                case "USB преобразователь МС-1":
+                case "USB преобразователь МС-2":
+                    if (innerDevice.prop != null)
+                    {
+                        if (innerDevice.prop.Any(x => x.name == "SerialNo"))
+                            Address = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo").value;
+                    }
+                    else
+                        Address = "0";
+                    break;
+
+                default:
+                    Address = innerDevice.addr;
+                    break;
+            }
+        }
+
+        void SetPath()
+        {
+            string currentPath = DriverId + ":" + Address;
+            if (Parent != null)
+            {
+                Path = Parent.Path + @"/" + currentPath;
+            }
+            else
+            {
+                Path = currentPath;
+            }
+        }
+
+        void SetPlaceInTree()
+        {
+            if (Parent == null)
+            {
+                PlaceInTree = "";
+            }
+            else
+            {
+                string localPlaceInTree = (Parent.Children.Count - 1).ToString();
+                if (Parent.PlaceInTree == "")
+                {
+                    PlaceInTree = localPlaceInTree;
+                }
+                else
+                {
+                    PlaceInTree = Parent.PlaceInTree + @"\" + localPlaceInTree;
+                }
+            }
+        }
+
+        void SetZone()
+        {
+            if (innerDevice.inZ != null)
+            {
+                string zoneId = innerDevice.inZ[0].idz;
+                Zone = zoneId;
+                Zone zone = Services.Configuration.Zones.FirstOrDefault(x => x.Id == zoneId);
+                zone.Devices.Add(this);
+            }
+        }
+
         public ShortDevice ToShortDevice()
         {
             ShortDevice shortDevice = new ShortDevice();
@@ -82,10 +231,7 @@ namespace ServiseProcessor
             shortDevice.PlaceInTree = this.PlaceInTree;
             shortDevice.Path = this.Path;
             shortDevice.Description = this.Description;
-            if ((this.Zones != null) && (this.Zones.Count > 0))
-            {
-            shortDevice.Zone = this.Zones[0];
-            }
+            shortDevice.Zone = this.Zone;
             if (this.Parameters != null)
             {
                 shortDevice.Parameters = new List<Parameter>();

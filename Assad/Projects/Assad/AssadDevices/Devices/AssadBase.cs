@@ -18,7 +18,7 @@ namespace AssadDevices
         public AssadState State { get; set; }
         public List<AssadProperty> Properties { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
-        public List<string> Zones { get; set; }
+        public string Zone { get; set; }
         public string ValidationError { get; set; }
 
         // это свойство задается при конфигурации из ассада
@@ -78,22 +78,6 @@ namespace AssadDevices
                 ValidationError = error;
                 AssadConfiguration.IsValid = false;
                 AssadConfiguration.InvalidDevices.Add(this);
-            }
-        }
-
-        public List<string> ExtractZones(string zones)
-        {
-            try
-            {
-                string[] separators = new string[1];
-                separators[0] = ";";
-                string[] separatedZones = zones.Split(separators, StringSplitOptions.None);
-                return separatedZones.ToList();
-            }
-            catch
-            {
-                Trace.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxx");
-                return null;
             }
         }
 

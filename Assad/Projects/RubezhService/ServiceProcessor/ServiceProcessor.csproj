@@ -59,7 +59,6 @@
     <Compile Include="Processor.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="Services.cs" />
-    <Compile Include="DeviceHelper.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Validator.cs" />
     <Compile Include="Watcher.cs" />

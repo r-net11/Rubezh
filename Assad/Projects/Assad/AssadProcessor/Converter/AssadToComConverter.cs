@@ -35,9 +35,9 @@ namespace AssadProcessor
                 device.Description = assadParent.Description;
 
                 if (assadParent is AssadDevice)
-                    device.Zone = (assadParent as AssadDevice).Zones[0];
+                    device.Zone = (assadParent as AssadDevice).Zone;
                 if (assadParent is AssadPumpStation)
-                    device.Zone = (assadParent as AssadPumpStation).Zones[0];
+                    device.Zone = (assadParent as AssadPumpStation).Zone;
 
 
                 // скопировать все свойства

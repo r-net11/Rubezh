@@ -11,6 +11,7 @@
             <r:TreeListView.Columns>
                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="250" />
                 <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="100" />
+                <GridViewColumn Header="Zone" DisplayMemberBinding="{Binding Zone}" Width="100" />
                 <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}" Width="100" />
             </r:TreeListView.Columns>
             <TreeView.ItemContainerStyle>

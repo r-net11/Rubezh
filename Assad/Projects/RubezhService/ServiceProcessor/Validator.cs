@@ -116,22 +116,7 @@ namespace ServiseProcessor
             Firesec.Metadata.drvType driver = GetDriverByDriverId(device.DriverId);
             if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
             {
-                if (device.Zones == null)
-                    return "Устройство должно принадлежать к зоне";
-                if (device.Zones.Count != 1)
-                    return "Количество зон в устройстве должно быть равно 1";
-            }
-            if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "-1"))
-            {
-                if (device.Zones == null)
-                    return "Устройство должно принадлежать к зоне";
-                if (device.Zones.Count < 1)
-                    return "Количество зон в устройстве должно быть большим 0";
-            }
-
-            if ((driver.minZoneCardinality == "0") && (driver.maxZoneCardinality == "-1"))
-            {
-                if (device.Zones == null)
+                if (device.Zone == null)
                     return "Устройство должно принадлежать к зоне";
             }
 

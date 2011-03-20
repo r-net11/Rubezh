@@ -35,6 +35,17 @@ namespace ServiceVisualizer
             }
         }
 
+        string zone;
+        public string Zone
+        {
+            get { return zone; }
+            set
+            {
+                zone = value;
+                OnPropertyChanged("Zone");
+            }
+        }
+
         string state;
         public string State
         {

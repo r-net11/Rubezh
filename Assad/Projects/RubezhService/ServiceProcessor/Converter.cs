@@ -63,7 +63,7 @@ namespace ServiseProcessor
             innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentDevice.DriverId).idx;
 
             AddZone(parentDevice, innerDevice);
-            DeviceHelper.SetInnerDevice(parentDevice, innerDevice);
+            parentDevice.SetInnerDevice(innerDevice);
 
             // добавление прочих параметров конфигурации
             List<Firesec.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);
@@ -181,33 +181,12 @@ namespace ServiseProcessor
 
         void AddZone(Device device, Firesec.CoreConfig.devType innerComDevice)
         {
-            if (device.Zones != null)
+            if (device.Zone != null)
             {
-                if (device.Zones.Count > 0)
-                {
-                    List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
-                    foreach (string zoneId in device.Zones)
-                    {
-                        if (zoneId != "")
-                        {
-                            zones.Add(new Firesec.CoreConfig.inZType() { idz = zoneId });
-                            
-                        }
-                    }
-                    innerComDevice.inZ = zones.ToArray();
-                }
+                List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
+                zones.Add(new Firesec.CoreConfig.inZType() { idz = device.Zone });
+                innerComDevice.inZ = zones.ToArray();
             }
-
-            //string zoneName = device.Zones[0];
-            //if (zoneName != null)
-            //    if (zoneName != "")
-            //    {
-            //        {
-            //            innerComDevice.inZ = new ComServer.CoreConfig.inZType[1];
-            //            innerComDevice.inZ[0] = new ComServer.CoreConfig.inZType();
-            //            innerComDevice.inZ[0].idz = Services.Configuration.Zones.FirstOrDefault(x => x.Name == zoneName).Id;
-            //        }
-            //    }
         }
     }
 }

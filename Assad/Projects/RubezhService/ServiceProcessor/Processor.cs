@@ -65,26 +65,26 @@ namespace ServiseProcessor
 
             Services.Configuration.Devices = new List<Device>();
 
-            Firesec.CoreConfig.devType innerDevice = Services.Configuration.CoreConfig.dev[0];
+            Firesec.CoreConfig.devType rootInnerDevice = Services.Configuration.CoreConfig.dev[0];
 
-            Device device = new Device();
-            device.Parent = null;
-            DeviceHelper.SetInnerDevice(device, innerDevice);
-            Services.Configuration.Devices.Add(device);
-            AddChild(innerDevice, device);
+            Device rootDevice = new Device();
+            rootDevice.Parent = null;
+            rootDevice.SetInnerDevice(rootInnerDevice);
+            Services.Configuration.Devices.Add(rootDevice);
+            AddDevice(rootInnerDevice, rootDevice);
         }
 
-        void AddChild(Firesec.CoreConfig.devType comParent, Device parent)
+        void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
         {
-            if (comParent.dev != null)
+            if (parentInnerDevice.dev != null)
             {
-                foreach (Firesec.CoreConfig.devType comChild in comParent.dev)
+                foreach (Firesec.CoreConfig.devType innerDevice in parentInnerDevice.dev)
                 {
-                    Device child = new Device();
-                    child.Parent = parent;
-                    DeviceHelper.SetInnerDevice(child, comChild);
-                    Services.Configuration.Devices.Add(child);
-                    AddChild(comChild, child);
+                    Device device = new Device();
+                    device.Parent = parentDevice;
+                    device.SetInnerDevice(innerDevice);
+                    Services.Configuration.Devices.Add(device);
+                    AddDevice(innerDevice, device);
                 }
             }
         }

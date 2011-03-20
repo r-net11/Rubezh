@@ -55,6 +55,7 @@ namespace ServiceVisualizer
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.Name = rootDevice.DriverName;
             rootDeviceViewModel.Address = rootDevice.PresentationAddress;
+            rootDeviceViewModel.Zone = rootDevice.Zone;
             rootDeviceViewModel.State = rootDevice.State;
             rootDeviceViewModel.States = "";
             foreach(string state in rootDevice.States)
@@ -73,6 +74,7 @@ namespace ServiceVisualizer
                 deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.Name = device.DriverName;
                 deviceViewModel.Address = device.PresentationAddress;
+                deviceViewModel.Zone = device.Zone;
                 deviceViewModel.State = device.State;
                 deviceViewModel.States = "";
                 foreach (string state in device.States)

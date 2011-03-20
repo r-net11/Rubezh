@@ -12,8 +12,6 @@ namespace AssadDevices
             base.SetInnerDevice(innerDevice);
 
             Address = "Насосная Станция";
-
-            Zones = ExtractZones(Properties.First(x => x.Name == "Зоны").Value);
         }
     }
 }
