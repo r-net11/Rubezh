@@ -1,15 +1,18 @@
 ﻿<Window x:Class="WpfApplication1.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Window1" Height="300" Width="300" Name="window1">
+    Title="Window1" Width="214" Height="236.2" Name="window1">
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="menuItemReports" Header="Выбор устройства" Click="MenuItem_Click" />
+        </ContextMenu>
+    </Window.ContextMenu>
     <Grid>
-        <StackPanel Name="stackPanel1">
-            <DockPanel Height="45" Name="dockPanel1" Width="Auto">
-                <ComboBox Height="Auto" Name="comboBox1" Width="Auto" MouseEnter="comboBox1_MouseEnter" Margin="10" MinWidth="100" />
-                <ComboBox Height="Auto" Name="comboBox2" Width="Auto" MouseEnter="comboBox2_MouseEnter" Margin="10" SelectionChanged="comboBox2_SelectionChanged" MinWidth="100" />
-                <DockPanel Width="Auto"/>
-            </DockPanel>
-            <ContentControl Name="contentControl1" Width="50" Height="50" />
+        <ContentControl Name="contentControl1"></ContentControl>
+        <StackPanel>
+            <ComboBox Name="comboBox1" MouseEnter="comboBox1_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox1_DropDownClosed" />
+            <ComboBox Name="comboBox2" MouseEnter="comboBox2_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox2_DropDownClosed" />
         </StackPanel>
+        <TextBox Name="textBox1" Text="Нажмите правую кнопку мыши, чтобы увидеть меню выбора устройств." TextWrapping="WrapWithOverflow" FontSize="30" Foreground="#FF23284C" IsReadOnly="True" IsEnabled="False" />
     </Grid>
 </Window>

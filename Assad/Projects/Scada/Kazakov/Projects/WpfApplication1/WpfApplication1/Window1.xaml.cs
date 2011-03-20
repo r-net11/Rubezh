@@ -37,6 +37,9 @@ namespace WpfApplication1
         int cadrDuration1 = 100;
         int cadrDuration2 = 100;
         DeviceManager deviceManager;
+        Canvas readerLoadButton = new Canvas();
+        double window1Width;
+        double window1Height;
 
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         bool tick = false;
@@ -51,6 +54,9 @@ namespace WpfApplication1
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             deviceManager = (DeviceManager)serializer.Deserialize(filexml);
             filexml.Close();
+
+            window1Width = window1.Width;
+            window1Height = window1.Height;
         }
 
         private void comboBox1_MouseEnter(object sender, MouseEventArgs e)
@@ -72,7 +78,16 @@ namespace WpfApplication1
             }
         }
 
-        private void comboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        {
+            if (comboBox1.Text != "")
+            {
+                comboBox2.Visibility = System.Windows.Visibility.Visible;
+                window1.Title = comboBox1.Text;
+            }
+        }
+
+        private void comboBox2_DropDownClosed(object sender, EventArgs e)
         {
 
             string devId = comboBox1.Text;
@@ -89,7 +104,7 @@ namespace WpfApplication1
             sRet = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, sFile_xsl);
 
             dispatcherTimer.Stop();
-            if (state.TickEnable)
+            if (state.Cadrs.Count > 1)
             {
                 cadrDuration2 = state.Cadrs[1].Duration;
                 sRet2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, sFile_xsl);
@@ -99,16 +114,31 @@ namespace WpfApplication1
             {
                 StringReader stringReader = new StringReader(sRet);
                 XmlReader xmlReader = XmlReader.Create(stringReader);
-                Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                 contentControl1.Content = readerLoadButton;
             }
+            comboBox1.Visibility = System.Windows.Visibility.Hidden;
+            comboBox2.Visibility = System.Windows.Visibility.Hidden;
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            contentControl1.Width = stackPanel1.ActualWidth;
-            contentControl1.Height = stackPanel1.ActualHeight;
+            double minSize = Math.Min(window1.Width - 14, window1.Height - 36.2) / (Math.Min(window1Width - 14, window1Height - 36.2));
+            double widthCoefficient = (window1Width-14) / 500;
+            double heightCoefficient = (window1Height - 36.2) / 500;
+            double sizeCoefficient = Math.Min(widthCoefficient, heightCoefficient);
+            ScaleTransform scaleTransform1 = new ScaleTransform(minSize * sizeCoefficient, minSize * sizeCoefficient, 0, 0);
+            contentControl1.RenderTransform = scaleTransform1;
+            textBox1.FontSize = (window1.Width + window1.Height - 50) / 20;
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            comboBox1.Visibility = System.Windows.Visibility.Hidden;
+            comboBox2.Visibility = System.Windows.Visibility.Hidden;
         }
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -141,6 +171,14 @@ namespace WpfApplication1
                 catch { }
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)e.OriginalSource;
+            string theHeader = menuItem.Header.ToString();
+            comboBox1.Visibility = System.Windows.Visibility.Visible;
+            textBox1.Visibility = System.Windows.Visibility.Hidden;
+        }
     }
 
     [Serializable]
@@ -152,6 +190,7 @@ namespace WpfApplication1
     [Serializable]
     public class Device
     {
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id { get; set; }
         public List<State> States { get; set; }
     }
@@ -159,15 +198,17 @@ namespace WpfApplication1
     [Serializable]
     public class State
     {
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id { get; set; }
-        public bool TickEnable { get; set; }
         public List<Cadr> Cadrs { get; set; }
     }
 
     [Serializable]
     public class Cadr
     {
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public int Id { get; set; }
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public int Duration { get; set; }
         public string Image { get; set; }
     }
