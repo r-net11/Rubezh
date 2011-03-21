@@ -17,8 +17,25 @@ namespace RubezhAX
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public partial class UCRubezh : UserControl, Microsoft.VisualStudio.OLE.Interop.ISpecifyPropertyPages
     {
-        [ComVisible(true)]
 
+        public static void DebugMessage(string mess)
+        {
+            string cur;
+            if (Current == null) cur = "";
+            cur = Current.DeviceName;
+
+            FileStream fs=new FileStream("D:\\TEMP\\RubezhAX\\AXP_Logger.TXT", FileMode.Append, FileAccess.Write);
+            fs.Close();
+            
+            StreamWriter sw=new StreamWriter("D:\\TEMP\\RubezhAX\\AXP_Logger.TXT", true, Encoding.Default);
+            sw.WriteLine(DateTime.Now.ToShortTimeString() + " " + cur + " "  + mess);
+            sw.Close();
+
+        }
+
+        public static UCRubezh Current;
+
+        [ComVisible(true)]
         public bool DisableWrite { get; set; }
 
 
@@ -29,14 +46,27 @@ namespace RubezhAX
         //    get { return deviceName;}
         //}
 
+        [ComVisible(true)]
         public string DeviceName
         {
             set;
             get;
         }
 
+        [ComVisible(true)]
+        public string DriverIdX { get; set; }
+
+        [ComVisible(false)]
+        public string PathX { get; set; }
+
+        //public string 
+
+        [ComVisible(true)]
+        public string AddressX { get; set; }
 
         private int intStatus;
+
+        [ComVisible(true)]
         public int IntStatus
         {
             get { return intStatus; }
@@ -60,7 +90,10 @@ namespace RubezhAX
             }
         }
 
+
         private string strStatus;
+
+        [ComVisible(true)]
         public string StrStatus
         { get { return strStatus; } }
 
@@ -68,9 +101,7 @@ namespace RubezhAX
         public UCRubezh()
         {
             intStatus = 0;
-//            DeviceName = "Компьютер";
             InitializeComponent();
-        //    DeviceNameLabel.Text = DeviceName;
         }
 
 
@@ -136,47 +167,43 @@ public void  GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
 // 	throw new NotImplementedException();
     Current = this;
     AXPropertyPage axpp = new AXPropertyPage();
-    StreamWriter stream = null;
-    try
-    {
-        stream = File.CreateText("D:\\TEMP\\RubezhAX\\AXP_Logger.TXT");
-    }
-    catch(Exception e)
-    {
-        MessageBox.Show(" Ошибка");
-    }
-     if(stream != null)  stream.WriteLine("Запуск ProperyPage");    
-    //    Window1 view = new Window1();
-    ViewModel viewModel = new ViewModel( this);
-    if (stream != null) stream.WriteLine("Создана  viewModel");
-    viewModel.form = axpp;
-    if (stream != null) stream.WriteLine("Присвоены указатели");
 
-    if (stream != null) stream.WriteLine("Запуск goMethod");
+
+
+    DebugMessage("<-- " + DateTime.Now.ToShortDateString() + " ->");    
+    DebugMessage("Запуск ProperyPage");    
+    ViewModel viewModel = new ViewModel( this);
+    viewModel.form = axpp;
     try
     {
         if (viewModel.goMethodAPI() == false)
-            MessageBox.Show(" Ошибка запуска goMethod()");
+        {
+            DebugMessage("Ошибка запуска goMethodAPI()");
+            MessageBox.Show(" Ошибка запуска goMethodAPI()");
+            return;
+        }
     }
     catch (Exception e)
     {
+        DebugMessage(e.Message);
         MessageBox.Show(e.Message);
+        return;    
+    
     }
     
     axpp.DataContext = viewModel;
     
     axpp.ShowDialog();
-    stream.WriteLine("{Завершение работы ProperyPage");
-    stream.Close();
+    DebugMessage("Завершение работы ProperyPage");
 }
 
 #endregion
 
-public static UCRubezh Current;
 
 private void UCRubezh_Load(object sender, EventArgs e)
 {
     DeviceNameLabel.Text = DeviceName;
+    AddressLabel.Text = AddressX;
 }
 
 

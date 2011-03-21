@@ -81,6 +81,7 @@
     <Compile Include="PropertyPage\ViewModels\ViewModel.cs" />
     <Compile Include="PropertyPage\Views\ComTree.xaml.cs" />
     <Compile Include="PropertyPage\Views\DetailInfo.xaml.cs" />
+    <Compile Include="ServiceClientManager.cs" />
     <Compile Include="UC.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -106,9 +107,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\ClientApi\ClientApi.csproj">
