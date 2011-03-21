@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServiceApi;
+using System.ComponentModel;
 
 namespace RubezhAX
 {
-    public class DeviceDescriptor 
+    public class DeviceDescriptor : INotifyPropertyChanged
     {
-       
+
+       public ViewModel RootClass { get; set; }
        public string DriverId;
        public string Address;
        public string DriverName;
@@ -54,7 +56,41 @@ namespace RubezhAX
                 children = value;
             }
         }
+
+        private bool isSelected;
+
+        #region IsSelected
+
+        public bool IsSelected
+        {
+            get
+            {
+                //                SelectedDevice = this.
+
+                return isSelected;
+            }
+
+            set
+            {
+                if (value != isSelected)
+                {
+                    isSelected = value;
+                    RootClass.SelectedDevice = this;
+                    this.OnPropertyChanged("IsSelected");
+                }
+
+            }
+
+
+        }
+        #endregion 
     
+        void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
 

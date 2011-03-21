@@ -20,7 +20,26 @@ namespace RubezhAX
 
         public AXPropertyPage form;
         UCRubezh parentForm;
-        public static ServiceClient controllerAPI;
+
+        //public bool IsSelected
+        //{
+        //    set
+        //    {
+                  
+            
+            
+        //    }
+            
+        //    get
+        //    {
+        //        DeviceDescriptor device = this as DeviceDescriptor;
+                
+        //        SelectedDevice = this;
+        //    }
+
+        
+        
+        //}
 
         ObservableCollection<MetaDataID> mDataID;
         public ObservableCollection<MetaDataID> MDataID
@@ -35,7 +54,7 @@ namespace RubezhAX
 
             form.ChoiceIDDevice.SelectedItem = 0;
 
-            controllerAPI.Start();
+            ServiceClientManager.Start();
 
 
             //            devicesAPI =  figuration;
@@ -44,6 +63,7 @@ namespace RubezhAX
             foreach (Device dev in ClientApi.ServiceClient.Configuration.Devices)
             {
                 DeviceDescriptor innerdevice = new DeviceDescriptor();
+                innerdevice.RootClass = this;
                 innerdevice.DriverId = dev.DriverId;
                 innerdevice.Address = dev.Address;
                 innerdevice.DeviceName = dev.DriverName;
@@ -84,24 +104,11 @@ namespace RubezhAX
                 {
                     DeviceDescriptor parentDevice = innerdevices.First(x => x.Path == device.Parent.Path);
                     mydevice.Parent = parentDevice;
-                    //if (parentDevice != null)
-                    //{
-                    //    if (parentDevice.Children == null)
-                    //    {
-                    //        parentDevice.Children = new List<DeviceDescriptor>();
-
-                    //    }
-                    //    parentDevice.Children.Add(mydevice);
-                    //}
                 }
 
             }
 
-            //viewModel.ComDevices = new System.Collections.ObjectModel.ObservableCollection<TestServiceClient.ServiceReference.ComDevice>();
-            //viewModel.ComDevices.Add(devices[0]);
             Devices = new System.Collections.ObjectModel.ObservableCollection<RubezhAX.DeviceDescriptor>();
-            //                viewModel.Devices.Add(innerdevices[0]);
-            //for (int i = 0; i < innerdevices.Count; i++ )
             Devices.Add(innerdevices[0]);
             return true;
 
@@ -113,7 +120,6 @@ namespace RubezhAX
 
         public ViewModel(Object parent)
         {
-            controllerAPI = new ServiceClient();
             parentForm = parent as UCRubezh;
             
             mDataID = new ObservableCollection<MetaDataID>();
@@ -172,9 +178,12 @@ namespace RubezhAX
             
 //            MessageBox.Show(selectedDevice.DeviceName);
             parentForm.DeviceNameLabel.Text = selectedDevice.DeviceName;
-            parentForm.DeviceName = selectedDevice.DeviceName;
+             UCRubezh.Current.DeviceName = selectedDevice.DeviceName;
+             UCRubezh.DebugMessage(selectedDevice.Address);
+             UCRubezh.Current.AddressX = selectedDevice.Address;
+             UCRubezh.DebugMessage(selectedDevice.Path);
+             UCRubezh.Current.PathX = selectedDevice.Path;
             form.Close();      
-        
         }
 
         bool flag;
