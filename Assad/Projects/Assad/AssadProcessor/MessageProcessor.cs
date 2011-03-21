@@ -67,7 +67,7 @@ namespace AssadProcessor
                     break;
 
                 case "MHqueryStateType":
-                    Controller.Current.QueryState();
+                    Controller.Current.CopyStatesFromService();
                     Assad.DeviceType[] deviceItems = AssadServices.AssadDeviceManager.QueryState((Assad.MHqueryStateType)content);
 
                     confirmation = new Assad.CPconfirmationType();

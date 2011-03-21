@@ -231,9 +231,10 @@ namespace ServiseProcessor
             shortDevice.Path = this.Path;
             shortDevice.Description = this.Description;
             shortDevice.Zone = this.Zone;
+
+            shortDevice.Parameters = new List<Parameter>();
             if (this.Parameters != null)
             {
-                shortDevice.Parameters = new List<Parameter>();
                 foreach (Parameter parameter in this.Parameters)
                 {
                     shortDevice.Parameters.Add(new Parameter()
@@ -268,8 +269,15 @@ namespace ServiseProcessor
             shortDeviceState.Parameters = new List<Parameter>();
             foreach (Parameter parameter in this.Parameters)
             {
-                shortDeviceState.Parameters.Add(new Parameter() { Caption = parameter.Caption, Value = parameter.Value });
+                shortDeviceState.Parameters.Add(new Parameter()
+                {
+                    Name = parameter.Name,
+                    Caption = parameter.Caption,
+                    Visible = parameter.Visible,
+                    Value = parameter.Value
+                });
             }
+
             shortDeviceState.StateChanged = this.StateChanged;
             shortDeviceState.StatesChanged = this.StatesChanged;
             shortDeviceState.ParameterChanged = this.ParameterChanged;

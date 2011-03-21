@@ -12,7 +12,16 @@ namespace AssadDevices
             base.SetInnerDevice(innerDevice);
 
             string serialNo = Properties.First(x => x.Name == "Серийный номер").Value;
-            Address = serialNo;
+
+            // только если в конфигурации есть более одного МС нужно указывать серийный номер
+            if (string.IsNullOrEmpty(serialNo))
+            {
+                Address = "0";
+            }
+            else
+            {
+                Address = serialNo;
+            }
         }
     }
 }

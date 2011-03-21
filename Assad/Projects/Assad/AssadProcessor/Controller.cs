@@ -13,7 +13,7 @@ namespace AssadProcessor
     public class Controller
     {
         internal static Controller Current { get; private set; }
-        AssadWather assadWather { get; set; }
+        AssadWatcher assadWather { get; set; }
         public ServiceClient serviceClient { get; set; }
 
         public Controller()
@@ -25,7 +25,7 @@ namespace AssadProcessor
         {
             Services.NetManager.Start();
 
-            assadWather = new AssadWather();
+            assadWather = new AssadWatcher();
             assadWather.Start();
         }
 
@@ -82,7 +82,7 @@ namespace AssadProcessor
             }
         }
 
-        public void QueryState()
+        public void CopyStatesFromService()
         {
             // сделать наоборот
             //foreach (Device device in ServiceClient.Configuration.Devices)
@@ -116,6 +116,33 @@ namespace AssadProcessor
                     {
                         Device device = ServiceClient.Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
                         assadBase.State.State = device.State;
+                        assadBase.Parameters = new List<AssadParameter>();
+
+                        foreach (ClientApi.Parameter parameter in device.Parameters)
+                        {
+                            if (parameter.Visible == false)
+                            {
+                                if (string.IsNullOrEmpty(parameter.Value))
+                                    continue;
+
+                                if (parameter.Value == "<NULL>")
+                                    continue;
+                            }
+                            else
+                            {
+                                ;
+                            }
+
+                            AssadParameter assadParameter = new AssadParameter();
+                            assadParameter.Name = parameter.Caption;
+                            assadParameter.Value = parameter.Value;
+                            assadParameter.Visible = parameter.Visible;
+                            assadBase.Parameters.Add(assadParameter);
+                            if (parameter.Visible)
+                            {
+                                ;
+                            }
+                        }
                     }
                     else
                     {

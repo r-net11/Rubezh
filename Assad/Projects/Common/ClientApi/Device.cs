@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServiceApi;
 
 namespace ClientApi
 {
@@ -18,7 +17,7 @@ namespace ClientApi
         public string Address { get; set; }
         public string PresentationAddress { get; set; }
         public string Zone { get; set; }
-        public List<DeviceProperty> DeviceProperties { get; set; }
+        public List<ServiceApi.DeviceProperty> DeviceProperties { get; set; }
         public List<string> AvailableFunctions { get; set; }
         public string ValidationError { get; set; }
 
@@ -33,9 +32,8 @@ namespace ClientApi
         public bool StatesChanged { get; set; }
         public bool ParameterChanged { get; set; }
         public bool VisibleParameterChanged { get; set; }
-        
 
-        public void SetConfig(ShortDevice shortDevice)
+        public void SetConfig(ServiceApi.ShortDevice shortDevice)
         {
             this.DriverId = shortDevice.DriverId;
             this.Address = shortDevice.Address;
@@ -45,18 +43,25 @@ namespace ClientApi
             this.Description = shortDevice.Description;
             this.Zone = shortDevice.Zone;
 
+            this.Parameters = new List<Parameter>();
             if (shortDevice.Parameters != null)
             {
-                this.Parameters = new List<Parameter>();
-                foreach (Parameter parameter in shortDevice.Parameters)
+                foreach (ServiceApi.Parameter parameter in shortDevice.Parameters)
                 {
-                    this.Parameters.Add(new Parameter()
+                    Parameter newParameter = new Parameter();
+                    newParameter.Name = parameter.Name;
+                    newParameter.Caption = parameter.Caption;
+                    newParameter.Visible = parameter.Visible;
+                    newParameter.Value = parameter.Value;
+                    this.Parameters.Add(newParameter);
+                    if (parameter.Visible)
                     {
-                        Name = parameter.Name,
-                        Caption = parameter.Caption,
-                        Visible = parameter.Visible,
-                        Value = parameter.Value
-                    });
+                        ;
+                    }
+                    if (newParameter.Visible)
+                    {
+                        ;
+                    }
                 }
             }
 
@@ -66,11 +71,30 @@ namespace ClientApi
             ImageName = driver.dev_icon;
         }
 
-        public void SetState(ShortDeviceState shortDeviceState)
+        public void SetState(ServiceApi.ShortDeviceState shortDeviceState)
         {
             this.State = shortDeviceState.State;
             this.States = shortDeviceState.States;
-            this.Parameters = shortDeviceState.Parameters;
+
+            this.Parameters = new List<Parameter>();
+            foreach (ServiceApi.Parameter parameter in shortDeviceState.Parameters)
+            {
+                Parameter newParameter = new Parameter();
+                newParameter.Name = parameter.Name;
+                newParameter.Caption = parameter.Caption;
+                newParameter.Visible = parameter.Visible;
+                newParameter.Value = parameter.Value;
+                this.Parameters.Add(newParameter);
+                if (parameter.Visible)
+                {
+                    ;
+                }
+                if (newParameter.Visible)
+                {
+                    ;
+                }
+            }
+
             this.StateChanged = shortDeviceState.StateChanged;
             this.StatesChanged = shortDeviceState.StatesChanged;
             this.ParameterChanged = shortDeviceState.ParameterChanged;

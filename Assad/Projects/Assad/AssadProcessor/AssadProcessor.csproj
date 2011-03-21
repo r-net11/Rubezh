@@ -55,7 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssadWather.cs" />
+    <Compile Include="AssadWatcher.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Converter\AssadToComConverter.cs" />
     <Compile Include="Converter\Helper.cs" />

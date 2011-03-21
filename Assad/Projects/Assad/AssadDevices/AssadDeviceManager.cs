@@ -75,8 +75,8 @@ namespace AssadDevices
         public Assad.DeviceType QueryAbility(Assad.MHqueryAbilityType content)
         {
             AssadBase device = AssadConfiguration.Devices.First(a => a.DeviceId == content.deviceId);
-            Assad.DeviceType deviceParameters = device.GetParameters();
-            return deviceParameters;
+            Assad.DeviceType ability = device.QueryAbility();
+            return ability;
         }
     }
 }

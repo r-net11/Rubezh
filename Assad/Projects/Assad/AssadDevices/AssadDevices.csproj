@@ -69,6 +69,7 @@
     <Compile Include="Devices\AssadMC34.cs" />
     <Compile Include="Devices\AssadPage.cs" />
     <Compile Include="Devices\AssadPanel.cs" />
+    <Compile Include="AssadParameter.cs" />
     <Compile Include="Devices\AssadPump.cs" />
     <Compile Include="Devices\AssadPumpStation.cs" />
     <Compile Include="Devices\AssadZone.cs" />

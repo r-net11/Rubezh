@@ -8,7 +8,7 @@ using ClientApi;
 
 namespace AssadProcessor
 {
-    public class AssadWather
+    public class AssadWatcher
     {
         internal void Start()
         {
@@ -27,8 +27,8 @@ namespace AssadProcessor
                     assadDevice.State.State = device.State;
 
                     string eventName = null;
-                    if (device.StateChanged)
-                        eventName = device.State;
+                    //if (device.StateChanged)
+                    //    eventName = device.State;
 
                     if ((device.StateChanged) || (device.StatesChanged) || (device.VisibleParameterChanged))
                     {

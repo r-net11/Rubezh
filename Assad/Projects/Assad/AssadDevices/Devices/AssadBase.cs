@@ -9,6 +9,12 @@ namespace AssadDevices
 {
     public class AssadBase : AssadTreeBase
     {
+        public AssadBase() : base()
+        {
+            Properties = new List<AssadProperty>();
+            Parameters = new List<AssadParameter>();
+        }
+
         public string DeviceId { get; set; }
         public string DriverId { get; set; }
         public string Address { get; set; }
@@ -17,6 +23,7 @@ namespace AssadDevices
         public string Description { get; set; }
         public AssadState State { get; set; }
         public List<AssadProperty> Properties { get; set; }
+        public List<AssadParameter> Parameters { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
         public string Zone { get; set; }
         public string ValidationError { get; set; }
@@ -87,19 +94,36 @@ namespace AssadDevices
         {
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
+            List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 
-            deviceType.state = new Assad.DeviceTypeState[3];
-            deviceType.state[0] = new Assad.DeviceTypeState();
-            deviceType.state[0].state = State.Name;
-            deviceType.state[0].value = State.State;
+            Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
+            mainState.state = State.Name;
+            mainState.value = State.State;
+            states.Add(mainState);
 
-            deviceType.state[2] = new Assad.DeviceTypeState();
-            deviceType.state[2].state = "Конфигурация";
+            Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
+            configurationState.state = "Конфигурация";
             if (string.IsNullOrEmpty(ValidationError))
-                deviceType.state[2].value = " ";
+                configurationState.value = " ";
             else
-                deviceType.state[2].value = ValidationError;
+                configurationState.value = ValidationError;
+            states.Add(configurationState);
 
+            foreach (AssadParameter assadParameter in Parameters)
+            {
+                if (assadParameter.Visible)
+                {
+                    Assad.DeviceTypeState parameterState = new Assad.DeviceTypeState();
+                    parameterState.state = assadParameter.Name;
+                    if (assadParameter.Value != null)
+                        parameterState.value = assadParameter.Value;
+                    else
+                        parameterState.value = " ";
+                    states.Add(parameterState);
+                }
+            }
+
+            deviceType.state = states.ToArray();
             return deviceType;
         }
 
@@ -125,18 +149,29 @@ namespace AssadDevices
         // передать в ассад информацию о дополнительных параметрах устройства
         // а также информацию о валидности концигурации
 
-        public Assad.DeviceType GetParameters()
+        public Assad.DeviceType QueryAbility()
         {
-            Assad.DeviceType deviceParameters = new Assad.DeviceType();
-            deviceParameters.deviceId = DeviceId;
-            deviceParameters.param = new Assad.DeviceTypeParam[1];
-            deviceParameters.param[0] = new Assad.DeviceTypeParam();
-            deviceParameters.param[0].name = "Конфигурация";
+            Assad.DeviceType deviceAbility = new Assad.DeviceType();
+            deviceAbility.deviceId = DeviceId;
+            List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
+            
+            Assad.DeviceTypeParam configurationParameter = new Assad.DeviceTypeParam();
+            abilityParameters.Add(configurationParameter);
+            configurationParameter.name = "Конфигурация";
             if (string.IsNullOrEmpty(ValidationError))
-                deviceParameters.param[0].value = "Норма";
+                configurationParameter.value = "Норма";
             else
-                deviceParameters.param[0].value = ValidationError;
-            return deviceParameters;
+                configurationParameter.value = ValidationError;
+
+            foreach (AssadParameter assadParameter in Parameters)
+            {
+                Assad.DeviceTypeParam parameter = new Assad.DeviceTypeParam();
+                parameter.name = assadParameter.Name;
+                parameter.value = assadParameter.Value;
+                abilityParameters.Add(parameter);
+            }
+            deviceAbility.param = abilityParameters.ToArray();
+            return deviceAbility;
         }
     }
 }

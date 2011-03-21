@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="Parameter.cs" />
     <Compile Include="Zone.cs" />
     <Compile Include="ServiceClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
