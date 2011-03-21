@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using Common;
 using ClientApi;
+using System.Collections.ObjectModel;
 
 namespace ServiceVisualizer
 {
@@ -26,15 +27,15 @@ namespace ServiceVisualizer
             Zone = device.Zone;
             Description = device.Description;
             State = device.State;
-            States = "";
+            States = new ObservableCollection<string>();
             foreach (string state in device.States)
             {
-                States += state + "\n";
+                States.Add(state);
             }
-            Parameters = "";
-            foreach (ServiceApi.Parameter parameter in device.Parameters)
+            Parameters = new ObservableCollection<Parameter>();
+            foreach (Parameter parameter in device.Parameters)
             {
-                Parameters += parameter.Caption + " - " + parameter.Value + "\n";
+                Parameters.Add(parameter);
             }
         }
 
@@ -104,8 +105,8 @@ namespace ServiceVisualizer
             }
         }
 
-        string states;
-        public string States
+        ObservableCollection<string> states;
+        public ObservableCollection<string> States
         {
             get { return states; }
             set
@@ -115,8 +116,8 @@ namespace ServiceVisualizer
             }
         }
 
-        string parameters;
-        public string Parameters
+        ObservableCollection<Parameter> parameters;
+        public ObservableCollection<Parameter> Parameters
         {
             get { return parameters; }
             set

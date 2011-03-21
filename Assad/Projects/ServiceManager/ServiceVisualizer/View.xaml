@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:ServiceVisualizer"
     xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
-    Title="View" Height="700" Width="800">
+    xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+    Title="View" Height="900" Width="800">
     <StackPanel>
         <Button Content="Connect" Command="{Binding ConnectCommand}" />
         
@@ -36,7 +37,8 @@
                 </TreeView.ItemTemplate>
             </r:TreeListView>
         </ScrollViewer>
-          <StackPanel DataContext="{Binding SelectedDevicesViewModel}">
+        
+        <StackPanel DataContext="{Binding SelectedDevicesViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150*" />
@@ -45,20 +47,29 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition />
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя устройства"     />
                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние"     />
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Список состояний"     />
-                <TextBlock Grid.Column="0" Grid.Row="3" Text="Параметры"     />
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DriverName}"     />
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding State}"     />
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding States}"     />
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Parameters}"     />
-
-
             </Grid>
+            <ListBox ItemsSource="{Binding States}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+                <ListBox ItemsSource="{Binding Parameters}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Caption}" Margin="5" />
+                            <TextBlock Text="{Binding Value}" Margin="5" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
 
     </StackPanel>
