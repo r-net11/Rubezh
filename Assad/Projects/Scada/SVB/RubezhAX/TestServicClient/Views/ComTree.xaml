@@ -14,7 +14,6 @@
             </Style>
         </TreeView.ItemContainerStyle>
 
-        <TreeView.Resources>
             <TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}" >
                 <StackPanel Orientation="Horizontal">
@@ -23,6 +22,5 @@
                 </StackPanel>
             </HierarchicalDataTemplate>
           </TreeView.ItemTemplate>
-      </TreeView.Resources>
     </TreeView>
 </UserControl>
