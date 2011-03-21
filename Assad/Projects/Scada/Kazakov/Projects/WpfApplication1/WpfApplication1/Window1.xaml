@@ -7,8 +7,8 @@
             <MenuItem x:Name="menuItemReports" Header="Выбор устройства" Click="MenuItem_Click" />
         </ContextMenu>
     </Window.ContextMenu>
-    <Grid>
-        <ContentControl Name="contentControl1"></ContentControl>
+    <Grid Name="grid1">
+        <ContentControl Name="contentControl1" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <StackPanel>
             <ComboBox Name="comboBox1" MouseEnter="comboBox1_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox1_DropDownClosed" />
             <ComboBox Name="comboBox2" MouseEnter="comboBox2_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox2_DropDownClosed" />

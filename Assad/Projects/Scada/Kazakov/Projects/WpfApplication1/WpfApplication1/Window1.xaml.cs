@@ -38,8 +38,7 @@ namespace WpfApplication1
         int cadrDuration2 = 100;
         DeviceManager deviceManager;
         Canvas readerLoadButton = new Canvas();
-        double window1Width;
-        double window1Height;
+        double svgWidth, svgHeight;
 
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         bool tick = false;
@@ -55,8 +54,9 @@ namespace WpfApplication1
             deviceManager = (DeviceManager)serializer.Deserialize(filexml);
             filexml.Close();
 
-            window1Width = window1.Width;
-            window1Height = window1.Height;
+            svgWidth = 500.0;
+            svgHeight = 500.0;
+
         }
 
         private void comboBox1_MouseEnter(object sender, MouseEventArgs e)
@@ -90,6 +90,8 @@ namespace WpfApplication1
         private void comboBox2_DropDownClosed(object sender, EventArgs e)
         {
 
+            if (comboBox2.Text == "")
+                return;
             string devId = comboBox1.Text;
             Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == devId);
             string stateId = ((State)(comboBox2.SelectedItem)).Id+"";
@@ -124,11 +126,11 @@ namespace WpfApplication1
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            double minSize = Math.Min(window1.Width - 14, window1.Height - 36.2) / (Math.Min(window1Width - 14, window1Height - 36.2));
-            double widthCoefficient = (window1Width-14) / 500;
-            double heightCoefficient = (window1Height - 36.2) / 500;
-            double sizeCoefficient = Math.Min(widthCoefficient, heightCoefficient);
-            ScaleTransform scaleTransform1 = new ScaleTransform(minSize * sizeCoefficient, minSize * sizeCoefficient, 0, 0);
+
+            double widthCoeff = grid1.ActualWidth / svgWidth;
+            double heightCoeff = grid1.ActualHeight / svgHeight;
+            double minCoeff = Math.Min(widthCoeff, heightCoeff);
+            ScaleTransform scaleTransform1 = new ScaleTransform(minCoeff, minCoeff, 0, 0);
             contentControl1.RenderTransform = scaleTransform1;
             textBox1.FontSize = (window1.Width + window1.Height - 50) / 20;
         }
