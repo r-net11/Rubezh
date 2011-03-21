@@ -1,29 +1,18 @@
 ﻿<Window x:Class="WpfApplication1.Window1"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Window1" Height="300" Width="300">
-    <Grid>
-        <StackPanel Name="stackPanel1">
-            <Button Name="button1" Click="button1_Click" Content="Serialaze" />
-            <Button Name="button2" Click="button2_Click" Content="DeSerialaze" />
-            <Button Name="button3" Click="button3_Click" Content="Show Control" />
-            <Button Name="button4" Click="button4_Click" Content="Добавить новое устройство" />
-            <Button Name="button5" Click="button5_Click" Content="Удалить существующее устройство" />
-            <Button Name="button6" Click="button6_Click" Content="Изменить существующее устройство" />
-            <TextBox Name="textbox1" Text ="АПИ:'ИП 212-64'" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" />
-            <TextBox Name="textbox2" Text ="Состояние тревоги" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" />
-            <TextBox Name="textbox3" Text ="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" />
-            <TextBox Name="textbox5" Text ="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" />
-            <TextBox Name="textbox4" Text ="" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" />
-            <ContentControl Name="contentControl1" />
-            <TreeView>
-                <TreeViewItem Header="Item 1" >
-                    <TreeViewItem Header="Sub-Item 1" />
-                    <TreeViewItem Header="Sub-Item 2" />
-                </TreeViewItem>
-                <TreeViewItem Header="Item 2" />
-            </TreeView>
+    Title="Window1" Width="214" Height="236.2" Name="window1">
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem x:Name="menuItemReports" Header="Выбор устройства" Click="MenuItem_Click" />
+        </ContextMenu>
+    </Window.ContextMenu>
+    <Grid Name="grid1">
+        <ContentControl Name="contentControl1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <StackPanel>
+            <ComboBox Name="comboBox1" MouseEnter="comboBox1_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox1_DropDownClosed" />
+            <ComboBox Name="comboBox2" MouseEnter="comboBox2_MouseEnter" Visibility="Hidden" DropDownClosed="comboBox2_DropDownClosed" />
         </StackPanel>
-        
+        <TextBox Name="textBox1" Text="Нажмите правую кнопку мыши, чтобы увидеть меню выбора устройств." TextWrapping="WrapWithOverflow" FontSize="30" Foreground="#FF23284C" IsReadOnly="True" IsEnabled="False" />
     </Grid>
 </Window>

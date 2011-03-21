@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,25 +11,44 @@ namespace Firesec
     {
         public void NewEventsAvailable(int EventMask)
         {
-            Trace.WriteLine("NewEventsAvailable");
+            Trace.WriteLine("NewEventsAvailable " + EventMask.ToString());
 
             bool evmNewEvents = ((EventMask & 1) == 1);
-            bool evmStateChanged = ((EventMask & 2) == 1);
-            bool evmConfigChanged = ((EventMask & 4) == 1);
-            bool evmDeviceParamsUpdated = ((EventMask & 8) == 1);
-            bool evmPong = ((EventMask & 10) == 1);
-            bool evmDatabaseChanged = ((EventMask & 20) == 1);
-            bool evmReportsChanged = ((EventMask & 40) == 1);
-            bool evmSoundsChanged = ((EventMask & 80) == 1);
-            bool evmLibraryChanged = ((EventMask & 100) == 1);
-            bool evmPing = ((EventMask & 200) == 1);
-            bool evmIgnoreListChanged = ((EventMask & 400) == 1);
-            bool evmEventViewChanged = ((EventMask & 800) == 1);
+            bool evmStateChanged = ((EventMask & 2) == 2);
+            bool evmConfigChanged = ((EventMask & 4) == 4);
+            bool evmDeviceParamsUpdated = ((EventMask & 8) == 8);
+            bool evmPong = ((EventMask & 16) == 16);
+            bool evmDatabaseChanged = ((EventMask & 32) == 32);
+            bool evmReportsChanged = ((EventMask & 64) == 64);
+            bool evmSoundsChanged = ((EventMask & 128) == 128);
+            bool evmLibraryChanged = ((EventMask & 256) == 256);
+            bool evmPing = ((EventMask & 512) == 512);
+            bool evmIgnoreListChanged = ((EventMask & 1024) == 1024);
+            bool evmEventViewChanged = ((EventMask & 2048) == 2048);
 
             if (evmStateChanged)
             {
-                CoreState.config coreState = ComServer.GetCoreState();
-                FiresecEventAggregator.OnNewEvent(ComServer.CoreStateString, coreState);
+                Trace.WriteLine("evmStateChanged " + EventMask.ToString());
+                CoreState.config coreState = FiresecClient.GetCoreState();
+                FiresecEventAggregator.OnStateChanged(FiresecClient.CoreStateString, coreState);
+            }
+            if (evmDeviceParamsUpdated)
+            {
+                Trace.WriteLine("evmDeviceParamsUpdated " + EventMask.ToString());
+                DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
+                FiresecEventAggregator.OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
+            }
+            if (evmNewEvents)
+            {
+                int lastEvent = 24423;
+
+                ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
+                string journalString = FiresecClient.JournalString;
+
+                int EventId = Convert.ToInt32(journal.Journal[0].IDEvents);
+                Trace.WriteLine("Last Event Id: " + EventId.ToString());
+                if (EventId > lastEvent)
+                    Trace.WriteLine("NEW EVENT: " + EventId.ToString());
             }
         }
     }

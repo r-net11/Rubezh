@@ -6,7 +6,6 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Runtime.Serialization;
 using ServiseProcessor;
-using Common;
 using ServiceApi;
 
 namespace ServiseProcessor
@@ -26,25 +25,61 @@ namespace ServiseProcessor
                 callback.Notify(message);
         }
 
-        public static void DeviceChanged(Device device)
+        public static void StatesChanged(ShortStates shortStates)
         {
             if (callback != null)
             {
-                callback.DeviceChanged(device);
+                callback.StateChanged(shortStates);
             }
         }
 
-        public static void ZoneChanged(Zone zone)
+        public StateConfiguration GetConfiguration()
         {
-            if (callback != null)
+            Device rootDevice = Services.Configuration.Devices[0];
+            ShortDevice rootShortDevice = rootDevice.ToShortDevice();
+            AddShortDevice(rootDevice, rootShortDevice);
+            Services.StateConfiguration = new StateConfiguration();
+            Services.StateConfiguration.RootShortDevice = rootShortDevice;
+
+            Services.StateConfiguration.ShortZones = new List<ShortZone>();
+            foreach (Zone zone in Services.Configuration.Zones)
             {
-                callback.ZoneChanged(zone);
+                ShortZone shortZone = zone.ToShortZone();
+                Services.StateConfiguration.ShortZones.Add(shortZone);
+            }
+
+            Services.StateConfiguration.Metadata = Services.Configuration.Metadata;
+            return Services.StateConfiguration;
+        }
+
+        void AddShortDevice(Device parentDevice, ShortDevice parentShortDevice)
+        {
+            parentShortDevice.Children = new List<ShortDevice>();
+            foreach (Device device in parentDevice.Children)
+            {
+                ShortDevice shortDevice = device.ToShortDevice();
+                parentShortDevice.Children.Add(shortDevice);
+                AddShortDevice(device, shortDevice);
             }
         }
 
-        public Configuration GetConfiguration()
+        public ShortStates GetStates()
         {
-            return Services.Configuration;
+            ShortStates shortStates = new ShortStates();
+            shortStates.ShortDeviceStates = new List<ShortDeviceState>();
+            shortStates.ShortZoneStates = new List<ShortZoneState>();
+
+            foreach (Device device in Services.Configuration.Devices)
+            {
+                shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+            }
+
+            foreach (Zone zone in Services.Configuration.Zones)
+            {
+                shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
+            }
+
+            return shortStates;
         }
 
         public void ExecuteCommand(string devicePath, string command)
@@ -64,9 +99,9 @@ namespace ServiseProcessor
             }
         }
 
-        public void SetConfiguration(Configuration data)
+        public void SetConfiguration(StateConfiguration data)
         {
-            Processor.SetNewConfig(data);
+            //Processor.SetNewConfig(data);
         }
     }
 }

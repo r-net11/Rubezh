@@ -16,8 +16,9 @@ namespace ServiseProcessor
             host = new ServiceHost(typeof(StateService));
 
             NetTcpBinding binding = new NetTcpBinding();
-            binding.MaxBufferSize = 10000000;
-            binding.MaxReceivedMessageSize = 10000000;
+            binding.MaxBufferSize = Int32.MaxValue;
+            binding.MaxReceivedMessageSize = Int32.MaxValue;
+            binding.MaxBufferPoolSize = Int32.MaxValue;
             host.AddServiceEndpoint("ServiceApi.IStateService", binding, "net.tcp://localhost:8000/StateService");
 
             ServiceMetadataBehavior behavior = host.Description.Behaviors.Find<ServiceMetadataBehavior>();

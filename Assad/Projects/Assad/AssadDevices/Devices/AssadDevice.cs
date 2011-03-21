@@ -33,7 +33,6 @@ namespace AssadDevices
 
             Address = intAddress.ToString();
 
-            Zones = new List<string>();
             string driverName = DriversHelper.GetDriverNameById(DriverId);
             switch (driverName)
             {
@@ -47,16 +46,7 @@ namespace AssadDevices
                 case "Кнопка управления автоматикой":
                 case "Ручной извещатель ИПР513-11":
                 case "Пожарная адресная метка АМП-4":
-                    Zones = ExtractZones(Properties.First(x => x.Name == "Зона").Value);
-                    //if (Zones == null)
-                    //{
-                    //    ;
-                    //}
-                    //if (Zones.Count != 1)
-                    //{
-                    //    SetValidationError("Устройство должно быть приписано к одной зоне");
-                    //    return;
-                    //}
+                    Zone = Properties.First(x => x.Name == "Зона").Value;
                     break;
 
                 case "Модуль Управления Клапанами Дымоудаления":
@@ -64,16 +54,8 @@ namespace AssadDevices
                 case "Задвижка":
                 case "Модуль речевого оповещения":
                 case "Модуль дымоудаления-1.02//3":
-                    Zones = ExtractZones(Properties.First(x => x.Name == "Настройка включения по состоянию зон").Value);
-                    //if (Zones == null)
-                    //{
-                    //    ;
-                    //}
-                    //if (Zones.Count < 1)
-                    //{
-                    //    SetValidationError("Устройство должно быть приписано как минимум к одной зоне");
-                    //    return;
-                    //}
+                    //Zone = Properties.First(x => x.Name == "Настройка включения по состоянию зон").Value;
+                    // РАСШИРЕННАЯ ЛОГИКА ЗОН
                     break;
 
                 case "Релейный исполнительный модуль РМ-1":

@@ -179,8 +179,6 @@ namespace DeviveModelManager
             }
             return parameters;
         }
-            return parameters;
-        }
 
         List<Assad.modelInfoTypeState> AddStates()
         {

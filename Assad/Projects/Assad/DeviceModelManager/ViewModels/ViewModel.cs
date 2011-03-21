@@ -11,7 +11,7 @@ using Common;
 
 namespace DeviveModelManager
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel : BaseViewModel
     {
         public static string StaticVersion { get; set; }
 
@@ -65,12 +65,5 @@ namespace DeviveModelManager
                 OnPropertyChanged("Version");
             }
         }
-
-        void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -13,10 +13,9 @@ namespace TestServiceClient
        public string DriverId;
        public string Address;
        public string DriverName;
-       public List<string> LastEvents;
        public string State;
-       public List<State> States;
-       public List<string> Zones;
+       public List<string> States;
+       public string Zone;
        public string Path;
         
         

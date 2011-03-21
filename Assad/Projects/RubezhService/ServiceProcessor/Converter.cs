@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServiseProcessor;
-using Common;
 using System.Runtime.Serialization;
 using ServiceApi;
 
@@ -63,7 +62,7 @@ namespace ServiseProcessor
             innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentDevice.DriverId).idx;
 
             AddZone(parentDevice, innerDevice);
-            DeviceHelper.SetInnerDevice(parentDevice, innerDevice);
+            parentDevice.SetInnerDevice(innerDevice);
 
             // добавление прочих параметров конфигурации
             List<Firesec.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);
@@ -87,7 +86,7 @@ namespace ServiseProcessor
         }
 
         // установить адрес
-        public void SetAddress(Firesec.CoreConfig.devType innerComDevice, Device device)
+        public void SetAddress(Firesec.CoreConfig.devType innerDevice, Device device)
         {
             switch (device.DriverName)
             {
@@ -99,7 +98,7 @@ namespace ServiseProcessor
                 case "Компрессор":
                 case "Дренажный насос":
                 case "Насос компенсации утечек":
-                    innerComDevice.addr = "0";
+                    innerDevice.addr = "0";
                     return;
                 default:
                     break;
@@ -110,24 +109,24 @@ namespace ServiseProcessor
                 throw new Exception("Адрес не может отсутствовать");
             }
 
-            innerComDevice.addr = device.Address;
+            innerDevice.addr = device.Address;
         }
 
-        List<Firesec.CoreConfig.propType> AddCustomProperties(Device parentComDevice)
+        List<Firesec.CoreConfig.propType> AddCustomProperties(Device parentDevice)
         {
             List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
 
-            if (parentComDevice.DriverName != "Компьютер")
+            if (parentDevice.DriverName != "Компьютер")
             {
-                if (parentComDevice.DeviceProperties != null)
+                if (parentDevice.DeviceProperties != null)
                 {
-                    if (parentComDevice.DeviceProperties.Count > 0)
+                    if (parentDevice.DeviceProperties.Count > 0)
                     {
-                        foreach (DeviceProperty deviceProperty in parentComDevice.DeviceProperties)
+                        foreach (DeviceProperty deviceProperty in parentDevice.DeviceProperties)
                         {
                             if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
                             {
-                                Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == parentComDevice.DriverId);
+                                Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == parentDevice.DriverId);
                                 if (metadataDriver.propInfo != null)
                                 {
                                     if (metadataDriver.propInfo.Any(x => x.caption == deviceProperty.Name))
@@ -181,33 +180,12 @@ namespace ServiseProcessor
 
         void AddZone(Device device, Firesec.CoreConfig.devType innerComDevice)
         {
-            if (device.Zones != null)
+            if (device.Zone != null)
             {
-                if (device.Zones.Count > 0)
-                {
-                    List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
-                    foreach (string zoneId in device.Zones)
-                    {
-                        if (zoneId != "")
-                        {
-                            zones.Add(new Firesec.CoreConfig.inZType() { idz = zoneId });
-                            
-                        }
-                    }
-                    innerComDevice.inZ = zones.ToArray();
-                }
+                List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
+                zones.Add(new Firesec.CoreConfig.inZType() { idz = device.Zone });
+                innerComDevice.inZ = zones.ToArray();
             }
-
-            //string zoneName = device.Zones[0];
-            //if (zoneName != null)
-            //    if (zoneName != "")
-            //    {
-            //        {
-            //            innerComDevice.inZ = new ComServer.CoreConfig.inZType[1];
-            //            innerComDevice.inZ[0] = new ComServer.CoreConfig.inZType();
-            //            innerComDevice.inZ[0].idz = Services.Configuration.Zones.FirstOrDefault(x => x.Name == zoneName).Id;
-            //        }
-            //    }
         }
     }
 }

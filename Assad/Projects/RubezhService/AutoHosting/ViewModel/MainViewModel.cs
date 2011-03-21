@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace WCFService.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : BaseViewModel
     {
         Processor processor;
 
@@ -58,13 +58,6 @@ namespace WCFService.ViewModel
         ~MainViewModel()
         {
             OnStop(null);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

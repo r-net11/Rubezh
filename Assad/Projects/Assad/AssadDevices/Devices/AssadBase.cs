@@ -16,10 +16,9 @@ namespace AssadDevices
         public string DeviceName { get; set; }
         public string Description { get; set; }
         public AssadState State { get; set; }
-        public string SourceState { get; set; }
         public List<AssadProperty> Properties { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
-        public List<string> Zones { get; set; }
+        public string Zone { get; set; }
         public string ValidationError { get; set; }
 
         // это свойство задается при конфигурации из ассада
@@ -82,22 +81,6 @@ namespace AssadDevices
             }
         }
 
-        public List<string> ExtractZones(string zones)
-        {
-            try
-            {
-                string[] separators = new string[1];
-                separators[0] = ";";
-                string[] separatedZones = zones.Split(separators, StringSplitOptions.None);
-                return separatedZones.ToList();
-            }
-            catch
-            {
-                Trace.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxx");
-                return null;
-            }
-        }
-
         // передать в ассад информацию о  текушем состоянии устройства
 
         public virtual Assad.DeviceType GetInnerStates()
@@ -109,13 +92,6 @@ namespace AssadDevices
             deviceType.state[0] = new Assad.DeviceTypeState();
             deviceType.state[0].state = State.Name;
             deviceType.state[0].value = State.State;
-
-            deviceType.state[1] = new Assad.DeviceTypeState();
-            deviceType.state[1].state = "Состояние дополнительно";
-            if (string.IsNullOrEmpty(SourceState))
-                deviceType.state[1].value = " ";
-            else
-                deviceType.state[1].value = SourceState;
 
             deviceType.state[2] = new Assad.DeviceTypeState();
             deviceType.state[2].state = "Конфигурация";

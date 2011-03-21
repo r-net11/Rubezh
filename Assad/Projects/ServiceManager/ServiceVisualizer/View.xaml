@@ -1,0 +1,48 @@
+﻿<Window x:Class="ServiceVisualizer.View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ServiceVisualizer"
+    xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
+    Title="View" Height="700" Width="800">
+    <StackPanel>
+        <Button Content="Connect" Command="{Binding ConnectCommand}" />
+        
+        <ScrollViewer Height="500">
+            <r:TreeListView ItemsSource="{Binding DevicesViewModels}">
+                <r:TreeListView.Columns>
+                    <GridViewColumn Header="Тип Устройства" Width="250">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Image " />
+                                    <TextBlock Text="{Binding ShortDriverName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
+                    <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding Zone}" Width="100" />
+                    <GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Description}" Width="100" />
+                    <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
+                </r:TreeListView.Columns>
+                <TreeView.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                        <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
+                </TreeView.ItemTemplate>
+            </r:TreeListView>
+        </ScrollViewer>
+
+        <StackPanel DataContext="{Binding SelectedDevicesViewModel}">
+            <TextBlock Text="{Binding DriverName}" />
+            <TextBlock Text="{Binding State}" />
+            <TextBlock Text="{Binding States}" />
+            <TextBlock Text="{Binding Parameters}" />
+        </StackPanel>
+
+    </StackPanel>
+</Window>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-using Common;
 using ServiceApi;
 
 namespace ServiseProcessor
@@ -33,16 +32,16 @@ namespace ServiseProcessor
             Services.Configuration.Devices = configuration.Devices;
             Services.Configuration.Zones = configuration.Zones;
 
-            Converter comDeviceToNativeConverter = new Converter();
-            Firesec.CoreConfig.config config = comDeviceToNativeConverter.Convert(configuration);
-            Firesec.ComServer.SetNewConfig(config);
+            Converter deviceToNativeConverter = new Converter();
+            Firesec.CoreConfig.config config = deviceToNativeConverter.Convert(configuration);
+            Firesec.FiresecClient.SetNewConfig(config);
         }
 
         public static void ExecuteCommand(Device device, string commandName)
         {
             commandName = commandName.Remove(0, "Сброс ".Length);
-            State comState = device.States.First(x => x.Name == commandName);
-            string id = comState.Id;
+            State state = device.States.First(x => x.Name == commandName);
+            string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
@@ -52,39 +51,39 @@ namespace ServiseProcessor
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
             coreState.dev[0].state[0].id = id;
 
-            Firesec.ComServer.ResetStates(coreState);
+            Firesec.FiresecClient.ResetStates(coreState);
         }
 
         void BuildDeviceTree()
         {
             Services.Configuration = new Configuration();
-            Services.Configuration.Metadata = Firesec.ComServer.GetMetaData();
-            Services.Configuration.CoreConfig = Firesec.ComServer.GetCoreConfig();
+            Services.Configuration.Metadata = Firesec.FiresecClient.GetMetaData();
+            Services.Configuration.CoreConfig = Firesec.FiresecClient.GetCoreConfig();
 
             BuildZones();
 
             Services.Configuration.Devices = new List<Device>();
 
-            Firesec.CoreConfig.devType innerDevice = Services.Configuration.CoreConfig.dev[0];
+            Firesec.CoreConfig.devType rootInnerDevice = Services.Configuration.CoreConfig.dev[0];
 
-            Device device = new Device();
-            device.Parent = null;
-            DeviceHelper.SetInnerDevice(device, innerDevice);
-            Services.Configuration.Devices.Add(device);
-            AddChild(innerDevice, device);
+            Device rootDevice = new Device();
+            rootDevice.Parent = null;
+            rootDevice.SetInnerDevice(rootInnerDevice);
+            Services.Configuration.Devices.Add(rootDevice);
+            AddDevice(rootInnerDevice, rootDevice);
         }
 
-        void AddChild(Firesec.CoreConfig.devType comParent, Device parent)
+        void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
         {
-            if (comParent.dev != null)
+            if (parentInnerDevice.dev != null)
             {
-                foreach (Firesec.CoreConfig.devType comChild in comParent.dev)
+                foreach (Firesec.CoreConfig.devType innerDevice in parentInnerDevice.dev)
                 {
-                    Device child = new Device();
-                    child.Parent = parent;
-                    DeviceHelper.SetInnerDevice(child, comChild);
-                    Services.Configuration.Devices.Add(child);
-                    AddChild(comChild, child);
+                    Device device = new Device();
+                    device.Parent = parentDevice;
+                    device.SetInnerDevice(innerDevice);
+                    Services.Configuration.Devices.Add(device);
+                    AddDevice(innerDevice, device);
                 }
             }
         }

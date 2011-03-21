@@ -67,7 +67,6 @@ namespace RubezhAX
                 innerdevice.DriverId = dev.DriverId;
                 innerdevice.Address = dev.Address;
                 innerdevice.DeviceName = dev.DriverName;
-                innerdevice.LastEvents = dev.LastEvents;
                 innerdevice.State = dev.State;
                 if (dev.States != null)
                 {
@@ -77,7 +76,7 @@ namespace RubezhAX
                     }
 
                 }
-                innerdevice.Zones = dev.Zones;
+                innerdevice.Zone = dev.Zone;
                 innerdevice.Path = dev.Path;
                 if (innerdevice.DriverId == form.MyMetadataDriverID)
                     innerdevice.Enable = true;

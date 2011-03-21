@@ -45,7 +45,7 @@ namespace AssadProcessor
                 {
                     waitForConfiguration = false;
 
-                    Configuration configuration = AssadToComConverter.Convert();
+                    ServiceApi.StateConfiguration configuration = AssadToComConverter.Convert();
                     serviceClient.SetNewConfig(configuration);
                 }
             }
