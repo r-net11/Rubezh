@@ -15,8 +15,11 @@ namespace ServiceVisualizer
             Children = new List<DeviceViewModel>();
         }
 
+        Device device;
+
         public void SetDevice(Device device)
         {
+            this.device = device;
             DriverName = device.DriverName;
             ShortDriverName = device.ShortDriverName;
             Address = device.PresentationAddress;

@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Reflection;
 using Microsoft.Win32;
+using System.Windows.Forms.Integration;
+using Microsoft.VisualStudio.OLE.Interop;
+using System.IO;
 
 namespace UserControls
 {
@@ -15,7 +18,7 @@ namespace UserControls
     [Editor(typeof(System.Drawing.Design.UITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
     [PropertyTab(typeof(Form))]
     [Guid("8D7E002B-D236-4320-8DD5-D1E6640B2B7F")]
-    public partial class UserControl5 : UserControl
+    public partial class UserControl5 : UserControl, ISpecifyPropertyPages
     {
         public UserControl5()
         {
@@ -74,6 +77,68 @@ namespace UserControls
 
             // Finally close the main key
             k.Close();
+        }
+
+        private void UserControl5_Load(object sender, EventArgs e)
+        {
+            // Create the ElementHost control for hosting the
+            // WPF UserControl.
+            ElementHost host = new ElementHost();
+            host.Dock = DockStyle.Fill;
+
+            // Create the WPF UserControl.
+            WpfApplication1.Window1 uc =
+                new WpfApplication1.Window1();
+
+            // Assign the WPF UserControl to the ElementHost control's
+            // Child property.
+            host.Child = uc;
+
+            // Add the ElementHost control to the form's
+            // collection of child controls.
+            this.Controls.Add(host);
+        }
+
+        public static UserControl5 Current;
+
+
+        public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
+        {
+            // 	throw new NotImplementedException();
+            Current = this;
+            RubezhAX.AXPropertyPage axpp = new RubezhAX.AXPropertyPage();
+            StreamWriter stream = null;
+            try
+            {
+                stream = File.CreateText("C:\\TEMP\\RubezhAX\\AXP_Logger.TXT");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(" Ошибка");
+            }
+            if (stream != null) stream.WriteLine("Запуск ProperyPage");
+            //    Window1 view = new Window1();
+            RubezhAX.ViewModel viewModel = new RubezhAX.ViewModel(this);
+            if (stream != null) stream.WriteLine("Создана  viewModel");
+            viewModel.form = axpp;
+            if (stream != null) stream.WriteLine("Присвоены указатели");
+
+            if (stream != null) stream.WriteLine("Запуск goMethod");
+            try
+            {
+                if (viewModel.goMethodAPI() == false)
+                    MessageBox.Show(" Ошибка запуска goMethod()");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            axpp.DataContext = viewModel;
+
+            axpp.ShowDialog();
+            stream.WriteLine("{Завершение работы ProperyPage");
+            stream.Close();
         }
     }      
 }

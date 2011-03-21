@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using TestServiceClient.Common;
 using ClientApi;
 using ServiceApi;
+using System.IO;
+using System.Diagnostics;
 //using Common;
 
 namespace TestServiceClient
@@ -35,7 +37,18 @@ namespace TestServiceClient
             get { return mDataID; }
         }
 
+        public static void DebugMessage(string mess)
+        {
+            string cur;
 
+            FileStream fs = new FileStream("D:\\TEMP\\RubezhAX\\_Logger.TXT", FileMode.Append, FileAccess.Write);
+            fs.Close();
+
+            StreamWriter sw = new StreamWriter("D:\\TEMP\\RubezhAX\\_Logger.TXT", true, Encoding.Default);
+            sw.WriteLine(DateTime.Now.ToShortTimeString() + " " + mess);
+            sw.Close();
+
+        }
 
 
 
@@ -44,9 +57,11 @@ namespace TestServiceClient
             form.MyMetadataDriverID = mDataID[0].StrID;
             
             form.ChoiceIDDevice.SelectedItem = 0;
+            DebugMessage("Запуск АПИ");
 
             controllerAPI.Start();
-            
+
+            DebugMessage("Прием конфигурации");
             
 //            devicesAPI =  figuration;
             
@@ -54,6 +69,7 @@ namespace TestServiceClient
             foreach (Device dev in ClientApi.ServiceClient.Configuration.Devices)
             {
                 DeviceDescriptor innerdevice = new DeviceDescriptor();
+                innerdevice.RootClass = this;
                 innerdevice.DriverId = dev.DriverId;
                 innerdevice.Address = dev.Address;
                 innerdevice.DeviceName = dev.DriverName;
@@ -112,6 +128,8 @@ namespace TestServiceClient
             //                viewModel.Devices.Add(innerdevices[0]);
             //for (int i = 0; i < innerdevices.Count; i++ )
             Devices.Add(innerdevices[0]);
+            DebugMessage("Обработка конфигурации завершена");
+
             return true;
             
         

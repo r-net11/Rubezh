@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Container">
+</Property><Property Name="Файл решения" Value="C:\Documents and Settings\KazakovRB\Мои документы\Visual Studio 2010\Projects\Container\Container.sln">
+</Property><Property Name="Date" Value="21 марта 2011 г.">
+</Property><Property Name="Time" Value="16:26">
+</Property></Properties><Event ErrorLevel="0" Project="Container" Source="Container.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="Container" Source="Container.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="HostingWpfUserControlInWf" Source="..\HostingWpfUserControlInWf\HostingWpfUserControlInWf\HostingWpfUserControlInWf.csproj" Description="Файл проекта не нуждается в преобразовании.">
+</Event><Event ErrorLevel="3" Project="HostingWpfUserControlInWf" Source="..\HostingWpfUserControlInWf\HostingWpfUserControlInWf\HostingWpfUserControlInWf.csproj" Description="Преобразование не требуется">
+</Event><Event ErrorLevel="0" Project="UserControls" Source="UserControls\UserControls.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="UserControls" Source="UserControls\UserControls.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Container.sln" Description="Преобразование решения успешно завершено">
+</Event><Event ErrorLevel="3" Project="" Source="Container.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Container" Source="Container.csproj" Description="Сканирование завершено: обновление для файлов проекта не требуется.">
+</Event><Event ErrorLevel="0" Project="UserControls" Source="UserControls\app.config" Description="Файл успешно преобразован. Все теги &lt;supportedRuntime&gt; и &lt;requiredRuntime&gt; были удалены, чтобы позволить проекту строиться и запускаться в Visual Studio 2005.">
+</Event><Event ErrorLevel="3" Project="UserControls" Source="UserControls\app.config" Description="Converted">
+</Event></UpgradeLog>
