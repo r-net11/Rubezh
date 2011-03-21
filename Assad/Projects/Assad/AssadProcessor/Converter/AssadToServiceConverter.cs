@@ -7,7 +7,7 @@ using ServiceApi;
 
 namespace AssadProcessor
 {
-    public static class AssadToComConverter
+    public static class AssadToServiceConverter
     {
         public static StateConfiguration Convert()
         {
@@ -55,10 +55,9 @@ namespace AssadProcessor
                     }
                 }
 
-                foreach (AssadTreeBase childTreeBase in assadParent.Children)
+                foreach (AssadBase assadChild in assadParent.Children)
                 {
-                    AssadBase childAssad = (AssadBase)childTreeBase;
-                    ClientApi.Device childDevice = AddChild(childAssad);
+                    ClientApi.Device childDevice = AddChild(assadChild);
                     if (childDevice != null)
                     {
                         if (device.Children == null)
@@ -74,24 +73,24 @@ namespace AssadProcessor
 
         static List<ShortZone> FindAllZones(AssadBase assadParent)
         {
-            List<ShortZone> Zones = new List<ShortZone>();
+            List<ShortZone> shortZones = new List<ShortZone>();
 
-            foreach (AssadTreeBase childTreeBase in assadParent.Children)
+            foreach (AssadBase assadChild in assadParent.Children)
             {
-                if (childTreeBase is AssadZone)
+                if (assadChild is AssadZone)
                 {
-                    AssadZone assadZone = childTreeBase as AssadZone;
-                    ShortZone zone = new ShortZone();
-                    zone.Name = assadZone.ZoneName;
-                    zone.Id = assadZone.ZoneId;
-                    zone.DetectorCount = assadZone.DetectorCount;
-                    zone.EvacuationTime = assadZone.EvecuationTime;
-                    zone.Description = assadZone.Description;
-                    Zones.Add(zone);
+                    AssadZone assadZone = assadChild as AssadZone;
+                    ShortZone shortZone = new ShortZone();
+                    shortZone.Name = assadZone.ZoneName;
+                    shortZone.Id = assadZone.ZoneId;
+                    shortZone.DetectorCount = assadZone.DetectorCount;
+                    shortZone.EvacuationTime = assadZone.EvecuationTime;
+                    shortZone.Description = assadZone.Description;
+                    shortZones.Add(shortZone);
                 }
             }
 
-            return Zones;
+            return shortZones;
         }
     }
 }

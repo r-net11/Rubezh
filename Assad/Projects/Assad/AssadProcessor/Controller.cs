@@ -45,7 +45,7 @@ namespace AssadProcessor
                 {
                     waitForConfiguration = false;
 
-                    ServiceApi.StateConfiguration configuration = AssadToComConverter.Convert();
+                    ServiceApi.StateConfiguration configuration = AssadToServiceConverter.Convert();
                     serviceClient.SetNewConfig(configuration);
                 }
             }
@@ -103,11 +103,11 @@ namespace AssadProcessor
                     if (ServiceClient.Configuration.Zones.Any(x => x.Id == assadZone.ZoneId))
                     {
                         Zone zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == assadZone.ZoneId);
-                        assadZone.State.State = zone.State;
+                        assadZone.MainState = zone.State;
                     }
                     else
                     {
-                        assadZone.State.State = "Отсутствует в конфигурации сервера оборудования";
+                        assadZone.MainState = "Отсутствует в конфигурации сервера оборудования";
                     }
                 }
                 else
@@ -115,7 +115,7 @@ namespace AssadProcessor
                     if (ServiceClient.Configuration.Devices.Any(x=>x.Path == assadBase.Path))
                     {
                         Device device = ServiceClient.Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
-                        assadBase.State.State = device.State;
+                        assadBase.MainState = device.State;
                         assadBase.Parameters = new List<AssadParameter>();
 
                         foreach (ClientApi.Parameter parameter in device.Parameters)
@@ -146,7 +146,7 @@ namespace AssadProcessor
                     }
                     else
                     {
-                        assadBase.State.State = "Отсутствует в конфигурации сервера оборудования";
+                        assadBase.MainState = "Отсутствует в конфигурации сервера оборудования";
                     }
                 }
             }

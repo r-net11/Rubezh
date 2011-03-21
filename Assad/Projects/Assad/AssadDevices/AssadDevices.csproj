@@ -58,8 +58,6 @@
     <Compile Include="AssadDeviceManager.cs" />
     <Compile Include="AssadDeviceTypesManager.cs" />
     <Compile Include="AssadServices.cs" />
-    <Compile Include="AssadState.cs" />
-    <Compile Include="AssadTreeBase.cs" />
     <Compile Include="Devices\AssadChannel.cs" />
     <Compile Include="Devices\AssadComputer.cs" />
     <Compile Include="Devices\AssadDevice.cs" />

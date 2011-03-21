@@ -30,23 +30,17 @@ namespace AssadDevices
 
         void AddChild(Assad.MHconfigTypeDevice innerDevice, AssadBase parent)
         {
-            //try
-            //{
-                if (innerDevice.device != null)
-                    foreach (Assad.MHconfigTypeDevice innerChild in innerDevice.device)
-                    {
-                        AssadBase child = AssadDeviceFactory.Create(innerChild);
-                        child.Parent = parent;
-                        child.SetInnerDevice(innerChild);
-                        child.SetPath();
-                        AssadConfiguration.Devices.Add(child);
-                        AddChild(innerChild, child);
-                    }
-            //}
-            //catch(Exception ex)
-            //{
-            //    ;
-            //}
+            if (innerDevice.device != null)
+                foreach (Assad.MHconfigTypeDevice innerChild in innerDevice.device)
+                {
+                    AssadBase child = AssadDeviceFactory.Create(innerChild);
+                    child.Parent = parent;
+                    parent.Children.Add(child);
+                    child.SetInnerDevice(innerChild);
+                    child.SetPath();
+                    AssadConfiguration.Devices.Add(child);
+                    AddChild(innerChild, child);
+                }
         }
 
         public Assad.DeviceType[] QueryState(Assad.MHqueryStateType content)
@@ -61,7 +55,7 @@ namespace AssadDevices
                 Trace.WriteLine("DEBUG: QueryState Fail");
                 return null;
             }
-            List<AssadTreeBase> devices = device.FindAllChildren();
+            List<AssadBase> devices = device.FindAllChildren();
 
             Assad.DeviceType[] deviceItems = new Assad.DeviceType[devices.Count];
             for (int i = 0; i < devices.Count; i++)

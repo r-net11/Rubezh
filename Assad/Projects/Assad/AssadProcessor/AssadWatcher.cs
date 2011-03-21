@@ -24,7 +24,7 @@ namespace AssadProcessor
                 AssadBase assadDevice = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
                 if (assadDevice != null)
                 {
-                    assadDevice.State.State = device.State;
+                    assadDevice.MainState = device.State;
 
                     string eventName = null;
                     //if (device.StateChanged)

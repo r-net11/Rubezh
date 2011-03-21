@@ -7,13 +7,17 @@ using System.Diagnostics;
 
 namespace AssadDevices
 {
-    public class AssadBase : AssadTreeBase
+    public class AssadBase
     {
-        public AssadBase() : base()
+        public AssadBase()
         {
+            Children = new List<AssadBase>();
             Properties = new List<AssadProperty>();
             Parameters = new List<AssadParameter>();
         }
+
+        public AssadBase Parent { get; set; }
+        public List<AssadBase> Children { get; set; }
 
         public string DeviceId { get; set; }
         public string DriverId { get; set; }
@@ -21,7 +25,7 @@ namespace AssadDevices
         public string Path { get; set; }
         public string DeviceName { get; set; }
         public string Description { get; set; }
-        public AssadState State { get; set; }
+        public string MainState { get; set; }
         public List<AssadProperty> Properties { get; set; }
         public List<AssadParameter> Parameters { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
@@ -38,7 +42,6 @@ namespace AssadDevices
             DeviceId = innerDevice.deviceId;
             DeviceName = innerDevice.deviceName;
             InnerType = AssadServices.AssadDeviceTypesManager.GetModelInfo(innerDevice.type);
-            State = new AssadState();
 
             // сброс валидации
             ValidationError = "";
@@ -97,8 +100,8 @@ namespace AssadDevices
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 
             Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
-            mainState.state = State.Name;
-            mainState.value = State.State;
+            mainState.state = "Состояние";
+            mainState.value = MainState;
             states.Add(mainState);
 
             Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
@@ -140,8 +143,8 @@ namespace AssadDevices
 
             eventType.state = new Assad.CPeventTypeState[1];
             eventType.state[0] = new Assad.CPeventTypeState();
-            eventType.state[0].state = State.Name;
-            eventType.state[0].value = State.State;
+            eventType.state[0].state = "Состояние";
+            eventType.state[0].value = MainState;
 
             return eventType;
         }
@@ -172,6 +175,25 @@ namespace AssadDevices
             }
             deviceAbility.param = abilityParameters.ToArray();
             return deviceAbility;
+        }
+
+        List<AssadBase> allChildren;
+        public List<AssadBase> FindAllChildren()
+        {
+            allChildren = new List<AssadBase>();
+            allChildren.Add(this);
+            FindChildren(this);
+            return allChildren;
+        }
+
+        void FindChildren(AssadBase parent)
+        {
+            if (parent.Children != null)
+                foreach (AssadBase child in parent.Children)
+                {
+                    allChildren.Add(child);
+                    FindChildren(child);
+                }
         }
     }
 }
