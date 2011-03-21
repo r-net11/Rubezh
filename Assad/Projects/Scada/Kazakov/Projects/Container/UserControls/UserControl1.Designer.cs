@@ -52,15 +52,10 @@
                 this.Controls.Add(this.panel);
                 this.Name = "Control1";
                 this.Size = new System.Drawing.Size(400, 258);
-                this.Load += new System.EventHandler(this.Control1_Load);
                 this.ResumeLayout(false);
         }
 
         #endregion
-
-        private HostingWpfUserControlInWf.UserControl1 userControl11;
-
-
 
     }
 }

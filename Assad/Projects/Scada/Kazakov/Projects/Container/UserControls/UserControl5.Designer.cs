@@ -28,34 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            //this.userControl11 = new HostingWpfUserControlInWf.UserControl1();
             this.SuspendLayout();
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(97, 108);
-            this.elementHost1.TabIndex = 0;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.userControl11;
             // 
             // UserControl5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.Controls.Add(this.elementHost1);
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Name = "UserControl5";
+            this.Load += new System.EventHandler(this.UserControl5_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private HostingWpfUserControlInWf.UserControl1 userControl11;
+        private WpfApplication1.Window1 userControl11;
     }
 }
