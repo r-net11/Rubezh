@@ -24,8 +24,13 @@ namespace ServiceVisualizer
             DriverName = device.DriverName;
             ShortDriverName = device.ShortDriverName;
             Address = device.PresentationAddress;
-            Zone = device.Zone;
+            if (ServiceClient.Configuration.Zones.Any(x => x.Id == device.Zone))
+            {
+                Zone _zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == device.Zone);
+                Zone = _zone.No + ". " + _zone.Name;
+            }
             Description = device.Description;
+            ImageSource = @"C:\Program Files\Firesec\Icons\" + device.ImageName + ".ico";
             State = device.State;
             States = new ObservableCollection<string>();
             foreach (string state in device.States)
@@ -127,6 +132,17 @@ namespace ServiceVisualizer
             }
         }
 
+        string imageSource;
+        public string ImageSource
+        {
+            get { return imageSource; }
+            set
+            {
+                imageSource = value;
+                OnPropertyChanged("ImageSource");
+            }
+        }
+
         public DeviceViewModel Parent { get; set; }
 
         List<DeviceViewModel> children;
@@ -148,7 +164,7 @@ namespace ServiceVisualizer
             {
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
-                ViewModel.Current.SelectedDevicesViewModel = this;
+                ViewModel.Current.SelectedDeviceViewModel = this;
             }
         }
 

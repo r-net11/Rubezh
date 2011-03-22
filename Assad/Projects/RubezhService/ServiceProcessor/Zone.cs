@@ -11,6 +11,7 @@ namespace ServiseProcessor
     {
         public string Name { get; set; }
         public string Id { get; set; }
+        public string No { get; set; }
         public string DetectorCount { get; set; }
         public string EvacuationTime { get; set; }
         public string Description { get; set; }
@@ -23,6 +24,7 @@ namespace ServiseProcessor
         {
             ShortZone shortZone = new ShortZone();
             shortZone.Id = this.Id;
+            shortZone.No = this.No;
             shortZone.Name = this.Name;
             shortZone.DetectorCount = this.DetectorCount;
             shortZone.EvacuationTime = this.EvacuationTime;

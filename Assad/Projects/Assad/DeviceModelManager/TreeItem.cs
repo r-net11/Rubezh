@@ -82,18 +82,6 @@ namespace DeviveModelManager
 
             if (Driver.ar_no_addr == "0")
             {
-                //Assad.modelInfoTypeParam addressParameter = new Assad.modelInfoTypeParam();
-                //addressParameter.param = "Адрес";
-                //addressParameter.type = "single";
-
-                //List<Assad.modelInfoTypeParamValue> addressParameterValues = new List<Assad.modelInfoTypeParamValue>();
-                //for (int i = AddressHelper.GetMinAddress(Name); i <= AddressHelper.GetMaxAddress(Name); i++)
-                //{
-                //    addressParameterValues.Add(new Assad.modelInfoTypeParamValue() { value = i.ToString() });
-                //}
-                //addressParameter.value = addressParameterValues.ToArray();
-                //AssadParams.Add(addressParameter);
-
                 parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
             }
 
@@ -107,21 +95,6 @@ namespace DeviveModelManager
                 {
                     parameters.Add(new Assad.modelInfoTypeParam() { param = "Настройка включения по состоянию зон", type = "edit" });
                 }
-            }
-
-            int shleifCount = PanelHelper.GetShleifCount(Parent.Name);
-            if (shleifCount > 0)
-            {
-                Assad.modelInfoTypeParam shleifParameter = new Assad.modelInfoTypeParam();
-                shleifParameter.param = "Шлейф";
-                shleifParameter.type = "single";
-                shleifParameter.value = new Assad.modelInfoTypeParamValue[shleifCount];
-                for (int i = 0; i < shleifCount; i++)
-                {
-                    shleifParameter.value[i] = new Assad.modelInfoTypeParamValue();
-                    shleifParameter.value[i].value = (i + 1).ToString();
-                }
-                parameters.Add(shleifParameter);
             }
 
             if (Driver.propInfo != null)

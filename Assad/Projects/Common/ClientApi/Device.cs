@@ -68,7 +68,15 @@ namespace ClientApi
             Firesec.Metadata.drvType driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == DriverId);
             DriverName = driver.name;
             ShortDriverName = driver.shortName;
-            ImageName = driver.dev_icon;
+            if (!string.IsNullOrEmpty(driver.dev_icon))
+            {
+                ImageName = driver.dev_icon;
+            }
+            else
+            {
+                Firesec.Metadata.classType metadataClass = ServiceClient.Configuration.Metadata.@class.FirstOrDefault(x=>x.clsid == driver.clsid);
+                ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
+            }
         }
 
         public void SetState(ServiceApi.ShortDeviceState shortDeviceState)

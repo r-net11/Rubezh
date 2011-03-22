@@ -15,30 +15,60 @@ namespace ServiceVisualizer
         {
             Current = this;
             ConnectCommand = new RelayCommand(OnConnect);
+            ShowZoneCommant = new RelayCommand(OnShowZoneCommant);
         }
 
         public static ViewModel Current { get; private set; }
 
-        ObservableCollection<DeviceViewModel> devicesViewModels;
-        public ObservableCollection<DeviceViewModel> DevicesViewModels
+        ObservableCollection<DeviceViewModel> deviceViewModels;
+        public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
-            get { return devicesViewModels; }
+            get { return deviceViewModels; }
             set
             {
-                devicesViewModels = value;
-                OnPropertyChanged("DevicesViewModels");
+                deviceViewModels = value;
+                OnPropertyChanged("DeviceViewModels");
             }
         }
 
-        DeviceViewModel selectedDevicesViewModel;
-        public DeviceViewModel SelectedDevicesViewModel
+        ObservableCollection<ZoneViewModel> zoneViewModels;
+        public ObservableCollection<ZoneViewModel> ZoneViewModels
         {
-            get { return selectedDevicesViewModel; }
+            get { return zoneViewModels; }
             set
             {
-                selectedDevicesViewModel = value;
-                OnPropertyChanged("SelectedDevicesViewModel");
+                zoneViewModels = value;
+                OnPropertyChanged("ZoneViewModels");
             }
+        }
+
+        ZoneViewModel selectedZoneViewModel;
+        public ZoneViewModel SelectedZoneViewModel
+        {
+            get { return selectedZoneViewModel; }
+            set
+            {
+                selectedZoneViewModel = value;
+                OnPropertyChanged("SelectedZoneViewModel");
+            }
+        }
+
+        DeviceViewModel selectedDeviceViewModel;
+        public DeviceViewModel SelectedDeviceViewModel
+        {
+            get { return selectedDeviceViewModel; }
+            set
+            {
+                selectedDeviceViewModel = value;
+                OnPropertyChanged("SelectedDeviceViewModel");
+            }
+        }
+
+        public RelayCommand ShowZoneCommant { get; private set; }
+        void OnShowZoneCommant(object obj)
+        {
+            System.Windows.Window window = new System.Windows.Window();
+            window.Show();
         }
 
         public RelayCommand ConnectCommand { get; private set; }
@@ -46,7 +76,7 @@ namespace ServiceVisualizer
         {
             ServiceClient serviceClient = new ServiceClient();
             serviceClient.Start();
-            DevicesViewModels = new ObservableCollection<DeviceViewModel>();
+            DeviceViewModels = new ObservableCollection<DeviceViewModel>();
 
             Device rootDevice = ServiceClient.Configuration.Devices[0];
 
@@ -54,8 +84,10 @@ namespace ServiceVisualizer
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.SetDevice(rootDevice);
             rootDeviceViewModel.IsExpanded = true;
-            DevicesViewModels.Add(rootDeviceViewModel);
+            DeviceViewModels.Add(rootDeviceViewModel);
             AddDevice(rootDevice, rootDeviceViewModel);
+
+            AddZones();
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -70,70 +102,17 @@ namespace ServiceVisualizer
                 AddDevice(device, deviceViewModel);
             }
         }
+
+        void AddZones()
+        {
+            ZoneViewModels = new ObservableCollection<ZoneViewModel>();
+
+            foreach (Zone zone in ServiceClient.Configuration.Zones)
+            {
+                ZoneViewModel zoneViewModel = new ZoneViewModel();
+                zoneViewModel.SetZone(zone);
+                ZoneViewModels.Add(zoneViewModel);
+            }
+        }
     }
 }
-
-        //<ListBox DataContext="{Binding SelectedDevicesViewModel}">
-        //    <ListBox.ItemsPanel>
-        //        <ItemsPanelTemplate>
-        //            <StackPanel>
-        //                <Grid>
-        //                    <Grid.ColumnDefinitions>
-        //                        <ColumnDefinition/>
-        //                        <ColumnDefinition/>
-        //                    </Grid.ColumnDefinitions>
-        //                    <Grid.RowDefinitions>
-        //                        <RowDefinitions/>
-        //                        <RowDefinitions/>
-        //                        <RowDefinitions/>
-        //                        <RowDefinitions/>
-        //                    </Grid.RowDefinitions>
-        //    <TextBlock Grid.Row="1" Grid.Column="0" Text="DriverID:"/>
-        //                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:"/>
-        //                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Адрес:"/>
-        //                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DeviceName}" Background="{Binding Enable, Converter={StaticResource BoolToBackColorConverter}}" Foreground="{Binding Enable, Converter={StaticResource BoolToColorConverter}}"/>
-        //                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Address}" />
-        //                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DriverId}" />
-
-
-        //                </Grid>
-        //                <TextBlock Text="{Binding DriverName}" />
-        //                <TextBlock Text="{Binding State}" />
-        //                <TextBlock Text="{Binding States}" />
-        //                <TextBlock Text="{Binding Parameters}" />
-        //            </StackPanel>
-        //        </ItemsPanelTemplate>
-        //    </ListBox.ItemsPanel>
-            
-            
-        //</ListBox>
-
-
-           //<TextBlock Text="{Binding DriverName}" />
-           //<TextBlock Text="{Binding State}" />
-           //<TextBlock Text="{Binding States}" />
-           // <TextBlock Text="{Binding Parameters}" />
-
-
-            //            <Grid>
-            //                <Grid.ColumnDefinitions>
-            //                    <ColumnDefinition Width="150*" />
-            //                    <ColumnDefinition Width="628*" />
-            //                </Grid.ColumnDefinitions>
-            //                <Grid.RowDefinitions>
-            //                    <RowDefinition/>
-            //                    <RowDefinition/>
-            //                    <RowDefinition Height="Auto"/>
-            //                    <RowDefinition/>
-            //                </Grid.RowDefinitions>
-            //                <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя устройства"     />
-            //                <TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние"     />
-            //                <TextBlock Grid.Column="0" Grid.Row="2" Text="Список состояний"     />
-            //                <TextBlock Grid.Column="0" Grid.Row="3" Text="Параметры"     />
-            //                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DriverName}"     />
-            //                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding State}"     />
-            //                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding States}"     />
-            //                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Parameters}"     />
-
-
-            //</Grid>

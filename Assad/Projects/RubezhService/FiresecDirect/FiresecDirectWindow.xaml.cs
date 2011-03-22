@@ -36,40 +36,40 @@ namespace FiresecDirect
             Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
             memoryStream.Close();
 
-            Firesec.ComServer.SetNewConfig(config);
-            //ComServer.ComServer.DeviceWriteConfig(config, "0");
+            Firesec.FiresecClient.SetNewConfig(config);
+            //Firesec.FiresecClient.DeviceWriteConfig(config, "0");
 
             textBox1.Text = message;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeComServer.GetCoreConfig();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeComServer.GetCoreState();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreState();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeComServer.GetMetaData();
+            textBox1.Text = Firesec.NativeFiresecClient.GetMetaData();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeComServer.GetCoreDeviceParams();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams();
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeComServer.ReadEvents(0, 100);
+            textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100);
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            Firesec.Metadata.config metadataConfig = Firesec.ComServer.GetMetaData();
+            Firesec.Metadata.config metadataConfig = Firesec.FiresecClient.GetMetaData();
             XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
             FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
             serializer.Serialize(fileStream, metadataConfig);

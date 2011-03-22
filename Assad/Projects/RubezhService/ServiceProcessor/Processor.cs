@@ -100,6 +100,15 @@ namespace ServiseProcessor
                     Zone zone = new Zone();
                     zone.Id = innerZone.idx;
                     zone.Name = innerZone.name;
+                    zone.No = innerZone.no;
+                    zone.Description = innerZone.desc;
+                    if (innerZone.param != null)
+                    {
+                        if (innerZone.param.Any(x => x.name == "ExitTime"))
+                            zone.EvacuationTime = innerZone.param.FirstOrDefault(x => x.name == "ExitTime").value;
+                        if (innerZone.param.Any(x => x.name == "FireDeviceCount"))
+                            zone.DetectorCount = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount").value;
+                    }
                     zone.Devices = new List<Device>();
                     Services.Configuration.Zones.Add(zone);
                 }
