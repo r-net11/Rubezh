@@ -128,10 +128,6 @@ namespace AssadProcessor
                                 if (parameter.Value == "<NULL>")
                                     continue;
                             }
-                            else
-                            {
-                                ;
-                            }
 
                             AssadParameter assadParameter = new AssadParameter();
                             assadParameter.Name = parameter.Caption;
@@ -142,6 +138,12 @@ namespace AssadProcessor
                             {
                                 ;
                             }
+                        }
+
+                        assadBase.States = new List<string>();
+                        foreach (string state in device.States)
+                        {
+                            assadBase.States.Add(state);
                         }
                     }
                     else

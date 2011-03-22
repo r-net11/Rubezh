@@ -19,6 +19,7 @@ namespace ServiseProcessor
             binding.MaxBufferSize = Int32.MaxValue;
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
+            binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("ServiceApi.IStateService", binding, "net.tcp://localhost:8000/StateService");
 
             ServiceMetadataBehavior behavior = host.Description.Behaviors.Find<ServiceMetadataBehavior>();

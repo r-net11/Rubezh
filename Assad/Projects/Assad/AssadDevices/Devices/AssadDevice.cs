@@ -66,5 +66,48 @@ namespace AssadDevices
                     throw new Exception("Неизвестное устройство");
             }
         }
+
+        public void Validate(string address)
+        {
+            List<string> addresses = address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
+            if (addresses.Count != 2)
+            {
+                SetValidationError("Адрес должен быть разделен точкой");
+                return;
+            }
+            int intShleifAddress = 0;
+            try
+            {
+                intShleifAddress = Convert.ToInt32(addresses[0]);
+            }
+            catch
+            {
+                SetValidationError("Адрес шлейфа не является целочичленным значением");
+                return;
+            }
+            int intAddress = 0;
+            try
+            {
+                intAddress = Convert.ToInt32(addresses[0]);
+            }
+            catch
+            {
+                SetValidationError("Адрес является целочичленным значением");
+                return;
+            }
+            if ((intAddress < 1) && (intAddress > 255))
+            {
+                SetValidationError("Адрес должен быть в диапазоне 1 - 255");
+                return;
+            }
+            // НУЖНА ПРОВЕРКА ТИПА РОДИТЕЛЬСКОГО УСТРОЙСТВА ЧТОБЫ ПРОВЕРИТЬ ВАЛИДНОСТЬ ДИАПАЗОНА
+            // ЭТО НУЖНО ДЕЛАТЬ ПОСЛЕ ПОЛНОГО ЗАПОЛНЕНИЯ КОНФИГУРАЦИИ, Т.К. РОДИТЕЛЬСКОЕ УСТРОЙСТВО МОЖЕТ БЫТЬ ЕЩЕ НЕДОСТУПНО
+
+            if ((intShleifAddress < 1) && (intShleifAddress > 2))
+            {
+                SetValidationError("Адрес шлейфа быть в диапазоне 1 - 2");
+                return;
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace ServiseProcessor
 
         public string Description { get; set; }
         public string DriverName { get; set; }
+        public string ShortDriverName { get; set; }
         public string DriverId { get; set; }
         public string ValidationError { get; set; }
         public string Zone { get; set; }
@@ -84,6 +85,7 @@ namespace ServiseProcessor
             DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 
             Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == DriverId);
+            ShortDriverName = metadataDriver.shortName;
             DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
             States = new List<State>();
             if (metadataDriver.state != null)

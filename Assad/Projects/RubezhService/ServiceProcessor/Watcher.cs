@@ -38,17 +38,26 @@ namespace ServiseProcessor
                     device.ParameterChanged = false;
                     device.VisibleParameterChanged = false;
 
-                    Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == device.PlaceInTree);
-                    foreach(Parameter parameter in device.Parameters)
+                    if (coreParameters.dev.Any(x => x.name == device.PlaceInTree))
                     {
-                        Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-                        if (parameter.Value != innerParameter.value)
+                        Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == device.PlaceInTree);
+                        foreach (Parameter parameter in device.Parameters)
                         {
-                            device.ParameterChanged = true;
-                            if (parameter.Visible)
-                                device.VisibleParameterChanged = true;
+                            if (innerDevice.dev_param != null)
+                            {
+                                if (innerDevice.dev_param.Any(x => x.name == parameter.Name))
+                                {
+                                    Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
+                                    if (parameter.Value != innerParameter.value)
+                                    {
+                                        device.ParameterChanged = true;
+                                        if (parameter.Visible)
+                                            device.VisibleParameterChanged = true;
+                                    }
+                                    parameter.Value = innerParameter.value;
+                                }
+                            }
                         }
-                        parameter.Value = innerParameter.value;
                     }
                 }
 
@@ -175,7 +184,7 @@ namespace ServiseProcessor
                             if ((chilDevice.PlaceInTree.StartsWith(device.PlaceInTree)) && (chilDevice.PlaceInTree != device.PlaceInTree))
                             {
                                 chilDevice.ParentStates.Add(state);
-                                chilDevice.ParentStringStates.Add(device.DriverName + " - " + state.Name);
+                                chilDevice.ParentStringStates.Add(device.ShortDriverName + " - " + state.Name);
                                 chilDevice.StatesChanged = true;
                             }
                         }

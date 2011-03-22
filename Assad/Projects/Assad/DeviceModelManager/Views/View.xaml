@@ -49,7 +49,6 @@
 
             <StackPanel Grid.Column="1" DataContext="{Binding SelectedDevice}">
                 <TextBox Text="{Binding Name}" Margin="2" />
-                <TextBox Text="{Binding Clsid}" Margin="2" />
                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Width="570" Height="650">
                     <TextBlock Text="{Binding ModelInfoXml}" />
                 </ScrollViewer>

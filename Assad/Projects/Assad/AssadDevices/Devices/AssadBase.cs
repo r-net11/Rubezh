@@ -14,6 +14,7 @@ namespace AssadDevices
             Children = new List<AssadBase>();
             Properties = new List<AssadProperty>();
             Parameters = new List<AssadParameter>();
+            States = new List<string>();
         }
 
         public AssadBase Parent { get; set; }
@@ -28,6 +29,7 @@ namespace AssadDevices
         public string MainState { get; set; }
         public List<AssadProperty> Properties { get; set; }
         public List<AssadParameter> Parameters { get; set; }
+        public List<string> States { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
         public string Zone { get; set; }
         public string ValidationError { get; set; }
@@ -168,11 +170,26 @@ namespace AssadDevices
 
             foreach (AssadParameter assadParameter in Parameters)
             {
+                if (string.IsNullOrEmpty(assadParameter.Value))
+                    continue;
+
+                if (assadParameter.Value == "<NULL>")
+                    continue;
+
                 Assad.DeviceTypeParam parameter = new Assad.DeviceTypeParam();
                 parameter.name = assadParameter.Name;
                 parameter.value = assadParameter.Value;
                 abilityParameters.Add(parameter);
             }
+
+            foreach (string state in States)
+            {
+                Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
+                stateParameter.name = state;
+                stateParameter.value = " ";
+                abilityParameters.Add(stateParameter);
+            }
+
             deviceAbility.param = abilityParameters.ToArray();
             return deviceAbility;
         }
