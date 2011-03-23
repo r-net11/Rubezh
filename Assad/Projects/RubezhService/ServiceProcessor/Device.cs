@@ -5,6 +5,8 @@ using System.Text;
 using Firesec;
 using System.Runtime.Serialization;
 using ServiceApi;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ServiseProcessor
 {
@@ -23,6 +25,7 @@ namespace ServiseProcessor
         public string DriverId { get; set; }
         public string ValidationError { get; set; }
         public string Zone { get; set; }
+        public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<State> States { get; set; }
         public List<DeviceProperty> DeviceProperties { get; set; }
         public List<Parameter> Parameters { get; set; }
@@ -80,11 +83,23 @@ namespace ServiseProcessor
             if (innerDevice == null)
                 return;
 
-            Address = innerDevice.addr;
-            Description = innerDevice.name;
             DriverId = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-
             Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == DriverId);
+
+            // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
+            Address = innerDevice.addr;
+            if (metadataDriver.addrMask != null)
+            {
+                int intAddress = Convert.ToInt32(Address);
+                if (intAddress > 255)
+                {
+                    int intShleifAddress = intAddress / 255;
+                    int intSelfAddress = intAddress % 256;
+                    Address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
+                }
+            }
+
+            Description = innerDevice.name;
             ShortDriverName = metadataDriver.shortName;
             DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
             States = new List<State>();
@@ -134,32 +149,38 @@ namespace ServiseProcessor
 
         void SetAddress()
         {
-            PresentationAddress = innerDevice.addr;
+            PresentationAddress = Address;
 
             switch (DriverName)
             {
                 case "Компьютер":
                     Address = "Компьютер";
+                    PresentationAddress = "";
                     break;
 
                 case "Насосная Станция":
                     Address = "Насосная Станция";
+                    PresentationAddress = "";
                     break;
 
                 case "Жокей-насос":
                     Address = "Жокей-насос";
+                    PresentationAddress = "";
                     break;
 
                 case "Компрессор":
                     Address = "Компрессор";
+                    PresentationAddress = "";
                     break;
 
                 case "Дренажный насос":
                     Address = "Дренажный насос";
+                    PresentationAddress = "";
                     break;
 
                 case "Насос компенсации утечек":
                     Address = "Насос компенсации утечек";
+                    PresentationAddress = "";
                     break;
 
                 case "USB преобразователь МС-1":
@@ -171,10 +192,7 @@ namespace ServiseProcessor
                     }
                     else
                         Address = "0";
-                    break;
-
-                default:
-                    Address = innerDevice.addr;
+                    PresentationAddress = "";
                     break;
             }
         }
@@ -220,6 +238,77 @@ namespace ServiseProcessor
                 Zone = zoneId;
                 Zone zone = Services.Configuration.Zones.FirstOrDefault(x => x.Id == zoneId);
                 zone.Devices.Add(this);
+            }
+            if (innerDevice.prop != null)
+            {
+                if (innerDevice.prop.Any(x => x.name == "ExtendedZoneLogic"))
+                {
+                    string zoleLogicstring = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic").value;
+                    ZoneLogic = FiresecClient.GetZoneLogic(zoleLogicstring);
+
+                    string logic = "";
+
+                    foreach (Firesec.ZoneLogic.clauseType clause in ZoneLogic.clause)
+                    {
+                        if (clause.joinOperator != null)
+                        {
+                            switch (clause.joinOperator)
+                            {
+                                case "and":
+                                    logic += " и ";
+                                    break;
+                                case "or":
+                                    logic += " или ";
+                                    break;
+                            }
+                        }
+
+                        string stringState = "";
+                        switch (clause.state)
+                        {
+                            case "0":
+                                stringState = "Включение автоматики";
+                                break;
+
+                            case "1":
+                                stringState = "Тревога";
+                                break;
+
+                            case "2":
+                                stringState = "Пожар";
+                                break;
+
+                            case "5":
+                                stringState = "Внимание";
+                                break;
+
+                            case "6":
+                                stringState = "Включение модуля пожаротушения";
+                                break;
+                        }
+
+                        string stringOperation = "";
+                        switch (clause.operation)
+                        {
+                            case "and":
+                                stringOperation = "во всех зонах из";
+                                break;
+
+                            case "or":
+                                stringOperation = "в любой зонах из";
+                                break;
+                        }
+
+                        logic += "состояние " + stringState + " " + stringOperation + " [";
+                        
+                        foreach (string zoneNo in clause.zone)
+                        {
+                            logic += zoneNo + ", ";
+                        }
+                        logic += "]";
+                    }
+
+                }
             }
         }
 

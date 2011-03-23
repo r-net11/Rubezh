@@ -88,6 +88,40 @@ namespace ServiseProcessor
         // установить адрес
         public void SetAddress(Firesec.CoreConfig.devType innerDevice, Device device)
         {
+            Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
+            if (metadataDriver.addrMask != null)
+            {
+                List<string> addresses = device.Address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
+                if (addresses.Count != 2)
+                {
+                    throw new Exception("Адрес должен быть разделен точкой");
+                }
+                int intShleifAddress = 0;
+                try
+                {
+                    intShleifAddress = System.Convert.ToInt32(addresses[0]);
+                }
+                catch
+                {
+                    throw new Exception("Адрес шлейфа не является целочичленным значением");
+                }
+                int intAddress = 0;
+                try
+                {
+                    intAddress = System.Convert.ToInt32(addresses[1]);
+                }
+                catch
+                {
+                    throw new Exception("Адрес является целочичленным значением");
+                }
+                if ((intAddress < 1) && (intAddress > 255))
+                {
+                    throw new Exception("Адрес должен быть в диапазоне 1 - 255");
+                }
+                string Address = (intShleifAddress * 256 + intAddress).ToString();
+                innerDevice.addr = Address;
+            }
+
             switch (device.DriverName)
             {
                 case "Компьютер":

@@ -12,26 +12,8 @@ namespace AssadDevices
         {
             base.SetInnerDevice(innerDevice);
 
-            string stringAddress = Properties.First(x => x.Name == "Адрес").Value;
-            string shleifNo = Properties.First(x => x.Name == "Шлейф").Value;
-
-            Properties.Remove(Properties.First(x => x.Name == "Адрес"));
-            Properties.Remove(Properties.First(x => x.Name == "Шлейф"));
-
-            int intAddress;
-            try
-            {
-                intAddress = Convert.ToInt32(stringAddress);
-            }
-            catch
-            {
-                SetValidationError("Адрес должен иметь целочисленное значение");
-                return;
-            }
-            int intShleif = Convert.ToInt32(shleifNo);
-            intAddress = intShleif * 256 + intAddress;
-
-            Address = intAddress.ToString();
+            Address = Properties.First(x => x.Name == "Адрес").Value;
+            Validate(Address);
 
             string driverName = DriversHelper.GetDriverNameById(DriverId);
             switch (driverName)
@@ -54,8 +36,7 @@ namespace AssadDevices
                 case "Задвижка":
                 case "Модуль речевого оповещения":
                 case "Модуль дымоудаления-1.02//3":
-                    //Zone = Properties.First(x => x.Name == "Настройка включения по состоянию зон").Value;
-                    // РАСШИРЕННАЯ ЛОГИКА ЗОН
+                    ZoneLogic = Properties.First(x => x.Name == "Настройка включения по состоянию зон").Value;
                     break;
 
                 case "Релейный исполнительный модуль РМ-1":
@@ -67,7 +48,7 @@ namespace AssadDevices
             }
         }
 
-        public void Validate(string address)
+        void Validate(string address)
         {
             List<string> addresses = address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
             if (addresses.Count != 2)
@@ -88,7 +69,7 @@ namespace AssadDevices
             int intAddress = 0;
             try
             {
-                intAddress = Convert.ToInt32(addresses[0]);
+                intAddress = Convert.ToInt32(addresses[1]);
             }
             catch
             {

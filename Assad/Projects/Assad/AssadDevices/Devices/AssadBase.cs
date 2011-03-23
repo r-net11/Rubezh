@@ -32,6 +32,7 @@ namespace AssadDevices
         public List<string> States { get; set; }
         public Assad.modelInfoType InnerType { get; set; }
         public string Zone { get; set; }
+        public string ZoneLogic { get; set; }
         public string ValidationError { get; set; }
 
         // это свойство задается при конфигурации из ассада

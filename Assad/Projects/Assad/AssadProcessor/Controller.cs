@@ -134,10 +134,6 @@ namespace AssadProcessor
                             assadParameter.Value = parameter.Value;
                             assadParameter.Visible = parameter.Visible;
                             assadBase.Parameters.Add(assadParameter);
-                            if (parameter.Visible)
-                            {
-                                ;
-                            }
                         }
 
                         assadBase.States = new List<string>();
