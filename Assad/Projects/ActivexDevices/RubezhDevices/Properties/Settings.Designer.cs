@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ServiceVisualizer.Properties {
+namespace WpfApplication1.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

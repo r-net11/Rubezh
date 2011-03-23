@@ -18,6 +18,16 @@ namespace ServiceVisualizer
 
         Device device;
 
+        public string DriverId
+        {
+            get
+            {
+                if (device != null)
+                    return device.DriverId;
+                return null;
+            }
+        }
+
         public void SetDevice(Device device)
         {
             this.device = device;
@@ -27,7 +37,7 @@ namespace ServiceVisualizer
             if (ServiceClient.Configuration.Zones.Any(x => x.Id == device.Zone))
             {
                 Zone _zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == device.Zone);
-                Zone = _zone.No + ". " + _zone.Name;
+                Zone = _zone.Name;
             }
             Description = device.Description;
             ImageSource = @"C:\Program Files\Firesec\Icons\" + device.ImageName + ".ico";
