@@ -1,0 +1,861 @@
+<?xml version="1.0"?>
+<DeviceManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Devices>
+    <Device Id = "АПИ:'ИП 212-64'">      
+      <States>
+        <State Id = "Базовый рисунок">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ffffff" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Обнаружена неисправность">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1600">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Обход устройств">
+          <Cadrs>
+            <Cadr Id="0" Duratio = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808080" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#CCFFFF" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма">
+          <Cadrs Id = "0" Duration = "0">
+            <Cadr>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма(*)">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FFFF" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние внимание">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2400">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FF9900" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние неизвестно">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#C0C0C0" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние тревоги">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ff0000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Требуется обслуживание">          
+          <Cadrs>
+            <Cadr Id = "0" Duration = "500" >
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "500">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_1" y2="218" x2="208" y1="100" x1="290"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_2" y2="273" x2="303" y1="205" x1="205"/&gt;
+				  &lt;line fill="none" stroke-width="20" stroke="#000000" id="svg_3" y2="385" x2="220" y1="260" x1="300"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+      </States>
+    </Device>
+	<Device Id = "АПИ:'ИП29'">      
+      <States>
+        <State Id = "Базовый рисунок">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1 &lt;/title&gt;
+				  &lt;rect height="500" width="500" y="0" x="0" id="svg_8" stroke="#000000" stroke-width="20" fill="#ffffff"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		        <State Id = "Обнаружена неисправность">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1600">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Обход устройств">
+          <Cadrs>
+            <Cadr Id="0" Duratio = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808080" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#CCFFFF" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#CCFFFF" stroke="#CCFFFF" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма">
+          <Cadrs Id = "0" Duration = "0">
+            <Cadr>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма(*)">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FFFF" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние внимание">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2400">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FF9900" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние неизвестно">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#C0C0C0" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние тревоги">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ff0000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Требуется обслуживание">          
+          <Cadrs>
+            <Cadr Id = "0" Duration = "500" >
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "500">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+				  &lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+	  </States>
+	</Device>
+	<Device Id = "АПИ:'ИП64'">      
+      <States>
+        <State Id = "Базовый рисунок">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1 &lt;/title&gt;
+				  &lt;rect height="500" width="500" y="0" x="0" id="svg_8" stroke="#000000" stroke-width="20" fill="#ffffff"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		        <State Id = "Обнаружена неисправность">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1600">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Обход устройств">
+          <Cadrs>
+            <Cadr Id="0" Duratio = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808080" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#CCFFFF" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#CCFFFF" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#CCFFFF" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#CCFFFF" stroke="#CCFFFF" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма">
+          <Cadrs Id = "0" Duration = "0">
+            <Cadr>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма(*)">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FF00" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#00FFFF" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние внимание">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2400">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#FF9900" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние неизвестно">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "2000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#C0C0C0" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние тревоги">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "1000">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#ff0000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Требуется обслуживание">          
+          <Cadrs>
+            <Cadr Id = "0" Duration = "500" >
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "500">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;rect fill="#808000" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+				  &lt;line x1="290" y1="55" x2="210" y2="180" id="svg_1" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="205" y1="170" x2="300" y2="240" id="svg_2" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;line x1="297" y1="227" x2="242" y2="310" id="svg_3" stroke="#000000" stroke-width="20" fill="none"/&gt;
+				  &lt;ellipse cx="210" cy="360" id="svg_4" fill="#000000" stroke="#000000" stroke-width="20" rx="65" ry="65"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+	  </States>
+	</Device>
+	<Device Id = "Дренажный насос">      
+      <States>
+        <State Id = "Базовый рисунок">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1 &lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;			
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		        <State Id = "Обнаружена неисправность">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "200">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+            <Cadr Id = "1" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FF0000" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;			  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Обнаружена неисправность. Потеря связи с дренажным насосом">
+          <Cadrs>
+            <Cadr Id="0" Duratio = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#808080" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;						  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма">
+          <Cadrs Id = "0" Duration = "0">
+            <Cadr>
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1 &lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;			
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние - норма(*). Авто с БУНС отключено">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FFFF00" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;						  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		<State Id = "Состояние - норма(*). Авто с ШУН отключено">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "800">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FFFF00" id="svg_1" cy="250" cx="250"/&gt;
+				  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;					  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		<State Id = "Состояние - норма(*). Дренажный насос включен">
+          <Cadrs>
+			<Cadr Id = "1" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="#000000" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+			<Cadr Id = "0" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		<State Id = "Состояние - норма. Авто с БУНС отключено">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FFFF00" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+			<Cadr Id = "1" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+		<State Id = "Состояние - норма. Дренажный насос включен">
+          <Cadrs>
+			<Cadr Id = "1" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="#000000" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+			<Cadr Id = "0" Duration = "300">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#339966" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Состояние внимание">
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FF0000" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;				  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id = "Требуется обслуживание">          
+          <Cadrs>
+            <Cadr Id = "0" Duration = "0">
+              <Image>
+				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+				  &lt;g&gt;
+				  &lt;title&gt;Layer 1&lt;/title&gt;
+				  &lt;ellipse ry="250" rx="250" stroke="#000000" fill="#FFCC00" id="svg_1" cy="250" cx="250"/&gt;
+                  &lt;polyline points="170,80 170,410 410,260 170,80 " id="svg_7" fill="none" stroke="#000000"/&gt;					  
+				  &lt;/g&gt;
+				  &lt;/svg&gt;
+			  </Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+	  </States>
+	</Device>
+  </Devices>
+</DeviceManager>

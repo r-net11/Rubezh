@@ -5,101 +5,100 @@
     xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
     xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
     Title="Редактор конфигурации Firesec" Height="900" Width="1000">
-    <StackPanel>
-        <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
-        
-        <TabControl>
-            <TabItem Header="Устройства">
-                <StackPanel>
-                    <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
-                        <r:TreeListView.Columns>
-                            <GridViewColumn Header="Тип Устройства" Width="250">
-                                <GridViewColumn.CellTemplate>
+        <StackPanel>
+            <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
+            <TabControl>
+                <TabItem Header="Устройства">
+                    <StackPanel>
+                        <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
+                            <r:TreeListView.Columns>
+                                <GridViewColumn Header="Тип Устройства" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
+                                                <TextBlock Text="{Binding ShortDriverName}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
+                                <GridViewColumn Header="Зона" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Zone}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Description}" Width="100" />
+                                <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
+                            </r:TreeListView.Columns>
+                            <TreeView.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                    <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
+                            </TreeView.ItemTemplate>
+                        </r:TreeListView>
+
+                        <StackPanel DataContext="{Binding SelectedDeviceViewModel}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150*" />
+                                    <ColumnDefinition Width="628*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя устройства"     />
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние"     />
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DriverName}"     />
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding State}"     />
+                            </Grid>
+                            <ListBox ItemsSource="{Binding States}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <ListBox ItemsSource="{Binding Parameters}">
+                                <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
-                                            <TextBlock Text="{Binding ShortDriverName}" />
+                                            <TextBlock Text="{Binding Caption}" Margin="5" />
+                                            <TextBlock Text="{Binding Value}" Margin="5" />
                                         </StackPanel>
                                     </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
-                            <GridViewColumn Header="Зона" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Zone}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Description}" Width="100" />
-                            <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
-                        </r:TreeListView.Columns>
-                        <TreeView.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                                <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            </Style>
-                        </TreeView.ItemContainerStyle>
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
-                        </TreeView.ItemTemplate>
-                    </r:TreeListView>
-                    
-                    <StackPanel DataContext="{Binding SelectedDeviceViewModel}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150*" />
-                                <ColumnDefinition Width="628*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя устройства"     />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние"     />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DriverName}"     />
-                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding State}"     />
-                        </Grid>
-                        <ListBox ItemsSource="{Binding States}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <ListBox ItemsSource="{Binding Parameters}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Caption}" Margin="5" />
-                                        <TextBlock Text="{Binding Value}" Margin="5" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Зоны">
-                <StackPanel>
-                    <WpfToolkit:DataGrid ItemsSource="{Binding ZoneViewModels}" SelectedItem="{Binding SelectedZoneViewModel}"
+                </TabItem>
+                <TabItem Header="Зоны">
+                    <StackPanel>
+                        <WpfToolkit:DataGrid ItemsSource="{Binding ZoneViewModels}" SelectedItem="{Binding SelectedZoneViewModel}"
                                          Height="200" AutoGenerateColumns="False" SelectionMode="Extended"
                                          CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                                          RowHeaderWidth="17" RowHeight="25">
-                        <WpfToolkit:DataGrid.Columns>
-                            <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding ZoneNo}" />
-                            <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding ZoneName}" />
-                            <WpfToolkit:DataGridTextColumn Header="Примечание" Width="2*" Binding="{Binding ZoneDescription}" />
-                            <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding ZoneDetectorCount}" />
-                            <WpfToolkit:DataGridTextColumn Header="Время эвакуации" Width="2*" Binding="{Binding ZoneEvacuationTime}" />
-                        </WpfToolkit:DataGrid.Columns>
-                    </WpfToolkit:DataGrid>
-                    <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
-                </StackPanel>
-            </TabItem>
-        </TabControl>
+                            <WpfToolkit:DataGrid.Columns>
+                                <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding ZoneNo}" />
+                                <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding ZoneName}" />
+                                <WpfToolkit:DataGridTextColumn Header="Примечание" Width="2*" Binding="{Binding ZoneDescription}" />
+                                <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding ZoneDetectorCount}" />
+                                <WpfToolkit:DataGridTextColumn Header="Время эвакуации" Width="2*" Binding="{Binding ZoneEvacuationTime}" />
+                            </WpfToolkit:DataGrid.Columns>
+                        </WpfToolkit:DataGrid>
+                        <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Window>
 
-    </StackPanel>
-</Window>

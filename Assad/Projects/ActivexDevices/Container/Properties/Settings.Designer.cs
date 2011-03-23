@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ServiceVisualizer.Properties {
+namespace Container.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceVisualizer", "ServiceVisualizer\ServiceVisualizer.csproj", "{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApi", "..\Common\ClientApi\ClientApi.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"

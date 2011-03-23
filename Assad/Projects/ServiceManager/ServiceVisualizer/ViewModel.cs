@@ -16,6 +16,7 @@ namespace ServiceVisualizer
             Current = this;
             ConnectCommand = new RelayCommand(OnConnect);
             ShowZoneCommant = new RelayCommand(OnShowZoneCommant);
+            OkCommand = new RelayCommand(OnOkCommand);
         }
 
         public static ViewModel Current { get; private set; }
@@ -62,6 +63,12 @@ namespace ServiceVisualizer
                 selectedDeviceViewModel = value;
                 OnPropertyChanged("SelectedDeviceViewModel");
             }
+        }
+
+        public RelayCommand OkCommand { get; private set; }
+        void OnOkCommand(object obj)
+        {
+            WindowManager.DriverId = SelectedDeviceViewModel.DriverId;
         }
 
         public RelayCommand ShowZoneCommant { get; private set; }
