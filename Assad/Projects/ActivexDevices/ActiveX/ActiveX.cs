@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -10,7 +7,6 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Windows.Forms.Integration;
 using Microsoft.VisualStudio.OLE.Interop;
-using System.IO;
 using ServiceVisualizer;
 
 namespace ActiveX
@@ -88,7 +84,7 @@ namespace ActiveX
             host.Dock = DockStyle.Fill;
 
             // Create the WPF UserControl.
-            RubezhDevices.CRubezhDevices activeX = new RubezhDevices.CRubezhDevices();
+            activeX = new RubezhDevices.RubezhDevice();
 
             // Assign the WPF UserControl to the ElementHost control's
             // Child property.
@@ -98,13 +94,37 @@ namespace ActiveX
             // collection of child controls.
             this.Controls.Add(host);
         }
-        
+
+        RubezhDevices.RubezhDevice activeX;
+
         public static CActiveX Current;
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
             Current = this;
+            RubezhDevices.DeviceManager deviceManager = new RubezhDevices.DeviceManager();
+            RubezhDevices.Device device = new RubezhDevices.Device();
+
             WindowManager.Show();
-            string driverId = WindowManager.DriverId;  
+
+            //ElementHost host = new ElementHost();
+            //host.Dock = DockStyle.Fill;
+
+            // Create the WPF UserControl.
+            //RubezhDevices.RubezhDevice activeX = new RubezhDevices.RubezhDevice();
+            activeX = new RubezhDevices.RubezhDevice();
+
+            // Assign the WPF UserControl to the ElementHost control's
+            // Child property.
+            //host.Child = rubezhDevices;
+
+            // Add the ElementHost control to the form's
+            // collection of child controls.
+            //this.Controls.Clear();
+            //this.Controls.Add(host);
+
+            activeX.DriverId = WindowManager.DriverId;
         }
-    }      
+
+        public string DriverId {get; set;}
+    }
 }
