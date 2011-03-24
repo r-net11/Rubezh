@@ -54,6 +54,11 @@ namespace ServiceVisualizer
             }
         }
 
+        public ObservableCollection<ZoneViewModel> Zones
+        {
+            get { return ViewModel.Current.ZoneViewModels; }
+        }
+
         string shortDriverName;
         public string ShortDriverName
         {

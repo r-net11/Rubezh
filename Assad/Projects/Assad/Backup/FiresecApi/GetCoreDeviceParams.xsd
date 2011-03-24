@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+  <xs:complexType name="dev_paramType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="devType">
+    <xs:sequence>
+      <xs:element name="dev_param" type="dev_paramType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+  
+  
+  <!-- Root Element -->
+
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="dev" type="devType" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="clsid" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

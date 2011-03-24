@@ -5,48 +5,81 @@
     xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
     xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
     Title="Редактор конфигурации Firesec" Height="900" Width="1000">
-        <StackPanel>
+    <StackPanel>
             <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
             <TabControl>
                 <TabItem Header="Устройства">
                     <StackPanel>
-                        <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
-                            <r:TreeListView.Columns>
-                                <GridViewColumn Header="Тип Устройства" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
-                                                <TextBlock Text="{Binding ShortDriverName}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
-                                <GridViewColumn Header="Зона" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Zone}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Description}" Width="100" />
-                                <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
-                            </r:TreeListView.Columns>
-                            <TreeView.ItemContainerStyle>
-                                <Style>
-                                    <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                                    <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                </Style>
-                            </TreeView.ItemContainerStyle>
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Children}" />
-                            </TreeView.ItemTemplate>
-                        </r:TreeListView>
-
-                        <StackPanel DataContext="{Binding SelectedDeviceViewModel}">
+                    <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
+                        <r:TreeListView.Columns>
+                            <GridViewColumn Header="Тип Устройства" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
+                                            <TextBlock Text="{Binding ShortDriverName}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
+                            <GridViewColumn Header="Зона" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Zone}" Name="ztb" />
+                                            <ComboBox Name="zcb" Visibility="Collapsed" ItemsSource="{Binding Zones}" DisplayMemberPath="ZoneName" SelectedItem="{Binding Zone}" Width="75">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding ZoneName}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                                                <DataTrigger.Setters>
+                                                    <Setter TargetName="ztb" Property="Visibility" Value="Collapsed"/>
+                                                    <Setter TargetName="zcb" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger.Setters>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Примечание" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Description}" Name="tb1" />
+                                            <TextBox Text="{Binding Description}" Name="tb2" Visibility="Collapsed" />
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                                                <DataTrigger.Setters>
+                                                    <Setter TargetName="tb1" Property="Visibility" Value="Collapsed"/>
+                                                    <Setter TargetName="tb2" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger.Setters>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
+                        </r:TreeListView.Columns>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </r:TreeListView>
+                        
+                    <StackPanel DataContext="{Binding SelectedDeviceViewModel}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="150*" />
@@ -77,7 +110,7 @@
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
-                            </ListBox>
+                        </ListBox>
                         </StackPanel>
                     </StackPanel>
                 </TabItem>
@@ -94,6 +127,15 @@
                                 <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding ZoneDetectorCount}" />
                                 <WpfToolkit:DataGridTextColumn Header="Время эвакуации" Width="2*" Binding="{Binding ZoneEvacuationTime}" />
                             </WpfToolkit:DataGrid.Columns>
+                        <WpfToolkit:DataGrid.CellStyle>
+                            <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#FF3FC642" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WpfToolkit:DataGrid.CellStyle>    
                         </WpfToolkit:DataGrid>
                         <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
                     </StackPanel>

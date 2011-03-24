@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceModelManager", "DeviceModelManager\DeviceModelManager.csproj", "{4F82A14B-ECE7-401C-B8BA-2C381E53079E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}"
