@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="RubezhService">
+</Property><Property Name="Файл решения" Value="C:\Rubezh\Assad\Projects\RubezhService\RubezhService.sln">
+</Property><Property Name="Date" Value="24 марта 2011 г.">
+</Property><Property Name="Time" Value="9:51">
+</Property></Properties><Event ErrorLevel="0" Project="ServiceApi" Source="..\Common\ServiceApi\ServiceApi.csproj" Description="Файл проекта не нуждается в преобразовании.">
+</Event><Event ErrorLevel="3" Project="ServiceApi" Source="..\Common\ServiceApi\ServiceApi.csproj" Description="Преобразование не требуется">
+</Event><Event ErrorLevel="0" Project="Common" Source="..\Common\Common\Common.csproj" Description="Файл проекта не нуждается в преобразовании.">
+</Event><Event ErrorLevel="3" Project="Common" Source="..\Common\Common\Common.csproj" Description="Преобразование не требуется">
+</Event><Event ErrorLevel="0" Project="FiresecApi" Source="..\Common\FiresecApi\FiresecApi.csproj" Description="Файл проекта не нуждается в преобразовании.">
+</Event><Event ErrorLevel="3" Project="FiresecApi" Source="..\Common\FiresecApi\FiresecApi.csproj" Description="Преобразование не требуется">
+</Event><Event ErrorLevel="0" Project="Firesec" Source="Firesec\Firesec.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="Firesec" Source="Firesec\Firesec.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="AutoHosting" Source="AutoHosting\AutoHosting.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="AutoHosting" Source="AutoHosting\AutoHosting.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="ServiceProcessor" Source="ServiceProcessor\ServiceProcessor.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="ServiceProcessor" Source="ServiceProcessor\ServiceProcessor.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="FiresecMetadata" Source="..\Common\FiresecMetadata\FiresecMetadata.csproj" Description="Проект успешно преобразован">
+</Event><Event ErrorLevel="3" Project="FiresecMetadata" Source="..\Common\FiresecMetadata\FiresecMetadata.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="RubezhService.sln" Description="Преобразование решения успешно завершено">
+</Event><Event ErrorLevel="3" Project="" Source="RubezhService.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Firesec" Source="Firesec\Firesec.csproj" Description="Сканирование завершено: обновление для файлов проекта не требуется.">
+</Event><Event ErrorLevel="0" Project="AutoHosting" Source="AutoHosting\AutoHosting.csproj" Description="Сканирование завершено: обновление для файлов проекта не требуется.">
+</Event><Event ErrorLevel="0" Project="ServiceProcessor" Source="ServiceProcessor\ServiceProcessor.csproj" Description="Сканирование завершено: обновление для файлов проекта не требуется.">
+</Event><Event ErrorLevel="0" Project="FiresecMetadata" Source="..\Common\FiresecMetadata\FiresecMetadata.csproj" Description="Сканирование завершено: обновление для файлов проекта не требуется.">
+</Event></UpgradeLog>

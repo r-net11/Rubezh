@@ -23,23 +23,67 @@ namespace RubezhDevices
     /// Interaction logic for Window1.xaml
     /// </summary>
     [Serializable]
-    public partial class CRubezhDevices : UserControl
+    public partial class RubezhDevice : UserControl
     {
 
-        public CRubezhDevices()
+        public RubezhDevice()
         {
             InitializeComponent();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+        }
+
+        string driverId;
+        public string DriverId
+        {
+            get { return driverId; }
+            set
+            {
+                driverId = value;
+                string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(driverId);
+                Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == driverName);
+                if (device == null)
+                {
+                    MessageBox.Show("Нет такого устройства");
+                    return;
+                }
+                string stateId = "Состояние - норма(*)";
+                State state = device.States.FirstOrDefault(x => x.Id == stateId);
+                if (state == null)
+                {
+                    MessageBox.Show("Нет такого состояния");
+                    return;
+                }
+
+                cadrDuration1 = state.Cadrs[0].Duration;
+                sRet = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, svg2xaml_xsl);
+
+                dispatcherTimer.Stop();
+                if (state.Cadrs.Count > 1)
+                {
+                    cadrDuration2 = state.Cadrs[1].Duration;
+                    sRet2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, svg2xaml_xsl);
+                    dispatcherTimer.Interval = TimeSpan.FromMilliseconds(cadrDuration1);
+                    dispatcherTimer.Start();
+                }
+                else
+                {
+                    StringReader stringReader = new StringReader(sRet);
+                    XmlReader xmlReader = XmlReader.Create(stringReader);
+                    readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    contentControl1.Content = readerLoadButton;
+                }
+            }
         }
 
         string sRet, sRet2;
         int cadrDuration1 = 100;
         int cadrDuration2 = 100;
         DeviceManager deviceManager;
+
         Canvas readerLoadButton = new Canvas();
         double svgWidth, svgHeight;
-        string svg2xaml_xsl = @"c:\Rubezh\Assad\Projects\Library\svg2xaml.xsl";
-        string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\Library\DeviceLibrary.xml";
+        static public string svg2xaml_xsl = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\svg2xaml.xsl";
+        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
 
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
         bool tick = false;
@@ -57,7 +101,6 @@ namespace RubezhDevices
 
             svgWidth = 500.0;
             svgHeight = 500.0;
-
         }
 
         private void comboBox1_MouseEnter(object sender, MouseEventArgs e)
@@ -84,7 +127,6 @@ namespace RubezhDevices
             if (comboBox1.Text != "")
             {
                 comboBox2.Visibility = System.Windows.Visibility.Visible;
-                //window1.Title = comboBox1.Text;
             }
         }
 
@@ -157,6 +199,10 @@ namespace RubezhDevices
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     contentControl1.Content = readerLoadButton;
+                    contentControl1.UpdateLayout();
+                    contentControl1.InvalidateVisual();
+                    UpdateLayout();
+                    InvalidateVisual();
                 }
                 catch { }
             }

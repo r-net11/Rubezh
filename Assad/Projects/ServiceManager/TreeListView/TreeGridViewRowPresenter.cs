@@ -91,11 +91,12 @@ namespace Ricciolo.Controls
 
             return s;
         }
-
+        
         protected override System.Windows.Media.Visual GetVisualChild(int index)
         {
             // Last element is always the expander
             // called by render engine
+            
             if (index < base.VisualChildrenCount)
                 return base.GetVisualChild(index);
             else
@@ -113,7 +114,7 @@ namespace Ricciolo.Controls
                     return base.VisualChildrenCount;
             }
         }
-
+        
         private static void OnExpanderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Use a second UIElementCollection so base methods work as original
