@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System.Windows.Forms.Integration;
 using Microsoft.VisualStudio.OLE.Interop;
 using ServiceVisualizer;
+using System.Threading;
 
 namespace ActiveX
 {
@@ -75,7 +76,7 @@ namespace ActiveX
             // Finally close the main key
             k.Close();
         }
-
+        
         private void ActiveX_Load(object sender, EventArgs e)
         {
             // Create the ElementHost control for hosting the
@@ -105,26 +106,14 @@ namespace ActiveX
             RubezhDevices.Device device = new RubezhDevices.Device();
 
             WindowManager.Show();
-
-            //ElementHost host = new ElementHost();
-            //host.Dock = DockStyle.Fill;
-
-            // Create the WPF UserControl.
-            //RubezhDevices.RubezhDevice activeX = new RubezhDevices.RubezhDevice();
-            activeX = new RubezhDevices.RubezhDevice();
-
-            // Assign the WPF UserControl to the ElementHost control's
-            // Child property.
-            //host.Child = rubezhDevices;
-
-            // Add the ElementHost control to the form's
-            // collection of child controls.
-            //this.Controls.Clear();
-            //this.Controls.Add(host);
-
-            activeX.DriverId = WindowManager.DriverId;
+            DriverId =  WindowManager.DriverId;
+            SetDriverId(DriverId);
         }
+        public string DriverId { get; set; }
 
-        public string DriverId {get; set;}
+        public void SetDriverId(string driverId)
+        {
+            activeX.DriverId = DriverId;
+        }
     }
 }
