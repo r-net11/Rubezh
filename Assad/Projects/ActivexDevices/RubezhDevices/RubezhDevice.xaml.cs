@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
@@ -25,70 +19,12 @@ namespace RubezhDevices
     [Serializable]
     public partial class RubezhDevice : UserControl
     {
-
         public RubezhDevice()
         {
             InitializeComponent();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         }
 
-        string driverId;
-        public string DriverId
-        {
-            get { return driverId; }
-            set
-            {
-                driverId = value;
-                string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(driverId);
-                Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == driverName);
-                if (device == null)
-                {
-                    MessageBox.Show("Нет такого устройства");
-                    return;
-                }
-                string stateId = "Состояние - норма(*)";
-                State state = device.States.FirstOrDefault(x => x.Id == stateId);
-                if (state == null)
-                {
-                    MessageBox.Show("Нет такого состояния");
-                    return;
-                }
-
-                cadrDuration1 = state.Cadrs[0].Duration;
-                sRet = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, svg2xaml_xsl);
-
-                dispatcherTimer.Stop();
-                if (state.Cadrs.Count > 1)
-                {
-                    cadrDuration2 = state.Cadrs[1].Duration;
-                    sRet2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, svg2xaml_xsl);
-                    dispatcherTimer.Interval = TimeSpan.FromMilliseconds(cadrDuration1);
-                    dispatcherTimer.Start();
-                }
-                else
-                {
-                    StringReader stringReader = new StringReader(sRet);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
-                    contentControl1.Content = readerLoadButton;
-                }
-            }
-        }
-
-        string sRet, sRet2;
-        int cadrDuration1 = 100;
-        int cadrDuration2 = 100;
-        DeviceManager deviceManager;
-
-        Canvas readerLoadButton = new Canvas();
-        double svgWidth, svgHeight;
-        static public string svg2xaml_xsl = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\svg2xaml.xsl";
-        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
-
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        bool tick = false;
-
-     
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -103,41 +39,40 @@ namespace RubezhDevices
             svgHeight = 500.0;
         }
 
-        private void comboBox1_MouseEnter(object sender, MouseEventArgs e)
-        {
-            comboBox1.ItemsSource = deviceManager.Devices;
-            comboBox1.DisplayMemberPath = "Id";
-            comboBox1.SelectedValuePath = "Id";
-        }
+        string cadr1, cadr2;
+        int cadrDuration1 = 100;
+        int cadrDuration2 = 100;
+        DeviceManager deviceManager;
 
-        private void comboBox2_MouseEnter(object sender, MouseEventArgs e)
+        Canvas readerLoadButton = new Canvas();
+        double svgWidth, svgHeight;
+        static public string svg2xaml_xsl = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\svg2xaml.xsl";
+        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
+
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        bool tick = false;
+
+        string driverId;
+        public string DriverId
         {
-            string devId = comboBox1.Text;
-            if (devId != "")
+            get { return driverId; }
+            set
             {
-                Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == devId);
-                comboBox2.ItemsSource = device.States;
-                comboBox2.DisplayMemberPath = "Id";
-                comboBox2.SelectedValuePath = "Id";
+                driverId = value;
+                string stateId = "Базовый рисунок";
+                ShowDevice(driverId, stateId);
             }
         }
 
-        private void comboBox1_DropDownClosed(object sender, EventArgs e)
+        void ShowDevice(string driverId, string stateId)
         {
-            if (comboBox1.Text != "")
+            string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(driverId);
+            Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == driverName);
+            if (device == null)
             {
-                comboBox2.Visibility = System.Windows.Visibility.Visible;
-            }
-        }
-
-        private void comboBox2_DropDownClosed(object sender, EventArgs e)
-        {
-
-            if (comboBox2.Text == "")
+                MessageBox.Show("Нет такого устройства");
                 return;
-            string devId = comboBox1.Text;
-            Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == devId);
-            string stateId = ((State)(comboBox2.SelectedItem)).Id+"";
+            }
 
             State state = device.States.FirstOrDefault(x => x.Id == stateId);
             if (state == null)
@@ -145,25 +80,46 @@ namespace RubezhDevices
                 MessageBox.Show("Нет такого состояния");
                 return;
             }
+
             cadrDuration1 = state.Cadrs[0].Duration;
-            sRet = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, svg2xaml_xsl);
+            cadr1 = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, svg2xaml_xsl);
 
             dispatcherTimer.Stop();
             if (state.Cadrs.Count > 1)
             {
                 cadrDuration2 = state.Cadrs[1].Duration;
-                sRet2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, svg2xaml_xsl);
+                cadr2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, svg2xaml_xsl);
                 dispatcherTimer.Start();
             }
             else
             {
-                StringReader stringReader = new StringReader(sRet);
+                StringReader stringReader = new StringReader(cadr1);
                 XmlReader xmlReader = XmlReader.Create(stringReader);
                 readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                 contentControl1.Content = readerLoadButton;
             }
-            comboBox1.Visibility = System.Windows.Visibility.Hidden;
-            comboBox2.Visibility = System.Windows.Visibility.Hidden;
+        }
+     
+        private void comboBoxStates_MouseEnter(object sender, MouseEventArgs e)
+        {
+            string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
+            if (driverName != "")
+            {
+                Device device = deviceManager.Devices.FirstOrDefault(x => x.Id == driverName);
+                comboBoxStates.ItemsSource = device.States;
+                comboBoxStates.DisplayMemberPath = "Id";
+                comboBoxStates.SelectedValuePath = "Id";
+            }
+        }
+
+        private void comboBoxStates_DropDownClosed(object sender, EventArgs e)
+        {
+            if (comboBoxStates.Text == "")
+                return;
+            string devId = DriverId;
+            string stateId = ((State)(comboBoxStates.SelectedItem)).Id+"";
+            ShowDevice(driverId, stateId);            
+            comboBoxStates.Visibility = System.Windows.Visibility.Hidden;
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -175,16 +131,24 @@ namespace RubezhDevices
             double minCoeff = Math.Min(widthCoeff, heightCoeff);
             ScaleTransform scaleTransform1 = new ScaleTransform(minCoeff, minCoeff, 0, 0);
             contentControl1.RenderTransform = scaleTransform1;
-            textBox1.FontSize = (grid1.ActualWidth + grid1.ActualHeight - 50) / 20;
+            comboBoxStates.Width = Math.Min(contentControl1.ActualWidth, contentControl1.ActualHeight);
+            //textBox1.FontSize = (grid1.ActualWidth + grid1.ActualHeight - 50) / 20;
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
-            comboBox1.Visibility = System.Windows.Visibility.Hidden;
-            comboBox2.Visibility = System.Windows.Visibility.Hidden;
+            comboBoxStates.Visibility = System.Windows.Visibility.Hidden;
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)e.OriginalSource;
+            string theHeader = menuItem.Header.ToString();
+            comboBoxStates.Width = Math.Min(contentControl1.ActualWidth, contentControl1.ActualHeight);
+            comboBoxStates.Visibility = System.Windows.Visibility.Visible;
+        }
+
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -195,7 +159,7 @@ namespace RubezhDevices
                 try
                 {
                     dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, cadrDuration1);
-                    StringReader stringReader = new StringReader(sRet);
+                    StringReader stringReader = new StringReader(cadr1);
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     contentControl1.Content = readerLoadButton;
@@ -212,21 +176,13 @@ namespace RubezhDevices
                 try
                 {
                     dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, cadrDuration2);
-                    StringReader stringReader = new StringReader(sRet2);
+                    StringReader stringReader = new StringReader(cadr2);
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     contentControl1.Content = readerLoadButton;
                 }
                 catch { }
             }
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            MenuItem menuItem = (MenuItem)e.OriginalSource;
-            string theHeader = menuItem.Header.ToString();
-            comboBox1.Visibility = System.Windows.Visibility.Visible;
-            textBox1.Visibility = System.Windows.Visibility.Hidden;
         }
     }
 

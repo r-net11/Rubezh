@@ -216,7 +216,7 @@
         </State>
       </States>
     </Device>
-	<Device Id = "АПИ:'ИП29'">      
+	<Device Id = "Пожарный тепловой извещатель ИП 101-29-A3R1">      
       <States>
         <State Id = "Базовый рисунок">
           <Cadrs>
@@ -421,7 +421,7 @@
         </State>
 	  </States>
 	</Device>
-	<Device Id = "АПИ:'ИП64'">      
+	<Device Id = "Пожарный комбинированный извещатель ИП212//101-64-А2R1">      
       <States>
         <State Id = "Базовый рисунок">
           <Cadrs>

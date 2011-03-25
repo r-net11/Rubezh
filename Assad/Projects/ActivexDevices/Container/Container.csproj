@@ -123,9 +123,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceManager\ServiceVisualizer\ServiceVisualizer.csproj">
+      <Project>{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}</Project>
+      <Name>ServiceVisualizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ActiveX\ActiveX.csproj">
       <Project>{1DDAE41D-8F1F-4613-B0F5-27201E17C454}</Project>
       <Name>ActiveX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RubezhDevices\RubezhDevices.csproj">
+      <Project>{33DF270C-EEF8-4D3D-8C4A-C4FF84D4B4D3}</Project>
+      <Name>RubezhDevices</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
