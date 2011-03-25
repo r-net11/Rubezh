@@ -79,13 +79,20 @@ namespace Firesec
 
         public static ZoneLogic.expr GetZoneLogic(string zoleLogicstring)
         {
-            byte[] bytes = Encoding.Default.GetBytes(zoleLogicstring);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            try
+            {
+                byte[] bytes = Encoding.Default.GetBytes(zoleLogicstring);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ZoneLogic.expr));
-            Firesec.ZoneLogic.expr zoneLogic = (Firesec.ZoneLogic.expr)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return zoneLogic;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ZoneLogic.expr));
+                Firesec.ZoneLogic.expr zoneLogic = (Firesec.ZoneLogic.expr)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return zoneLogic;
+            }
+            catch
+            {
+            }
+            return null;
         }
 
         public static void SetNewConfig(CoreConfig.config coreConfig)
