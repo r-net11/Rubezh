@@ -30,6 +30,15 @@ namespace ClientApi
             SetDevices();
             SetZones();
             SetStates();
+            SetDeviceZones();
+        }
+
+        void SetDeviceZones()
+        {
+            foreach (Device device in Configuration.Devices)
+            {
+                device.SetZone();
+            }
         }
 
         void SetDevices()

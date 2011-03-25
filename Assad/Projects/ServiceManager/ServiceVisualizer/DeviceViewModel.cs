@@ -14,9 +14,22 @@ namespace ServiceVisualizer
         public DeviceViewModel()
         {
             Children = new List<DeviceViewModel>();
+            AddCommand = new RelayCommand(OnAddCommand);
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+
+        void OnAddCommand(object obj)
+        {
+            NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel();
+            newDeviceViewModel.Init(this);
+            NewDeviceView newDeviceView = new NewDeviceView();
+            newDeviceView.DataContext = newDeviceViewModel;
+            newDeviceView.ShowDialog();
         }
 
         Device device;
+        Firesec.Metadata.drvType driver;
 
         public string DriverId
         {
@@ -31,14 +44,11 @@ namespace ServiceVisualizer
         public void SetDevice(Device device)
         {
             this.device = device;
+            driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+
             DriverName = device.DriverName;
             ShortDriverName = device.ShortDriverName;
             Address = device.PresentationAddress;
-            if (ServiceClient.Configuration.Zones.Any(x => x.Id == device.Zone))
-            {
-                Zone _zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == device.Zone);
-                Zone = _zone.Name;
-            }
             Description = device.Description;
             ImageSource = @"C:\Program Files\Firesec\Icons\" + device.ImageName + ".ico";
             State = device.State;
@@ -54,9 +64,69 @@ namespace ServiceVisualizer
             }
         }
 
+        public void SetZone()
+        {
+            if (device._Zone != null)
+            {
+                Zone = ViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == device._Zone.No);
+            }
+        }
+
         public ObservableCollection<ZoneViewModel> Zones
         {
             get { return ViewModel.Current.ZoneViewModels; }
+        }
+
+        public bool IsZoneDevice
+        {
+            get
+            {
+                if ((driver.minZoneCardinality == "0") && (driver.maxZoneCardinality == "0"))
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public bool IsZoneLogicDevice
+        {
+            get
+            {
+                if ((driver.options != null) && (driver.options.Contains("ExtendedZoneLogic")))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public string AvailableChildren
+        {
+            get
+            {
+                string allDrivers = "";
+                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == device.DriverId);
+                foreach (FiresecMetadata.DriverItem childDriverItem in driverItem.Children)
+                {
+                    Firesec.Metadata.drvType currentDriver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
+                    allDrivers += currentDriver.name + "\n";
+                }
+                return allDrivers;
+            }
+        }
+
+        public bool CanAddChildren
+        {
+            get
+            {
+                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == device.DriverId);
+                if (driverItem == null)
+                    return false;
+                if (driverItem.Children.Count > 0)
+                    return true;
+                return false;
+            }
         }
 
         string shortDriverName;
@@ -92,8 +162,8 @@ namespace ServiceVisualizer
             }
         }
 
-        string zone;
-        public string Zone
+        ZoneViewModel zone;
+        public ZoneViewModel Zone
         {
             get { return zone; }
             set

@@ -17,6 +17,7 @@ namespace ClientApi
         public string Address { get; set; }
         public string PresentationAddress { get; set; }
         public string Zone { get; set; }
+        public Zone _Zone { get; set; }
         public List<ServiceApi.DeviceProperty> DeviceProperties { get; set; }
         public List<string> AvailableFunctions { get; set; }
         public string ValidationError { get; set; }
@@ -54,14 +55,6 @@ namespace ClientApi
                     newParameter.Visible = parameter.Visible;
                     newParameter.Value = parameter.Value;
                     this.Parameters.Add(newParameter);
-                    if (parameter.Visible)
-                    {
-                        ;
-                    }
-                    if (newParameter.Visible)
-                    {
-                        ;
-                    }
                 }
             }
 
@@ -79,6 +72,17 @@ namespace ClientApi
             }
         }
 
+        public void SetZone()
+        {
+            if (Zone != null)
+            {
+                if (ServiceClient.Configuration.Zones.Any(x => x.Id == Zone))
+                {
+                    _Zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == Zone);
+                }
+            }
+        }
+
         public void SetState(ServiceApi.ShortDeviceState shortDeviceState)
         {
             this.State = shortDeviceState.State;
@@ -93,14 +97,6 @@ namespace ClientApi
                 newParameter.Visible = parameter.Visible;
                 newParameter.Value = parameter.Value;
                 this.Parameters.Add(newParameter);
-                if (parameter.Visible)
-                {
-                    ;
-                }
-                if (newParameter.Visible)
-                {
-                    ;
-                }
             }
 
             this.StateChanged = shortDeviceState.StateChanged;

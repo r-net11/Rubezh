@@ -1,0 +1,10 @@
+﻿<Window x:Class="ServiceVisualizer.NewDeviceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Новое устройство" Height="300" Width="300">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="{Binding}"/>
+        </StackPanel>
+    </Grid>
+</Window>

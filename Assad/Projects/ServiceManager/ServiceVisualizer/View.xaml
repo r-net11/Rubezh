@@ -2,142 +2,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:ServiceVisualizer"
-    xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
-    xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
     Title="Редактор конфигурации Firesec" Height="900" Width="1000">
     <StackPanel>
-        <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
-        <Button Content="OK" Command="{Binding OkCommand}" />
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
+            <Button Content="OK" Command="{Binding OkCommand}" />
+        </StackPanel>
         <TabControl>
             <TabItem Header="Устройства">
                 <StackPanel>
-                    <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
-                        <r:TreeListView.Columns>
-                            <GridViewColumn Header="Тип Устройства" Width="250">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
-                                            <TextBlock Text="{Binding ShortDriverName}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Address}" Width="100" />
-                            <GridViewColumn Header="Зона" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Zone}" Name="ztb" />
-                                            <ComboBox Name="zcb" Visibility="Collapsed" ItemsSource="{Binding Zones}" DisplayMemberPath="ZoneName" SelectedItem="{Binding Zone}" Width="75">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding ZoneName}" />
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                        </StackPanel>
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
-                                                <DataTrigger.Setters>
-                                                    <Setter TargetName="ztb" Property="Visibility" Value="Collapsed"/>
-                                                    <Setter TargetName="zcb" Property="Visibility" Value="Visible"/>
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Примечание" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Description}" Name="tb1" />
-                                            <TextBox Text="{Binding Description}" Name="tb2" Visibility="Collapsed" />
-                                        </StackPanel>
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
-                                                <DataTrigger.Setters>
-                                                    <Setter TargetName="tb1" Property="Visibility" Value="Collapsed"/>
-                                                    <Setter TargetName="tb2" Property="Visibility" Value="Visible"/>
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Состояние" DisplayMemberBinding="{Binding State}" Width="100" />
-                        </r:TreeListView.Columns>
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="TreeViewItem">
-                                <Setter Property="TreeViewItem.IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                                <Setter Property="TreeViewItem.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            </Style>
-                        </TreeView.ItemContainerStyle>
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
-                    </r:TreeListView>
-                        
-                    <StackPanel DataContext="{Binding SelectedDeviceViewModel}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150*" />
-                                <ColumnDefinition Width="628*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Имя устройства"     />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Состояние"     />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DriverName}"     />
-                            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding State}"     />
-                        </Grid>
-                        <ListBox ItemsSource="{Binding States}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <ListBox ItemsSource="{Binding Parameters}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Caption}" Margin="5" />
-                                        <TextBlock Text="{Binding Value}" Margin="5" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
+                    <local:DevicesView />
+                    <local:DeviceDetailsView />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Зоны">
                 <StackPanel>
-                    <WpfToolkit:DataGrid ItemsSource="{Binding ZoneViewModels}" SelectedItem="{Binding SelectedZoneViewModel}"
-                                         Height="200" AutoGenerateColumns="False" SelectionMode="Extended"
-                                         CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                                         RowHeaderWidth="17" RowHeight="25">
-                        <WpfToolkit:DataGrid.Columns>
-                            <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding ZoneNo}" />
-                            <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding ZoneName}" />
-                            <WpfToolkit:DataGridTextColumn Header="Примечание" Width="2*" Binding="{Binding ZoneDescription}" />
-                            <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding ZoneDetectorCount}" />
-                            <WpfToolkit:DataGridTextColumn Header="Время эвакуации" Width="2*" Binding="{Binding ZoneEvacuationTime}" />
-                        </WpfToolkit:DataGrid.Columns>
-                        <WpfToolkit:DataGrid.CellStyle>
-                            <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Background" Value="#FF3FC642" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </WpfToolkit:DataGrid.CellStyle>    
-                    </WpfToolkit:DataGrid>
+                    <local:ZonesView />
                     <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
                 </StackPanel>
             </TabItem>

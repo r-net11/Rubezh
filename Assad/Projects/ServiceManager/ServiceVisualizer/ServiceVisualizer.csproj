@@ -96,7 +96,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceDetailsView.xaml.cs">
+      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DeviceViewModel.cs" />
+    <Compile Include="NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewDeviceViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +125,9 @@
     </Compile>
     <Compile Include="ViewModel.cs" />
     <Compile Include="WindowManager.cs" />
+    <Compile Include="ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZoneViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -128,11 +141,27 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +172,14 @@
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecApi\FiresecApi.csproj">
+      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
+      <Name>FiresecApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecMetadata\FiresecMetadata.csproj">
+      <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
+      <Name>FiresecMetadata</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\ServiceApi\ServiceApi.csproj">
       <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
