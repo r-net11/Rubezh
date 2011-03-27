@@ -15,16 +15,16 @@ namespace ComEmulator
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             ComServerEmulatorView window1 = new ComServerEmulatorView();
-            ComServerEmulatorViewModel viewModel = new ComServerEmulatorViewModel();
-            window1.DataContext = viewModel;
+            //ComServerEmulatorViewModel viewModel = new ComServerEmulatorViewModel();
+            //window1.DataContext = viewModel;
             window1.Show();
         }
 
         public static void Create()
         {
             ComServerEmulatorView emulatorView = new ComServerEmulatorView();
-            ComServerEmulatorViewModel emulatorViewModel = new ComServerEmulatorViewModel();
-            emulatorView.DataContext = emulatorViewModel;
+            //ComServerEmulatorViewModel emulatorViewModel = new ComServerEmulatorViewModel();
+            //emulatorView.DataContext = emulatorViewModel;
             emulatorView.Show();
         }
     }

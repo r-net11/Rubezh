@@ -13,7 +13,7 @@ namespace ServiceVisualizer
     {
         public DeviceViewModel()
         {
-            Children = new List<DeviceViewModel>();
+            Children = new ObservableCollection<DeviceViewModel>();
             AddCommand = new RelayCommand(OnAddCommand);
         }
 
@@ -25,7 +25,20 @@ namespace ServiceVisualizer
             newDeviceViewModel.Init(this);
             NewDeviceView newDeviceView = new NewDeviceView();
             newDeviceView.DataContext = newDeviceViewModel;
+            newDeviceViewModel.RequestClose += delegate { newDeviceView.Close(); };
             newDeviceView.ShowDialog();
+
+            if (newDeviceViewModel.SelectedAvailableDevice != null)
+            {
+                string driverId = newDeviceViewModel.SelectedAvailableDevice.DriverId;
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                Device device = new Device();
+                device.DriverId = driverId;
+                device.PresentationAddress = "0.0";
+                deviceViewModel.SetDevice(device);
+                deviceViewModel.Parent = this;
+                this.Children.Add(deviceViewModel);
+            }
         }
 
         Device device;
@@ -50,17 +63,35 @@ namespace ServiceVisualizer
             ShortDriverName = device.ShortDriverName;
             Address = device.PresentationAddress;
             Description = device.Description;
-            ImageSource = @"C:\Program Files\Firesec\Icons\" + device.ImageName + ".ico";
+
+            string ImageName;
+            if (!string.IsNullOrEmpty(driver.dev_icon))
+            {
+                ImageName = driver.dev_icon;
+            }
+            else
+            {
+                Firesec.Metadata.classType metadataClass = ServiceClient.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
+                ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
+            }
+            ImageSource = @"C:\Program Files\Firesec\Icons\" + ImageName + ".ico";
+
             State = device.State;
             States = new ObservableCollection<string>();
-            foreach (string state in device.States)
+            if (device.States != null)
             {
-                States.Add(state);
+                foreach (string state in device.States)
+                {
+                    States.Add(state);
+                }
             }
             Parameters = new ObservableCollection<Parameter>();
-            foreach (Parameter parameter in device.Parameters)
+            if (device.Parameters != null)
             {
-                Parameters.Add(parameter);
+                foreach (Parameter parameter in device.Parameters)
+                {
+                    Parameters.Add(parameter);
+                }
             }
         }
 
@@ -230,8 +261,8 @@ namespace ServiceVisualizer
 
         public DeviceViewModel Parent { get; set; }
 
-        List<DeviceViewModel> children;
-        public List<DeviceViewModel> Children
+        ObservableCollection<DeviceViewModel> children;
+        public ObservableCollection<DeviceViewModel> Children
         {
             get { return children; }
             set

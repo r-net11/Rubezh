@@ -26,8 +26,8 @@ namespace ComEmulator
 
         private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            ComDevice device = e.NewValue as ComDevice;
-            (DataContext as ComServerEmulatorViewModel).SelectedDevice = device;
+            //ComDevice device = e.NewValue as ComDevice;
+            //(DataContext as ComServerEmulatorViewModel).SelectedDevice = device;
         }
     }
 }

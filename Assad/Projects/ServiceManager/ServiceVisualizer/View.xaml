@@ -2,24 +2,38 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:ServiceVisualizer"
-    Title="Редактор конфигурации Firesec" Height="900" Width="1000">
+    Title="Редактор конфигурации Firesec" Height="900" Width="1000"
+        Background="Gray">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\GlassButton.xaml" />
+                <ResourceDictionary Source="Themes\TabItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Соединиться с сервером" Command="{Binding ConnectCommand}" />
+            <Button Template="{StaticResource GlassButton}" Command="{Binding ConnectCommand}" Margin="2" >
+                <TextBlock Padding="1" Margin="3" Text="Соединиться с сервером" Foreground="White" FontSize="16"></TextBlock>
+            </Button>
             <Button Content="OK" Command="{Binding OkCommand}" />
         </StackPanel>
-        <TabControl>
-            <TabItem Header="Устройства">
+        <TabControl Background="Gray">
+            <TabItem Background="Gray">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="HDD.png" Height="20" />
+                        <TextBlock Text="Устройства" Margin="2, 0, 0, 0" />
+                    </StackPanel>
+                </TabItem.Header>
                 <StackPanel>
                     <local:DevicesView />
                     <local:DeviceDetailsView />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Зоны">
-                <StackPanel>
-                    <local:ZonesView />
-                    <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
-                </StackPanel>
+            <TabItem Header="Зоны" Background="Gray">
+                <local:ZonesView />
             </TabItem>
         </TabControl>
     </StackPanel>

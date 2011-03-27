@@ -68,19 +68,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Com Server Emulator" Foreground="White" VerticalAlignment="Center" FontSize="18" Margin="20, 0, 0, 0" />
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="3">
-                                <custom:XSButton Content="_" Width="30" Height="30" CornerRadius="40" Margin="1"
-                                 Background="DarkSlateGray"
-                                 Foreground="White"
-                                 GlowColor="Yellow" HighlightStyle="Elliptical" />
-                                <custom:XSButton Content="П" Width="30" Height="30" CornerRadius="40" Margin="1"
-                                 Background="DarkSlateGray"
-                                 Foreground="White"
-                                 GlowColor="Yellow" HighlightStyle="Elliptical" />
-                                <custom:XSButton Content="X" Width="40" Height="40" CornerRadius="40" Margin="1"
-                                 Background="DarkRed"
-                                 Foreground="White"
-                                 GlowColor="Yellow" HighlightStyle="Elliptical"
-                                 Click="Button_Click" />
+                                
                             </StackPanel>
                         </Grid>
                     </Grid>
