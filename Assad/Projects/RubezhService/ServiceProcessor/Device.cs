@@ -111,6 +111,18 @@ namespace ServiseProcessor
                 }
             }
 
+            DeviceProperties = new List<DeviceProperty>();
+            if (innerDevice.prop != null)
+            {
+                foreach (Firesec.CoreConfig.propType innerProperty in innerDevice.prop)
+                {
+                    DeviceProperty deviceProperty = new DeviceProperty();
+                    deviceProperty.Name = innerProperty.name;
+                    deviceProperty.Value = innerProperty.value;
+                    DeviceProperties.Add(deviceProperty);
+                }
+            }
+
             Description = innerDevice.name;
             ShortDriverName = metadataDriver.shortName;
             DriverName = FiresecMetadata.DriversHelper.GetDriverNameById(DriverId);
@@ -349,6 +361,15 @@ namespace ServiseProcessor
                         Value = parameter.Value
                     });
                 }
+            }
+
+            shortDevice.DeviceProperties = new List<DeviceProperty>();
+            foreach (DeviceProperty deviceProperty in DeviceProperties)
+            {
+                DeviceProperty shortDeviceProperty = new DeviceProperty();
+                shortDeviceProperty.Name = deviceProperty.Name;
+                shortDeviceProperty.Value = deviceProperty.Value;
+                shortDevice.DeviceProperties.Add(shortDeviceProperty);
             }
 
             return shortDevice;

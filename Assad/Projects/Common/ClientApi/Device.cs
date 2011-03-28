@@ -54,6 +54,15 @@ namespace ClientApi
                 }
             }
 
+            DeviceProperties = new List<ServiceApi.DeviceProperty>();
+            foreach (ServiceApi.DeviceProperty shortDeviceProperty in shortDevice.DeviceProperties)
+            {
+                ServiceApi.DeviceProperty deviceProperty = new ServiceApi.DeviceProperty();
+                deviceProperty.Name = shortDeviceProperty.Name;
+                deviceProperty.Value = shortDeviceProperty.Value;
+                DeviceProperties.Add(deviceProperty);
+            }
+
             Firesec.Metadata.drvType driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == DriverId);
         }
 

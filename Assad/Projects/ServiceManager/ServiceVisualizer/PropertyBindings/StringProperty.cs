@@ -6,8 +6,10 @@ using Common;
 
 namespace ServiceVisualizer
 {
-    public class TextBinding : BaseViewModel
+    public class StringProperty : BaseViewModel
     {
+        public string PropertyName { get; set; }
+
         string text;
         public string Text
         {

@@ -8,6 +8,7 @@ using ClientApi;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows;
 
 namespace ServiceVisualizer
 {
@@ -75,23 +76,29 @@ namespace ServiceVisualizer
             }
         }
 
-                StackPanel propStackPanel;
-                public StackPanel PropStackPanel
-                {
-                    get { return propStackPanel; }
-                    set
-                    {
-                        propStackPanel = value;
-                        OnPropertyChanged("PropStackPanel");
-                    }
-                }
-
-                TextBinding _textBinding { get; set; }
-
-        public void SetDevice(Device device)
+        StackPanel propStackPanel;
+        public StackPanel PropStackPanel
         {
-            this.device = device;
-            driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+            get { return propStackPanel; }
+            set
+            {
+                propStackPanel = value;
+                OnPropertyChanged("PropStackPanel");
+            }
+        }
+
+        StringProperty _textBinding { get; set; }
+
+        public List<StringProperty> StringProperties { get; set; }
+        public List<BoolProperty> BoolProperties { get; set; }
+        public List<EnumProperty> EnumProperties { get; set; }
+
+
+        void SetProperties()
+        {
+            StringProperties = new List<StringProperty>();
+            BoolProperties = new List<BoolProperty>();
+            EnumProperties = new List<EnumProperty>();
 
             Grid grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -111,38 +118,94 @@ namespace ServiceVisualizer
                         continue;
                     _availableProperties += propertyInfo.caption + " - " + propertyInfo.type + "\n";
 
+                    UIElement uiElement = null;
 
+                    if (propertyInfo.param != null)
+                    {
+                        EnumProperty enumProperty = new EnumProperty();
+                        enumProperty.PropertyName = propertyInfo.caption;
+                        enumProperty.Values = new List<string>();
+                        ComboBox comboBox = new ComboBox();
+                        foreach (Firesec.Metadata.paramType propertyParameter in propertyInfo.param)
+                        {
+                            enumProperty.Values.Add(propertyParameter.name);
+                            comboBox.Items.Add(propertyParameter.name);
+                        }
 
-                    TextBox textBox = new TextBox();
-                    TextBinding textBinding = new TextBinding();
-                    Binding b = new Binding();
-                    b.Source = textBinding;
-                    b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    b.Path = new System.Windows.PropertyPath("Text");
-                    textBox.SetBinding(TextBox.TextProperty, b);
+                        Binding b = new Binding();
+                        b.Source = enumProperty;
+                        b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                        b.Path = new PropertyPath("SelectedValue");
+                        comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
 
-                    textBox.Text = propertyInfo.caption;
+                        if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
+                        {
+                            string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
+                        }
+                        else
+                        {
+                            string selectedValueIndex = propertyInfo.@default;
+                            enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
+                        }
 
-                    //_PropStackPanel.Children.Add(textBox);
-                    //_PropStackPanel.Children.Add(new CheckBox());
-                    //View.propertiesStackPanel.Children.Add(new TextBox());
+                        EnumProperties.Add(enumProperty);
+                        uiElement = comboBox;
+                    }
+                    else
+                    {
+                        switch (propertyInfo.type)
+                        {
+                            case "String":
+                            case "Int":
+                                TextBox textBox = new TextBox();
+                                textBox.Text = propertyInfo.caption;
 
-                    _textBinding = textBinding;
+                                StringProperty stringProperty = new StringProperty();
+                                Binding b = new Binding();
+                                b.Source = stringProperty;
+                                b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                                b.Path = new System.Windows.PropertyPath("Text");
+                                textBox.SetBinding(TextBox.TextProperty, b);
+
+                                if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
+                                    stringProperty.Text = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                                else
+                                    stringProperty.Text = propertyInfo.@default;
+
+                                StringProperties.Add(stringProperty);
+                                uiElement = textBox;
+                                break;
+                            case "Bool":
+                                uiElement = new CheckBox();
+                                break;
+                            default:
+                                throw new Exception("Неизвестный тип свойства");
+                        }
+                    }
 
                     grid.RowDefinitions.Add(new RowDefinition());
                     TextBlock textBlock = new TextBlock();
-                    textBlock.Text = "Hello";
-                    grid.Children.Add(textBox);
+                    textBlock.Text = propertyInfo.caption;
+                    grid.Children.Add(uiElement);
                     grid.Children.Add(textBlock);
                     Grid.SetColumn(textBlock, 0);
-                    Grid.SetColumn(textBox, 1);
-                    Grid.SetRow(textBlock, grid.RowDefinitions.Count -1);
-                    Grid.SetRow(textBox, grid.RowDefinitions.Count - 1);
+                    Grid.SetColumn(uiElement, 1);
+                    Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
+                    Grid.SetRow(uiElement, grid.RowDefinitions.Count - 1);
                 }
             }
             _PropStackPanel.Children.Add(grid);
             AvailableProperties = _availableProperties;
             PropStackPanel = _PropStackPanel;
+        }
+
+        public void SetDevice(Device device)
+        {
+            this.device = device;
+            driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+
+            SetProperties();
 
             DriverName = driver.name;
             ShortDriverName = driver.shortName;

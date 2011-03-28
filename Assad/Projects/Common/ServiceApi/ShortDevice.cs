@@ -28,6 +28,9 @@ namespace ServiceApi
         public List<Parameter> Parameters { get; set; }
 
         [DataMember]
+        public List<DeviceProperty> DeviceProperties { get; set; }
+
+        [DataMember]
         public List<string> AvailableFunctions { get; set; }
 
         [DataMember]
