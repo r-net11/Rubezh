@@ -6,19 +6,23 @@ using System.ComponentModel;
 using Common;
 using ClientApi;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ServiceVisualizer
 {
     public class DeviceViewModel : BaseViewModel
     {
+        public DeviceDetailsView View { get; set; }
+
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
             AddCommand = new RelayCommand(OnAddCommand);
+            RemoveCommand = new RelayCommand(OnRemoveCommand);
         }
 
         public RelayCommand AddCommand { get; private set; }
-
         void OnAddCommand(object obj)
         {
             NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel();
@@ -41,6 +45,12 @@ namespace ServiceVisualizer
             }
         }
 
+        public RelayCommand RemoveCommand { get; private set; }
+        void OnRemoveCommand(object obj)
+        {
+            Parent.Children.Remove(this);
+        }
+
         Device device;
         Firesec.Metadata.drvType driver;
 
@@ -54,13 +64,88 @@ namespace ServiceVisualizer
             }
         }
 
+        string availableProperties;
+        public string AvailableProperties
+        {
+            get { return availableProperties; }
+            set
+            {
+                availableProperties = value;
+                OnPropertyChanged("AvailableProperties");
+            }
+        }
+
+                StackPanel propStackPanel;
+                public StackPanel PropStackPanel
+                {
+                    get { return propStackPanel; }
+                    set
+                    {
+                        propStackPanel = value;
+                        OnPropertyChanged("PropStackPanel");
+                    }
+                }
+
+                TextBinding _textBinding { get; set; }
+
         public void SetDevice(Device device)
         {
             this.device = device;
             driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
-            DriverName = device.DriverName;
-            ShortDriverName = device.ShortDriverName;
+            Grid grid = new Grid();
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            StackPanel _PropStackPanel = new StackPanel();
+            _PropStackPanel.Children.Clear();
+
+            string _availableProperties = "";
+            if (driver.propInfo != null)
+            {
+                foreach (Firesec.Metadata.propInfoType propertyInfo in driver.propInfo)
+                {
+                    if (propertyInfo.hidden == "1")
+                        continue;
+                    if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
+                        continue;
+                    _availableProperties += propertyInfo.caption + " - " + propertyInfo.type + "\n";
+
+
+
+                    TextBox textBox = new TextBox();
+                    TextBinding textBinding = new TextBinding();
+                    Binding b = new Binding();
+                    b.Source = textBinding;
+                    b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    b.Path = new System.Windows.PropertyPath("Text");
+                    textBox.SetBinding(TextBox.TextProperty, b);
+
+                    textBox.Text = propertyInfo.caption;
+
+                    //_PropStackPanel.Children.Add(textBox);
+                    //_PropStackPanel.Children.Add(new CheckBox());
+                    //View.propertiesStackPanel.Children.Add(new TextBox());
+
+                    _textBinding = textBinding;
+
+                    grid.RowDefinitions.Add(new RowDefinition());
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = "Hello";
+                    grid.Children.Add(textBox);
+                    grid.Children.Add(textBlock);
+                    Grid.SetColumn(textBlock, 0);
+                    Grid.SetColumn(textBox, 1);
+                    Grid.SetRow(textBlock, grid.RowDefinitions.Count -1);
+                    Grid.SetRow(textBox, grid.RowDefinitions.Count - 1);
+                }
+            }
+            _PropStackPanel.Children.Add(grid);
+            AvailableProperties = _availableProperties;
+            PropStackPanel = _PropStackPanel;
+
+            DriverName = driver.name;
+            ShortDriverName = driver.shortName;
             Address = device.PresentationAddress;
             Description = device.Description;
 
@@ -129,21 +214,6 @@ namespace ServiceVisualizer
                     return true;
                 }
                 return false;
-            }
-        }
-
-        public string AvailableChildren
-        {
-            get
-            {
-                string allDrivers = "";
-                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == device.DriverId);
-                foreach (FiresecMetadata.DriverItem childDriverItem in driverItem.Children)
-                {
-                    Firesec.Metadata.drvType currentDriver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
-                    allDrivers += currentDriver.name + "\n";
-                }
-                return allDrivers;
             }
         }
 

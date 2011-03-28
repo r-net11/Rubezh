@@ -15,9 +15,10 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Button Template="{StaticResource GlassButton}" Command="{Binding ConnectCommand}" Margin="2" >
-                <TextBlock Padding="1" Margin="3" Text="Соединиться с сервером" Foreground="White" FontSize="16"></TextBlock>
+                <TextBlock Padding="1" Margin="3" Text="Соединиться с сервером" Foreground="White" FontSize="12"></TextBlock>
             </Button>
             <Button Content="OK" Command="{Binding OkCommand}" />
+            <Button Content="Сохранить конфигурацию" Command="{Binding SaveCommand}" />
         </StackPanel>
         <TabControl Background="Gray">
             <TabItem Background="Gray">

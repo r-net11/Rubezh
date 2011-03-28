@@ -13,8 +13,8 @@
     <SolidColorBrush x:Key="HeaderInnerBorderBrush" Color="Transparent" />
 
     <LinearGradientBrush x:Key="RowSelectionBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="LightGray" Offset="0"/>
-        <GradientStop Color="Gray" Offset="1"/>
+        <GradientStop Color="Beige" Offset="0"/>
+        <GradientStop Color="DarkRed" Offset="1"/>
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0,0" EndPoint="0,1">

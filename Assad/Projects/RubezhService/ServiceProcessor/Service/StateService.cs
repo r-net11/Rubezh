@@ -99,9 +99,9 @@ namespace ServiseProcessor
             }
         }
 
-        public void SetConfiguration(StateConfiguration data)
+        public void SetConfiguration(StateConfiguration stateConfiguration)
         {
-            //Processor.SetNewConfig(data);
+            Processor.SetNewConfig(stateConfiguration);
         }
     }
 }

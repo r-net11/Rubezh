@@ -68,7 +68,6 @@
                 <StackPanel Grid.Row="3" Grid.Column="1" Margin="1">
                     <Button Content="..." />
                 </StackPanel>
-                <TextBlock Text="{Binding AvailableChildren}" Grid.Row="4" Grid.Column="1" Margin="1" />
             </Grid>
 
             <StackPanel>
@@ -83,7 +82,20 @@
                 </StackPanel.Style>
                 <Button Content="Добавить" Command="{Binding AddCommand}" />
             </StackPanel>
+
+            <StackPanel Name="propertiesStackPanel">
+                <TextBlock Text="{Binding AvailableProperties}" />
+            </StackPanel>
+            
+            <ContentControl Content="{Binding PropStackPanel}" />
+
+            <StackPanel>
+                <Button Content="Удалить" Command="{Binding RemoveCommand}" />
+            </StackPanel>
+            
         </StackPanel>
+        
+        
 
         <StackPanel Visibility="Collapsed">
             <Grid>

@@ -34,6 +34,7 @@
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                            <Setter Property="Foreground" Value="Red" />
                         </Trigger>
                     </Style.Triggers>
                     <Setter Property="Template">
@@ -51,7 +52,34 @@
 
         </WpfToolkit:DataGrid>
 
-        <Button Content="Подробности зоны" Command="{Binding ShowZoneCommant}" />
+        <StackPanel DataContext="{Binding SelectedZoneViewModel}" Width="500" HorizontalAlignment="Left">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Число ИП для перехода в пожар" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Время эвакуации" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ZoneNo}" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ZoneName}" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ZoneDescription}" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ZoneDetectorCount}" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ZoneEvacuationTime}" />
+            </Grid>
+        </StackPanel>
+
+        <Button Content="Добавить зону" Command="{Binding AddZoneCommant}" HorizontalAlignment="Left" Height="40" />
         
     </StackPanel>
 </UserControl>

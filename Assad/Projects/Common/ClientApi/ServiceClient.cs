@@ -11,7 +11,7 @@ namespace ClientApi
     {
         DuplexChannelFactory<IStateService> duplexChannelFactory;
         IStateService stateService;
-        static ServiceApi.StateConfiguration StateConfiguration { get; set; }
+        public static ServiceApi.StateConfiguration StateConfiguration { get; set; }
         public static Configuration Configuration { get; private set; }
 
         public void Start()
@@ -137,7 +137,7 @@ namespace ClientApi
 
         public void SetNewConfig(StateConfiguration configuration)
         {
-            //stateService.SetConfiguration(configuration);
+            stateService.SetConfiguration(configuration);
         }
 
         public void ExecuteCommand(Device device, string command)

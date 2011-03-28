@@ -22,10 +22,6 @@ namespace ClientApi
         public List<string> AvailableFunctions { get; set; }
         public string ValidationError { get; set; }
 
-        public string DriverName { get; set; }
-        public string ShortDriverName { get; set; }
-        public string ImageName { get; set; }
-
         public string State { get; set; }
         public List<string> States { get; set; }
         public List<Parameter> Parameters { get; set; }
@@ -59,17 +55,6 @@ namespace ClientApi
             }
 
             Firesec.Metadata.drvType driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == DriverId);
-            DriverName = driver.name;
-            ShortDriverName = driver.shortName;
-            if (!string.IsNullOrEmpty(driver.dev_icon))
-            {
-                ImageName = driver.dev_icon;
-            }
-            else
-            {
-                Firesec.Metadata.classType metadataClass = ServiceClient.Configuration.Metadata.@class.FirstOrDefault(x=>x.clsid == driver.clsid);
-                ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-            }
         }
 
         public void SetZone()

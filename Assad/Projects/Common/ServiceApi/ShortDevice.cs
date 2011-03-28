@@ -41,5 +41,7 @@ namespace ServiceApi
 
         [DataMember]
         public string Path { get; set; }
+
+        public Firesec.CoreConfig.devType InnerDevice { get; set; }
     }
 }

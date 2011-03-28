@@ -5,16 +5,121 @@ using System.Text;
 using ServiseProcessor;
 using System.Runtime.Serialization;
 using ServiceApi;
+using FiresecMetadata;
 
 namespace ServiseProcessor
 {
     public class Converter
     {
-        public Firesec.CoreConfig.config Convert(Configuration configuration)
+        public Firesec.CoreConfig.config Convert2(StateConfiguration configuration)
         {
-            Device rootDevice = configuration.Devices[0];
+            SetZones(configuration);
 
-            Device device = AddChild(rootDevice);
+            ShortDevice rootShortDevice = configuration.RootShortDevice;
+            Firesec.CoreConfig.devType rootInnerDevice = ShortDeviceToInnerDevice(rootShortDevice);
+            AddInnerDevice(rootShortDevice, rootInnerDevice);
+
+            Services.Configuration.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
+            Services.Configuration.CoreConfig.dev[0] = rootInnerDevice;
+            return Services.Configuration.CoreConfig;
+        }
+
+        void AddInnerDevice(ShortDevice parentShortDevice, Firesec.CoreConfig.devType parentInnerDevice)
+        {
+            List<Firesec.CoreConfig.devType> childInnerDevices = new List<Firesec.CoreConfig.devType>();
+
+            foreach (ShortDevice shortDevice in parentShortDevice.Children)
+            {
+                Firesec.CoreConfig.devType childInnerDevice = ShortDeviceToInnerDevice(shortDevice);
+                childInnerDevices.Add(childInnerDevice);
+                AddInnerDevice(shortDevice, childInnerDevice);
+            }
+            parentInnerDevice.dev = childInnerDevices.ToArray();
+        }
+
+        Firesec.CoreConfig.devType ShortDeviceToInnerDevice(ShortDevice shortDevice)
+        {
+            Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
+            innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == shortDevice.DriverId).idx;
+            innerDevice.addr = ConvertAddress(shortDevice);
+
+            if (shortDevice.Zone != null)
+            {
+                List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
+                zones.Add(new Firesec.CoreConfig.inZType() { idz = shortDevice.Zone });
+                innerDevice.inZ = zones.ToArray();
+            }
+
+            innerDevice.prop = AddCustomProperties(shortDevice).ToArray();
+
+            return innerDevice;
+        }
+
+        string ConvertAddress(ShortDevice shortDevice)
+        {
+            if (string.IsNullOrEmpty(shortDevice.Address))
+                return "0";
+
+            if (shortDevice.Address.Contains("."))
+            {
+                List<string> addresses = shortDevice.Address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
+
+                int intShleifAddress = System.Convert.ToInt32(addresses[0]);
+                int intAddress = System.Convert.ToInt32(addresses[1]);
+                return (intShleifAddress * 256 + intAddress).ToString();
+            }
+
+            return shortDevice.Address;
+        }
+
+
+        void SetZones(StateConfiguration configuration)
+        {
+            Services.Configuration.CoreConfig.zone = new Firesec.CoreConfig.zoneType[configuration.ShortZones.Count];
+            for (int i = 0; i < configuration.ShortZones.Count; i++)
+            {
+                Services.Configuration.CoreConfig.zone[i] = new Firesec.CoreConfig.zoneType();
+                Services.Configuration.CoreConfig.zone[i].name = configuration.ShortZones[i].Name;
+                Services.Configuration.CoreConfig.zone[i].idx = configuration.ShortZones[i].No;
+                Services.Configuration.CoreConfig.zone[i].no = configuration.ShortZones[i].No;
+                if (!string.IsNullOrEmpty(configuration.ShortZones[i].Description))
+                    Services.Configuration.CoreConfig.zone[i].desc = configuration.ShortZones[i].Description;
+
+                List<Firesec.CoreConfig.paramType> zoneParams = new List<Firesec.CoreConfig.paramType>();
+                if (!string.IsNullOrEmpty(configuration.ShortZones[i].DetectorCount))
+                {
+                    Firesec.CoreConfig.paramType DetectorCountZoneParam = new Firesec.CoreConfig.paramType();
+                    DetectorCountZoneParam.name = "FireDeviceCount";
+                    DetectorCountZoneParam.type = "Int";
+                    DetectorCountZoneParam.value = configuration.ShortZones[i].DetectorCount;
+                    zoneParams.Add(DetectorCountZoneParam);
+                }
+                if (!string.IsNullOrEmpty(configuration.ShortZones[i].EvacuationTime))
+                {
+                    Firesec.CoreConfig.paramType EvacuationTimeZoneParam = new Firesec.CoreConfig.paramType();
+                    EvacuationTimeZoneParam.name = "ExitTime";
+                    EvacuationTimeZoneParam.type = "SmallInt";
+                    EvacuationTimeZoneParam.value = configuration.ShortZones[i].EvacuationTime;
+                    zoneParams.Add(EvacuationTimeZoneParam);
+                }
+                if (zoneParams.Count > 0)
+                    Services.Configuration.CoreConfig.zone[i].param = zoneParams.ToArray();
+            }
+        }
+
+
+
+        public Firesec.CoreConfig.config Convert(StateConfiguration configuration)
+        {
+            return Convert2(configuration);
+            ;
+            ;
+            ;
+            ;
+
+            ShortDevice rootDevice = configuration.RootShortDevice;
+
+            ShortDevice device = AddChild(rootDevice);
 
             Services.Configuration.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
             Services.Configuration.CoreConfig.dev[0] = device.InnerDevice;
@@ -53,7 +158,7 @@ namespace ServiseProcessor
             return Services.Configuration.CoreConfig;
         }
 
-        Device AddChild(Device parentDevice)
+        ShortDevice AddChild(ShortDevice parentDevice)
         {
             Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
 
@@ -62,18 +167,20 @@ namespace ServiseProcessor
             innerDevice.drv = Services.Configuration.CoreConfig.drv.FirstOrDefault(x => x.id == parentDevice.DriverId).idx;
 
             AddZone(parentDevice, innerDevice);
-            parentDevice.SetInnerDevice(innerDevice);
+
+            parentDevice.InnerDevice = innerDevice;
+            //parentDevice.SetInnerDevice(innerDevice);
 
             // добавление прочих параметров конфигурации
-            List<Firesec.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);
-            if (propertyList.Count > 0)
-                innerDevice.prop = propertyList.ToArray();
+            //List<Firesec.CoreConfig.propType> propertyList = AddCustomProperties(parentDevice);
+            //if (propertyList.Count > 0)
+            //    innerDevice.prop = propertyList.ToArray();
 
             List<Firesec.CoreConfig.devType> innerDeviceChildren = new List<Firesec.CoreConfig.devType>();
 
-            foreach (Device childTreeBase in parentDevice.Children)
+            foreach (ShortDevice childTreeBase in parentDevice.Children)
             {
-                Device childDevice = AddChild((Device)childTreeBase);
+                ShortDevice childDevice = AddChild((ShortDevice)childTreeBase);
                 innerDeviceChildren.Add(childDevice.InnerDevice);
             }
 
@@ -86,7 +193,7 @@ namespace ServiseProcessor
         }
 
         // установить адрес
-        public void SetAddress(Firesec.CoreConfig.devType innerDevice, Device device)
+        public void SetAddress(Firesec.CoreConfig.devType innerDevice, ShortDevice device)
         {
             Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
             if (metadataDriver.addrMask != null)
@@ -122,7 +229,8 @@ namespace ServiseProcessor
                 innerDevice.addr = Address;
             }
 
-            switch (device.DriverName)
+            string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+            switch (driverName)
             {
                 case "Компьютер":
                 case "USB преобразователь МС-1":
@@ -146,32 +254,33 @@ namespace ServiseProcessor
             innerDevice.addr = device.Address;
         }
 
-        List<Firesec.CoreConfig.propType> AddCustomProperties(Device parentDevice)
+        List<Firesec.CoreConfig.propType> AddCustomProperties(ShortDevice parentDevice)
         {
             List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
 
-            if (parentDevice.DriverName != "Компьютер")
+            string driverName = DriversHelper.GetDriverNameById(parentDevice.DriverId);
+            if (driverName != "Компьютер")
             {
-                if (parentDevice.DeviceProperties != null)
+                if (parentDevice.Parameters != null)
                 {
-                    if (parentDevice.DeviceProperties.Count > 0)
+                    if (parentDevice.Parameters.Count > 0)
                     {
-                        foreach (DeviceProperty deviceProperty in parentDevice.DeviceProperties)
+                        foreach (Parameter parameter in parentDevice.Parameters)
                         {
-                            if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
+                            if ((!string.IsNullOrEmpty(parameter.Name)) && (!string.IsNullOrEmpty(parameter.Value)))
                             {
                                 Firesec.Metadata.drvType metadataDriver = Services.Configuration.Metadata.drv.First(x => x.id == parentDevice.DriverId);
                                 if (metadataDriver.propInfo != null)
                                 {
-                                    if (metadataDriver.propInfo.Any(x => x.caption == deviceProperty.Name))
+                                    if (metadataDriver.propInfo.Any(x => x.caption == parameter.Name))
                                     {
-                                        Firesec.Metadata.propInfoType propertyInfo = metadataDriver.propInfo.FirstOrDefault(x => x.caption == deviceProperty.Name);
+                                        Firesec.Metadata.propInfoType propertyInfo = metadataDriver.propInfo.FirstOrDefault(x => x.caption == parameter.Name);
                                         string propertyType = propertyInfo.type;
                                         if (propertyType == "Int")
                                         {
                                             try
                                             {
-                                                int intValue = System.Convert.ToInt32(deviceProperty.Value);
+                                                int intValue = System.Convert.ToInt32(parameter.Value);
                                             }
                                             catch
                                             {
@@ -185,7 +294,7 @@ namespace ServiseProcessor
                                         // тип свойства
                                         if (propertyType == "Bool")
                                         {
-                                            switch (deviceProperty.Value)
+                                            switch (parameter.Value)
                                             {
                                                 case "Да":
                                                     property.value = "1";
@@ -199,7 +308,7 @@ namespace ServiseProcessor
                                         }
                                         else
                                         {
-                                            property.value = deviceProperty.Value;
+                                            property.value = parameter.Value;
                                         }
                                         propertyList.Add(property);
                                     }
@@ -212,7 +321,7 @@ namespace ServiseProcessor
             return propertyList;
         }
 
-        void AddZone(Device device, Firesec.CoreConfig.devType innerComDevice)
+        void AddZone(ShortDevice device, Firesec.CoreConfig.devType innerComDevice)
         {
             if (device.Zone != null)
             {

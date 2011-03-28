@@ -25,12 +25,12 @@ namespace ServiseProcessor
             ServiceManager.Close();
         }
 
-        public static void SetNewConfig(Configuration configuration)
+        public static void SetNewConfig(StateConfiguration configuration)
         {
             Validator.Validate(configuration);
 
-            Services.Configuration.Devices = configuration.Devices;
-            Services.Configuration.Zones = configuration.Zones;
+            //Services.Configuration.Devices = configuration.Devices;
+            //Services.Configuration.Zones = configuration.Zones;
 
             Converter deviceToNativeConverter = new Converter();
             Firesec.CoreConfig.config config = deviceToNativeConverter.Convert(configuration);

@@ -22,6 +22,12 @@ namespace ServiceVisualizer
         public DeviceDetailsView()
         {
             InitializeComponent();
+            this.Initialized += new EventHandler(DevicesView_Initialized);
+        }
+
+        void DevicesView_Initialized(object sender, EventArgs e)
+        {
+            (DataContext as DeviceViewModel).View = this;
         }
     }
 }

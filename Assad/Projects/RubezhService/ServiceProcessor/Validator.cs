@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServiceApi;
+using FiresecMetadata;
 
 namespace ServiseProcessor
 {
     public class Validator
     {
-        public static void Validate(Configuration configuration)
+        public static void Validate(StateConfiguration configuration)
         {
-            Device rootDevice = configuration.Devices[0];
-            ValidateChild(rootDevice);
+            ShortDevice rootShortDevice = configuration.RootShortDevice;
+            ValidateChild(rootShortDevice);
         }
 
-        static void ValidateChild(Device parent)
+        static void ValidateChild(ShortDevice parent)
         {
             List<string> addresses = new List<string>();
 
-            foreach (Device child in parent.Children)
+            foreach (ShortDevice child in parent.Children)
             {
                 string address = child.Address;
                 if (addresses.Contains(address))
@@ -26,7 +27,7 @@ namespace ServiseProcessor
                 addresses.Add(address);
             }
 
-            foreach (Device child in parent.Children)
+            foreach (ShortDevice child in parent.Children)
             {
                 string error = ValidateDevice(child);
                 if (!string.IsNullOrEmpty(error))
@@ -37,10 +38,11 @@ namespace ServiseProcessor
             }
         }
 
-        static string ValidateDevice(Device device)
+        static string ValidateDevice(ShortDevice device)
         {
             int intAddress = 0;
-            switch (device.DriverName)
+            string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+            switch (driverName)
             {
                 case "Насосная Станция":
                 case "Жокей-насос":
@@ -62,14 +64,14 @@ namespace ServiseProcessor
                     break;
             }
 
-            if (device.DriverName == "Компьютер")
+            if (driverName == "Компьютер")
                 return "";
 
             if (string.IsNullOrEmpty(device.Address))
                 return "Пустой адрес устройства";
 
             // проверка спецефичных для устройства параметров
-            switch (device.DriverName)
+            switch (driverName)
             {
                 case "Модуль сопряжения МС-3":
                 case "Модуль сопряжения МС-4":
