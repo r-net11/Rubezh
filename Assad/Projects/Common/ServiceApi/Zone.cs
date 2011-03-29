@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class ShortZone
+    public class Zone
     {
         [DataMember]
         public string No { get; set; }

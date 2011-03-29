@@ -38,7 +38,7 @@ namespace ServiceVisualizer
             {
                 string driverId = newDeviceViewModel.SelectedAvailableDevice.DriverId;
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
-                ShortDevice device = new ShortDevice();
+                Device device = new Device();
                 device.DriverId = driverId;
                 device.PresentationAddress = "0.0";
                 deviceViewModel.SetDevice(device);
@@ -54,7 +54,7 @@ namespace ServiceVisualizer
                 Parent.Children.Remove(this);
         }
 
-        ShortDevice device;
+        Device device;
         Firesec.Metadata.drvType driver;
 
         public string DriverId
@@ -140,9 +140,9 @@ namespace ServiceVisualizer
                         b.Path = new PropertyPath("SelectedValue");
                         comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
 
-                        if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
+                        if (device.Properties.Any(x => x.Name == propertyInfo.name))
                         {
-                            enumProperty.SelectedValue = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            enumProperty.SelectedValue = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
                         }
@@ -171,8 +171,8 @@ namespace ServiceVisualizer
                                 b.Path = new System.Windows.PropertyPath("Text");
                                 textBox.SetBinding(TextBox.TextProperty, b);
 
-                                if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
-                                    stringProperty.Text = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                                if (device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    stringProperty.Text = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                                 else
                                     stringProperty.Text = propertyInfo.@default;
 
@@ -190,8 +190,8 @@ namespace ServiceVisualizer
                                 b2.Path = new PropertyPath("IsChecked");
                                 checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
 
-                                if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
-                                    boolProperty.IsChecked = (device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
+                                if (device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    boolProperty.IsChecked = (device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
                                 else
                                     boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
 
@@ -219,10 +219,10 @@ namespace ServiceVisualizer
             PropStackPanel = _PropStackPanel;
         }
 
-        public void SetDevice(ShortDevice device)
+        public void SetDevice(Device device)
         {
             this.device = device;
-            driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+            driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
             SetProperties();
 
@@ -238,7 +238,7 @@ namespace ServiceVisualizer
             }
             else
             {
-                Firesec.Metadata.classType metadataClass = ServiceClient.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
+                Firesec.Metadata.classType metadataClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
                 ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
             }
             ImageSource = @"C:\Program Files\Firesec\Icons\" + ImageName + ".ico";

@@ -12,31 +12,31 @@ namespace AssadProcessor
     {
         internal void Start()
         {
-            ServiceClient.Configuration.DeviceStateChanged += new Action<Device>(ServiceClient_DeviceChanged);
+            ServiceClient.CurrentStates.DeviceStateChanged += new Action<DeviceState>(ServiceClient_DeviceChanged);
         }
 
-        void ServiceClient_DeviceChanged(Device device)
+        void ServiceClient_DeviceChanged(DeviceState deviceState)
         {
             bool assadReady = (AssadConfiguration.Devices == null) ? false : true;
 
             if (assadReady)
             {
-                AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
+                AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == deviceState.Path);
                 if (assadBase != null)
                 {
-                    assadBase.MainState = device.State;
+                    assadBase.MainState = deviceState.State;
 
                     string eventName = null;
                     //if (device.StateChanged)
                     //    eventName = device.State;
 
                     assadBase.States = new List<string>();
-                    foreach(string state in device.States)
+                    foreach(string state in deviceState.States)
                     {
                         assadBase.States.Add(state);
                     }
 
-                    if ((device.StateChanged) || (device.StatesChanged) || (device.VisibleParameterChanged))
+                    if ((deviceState.ChangeEntities.StateChanged) || (deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.VisibleParameterChanged))
                     {
                         Assad.CPeventType eventType = assadBase.CreateEvent(eventName);
                         NetManager.Send(eventType, null);

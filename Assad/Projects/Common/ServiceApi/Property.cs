@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class DeviceProperty
+    public class Property
     {
         [DataMember]
         public string Name { get; set; }

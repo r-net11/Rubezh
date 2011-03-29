@@ -7,15 +7,15 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class StateConfiguration
+    public class ZoneState
     {
         [DataMember]
-        public ShortDevice RootShortDevice { get; set; }
+        public string No { get; set; }
 
         [DataMember]
-        public List<ShortZone> ShortZones { get; set; }
+        public string State { get; set; }
 
         [DataMember]
-        public Firesec.Metadata.config Metadata { get; set; }
+        public bool ZoneChanged { get; set; }
     }
 }

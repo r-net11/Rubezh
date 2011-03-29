@@ -25,76 +25,31 @@ namespace ServiseProcessor
                 callback.Notify(message);
         }
 
-        public static void StatesChanged(ShortStates shortStates)
+        public static void StatesChanged(CurrentStates currentStates)
         {
             if (callback != null)
             {
-                callback.StateChanged(shortStates);
+                callback.StateChanged(currentStates);
             }
         }
 
-        public StateConfiguration GetConfiguration()
+        public CurrentConfiguration GetConfiguration()
         {
-            return Services.Configuration.StateConfiguration;
+            return Services.CurrentConfiguration;
         }
 
-        //public StateConfiguration GetConfigurationOld()
-        //{
-        //    Device rootDevice = Services.Configuration.Devices[0];
-        //    ShortDevice rootShortDevice = rootDevice.ToShortDevice();
-        //    AddShortDevice(rootDevice, rootShortDevice);
-        //    Services.StateConfiguration = new StateConfiguration();
-        //    Services.StateConfiguration.RootShortDevice = rootShortDevice;
 
-        //    Services.StateConfiguration.ShortZones = new List<ShortZone>();
-        //    foreach (Zone zone in Services.Configuration.Zones)
-        //    {
-        //        ShortZone shortZone = zone.ToShortZone();
-        //        Services.StateConfiguration.ShortZones.Add(shortZone);
-        //    }
-
-        //    Services.StateConfiguration.Metadata = Services.Configuration.Metadata;
-        //    return Services.StateConfiguration;
-        //}
-
-        //void AddShortDevice(Device parentDevice, ShortDevice parentShortDevice)
-        //{
-        //    parentShortDevice.Children = new List<ShortDevice>();
-        //    foreach (Device device in parentDevice.Children)
-        //    {
-        //        ShortDevice shortDevice = device.ToShortDevice();
-        //        parentShortDevice.Children.Add(shortDevice);
-        //        AddShortDevice(device, shortDevice);
-        //    }
-        //}
-
-        public ShortStates GetStates()
+        public CurrentStates GetStates()
         {
-            return Services.Configuration.ShortStates;
-
-            //ShortStates shortStates = new ShortStates();
-            //shortStates.ShortDeviceStates = new List<ShortDeviceState>();
-            //shortStates.ShortZoneStates = new List<ShortZoneState>();
-
-            //foreach (Device device in Services.Configuration.Devices)
-            //{
-            //    shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
-            //}
-
-            //foreach (Zone zone in Services.Configuration.Zones)
-            //{
-            //    shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
-            //}
-
-            //return shortStates;
+            return Services.CurrentStates;
         }
 
         public void ExecuteCommand(string devicePath, string command)
         {
-            ShortDeviceState device;
+            DeviceState device;
             try
             {
-                device = Services.Configuration.ShortStates.ShortDeviceStates.First(x => x.Path == devicePath);
+                device = Services.CurrentStates.DeviceStates.First(x => x.Path == devicePath);
             }
             catch
             {
@@ -106,9 +61,9 @@ namespace ServiseProcessor
             }
         }
 
-        public void SetConfiguration(StateConfiguration stateConfiguration)
+        public void SetConfiguration(CurrentConfiguration currentConfiguration)
         {
-            Processor.SetNewConfig(stateConfiguration);
+            Processor.SetNewConfig(currentConfiguration);
         }
     }
 }

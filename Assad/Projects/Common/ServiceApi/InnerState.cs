@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace ServiceApi
 {
-    public class State
+    public class InnerState
     {
         public string Id { get; set; }
         public string Name { get; set; }

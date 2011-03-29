@@ -15,6 +15,6 @@ namespace ServiceApi
         void ConfigurationChanged();
 
         [OperationContract(IsOneWay = true)]
-        void StateChanged(ShortStates shortStates);
+        void StateChanged(CurrentStates currentStates);
     }
 }

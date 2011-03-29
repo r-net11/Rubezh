@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class ShortDeviceState
+    public class DeviceState
     {
         [DataMember]
         public string Path { get; set; }
@@ -15,7 +15,7 @@ namespace ServiceApi
         [DataMember]
         public string PlaceInTree { get; set; }
 
-        public List<State> InnerStates { get; set; }
+        public List<InnerState> InnerStates { get; set; }
 
         [DataMember]
         public string State { get; set; }
@@ -27,28 +27,13 @@ namespace ServiceApi
         public List<Parameter> Parameters { get; set; }
 
         [DataMember]
-        public bool StateChanged { get; set; }
-
-        [DataMember]
-        public bool StatesChanged { get; set; }
-
-        [DataMember]
-        public bool ParameterChanged { get; set; }
-
-        [DataMember]
-        public bool VisibleParameterChanged { get; set; }
-
-        [DataMember]
-        public bool MustUpdate { get; set; }
-
-        [DataMember]
-        public bool IsNewEvent { get; set; }
+        public ChangeEntities ChangeEntities { get; set; }
 
         [IgnoreDataMember]
         public List<string> SelfStates { get; set; }
 
         [IgnoreDataMember]
-        public List<State> ParentStates { get; set; }
+        public List<InnerState> ParentStates { get; set; }
 
         [IgnoreDataMember]
         public List<string> ParentStringStates { get; set; }

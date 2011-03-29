@@ -13,15 +13,15 @@ namespace ServiceApi
         void Initialize();
 
         [OperationContract]
-        StateConfiguration GetConfiguration();
+        CurrentConfiguration GetConfiguration();
 
         [OperationContract]
-        ShortStates GetStates();
+        CurrentStates GetStates();
 
         [OperationContract]
         void ExecuteCommand(string devicePath, string command);
 
         [OperationContract]
-        void SetConfiguration(StateConfiguration configuration);
+        void SetConfiguration(CurrentConfiguration configuration);
     }
 }

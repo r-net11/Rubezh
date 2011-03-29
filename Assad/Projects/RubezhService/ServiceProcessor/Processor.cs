@@ -25,7 +25,7 @@ namespace ServiseProcessor
             ServiceManager.Close();
         }
 
-        public static void SetNewConfig(StateConfiguration configuration)
+        public static void SetNewConfig(CurrentConfiguration configuration)
         {
             Validator.Validate(configuration);
 
@@ -38,16 +38,16 @@ namespace ServiseProcessor
             Firesec.FiresecClient.SetNewConfig(config);
         }
 
-        public static void ExecuteCommand(ShortDeviceState device, string commandName)
+        public static void ExecuteCommand(DeviceState device, string commandName)
         {
             commandName = commandName.Remove(0, "Сброс ".Length);
-            State state = device.InnerStates.First(x => x.Name == commandName);
+            InnerState state = device.InnerStates.First(x => x.Name == commandName);
             string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
             coreState.dev[0] = new Firesec.CoreState.devType();
-            string placeInTree = Services.Configuration.ShortDevices.FirstOrDefault(x => x.Path == device.Path).PlaceInTree;
+            string placeInTree = Services.AllDevices.FirstOrDefault(x => x.Path == device.Path).PlaceInTree;
             coreState.dev[0].name = placeInTree;
             coreState.dev[0].state = new Firesec.CoreState.stateType[1];
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
@@ -58,14 +58,14 @@ namespace ServiseProcessor
 
         void BuildDeviceTree()
         {
-            Services.Configuration = new Configuration();
-            Services.Configuration.Metadata = Firesec.FiresecClient.GetMetaData();
-            Services.Configuration.CoreConfig = Firesec.FiresecClient.GetCoreConfig();
+            Services.CurrentConfiguration = new CurrentConfiguration();
+            Services.CurrentConfiguration.Metadata = Firesec.FiresecClient.GetMetaData();
+            Services.CoreConfig = Firesec.FiresecClient.GetCoreConfig();
 
             FiresecToConfig firesecToConfig = new FiresecToConfig();
-            StateConfiguration stateConfiguration = firesecToConfig.Convert(Services.Configuration.CoreConfig);
+            CurrentConfiguration stateConfiguration = firesecToConfig.Convert(Services.CoreConfig);
             stateConfiguration.Metadata = Firesec.FiresecClient.GetMetaData();
-            Services.Configuration.StateConfiguration = stateConfiguration;
+            Services.CurrentConfiguration = stateConfiguration;
 
             //BuildZones();
 

@@ -9,17 +9,17 @@ namespace ServiseProcessor
 {
     public class Validator
     {
-        public static void Validate(StateConfiguration configuration)
+        public static void Validate(CurrentConfiguration configuration)
         {
-            ShortDevice rootShortDevice = configuration.RootShortDevice;
-            ValidateChild(rootShortDevice);
+            Device rootDevice = configuration.RootDevice;
+            ValidateChild(rootDevice);
         }
 
-        static void ValidateChild(ShortDevice parent)
+        static void ValidateChild(Device parent)
         {
             List<string> addresses = new List<string>();
 
-            foreach (ShortDevice child in parent.Children)
+            foreach (Device child in parent.Children)
             {
                 string address = child.Address;
                 if (addresses.Contains(address))
@@ -27,7 +27,7 @@ namespace ServiseProcessor
                 addresses.Add(address);
             }
 
-            foreach (ShortDevice child in parent.Children)
+            foreach (Device child in parent.Children)
             {
                 string error = ValidateDevice(child);
                 if (!string.IsNullOrEmpty(error))
@@ -38,7 +38,7 @@ namespace ServiseProcessor
             }
         }
 
-        static string ValidateDevice(ShortDevice device)
+        static string ValidateDevice(Device device)
         {
             int intAddress = 0;
             string driverName = DriversHelper.GetDriverNameById(device.DriverId);
@@ -129,7 +129,7 @@ namespace ServiseProcessor
 
         public static Firesec.Metadata.drvType GetDriverByDriverId(string driverId)
         {
-            return Services.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+            return Services.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
         }
     }
 }

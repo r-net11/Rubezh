@@ -7,8 +7,8 @@ namespace AssadDevices
 {
     public class AssadZone : AssadBase
     {
+        public string ZoneNo { get; set; }
         public string ZoneName { get; set; }
-        public string ZoneId { get; set; }
         public string DetectorCount { get; set; }
         public string EvecuationTime { get; set; }
 
@@ -18,8 +18,8 @@ namespace AssadDevices
 
             try
             {
+                ZoneNo = Properties.First(x => x.Name == "Номер зоны").Value;
                 ZoneName = Properties.First(x => x.Name == "Наименование").Value;
-                ZoneId = Properties.First(x => x.Name == "Номер зоны").Value;
                 DetectorCount = Properties.First(x => x.Name == "Число датчиков для формирования сигнала Пожар").Value;
                 EvecuationTime = Properties.First(x => x.Name == "Время эвакуации").Value;
             }

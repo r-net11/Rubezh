@@ -76,72 +76,72 @@ namespace ServiceVisualizer
         public RelayCommand SaveCommand { get; private set; }
         void OnSaveCommand(object obj)
         {
-            StateConfiguration stateConfiguration = new StateConfiguration();
-            stateConfiguration.ShortZones = new List<ShortZone>();
+            CurrentConfiguration currentConfiguration = new CurrentConfiguration();
+            currentConfiguration.Zones = new List<Zone>();
             foreach (ZoneViewModel zoneViewModel in ZoneViewModels)
             {
-                ShortZone shortZone = new ShortZone();
-                shortZone.No = zoneViewModel.ZoneNo;
-                shortZone.Name = zoneViewModel.ZoneName;
-                shortZone.Description = zoneViewModel.ZoneDescription;
-                shortZone.DetectorCount = zoneViewModel.ZoneDetectorCount;
-                shortZone.EvacuationTime = zoneViewModel.ZoneEvacuationTime;
-                stateConfiguration.ShortZones.Add(shortZone);
+                Zone zone = new Zone();
+                zone.No = zoneViewModel.ZoneNo;
+                zone.Name = zoneViewModel.ZoneName;
+                zone.Description = zoneViewModel.ZoneDescription;
+                zone.DetectorCount = zoneViewModel.ZoneDetectorCount;
+                zone.EvacuationTime = zoneViewModel.ZoneEvacuationTime;
+                currentConfiguration.Zones.Add(zone);
             }
 
             DeviceViewModel rootDeviceViewModel = DeviceViewModels[0];
-            ShortDevice rootShortDevice = DeviceViewModelToShortDevice(rootDeviceViewModel);
-            AddShortDevice(rootDeviceViewModel, rootShortDevice);
+            Device rootDevice = DeviceViewModelToDevice(rootDeviceViewModel);
+            AddDevice(rootDeviceViewModel, rootDevice);
 
-            stateConfiguration.RootShortDevice = rootShortDevice;
+            currentConfiguration.RootDevice = rootDevice;
 
-            serviceClient.SetNewConfig(stateConfiguration);
+            serviceClient.SetNewConfig(currentConfiguration);
         }
 
-        void AddShortDevice(DeviceViewModel parentDeviceViewModel, ShortDevice parentShortDevice)
+        void AddDevice(DeviceViewModel parentDeviceViewModel, Device parentDevice)
         {
             foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
             {
-                ShortDevice shortDevice = DeviceViewModelToShortDevice(deviceViewModel);
-                parentShortDevice.Children.Add(shortDevice);
-                AddShortDevice(deviceViewModel, shortDevice);
+                Device device = DeviceViewModelToDevice(deviceViewModel);
+                parentDevice.Children.Add(device);
+                AddDevice(deviceViewModel, device);
             }
         }
 
-        ShortDevice DeviceViewModelToShortDevice(DeviceViewModel deviceViewModel)
+        Device DeviceViewModelToDevice(DeviceViewModel deviceViewModel)
         {
-            ShortDevice shortDevice = new ShortDevice();
-            shortDevice.Children = new List<ShortDevice>();
-            shortDevice.Address = deviceViewModel.Address;
-            shortDevice.Description = deviceViewModel.Description;
-            shortDevice.DriverId = deviceViewModel.DriverId;
+            Device device = new Device();
+            device.Children = new List<Device>();
+            device.Address = deviceViewModel.Address;
+            device.Description = deviceViewModel.Description;
+            device.DriverId = deviceViewModel.DriverId;
             if (deviceViewModel.Zone != null)
             {
-                shortDevice.ZoneNo = deviceViewModel.Zone.ZoneNo;
+                device.ZoneNo = deviceViewModel.Zone.ZoneNo;
             }
-            shortDevice.DeviceProperties = new List<DeviceProperty>();
+            device.Properties = new List<Property>();
             foreach (StringProperty stringProperty in deviceViewModel.StringProperties)
             {
-                DeviceProperty deviceProperty = new DeviceProperty();
-                deviceProperty.Name = stringProperty.PropertyName;
-                deviceProperty.Value = stringProperty.Text;
-                shortDevice.DeviceProperties.Add(deviceProperty);
+                Property property = new Property();
+                property.Name = stringProperty.PropertyName;
+                property.Value = stringProperty.Text;
+                device.Properties.Add(property);
             }
             foreach (BoolProperty boolProperty in deviceViewModel.BoolProperties)
             {
-                DeviceProperty deviceProperty = new DeviceProperty();
-                deviceProperty.Name = boolProperty.PropertyName;
-                deviceProperty.Value = boolProperty.IsChecked ? "1" : "0";
-                shortDevice.DeviceProperties.Add(deviceProperty);
+                Property property = new Property();
+                property.Name = boolProperty.PropertyName;
+                property.Value = boolProperty.IsChecked ? "1" : "0";
+                device.Properties.Add(property);
             }
             foreach (EnumProperty enumProperty in deviceViewModel.EnumProperties)
             {
-                DeviceProperty deviceProperty = new DeviceProperty();
-                deviceProperty.Name = enumProperty.PropertyName;
-                deviceProperty.Value = enumProperty.SelectedValue;
-                shortDevice.DeviceProperties.Add(deviceProperty);
+                Property property = new Property();
+                property.Name = enumProperty.PropertyName;
+                property.Value = enumProperty.SelectedValue;
+                device.Properties.Add(property);
             }
-            return shortDevice;
+            return device;
         }
 
         public RelayCommand AddZoneCommant { get; private set; }
@@ -166,14 +166,14 @@ namespace ServiceVisualizer
 
             DeviceViewModelList = new List<DeviceViewModel>();
 
-            ShortDevice rootShortDevice = ServiceClient.StateConfiguration.RootShortDevice;
+            Device rooDevice = ServiceClient.CurrentConfiguration.RootDevice;
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.SetDevice(rootShortDevice);
+            rootDeviceViewModel.SetDevice(rooDevice);
             rootDeviceViewModel.IsExpanded = true;
             DeviceViewModels.Add(rootDeviceViewModel);
-            AddDevice(rootShortDevice, rootDeviceViewModel);
+            AddDevice(rooDevice, rootDeviceViewModel);
             DeviceViewModelList.Add(rootDeviceViewModel);
 
             AddZones();
@@ -189,9 +189,9 @@ namespace ServiceVisualizer
 
         public FiresecMetadata.TreeBuilder treeBuilder;
 
-        void AddDevice(ShortDevice parentDevice, DeviceViewModel parentDeviceViewModel)
+        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
-            foreach (ShortDevice device in parentDevice.Children)
+            foreach (Device device in parentDevice.Children)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
@@ -209,7 +209,7 @@ namespace ServiceVisualizer
         {
             ZoneViewModels = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in ServiceClient.Configuration.Zones)
+            foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel();
                 zoneViewModel.SetZone(zone);

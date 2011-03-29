@@ -5,6 +5,7 @@ using System.Text;
 using Common;
 using System.Collections.ObjectModel;
 using System.Windows;
+using ClientApi;
 
 namespace ServiceVisualizer
 {
@@ -32,7 +33,7 @@ namespace ServiceVisualizer
             FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == deviceViewModel.DriverId);
             foreach (FiresecMetadata.DriverItem childDriverItem in driverItem.Children)
             {
-                Firesec.Metadata.drvType driver = ClientApi.ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
+                Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
                 AvailableDevice availableDevice = new AvailableDevice();
                 availableDevice.DriverId = childDriverItem.DriverId;
                 availableDevice.DriverName = driver.shortName;
@@ -44,7 +45,7 @@ namespace ServiceVisualizer
                 }
                 else
                 {
-                    Firesec.Metadata.classType metadataClass = ClientApi.ServiceClient.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
+                    Firesec.Metadata.classType metadataClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
                     ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
                 }
 

@@ -7,13 +7,13 @@ using System.Runtime.Serialization;
 namespace ServiceApi
 {
     [DataContract]
-    public class ShortDevice
+    public class Device
     {
         [IgnoreDataMember]
-        public ShortDevice Parent { get; set; }
+        public Device Parent { get; set; }
 
         [DataMember]
-        public List<ShortDevice> Children { get; set; }
+        public List<Device> Children { get; set; }
 
         [DataMember]
         public string DatabaseId { get; set; }
@@ -37,17 +37,10 @@ namespace ServiceApi
         public string ZoneNo { get; set; }
 
         [DataMember]
-        public List<DeviceProperty> DeviceProperties { get; set; }
+        public List<Property> Properties { get; set; }
 
         [DataMember]
         public string Description { get; set; }
-
-
-        //[DataMember]
-        //public List<Parameter> Parameters { get; set; }
-
-        //[DataMember]
-        //public List<string> AvailableFunctions { get; set; }
 
         [DataMember]
         public string ValidationError { get; set; }
