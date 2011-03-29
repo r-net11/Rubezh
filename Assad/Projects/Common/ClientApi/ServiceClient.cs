@@ -91,7 +91,8 @@ namespace ClientApi
 
             foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
             {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
+                Zone zone = Configuration.Zones.FirstOrDefault(x => x.No == shortZoneState.No);
+                if (zone != null)
                 zone.SetState(shortZoneState);
             }
         }
@@ -119,7 +120,7 @@ namespace ClientApi
 
             foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
             {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
+                Zone zone = Configuration.Zones.FirstOrDefault(x => x.No == shortZoneState.No);
                 zone.SetState(shortZoneState);
             }
 
@@ -130,7 +131,7 @@ namespace ClientApi
             }
             foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
             {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
+                Zone zone = Configuration.Zones.FirstOrDefault(x => x.No == shortZoneState.No);
                 Configuration.OnZoneStateChanged(zone);
             }
         }

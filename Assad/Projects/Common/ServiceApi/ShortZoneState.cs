@@ -10,9 +10,12 @@ namespace ServiceApi
     public class ShortZoneState
     {
         [DataMember]
-        public string Id { get; set; }
+        public string No { get; set; }
 
         [DataMember]
         public string State { get; set; }
+
+        [DataMember]
+        public bool ZoneChanged { get; set; }
     }
 }

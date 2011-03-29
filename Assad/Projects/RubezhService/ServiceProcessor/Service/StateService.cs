@@ -35,59 +35,66 @@ namespace ServiseProcessor
 
         public StateConfiguration GetConfiguration()
         {
-            Device rootDevice = Services.Configuration.Devices[0];
-            ShortDevice rootShortDevice = rootDevice.ToShortDevice();
-            AddShortDevice(rootDevice, rootShortDevice);
-            Services.StateConfiguration = new StateConfiguration();
-            Services.StateConfiguration.RootShortDevice = rootShortDevice;
-
-            Services.StateConfiguration.ShortZones = new List<ShortZone>();
-            foreach (Zone zone in Services.Configuration.Zones)
-            {
-                ShortZone shortZone = zone.ToShortZone();
-                Services.StateConfiguration.ShortZones.Add(shortZone);
-            }
-
-            Services.StateConfiguration.Metadata = Services.Configuration.Metadata;
-            return Services.StateConfiguration;
+            return Services.Configuration.StateConfiguration;
         }
 
-        void AddShortDevice(Device parentDevice, ShortDevice parentShortDevice)
-        {
-            parentShortDevice.Children = new List<ShortDevice>();
-            foreach (Device device in parentDevice.Children)
-            {
-                ShortDevice shortDevice = device.ToShortDevice();
-                parentShortDevice.Children.Add(shortDevice);
-                AddShortDevice(device, shortDevice);
-            }
-        }
+        //public StateConfiguration GetConfigurationOld()
+        //{
+        //    Device rootDevice = Services.Configuration.Devices[0];
+        //    ShortDevice rootShortDevice = rootDevice.ToShortDevice();
+        //    AddShortDevice(rootDevice, rootShortDevice);
+        //    Services.StateConfiguration = new StateConfiguration();
+        //    Services.StateConfiguration.RootShortDevice = rootShortDevice;
+
+        //    Services.StateConfiguration.ShortZones = new List<ShortZone>();
+        //    foreach (Zone zone in Services.Configuration.Zones)
+        //    {
+        //        ShortZone shortZone = zone.ToShortZone();
+        //        Services.StateConfiguration.ShortZones.Add(shortZone);
+        //    }
+
+        //    Services.StateConfiguration.Metadata = Services.Configuration.Metadata;
+        //    return Services.StateConfiguration;
+        //}
+
+        //void AddShortDevice(Device parentDevice, ShortDevice parentShortDevice)
+        //{
+        //    parentShortDevice.Children = new List<ShortDevice>();
+        //    foreach (Device device in parentDevice.Children)
+        //    {
+        //        ShortDevice shortDevice = device.ToShortDevice();
+        //        parentShortDevice.Children.Add(shortDevice);
+        //        AddShortDevice(device, shortDevice);
+        //    }
+        //}
 
         public ShortStates GetStates()
         {
-            ShortStates shortStates = new ShortStates();
-            shortStates.ShortDeviceStates = new List<ShortDeviceState>();
-            shortStates.ShortZoneStates = new List<ShortZoneState>();
+            return Services.Configuration.ShortStates;
 
-            foreach (Device device in Services.Configuration.Devices)
-            {
-                shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
-            }
+            //ShortStates shortStates = new ShortStates();
+            //shortStates.ShortDeviceStates = new List<ShortDeviceState>();
+            //shortStates.ShortZoneStates = new List<ShortZoneState>();
 
-            foreach (Zone zone in Services.Configuration.Zones)
-            {
-                shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
-            }
+            //foreach (Device device in Services.Configuration.Devices)
+            //{
+            //    shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+            //}
 
-            return shortStates;
+            //foreach (Zone zone in Services.Configuration.Zones)
+            //{
+            //    shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
+            //}
+
+            //return shortStates;
         }
 
         public void ExecuteCommand(string devicePath, string command)
         {
-            Device device;
+            ShortDeviceState device;
             try
             {
-                device = Services.Configuration.Devices.First(x => x.Path == devicePath);
+                device = Services.Configuration.ShortStates.ShortDeviceStates.First(x => x.Path == devicePath);
             }
             catch
             {

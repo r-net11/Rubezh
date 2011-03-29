@@ -38,21 +38,21 @@ namespace ClientApi
             this.PlaceInTree = shortDevice.PlaceInTree;
             this.Path = shortDevice.Path;
             this.Description = shortDevice.Description;
-            this.Zone = shortDevice.Zone;
+            this.Zone = shortDevice.ZoneNo;
 
             this.Parameters = new List<Parameter>();
-            if (shortDevice.Parameters != null)
-            {
-                foreach (ServiceApi.Parameter parameter in shortDevice.Parameters)
-                {
-                    Parameter newParameter = new Parameter();
-                    newParameter.Name = parameter.Name;
-                    newParameter.Caption = parameter.Caption;
-                    newParameter.Visible = parameter.Visible;
-                    newParameter.Value = parameter.Value;
-                    this.Parameters.Add(newParameter);
-                }
-            }
+            //if (shortDevice.Parameters != null)
+            //{
+            //    foreach (ServiceApi.Parameter parameter in shortDevice.Parameters)
+            //    {
+            //        Parameter newParameter = new Parameter();
+            //        newParameter.Name = parameter.Name;
+            //        newParameter.Caption = parameter.Caption;
+            //        newParameter.Visible = parameter.Visible;
+            //        newParameter.Value = parameter.Value;
+            //        this.Parameters.Add(newParameter);
+            //    }
+            //}
 
             DeviceProperties = new List<ServiceApi.DeviceProperty>();
             foreach (ServiceApi.DeviceProperty shortDeviceProperty in shortDevice.DeviceProperties)
@@ -70,9 +70,9 @@ namespace ClientApi
         {
             if (Zone != null)
             {
-                if (ServiceClient.Configuration.Zones.Any(x => x.Id == Zone))
+                if (ServiceClient.Configuration.Zones.Any(x => x.No == Zone))
                 {
-                    _Zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == Zone);
+                    _Zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.No == Zone);
                 }
             }
         }
@@ -83,6 +83,7 @@ namespace ClientApi
             this.States = shortDeviceState.States;
 
             this.Parameters = new List<Parameter>();
+            if (shortDeviceState.Parameters != null)
             foreach (ServiceApi.Parameter parameter in shortDeviceState.Parameters)
             {
                 Parameter newParameter = new Parameter();

@@ -62,9 +62,10 @@ namespace ServiseProcessor
             }
             if (dataBaseId != null)
             {
-                if (Services.Configuration.Devices.Any(x => x.DatabaseId == dataBaseId))
+                if (Services.Configuration.ShortDevices.Any(x => x.DatabaseId == dataBaseId))
                 {
-                    Device device = Services.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+                    ShortDevice shortDevice = Services.Configuration.ShortDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+                    ShortDeviceState device = Services.Configuration.ShortStates.ShortDeviceStates.FirstOrDefault(x=>x.Path == shortDevice.Path);
                     device.IsNewEvent = true;
                     device.StateChanged = false;
                     device.StatesChanged = false;
@@ -74,7 +75,7 @@ namespace ServiseProcessor
                     ShortStates shortStates = new ShortStates();
                     shortStates.ShortDeviceStates = new List<ShortDeviceState>();
                     shortStates.ShortZoneStates = new List<ShortZoneState>();
-                    shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+                    shortStates.ShortDeviceStates.Add(device);
                     StateService.StatesChanged(shortStates);
                 }
             }
@@ -91,7 +92,7 @@ namespace ServiseProcessor
             {
                 Trace.WriteLine("OnParametersChanged");
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
                 {
                     device.StateChanged = false;
                     device.StatesChanged = false;
@@ -126,11 +127,11 @@ namespace ServiseProcessor
                 shortStates.ShortDeviceStates = new List<ShortDeviceState>();
                 shortStates.ShortZoneStates = new List<ShortZoneState>();
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
                 {
                     if (device.ParameterChanged)
                     {
-                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+                        shortStates.ShortDeviceStates.Add(device);
                     }
                 }
 
@@ -156,19 +157,19 @@ namespace ServiseProcessor
                 shortStates.ShortDeviceStates = new List<ShortDeviceState>();
                 shortStates.ShortZoneStates = new List<ShortZoneState>();
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
                 {
                     if ((device.StatesChanged) || (device.StateChanged))
                     {
-                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+                        shortStates.ShortDeviceStates.Add(device);
                     }
                 }
 
-                foreach (Zone zone in Services.Configuration.Zones)
+                foreach (ShortZoneState zone in Services.Configuration.ShortStates.ShortZoneStates)
                 {
                     if (zone.ZoneChanged)
                     {
-                        shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
+                        shortStates.ShortZoneStates.Add(zone);
                     }
                 }
 
@@ -183,7 +184,7 @@ namespace ServiseProcessor
 
         void SetStates(Firesec.CoreState.config coreState)
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
             {
                 device.IsNewEvent = false;
 
@@ -194,7 +195,7 @@ namespace ServiseProcessor
 
                 if (innerDevice != null)
                 {
-                    foreach (State state in device.States)
+                    foreach (State state in device.InnerStates)
                     {
                         bool IsActive = innerDevice.state.Any(a => a.id == state.Id);
                         if (state.IsActive != IsActive)
@@ -207,7 +208,7 @@ namespace ServiseProcessor
                 }
                 else
                 {
-                    foreach (State state in device.States)
+                    foreach (State state in device.InnerStates)
                     {
                         if (state.IsActive)
                         {
@@ -230,24 +231,26 @@ namespace ServiseProcessor
 
         void PropogateStates()
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
             {
                 device.ParentStates = new List<State>();
                 device.ParentStringStates = new List<string>();
             }
 
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
             {
-                foreach (State state in device.States)
+                foreach (State state in device.InnerStates)
                 {
                     if ((state.IsActive) && (state.AffectChildren))
                     {
-                        foreach (Device chilDevice in Services.Configuration.Devices)
+                        foreach (ShortDeviceState chilDevice in Services.Configuration.ShortStates.ShortDeviceStates)
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(device.PlaceInTree)) && (chilDevice.PlaceInTree != device.PlaceInTree))
                             {
                                 chilDevice.ParentStates.Add(state);
-                                chilDevice.ParentStringStates.Add(device.ShortDriverName + " - " + state.Name);
+                                string driverId = Services.Configuration.ShortDevices.FirstOrDefault(x => x.Path == device.Path).DriverId;
+                                string ShortDriverName = Services.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
+                                chilDevice.ParentStringStates.Add(ShortDriverName + " - " + state.Name);
                                 chilDevice.StatesChanged = true;
                             }
                         }
@@ -258,12 +261,12 @@ namespace ServiseProcessor
 
         void CalculateStates()
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (ShortDeviceState device in Services.Configuration.ShortStates.ShortDeviceStates)
             {
                 int minPriority = 7;
                 State sourceState = null;
 
-                foreach (State state in device.States)
+                foreach (State state in device.InnerStates)
                 {
                     if (state.IsActive)
                     {
@@ -306,20 +309,22 @@ namespace ServiseProcessor
 
         void CalculateZones()
         {
-            if (Services.Configuration.Zones != null)
+            if (Services.Configuration.ShortStates.ShortZoneStates != null)
             {
-                foreach (Zone zone in Services.Configuration.Zones)
+                foreach (ShortZoneState zone in Services.Configuration.ShortStates.ShortZoneStates)
                 {
                     int minZonePriority = 7;
-                    if (zone.Devices != null)
+                    foreach (ShortDevice shortDevice in Services.Configuration.ShortDevices)
                     {
-                        foreach (Device zoneDevice in zone.Devices)
+                        if (shortDevice.ZoneNo == zone.No)
                         {
+                            ShortDeviceState shortDeviceState = Services.Configuration.ShortStates.ShortDeviceStates.FirstOrDefault(x => x.Path == shortDevice.Path);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
-                            if (zoneDevice.MinPriority < minZonePriority)
-                                minZonePriority = zoneDevice.MinPriority;
+                            if (shortDeviceState.MinPriority < minZonePriority)
+                                minZonePriority = shortDeviceState.MinPriority;
                         }
                     }
+
                     string newZoneState = StateHelper.GetState(minZonePriority);
 
                     if ((zone.State == null) || (zone.State != newZoneState))

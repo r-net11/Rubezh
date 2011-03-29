@@ -10,8 +10,8 @@ namespace ServiceVisualizer
     {
         public string PropertyName { get; set; }
 
-        string isChecked;
-        public string IsChecked
+        bool isChecked;
+        public bool IsChecked
         {
             get { return isChecked; }
             set

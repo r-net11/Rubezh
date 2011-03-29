@@ -13,6 +13,11 @@ namespace ServiceApi
         public string Path { get; set; }
 
         [DataMember]
+        public string PlaceInTree { get; set; }
+
+        public List<State> InnerStates { get; set; }
+
+        [DataMember]
         public string State { get; set; }
 
         [DataMember]
@@ -35,5 +40,23 @@ namespace ServiceApi
 
         [DataMember]
         public bool MustUpdate { get; set; }
+
+        [DataMember]
+        public bool IsNewEvent { get; set; }
+
+        [IgnoreDataMember]
+        public List<string> SelfStates { get; set; }
+
+        [IgnoreDataMember]
+        public List<State> ParentStates { get; set; }
+
+        [IgnoreDataMember]
+        public List<string> ParentStringStates { get; set; }
+
+        [IgnoreDataMember]
+        public int MinPriority { get; set; }
+
+        [DataMember]
+        public string SourceState { get; set; }
     }
 }

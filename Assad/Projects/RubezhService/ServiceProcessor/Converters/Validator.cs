@@ -23,7 +23,7 @@ namespace ServiseProcessor
             {
                 string address = child.Address;
                 if (addresses.Contains(address))
-                    throw new Exception("Адрес дублируется");
+                    ;// throw new Exception("Адрес дублируется");
                 addresses.Add(address);
             }
 
@@ -118,7 +118,7 @@ namespace ServiseProcessor
             Firesec.Metadata.drvType driver = GetDriverByDriverId(device.DriverId);
             if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
             {
-                if (device.Zone == null)
+                if (device.ZoneNo == null)
                     return "Устройство должно принадлежать к зоне";
             }
 

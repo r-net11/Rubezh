@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
+using ServiceApi;
 
 namespace ServiceVisualizer
 {
@@ -37,7 +38,7 @@ namespace ServiceVisualizer
             {
                 string driverId = newDeviceViewModel.SelectedAvailableDevice.DriverId;
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
-                Device device = new Device();
+                ShortDevice device = new ShortDevice();
                 device.DriverId = driverId;
                 device.PresentationAddress = "0.0";
                 deviceViewModel.SetDevice(device);
@@ -49,10 +50,11 @@ namespace ServiceVisualizer
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemoveCommand(object obj)
         {
-            Parent.Children.Remove(this);
+            if (Parent != null)
+                Parent.Children.Remove(this);
         }
 
-        Device device;
+        ShortDevice device;
         Firesec.Metadata.drvType driver;
 
         public string DriverId
@@ -123,7 +125,7 @@ namespace ServiceVisualizer
                     if (propertyInfo.param != null)
                     {
                         EnumProperty enumProperty = new EnumProperty();
-                        enumProperty.PropertyName = propertyInfo.caption;
+                        enumProperty.PropertyName = propertyInfo.name;
                         enumProperty.Values = new List<string>();
                         ComboBox comboBox = new ComboBox();
                         foreach (Firesec.Metadata.paramType propertyParameter in propertyInfo.param)
@@ -140,8 +142,9 @@ namespace ServiceVisualizer
 
                         if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
                         {
-                            string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-                            enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
+                            enumProperty.SelectedValue = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
                         }
                         else
                         {
@@ -159,9 +162,9 @@ namespace ServiceVisualizer
                             case "String":
                             case "Int":
                                 TextBox textBox = new TextBox();
-                                textBox.Text = propertyInfo.caption;
 
                                 StringProperty stringProperty = new StringProperty();
+                                stringProperty.PropertyName = propertyInfo.name;
                                 Binding b = new Binding();
                                 b.Source = stringProperty;
                                 b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -177,7 +180,23 @@ namespace ServiceVisualizer
                                 uiElement = textBox;
                                 break;
                             case "Bool":
-                                uiElement = new CheckBox();
+                                CheckBox checkBox = new CheckBox();
+
+                                BoolProperty boolProperty = new BoolProperty();
+                                boolProperty.PropertyName = propertyInfo.name;
+                                Binding b2 = new Binding();
+                                b2.Source = boolProperty;
+                                b2.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                                b2.Path = new PropertyPath("IsChecked");
+                                checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
+
+                                if (device.DeviceProperties.Any(x => x.Name == propertyInfo.name))
+                                    boolProperty.IsChecked = (device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
+                                else
+                                    boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
+
+                                BoolProperties.Add(boolProperty);
+                                uiElement = checkBox;
                                 break;
                             default:
                                 throw new Exception("Неизвестный тип свойства");
@@ -200,7 +219,7 @@ namespace ServiceVisualizer
             PropStackPanel = _PropStackPanel;
         }
 
-        public void SetDevice(Device device)
+        public void SetDevice(ShortDevice device)
         {
             this.device = device;
             driver = ServiceClient.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
@@ -224,30 +243,30 @@ namespace ServiceVisualizer
             }
             ImageSource = @"C:\Program Files\Firesec\Icons\" + ImageName + ".ico";
 
-            State = device.State;
-            States = new ObservableCollection<string>();
-            if (device.States != null)
-            {
-                foreach (string state in device.States)
-                {
-                    States.Add(state);
-                }
-            }
-            Parameters = new ObservableCollection<Parameter>();
-            if (device.Parameters != null)
-            {
-                foreach (Parameter parameter in device.Parameters)
-                {
-                    Parameters.Add(parameter);
-                }
-            }
+            //State = device.State;
+            //States = new ObservableCollection<string>();
+            //if (device.States != null)
+            //{
+            //    foreach (string state in device.States)
+            //    {
+            //        States.Add(state);
+            //    }
+            //}
+            //Parameters = new ObservableCollection<Parameter>();
+            //if (device.Parameters != null)
+            //{
+            //    foreach (Parameter parameter in device.Parameters)
+            //    {
+            //        Parameters.Add(parameter);
+            //    }
+            //}
         }
 
         public void SetZone()
         {
-            if (device._Zone != null)
+            if (device.ZoneNo != null)
             {
-                Zone = ViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == device._Zone.No);
+                Zone = ViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == device.ZoneNo);
             }
         }
 
@@ -370,8 +389,8 @@ namespace ServiceVisualizer
             }
         }
 
-        ObservableCollection<Parameter> parameters;
-        public ObservableCollection<Parameter> Parameters
+        ObservableCollection<ServiceApi.Parameter> parameters;
+        public ObservableCollection<ServiceApi.Parameter> Parameters
         {
             get { return parameters; }
             set

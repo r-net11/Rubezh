@@ -19,11 +19,10 @@ namespace ServiceVisualizer
         {
             this.zone = zone;
             ZoneName = zone.Name;
-            zoneNo = zone.Id;
+            zoneNo = zone.No;
             ZoneDescription = zone.Description;
             ZoneDetectorCount = zone.DetectorCount;
             ZoneEvacuationTime = zone.EvacuationTime;
-
         }
 
         string zoneName;

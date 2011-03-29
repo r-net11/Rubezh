@@ -8,7 +8,6 @@ namespace ClientApi
 {
     public class Zone
     {
-        public string Id { get; set; }
         public string No { get; set; }
         public string Name { get; set; }
         public string DetectorCount { get; set; }
@@ -21,7 +20,6 @@ namespace ClientApi
         public void SetConfig(ShortZone shortZone)
         {
             this.Name = shortZone.Name;
-            this.Id = shortZone.Id;
             this.No = shortZone.No;
             this.DetectorCount = shortZone.DetectorCount;
             this.EvacuationTime = shortZone.EvacuationTime;

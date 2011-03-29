@@ -10,13 +10,10 @@ namespace ServiceApi
     public class ShortZone
     {
         [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        public string Id { get; set; }
-
-        [DataMember]
         public string No { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
 
         [DataMember]
         public string DetectorCount { get; set; }
