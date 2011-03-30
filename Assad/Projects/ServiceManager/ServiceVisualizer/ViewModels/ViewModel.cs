@@ -95,6 +95,7 @@ namespace ServiceVisualizer
 
             DeviceViewModel rootDeviceViewModel = DeviceViewModels[0];
             Device rootDevice = DeviceViewModelToDevice(rootDeviceViewModel);
+            rootDevice.Parent = null;
             AddDevice(rootDeviceViewModel, rootDevice);
 
             currentConfiguration.RootDevice = rootDevice;
@@ -107,6 +108,7 @@ namespace ServiceVisualizer
             foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
             {
                 Device device = DeviceViewModelToDevice(deviceViewModel);
+                device.Parent = parentDevice;
                 parentDevice.Children.Add(device);
                 AddDevice(deviceViewModel, device);
             }

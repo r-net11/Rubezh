@@ -46,6 +46,6 @@ namespace ServiceApi
         public string Description { get; set; }
 
         [DataMember]
-        public string ValidationError { get; set; }
+        public List<ValidationError> ValidationErrors { get; set; }
     }
 }

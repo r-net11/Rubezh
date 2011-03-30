@@ -24,6 +24,7 @@ namespace ServiceApi
         public void FillAllDevices()
         {
             AllDevices = new List<Device>();
+            RootDevice.Parent = null;
             AllDevices.Add(RootDevice);
         }
 
@@ -31,6 +32,7 @@ namespace ServiceApi
         {
             foreach (Device device in parentDevice.Children)
             {
+                device.Parent = parentDevice;
                 AllDevices.Add(device);
             }
         }

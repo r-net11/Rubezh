@@ -68,6 +68,7 @@
     <Compile Include="Device.cs" />
     <Compile Include="DeviceState.cs" />
     <Compile Include="CurrentStates.cs" />
+    <Compile Include="ValidationError.cs" />
     <Compile Include="Zone.cs" />
     <Compile Include="ZoneState.cs" />
     <Compile Include="InnerState.cs" />
