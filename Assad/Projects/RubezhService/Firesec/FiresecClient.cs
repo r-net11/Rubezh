@@ -77,17 +77,43 @@ namespace Firesec
             return journal;
         }
 
-        public static ZoneLogic.expr GetZoneLogic(string zoleLogicstring)
+        public static ZoneLogic.expr GetZoneLogic(string zoneLogicString)
         {
             try
             {
-                byte[] bytes = Encoding.Default.GetBytes(zoleLogicstring);
+                byte[] bytes = Encoding.Default.GetBytes(zoneLogicString);
                 MemoryStream memoryStream = new MemoryStream(bytes);
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ZoneLogic.expr));
                 Firesec.ZoneLogic.expr zoneLogic = (Firesec.ZoneLogic.expr)serializer.Deserialize(memoryStream);
                 memoryStream.Close();
                 return zoneLogic;
+            }
+            catch
+            {
+            }
+            return null;
+        }
+
+        public static string SetZoneLogic(ZoneLogic.expr zoneLogic)
+        {
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ZoneLogic.expr));
+                MemoryStream memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, zoneLogic);
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+                //string message = Encoding.GetEncoding("windows-1251").GetString(bytes);
+                string message = Encoding.Default.GetString(bytes);
+                message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+
+                message = message.Replace("<?xml version=\"1.0\"?>", "<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
+                //message = message.Replace("\n", "").Replace("\r", "");
+                message = message.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;").Replace("=", "&#061;").Replace("/", "&#047;");
+
+                //message = message.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+                return message;
             }
             catch
             {

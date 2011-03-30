@@ -14,7 +14,19 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
+                    <RowDefinition>
+                        <RowDefinition.Style>
+                            <Style TargetType="RowDefinition">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CanEditAddress}" Value="False">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Height" Value="0" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </RowDefinition.Style>
+                    </RowDefinition>
                     <RowDefinition />
                     <RowDefinition>
                         <RowDefinition.Style>
@@ -66,7 +78,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Grid.Column="1" Margin="1">
-                    <Button Content="..." />
+                    <Button Content="..." Command="{Binding ShowZoneLogicCommand}" />
                 </StackPanel>
             </Grid>
 
@@ -81,10 +93,6 @@
                     </Style>
                 </StackPanel.Style>
                 <Button Content="Добавить" Command="{Binding AddCommand}" />
-            </StackPanel>
-
-            <StackPanel Name="propertiesStackPanel">
-                <TextBlock Text="{Binding AvailableProperties}" />
             </StackPanel>
             
             <ContentControl Content="{Binding PropStackPanel}" />

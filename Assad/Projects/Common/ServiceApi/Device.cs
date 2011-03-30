@@ -37,6 +37,9 @@ namespace ServiceApi
         public string ZoneNo { get; set; }
 
         [DataMember]
+        public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
+
+        [DataMember]
         public List<Property> Properties { get; set; }
 
         [DataMember]

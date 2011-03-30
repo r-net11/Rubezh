@@ -96,17 +96,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceDetailsView.xaml.cs">
+    <Compile Include="Views\ClauseView.xaml.cs">
+      <DependentUpon>ClauseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ClauseViewModel.cs" />
+    <Compile Include="Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DevicesView.xaml.cs">
+    <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DeviceViewModel.cs" />
-    <Compile Include="NewDeviceView.xaml.cs">
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewDeviceViewModel.cs" />
+    <Compile Include="ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -123,15 +127,23 @@
     <Compile Include="PropertyBindings\BoolProperty.cs" />
     <Compile Include="PropertyBindings\EnumProperty.cs" />
     <Compile Include="PropertyBindings\StringProperty.cs" />
-    <Compile Include="View.xaml.cs">
+    <Compile Include="Views\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="WindowManager.cs" />
-    <Compile Include="ZonesView.xaml.cs">
+    <Compile Include="Views\ZoneLogicSectionView.xaml.cs">
+      <DependentUpon>ZoneLogicSectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ZoneLogicSectionViewModel.cs" />
+    <Compile Include="Views\ZoneLogicView.xaml.cs">
+      <DependentUpon>ZoneLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
+    <Compile Include="Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ZoneViewModel.cs" />
+    <Compile Include="ViewModels\ZoneViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -144,41 +156,53 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DeviceDetailsView.xaml">
+    <Page Include="Views\ClauseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DevicesView.xaml">
+    <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewDeviceView.xaml">
+    <Page Include="Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Brushes.xaml">
+    <Page Include="Views\NewDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\DataGrid.xaml">
+    <Page Include="Views\Themes\Brushes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\GlassButton.xaml">
+    <Page Include="Views\Themes\DataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\TabItem.xaml">
+    <Page Include="Views\Themes\GlassButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View.xaml">
+    <Page Include="Views\Themes\TabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ZonesView.xaml">
+    <Page Include="Views\ZoneLogicSectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

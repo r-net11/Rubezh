@@ -7,6 +7,8 @@ using Common;
 using ClientApi;
 using System.Collections.ObjectModel;
 using ServiceApi;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace ServiceVisualizer
 {
@@ -22,6 +24,8 @@ namespace ServiceVisualizer
         }
 
         public static ViewModel Current { get; private set; }
+
+        ServiceClient serviceClient;
 
         ObservableCollection<DeviceViewModel> deviceViewModels;
         public ObservableCollection<DeviceViewModel> DeviceViewModels
@@ -119,6 +123,25 @@ namespace ServiceVisualizer
             {
                 device.ZoneNo = deviceViewModel.Zone.ZoneNo;
             }
+            if (deviceViewModel.Device.ZoneLogic != null)
+            {
+                device.ZoneLogic = deviceViewModel.Device.ZoneLogic;
+
+
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ZoneLogic.expr));
+                MemoryStream memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, deviceViewModel.Device.ZoneLogic);
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+                string message = Encoding.GetEncoding("windows-1251").GetString(bytes);
+                message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+
+                message = message.Replace("<?xml version=\"1.0\"?>", "<?xml version=\"1.0\" encoding=\"windows-1251\"?>");
+
+                message = message.Replace("\n", "").Replace("\r", "");
+
+                message = message.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;").Replace("=", "&#061;");
+            }
             device.Properties = new List<Property>();
             foreach (StringProperty stringProperty in deviceViewModel.StringProperties)
             {
@@ -154,8 +177,6 @@ namespace ServiceVisualizer
             zoneViewModel.SetZone(zone);
             ZoneViewModels.Add(zoneViewModel);
         }
-
-        ServiceClient serviceClient;
 
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect(object obj)

@@ -16,12 +16,26 @@ namespace ServiceVisualizer
     public class DeviceViewModel : BaseViewModel
     {
         public DeviceDetailsView View { get; set; }
+        public Device Device;
+        Firesec.Metadata.drvType driver;
 
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
             AddCommand = new RelayCommand(OnAddCommand);
             RemoveCommand = new RelayCommand(OnRemoveCommand);
+            ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogicCommand);
+        }
+
+        public RelayCommand ShowZoneLogicCommand { get; private set; }
+        void OnShowZoneLogicCommand(object obj)
+        {
+            ZoneLogicView zoneLogicView = new ZoneLogicView();
+            ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
+            zoneLogicViewModel.RequestClose += delegate { zoneLogicView.Close(); };
+            zoneLogicViewModel.SetDevice(this);
+            zoneLogicView.DataContext = zoneLogicViewModel;
+            zoneLogicView.ShowDialog();
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -54,27 +68,13 @@ namespace ServiceVisualizer
                 Parent.Children.Remove(this);
         }
 
-        Device device;
-        Firesec.Metadata.drvType driver;
-
         public string DriverId
         {
             get
             {
-                if (device != null)
-                    return device.DriverId;
+                if (Device != null)
+                    return Device.DriverId;
                 return null;
-            }
-        }
-
-        string availableProperties;
-        public string AvailableProperties
-        {
-            get { return availableProperties; }
-            set
-            {
-                availableProperties = value;
-                OnPropertyChanged("AvailableProperties");
             }
         }
 
@@ -109,7 +109,6 @@ namespace ServiceVisualizer
             StackPanel _PropStackPanel = new StackPanel();
             _PropStackPanel.Children.Clear();
 
-            string _availableProperties = "";
             if (driver.propInfo != null)
             {
                 foreach (Firesec.Metadata.propInfoType propertyInfo in driver.propInfo)
@@ -118,7 +117,6 @@ namespace ServiceVisualizer
                         continue;
                     if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
                         continue;
-                    _availableProperties += propertyInfo.caption + " - " + propertyInfo.type + "\n";
 
                     UIElement uiElement = null;
 
@@ -140,9 +138,9 @@ namespace ServiceVisualizer
                         b.Path = new PropertyPath("SelectedValue");
                         comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
 
-                        if (device.Properties.Any(x => x.Name == propertyInfo.name))
+                        if (Device.Properties.Any(x => x.Name == propertyInfo.name))
                         {
-                            enumProperty.SelectedValue = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            enumProperty.SelectedValue = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
                         }
@@ -171,8 +169,8 @@ namespace ServiceVisualizer
                                 b.Path = new System.Windows.PropertyPath("Text");
                                 textBox.SetBinding(TextBox.TextProperty, b);
 
-                                if (device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    stringProperty.Text = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    stringProperty.Text = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                                 else
                                     stringProperty.Text = propertyInfo.@default;
 
@@ -190,8 +188,8 @@ namespace ServiceVisualizer
                                 b2.Path = new PropertyPath("IsChecked");
                                 checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
 
-                                if (device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    boolProperty.IsChecked = (device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
+                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    boolProperty.IsChecked = (Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
                                 else
                                     boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
 
@@ -215,13 +213,12 @@ namespace ServiceVisualizer
                 }
             }
             _PropStackPanel.Children.Add(grid);
-            AvailableProperties = _availableProperties;
             PropStackPanel = _PropStackPanel;
         }
 
         public void SetDevice(Device device)
         {
-            this.device = device;
+            this.Device = device;
             driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
             SetProperties();
@@ -242,6 +239,15 @@ namespace ServiceVisualizer
                 ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
             }
             ImageSource = @"C:\Program Files\Firesec\Icons\" + ImageName + ".ico";
+
+            if (driver.ar_no_addr != null)
+            {
+                CanEditAddress = (driver.ar_no_addr == "1") ? false : true;
+            }
+            else
+            {
+                CanEditAddress = true;
+            }
 
             //State = device.State;
             //States = new ObservableCollection<string>();
@@ -264,9 +270,9 @@ namespace ServiceVisualizer
 
         public void SetZone()
         {
-            if (device.ZoneNo != null)
+            if (Device.ZoneNo != null)
             {
-                Zone = ViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == device.ZoneNo);
+                Zone = ViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == Device.ZoneNo);
             }
         }
 
@@ -303,7 +309,7 @@ namespace ServiceVisualizer
         {
             get
             {
-                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == device.DriverId);
+                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == Device.DriverId);
                 if (driverItem == null)
                     return false;
                 if (driverItem.Children.Count > 0)
@@ -410,6 +416,8 @@ namespace ServiceVisualizer
                 OnPropertyChanged("ImageSource");
             }
         }
+
+        public bool CanEditAddress { get; private set; }
 
         public DeviceViewModel Parent { get; set; }
 

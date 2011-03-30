@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeEntities.cs" />
+    <Compile Include="Converters\TextToZoneLogic.cs" />
+    <Compile Include="Converters\ZoneLogicToText.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="ICallback.cs" />
     <Compile Include="IStateService.cs" />

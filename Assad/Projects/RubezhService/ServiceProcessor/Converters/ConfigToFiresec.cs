@@ -135,6 +135,17 @@ namespace ServiseProcessor
                     }
                 }
             }
+
+            if (device.ZoneLogic != null)
+            {
+                string zoneLogic = Firesec.FiresecClient.SetZoneLogic(device.ZoneLogic);
+                Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
+                property.name = "ExtendedZoneLogic";
+                property.value = zoneLogic;
+                property.value = "&lt;?xml version&#061;&quot;1.0&quot; encoding&#061;&quot;windows-1251&quot;?&gt;&#010;&lt;expr&gt;&lt;clause operation&#061;&quot;or&quot; state&#061;&quot;2&quot;&gt;&lt;zone&gt;0&lt;&#047;zone&gt;&lt;zone&gt;2&lt;&#047;zone&gt;&lt;zone&gt;3&lt;&#047;zone&gt;&lt;zone&gt;4&lt;&#047;zone&gt;&lt;zone&gt;5&lt;&#047;zone&gt;&lt;&#047;clause&gt;&lt;&#047;expr&gt;&#010;";
+                propertyList.Add(property);
+            }
+
             return propertyList;
         }
     }

@@ -225,71 +225,7 @@ namespace ServiseProcessor
                 if (innerDevice.prop.Any(x => x.name == "ExtendedZoneLogic"))
                 {
                     string zoleLogicstring = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic").value;
-                    Firesec.ZoneLogic.expr ZoneLogic = FiresecClient.GetZoneLogic(zoleLogicstring);
-                    if (ZoneLogic != null)
-                    {
-                        string logic = "";
-
-                        foreach (Firesec.ZoneLogic.clauseType clause in ZoneLogic.clause)
-                        {
-                            if (clause.joinOperator != null)
-                            {
-                                switch (clause.joinOperator)
-                                {
-                                    case "and":
-                                        logic += " и ";
-                                        break;
-                                    case "or":
-                                        logic += " или ";
-                                        break;
-                                }
-                            }
-
-                            string stringState = "";
-                            switch (clause.state)
-                            {
-                                case "0":
-                                    stringState = "Включение автоматики";
-                                    break;
-
-                                case "1":
-                                    stringState = "Тревога";
-                                    break;
-
-                                case "2":
-                                    stringState = "Пожар";
-                                    break;
-
-                                case "5":
-                                    stringState = "Внимание";
-                                    break;
-
-                                case "6":
-                                    stringState = "Включение модуля пожаротушения";
-                                    break;
-                            }
-
-                            string stringOperation = "";
-                            switch (clause.operation)
-                            {
-                                case "and":
-                                    stringOperation = "во всех зонах из";
-                                    break;
-
-                                case "or":
-                                    stringOperation = "в любой зонах из";
-                                    break;
-                            }
-
-                            logic += "состояние " + stringState + " " + stringOperation + " [";
-
-                            foreach (string zoneNo in clause.zone)
-                            {
-                                logic += zoneNo + ", ";
-                            }
-                            logic += "]";
-                        }
-                    }
+                    device.ZoneLogic = FiresecClient.GetZoneLogic(zoleLogicstring);
                 }
             }
         }
