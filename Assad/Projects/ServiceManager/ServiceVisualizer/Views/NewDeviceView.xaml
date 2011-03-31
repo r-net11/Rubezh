@@ -15,17 +15,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button Content="Ok" Command="{Binding AddCommand}">
-                <Button.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CloseSignal}" Value="true">
-                                <Setter Property="Behaviours:WindowCloseBehaviour.Close" Value="true" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button Content="Ok" Command="{Binding AddCommand}" />
         </StackPanel>
     </Grid>
 </Window>

@@ -20,7 +20,7 @@
         </Style>
     </UserControl.Resources>
     
-    <r:TreeListView ItemsSource="{Binding DeviceViewModels}" Height="400">
+    <r:TreeListView ItemsSource="{Binding DeviceViewModels__}" Height="400">
         <r:TreeListView.Columns>
             <GridViewColumn Header="Тип Устройства" Width="250">
                 <GridViewColumn.CellTemplate>

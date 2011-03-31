@@ -27,6 +27,81 @@ namespace ServiceVisualizer
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogicCommand);
         }
 
+        bool isExpanded;
+        public bool IsExpanded
+        {
+            get { return isExpanded; }
+            set
+            {
+                isExpanded = value;
+
+                if (isExpanded)
+                {
+                    AddChildren(this);
+                }
+                else
+                {
+                    RemoveChildren(this);
+                }
+
+                OnPropertyChanged("IsExpanded");
+            }
+        }
+
+        void RemoveChildren(DeviceViewModel parentDeviceViewModel)
+        {
+            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+            {
+                if (ViewModel.Current.AllDeviceViewModels.Contains(deviceViewModel))
+                    ViewModel.Current.AllDeviceViewModels.Remove(deviceViewModel);
+                RemoveChildren(deviceViewModel);
+            }
+        }
+
+        void AddChildren(DeviceViewModel parentDeviceViewModel)
+        {
+            if (parentDeviceViewModel.IsExpanded)
+            {
+                int indexOf = ViewModel.Current.AllDeviceViewModels.IndexOf(parentDeviceViewModel);
+                for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
+                {
+                    if (ViewModel.Current.AllDeviceViewModels.Contains(parentDeviceViewModel.Children[i]) == false)
+                    {
+                        ViewModel.Current.AllDeviceViewModels.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
+                    }
+                }
+
+                foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+                {
+                    AddChildren(deviceViewModel);
+                }
+            }
+        }
+
+        public bool HasChildren
+        {
+            get
+            {
+                return (Children.Count > 0);
+            }
+        }
+
+        public int Level
+        {
+            get
+            {
+            if (Parent == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Parent.Level + 1;
+            }
+            }
+        }
+
+
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogicCommand(object obj)
         {
@@ -441,17 +516,6 @@ namespace ServiceVisualizer
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
                 ViewModel.Current.SelectedDeviceViewModel = this;
-            }
-        }
-
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
-                OnPropertyChanged("IsExpanded");
             }
         }
     }

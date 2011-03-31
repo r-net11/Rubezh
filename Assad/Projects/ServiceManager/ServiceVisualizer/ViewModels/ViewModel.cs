@@ -38,6 +38,17 @@ namespace ServiceVisualizer
             }
         }
 
+        ObservableCollection<DeviceViewModel> allDeviceViewModels;
+        public ObservableCollection<DeviceViewModel> AllDeviceViewModels
+        {
+            get { return allDeviceViewModels; }
+            set
+            {
+                allDeviceViewModels = value;
+                OnPropertyChanged("AllDeviceViewModels");
+            }
+        }
+
         ObservableCollection<ZoneViewModel> zoneViewModels;
         public ObservableCollection<ZoneViewModel> ZoneViewModels
         {
@@ -96,6 +107,7 @@ namespace ServiceVisualizer
             DeviceViewModel rootDeviceViewModel = DeviceViewModels[0];
             Device rootDevice = DeviceViewModelToDevice(rootDeviceViewModel);
             rootDevice.Parent = null;
+            
             AddDevice(rootDeviceViewModel, rootDevice);
 
             currentConfiguration.RootDevice = rootDevice;
@@ -172,12 +184,15 @@ namespace ServiceVisualizer
         public RelayCommand AddZoneCommant { get; private set; }
         void OnAddZoneCommant(object obj)
         {
-            Zone zone = new Zone();
-            zone.No = "0";
-            zone.Name = "новая зона";
-            ZoneViewModel zoneViewModel = new ZoneViewModel();
-            zoneViewModel.SetZone(zone);
-            ZoneViewModels.Add(zoneViewModel);
+            for (int i = 0; i < 10000; i++ )
+            {
+                Zone zone = new Zone();
+                zone.No = "0";
+                zone.Name = "новая зона";
+                ZoneViewModel zoneViewModel = new ZoneViewModel();
+                zoneViewModel.SetZone(zone);
+                ZoneViewModels.Add(zoneViewModel);
+            }
         }
 
         public RelayCommand ConnectCommand { get; private set; }
@@ -186,6 +201,7 @@ namespace ServiceVisualizer
             serviceClient = new ServiceClient();
             serviceClient.Start();
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
+            AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
 
             DeviceViewModelList = new List<DeviceViewModel>();
 
@@ -194,8 +210,9 @@ namespace ServiceVisualizer
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.SetDevice(rooDevice);
-            rootDeviceViewModel.IsExpanded = true;
+            //rootDeviceViewModel.IsExpanded = false;
             DeviceViewModels.Add(rootDeviceViewModel);
+            AllDeviceViewModels.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
             DeviceViewModelList.Add(rootDeviceViewModel);
 
@@ -208,6 +225,23 @@ namespace ServiceVisualizer
 
             treeBuilder = new FiresecMetadata.TreeBuilder();
             treeBuilder.Buid();
+
+
+            CollapseChild(AllDeviceViewModels[0]);
+
+            DeviceGridView deviceGridView = new DeviceGridView();
+            deviceGridView.DataContext = this;
+            deviceGridView.ShowDialog();
+        }
+
+        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        {
+            parentDeviceViewModel.IsExpanded = true;
+            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+            {
+                deviceViewModel.IsExpanded = true;
+                CollapseChild(deviceViewModel);
+            }
         }
 
         public FiresecMetadata.TreeBuilder treeBuilder;
@@ -219,8 +253,9 @@ namespace ServiceVisualizer
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.SetDevice(device);
-                deviceViewModel.IsExpanded = true;
+                //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
+                AllDeviceViewModels.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
                 DeviceViewModelList.Add(deviceViewModel);
             }
@@ -232,12 +267,12 @@ namespace ServiceVisualizer
         {
             ZoneViewModels = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
-            {
-                ZoneViewModel zoneViewModel = new ZoneViewModel();
-                zoneViewModel.SetZone(zone);
-                ZoneViewModels.Add(zoneViewModel);
-            }
+                foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
+                {
+                    ZoneViewModel zoneViewModel = new ZoneViewModel();
+                    zoneViewModel.SetZone(zone);
+                    ZoneViewModels.Add(zoneViewModel);
+                }
         }
     }
 }

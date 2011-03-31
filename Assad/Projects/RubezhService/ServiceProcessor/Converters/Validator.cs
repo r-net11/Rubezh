@@ -9,6 +9,8 @@ namespace ServiseProcessor
 {
     public class Validator
     {
+        CurrentConfiguration configuration;
+
         public void Validate(CurrentConfiguration currentConfiguration)
         {
             this.configuration = currentConfiguration;
@@ -17,12 +19,11 @@ namespace ServiseProcessor
             ValidateZones();
             ValidateDeviceZones();
             ValidateAddresses();
+            ValidateAddressUnique();
 
             //Device rootDevice = currentConfiguration.RootDevice;
             //ValidateChild(rootDevice);
         }
-
-        CurrentConfiguration configuration;
 
         void ClearValidationErrors()
         {
@@ -38,16 +39,11 @@ namespace ServiseProcessor
 
         void ValidateZones()
         {
-            List<string> uniqueZoneIds = new List<string>();
             foreach (Zone zone in configuration.Zones)
             {
-                if (uniqueZoneIds.Contains(zone.No))
+                if (configuration.Zones.FindAll(x => x.No == zone.No).Count > 1)
                 {
-                    zone.ValidationErrors.Add(new ValidationError("Адрес зоны повторяется", Level.Critical));
-                }
-                else
-                {
-                    uniqueZoneIds.Add(zone.No);
+                    zone.ValidationErrors.Add(new ValidationError("Зона с таким номером уже существует", Level.Critical));
                 }
 
                 int intDetectorCount = 0;
@@ -163,8 +159,87 @@ namespace ServiseProcessor
 
                     if (driver.addrMask != null)
                     {
-                        // ВАЛИДАЦИЯ АДРЕСА
-                        ;
+                        switch (driver.addrMask)
+                        {
+                            case "[0(1)-8(8)]":
+                                int intAddress = 0;
+                                try
+                                {
+                                    intAddress = System.Convert.ToInt32(device.Address);
+                                }
+                                catch
+                                {
+                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+                                    continue;
+                                }
+                                if ((intAddress < 1) || (intAddress > 8))
+                                    device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес в диапазоне 1 - 8", Level.Critical));
+                                break;
+
+                            case "[8(1)-15(2)];[0(1)-7(255)]":
+                                string[] addresses = device.Address.Split('.');
+                                if (addresses.Count() != 2)
+                                {
+                                    device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес, разделенный одной точкой", Level.Critical));
+                                    continue;
+                                }
+
+                                int intShleif;
+                                try
+                                {
+                                    intShleif = System.Convert.ToInt32(addresses[0]);
+                                }
+                                catch
+                                {
+                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+                                    continue;
+                                }
+                                try
+                                {
+                                    intAddress = System.Convert.ToInt32(addresses[1]);
+                                }
+                                catch
+                                {
+                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+                                    continue;
+                                }
+                                if ((intAddress < 1) || (intAddress > 255))
+                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть в диапазоне 1 - 255", Level.Critical));
+
+                                Firesec.Metadata.drvType parentDriver = GetDriverByDriverId(device.Parent.DriverId);
+                                int maxShleifAddress = 2;
+                                if (parentDriver.childAddrMask != null)
+                                {
+                                    switch (parentDriver.childAddrMask)
+                                    {
+                                        case "[8(1)-15(2)];[0(1)-7(255)]":
+                                            maxShleifAddress = 2;
+                                            break;
+
+                                        case "[8(1)-15(4)];[0(1)-7(255)]":
+                                            maxShleifAddress = 4;
+                                            break;
+
+                                        case "[8(1)-15(10)];[0(1)-7(255)]":
+                                            maxShleifAddress = 10;
+                                            break;
+                                    }
+                                }
+
+                                if ((intShleif < 1) || (intShleif > maxShleifAddress))
+                                {
+                                    device.ValidationErrors.Add(new ValidationError("Номер шлейфа должен быть в диапазоне 1 - " + maxShleifAddress.ToString(), Level.Critical));
+                                    continue;
+                                }
+
+                                break;
+
+                            case "[8(1)-15(4)];[0(1)-7(255)]":
+                                // АСПТ
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     else
                     {
@@ -204,116 +279,43 @@ namespace ServiseProcessor
             }
         }
 
-        void ValidateChild(Device parent)
+        void ValidateAddressUnique()
         {
-            List<string> addresses = new List<string>();
-
-            foreach (Device child in parent.Children)
+            foreach (Device device in configuration.AllDevices)
             {
-                string address = child.Address;
-                if (addresses.Contains(address))
-                    ;// throw new Exception("Адрес дублируется");
-                addresses.Add(address);
-            }
-
-            foreach (Device child in parent.Children)
-            {
-                ValidationError error = ValidateDevice(child);
-                if (error != null)
+                foreach (Device childDevice in device.Children)
                 {
-                    child.ValidationErrors.Add(error);
+                    Firesec.Metadata.drvType driver = GetDriverByDriverId(childDevice.DriverId);
+
+                    if (driver.ar_no_addr == "0")
+                    {
+                        if (device.Children.FindAll(x => x.Address == childDevice.Address).Count > 1)
+                        {
+                            childDevice.ValidationErrors.Add(new ValidationError("Устройство с таким адресом уже существует", Level.Normal));
+                        }
+                    }
+                    else
+                    {
+                        string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                        //if ((childDriver.ar_enabled == "1") && (childDriver.ar_from == "0") && (childDriver.ar_to == "0"))
+                        if ((driverName == "Насосная Станция") ||
+                            (driverName == "Жокей-насос") ||
+                            (driverName == "Компрессор") ||
+                            (driverName == "Дренажный насос") ||
+                            (driverName == "Насос компенсации утечек"))
+                        {
+                            if (device.Children.FindAll(x => x.DriverId == childDevice.DriverId).Count > 1)
+                            {
+                                childDevice.ValidationErrors.Add(new ValidationError("Устройство должно присутствовать в единственном экзэмпляре", Level.Critical));
+                            }
+                        }
+                        if ((driver.name == "USB преобразователь МС-1") || (driver.name == "USB преобразователь МС-2"))
+                        {
+                            // СЕРИЙНЫЙ НЕМЕР, ЕСЛИ ДВА ОДИНАКОВЫХ УСТРОЙСТВА
+                        }
+                    }
                 }
-                ValidateChild(child);
             }
-        }
-
-        ValidationError ValidateDevice(Device device)
-        {
-            int intAddress = 0;
-            string driverName = DriversHelper.GetDriverNameById(device.DriverId);
-            switch (driverName)
-            {
-                case "Насосная Станция":
-                case "Жокей-насос":
-                case "Компрессор":
-                case "Дренажный насос":
-                case "Насос компенсации утечек":
-                    break;
-                default:
-                    try
-                    {
-                        intAddress = System.Convert.ToInt32(device.Address);
-                    }
-                    catch
-                    {
-                        return new ValidationError("Адрес устройства - не число", Level.Critical);
-                    }
-                    if (intAddress <= 0)
-                        return new ValidationError("Адрес не может быть отрицательным", Level.Critical);
-                    break;
-            }
-
-            if (driverName == "Компьютер")
-                return null;
-
-            if (string.IsNullOrEmpty(device.Address))
-                return new ValidationError("Пустой адрес устройства", Level.Critical);
-
-            // проверка спецефичных для устройства параметров
-            switch (driverName)
-            {
-                case "Модуль сопряжения МС-3":
-                case "Модуль сопряжения МС-4":
-                    if ((device.Address != "124") && (device.Address != "125"))
-                        throw new Exception("Устройство должно иметь адрес 124 или 125");
-                    break;
-                case "Прибор Рубеж-2AM":
-                case "Прибор Рубеж-4A":
-                case "Прибор Рубеж-10AM":
-                case "Блок индикации":
-                    if ((intAddress < 1) || (intAddress > 100))
-                        return new ValidationError("Устройство должно иметь адрес в диапазоне от 1 до 100", Level.Critical);
-                    break;
-                case "Страница":
-                    if ((intAddress < 1) || (intAddress > 5))
-                        return new ValidationError("Устройство должно иметь адрес в диапазоне от 1 до 5", Level.Critical);
-                    break;
-                case "Индикатор":
-                    if ((intAddress < 1) || (intAddress > 50))
-                        return new ValidationError("Устройство должно иметь адрес в диапазоне от 1 до 50", Level.Critical);
-                    break;
-                case "USB преобразователь МС-1":
-                case "USB преобразователь МС-2":
-                    break;
-                case "USB Канал":
-                    if (intAddress != 1)
-                        return new ValidationError("Устройство должно иметь адрес 1", Level.Critical);
-                    break;
-                case "USB Канал МС-1":
-                    if (intAddress != 1)
-                        return new ValidationError("Устройство должно иметь адрес 1", Level.Critical);
-                    break;
-                case "USB Канал МС-2":
-                    if ((intAddress < 1) || (intAddress > 2))
-                        return new ValidationError("Устройство должно иметь адрес в диапазоне от 1 до 2", Level.Critical);
-                    break;
-                default:
-                    break;
-            }
-
-
-            // наличие зоны у устройства
-
-            Firesec.Metadata.drvType driver = GetDriverByDriverId(device.DriverId);
-            if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
-            {
-                if (device.ZoneNo == null)
-                    return new ValidationError("Устройство должно принадлежать к зоне", Level.Critical);
-            }
-
-            // ПОИСК ЗОНЫ В СПИСКЕ ЗОН
-
-            return null;
         }
 
         public Firesec.Metadata.drvType GetDriverByDriverId(string driverId)

@@ -46,7 +46,6 @@
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
-
                 </Style>
             </WpfToolkit:DataGrid.CellStyle>
 
