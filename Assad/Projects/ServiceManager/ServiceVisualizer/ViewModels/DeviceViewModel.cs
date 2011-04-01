@@ -101,6 +101,10 @@ namespace ServiceVisualizer
             }
         }
 
+        public void Update()
+        {
+            OnPropertyChanged("HasChildren");
+        }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogicCommand(object obj)
@@ -128,11 +132,16 @@ namespace ServiceVisualizer
                 string driverId = newDeviceViewModel.SelectedAvailableDevice.DriverId;
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 Device device = new Device();
+                device.Properties = new List<Property>();
                 device.DriverId = driverId;
                 device.PresentationAddress = "0.0";
                 deviceViewModel.SetDevice(device);
                 deviceViewModel.Parent = this;
                 this.Children.Add(deviceViewModel);
+
+                Update();
+                IsExpanded = false;
+                IsExpanded = true;
             }
         }
 
@@ -140,7 +149,12 @@ namespace ServiceVisualizer
         void OnRemoveCommand(object obj)
         {
             if (Parent != null)
+            {
+                Parent.IsExpanded = false;
                 Parent.Children.Remove(this);
+                Parent.Update();
+                Parent.IsExpanded = true;
+            }
         }
 
         public string DriverId
@@ -323,24 +337,6 @@ namespace ServiceVisualizer
             {
                 CanEditAddress = true;
             }
-
-            //State = device.State;
-            //States = new ObservableCollection<string>();
-            //if (device.States != null)
-            //{
-            //    foreach (string state in device.States)
-            //    {
-            //        States.Add(state);
-            //    }
-            //}
-            //Parameters = new ObservableCollection<Parameter>();
-            //if (device.Parameters != null)
-            //{
-            //    foreach (Parameter parameter in device.Parameters)
-            //    {
-            //        Parameters.Add(parameter);
-            //    }
-            //}
         }
 
         public void SetZone()
@@ -384,12 +380,26 @@ namespace ServiceVisualizer
         {
             get
             {
-                FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == Device.DriverId);
-                if (driverItem == null)
-                    return false;
-                if (driverItem.Children.Count > 0)
-                    return true;
-                return false;
+                List<Firesec.Metadata.drvType> childDrivers = new List<Firesec.Metadata.drvType>();
+
+                foreach (Firesec.Metadata.drvType childDriver in ServiceClient.CurrentConfiguration.Metadata.drv)
+                {
+                    Firesec.Metadata.classType childClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
+                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == driver.clsid)))
+                    {
+                        childDrivers.Add(childDriver);
+                    }
+                }
+
+                return (childDrivers.Count > 0);
+
+
+                //FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == Device.DriverId);
+                //if (driverItem == null)
+                //    return false;
+                //if (driverItem.Children.Count > 0)
+                //    return true;
+                //return false;
             }
         }
 
@@ -448,38 +458,38 @@ namespace ServiceVisualizer
             }
         }
 
-        string state;
-        public string State
-        {
-            get { return state; }
-            set
-            {
-                state = value;
-                OnPropertyChanged("State");
-            }
-        }
+        //string state;
+        //public string State
+        //{
+        //    get { return state; }
+        //    set
+        //    {
+        //        state = value;
+        //        OnPropertyChanged("State");
+        //    }
+        //}
 
-        ObservableCollection<string> states;
-        public ObservableCollection<string> States
-        {
-            get { return states; }
-            set
-            {
-                states = value;
-                OnPropertyChanged("States");
-            }
-        }
+        //ObservableCollection<string> states;
+        //public ObservableCollection<string> States
+        //{
+        //    get { return states; }
+        //    set
+        //    {
+        //        states = value;
+        //        OnPropertyChanged("States");
+        //    }
+        //}
 
-        ObservableCollection<ServiceApi.Parameter> parameters;
-        public ObservableCollection<ServiceApi.Parameter> Parameters
-        {
-            get { return parameters; }
-            set
-            {
-                parameters = value;
-                OnPropertyChanged("Parameters");
-            }
-        }
+        //ObservableCollection<ServiceApi.Parameter> parameters;
+        //public ObservableCollection<ServiceApi.Parameter> Parameters
+        //{
+        //    get { return parameters; }
+        //    set
+        //    {
+        //        parameters = value;
+        //        OnPropertyChanged("Parameters");
+        //    }
+        //}
 
         string imageSource;
         public string ImageSource

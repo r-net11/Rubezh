@@ -13,15 +13,24 @@ namespace AssadProcessor
     {
         object GetMessageContent(string message, out string messageId)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(message);
-            MemoryStream memoryStream = new MemoryStream(bytes);
-            XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
-            Assad.MessageType messageType = (Assad.MessageType)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
+            try
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(message);
+                MemoryStream memoryStream = new MemoryStream(bytes);
+                XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
+                Assad.MessageType messageType = (Assad.MessageType)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
 
-            messageId = messageType.msgId;
+                messageId = messageType.msgId;
 
-            return messageType.Item;
+                return messageType.Item;
+            }
+            catch(Exception ex)
+            {
+                //MessageBox.Show(message);
+                string s = message;
+                throw new InvalidOperationException();
+            }
         }
 
         internal void ProcessMessage(string message)

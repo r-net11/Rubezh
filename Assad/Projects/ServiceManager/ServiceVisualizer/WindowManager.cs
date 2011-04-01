@@ -11,6 +11,17 @@ namespace ServiceVisualizer
     {
         public static void Show()
         {
+            //LoadAssembies();
+
+            View view = new View();
+            ViewModel viewModel = new ViewModel();
+            view.DataContext = viewModel;
+            viewModel.ConnectCommand.Execute(null);
+            view.ShowDialog();
+        }
+
+        static void LoadAssembies()
+        {
             try
             {
                 Assemblies = new List<Assembly>();
@@ -25,12 +36,6 @@ namespace ServiceVisualizer
             catch
             {
             }
-
-            View view = new View();
-            ViewModel viewModel = new ViewModel();
-            view.DataContext = viewModel;
-            //viewModel.ConnectCommand.Execute(null);
-            view.ShowDialog();
         }
 
         static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

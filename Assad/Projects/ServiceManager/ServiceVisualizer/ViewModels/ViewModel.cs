@@ -229,9 +229,9 @@ namespace ServiceVisualizer
 
             CollapseChild(AllDeviceViewModels[0]);
 
-            DeviceGridView deviceGridView = new DeviceGridView();
-            deviceGridView.DataContext = this;
-            deviceGridView.ShowDialog();
+            //DeviceGridView deviceGridView = new DeviceGridView();
+            //deviceGridView.DataContext = this;
+            //deviceGridView.ShowDialog();
         }
 
         void CollapseChild(DeviceViewModel parentDeviceViewModel)

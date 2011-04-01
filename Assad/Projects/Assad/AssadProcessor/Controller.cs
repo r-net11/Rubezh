@@ -95,6 +95,9 @@ namespace AssadProcessor
             //    }
             //}
 
+            if (AssadConfiguration.Devices == null)
+                return;
+
             foreach (AssadBase assadBase in AssadConfiguration.Devices)
             {
                 if (assadBase is AssadZone)
@@ -118,6 +121,7 @@ namespace AssadProcessor
                         assadBase.MainState = deviceState.State;
                         assadBase.Parameters = new List<AssadParameter>();
 
+                        if (deviceState.Parameters != null)
                         foreach (ServiceApi.Parameter parameter in deviceState.Parameters)
                         {
                             if (parameter.Visible == false)
@@ -137,6 +141,8 @@ namespace AssadProcessor
                         }
 
                         assadBase.States = new List<string>();
+
+                        if (deviceState.States != null)
                         foreach (string state in deviceState.States)
                         {
                             assadBase.States.Add(state);

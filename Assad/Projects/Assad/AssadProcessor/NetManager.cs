@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace AssadProcessor
 {
@@ -54,23 +55,67 @@ namespace AssadProcessor
             Socket_Connection.SocketHandle = e.ConnectedSocket;
         }
 
+        string partMessage = "";
+
+        object recieveLocker = new object();
+
         void Socket_Connection_recieve(object Sender, Socktes.RecieveEventArgs e)
         {
-            string message = Encoding.UTF8.GetString(e.Data).Trim();
+            lock (recieveLocker)
+            {
+                string message = Encoding.UTF8.GetString(e.Data); //.Trim();
 
-            int endIndex = message.IndexOf("\0");
-            if (endIndex > 0)
-                message = message.Remove(message.IndexOf("\0"));
+                int endIndex = message.IndexOf("\0");
+                if (endIndex > 0)
+                    message = message.Remove(message.IndexOf("\0"));
 
-            Services.LogEngine.AddEntry(new Logger.LogEntry(Logger.LogType.Incoming, message));
-            if (message != "")
+                int iteration = 0;
+
+                while (string.IsNullOrEmpty(message) == false)
                 {
-                    string[] messages = SeparateMessages(message);
-                    foreach (string currentMessage in messages)
+                    iteration++;
+                    Trace.WriteLine("Iteration " + iteration.ToString());
+
+                    int firstIndexOf = message.IndexOf("<?xml");
+
+                    if (firstIndexOf == -1)
                     {
-                        messageProcessor.ProcessMessage(currentMessage);
+                        partMessage += message;
+                        if (partMessage.EndsWith("</message>"))
+                        {
+                            Trace.WriteLine("Process 1");
+                            messageProcessor.ProcessMessage(partMessage);
+                            partMessage = "";
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        partMessage += message.Substring(0, firstIndexOf);
+                        if (partMessage.EndsWith("</message>"))
+                        {
+                            Trace.WriteLine("Process 2");
+                            messageProcessor.ProcessMessage(partMessage);
+                            partMessage = "";
+                        }
+                        message = message.Remove(0, firstIndexOf);
+
+                        int lastIndexOf = message.IndexOf("</message>");
+                        if (lastIndexOf == -1)
+                        {
+                            partMessage += message;
+                            break;
+                        }
+                        else
+                        {
+                            string fullMessage = message.Substring(0, lastIndexOf + "</message>".Length);
+                            Trace.WriteLine("Process 3");
+                            messageProcessor.ProcessMessage(fullMessage);
+                            message = message.Remove(0, lastIndexOf + "</message>".Length);
+                        }
                     }
                 }
+            }
         }
 
         object locker = new object();
@@ -124,15 +169,6 @@ namespace AssadProcessor
             return message;
         }
 
-        string[] SeparateMessages(string message)
-        {
-            string separator = "___XML___MESSAGES___SEPARATOR___";
-            message = message.Replace("</message><?xml", "</message>" + separator + "<?xml");
-            string[] separators = new string[1] { separator };
-            string[] messages = message.Split(separators, StringSplitOptions.None);
-            return messages;
-        }
-
         public void Stop()
         {
             try
@@ -149,13 +185,9 @@ namespace AssadProcessor
         {
             UdpClient udpClient = new UdpClient();
             udpClient.EnableBroadcast = true;
-
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("255.255.255.255"), remotePort);
-
             byte[] sendBytes = Encoding.UTF8.GetBytes(udpBroadcastMessage);
-
             udpClient.Send(sendBytes, sendBytes.Length, endPoint);
-
             udpClient.Close();
         }
     }
