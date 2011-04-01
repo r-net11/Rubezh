@@ -9,59 +9,59 @@ namespace AssadProcessor
 {
     public static class AssadToServiceConverter
     {
-        public static StateConfiguration Convert()
+        public static CurrentConfiguration Convert()
         {
-            StateConfiguration configuration = new StateConfiguration();
+            CurrentConfiguration currentConfiguration = new CurrentConfiguration();
 
-            ClientApi.Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
-            configuration.ShortZones = FindAllZones(AssadConfiguration.Devices[0]);
+            ServiceApi.Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
+            currentConfiguration.Zones = FindAllZones(AssadConfiguration.Devices[0]);
             //configuration.shortDevice = rootDevice;
-            return configuration;
+            return currentConfiguration;
         }
 
-        static ClientApi.Device AddChild(AssadBase assadParent)
+        static ServiceApi.Device AddChild(AssadBase parentAssadBase)
         {
-            if (assadParent is AssadZone)
+            if (parentAssadBase is AssadZone)
             {
                 return null;
             }
 
-            if ((assadParent is AssadDevice) || (assadParent is AssadMC) || (assadParent is AssadChannel) || (assadParent is AssadPanel) || (assadParent is AssadMC34) || (assadParent is AssadPage) || (assadParent is AssadIndicator) || (assadParent is AssadComputer) || (assadParent is AssadASPT) || (assadParent is AssadPumpStation) || (assadParent is AssadPump))
+            if ((parentAssadBase is AssadDevice) || (parentAssadBase is AssadMC) || (parentAssadBase is AssadChannel) || (parentAssadBase is AssadPanel) || (parentAssadBase is AssadMC34) || (parentAssadBase is AssadPage) || (parentAssadBase is AssadIndicator) || (parentAssadBase is AssadComputer) || (parentAssadBase is AssadASPT) || (parentAssadBase is AssadPumpStation) || (parentAssadBase is AssadPump))
             {
-                ClientApi.Device device = new ClientApi.Device();
-                device.Address = assadParent.Address;
-                device.DriverId = assadParent.DriverId;
-                device.Description = assadParent.Description;
+                ServiceApi.Device device = new ServiceApi.Device();
+                device.Address = parentAssadBase.Address;
+                device.DriverId = parentAssadBase.DriverId;
+                device.Description = parentAssadBase.Description;
 
-                if (assadParent is AssadDevice)
-                    device.Zone = (assadParent as AssadDevice).Zone;
-                if (assadParent is AssadPumpStation)
-                    device.Zone = (assadParent as AssadPumpStation).Zone;
+                if (parentAssadBase is AssadDevice)
+                    device.ZoneNo = (parentAssadBase as AssadDevice).Zone;
+                if (parentAssadBase is AssadPumpStation)
+                    device.ZoneNo = (parentAssadBase as AssadPumpStation).Zone;
 
 
                 // скопировать все свойства
-                device.DeviceProperties = new List<DeviceProperty>();
-                if (assadParent.Properties != null)
+                device.Properties = new List<Property>();
+                if (parentAssadBase.Properties != null)
                 {
-                    if (assadParent.Properties.Count > 0)
+                    if (parentAssadBase.Properties.Count > 0)
                     {
-                        foreach (AssadProperty assadProperty in assadParent.Properties)
+                        foreach (AssadProperty assadProperty in parentAssadBase.Properties)
                         {
-                            DeviceProperty deviceProperty = new DeviceProperty();
+                            Property deviceProperty = new Property();
                             deviceProperty.Name = assadProperty.Name;
                             deviceProperty.Value = assadProperty.Value;
-                            device.DeviceProperties.Add(deviceProperty);
+                            device.Properties.Add(deviceProperty);
                         }
                     }
                 }
 
-                foreach (AssadBase assadChild in assadParent.Children)
+                foreach (AssadBase assadBase in parentAssadBase.Children)
                 {
-                    ClientApi.Device childDevice = AddChild(assadChild);
+                    ServiceApi.Device childDevice = AddChild(assadBase);
                     if (childDevice != null)
                     {
                         if (device.Children == null)
-                            device.Children = new List<ClientApi.Device>();
+                            device.Children = new List<ServiceApi.Device>();
                         device.Children.Add(childDevice);
                     }
                 }
@@ -71,26 +71,26 @@ namespace AssadProcessor
             throw new Exception("Неизвестное устройство");
         }
 
-        static List<ShortZone> FindAllZones(AssadBase assadParent)
+        static List<Zone> FindAllZones(AssadBase assadParent)
         {
-            List<ShortZone> shortZones = new List<ShortZone>();
+            List<Zone> zones = new List<Zone>();
 
-            foreach (AssadBase assadChild in assadParent.Children)
+            foreach (AssadBase assadBase in assadParent.Children)
             {
-                if (assadChild is AssadZone)
+                if (assadBase is AssadZone)
                 {
-                    AssadZone assadZone = assadChild as AssadZone;
-                    ShortZone shortZone = new ShortZone();
-                    shortZone.Name = assadZone.ZoneName;
-                    shortZone.Id = assadZone.ZoneId;
-                    shortZone.DetectorCount = assadZone.DetectorCount;
-                    shortZone.EvacuationTime = assadZone.EvecuationTime;
-                    shortZone.Description = assadZone.Description;
-                    shortZones.Add(shortZone);
+                    AssadZone assadZone = assadBase as AssadZone;
+                    Zone zone = new Zone();
+                    zone.No = assadZone.ZoneNo;
+                    zone.Name = assadZone.ZoneName;
+                    zone.DetectorCount = assadZone.DetectorCount;
+                    zone.EvacuationTime = assadZone.EvecuationTime;
+                    zone.Description = assadZone.Description;
+                    zones.Add(zone);
                 }
             }
 
-            return shortZones;
+            return zones;
         }
     }
 }

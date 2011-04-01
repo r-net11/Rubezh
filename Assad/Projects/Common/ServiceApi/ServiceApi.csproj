@@ -57,17 +57,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceProperty.cs" />
+    <Compile Include="ChangeEntities.cs" />
+    <Compile Include="Converters\TextToZoneLogic.cs" />
+    <Compile Include="Converters\ZoneLogicToText.cs" />
+    <Compile Include="Property.cs" />
     <Compile Include="ICallback.cs" />
     <Compile Include="IStateService.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShortDevice.cs" />
-    <Compile Include="ShortDeviceState.cs" />
-    <Compile Include="ShortStates.cs" />
-    <Compile Include="ShortZone.cs" />
-    <Compile Include="ShortZoneState.cs" />
-    <Compile Include="StateConfiguration.cs" />
+    <Compile Include="Device.cs" />
+    <Compile Include="DeviceState.cs" />
+    <Compile Include="CurrentStates.cs" />
+    <Compile Include="ValidationError.cs" />
+    <Compile Include="Zone.cs" />
+    <Compile Include="ZoneState.cs" />
+    <Compile Include="InnerState.cs" />
+    <Compile Include="CurrentConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FiresecApi\FiresecApi.csproj">

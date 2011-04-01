@@ -29,6 +29,7 @@ namespace ServiceVisualizer
             View view = new View();
             ViewModel viewModel = new ViewModel();
             view.DataContext = viewModel;
+            //viewModel.ConnectCommand.Execute(null);
             view.ShowDialog();
         }
 

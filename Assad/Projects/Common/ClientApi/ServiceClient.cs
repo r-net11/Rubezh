@@ -11,8 +11,8 @@ namespace ClientApi
     {
         DuplexChannelFactory<IStateService> duplexChannelFactory;
         IStateService stateService;
-        static ServiceApi.StateConfiguration StateConfiguration { get; set; }
-        public static Configuration Configuration { get; private set; }
+        public static ServiceApi.CurrentConfiguration CurrentConfiguration { get; set; }
+        public static ServiceApi.CurrentStates CurrentStates { get; set; }
 
         public void Start()
         {
@@ -23,68 +23,10 @@ namespace ClientApi
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
             duplexChannelFactory = new DuplexChannelFactory<IStateService>(new InstanceContext(this), binding, endpointAddress);
             stateService = duplexChannelFactory.CreateChannel();
-            StateConfiguration = stateService.GetConfiguration();
+            CurrentConfiguration = stateService.GetConfiguration();
+            CurrentConfiguration.FillAllDevices();
             stateService.Initialize();
-            Configuration = new Configuration();
-            Configuration.Metadata = StateConfiguration.Metadata;
-            SetDevices();
-            SetZones();
-            SetStates();
-        }
-
-        void SetDevices()
-        {
-            Configuration.Devices = new List<Device>();
-
-            ShortDevice rootShortDevice = StateConfiguration.RootShortDevice;
-            Device rootDevice = new Device();
-            rootDevice.SetConfig(rootShortDevice);
-            rootDevice.Parent = null;
-            Configuration.Devices.Add(rootDevice);
-            AddDevice(rootShortDevice, rootDevice);    
-        }
-
-        void AddDevice(ShortDevice parentShortDevice, Device parentDevice)
-        {
-            parentDevice.Children = new List<Device>();
-            foreach (ShortDevice shortDevice in parentShortDevice.Children)
-            {
-                Device device = new Device();
-                device.SetConfig(shortDevice);
-                device.Parent = parentDevice;
-                parentDevice.Children.Add(device);
-                Configuration.Devices.Add(device);
-                AddDevice(shortDevice, device);
-            }
-        }
-
-        void SetZones()
-        {
-            // добавить ссылки на устройства
-            Configuration.Zones = new List<Zone>();
-            foreach (ShortZone shortZone in StateConfiguration.ShortZones)
-            {
-                Zone fullZone = new Zone();
-                fullZone.SetConfig(shortZone);
-                Configuration.Zones.Add(fullZone);
-            }
-        }
-
-        void SetStates()
-        {
-            ShortStates shortStates = stateService.GetStates();
-
-            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
-            {
-                Device device = Configuration.Devices.FirstOrDefault(x => x.Path == shortDeviceState.Path);
-                device.SetState(shortDeviceState);
-            }
-
-            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
-            {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
-                zone.SetState(shortZoneState);
-            }
+            CurrentStates = stateService.GetStates();
         }
 
         public void Stop()
@@ -100,35 +42,25 @@ namespace ClientApi
         {
         }
 
-        public void StateChanged(ShortStates shortStates)
+        public void StateChanged(CurrentStates currentStates)
         {
-            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
+            foreach (DeviceState deviceState in currentStates.DeviceStates)
             {
-                Device device = Configuration.Devices.FirstOrDefault(x => x.Path == shortDeviceState.Path);
-                device.SetState(shortDeviceState);
+                DeviceState localDeviceState = CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == deviceState.Path);
+                localDeviceState = deviceState;
+                CurrentStates.OnDeviceStateChanged(deviceState);
             }
-
-            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
+            foreach (ZoneState zoneState in currentStates.ZoneStates)
             {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
-                zone.SetState(shortZoneState);
-            }
-
-            foreach (ShortDeviceState shortDeviceState in shortStates.ShortDeviceStates)
-            {
-                Device device = Configuration.Devices.FirstOrDefault(x => x.Path == shortDeviceState.Path);
-                Configuration.OnDeviceStateChanged(device);
-            }
-            foreach (ShortZoneState shortZoneState in shortStates.ShortZoneStates)
-            {
-                Zone zone = Configuration.Zones.FirstOrDefault(x => x.Id == shortZoneState.Id);
-                Configuration.OnZoneStateChanged(zone);
+                ZoneState localZoneState = CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneState.No);
+                localZoneState = zoneState;
+                CurrentStates.OnZoneStateChanged(zoneState);
             }
         }
 
-        public void SetNewConfig(StateConfiguration configuration)
+        public void SetNewConfig(CurrentConfiguration currentConfiguration)
         {
-            //stateService.SetConfiguration(configuration);
+            stateService.SetConfiguration(currentConfiguration);
         }
 
         public void ExecuteCommand(Device device, string command)

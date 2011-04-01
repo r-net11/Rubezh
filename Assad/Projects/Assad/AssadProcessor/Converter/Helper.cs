@@ -26,7 +26,7 @@ namespace AssadProcessor
         {
             try
             {
-                return ServiceClient.Configuration.Devices.FirstOrDefault(x => x.Path == assadDevice.Path);
+                return ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == assadDevice.Path);
             }
             catch (Exception ex)
             {

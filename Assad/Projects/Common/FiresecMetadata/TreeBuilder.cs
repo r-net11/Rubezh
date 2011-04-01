@@ -8,9 +8,12 @@ namespace FiresecMetadata
     public class TreeBuilder
     {
         public DriverItem rootDriver { get; set; }
+        public List<DriverItem> Drivers { get; set; }
 
         public void Buid()
         {
+            Drivers = new List<DriverItem>();
+
             Firesec.Metadata.classType rootClass = MetadataHelper.Metadata.@class.First(x => x.parent == null);
 
             ClassItem rootClassItem = new ClassItem();
@@ -21,6 +24,7 @@ namespace FiresecMetadata
 
             DriverItem rootDriverItem = new DriverItem();
             AddDriver(rootClassItem, rootDriverItem);
+            Drivers.Add(rootDriverItem);
 
             rootDriver = rootDriverItem.Children[0];
         }
@@ -103,6 +107,7 @@ namespace FiresecMetadata
                 foreach (ClassItem childClassItem in parentClassItem.Childern)
                 {
                     AddDriver(childClassItem, childDriverItem);
+                    Drivers.Add(childDriverItem);
                 }
             }
         }

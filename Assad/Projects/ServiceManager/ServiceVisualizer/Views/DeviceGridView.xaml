@@ -1,0 +1,103 @@
+﻿<Window x:Class="ServiceVisualizer.DeviceGridView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+        xmlns:local="clr-namespace:ServiceVisualizer"
+        Title="DeviceGridView" Height="600" Width="600">
+    <Window.Resources>       
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\DataGrid.xaml"/>
+                <ResourceDictionary Source="Themes\TreeExpanderStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <local:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </Grid.Resources>
+        <StackPanel>
+            <WpfToolkit:DataGrid ItemsSource="{Binding AllDeviceViewModels}"
+                            Height="500" AutoGenerateColumns="False" SelectionMode="Single"
+                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            IsReadOnly="True" SelectionUnit="Cell" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            RowHeaderWidth="0" RowHeight="25">
+                <WpfToolkit:DataGrid.Columns>
+                    <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+
+                                    <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
+                                    </StackPanel>
+
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
+                                    <Image Visibility="Collapsed" Source="C:\Program Files\Firesec\Icons\Device_Computer.ico" Width="16" Height="16" Margin="0, 0, 5, 0" />
+
+                                    <TextBlock Text="{Binding ShortDriverName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                    </WpfToolkit:DataGridTemplateColumn>
+                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="2*" Binding="{Binding Address}" />
+
+                    <WpfToolkit:DataGridTemplateColumn Header="Зона" Width="100">
+                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
+                                    <TextBlock Text="{Binding ZoneNo}" />
+                                    <TextBlock Text=". " />
+                                    <TextBlock Text="{Binding ZoneName}" />
+                                    <StackPanel.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                </StackPanel>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                    </WpfToolkit:DataGridTemplateColumn>
+
+                    <WpfToolkit:DataGridTemplateColumn Header="Примечание" Width="100">
+                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Description}" Name="tb1" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                    </WpfToolkit:DataGridTemplateColumn>
+
+                </WpfToolkit:DataGrid.Columns>
+
+                <WpfToolkit:DataGrid.CellStyle>
+                    <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </WpfToolkit:DataGrid.CellStyle>
+                
+            </WpfToolkit:DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

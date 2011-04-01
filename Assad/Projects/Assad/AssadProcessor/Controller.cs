@@ -45,8 +45,8 @@ namespace AssadProcessor
                 {
                     waitForConfiguration = false;
 
-                    ServiceApi.StateConfiguration configuration = AssadToServiceConverter.Convert();
-                    serviceClient.SetNewConfig(configuration);
+                    ServiceApi.CurrentConfiguration currentConfiguration = AssadToServiceConverter.Convert();
+                    serviceClient.SetNewConfig(currentConfiguration);
                 }
             }
         }
@@ -100,10 +100,10 @@ namespace AssadProcessor
                 if (assadBase is AssadZone)
                 {
                     AssadZone assadZone = assadBase as AssadZone;
-                    if (ServiceClient.Configuration.Zones.Any(x => x.Id == assadZone.ZoneId))
+                    if (ServiceClient.CurrentConfiguration.Zones.Any(x => x.No == assadZone.ZoneNo))
                     {
-                        Zone zone = ServiceClient.Configuration.Zones.FirstOrDefault(x => x.Id == assadZone.ZoneId);
-                        assadZone.MainState = zone.State;
+                        ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == assadZone.ZoneNo);
+                        assadZone.MainState = zoneState.State;
                     }
                     else
                     {
@@ -112,13 +112,13 @@ namespace AssadProcessor
                 }
                 else
                 {
-                    if (ServiceClient.Configuration.Devices.Any(x=>x.Path == assadBase.Path))
+                    if (ServiceClient.CurrentStates.DeviceStates.Any(x=>x.Path == assadBase.Path))
                     {
-                        Device device = ServiceClient.Configuration.Devices.FirstOrDefault(x=>x.Path == assadBase.Path);
-                        assadBase.MainState = device.State;
+                        DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == assadBase.Path);
+                        assadBase.MainState = deviceState.State;
                         assadBase.Parameters = new List<AssadParameter>();
 
-                        foreach (ClientApi.Parameter parameter in device.Parameters)
+                        foreach (ServiceApi.Parameter parameter in deviceState.Parameters)
                         {
                             if (parameter.Visible == false)
                             {
@@ -137,7 +137,7 @@ namespace AssadProcessor
                         }
 
                         assadBase.States = new List<string>();
-                        foreach (string state in device.States)
+                        foreach (string state in deviceState.States)
                         {
                             assadBase.States.Add(state);
                         }

@@ -62,20 +62,21 @@ namespace ServiseProcessor
             }
             if (dataBaseId != null)
             {
-                if (Services.Configuration.Devices.Any(x => x.DatabaseId == dataBaseId))
+                if (Services.AllDevices.Any(x => x.DatabaseId == dataBaseId))
                 {
-                    Device device = Services.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
-                    device.IsNewEvent = true;
-                    device.StateChanged = false;
-                    device.StatesChanged = false;
-                    device.ParameterChanged = false;
-                    device.VisibleParameterChanged = false;
+                    Device device = Services.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+                    DeviceState deviceState = Services.CurrentStates.DeviceStates.FirstOrDefault(x=>x.Path == device.Path);
+                    deviceState.ChangeEntities.IsNewEvent = true;
+                    deviceState.ChangeEntities.StateChanged = false;
+                    deviceState.ChangeEntities.StatesChanged = false;
+                    deviceState.ChangeEntities.ParameterChanged = false;
+                    deviceState.ChangeEntities.VisibleParameterChanged = false;
 
-                    ShortStates shortStates = new ShortStates();
-                    shortStates.ShortDeviceStates = new List<ShortDeviceState>();
-                    shortStates.ShortZoneStates = new List<ShortZoneState>();
-                    shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
-                    StateService.StatesChanged(shortStates);
+                    CurrentStates currentStates = new CurrentStates();
+                    currentStates.DeviceStates = new List<DeviceState>();
+                    currentStates.ZoneStates = new List<ZoneState>();
+                    currentStates.DeviceStates.Add(deviceState);
+                    StateService.StatesChanged(currentStates);
                 }
             }
 
@@ -91,18 +92,18 @@ namespace ServiseProcessor
             {
                 Trace.WriteLine("OnParametersChanged");
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
                 {
-                    device.StateChanged = false;
-                    device.StatesChanged = false;
-                    device.ParameterChanged = false;
-                    device.VisibleParameterChanged = false;
-                    device.IsNewEvent = false;
+                    deviceState.ChangeEntities.StateChanged = false;
+                    deviceState.ChangeEntities.StatesChanged = false;
+                    deviceState.ChangeEntities.ParameterChanged = false;
+                    deviceState.ChangeEntities.VisibleParameterChanged = false;
+                    deviceState.ChangeEntities.IsNewEvent = false;
 
-                    if (coreParameters.dev.Any(x => x.name == device.PlaceInTree))
+                    if (coreParameters.dev.Any(x => x.name == deviceState.PlaceInTree))
                     {
-                        Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == device.PlaceInTree);
-                        foreach (Parameter parameter in device.Parameters)
+                        Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
+                        foreach (Parameter parameter in deviceState.Parameters)
                         {
                             if (innerDevice.dev_param != null)
                             {
@@ -111,9 +112,9 @@ namespace ServiseProcessor
                                     Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
                                     if (parameter.Value != innerParameter.value)
                                     {
-                                        device.ParameterChanged = true;
+                                        deviceState.ChangeEntities.ParameterChanged = true;
                                         if (parameter.Visible)
-                                            device.VisibleParameterChanged = true;
+                                            deviceState.ChangeEntities.VisibleParameterChanged = true;
                                     }
                                     parameter.Value = innerParameter.value;
                                 }
@@ -122,19 +123,19 @@ namespace ServiseProcessor
                     }
                 }
 
-                ShortStates shortStates = new ShortStates();
-                shortStates.ShortDeviceStates = new List<ShortDeviceState>();
-                shortStates.ShortZoneStates = new List<ShortZoneState>();
+                CurrentStates currentStates = new CurrentStates();
+                currentStates.DeviceStates = new List<DeviceState>();
+                currentStates.ZoneStates = new List<ZoneState>();
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
                 {
-                    if (device.ParameterChanged)
+                    if (deviceState.ChangeEntities.ParameterChanged)
                     {
-                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+                        currentStates.DeviceStates.Add(deviceState);
                     }
                 }
 
-                StateService.StatesChanged(shortStates);
+                StateService.StatesChanged(currentStates);
             }
             catch (Exception e)
             {
@@ -152,27 +153,27 @@ namespace ServiseProcessor
                 CalculateStates();
                 CalculateZones();
 
-                ShortStates shortStates = new ShortStates();
-                shortStates.ShortDeviceStates = new List<ShortDeviceState>();
-                shortStates.ShortZoneStates = new List<ShortZoneState>();
+                CurrentStates currentStates = new CurrentStates();
+                currentStates.DeviceStates = new List<DeviceState>();
+                currentStates.ZoneStates = new List<ZoneState>();
 
-                foreach (Device device in Services.Configuration.Devices)
+                foreach (DeviceState device in Services.CurrentStates.DeviceStates)
                 {
-                    if ((device.StatesChanged) || (device.StateChanged))
+                    if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
                     {
-                        shortStates.ShortDeviceStates.Add(device.ToShortDeviceState());
+                        currentStates.DeviceStates.Add(device);
                     }
                 }
 
-                foreach (Zone zone in Services.Configuration.Zones)
+                foreach (ZoneState zone in Services.CurrentStates.ZoneStates)
                 {
                     if (zone.ZoneChanged)
                     {
-                        shortStates.ShortZoneStates.Add(zone.ToShortZoneState());
+                        currentStates.ZoneStates.Add(zone);
                     }
                 }
 
-                StateService.StatesChanged(shortStates);
+                StateService.StatesChanged(currentStates);
                 Trace.WriteLine("OnStateChanged End");
             }
             catch (Exception e)
@@ -183,31 +184,31 @@ namespace ServiseProcessor
 
         void SetStates(Firesec.CoreState.config coreState)
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
-                device.IsNewEvent = false;
+                deviceState.ChangeEntities.IsNewEvent = false;
 
-                Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, device.PlaceInTree);
+                Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
                 bool hasOneActiveState = false;
-                device.SelfStates = new List<string>();
+                deviceState.SelfStates = new List<string>();
 
                 if (innerDevice != null)
                 {
-                    foreach (State state in device.States)
+                    foreach (InnerState state in deviceState.InnerStates)
                     {
                         bool IsActive = innerDevice.state.Any(a => a.id == state.Id);
                         if (state.IsActive != IsActive)
                         {
                             hasOneActiveState = true;
-                            device.SelfStates.Add(state.Name);
+                            deviceState.SelfStates.Add(state.Name);
                         }
                         state.IsActive = IsActive;
                     }
                 }
                 else
                 {
-                    foreach (State state in device.States)
+                    foreach (InnerState state in deviceState.InnerStates)
                     {
                         if (state.IsActive)
                         {
@@ -219,36 +220,38 @@ namespace ServiseProcessor
 
                 if (hasOneActiveState)
                 {
-                    device.StatesChanged = true;
+                    deviceState.ChangeEntities.StatesChanged = true;
                 }
                 else
                 {
-                    device.StatesChanged = false;
+                    deviceState.ChangeEntities.StatesChanged = false;
                 }
             }
         }
 
         void PropogateStates()
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
-                device.ParentStates = new List<State>();
-                device.ParentStringStates = new List<string>();
+                deviceState.ParentStates = new List<InnerState>();
+                deviceState.ParentStringStates = new List<string>();
             }
 
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
-                foreach (State state in device.States)
+                foreach (InnerState state in deviceState.InnerStates)
                 {
                     if ((state.IsActive) && (state.AffectChildren))
                     {
-                        foreach (Device chilDevice in Services.Configuration.Devices)
+                        foreach (DeviceState chilDevice in Services.CurrentStates.DeviceStates)
                         {
-                            if ((chilDevice.PlaceInTree.StartsWith(device.PlaceInTree)) && (chilDevice.PlaceInTree != device.PlaceInTree))
+                            if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 chilDevice.ParentStates.Add(state);
-                                chilDevice.ParentStringStates.Add(device.ShortDriverName + " - " + state.Name);
-                                chilDevice.StatesChanged = true;
+                                string driverId = Services.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).DriverId;
+                                string driverName = Services.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
+                                chilDevice.ParentStringStates.Add(driverName + " - " + state.Name);
+                                chilDevice.ChangeEntities.StatesChanged = true;
                             }
                         }
                     }
@@ -258,12 +261,12 @@ namespace ServiseProcessor
 
         void CalculateStates()
         {
-            foreach (Device device in Services.Configuration.Devices)
+            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
                 int minPriority = 7;
-                State sourceState = null;
+                InnerState sourceState = null;
 
-                foreach (State state in device.States)
+                foreach (InnerState state in deviceState.InnerStates)
                 {
                     if (state.IsActive)
                     {
@@ -271,7 +274,7 @@ namespace ServiseProcessor
                             minPriority = state.Priority;
                     }
                 }
-                foreach (State state in device.ParentStates)
+                foreach (InnerState state in deviceState.ParentStates)
                 {
                     if (state.IsActive)
                     {
@@ -282,200 +285,60 @@ namespace ServiseProcessor
                         }
                     }
                 }
-                if (device.MinPriority != minPriority)
+                if (deviceState.MinPriority != minPriority)
                 {
-                    device.StateChanged = true;
+                    deviceState.ChangeEntities.StateChanged = true;
                 }
                 else
                 {
-                    device.StateChanged = false;
+                    deviceState.ChangeEntities.StateChanged = false;
                 }
-                device.State = StateHelper.GetState(minPriority);
-                device.MinPriority = minPriority;
+                deviceState.State = StateHelper.GetState(minPriority);
+                deviceState.MinPriority = minPriority;
 
                 if (sourceState != null)
                 {
-                    device.SourceState = sourceState.Name;
+                    deviceState.SourceState = sourceState.Name;
                 }
                 else
                 {
-                    device.SourceState = "";
+                    deviceState.SourceState = "";
                 }
             }
         }
 
         void CalculateZones()
         {
-            if (Services.Configuration.Zones != null)
+            if (Services.CurrentStates.ZoneStates != null)
             {
-                foreach (Zone zone in Services.Configuration.Zones)
+                foreach (ZoneState zoneState in Services.CurrentStates.ZoneStates)
                 {
                     int minZonePriority = 7;
-                    if (zone.Devices != null)
+                    foreach (Device device in Services.AllDevices)
                     {
-                        foreach (Device zoneDevice in zone.Devices)
+                        if (device.ZoneNo == zoneState.No)
                         {
+                            DeviceState deviceState = Services.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
-                            if (zoneDevice.MinPriority < minZonePriority)
-                                minZonePriority = zoneDevice.MinPriority;
+                            if (deviceState.MinPriority < minZonePriority)
+                                minZonePriority = deviceState.MinPriority;
                         }
                     }
+
                     string newZoneState = StateHelper.GetState(minZonePriority);
 
-                    if ((zone.State == null) || (zone.State != newZoneState))
+                    if ((zoneState.State == null) || (zoneState.State != newZoneState))
                     {
-                        zone.ZoneChanged = true;
+                        zoneState.ZoneChanged = true;
                     }
                     else
                     {
-                        zone.ZoneChanged = false;
+                        zoneState.ZoneChanged = false;
                     }
-                    zone.State = newZoneState;
+                    zoneState.State = newZoneState;
                 }
             }
         }
-
-        //public void OnComServerStateChanged(string coreStateString, Firesec.CoreState.config coreState)
-        //{
-        //    try
-        //    {
-        //        List<DeviceEvent> DeviceEvents = new List<DeviceEvent>();
-
-        //        foreach (Device device in Services.Configuration.Devices)
-        //        {
-        //            DeviceEvent deviceEvent = new DeviceEvent();
-        //            deviceEvent.device = device;
-        //            deviceEvent.events = new List<string>();
-
-        //            Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, device.PlaceInTree);
-
-        //            if ((innerDevice != null) && (innerDevice.state != null))
-        //            {
-        //                foreach (State state in device.States)
-        //                {
-        //                    bool IsActive = innerDevice.state.Any(a => a.id == state.Id);
-
-        //                    if ((state.IsActive == false) && (IsActive == true))
-        //                    {
-        //                        deviceEvent.events.Add(state.Name);
-        //                    }
-        //                    if ((state.IsActive == true) && (IsActive == false))
-        //                    {
-        //                        deviceEvent.events.Add("Сброс " + state.Name);
-        //                    }
-
-        //                    state.IsActive = IsActive;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                bool hasOneActiveState = false;
-        //                foreach (State state in device.States)
-        //                {
-        //                    if (state.IsActive)
-        //                    {
-        //                        hasOneActiveState = true;
-        //                    }
-        //                    state.IsActive = false;
-        //                }
-        //                if (hasOneActiveState)
-        //                {
-        //                    deviceEvent.events.Add("Норма");
-        //                }
-        //            }
-
-        //            if (deviceEvent.events.Count > 0)
-        //            {
-        //                DeviceEvents.Add(deviceEvent);
-        //            }
-
-        //            // выставить нужное состояние
-        //            int minPriority = 7;
-        //            State sourceState = null;
-
-        //            foreach (State state in device.States)
-        //            {
-        //                if (state.IsActive)
-        //                {
-        //                    if (state.Priority < minPriority)
-        //                    {
-        //                        minPriority = state.Priority;
-        //                        sourceState = state;
-        //                    }
-        //                }
-        //            }
-        //            device.State = StateHelper.GetState(minPriority);
-        //            device.MinPriority = minPriority;
-
-        //            if (sourceState != null)
-        //            {
-        //                device.SourceState = sourceState.Name;
-        //                if (sourceState.AffectChildren)
-        //                    device.AffectChildren = true;
-        //            }
-        //            else
-        //            {
-        //                device.SourceState = "";
-        //                device.AffectChildren = false;
-        //            }
-        //        }
-
-        //        foreach (Device device in Services.Configuration.Devices)
-        //        {
-        //            if (device.AffectChildren)
-        //            {
-        //                List<Device> childDevices = Services.Configuration.Devices.FindAll(x=>((x.PlaceInTree.StartsWith(device.PlaceInTree)) && x.PlaceInTree != device.PlaceInTree));
-        //                foreach (Device childDevice in childDevices)
-        //                {
-        //                    childDevice.MinPriority = device.MinPriority;
-        //                    childDevice.State = device.State;
-        //                }
-        //            }
-        //        }
-
-        //        OnNewDeviceEvent(DeviceEvents);
-        //        foreach (DeviceEvent deviceEvent in DeviceEvents)
-        //        {
-        //            Console.WriteLine("NEW EVENT");
-        //            deviceEvent.device.LastEvents = deviceEvent.events;
-        //            StateService.DeviceChanged(deviceEvent.device);
-        //        }
-
-        //        // изменить состояние зоны
-
-        //        if (Services.Configuration.Zones != null)
-        //        {
-        //            foreach (Zone zone in Services.Configuration.Zones)
-        //            {
-        //                int minZonePriority = 7;
-        //                if (zone.Devices != null)
-        //                {
-        //                    foreach (Device zoneDevice in zone.Devices)
-        //                    {
-        //                        if (zoneDevice.MinPriority < minZonePriority)
-        //                            minZonePriority = zoneDevice.MinPriority;
-        //                    }
-        //                }
-        //                string newZoneState = StateHelper.GetState(minZonePriority);
-
-        //                bool isZoneChanged = false;
-        //                if ((zone.State == null) || (zone.State != newZoneState))
-        //                {
-        //                    isZoneChanged = true;
-        //                }
-        //                zone.State = newZoneState;
-        //                if (isZoneChanged)
-        //                {
-        //                    StateService.ZoneChanged(zone);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Trace.WriteLine("EXCEPTION IN OnComServerStateChanged: " + ex.ToString());
-        //    }
-        //}
 
         Firesec.CoreState.devType FindDevice(Firesec.CoreState.devType[] innerDevices, string PlaceInTree)
         {
@@ -504,18 +367,5 @@ namespace ServiseProcessor
             }
             return innerDevice;
         }
-
-        //public static event Action<List<DeviceEvent>> NewDeviceEvent;
-        //public static void OnNewDeviceEvent(List<DeviceEvent> DeviceEvents)
-        //{
-        //    if (NewDeviceEvent != null)
-        //        NewDeviceEvent(DeviceEvents);
-        //}
     }
-
-    //public class DeviceEvent
-    //{
-    //    public Device device { get; set; }
-    //    public List<string> events { get; set; }
-    //}
 }
