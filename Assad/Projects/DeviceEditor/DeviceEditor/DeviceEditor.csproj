@@ -103,6 +103,16 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ActivexDevices\RubezhDevices\RubezhDevices.csproj">
+      <Project>{33DF270C-EEF8-4D3D-8C4A-C4FF84D4B4D3}</Project>
+      <Name>RubezhDevices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

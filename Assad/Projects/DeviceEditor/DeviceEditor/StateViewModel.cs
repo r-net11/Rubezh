@@ -4,11 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Common;
+using System.Windows.Controls;
+using RubezhDevices;
+using System.IO;
+using System.Xml;
+using System.Windows.Markup;
 
 namespace DeviceEditor
 {
-    public class StateViewModel : INotifyPropertyChanged
+    public class StateViewModel : BaseViewModel
     {
+
+        public StateViewModel()
+        {
+            Current = this;
+        }
+
+        public static StateViewModel Current { get; private set; }
         public string id;
         public string Id
         {
@@ -31,11 +44,34 @@ namespace DeviceEditor
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        CadrViewModel selectedCadrViewModel;
+        public CadrViewModel SelectedCadrViewModel
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            get { return selectedCadrViewModel; }
+            set
+            {
+                selectedCadrViewModel = value;
+                if (selectedCadrViewModel == null)
+                    return;
+                string cadrImage = Svg2Xaml.XSLT_Transform(selectedCadrViewModel.Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(cadrImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                ViewModel.Current.SelectedCadrViewModel = selectedCadrViewModel;
+                OnPropertyChanged("SelectedCadrViewModel");
+            }
+        }
+
+        Canvas readerLoadButton;
+        public Canvas ReaderLoadButton
+        {
+            get { return readerLoadButton; }
+            set
+            {
+                readerLoadButton = value;
+                ViewModel.Current.ReaderLoadButton = readerLoadButton;
+                OnPropertyChanged("ReaderLoadButton");
+            }
         }
     }
 }

@@ -3,16 +3,24 @@ using System.Windows;
 using System.IO;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using Common;
+using System.Xml;
+using System.Windows.Controls;
+using RubezhDevices;
+using System.Windows.Markup;
 
 namespace DeviceEditor
 {
-    public class ViewModel : Window, INotifyPropertyChanged
+    public class ViewModel : BaseViewModel
     {
         public ViewModel()
         {
+            Current = this;
             DeviceManager deviceManager = new DeviceManager();
             Load(deviceManager);
         }
+
+        public static ViewModel Current { get; private set; }
         public DeviceManager deviceManager;
         static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
 
@@ -24,6 +32,28 @@ namespace DeviceEditor
             {
                 deviceViewModels = value;
                 OnPropertyChanged("DeviceViewModels");
+            }
+        }
+
+        CadrViewModel selectedCadrViewModel;
+        public CadrViewModel SelectedCadrViewModel
+        {
+            get { return selectedCadrViewModel; }
+            set
+            {
+                selectedCadrViewModel = value;
+                OnPropertyChanged("SelectedCadrViewModel");
+            }
+        }
+
+        Canvas readerLoadButton;
+        public Canvas ReaderLoadButton
+        {
+            get { return readerLoadButton; }
+            set
+            {
+                readerLoadButton = value;
+                OnPropertyChanged("ReaderLoadButton");
             }
         }
 
@@ -57,13 +87,6 @@ namespace DeviceEditor
                     }
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
