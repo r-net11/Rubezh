@@ -17,16 +17,7 @@ namespace DeviceEditor
     {
         public CadrViewModel()
         {
-            SaveCommand = new RelayCommand(OnSaveCommand);
-        }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSaveCommand(object obj)
-        {
-            FileStream filexml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Open, FileAccess.Write, FileShare.Write);
-            XmlSerializer serializer = new XmlSerializer(typeof(Cadr));
-            serializer.Serialize(filexml, this);
-            filexml.Close();
         }
 
         public int id;
