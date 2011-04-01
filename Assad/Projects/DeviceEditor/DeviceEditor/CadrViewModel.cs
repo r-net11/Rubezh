@@ -17,16 +17,7 @@ namespace DeviceEditor
     {
         public CadrViewModel()
         {
-            SaveCommand = new RelayCommand(OnSaveCommand);
-        }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSaveCommand(object obj)
-        {
-            FileStream filexml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Open, FileAccess.Write, FileShare.Write);
-            XmlSerializer serializer = new XmlSerializer(typeof(Cadr));
-            serializer.Serialize(filexml, this);
-            filexml.Close();
         }
 
         public int id;
@@ -40,7 +31,16 @@ namespace DeviceEditor
             }
         }
 
-        public int Duration { get; set; }
+        public int duration { get; set; }
+        public int Duration
+        {
+            get { return duration; }
+            set
+            {
+                duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
         
         string image;
         public string Image
@@ -62,17 +62,5 @@ namespace DeviceEditor
 
             }
         }
-
-        //bool isSelected;
-        //public bool IsSelected
-        //{
-        //    get { return isSelected; }
-        //    set
-        //    {
-        //        isSelected = value;
-        //        OnPropertyChanged("IsSelected");
-        //        //ViewModel.Current.SelectedCadrViewModel = this;
-        //    }
-        //}
     }
 }

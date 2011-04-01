@@ -10,6 +10,7 @@ using RubezhDevices;
 using System.IO;
 using System.Xml;
 using System.Windows.Markup;
+using System.Windows.Input;
 
 namespace DeviceEditor
 {
@@ -20,6 +21,7 @@ namespace DeviceEditor
         {
             Current = this;
         }
+
 
         public static StateViewModel Current { get; private set; }
         public string id;
@@ -73,5 +75,6 @@ namespace DeviceEditor
                 OnPropertyChanged("ReaderLoadButton");
             }
         }
+
     }
 }

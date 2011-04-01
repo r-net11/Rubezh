@@ -8,6 +8,8 @@ using System.Xml;
 using System.Windows.Controls;
 using RubezhDevices;
 using System.Windows.Markup;
+using System.Collections.Generic;
+using System;
 
 namespace DeviceEditor
 {
@@ -18,6 +20,49 @@ namespace DeviceEditor
             Current = this;
             DeviceManager deviceManager = new DeviceManager();
             Load(deviceManager);
+            SaveCommand = new RelayCommand(OnSaveCommand);
+            StopTimerCommand = new RelayCommand(OnStopTimerCommand);
+        }
+
+        public RelayCommand StopTimerCommand { get; private set; }
+        void OnStopTimerCommand(object obj)
+        {
+            DeviceViewModel.Current.DispatcherTimerStop = true;
+        }
+
+        public RelayCommand SaveCommand { get; private set; }
+        void OnSaveCommand(object obj)
+        {
+            var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?", "Окно подтверждения", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Cancel)
+                return;
+            deviceManager.Devices = new List<Device>();
+            foreach (DeviceViewModel deviceViewModel in DeviceViewModels)
+            {
+                Device device = new Device();
+                device.Id = deviceViewModel.Id;
+                deviceManager.Devices.Add(device);
+                device.States = new List<State>();
+                foreach (StateViewModel stateViewModel in deviceViewModel.StateViewModels)
+                {
+                    State state = new State();
+                    state.Id = stateViewModel.Id;
+                    device.States.Add(state);
+                    state.Cadrs = new List<Cadr>();
+                    foreach (CadrViewModel cadrViewModel in stateViewModel.CadrViewModels)
+                    {
+                        Cadr cadr = new Cadr();
+                        cadr.Id = cadrViewModel.Id;
+                        cadr.Image = cadrViewModel.Image;
+                        cadr.Duration = cadrViewModel.Duration;
+                        state.Cadrs.Add(cadr);
+                    }
+                }
+            }
+            FileStream filexml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
+            XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
+            serializer.Serialize(filexml, deviceManager);
+            filexml.Close();
         }
 
         public static ViewModel Current { get; private set; }
@@ -43,6 +88,17 @@ namespace DeviceEditor
             {
                 selectedCadrViewModel = value;
                 OnPropertyChanged("SelectedCadrViewModel");
+            }
+        }
+
+        CadrViewModel selectedStateViewModel;
+        public CadrViewModel SelectedStateViewModel
+        {
+            get { return selectedStateViewModel; }
+            set
+            {
+                selectedStateViewModel = value;
+                OnPropertyChanged("SelectedStateViewModel");
             }
         }
 
@@ -83,6 +139,7 @@ namespace DeviceEditor
                         CadrViewModel cadrViewModel = new CadrViewModel();
                         cadrViewModel.Id = cadr.Id;
                         cadrViewModel.Image = cadr.Image;
+                        cadrViewModel.Duration = cadr.Duration;
                         stateViewModel.CadrViewModels.Add(cadrViewModel);
                     }
                 }
