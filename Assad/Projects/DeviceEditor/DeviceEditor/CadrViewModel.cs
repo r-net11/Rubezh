@@ -31,7 +31,16 @@ namespace DeviceEditor
             }
         }
 
-        public int Duration { get; set; }
+        public int duration { get; set; }
+        public int Duration
+        {
+            get { return duration; }
+            set
+            {
+                duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
         
         string image;
         public string Image
@@ -53,17 +62,5 @@ namespace DeviceEditor
 
             }
         }
-
-        //bool isSelected;
-        //public bool IsSelected
-        //{
-        //    get { return isSelected; }
-        //    set
-        //    {
-        //        isSelected = value;
-        //        OnPropertyChanged("IsSelected");
-        //        //ViewModel.Current.SelectedCadrViewModel = this;
-        //    }
-        //}
     }
 }

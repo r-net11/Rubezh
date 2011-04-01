@@ -22,13 +22,13 @@
                         <StackPanel>
                             <TextBlock Text="{Binding Id}" />
                             <Expander>
-                                    <ListBox ItemsSource ="{Binding StateViewModels}">
+                                    <ListBox ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel>
                                                 <TextBlock Text="{Binding Id}"/>
-                                                    <Expander>
-                                                        <ListBox ItemsSource ="{Binding CadrViewModels}" SelectedItem="{Binding SelectedCadrViewModel}">
+                                                <Expander>
+                                                    <ListBox ItemsSource ="{Binding CadrViewModels}" SelectedItem="{Binding SelectedCadrViewModel}">
                                                             <ListBox.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <DockPanel>
@@ -71,7 +71,10 @@
             </ContentControl>
             </Grid>
             <Grid Grid.Row="0" Grid.Column="1">
-                <Button Width="62" Height="22" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SaveCommand}">Сохранить</Button>
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Button Width="72" Height="22" Command="{Binding StopTimerCommand}">Стоп таймер</Button>
+                    <Button Width="72" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
