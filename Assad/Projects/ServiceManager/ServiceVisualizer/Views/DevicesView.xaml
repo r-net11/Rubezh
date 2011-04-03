@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:local="clr-namespace:ServiceVisualizer"
-             xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600">
@@ -12,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes\DataGrid.xaml"/>
                 <ResourceDictionary Source="Themes\TreeExpanderStyle.xaml" />
+                <ResourceDictionary Source="Themes\MenuStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -20,33 +20,81 @@
         <Grid.Resources>
             <local:LevelToMarginConverter x:Key="LevelToMarginConverter" />
             <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <local:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter" />
         </Grid.Resources>
         <StackPanel>
             <WpfToolkit:DataGrid ItemsSource="{Binding AllDeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}"
                             Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                            IsReadOnly="False" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
                             Background="White" BorderBrush="Black" BorderThickness="0"
                             RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
                     <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-
-                                    <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        </StackPanel>
                                     </StackPanel>
-
-                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
-                                    <Image Visibility="Collapsed" Source="C:\Program Files\Firesec\Icons\Device_Computer.ico" Width="16" Height="16" Margin="0, 0, 5, 0" />
-
-                                    <TextBlock Text="{Binding ShortDriverName}" />
-                                </StackPanel>
+                                    
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding ShortDriverName}">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Добавить" Command="{Binding AddCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <MenuItem Header="Добавить несколько" Command="{Binding AddCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <MenuItem Header="Удалить" Command="{Binding RemoveCommand}">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="delete_64.png" Height="24"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    
+                                </Grid>
                             </DataTemplate>
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
-                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="100" Binding="{Binding Address}" />
+                    
+                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" Width="100">
+                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Address}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                        <WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBox Text="{Binding Address}" BorderThickness="0" Name="addressTextBox" />
+                                </StackPanel>
+                                    <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                        <TextBlock Text="{Binding Address}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <Trigger SourceName="addressTextBox" Property="IsVisible" Value="True">
+                                        <Setter TargetName="addressTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=addressTextBox}"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
+                    </WpfToolkit:DataGridTemplateColumn>
 
                     <WpfToolkit:DataGridTemplateColumn Header="Зона" Width="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -67,28 +115,54 @@
                                 </StackPanel>
                             </DataTemplate>
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                        <WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <StackPanel Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch">
+                                        <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ZoneName}" VerticalAlignment="Stretch" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Button Content="..." Command="{Binding ShowZoneLogicCommand}" Height="19"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
                     <WpfToolkit:DataGridTemplateColumn Header="Примечание" Width="*">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Description}" Name="tb1" />
+                                    <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
                             </DataTemplate>
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                        <WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Stretch" Background="Red">
+                                    <TextBox Text="{Binding Description}" BorderThickness="0" HorizontalAlignment="Stretch" Name="descriptionTextBox" />
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
+                                        <Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
                 </WpfToolkit:DataGrid.Columns>
 
                 <WpfToolkit:DataGrid.CellStyle>
                     <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
+                        <Style.Setters>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected_, Mode=TwoWay}" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
@@ -98,6 +172,13 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                        </Style.Setters>
+                            <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="YellowGreen" />
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </WpfToolkit:DataGrid.CellStyle>
 

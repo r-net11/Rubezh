@@ -209,7 +209,7 @@ namespace ServiceVisualizer
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.SetDevice(rooDevice);
+            rootDeviceViewModel.Initialize(rooDevice);
             //rootDeviceViewModel.IsExpanded = false;
             DeviceViewModels.Add(rootDeviceViewModel);
             AllDeviceViewModels.Add(rootDeviceViewModel);
@@ -222,10 +222,6 @@ namespace ServiceVisualizer
             {
                 deviceViewModel.SetZone();
             }
-
-            treeBuilder = new FiresecMetadata.TreeBuilder();
-            treeBuilder.Buid();
-
 
             CollapseChild(AllDeviceViewModels[0]);
 
@@ -244,15 +240,13 @@ namespace ServiceVisualizer
             }
         }
 
-        public FiresecMetadata.TreeBuilder treeBuilder;
-
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
             foreach (Device device in parentDevice.Children)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.SetDevice(device);
+                deviceViewModel.Initialize(device);
                 //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 AllDeviceViewModels.Add(deviceViewModel);

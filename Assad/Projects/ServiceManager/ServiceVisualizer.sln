@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecApi", "..\Common\Fir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeListView", "TreeListView\TreeListView.csproj", "{59A4159D-1038-4770-91DF-154A22CDE411}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecMetadata", "..\Common\FiresecMetadata\FiresecMetadata.csproj", "{729A5C7F-C908-40A4-8D99-06D80EBC3816}"
 EndProject
 Global
@@ -41,10 +39,6 @@ Global
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59A4159D-1038-4770-91DF-154A22CDE411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59A4159D-1038-4770-91DF-154A22CDE411}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59A4159D-1038-4770-91DF-154A22CDE411}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59A4159D-1038-4770-91DF-154A22CDE411}.Release|Any CPU.Build.0 = Release|Any CPU
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729A5C7F-C908-40A4-8D99-06D80EBC3816}.Release|Any CPU.ActiveCfg = Release|Any CPU

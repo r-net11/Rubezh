@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Views\DeviceGridView.xaml.cs">
       <DependentUpon>DeviceGridView.xaml</DependentUpon>
@@ -196,6 +197,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Themes\MenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Themes\TabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -244,10 +249,6 @@
       <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
       <Name>ServiceApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TreeListView\TreeListView.csproj">
-      <Project>{59A4159D-1038-4770-91DF-154A22CDE411}</Project>
-      <Name>TreeListView</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -267,7 +268,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="HDD.png" />
+    <Resource Include="Views\HDD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\delete_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

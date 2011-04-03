@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Data;
 using System.Windows;
+using System.Windows.Data;
 
 namespace ServiceVisualizer
 {
-    public class LevelToMarginConverter : IValueConverter
+    class BoolToVisibilityRevertConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            int level = (int)value;
-            return new Thickness(level * 20, 0, 0, 0);
+            bool boolValue = (bool)value;
+            return boolValue ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

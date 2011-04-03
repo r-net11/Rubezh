@@ -17,7 +17,7 @@ namespace ServiceVisualizer
     {
         public DeviceDetailsView View { get; set; }
         public Device Device;
-        Firesec.Metadata.drvType driver;
+        public Firesec.Metadata.drvType Driver;
 
         public DeviceViewModel()
         {
@@ -134,10 +134,51 @@ namespace ServiceVisualizer
                 Device device = new Device();
                 device.Properties = new List<Property>();
                 device.DriverId = driverId;
-                device.PresentationAddress = "0.0";
-                deviceViewModel.SetDevice(device);
+                Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+                if (driver.ar_no_addr == "1")
+                {
+                    device.PresentationAddress = "";
+                }
+                else
+                {
+                    device.PresentationAddress = "0.0";
+                }
+                deviceViewModel.Initialize(device);
                 deviceViewModel.Parent = this;
                 this.Children.Add(deviceViewModel);
+
+
+
+                foreach (Firesec.Metadata.drvType childDriver in ServiceClient.CurrentConfiguration.Metadata.drv)
+                {
+                    Firesec.Metadata.classType childClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
+                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == deviceViewModel.Driver.clsid)))
+                    {
+                        if ((childDriver.lim_parent != null) && (childDriver.lim_parent != deviceViewModel.Driver.id))
+                            continue;
+                        if (childDriver.acr_enabled == "1")
+                        {
+                            if ((childDriver.shortName == "МПТ") || (childDriver.shortName == "Выход"))
+                                continue;
+
+                            int minAddress = Convert.ToInt32(childDriver.acr_from);
+                            int maxAddress = Convert.ToInt32(childDriver.acr_to);
+                            for (int i = minAddress; i <= maxAddress; i++)
+                            {
+                                DeviceViewModel childDeviceViewModel = new DeviceViewModel();
+                                Device childDevice = new Device();
+                                childDevice.Properties = new List<Property>();
+                                childDevice.DriverId = childDriver.id;
+                                childDevice.PresentationAddress = i.ToString();
+                                childDeviceViewModel.Initialize(childDevice);
+                                childDeviceViewModel.Parent = deviceViewModel;
+                                deviceViewModel.Children.Add(childDeviceViewModel);
+                            }
+
+                            deviceViewModel.IsExpanded = true;
+                        }
+                    }
+                }
 
                 Update();
                 IsExpanded = false;
@@ -198,9 +239,9 @@ namespace ServiceVisualizer
             StackPanel _PropStackPanel = new StackPanel();
             _PropStackPanel.Children.Clear();
 
-            if (driver.propInfo != null)
+            if (Driver.propInfo != null)
             {
-                foreach (Firesec.Metadata.propInfoType propertyInfo in driver.propInfo)
+                foreach (Firesec.Metadata.propInfoType propertyInfo in Driver.propInfo)
                 {
                     if (propertyInfo.hidden == "1")
                         continue;
@@ -248,6 +289,7 @@ namespace ServiceVisualizer
                         {
                             case "String":
                             case "Int":
+                            case "Byte":
                                 TextBox textBox = new TextBox();
 
                                 StringProperty stringProperty = new StringProperty();
@@ -305,38 +347,15 @@ namespace ServiceVisualizer
             PropStackPanel = _PropStackPanel;
         }
 
-        public void SetDevice(Device device)
+        public void Initialize(Device device)
         {
             this.Device = device;
-            driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+            Driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
             SetProperties();
 
-            DriverName = driver.name;
-            ShortDriverName = driver.shortName;
             Address = device.PresentationAddress;
             Description = device.Description;
-
-            string ImageName;
-            if (!string.IsNullOrEmpty(driver.dev_icon))
-            {
-                ImageName = driver.dev_icon;
-            }
-            else
-            {
-                Firesec.Metadata.classType metadataClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
-                ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-            }
-            ImageSource = @"C:\Program Files\Firesec\Icons\" + ImageName + ".ico";
-
-            if (driver.ar_no_addr != null)
-            {
-                CanEditAddress = (driver.ar_no_addr == "1") ? false : true;
-            }
-            else
-            {
-                CanEditAddress = true;
-            }
         }
 
         public void SetZone()
@@ -356,7 +375,7 @@ namespace ServiceVisualizer
         {
             get
             {
-                if ((driver.minZoneCardinality == "0") && (driver.maxZoneCardinality == "0"))
+                if ((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"))
                 {
                     return false;
                 }
@@ -368,7 +387,7 @@ namespace ServiceVisualizer
         {
             get
             {
-                if ((driver.options != null) && (driver.options.Contains("ExtendedZoneLogic")))
+                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
                 {
                     return true;
                 }
@@ -385,43 +404,33 @@ namespace ServiceVisualizer
                 foreach (Firesec.Metadata.drvType childDriver in ServiceClient.CurrentConfiguration.Metadata.drv)
                 {
                     Firesec.Metadata.classType childClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == driver.clsid)))
+                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == Driver.clsid)))
                     {
+                        if ((childDriver.lim_parent != null) && (childDriver.lim_parent != Driver.id))
+                            continue;
+                        if (childDriver.acr_enabled == "1")
+                            continue;
                         childDrivers.Add(childDriver);
                     }
                 }
 
                 return (childDrivers.Count > 0);
-
-
-                //FiresecMetadata.DriverItem driverItem = ViewModel.Current.treeBuilder.Drivers.FirstOrDefault(x => x.DriverId == Device.DriverId);
-                //if (driverItem == null)
-                //    return false;
-                //if (driverItem.Children.Count > 0)
-                //    return true;
-                //return false;
             }
         }
 
-        string shortDriverName;
         public string ShortDriverName
         {
-            get { return shortDriverName; }
-            set
+            get
             {
-                shortDriverName = value;
-                OnPropertyChanged("ShortDriverName");
+                return Driver.shortName;
             }
         }
 
-        string driverName;
         public string DriverName
         {
-            get { return driverName; }
-            set
+            get
             {
-                driverName = value;
-                OnPropertyChanged("DriverName");
+                return Driver.name;
             }
         }
 
@@ -433,6 +442,22 @@ namespace ServiceVisualizer
             {
                 address = value;
                 OnPropertyChanged("Address");
+            }
+        }
+
+        public bool CanEditAddress
+        {
+            get
+            {
+                if (Driver.ar_no_addr != null)
+                {
+                    if (Driver.ar_no_addr == "1")
+                        return false;
+
+                    if (Driver.acr_enabled == "1")
+                        return false;
+                }
+                return true;
             }
         }
 
@@ -458,51 +483,56 @@ namespace ServiceVisualizer
             }
         }
 
-        //string state;
-        //public string State
-        //{
-        //    get { return state; }
-        //    set
-        //    {
-        //        state = value;
-        //        OnPropertyChanged("State");
-        //    }
-        //}
-
-        //ObservableCollection<string> states;
-        //public ObservableCollection<string> States
-        //{
-        //    get { return states; }
-        //    set
-        //    {
-        //        states = value;
-        //        OnPropertyChanged("States");
-        //    }
-        //}
-
-        //ObservableCollection<ServiceApi.Parameter> parameters;
-        //public ObservableCollection<ServiceApi.Parameter> Parameters
-        //{
-        //    get { return parameters; }
-        //    set
-        //    {
-        //        parameters = value;
-        //        OnPropertyChanged("Parameters");
-        //    }
-        //}
-
-        string imageSource;
-        public string ImageSource
+        public string ConnectedTo
         {
-            get { return imageSource; }
-            set
+            get
             {
-                imageSource = value;
-                OnPropertyChanged("ImageSource");
+                if (Parent == null)
+                    return null;
+                else
+                {
+                    string parentPart = Parent.ShortDriverName;
+                    if (Parent.Driver.ar_no_addr != "1")
+                        parentPart += " - " + Parent.Address;
+
+                    if (Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    if (Parent.Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    return parentPart + @"\" + Parent.ConnectedTo;
+                }
             }
         }
 
-        public bool CanEditAddress { get; private set; }
+        public bool HasImage
+        {
+            get
+            {
+                return (ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico");
+            }
+        }
+
+        public string ImageSource
+        {
+            get
+            {
+                string ImageName;
+                if (!string.IsNullOrEmpty(Driver.dev_icon))
+                {
+                    ImageName = Driver.dev_icon;
+                }
+                else
+                {
+                    Firesec.Metadata.classType metadataClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == Driver.clsid);
+                    ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
+                }
+
+                return @"C:/Program Files/Firesec/Icons/" + ImageName + ".ico";
+                //return @"pack://application:,,,/Icons/" + ImageName + ".ico";
+            }
+        }
 
         public DeviceViewModel Parent { get; set; }
 
