@@ -23,7 +23,7 @@ namespace DeviceEditor
             SaveCommand = new RelayCommand(OnSaveCommand);
             StopTimerCommand = new RelayCommand(OnStopTimerCommand);
         }
-
+        
         public RelayCommand StopTimerCommand { get; private set; }
         void OnStopTimerCommand(object obj)
         {
@@ -31,7 +31,7 @@ namespace DeviceEditor
         }
 
         public RelayCommand SaveCommand { get; private set; }
-        void OnSaveCommand(object obj)
+        public void OnSaveCommand(object obj)
         {
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?", "Окно подтверждения", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
@@ -91,8 +91,8 @@ namespace DeviceEditor
             }
         }
 
-        CadrViewModel selectedStateViewModel;
-        public CadrViewModel SelectedStateViewModel
+        StateViewModel selectedStateViewModel;
+        public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
             set

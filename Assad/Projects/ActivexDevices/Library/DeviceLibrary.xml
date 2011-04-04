@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <DeviceManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Devices>
-    <Device Id = "Пожарный дымовой извещатель ИП 212-64">      
+    <Device Id="Пожарный дымовой извещатель ИП 212-64">
       <States>
-        <State Id = "Базовый рисунок">
+        <State Id="Базовый рисунок">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -20,9 +20,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Обнаружена неисправность">
+        <State Id="Обнаружена неисправность">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -31,7 +31,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1600">
+            <Cadr Id="1" Duration="1600">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -44,11 +44,14 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
+            <Cadr Id="2" Duration="300">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; &lt;g&gt;&lt;title&gt;Layer 1&lt;/title&gt;&lt;/g&gt;&lt;/svg&gt;</Image>
+            </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Обход устройств">
+        <State Id="Обход устройств">
           <Cadrs>
-            <Cadr Id="0" Duratio = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -63,9 +66,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма">
-          <Cadrs Id = "0" Duration = "0">
-            <Cadr>
+        <State Id="Состояние - норма">
+          <Cadrs>
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -80,9 +83,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма(*)">
+        <State Id="Состояние - норма(*)">
           <Cadrs>
-            <Cadr Id = "0" Duration = "800">
+            <Cadr Id="0" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -95,7 +98,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "800">
+            <Cadr Id="1" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -110,9 +113,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние внимание">
+        <State Id="Состояние внимание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -121,7 +124,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2400">
+            <Cadr Id="1" Duration="2400">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -136,9 +139,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние неизвестно">
+        <State Id="Состояние неизвестно">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -147,7 +150,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2000">
+            <Cadr Id="1" Duration="2000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -162,9 +165,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние тревоги">
+        <State Id="Состояние тревоги">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -173,7 +176,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1000">
+            <Cadr Id="1" Duration="1000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -188,9 +191,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Требуется обслуживание">          
+        <State Id="Требуется обслуживание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "500" >
+            <Cadr Id="0" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -199,7 +202,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "500">
+            <Cadr Id="1" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -216,11 +219,11 @@
         </State>
       </States>
     </Device>
-	<Device Id = "Пожарный тепловой извещатель ИП 101-29-A3R1">      
+    <Device Id="Пожарный тепловой извещатель ИП 101-29-A3R1">
       <States>
-        <State Id = "Базовый рисунок">
+        <State Id="Базовый рисунок">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -234,9 +237,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		        <State Id = "Обнаружена неисправность">
+        <State Id="Обнаружена неисправность">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -245,7 +248,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1600">
+            <Cadr Id="1" Duration="1600">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -259,9 +262,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Обход устройств">
+        <State Id="Обход устройств">
           <Cadrs>
-            <Cadr Id="0" Duratio = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -275,9 +278,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма">
-          <Cadrs Id = "0" Duration = "0">
-            <Cadr>
+        <State Id="Состояние - норма">
+          <Cadrs>
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -291,9 +294,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма(*)">
+        <State Id="Состояние - норма(*)">
           <Cadrs>
-            <Cadr Id = "0" Duration = "800">
+            <Cadr Id="0" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -305,7 +308,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "800">
+            <Cadr Id="1" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -319,9 +322,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние внимание">
+        <State Id="Состояние внимание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -330,7 +333,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2400">
+            <Cadr Id="1" Duration="2400">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -344,9 +347,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние неизвестно">
+        <State Id="Состояние неизвестно">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -355,7 +358,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2000">
+            <Cadr Id="1" Duration="2000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -369,9 +372,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние тревоги">
+        <State Id="Состояние тревоги">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -380,7 +383,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1000">
+            <Cadr Id="1" Duration="1000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -394,9 +397,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Требуется обслуживание">          
+        <State Id="Требуется обслуживание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "500" >
+            <Cadr Id="0" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -405,7 +408,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "500">
+            <Cadr Id="1" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -419,13 +422,13 @@
             </Cadr>
           </Cadrs>
         </State>
-	  </States>
-	</Device>
-	<Device Id = "Пожарный комбинированный извещатель ИП212//101-64-А2R1">      
+      </States>
+    </Device>
+    <Device Id="Пожарный комбинированный извещатель ИП212//101-64-А2R1">
       <States>
-        <State Id = "Базовый рисунок">
+        <State Id="Базовый рисунок">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -441,9 +444,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		        <State Id = "Обнаружена неисправность">
+        <State Id="Обнаружена неисправность">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -452,7 +455,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1600">
+            <Cadr Id="1" Duration="1600">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -468,9 +471,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Обход устройств">
+        <State Id="Обход устройств">
           <Cadrs>
-            <Cadr Id="0" Duratio = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -486,9 +489,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма">
-          <Cadrs Id = "0" Duration = "0">
-            <Cadr>
+        <State Id="Состояние - норма">
+          <Cadrs>
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -504,9 +507,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма(*)">
+        <State Id="Состояние - норма(*)">
           <Cadrs>
-            <Cadr Id = "0" Duration = "800">
+            <Cadr Id="0" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -520,7 +523,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "800">
+            <Cadr Id="1" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -536,9 +539,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние внимание">
+        <State Id="Состояние внимание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -547,7 +550,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2400">
+            <Cadr Id="1" Duration="2400">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -563,9 +566,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние неизвестно">
+        <State Id="Состояние неизвестно">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -574,7 +577,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "2000">
+            <Cadr Id="1" Duration="2000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -590,9 +593,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние тревоги">
+        <State Id="Состояние тревоги">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -601,7 +604,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "1000">
+            <Cadr Id="1" Duration="1000">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -617,9 +620,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Требуется обслуживание">          
+        <State Id="Требуется обслуживание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "500" >
+            <Cadr Id="0" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -628,7 +631,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "500">
+            <Cadr Id="1" Duration="500">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -644,13 +647,13 @@
             </Cadr>
           </Cadrs>
         </State>
-	  </States>
-	</Device>
-	<Device Id = "Дренажный насос">      
+      </States>
+    </Device>
+    <Device Id="Дренажный насос">
       <States>
-        <State Id = "Базовый рисунок">
+        <State Id="Базовый рисунок">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -663,9 +666,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		        <State Id = "Обнаружена неисправность">
+        <State Id="Обнаружена неисправность">
           <Cadrs>
-            <Cadr Id = "0" Duration = "200">
+            <Cadr Id="0" Duration="200">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -674,7 +677,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-            <Cadr Id = "1" Duration = "300">
+            <Cadr Id="1" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -687,9 +690,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Обнаружена неисправность. Потеря связи с дренажным насосом">
+        <State Id="Обнаружена неисправность. Потеря связи с дренажным насосом">
           <Cadrs>
-            <Cadr Id="0" Duratio = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -702,9 +705,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма">
-          <Cadrs Id = "0" Duration = "0">
-            <Cadr>
+        <State Id="Состояние - норма">
+          <Cadrs>
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -717,9 +720,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние - норма(*). Авто с БУНС отключено">
+        <State Id="Состояние - норма(*). Авто с БУНС отключено">
           <Cadrs>
-            <Cadr Id = "0" Duration = "800">
+            <Cadr Id="0" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -732,9 +735,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		<State Id = "Состояние - норма(*). Авто с ШУН отключено">
+        <State Id="Состояние - норма(*). Авто с ШУН отключено">
           <Cadrs>
-            <Cadr Id = "0" Duration = "800">
+            <Cadr Id="0" Duration="800">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -747,9 +750,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		<State Id = "Состояние - норма(*). Дренажный насос включен">
+        <State Id="Состояние - норма(*). Дренажный насос включен">
           <Cadrs>
-			<Cadr Id = "1" Duration = "300">
+            <Cadr Id="1" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -760,7 +763,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-			<Cadr Id = "0" Duration = "300">
+            <Cadr Id="0" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -773,9 +776,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		<State Id = "Состояние - норма. Авто с БУНС отключено">
+        <State Id="Состояние - норма. Авто с БУНС отключено">
           <Cadrs>
-            <Cadr Id = "0" Duration = "300">
+            <Cadr Id="0" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -786,7 +789,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-			<Cadr Id = "1" Duration = "300">
+            <Cadr Id="1" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -799,9 +802,9 @@
             </Cadr>
           </Cadrs>
         </State>
-		<State Id = "Состояние - норма. Дренажный насос включен">
+        <State Id="Состояние - норма. Дренажный насос включен">
           <Cadrs>
-			<Cadr Id = "1" Duration = "300">
+            <Cadr Id="1" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -812,7 +815,7 @@
 				  &lt;/svg&gt;
 			  </Image>
             </Cadr>
-			<Cadr Id = "0" Duration = "300">
+            <Cadr Id="0" Duration="300">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -825,9 +828,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Состояние внимание">
+        <State Id="Состояние внимание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -840,9 +843,9 @@
             </Cadr>
           </Cadrs>
         </State>
-        <State Id = "Требуется обслуживание">          
+        <State Id="Требуется обслуживание">
           <Cadrs>
-            <Cadr Id = "0" Duration = "0">
+            <Cadr Id="0" Duration="0">
               <Image>
 				  &lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 				  &lt;g&gt;
@@ -855,7 +858,28 @@
             </Cadr>
           </Cadrs>
         </State>
-	  </States>
-	</Device>
+      </States>
+    </Device>
+    <Device Id="РМ-1">
+      <States>
+        <State Id="Базовый рисунок">
+          <Cadrs>
+            <Cadr Id="0" Duration="200">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; &lt;g&gt; &lt;title&gt;Layer 1&lt;/title&gt;&lt;rect height="500" width="500" y="0" x="0" id="svg_8" stroke="#000000" stroke-width="20" fill="#ffffff"/&gt;&lt;text transform="matrix(1,0,0,0.7189777488010921,0,107.76456703731418) " font-weight="bold" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="283" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000" id="svg_4" y="93" x="31"&gt;РМ&lt;/text&gt; &lt;/g&gt;&lt;/svg&gt;</Image>
+            </Cadr>
+            <Cadr Id="1" Duration="1000">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; &lt;g&gt; &lt;title&gt;Layer 1&lt;/title&gt;&lt;rect height="500" width="500" y="0" x="0" id="svg_8" stroke="#000000" stroke-width="20" fill="#fff000"/&gt;&lt;text transform="matrix(1,0,0,0.7189777488010921,0,107.76456703731418) " font-weight="bold" font-style="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="283" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000" id="svg_4" y="93" x="31"&gt;РМ&lt;/text&gt; &lt;/g&gt;&lt;/svg&gt;</Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+        <State Id="Новое состояние">
+          <Cadrs>
+            <Cadr Id="0" Duration="300">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; &lt;g&gt;&lt;title&gt;Layer 1&lt;/title&gt;&lt;/g&gt;&lt;/svg&gt;</Image>
+            </Cadr>
+          </Cadrs>
+        </State>
+      </States>
+    </Device>
   </Devices>
 </DeviceManager>

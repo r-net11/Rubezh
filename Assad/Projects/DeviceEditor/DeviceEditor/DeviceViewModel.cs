@@ -20,9 +20,38 @@ namespace DeviceEditor
         public DeviceViewModel()
         {
             Current = this;
+            Parent = ViewModel.Current;
+            AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
         }
 
+        public ViewModel Parent { get; private set; }
         public static DeviceViewModel Current { get; private set; }
+
+        public RelayCommand AddDeviceCommand { get; private set; }
+        void OnAddDeviceCommand(object obj)
+        {
+            DeviceViewModel newDevice = new DeviceViewModel();
+            newDevice.Parent = this.Parent;
+            newDevice.Id = "Новое устройство";
+            StateViewModel newState = new StateViewModel();
+            newState.Id = "Новое состояние";
+            CadrViewModel newCadr = new CadrViewModel();
+            newCadr.Duration = 300;
+            newCadr.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
+            newDevice.StateViewModels = new ObservableCollection<StateViewModel>();
+            newState.CadrViewModels = new ObservableCollection<CadrViewModel>();
+            newState.CadrViewModels.Add(newCadr);
+            newDevice.StateViewModels.Add(newState);
+            this.Parent.DeviceViewModels.Insert(this.Parent.DeviceViewModels.IndexOf(this) + 1, newDevice);
+        }
+
+        public RelayCommand RemoveDeviceCommand { get; private set; }
+        void OnRemoveDeviceCommand(object obj)
+        {
+            this.Parent.DeviceViewModels.Remove(this);
+        }
+
         public string id;
         public string Id
         {
