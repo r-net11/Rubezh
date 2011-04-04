@@ -16,12 +16,12 @@
 
     <StackPanel Background="{StaticResource HeaderBackgroundBrush}">
         <WpfToolkit:DataGrid Margin="5" ItemsSource="{Binding ZoneViewModels}" SelectedItem="{Binding SelectedZoneViewModel}"
-                            Height="200" AutoGenerateColumns="False" SelectionMode="Single"
-                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
                             Background="White" BorderBrush="Black" BorderThickness="0"
-                            AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
-                            RowHeaderWidth="0" RowHeight="25">
+                            Height="500" RowHeight="20">
             <WpfToolkit:DataGrid.Columns>
                 <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding ZoneNo}" />
                 <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding ZoneName}" />

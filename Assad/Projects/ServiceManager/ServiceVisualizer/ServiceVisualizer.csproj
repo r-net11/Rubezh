@@ -101,6 +101,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Views\DeviceGridView.xaml.cs">
       <DependentUpon>DeviceGridView.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,9 @@
     <Compile Include="PropertyBindings\BoolProperty.cs" />
     <Compile Include="PropertyBindings\EnumProperty.cs" />
     <Compile Include="PropertyBindings\StringProperty.cs" />
+    <Compile Include="Views\ServiceWatcher.xaml.cs">
+      <DependentUpon>ServiceWatcher.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
     </Compile>
@@ -182,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ServiceWatcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

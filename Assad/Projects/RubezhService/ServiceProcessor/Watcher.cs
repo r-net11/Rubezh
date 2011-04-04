@@ -243,7 +243,7 @@ namespace ServiseProcessor
         {
             foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
-                deviceState.ParentStates = new List<InnerState>();
+                deviceState.ParentInnerStates = new List<InnerState>();
                 deviceState.ParentStringStates = new List<string>();
             }
 
@@ -257,7 +257,7 @@ namespace ServiseProcessor
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
-                                chilDevice.ParentStates.Add(state);
+                                chilDevice.ParentInnerStates.Add(state);
                                 string driverId = Services.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).DriverId;
                                 string driverName = Services.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
                                 chilDevice.ParentStringStates.Add(driverName + " - " + state.Name);
@@ -284,7 +284,7 @@ namespace ServiseProcessor
                             minPriority = state.Priority;
                     }
                 }
-                foreach (InnerState state in deviceState.ParentStates)
+                foreach (InnerState state in deviceState.ParentInnerStates)
                 {
                     if (state.IsActive)
                     {

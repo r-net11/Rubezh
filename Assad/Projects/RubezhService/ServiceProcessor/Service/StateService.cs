@@ -65,5 +65,18 @@ namespace ServiseProcessor
         {
             Processor.SetNewConfig(currentConfiguration);
         }
+
+        public List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)
+        {
+            Firesec.ReadEvents.document journal = Firesec.FiresecClient.ReadEvents(startIndex, count);
+            if (journal.Journal != null)
+            {
+                if (journal.Journal.Count() > 0)
+                {
+                    return journal.Journal.ToList();
+                }
+            }
+            return new List<Firesec.ReadEvents.journalType>();
+        }
     }
 }

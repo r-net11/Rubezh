@@ -225,9 +225,20 @@ namespace ServiceVisualizer
 
             CollapseChild(AllDeviceViewModels[0]);
 
-            //DeviceGridView deviceGridView = new DeviceGridView();
-            //deviceGridView.DataContext = this;
-            //deviceGridView.ShowDialog();
+
+            JournalItemViewModels = new ObservableCollection<JournalItemViewModel>();
+            List<Firesec.ReadEvents.journalType> journalItems = serviceClient.ReadJournal(0, 100);
+            foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
+            {
+                JournalItemViewModel journalItemViewModel = new JournalItemViewModel();
+                journalItemViewModel.Initialize(journalItem);
+                JournalItemViewModels.Add(journalItemViewModel);
+            }
+            
+
+            ServiceWatcher serviceWatcher = new ServiceWatcher();
+            serviceWatcher.DataContext = this;
+            serviceWatcher.ShowDialog();
         }
 
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
@@ -252,6 +263,17 @@ namespace ServiceVisualizer
                 AllDeviceViewModels.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
                 DeviceViewModelList.Add(deviceViewModel);
+            }
+        }
+
+        ObservableCollection<JournalItemViewModel> journalItemViewModels;
+        public ObservableCollection<JournalItemViewModel> JournalItemViewModels
+        {
+            get { return journalItemViewModels; }
+            set
+            {
+                journalItemViewModels = value;
+                OnPropertyChanged("JournalItemViewModels");
             }
         }
 

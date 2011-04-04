@@ -24,11 +24,12 @@
         </Grid.Resources>
         <StackPanel>
             <WpfToolkit:DataGrid ItemsSource="{Binding AllDeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}"
-                            Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
-                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            IsReadOnly="False" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
                             Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20">
+                            Height="500" RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
                     <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -162,16 +163,15 @@
                 <WpfToolkit:DataGrid.CellStyle>
                     <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
                         <Style.Setters>
-                            <Setter Property="IsSelected" Value="{Binding IsSelected_, Mode=TwoWay}" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
+                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style.Setters>
                             <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">

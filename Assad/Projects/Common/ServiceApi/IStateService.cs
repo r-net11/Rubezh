@@ -23,5 +23,8 @@ namespace ServiceApi
 
         [OperationContract]
         void SetConfiguration(CurrentConfiguration configuration);
+
+        [OperationContract]
+        List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count);
     }
 }

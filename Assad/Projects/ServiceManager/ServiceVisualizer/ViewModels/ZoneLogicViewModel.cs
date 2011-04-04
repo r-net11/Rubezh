@@ -24,6 +24,7 @@ namespace ServiceVisualizer
             StringZoneLogic = ZoneLogicToText.Convert(zoneLogic);
 
             ClauseViewModels = new ObservableCollection<ClauseViewModel>();
+            if (zoneLogic != null)
             foreach (Firesec.ZoneLogic.clauseType clause in zoneLogic.clause)
             {
                 ClauseViewModel clauseViewModel = new ClauseViewModel();

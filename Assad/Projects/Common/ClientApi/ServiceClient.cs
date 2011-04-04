@@ -67,5 +67,10 @@ namespace ClientApi
         {
             stateService.ExecuteCommand(device.Path, command);
         }
+
+        public List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)
+        {
+            return stateService.ReadJournal(startIndex, count);
+        }
     }
 }
