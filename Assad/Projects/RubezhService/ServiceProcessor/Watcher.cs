@@ -26,6 +26,8 @@ namespace ServiseProcessor
             Firesec.DeviceParams.config coreParameters = Firesec.FiresecClient.GetDeviceParams();
             OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
 
+            var x = Services.CurrentStates.DeviceStates;
+
             SetLastEvent();
         }
 
@@ -103,21 +105,19 @@ namespace ServiseProcessor
                     if (coreParameters.dev.Any(x => x.name == deviceState.PlaceInTree))
                     {
                         Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
+
                         foreach (Parameter parameter in deviceState.Parameters)
                         {
-                            if (innerDevice.dev_param != null)
+                            if ((innerDevice.dev_param != null) && (innerDevice.dev_param.Any(x => x.name == parameter.Name)))
                             {
-                                if (innerDevice.dev_param.Any(x => x.name == parameter.Name))
+                                Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
+                                if (parameter.Value != innerParameter.value)
                                 {
-                                    Firesec.DeviceParams.dev_paramType innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-                                    if (parameter.Value != innerParameter.value)
-                                    {
-                                        deviceState.ChangeEntities.ParameterChanged = true;
-                                        if (parameter.Visible)
-                                            deviceState.ChangeEntities.VisibleParameterChanged = true;
-                                    }
-                                    parameter.Value = innerParameter.value;
+                                    deviceState.ChangeEntities.ParameterChanged = true;
+                                    if (parameter.Visible)
+                                        deviceState.ChangeEntities.VisibleParameterChanged = true;
                                 }
+                                parameter.Value = innerParameter.value;
                             }
                         }
                     }
@@ -152,6 +152,16 @@ namespace ServiseProcessor
                 PropogateStates();
                 CalculateStates();
                 CalculateZones();
+
+                foreach (DeviceState device in Services.CurrentStates.DeviceStates)
+                {
+                    device.States = new List<string>();
+                    foreach (string parentState in device.ParentStringStates)
+                        device.States.Add(parentState);
+
+                    foreach (string selfState in device.SelfStates)
+                        device.States.Add(selfState);
+                }
 
                 CurrentStates currentStates = new CurrentStates();
                 currentStates.DeviceStates = new List<DeviceState>();

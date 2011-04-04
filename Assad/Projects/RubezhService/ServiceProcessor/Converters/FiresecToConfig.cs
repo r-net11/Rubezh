@@ -47,9 +47,8 @@ namespace ServiseProcessor
                 {
                     Device device = new Device();
                     device.Parent = parentDevice;
-                    SetInnerDevice(device, innerDevice);
-                    
                     parentDevice.Children.Add(device);
+                    SetInnerDevice(device, innerDevice);
                     Services.AllDevices.Add(device);
                     Services.CurrentStates.DeviceStates.Add(CreateDeviceState(device));
                     AddDevice(innerDevice, device);
@@ -59,7 +58,7 @@ namespace ServiseProcessor
 
         DeviceState CreateDeviceState(Device device)
         {
-            Firesec.Metadata.drvType metadataDriver = Services.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+            Firesec.Metadata.drvType driver = Services.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
 
             DeviceState deviceState = new DeviceState();
             deviceState.ChangeEntities = new ChangeEntities();
@@ -67,7 +66,7 @@ namespace ServiseProcessor
             deviceState.PlaceInTree = device.PlaceInTree;
 
             deviceState.InnerStates = new List<InnerState>();
-            foreach (Firesec.Metadata.stateType innerState in metadataDriver.state)
+            foreach (Firesec.Metadata.stateType innerState in driver.state)
             {
                 InnerState state = new InnerState()
                 {
@@ -77,6 +76,17 @@ namespace ServiseProcessor
                     AffectChildren = innerState.affectChildren == "1" ? true : false
                 };
                 deviceState.InnerStates.Add(state);
+            }
+
+            deviceState.Parameters = new List<Parameter>();
+            if (driver.paramInfo != null)
+            foreach (Firesec.Metadata.paramInfoType parameterInfo in driver.paramInfo)
+            {
+                Parameter parameter = new Parameter();
+                parameter.Name = parameterInfo.name;
+                parameter.Caption = parameterInfo.caption;
+                parameter.Visible = ((parameterInfo.hidden == "0") && (parameterInfo.showOnlyInState == "0"));
+                deviceState.Parameters.Add(parameter);
             }
 
             return deviceState;
