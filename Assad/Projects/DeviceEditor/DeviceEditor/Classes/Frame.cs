@@ -6,7 +6,7 @@ using System.Text;
 namespace DeviceEditor
 {
     [Serializable]
-    public class Cadr
+    public class Frame
     {
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int Id { get; set; }

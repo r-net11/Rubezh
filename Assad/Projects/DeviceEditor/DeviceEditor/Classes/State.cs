@@ -11,6 +11,6 @@ namespace DeviceEditor
     {
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id { get; set; }
-        public List <Cadr> Cadrs { get; set; }
+        public List <Frame> Frames { get; set; }
     }
 }

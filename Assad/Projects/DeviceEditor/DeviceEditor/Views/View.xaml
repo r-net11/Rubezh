@@ -1,0 +1,95 @@
+﻿<Window x:Class="DeviceEditor.View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DeviceEditor"
+        xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
+        xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+        Title="Графическая библиотека устройств" Height="400" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <local:DevicesView/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Id}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <ScrollViewer>
+                                    <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" TextWrapping="Wrap" />
+                                </ScrollViewer>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                <ContentControl Content="{Binding ReaderLoadButton}" HorizontalContentAlignment="Left" Margin="5">
+                                    <ContentControl.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.3" ScaleY="0.3"/>
+                                    </ContentControl.LayoutTransform>
+                                </ContentControl>
+                                </StackPanel>
+                                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                                    <Label Content="Длительность" Height="28" Name="label1" />
+                                    <TextBox Width="72" Height="22" Name="textBoxDuration" Text="{Binding Duration}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
+                                    <Button Width="72" Height="22" Command="{Binding StopTimerCommand}">Стоп таймер</Button>
+                                    <Button Width="72" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </Grid>
+        <!--<Grid DataContext="{Binding SelectedFrameViewModel}" Grid.Row='0' Grid.Column='1'>
+            <ScrollViewer>
+                <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row='1' Grid.Column='1' VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0">
+                <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id}"/>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding ReaderLoadButton}" HorizontalAlignment="Right" Margin="5">
+                                <ContentControl.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.3" ScaleY="0.3"/>
+                                </ContentControl.LayoutTransform>
+                            </ContentControl>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <TextBox Width="72" Height="22" Name="textBoxDuration" DataContext="{Binding SelectedFrameViewModel}" Text="{Binding Duration}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
+                    <Button Width="72" Height="22" Command="{Binding StopTimerCommand}">Стоп таймер</Button>
+                    <Button Width="72" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
+                </StackPanel>
+            </Grid>
+        </Grid>-->
+    </Grid>
+</Window>
