@@ -14,32 +14,34 @@ using System.Windows;
 
 namespace DeviceEditor
 {
-    public class CadrViewModel : BaseViewModel
+    public class FrameViewModel : BaseViewModel
     {
-        public CadrViewModel()
+        public FrameViewModel()
         {
-            AddCadrCommand = new RelayCommand(OnAddCadrCommand);
-            RemoveCadrCommand = new RelayCommand(OnRemoveCadrCommand);
+            AddFrameCommand = new RelayCommand(OnAddFrameCommand);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrameCommand);
             Parent = StateViewModel.Current;
+            Current = this;
         }
 
+        public static FrameViewModel Current;
         public StateViewModel Parent{get; private set;}
 
-        public RelayCommand AddCadrCommand { get; private set; }
-        void OnAddCadrCommand(object obj)
+        public RelayCommand AddFrameCommand { get; private set; }
+        void OnAddFrameCommand(object obj)
         {
-            CadrViewModel newCadr = new CadrViewModel();
-            newCadr.Parent = this.Parent;
-            newCadr.Id = this.Parent.CadrViewModels.Count;
-            newCadr.Duration = 300;
-            newCadr.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
-            this.Parent.CadrViewModels.Add(newCadr);
+            FrameViewModel newFrame = new FrameViewModel();
+            newFrame.Parent = this.Parent;
+            newFrame.Id = this.Parent.FrameViewModels.Count;
+            newFrame.Duration = 300;
+            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
+            this.Parent.FrameViewModels.Add(newFrame);
         }
 
-        public RelayCommand RemoveCadrCommand { get; private set; }
-        void OnRemoveCadrCommand(object obj)
+        public RelayCommand RemoveFrameCommand { get; private set; }
+        void OnRemoveFrameCommand(object obj)
         {
-            this.Parent.CadrViewModels.Remove(this);
+            this.Parent.FrameViewModels.Remove(this);
         }
         public int id;
         public int Id
@@ -62,7 +64,16 @@ namespace DeviceEditor
                 OnPropertyChanged("Duration");
             }
         }
-        
+        Canvas readerLoadButton;
+        public Canvas ReaderLoadButton
+        {
+            get { return readerLoadButton; }
+            set
+            {
+                readerLoadButton = value;
+                OnPropertyChanged("ReaderLoadButton");
+            }
+        }
         string image;
         public string Image
         {
@@ -70,24 +81,24 @@ namespace DeviceEditor
             set
             {
                 image = value;
-                string cadrImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                string frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 StringReader stringReader;
                 XmlReader xmlReader;
 
                 try
                 {
-                    stringReader = new StringReader(cadrImage);
+                    stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    StateViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     OnPropertyChanged("Image");
                 }
                 catch(Exception)
                 {
                     string text = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">"+ "ERROR SVG" +"</text> </g></svg>";
-                    cadrImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    stringReader = new StringReader(cadrImage);
+                    frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    StateViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     
                 }
             }

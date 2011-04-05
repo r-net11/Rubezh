@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="DeviceEditor.StatesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DeviceEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+        <ListBox ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBox Text="{Binding Id}" BorderThickness="0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.Resources>
+                <ContextMenu x:Key="contextMenu">
+                    <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
+                    <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
+                </ContextMenu>
+            </ListBox.Resources>
+            <ListBox.ItemContainerStyle>
+                <Style >
+                    <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+</UserControl>
