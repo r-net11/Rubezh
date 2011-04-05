@@ -63,7 +63,8 @@ namespace AssadProcessor
         public void AssadExecuteCommand(Assad.MHdeviceControlType controlType)
         {
             AssadBase assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == controlType.deviceId);
-            if (controlType.cmdId == "Записать Конфигурацию")
+            string commandName = controlType.cmdId;
+            if (commandName == "Записать Конфигурацию")
             {
                 // провести первичную проверку валидности
                 if (AssadConfiguration.IsValid)
@@ -78,7 +79,11 @@ namespace AssadProcessor
             else
             {
                 Device device = Helper.ConvertDevice(assadDevice);
-                serviceClient.ExecuteCommand(device, controlType.cmdId);
+                if (commandName.StartsWith("Сброс "))
+                {
+                    commandName = commandName.Replace("Сброс ", "");
+                    serviceClient.ResetState(device, commandName);
+                }
             }
         }
 

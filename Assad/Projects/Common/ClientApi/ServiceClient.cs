@@ -63,9 +63,9 @@ namespace ClientApi
             stateService.SetConfiguration(currentConfiguration);
         }
 
-        public void ExecuteCommand(Device device, string command)
+        public void ResetState(Device device, string command)
         {
-            stateService.ExecuteCommand(device.Path, command);
+            stateService.ResetState(device.Path, command);
         }
 
         public List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)

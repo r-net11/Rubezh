@@ -44,20 +44,12 @@ namespace ServiseProcessor
             return Services.CurrentStates;
         }
 
-        public void ExecuteCommand(string devicePath, string command)
+        public void ResetState(string devicePath, string command)
         {
-            DeviceState device;
-            try
+            if (Services.CurrentStates.DeviceStates.Any(x => x.Path == devicePath))
             {
-                device = Services.CurrentStates.DeviceStates.First(x => x.Path == devicePath);
-            }
-            catch
-            {
-                device = null;
-            }
-            if (device != null)
-            {
-                Processor.ExecuteCommand(device, command);
+                DeviceState device = Services.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == devicePath);
+                Processor.ResetState(device, command);
             }
         }
 

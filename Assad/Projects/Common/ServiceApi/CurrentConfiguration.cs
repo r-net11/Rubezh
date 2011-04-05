@@ -26,6 +26,7 @@ namespace ServiceApi
             AllDevices = new List<Device>();
             RootDevice.Parent = null;
             AllDevices.Add(RootDevice);
+            AddChild(RootDevice);
         }
 
         void AddChild(Device parentDevice)
@@ -34,6 +35,7 @@ namespace ServiceApi
             {
                 device.Parent = parentDevice;
                 AllDevices.Add(device);
+                AddChild(device);
             }
         }
     }

@@ -100,4 +100,104 @@
         </Setter>
     </Style>
 
+
+    <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
+    <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
+    <SolidColorBrush x:Key="DefaultControlForegroundBrush" Color="#FF10257F"/>
+
+    <!-- DataGrid related brushes -->
+    <SolidColorBrush x:Key="GridLineColorBrush" Color="#FFCEDFF6" />
+    <LinearGradientBrush x:Key="AlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#FFFEFEFF" Offset="0"/>
+        <GradientStop Color="#FFE4F0FC" Offset="1"/>
+    </LinearGradientBrush>
+    
+    
+    <Style x:Key="{x:Type WpfToolkit:DataGrid}" TargetType="{x:Type WpfToolkit:DataGrid}">
+
+        <Setter Property="BorderThickness" Value="1" />
+        <!-- This is needed to force DG to have a non-default value.  Otherwise the DGR.DetailsVisibility cannot have a value of VisibleWhenSelected by default. -->
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGrid}">
+                    <Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						SnapsToDevicePixels="True"
+						Padding="{TemplateBinding Padding}">
+                        <ScrollViewer Focusable="false" Name="DG_ScrollViewer">
+                            <ScrollViewer.Template>
+                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--Left Column Header Corner -->
+                                        <Button 
+											Command="{x:Static WpfToolkit:DataGrid.SelectAllCommand}"
+											Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=CellsPanelHorizontalOffset}"
+											Focusable="false"
+											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.All}}" />
+                                        <!--Column Headers-->
+                                        <Primitives:DataGridColumnHeadersPresenter 
+											Grid.Column="1" 
+											Name="PART_ColumnHeadersPresenter"
+											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.Column}}"/>
+
+                                        <!--DataGrid content-->
+                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                                        <ScrollBar
+											Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Name="PART_VerticalScrollBar"
+											Orientation="Vertical"
+											Maximum="{TemplateBinding ScrollableHeight}"
+											ViewportSize="{TemplateBinding ViewportHeight}"
+											Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+											Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+                                        <Grid Grid.Row="2" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ScrollBar 
+												Grid.Column="1"
+												Name="PART_HorizontalScrollBar"
+												Orientation="Horizontal"
+												Maximum="{TemplateBinding ScrollableWidth}"
+												ViewportSize="{TemplateBinding ViewportWidth}"
+												Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+												Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ScrollViewer.Template>
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    
+    
+    
 </ResourceDictionary>

@@ -96,11 +96,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\Watcher\JournalWatcherView.xaml.cs">
+      <DependentUpon>JournalWatcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Watcher\ZoneWatcherView.xaml.cs">
+      <DependentUpon>ZoneWatcherView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="Views\Watcher\DeviceWatcherView.xaml.cs">
+      <DependentUpon>DeviceWatcherView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Views\DeviceGridView.xaml.cs">
       <DependentUpon>DeviceGridView.xaml</DependentUpon>
@@ -136,7 +145,7 @@
     <Compile Include="PropertyBindings\BoolProperty.cs" />
     <Compile Include="PropertyBindings\EnumProperty.cs" />
     <Compile Include="PropertyBindings\StringProperty.cs" />
-    <Compile Include="Views\ServiceWatcher.xaml.cs">
+    <Compile Include="Views\Watcher\ServiceWatcher.xaml.cs">
       <DependentUpon>ServiceWatcher.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\View.xaml.cs">
@@ -169,6 +178,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Watcher\DeviceWatcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Watcher\JournalWatcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeviceGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,7 +206,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ServiceWatcher.xaml">
+    <Page Include="Views\Watcher\ServiceWatcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -232,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Watcher\ZoneWatcherView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

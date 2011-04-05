@@ -141,7 +141,8 @@ namespace AssadDevices
 
             eventType.deviceId = DeviceId;
             eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
-            eventType.eventId = eventName;
+            eventType.eventId = eventName;// +".Test";
+            //eventType.eventIdStored = "eventType.eventIdStored";
             eventType.alertLevel = "0";
 
             eventType.state = new Assad.CPeventTypeState[1];
@@ -160,7 +161,7 @@ namespace AssadDevices
             Assad.DeviceType deviceAbility = new Assad.DeviceType();
             deviceAbility.deviceId = DeviceId;
             List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
-            
+
             Assad.DeviceTypeParam configurationParameter = new Assad.DeviceTypeParam();
             abilityParameters.Add(configurationParameter);
             configurationParameter.name = "Конфигурация";

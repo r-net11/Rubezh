@@ -1,0 +1,20 @@
+﻿<Window x:Class="ServiceVisualizer.ServiceWatcher"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+        xmlns:local="clr-namespace:ServiceVisualizer"
+        Title="ServiceWatcher" Height="800" Width="1000">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Устройства">
+                <local:DeviceWatcherView />
+            </TabItem>
+            <TabItem Header="Зоны">
+                <local:ZoneWatcherView />
+            </TabItem>
+            <TabItem Header="Журнал">
+                <local:JournalWatcherView />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -10,13 +10,13 @@ namespace ServiseProcessor
 {
     public class FiresecToConfig
     {
-        CurrentConfiguration stateConfiguration;
+        CurrentConfiguration currentConfiguration;
         Firesec.CoreConfig.config firesecConfig;
 
         public CurrentConfiguration Convert(Firesec.CoreConfig.config firesecConfig)
         {
             this.firesecConfig = firesecConfig;
-            stateConfiguration = new CurrentConfiguration();
+            currentConfiguration = new CurrentConfiguration();
 
             Services.AllDevices = new List<Device>();
             Services.CurrentStates = new CurrentStates();
@@ -33,9 +33,9 @@ namespace ServiseProcessor
             Services.CurrentStates.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
-            stateConfiguration.RootDevice = rootDevice;
+            currentConfiguration.RootDevice = rootDevice;
 
-            return stateConfiguration;
+            return currentConfiguration;
         }
 
         void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
@@ -242,7 +242,7 @@ namespace ServiseProcessor
 
         void AddZones()
         {
-            stateConfiguration.Zones = new List<Zone>();
+            currentConfiguration.Zones = new List<Zone>();
 
             if (firesecConfig.zone != null)
             {
@@ -259,9 +259,17 @@ namespace ServiseProcessor
                         if (innerZone.param.Any(x => x.name == "FireDeviceCount"))
                             zone.DetectorCount = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount").value;
                     }
-                    stateConfiguration.Zones.Add(zone);
+                    currentConfiguration.Zones.Add(zone);
+                    Services.CurrentStates.ZoneStates.Add(CreateZoneState(zone));
                 }
             }
+        }
+
+        ZoneState CreateZoneState(Zone zone)
+        {
+            ZoneState zoneState = new ZoneState();
+            zoneState.No = zone.No;
+            return zoneState;
         }
     }
 }

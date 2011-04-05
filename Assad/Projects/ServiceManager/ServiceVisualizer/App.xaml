@@ -1,8 +1,18 @@
 ﻿<Application x:Class="ServiceVisualizer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ServiceVisualizer"
     Startup="Application_Startup">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views\Themes\DataGrid.xaml"/>
+                <ResourceDictionary Source="Views\Themes\TreeExpanderStyle.xaml" />
+                <ResourceDictionary Source="Views\Themes\MenuStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <local:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <local:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

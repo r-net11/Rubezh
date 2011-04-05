@@ -38,10 +38,10 @@ namespace ServiseProcessor
             Firesec.FiresecClient.SetNewConfig(config);
         }
 
-        public static void ExecuteCommand(DeviceState device, string commandName)
+        public static void ResetState(DeviceState device, string stateName)
         {
-            commandName = commandName.Remove(0, "Сброс ".Length);
-            InnerState state = device.InnerStates.First(x => x.Name == commandName);
+            //stateName = stateName.Remove(0, "Сброс ".Length);
+            InnerState state = device.InnerStates.First(x => x.Name == stateName);
             string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();

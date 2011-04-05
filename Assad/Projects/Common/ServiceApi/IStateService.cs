@@ -19,7 +19,7 @@ namespace ServiceApi
         CurrentStates GetStates();
 
         [OperationContract]
-        void ExecuteCommand(string devicePath, string command);
+        void ResetState(string devicePath, string command);
 
         [OperationContract]
         void SetConfiguration(CurrentConfiguration configuration);
