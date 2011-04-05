@@ -31,6 +31,7 @@ namespace AssadProcessor
                     //    eventName = device.State;
 
                     assadBase.States = new List<string>();
+                    if (deviceState.States != null)
                     foreach(string state in deviceState.States)
                     {
                         assadBase.States.Add(state);

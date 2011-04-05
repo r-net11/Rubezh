@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
 using ServiceApi;
+using System.Windows.Media;
 
 namespace ServiceVisualizer
 {
@@ -434,6 +435,14 @@ namespace ServiceVisualizer
             }
         }
 
+        public bool HasAddress
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(Address));
+            }
+        }
+
         string address;
         public string Address
         {
@@ -556,6 +565,65 @@ namespace ServiceVisualizer
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
                 ViewModel.Current.SelectedDeviceViewModel = this;
+            }
+        }
+
+
+        public ObservableCollection<string> SelfStates
+        {
+            get
+            {
+                ObservableCollection<string> selfStates = new ObservableCollection<string>();
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                if (deviceState.SelfStates != null)
+                foreach (string selfState in deviceState.SelfStates)
+                {
+                    selfStates.Add(selfState);
+                }
+                return selfStates;
+            }
+        }
+
+        public ObservableCollection<string> ParentStates
+        {
+            get
+            {
+                ObservableCollection<string> parentStates = new ObservableCollection<string>();
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                if (deviceState.ParentStringStates != null)
+                foreach (string parentState in deviceState.ParentStringStates)
+                {
+                    parentStates.Add(parentState);
+                }
+                return parentStates;
+            }
+        }
+
+        public ObservableCollection<string> Parameters
+        {
+            get
+            {
+                ObservableCollection<string> parameters = new ObservableCollection<string>();
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                if (deviceState.Parameters != null)
+                    foreach (Parameter parameter in deviceState.Parameters)
+                    {
+                        if (string.IsNullOrEmpty(parameter.Value))
+                            continue;
+                        if (parameter.Value == "<NULL>")
+                            continue;
+                        parameters.Add(parameter.Caption + " - " + parameter.Value);
+                    }
+                return parameters;
+            }
+        }
+
+        public string State
+        {
+            get
+            {
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                return deviceState.State;
             }
         }
     }

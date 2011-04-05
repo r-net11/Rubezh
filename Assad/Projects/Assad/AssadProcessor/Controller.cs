@@ -106,6 +106,7 @@ namespace AssadProcessor
                     if (ServiceClient.CurrentConfiguration.Zones.Any(x => x.No == assadZone.ZoneNo))
                     {
                         ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == assadZone.ZoneNo);
+                        if (zoneState != null)
                         assadZone.MainState = zoneState.State;
                     }
                     else

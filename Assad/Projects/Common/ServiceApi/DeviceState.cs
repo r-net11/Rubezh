@@ -29,13 +29,13 @@ namespace ServiceApi
         [DataMember]
         public ChangeEntities ChangeEntities { get; set; }
 
-        [IgnoreDataMember]
+        [DataMember]
         public List<string> SelfStates { get; set; }
 
         [IgnoreDataMember]
-        public List<InnerState> ParentStates { get; set; }
+        public List<InnerState> ParentInnerStates { get; set; }
 
-        [IgnoreDataMember]
+        [DataMember]
         public List<string> ParentStringStates { get; set; }
 
         [IgnoreDataMember]
