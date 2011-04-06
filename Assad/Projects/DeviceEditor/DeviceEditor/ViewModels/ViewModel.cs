@@ -23,13 +23,50 @@ namespace DeviceEditor
             DeviceManager deviceManager = new DeviceManager();
             Load(deviceManager);
             SaveCommand = new RelayCommand(OnSaveCommand);
-            StopTimerCommand = new RelayCommand(OnStopTimerCommand);
+            StartTimerCommand = new RelayCommand(OnStartTimerCommand);
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+
+            FileStream fileStream = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
+            Metadata = (Firesec.Metadata.config)serializer.Deserialize(fileStream);
+            fileStream.Close();
+
+            string drvid = Metadata.drv[0].name;
         }
-        
-        public RelayCommand StopTimerCommand { get; private set; }
-        void OnStopTimerCommand(object obj)
+
+        public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
+        Firesec.Metadata.config Metadata = new Firesec.Metadata.config();
+
+        public RelayCommand StartTimerCommand { get; private set; }
+        void OnStartTimerCommand(object obj)
         {
-            DispatcherTimerStop = true;
+            if (SelectedStateViewModel == null)
+                return;
+
+            if (TimerButtonName == "Старт таймер")
+            {
+                if (SelectedStateViewModel.FrameViewModels.Count > 1)
+                {
+                    TimerButtonName = "Стоп таймер";
+                    dispatcherTimer.Start();
+                }
+            }
+            else
+            {
+                TimerButtonName = "Старт таймер";
+                dispatcherTimer.Stop();
+            }
+        }
+
+        string timerButtonName = "Старт таймер";
+        public string TimerButtonName
+        {
+            get { return timerButtonName; }
+            set
+            {
+                timerButtonName = value;
+                OnPropertyChanged("TimerButtonName");
+            }
         }
 
         public RelayCommand SaveCommand { get; private set; }
@@ -82,22 +119,6 @@ namespace DeviceEditor
             }
         }
 
-        public bool dispatcherTimerStop;
-        public bool DispatcherTimerStop
-        {
-            get { return dispatcherTimerStop; }
-            set
-            {
-                dispatcherTimerStop = value;
-                dispatcherTimer.Stop();
-                OnPropertyChanged("DispatcherTimerStop");
-            }
-        }
-
-
-        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
-
-        bool DispatcherTimerTickOn = false;
         string frame1, frame2;
         int frameDuration1 = 100, frameDuration2 = 100;
         StateViewModel selectedStateViewModel;
@@ -111,28 +132,23 @@ namespace DeviceEditor
                     return;
                 frame1 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 frameDuration1 = selectedStateViewModel.FrameViewModels[0].Duration;
-                dispatcherTimer.Stop();
+                SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[0];
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
                     frame2 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     frameDuration2 = selectedStateViewModel.FrameViewModels[1].Duration;
-                    if (!DispatcherTimerTickOn)
-                    {
-                        dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                        DispatcherTimerTickOn = true;
-                    }
-                    dispatcherTimer.Start();
                 }
                 else
                 {
-                    StringReader stringReader = new StringReader(frame1);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FrameViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    FrameViewModel.Current.Image = frame1;
                 }
+                TimerButtonName = "Старт таймер";
+                dispatcherTimer.Stop();
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
 
+        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         bool tick = false;
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -143,11 +159,8 @@ namespace DeviceEditor
             {
                 try
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, frameDuration1);
-                    frame1 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    StringReader stringReader = new StringReader(frame1);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FrameViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[0].Duration);
+                    SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[0];
                 }
                 catch { }
             }
@@ -156,32 +169,11 @@ namespace DeviceEditor
             {
                 try
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, frameDuration2);
-                    frame2 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    StringReader stringReader = new StringReader(frame2);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FrameViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[1].Duration);
+                    SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[1];
 
                 }
                 catch { }
-            }
-        }
-
-        FrameViewModel selectedFrameViewModel;
-        public FrameViewModel SelectedFrameViewModel
-        {
-            get { return selectedFrameViewModel; }
-            set
-            {
-                selectedFrameViewModel = value;
-                if (selectedFrameViewModel == null)
-                    return;
-                string frameImage = Svg2Xaml.XSLT_Transform(selectedFrameViewModel.Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                StringReader stringReader = new StringReader(frameImage);
-                XmlReader xmlReader = XmlReader.Create(stringReader);
-                FrameViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
-                SelectedFrameViewModel = selectedFrameViewModel;
-                OnPropertyChanged("SelectedFrameViewModel");
             }
         }
 

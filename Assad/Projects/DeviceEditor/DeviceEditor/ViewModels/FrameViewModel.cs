@@ -11,6 +11,8 @@ using System.IO;
 using System.Windows.Markup;
 using System.Xml.Serialization;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace DeviceEditor
 {
@@ -53,6 +55,7 @@ namespace DeviceEditor
                 OnPropertyChanged("Id");
             }
         }
+
 
         public int duration { get; set; }
         public int Duration
@@ -103,6 +106,5 @@ namespace DeviceEditor
                 }
             }
         }
-
     }
 }

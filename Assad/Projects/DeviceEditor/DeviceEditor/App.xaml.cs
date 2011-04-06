@@ -16,7 +16,7 @@ namespace DeviceEditor
         {
             View view = new View();
             ViewModel viewModel = new ViewModel();
-            view.DataContext = viewModel;
+            view.DataContext = viewModel;            
             view.Show();
         }
     }

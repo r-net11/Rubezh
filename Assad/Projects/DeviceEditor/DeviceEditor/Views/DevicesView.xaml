@@ -12,7 +12,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBox Text="{Binding Id}" BorderThickness="0" />
+                            <TextBox Text="{Binding Id}" BorderThickness="0" Cursor="Arrow" />
                             <Expander>
                                 <StackPanel>
                                     <local:StatesView/>
@@ -22,16 +22,20 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF"/>
                     <ContextMenu x:Key="contextMenu">
                         <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}"/>
                         <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}"/>
                     </ContextMenu>
                 </ListBox.Resources>
                 <ListBox.ItemContainerStyle>
-                    <Style >
-                        <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+                    <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             </ListBox>
         </ScrollViewer>
 
