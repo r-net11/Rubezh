@@ -8,12 +8,15 @@ namespace WpfApplication5
 {
     public class Plan
     {
+        public static Random random = new Random();
+
         public Plan()
         {
             Children = new List<Plan>();
+            Elements = new List<Element>();
         }
 
-        public Plan(double left, double top, double width, double height, Brush brush, string name)
+        public Plan(double left, double top, double width, double height, Brush brush, string name, string caption, bool addElements)
             : this()
         {
             Left = left;
@@ -22,27 +25,25 @@ namespace WpfApplication5
             Height = height;
             Brush = brush;
             Name = name;
+            Caption = caption;
+
+            if (addElements)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    Element element = new Element();
+                    element.X = (int)(random.NextDouble() * 400);
+                    element.Y = (int)(random.NextDouble() * 400);
+                    Elements.Add(element);
+                }
+            }
         }
 
         public Plan Parent { get; set; }
         public List<Plan> Children { get; set; }
 
-        public List<Plan> AllParents
-        {
-            get
-            {
-                if (Parent == null)
-                {
-                    return new List<Plan>();
-                }
-
-                List<Plan> allParents = Parent.AllParents;
-                allParents.Add(Parent);
-                return allParents;
-            }
-        }
-
         public string Name { get; set; }
+        public string Caption { get; set; }
 
         public double Left { get; set; }
         public double Top { get; set; }
@@ -55,5 +56,7 @@ namespace WpfApplication5
 
     public class Element
     {
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

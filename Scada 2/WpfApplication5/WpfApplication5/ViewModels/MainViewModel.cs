@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
 
 namespace WpfApplication5
 {
@@ -19,11 +20,14 @@ namespace WpfApplication5
             Plan rootPlan = PlanBuilder.Build();
 
             RootPlanViewModel = new PlanViewModel();
-            RootPlanViewModel.Initialize(rootPlan);
             RootPlanViewModel.Parent = null;
             AddPlan(rootPlan, RootPlanViewModel);
+            RootPlanViewModel.Initialize(rootPlan);
 
-            RootPlanViewModel.DrawPlan();
+            RootPlanViewModels = new ObservableCollection<PlanViewModel>();
+            RootPlanViewModels.Add(RootPlanViewModel);
+
+            RootPlanViewModel.Select(null);
         }
 
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanViewModel)
@@ -31,9 +35,9 @@ namespace WpfApplication5
             foreach (Plan plan in parentPlan.Children)
             {
                 PlanViewModel planViewModel = new PlanViewModel();
-                planViewModel.Initialize(plan);
                 planViewModel.Parent = parentPlanViewModel;
                 parentPlanViewModel.Children.Add(planViewModel);
+                planViewModel.Initialize(plan);
                 AddPlan(plan, planViewModel);
             }
         }
@@ -42,7 +46,19 @@ namespace WpfApplication5
         public Canvas MainCanvas { get; set; }
 
         List<PlanViewModel> AllPlanViewModels;
-        PlanViewModel RootPlanViewModel { get; set; }
+
+        public PlanViewModel RootPlanViewModel;
+
+        ObservableCollection<PlanViewModel> rootPlanViewModels;
+        public ObservableCollection<PlanViewModel> RootPlanViewModels
+        {
+            get { return rootPlanViewModels; }
+            set
+            {
+                rootPlanViewModels = value;
+                OnPropertyChanged("RootPlanViewModels");
+            }
+        }
 
         PlanViewModel selectedPlanViewModel;
         public PlanViewModel SelectedPlanViewModel
