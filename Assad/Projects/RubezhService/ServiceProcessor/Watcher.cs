@@ -26,8 +26,6 @@ namespace ServiseProcessor
             Firesec.DeviceParams.config coreParameters = Firesec.FiresecClient.GetDeviceParams();
             OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
 
-            var x = Services.CurrentStates.DeviceStates;
-
             SetLastEvent();
         }
 
