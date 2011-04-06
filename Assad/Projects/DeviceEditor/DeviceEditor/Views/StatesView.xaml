@@ -7,25 +7,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-        <ListBox ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBox Text="{Binding Id}" BorderThickness="0" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.Resources>
-                <ContextMenu x:Key="contextMenu">
-                    <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
-                    <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
-                </ContextMenu>
-            </ListBox.Resources>
-            <ListBox.ItemContainerStyle>
-                <Style >
-                    <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
-
+    <ListBox ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}" BorderThickness="0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel>
+                    <TextBox Text="{Binding Id}" BorderThickness="0" Cursor="Arrow" />
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightGray" />
+            <ContextMenu x:Key="contextMenu">
+                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
+                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
+            </ContextMenu>
+        </ListBox.Resources>
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+                <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListBox>
 </UserControl>

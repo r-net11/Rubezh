@@ -37,9 +37,7 @@ namespace DeviceEditor
                 if (selectedFrameViewModel == null)
                     return;
                 string frameImage = Svg2Xaml.XSLT_Transform(selectedFrameViewModel.Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                StringReader stringReader = new StringReader(frameImage);
-                XmlReader xmlReader = XmlReader.Create(stringReader);
-                FrameViewModel.Current.ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                FrameViewModel.Current.Image = frameImage;
                 OnPropertyChanged("SelectedFrameViewModel");
             }
         }

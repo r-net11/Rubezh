@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:DeviceEditor"
         xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
         xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
-        Title="Графическая библиотека устройств" Height="400" Width="500">
+        Title="Графическая библиотека устройств" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -17,7 +17,10 @@
             <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Id}"/>
+                        <DockPanel>
+                            <TextBlock Text="Кадр "/>
+                            <TextBlock Text="{Binding Id}"/>
+                        </DockPanel>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
@@ -29,7 +32,7 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <ScrollViewer>
-                                    <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" TextWrapping="Wrap" />
+                                    <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
                                 </ScrollViewer>
                             </Grid>
                             <Grid Grid.Row="1">
@@ -40,56 +43,21 @@
                                     </ContentControl.LayoutTransform>
                                 </ContentControl>
                                 </StackPanel>
-                                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,5" HorizontalAlignment="Right">
+                                    <Button Content="Добавить кадр" Command="{Binding AddFrameCommand}"/>
+                                    <Button Content="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
                                     <Label Content="Длительность" Height="28" Name="label1" />
-                                    <TextBox Width="72" Height="22" Name="textBoxDuration" Text="{Binding Duration}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
-                                    <Button Width="72" Height="22" Command="{Binding StopTimerCommand}">Стоп таймер</Button>
-                                    <Button Width="72" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
-                                </StackPanel>
+                                    <TextBox Width="78" Height="22" Name="textBoxDuration" Text="{Binding Duration}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
+                                </StackPanel>                               
                             </Grid>
                         </Grid>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-        </Grid>
-        <!--<Grid DataContext="{Binding SelectedFrameViewModel}" Grid.Row='0' Grid.Column='1'>
-            <ScrollViewer>
-                <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" TextWrapping="Wrap" />
-            </ScrollViewer>
-        </Grid>
-        <Grid Grid.Row='1' Grid.Column='1' VerticalAlignment="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0">
-                <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Id}"/>
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding ReaderLoadButton}" HorizontalAlignment="Right" Margin="5">
-                                <ContentControl.LayoutTransform>
-                                    <ScaleTransform ScaleX="0.3" ScaleY="0.3"/>
-                                </ContentControl.LayoutTransform>
-                            </ContentControl>
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </TabControl>
-            </Grid>
-            <Grid Grid.Row="0" Grid.Column="1">
-                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <TextBox Width="72" Height="22" Name="textBoxDuration" DataContext="{Binding SelectedFrameViewModel}" Text="{Binding Duration}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
-                    <Button Width="72" Height="22" Command="{Binding StopTimerCommand}">Стоп таймер</Button>
-                    <Button Width="72" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
-                </StackPanel>
-            </Grid>
-        </Grid>-->
+            <DockPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
+                <Button Width="80" Height="22" Command="{Binding StartTimerCommand}" Content="{Binding TimerButtonName}"/>
+                <Button Width="80" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
+            </DockPanel>
+        </Grid>       
     </Grid>
 </Window>
