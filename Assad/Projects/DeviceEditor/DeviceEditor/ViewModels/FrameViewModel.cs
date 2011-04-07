@@ -35,8 +35,8 @@ namespace DeviceEditor
             FrameViewModel newFrame = new FrameViewModel();
             newFrame.Parent = this.Parent;
             newFrame.Id = this.Parent.FrameViewModels.Count;
-            newFrame.Duration = 300;
-            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
+            newFrame.Duration = 500;
+            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
             this.Parent.FrameViewModels.Add(newFrame);
         }
 
@@ -55,7 +55,6 @@ namespace DeviceEditor
                 OnPropertyChanged("Id");
             }
         }
-
 
         public int duration { get; set; }
         public int Duration
@@ -84,16 +83,16 @@ namespace DeviceEditor
             set
             {
                 image = value;
-                string frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                string frameImage;
                 StringReader stringReader;
                 XmlReader xmlReader;
 
                 try
                 {
+                    frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
-                    OnPropertyChanged("Image");
                 }
                 catch(Exception)
                 {
@@ -102,8 +101,8 @@ namespace DeviceEditor
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
-                    
                 }
+                OnPropertyChanged("Image");
             }
         }
     }

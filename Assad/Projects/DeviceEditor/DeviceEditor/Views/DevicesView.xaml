@@ -6,13 +6,12 @@
              xmlns:local="clr-namespace:DeviceEditor"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
-        <ScrollViewer>
-            <ListBox ItemsSource="{Binding DeviceViewModels}" BorderThickness="0">
+    
+            <ListBox ItemsSource="{Binding DeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBox Text="{Binding Id}" BorderThickness="0" Cursor="Arrow" />
+                            <TextBlock Text="{Binding Id}" />
                             <Expander>
                                 <StackPanel>
                                     <local:StatesView/>
@@ -28,7 +27,8 @@
                     <ContextMenu x:Key="contextMenu">
                         <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}"/>
                         <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}"/>
-                    </ContextMenu>
+                        <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
+            </ContextMenu>
                 </ListBox.Resources>
                 <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
@@ -37,6 +37,4 @@
                 </Style>
             </ListBox.ItemContainerStyle>
             </ListBox>
-        </ScrollViewer>
-
 </UserControl>

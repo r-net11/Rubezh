@@ -11,6 +11,7 @@ using System.IO;
 using System.Xml;
 using System.Windows.Markup;
 using System.Windows.Input;
+using Firesec.Metadata;
 
 namespace DeviceEditor
 {
@@ -21,10 +22,10 @@ namespace DeviceEditor
         {
             Current = this;
             Parent = DeviceViewModel.Current;
-            AddStateCommand = new RelayCommand(OnAddStateCommand);
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
-        public DeviceViewModel Parent { get; private set; }
+        public DeviceViewModel Parent { get; set; }
+
 
 
         FrameViewModel selectedFrameViewModel;
@@ -36,30 +37,17 @@ namespace DeviceEditor
                 selectedFrameViewModel = value;
                 if (selectedFrameViewModel == null)
                     return;
-                string frameImage = Svg2Xaml.XSLT_Transform(selectedFrameViewModel.Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                FrameViewModel.Current.Image = frameImage;
                 OnPropertyChanged("SelectedFrameViewModel");
             }
-        }
-
-        public RelayCommand AddStateCommand { get; private set; }
-        void OnAddStateCommand(object obj)
-        {
-            StateViewModel newState = new StateViewModel();
-            newState.Parent = this.Parent;
-            newState.Id = "Новое состояние";
-            FrameViewModel newFrame = new FrameViewModel();
-            newFrame.Duration = 300;
-            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
-            newState.FrameViewModels = new ObservableCollection<FrameViewModel>();
-            newState.FrameViewModels.Add(newFrame);
-            this.Parent.StateViewModels.Insert(this.Parent.StateViewModels.IndexOf(this) + 1, newState);
         }
 
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {
-            this.Parent.StateViewModels.Remove(this);
+            ViewModel.Current.SelectedDeviceViewModel.StateViewModels.Remove(this);
+            StateViewModel stateViewModel = new StateViewModel();
+            stateViewModel.Id = this.Id;
+            DeviceViewModel.Current.StatesListViewModel.Add(stateViewModel);
         }
 
         public static StateViewModel Current { get; private set; }
