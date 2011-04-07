@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AssadProcessor
 {
-    class MessageProcessor
+    public class MessageProcessor
     {
         object GetMessageContent(string message, out string messageId)
         {
@@ -42,6 +42,8 @@ namespace AssadProcessor
             string refMessageId;
             object content = GetMessageContent(message, out refMessageId);
             string messageType = content.GetType().Name;
+
+            OnNewMessage(message);
 
             switch (messageType)
             {
@@ -122,6 +124,17 @@ namespace AssadProcessor
                     NetManager.Send(confirmation, refMessageId);
                     break;
 
+                case "MHconfirmAlarmType":
+                    Assad.MHconfirmAlarmType mHconfirmAlarmType = (Assad.MHconfirmAlarmType)content;
+                    Controller.Current.ResetAllStates(mHconfirmAlarmType.deviceId);
+
+                    confirmation = new Assad.CPconfirmationType();
+                    confirmation.commandId = "MHconfirmAlarm";
+                    confirmation.status = Assad.CommandStatus.OK;
+
+                    NetManager.Send(confirmation, refMessageId);
+                    break;
+
                 case "MHconfirmationType":
                     break;
 
@@ -133,6 +146,13 @@ namespace AssadProcessor
                     MessageBox.Show("Неизвестный Идентификатор Сообщения");
                     break;
             }
+        }
+
+        public static event Action<string> NewMessage;
+        static void OnNewMessage(string message)
+        {
+            if (NewMessage != null)
+                NewMessage(message);
         }
     }
 }

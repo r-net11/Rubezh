@@ -16,5 +16,8 @@ namespace ServiceApi
 
         [OperationContract(IsOneWay = true)]
         void StateChanged(CurrentStates currentStates);
+
+        [OperationContract(IsOneWay = true)]
+        void NewJournalEvent(Firesec.ReadEvents.journalType journalItem);
     }
 }

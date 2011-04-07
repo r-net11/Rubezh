@@ -14,22 +14,20 @@ namespace AssadProcessor
         {
             ServiceClient.CurrentStates.DeviceStateChanged += new Action<DeviceState>(ServiceClient_DeviceChanged);
             ServiceClient.CurrentStates.ZoneStateChanged += new Action<ZoneState>(CurrentStates_ZoneStateChanged);
+            ServiceClient.CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void ServiceClient_DeviceChanged(DeviceState deviceState)
         {
-            bool assadReady = (AssadConfiguration.Devices == null) ? false : true;
-
-            if (assadReady)
+            if ((AssadConfiguration.Devices != null) && (AssadConfiguration.Devices.Any(x => x.Path == deviceState.Path)))
             {
                 AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == deviceState.Path);
                 if (assadBase != null)
                 {
-                    assadBase.MainState = deviceState.State;
 
-                    string eventName = null;
-                    if (deviceState.ChangeEntities.IsNewEvent)
-                        eventName = deviceState.State;
+                    // МЕТОД - КОПИРОВАТЬ ДАННЫЕ ИЗ КОНФИГУРАЦИИ
+
+                    assadBase.MainState = deviceState.State;
 
                     assadBase.States = new List<string>();
                     if (deviceState.States != null)
@@ -38,9 +36,9 @@ namespace AssadProcessor
                             assadBase.States.Add(state);
                         }
 
-                    if ((deviceState.ChangeEntities.IsNewEvent) || (deviceState.ChangeEntities.StateChanged) || (deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.VisibleParameterChanged))
+                    if ((deviceState.ChangeEntities.StateChanged) || (deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.VisibleParameterChanged))
                     {
-                        Assad.CPeventType eventType = assadBase.CreateEvent(eventName);
+                        Assad.CPeventType eventType = assadBase.CreateEvent(null);
                         NetManager.Send(eventType, null);
                     }
                 }
@@ -49,11 +47,9 @@ namespace AssadProcessor
 
         void CurrentStates_ZoneStateChanged(ZoneState zoneState)
         {
-            bool assadReady = (AssadConfiguration.Devices == null) ? false : true;
-
-            if (assadReady)
+            AssadZone assadZone = null;
+            if (AssadConfiguration.Devices != null)
             {
-                AssadZone assadZone = null;
                 foreach (AssadBase assadBase in AssadConfiguration.Devices)
                 {
                     if (assadBase is AssadZone)
@@ -62,28 +58,44 @@ namespace AssadProcessor
                             assadZone = assadBase as AssadZone;
                     }
                 }
+            }
 
-                //AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == zoneState.No);
-                if (assadZone != null)
+            if (assadZone != null)
+            {
+                assadZone.MainState = zoneState.State;
+                string eventName = null;// zoneState.State;
+                Assad.CPeventType eventType = assadZone.CreateEvent(eventName);
+                NetManager.Send(eventType, null);
+            }
+        }
+
+        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            string dataBaseId = null;
+
+            if (journalItem.IDDevices != null)
+            {
+                dataBaseId = journalItem.IDDevices;
+            }
+            if (journalItem.IDDevicesSource != null)
+            {
+                dataBaseId = journalItem.IDDevices;
+            }
+            if (dataBaseId != null)
+            {
+                if (ServiceClient.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == dataBaseId))
                 {
-                    assadZone.MainState = zoneState.State;
+                    Device device = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+                    DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
 
-                    //string eventName = null;
-                    //if (deviceState.ChangeEntities.IsNewEvent)
-                    string eventName = zoneState.State;
+                    if ((AssadConfiguration.Devices != null) && (AssadConfiguration.Devices.Any(x => x.Path == device.Path)))
+                    {
+                        AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
 
-                    //assadBase.States = new List<string>();
-                    //if (zoneState.States != null)
-                    //foreach(string state in zoneState.States)
-                    //{
-                    //    assadBase.States.Add(state);
-                    //}
-
-                    //if ((deviceState.ChangeEntities.IsNewEvent) || (deviceState.ChangeEntities.StateChanged) || (deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.VisibleParameterChanged))
-                    //{
-                    Assad.CPeventType eventType = assadZone.CreateEvent(eventName);
-                    NetManager.Send(eventType, null);
-                    //}
+                        string eventName = deviceState.State;
+                        Assad.CPeventType eventType = assadBase.CreateEvent(eventName);
+                        NetManager.Send(eventType, null);
+                    }
                 }
             }
         }

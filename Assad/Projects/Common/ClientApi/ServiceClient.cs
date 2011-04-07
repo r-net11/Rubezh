@@ -58,6 +58,11 @@ namespace ClientApi
             }
         }
 
+        public void NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            CurrentStates.OnNewJournalEvent(journalItem);
+        }
+
         public void SetNewConfig(CurrentConfiguration currentConfiguration)
         {
             stateService.SetConfiguration(currentConfiguration);

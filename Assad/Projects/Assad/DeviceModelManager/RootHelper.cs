@@ -24,6 +24,11 @@ namespace DeviveModelManager
 
             List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
             commands.Add(new Assad.modelInfoTypeCommand() { command = "Записать Конфигурацию" });
+            commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс Пожар" });
+            commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс Тревога" });
+            commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс Внимание" });
+            commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс Тест" });
+            commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс Системная неисправность" });
             rootTreeItem.ModelInfo.command = commands.ToArray();
 
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();

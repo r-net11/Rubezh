@@ -27,17 +27,32 @@ namespace ServiseProcessor
 
         public static void StatesChanged(CurrentStates currentStates)
         {
-            if (callback != null)
+            try
             {
-                callback.StateChanged(currentStates);
+                if (callback != null)
+                {
+                    callback.StateChanged(currentStates);
+                }
             }
+            catch { ;}
+        }
+
+        public static void NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            try
+            {
+                if (callback != null)
+                {
+                    callback.NewJournalEvent(journalItem);
+                }
+            }
+            catch { ;}
         }
 
         public CurrentConfiguration GetConfiguration()
         {
             return Services.CurrentConfiguration;
         }
-
 
         public CurrentStates GetStates()
         {

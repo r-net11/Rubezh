@@ -21,10 +21,12 @@ namespace ServiceApi
         [DataMember]
         public bool VisibleParameterChanged { get; set; }
 
-        [DataMember]
-        public bool MustUpdate { get; set; }
-
-        [DataMember]
-        public bool IsNewEvent { get; set; }
+        public void Reset()
+        {
+            StateChanged = false;
+            StatesChanged = false;
+            ParameterChanged = false;
+            VisibleParameterChanged = false;
+        }
     }
 }

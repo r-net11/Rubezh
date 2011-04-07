@@ -34,56 +34,30 @@ namespace ServiseProcessor
         void SetLastEvent()
         {
             Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 1);
-            if (journal.Journal != null)
+            if ((journal.Journal != null) && (journal.Journal.Count() > 0))
             {
-                if (journal.Journal.Count() > 0)
-                {
-                    int lastEvent = Convert.ToInt32(journal.Journal[0].IDEvents);
-                }
+                LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);
             }
         }
+
+        // ДОБАВИТЬ ПРОВЕРКУ - ЕСЛИ В ВЫЧИТАННЫХ 100 СОБЫТИЯХ ВСЕ СОБЫТИЯ НОВЫЕ, ТО ВЫЧИТАТЬ И ВТОРУЮ СОТНЮ
 
         void FiresecEventAggregator_NewEvent()
         {
             Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
             string journalString = FiresecClient.JournalString;
 
-            Firesec.ReadEvents.journalType journalItem = journal.Journal[0];
-
-            string dataBaseId = null;
-
-            if (journalItem.IDDevices != null)
+            if ((journal != null) && (journal.Journal.Count() > 0))
             {
-                dataBaseId = journalItem.IDDevices;
-            }
-            if (journalItem.IDDevicesSource != null)
-            {
-                dataBaseId = journalItem.IDDevices;
-            }
-            if (dataBaseId != null)
-            {
-                if (Services.AllDevices.Any(x => x.DatabaseId == dataBaseId))
+                foreach (Firesec.ReadEvents.journalType journalItem in journal.Journal)
                 {
-                    Device device = Services.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
-                    DeviceState deviceState = Services.CurrentStates.DeviceStates.FirstOrDefault(x=>x.Path == device.Path);
-                    deviceState.ChangeEntities.IsNewEvent = true;
-                    deviceState.ChangeEntities.StateChanged = false;
-                    deviceState.ChangeEntities.StatesChanged = false;
-                    deviceState.ChangeEntities.ParameterChanged = false;
-                    deviceState.ChangeEntities.VisibleParameterChanged = false;
-
-                    CurrentStates currentStates = new CurrentStates();
-                    currentStates.DeviceStates = new List<DeviceState>();
-                    currentStates.ZoneStates = new List<ZoneState>();
-                    currentStates.DeviceStates.Add(deviceState);
-                    StateService.StatesChanged(currentStates);
+                    if (Convert.ToInt32(journalItem.IDEvents) > LastEventId)
+                    {
+                        StateService.NewJournalEvent(journalItem);
+                    }
                 }
+                LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);
             }
-
-            ////int EventId = Convert.ToInt32(journal.Journal[0].IDEvents);
-            ////Trace.WriteLine("Last Event Id: " + EventId.ToString());
-            ////if (EventId > LastEventId)
-            ////    Trace.WriteLine("NEW EVENT: " + EventId.ToString());
         }
 
         void OnParametersChanged(string coreParametersString, Firesec.DeviceParams.config coreParameters)
@@ -94,11 +68,7 @@ namespace ServiseProcessor
 
                 foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
                 {
-                    deviceState.ChangeEntities.StateChanged = false;
-                    deviceState.ChangeEntities.StatesChanged = false;
-                    deviceState.ChangeEntities.ParameterChanged = false;
-                    deviceState.ChangeEntities.VisibleParameterChanged = false;
-                    deviceState.ChangeEntities.IsNewEvent = false;
+                    deviceState.ChangeEntities.Reset();
 
                     if (coreParameters.dev.Any(x => x.name == deviceState.PlaceInTree))
                     {
@@ -194,8 +164,6 @@ namespace ServiseProcessor
         {
             foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
             {
-                deviceState.ChangeEntities.IsNewEvent = false;
-
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
                 bool hasOneActiveState = false;

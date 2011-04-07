@@ -27,6 +27,13 @@ namespace AutoHosting
             controller = new Controller();
             controller.Start();
             Status = "Running";
+            MessageProcessor.NewMessage += new Action<string>(MessageProcessor_NewMessage);
+        }
+
+        int commandCount = 0;
+        void MessageProcessor_NewMessage(string message)
+        {
+            LastCommand = (commandCount++).ToString() + " - " + message;
         }
 
         public RelayCommand StopCommand { get; private set; }
@@ -53,6 +60,17 @@ namespace AutoHosting
             {
                 status = value;
                 OnPropertyChanged("Status");
+            }
+        }
+
+        string lastCommand;
+        public string LastCommand
+        {
+            get { return lastCommand; }
+            set
+            {
+                lastCommand = value;
+                OnPropertyChanged("LastCommand");
             }
         }
     }

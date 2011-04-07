@@ -82,9 +82,47 @@ namespace AssadProcessor
                 if (commandName.StartsWith("Сброс "))
                 {
                     commandName = commandName.Replace("Сброс ", "");
-                    serviceClient.ResetState(device, commandName);
+
+                    string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(device.DriverId);
+                    if (driverName == "Компьютер")
+                    {
+                        foreach (Device resetDevice in ServiceClient.CurrentConfiguration.AllDevices)
+                        {
+                            Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x=>x.id == resetDevice.DriverId);
+                            if(driver.state != null)
+                            {
+                                if (driver.state.Any(x=>((x.name == commandName) && (x.manualReset == "1"))))
+                                {
+                                    serviceClient.ResetState(resetDevice, commandName);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        serviceClient.ResetState(device, commandName);
+                    }
                 }
             }
+        }
+
+        public void ResetAllStates(string deviceId)
+        {
+            AssadBase assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == deviceId);
+            Device device = Helper.ConvertDevice(assadDevice);
+            string driverName = FiresecMetadata.DriversHelper.GetDriverNameById(device.DriverId);
+            Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+            if (driver.state != null)
+            {
+                foreach (Firesec.Metadata.stateType state in driver.state)
+                {
+                    if (state.manualReset == "1")
+                    {
+                        serviceClient.ResetState(device, state.name);
+                    }
+                }
+            }
+
         }
 
         public void CopyStatesFromService()

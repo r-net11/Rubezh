@@ -33,5 +33,14 @@ namespace ServiceApi
                 ZoneStateChanged(zone);
             }
         }
+
+        public event Action<Firesec.ReadEvents.journalType> NewJournalEvent;
+        public void OnNewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            if (NewJournalEvent != null)
+            {
+                NewJournalEvent(journalItem);
+            }
+        }
     }
 }
