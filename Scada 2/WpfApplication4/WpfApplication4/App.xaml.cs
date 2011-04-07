@@ -12,5 +12,12 @@ namespace WpfApplication4
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            ViewModel viewModel = new ViewModel();
+            mainWindow.DataContext = viewModel;
+            mainWindow.Show();
+        }
     }
 }

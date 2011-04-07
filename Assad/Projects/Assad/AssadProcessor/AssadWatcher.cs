@@ -5,6 +5,7 @@ using System.Text;
 using AssadDevices;
 using ServiceApi;
 using ClientApi;
+using FiresecMetadata;
 
 namespace AssadProcessor
 {
@@ -92,7 +93,7 @@ namespace AssadProcessor
                     {
                         AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
 
-                        string eventName = deviceState.State;
+                        string eventName = StateHelper.GetState(Convert.ToInt32(journalItem.IDTypeEvents));// deviceState.State;
                         Assad.CPeventType eventType = assadBase.CreateEvent(eventName);
                         NetManager.Send(eventType, null);
                     }

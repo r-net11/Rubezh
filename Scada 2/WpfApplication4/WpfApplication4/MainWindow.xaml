@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfApplication4.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="800" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
     <Window.Resources>
 
         <ControlTemplate x:Key="GlassButton" TargetType="{x:Type Button}">
@@ -146,29 +146,30 @@
         
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"  Margin="2">
-                <Button Template="{StaticResource IndicatorGlassButton}" Width="100" Height="50" Margin="5">
-                    <StackPanel>
-                        <TextBlock Text="Тревога" Foreground="White" />
-                        <TextBlock Text="1" Foreground="White" />
-                    </StackPanel>
-                </Button>
 
-                <Button Template="{StaticResource IndicatorGlassButton}" Width="100" Height="50" Margin="2">
-                    <StackPanel>
-                        <TextBlock Text="Неисправность" Foreground="White" />
-                        <TextBlock Text="1" Foreground="White" />
-                    </StackPanel>
-                </Button>
-
-                <Button Template="{StaticResource IndicatorGlassButton}" Width="100" Height="50" Margin="2">
-                    <StackPanel>
-                        <TextBlock Text="Информация" Foreground="White" />
-                        <TextBlock Text="1" Foreground="White" />
-                    </StackPanel>
-                </Button>
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding MainAlarms}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Template="{StaticResource IndicatorGlassButton}" Width="150" Height="50" Margin="2">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" TextWrapping="WrapWithOverflow" />
+                                        <TextBlock Text="{Binding Count}" Foreground="White" />
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+                
             </StackPanel>
-            
-            
+
+
             <StackPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="Состояние" />
             </StackPanel>
@@ -180,29 +181,23 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
 
-                    <Button Template="{StaticResource GlassButton}" Width="100" Height="50" Margin="2" Click="Button_Click">
-                        <StackPanel>
-                            <TextBlock Text="Событие 1" Foreground="White" />
-                        </StackPanel>
-                    </Button>
-
-                    <Button Template="{StaticResource GlassButton}" Width="100" Height="50" Margin="2">
-                        <StackPanel>
-                            <TextBlock Text="Событие 2" Foreground="White" />
-                        </StackPanel>
-                    </Button>
-
-                    <Button Template="{StaticResource GlassButton}" Width="100" Height="50" Margin="2">
-                        <StackPanel>
-                            <TextBlock Text="Событие 3" Foreground="White" />
-                        </StackPanel>
-                    </Button>
+                    <ItemsControl ItemsSource="{Binding DetailAlarms}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding ShowCommand}" Template="{StaticResource GlassButton}" Width="100" Height="50" Margin="2">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" Foreground="White" />
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Name="centerStackPanel" Background="LightGray">
-                    <ContentControl Name="centerContent" />
-                    <Button  Content="Hi, there" />
-                </StackPanel>
+                <Grid Grid.Column="1" Name="centerStackPanel" Background="LightGray">
+                    <ContentControl Name="centerContent" Content="{Binding Content}" />
+                </Grid>
                 
             </Grid>
             
