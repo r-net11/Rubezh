@@ -29,5 +29,7 @@ namespace WpfApplication4
                 OnPropertyChanged("Count");
             }
         }
+
+        public string Color { get; set; }
     }
 }

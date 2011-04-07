@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication4", "WpfAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\..\Assad\Projects\Common\Common\Common.csproj", "{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmButtons", "AlarmButtons\AlarmButtons.csproj", "{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

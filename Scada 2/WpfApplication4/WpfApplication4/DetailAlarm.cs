@@ -34,8 +34,6 @@ namespace WpfApplication4
         void OnShowOnPlan(object obj)
         {
         }
-        
-            
 
         string name;
         public string Name
@@ -47,5 +45,7 @@ namespace WpfApplication4
                 OnPropertyChanged("Name");
             }
         }
+
+        public string Color { get; set; }
     }
 }
