@@ -11,14 +11,13 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel>
-                    <TextBox Text="{Binding Id}" BorderThickness="0" Cursor="Arrow" />
+                    <TextBlock Text="{Binding Id}" />
                 </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightGray" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red" />
             <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
                 <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
             </ContextMenu>
         </ListBox.Resources>

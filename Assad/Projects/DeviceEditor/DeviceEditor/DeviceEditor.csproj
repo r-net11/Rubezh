@@ -60,6 +60,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Frame.cs" />
+    <Compile Include="ViewModels\DevicesListViewModel.cs" />
+    <Compile Include="ViewModels\StatesListViewModel.cs" />
+    <Compile Include="Views\ListView.xaml.cs">
+      <DependentUpon>ListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
@@ -80,6 +85,10 @@
     <Compile Include="Classes\Device.cs" />
     <Compile Include="Classes\DeviceManager.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Page Include="Views\ListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

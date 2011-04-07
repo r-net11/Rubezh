@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Firesec.Metadata;
 
 namespace DeviceEditor
 {
@@ -22,21 +23,16 @@ namespace DeviceEditor
             Current = this;
             DeviceManager deviceManager = new DeviceManager();
             Load(deviceManager);
+
             SaveCommand = new RelayCommand(OnSaveCommand);
             StartTimerCommand = new RelayCommand(OnStartTimerCommand);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-
-            FileStream fileStream = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
-            Metadata = (Firesec.Metadata.config)serializer.Deserialize(fileStream);
-            fileStream.Close();
-
-            string drvid = Metadata.drv[0].name;
         }
 
-        public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
-        Firesec.Metadata.config Metadata = new Firesec.Metadata.config();
-
+        public static ViewModel Current { get; private set; }
+        public DeviceManager deviceManager;
+        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
+        
         public RelayCommand StartTimerCommand { get; private set; }
         void OnStartTimerCommand(object obj)
         {
@@ -98,15 +94,11 @@ namespace DeviceEditor
                     }
                 }
             }
-            FileStream filexml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
+            FileStream file_xml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
-            serializer.Serialize(filexml, deviceManager);
-            filexml.Close();
+            serializer.Serialize(file_xml, deviceManager);
+            file_xml.Close();
         }
-
-        public static ViewModel Current { get; private set; }
-        public DeviceManager deviceManager;
-        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
 
         ObservableCollection<DeviceViewModel> deviceViewModels;
         public ObservableCollection<DeviceViewModel> DeviceViewModels
@@ -122,6 +114,19 @@ namespace DeviceEditor
         string frame1, frame2;
         int frameDuration1 = 100, frameDuration2 = 100;
         StateViewModel selectedStateViewModel;
+
+        DeviceViewModel selectedDeviceViewModel;
+        public DeviceViewModel SelectedDeviceViewModel
+        {
+            get { return selectedDeviceViewModel; }
+            set
+            {
+                selectedDeviceViewModel = value;
+                DeviceViewModel.Current.LoadStates();
+                OnPropertyChanged("SelectedDeviceViewModel");
+            }
+        }
+
         public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
@@ -132,18 +137,14 @@ namespace DeviceEditor
                     return;
                 frame1 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 frameDuration1 = selectedStateViewModel.FrameViewModels[0].Duration;
-                SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[0];
+                SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
                     frame2 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     frameDuration2 = selectedStateViewModel.FrameViewModels[1].Duration;
+                    TimerButtonName = "Старт таймер";
+                    dispatcherTimer.Stop();
                 }
-                else
-                {
-                    FrameViewModel.Current.Image = frame1;
-                }
-                TimerButtonName = "Старт таймер";
-                dispatcherTimer.Stop();
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
@@ -180,10 +181,10 @@ namespace DeviceEditor
         public void Load(DeviceManager deviceManager)
         {
             this.deviceManager = deviceManager;
-            FileStream filexml = new FileStream(deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
-            deviceManager = (DeviceManager)serializer.Deserialize(filexml);
-            filexml.Close();
+            deviceManager = (DeviceManager)serializer.Deserialize(file_xml);
+            file_xml.Close();
 
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
             foreach (Device device in deviceManager.Devices)
