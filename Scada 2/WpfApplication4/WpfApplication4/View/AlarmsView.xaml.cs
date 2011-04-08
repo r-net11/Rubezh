@@ -15,19 +15,13 @@ using System.Windows.Shapes;
 namespace WpfApplication4
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для AlarmsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AlarmsView : UserControl
     {
-        public MainWindow()
+        public AlarmsView()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UserControl1 userControl1 = new UserControl1();
-            centerContent.Content = userControl1;
         }
     }
 }

@@ -2,12 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:AlarmButtons="clr-namespace:AlarmButtons;assembly=AlarmButtons"
-        Title="MainWindow" Height="800" Width="1200">
+        xmlns:local="clr-namespace:WpfApplication4"
+        Title="MainWindow" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
+    </Window.Resources>
     <Grid Background="Gray">
         
         <DockPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"  Margin="2">
 
+                <ToggleButton Content="Sound" />
+                
                 <StackPanel>
                     <ItemsControl ItemsSource="{Binding MainAlarms}">
                         <ItemsControl.ItemsPanel>
@@ -17,10 +23,13 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <AlarmButtons:AlarmButton Width="150" Height="50" Margin="2" GlowColor="{Binding Color}" IsGlowing="True">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" Foreground="White" TextWrapping="WrapWithOverflow" />
-                                        <TextBlock Text="{Binding Count}" Foreground="White" />
+                                <AlarmButtons:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="2"
+                                         GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
+                                         IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Visibility="Visible" Source="D:/xxx2.png" Stretch="None" />
+                                        <TextBlock Visibility="Collapsed" Text="{Binding Name}" Foreground="White" TextWrapping="WrapWithOverflow" />
+                                        <TextBlock Text="{Binding Count}" Foreground="White" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </AlarmButtons:AlarmButton>
                             </DataTemplate>
@@ -45,7 +54,8 @@
                     <ItemsControl ItemsSource="{Binding DetailAlarms}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <AlarmButtons:AlarmButton Command="{Binding ShowCommand}" Width="150" Height="50" Margin="2" GlowColor="{Binding Color}" IsGlowing="False">
+                                <AlarmButtons:AlarmButton Command="{Binding ShowCommand}" Width="150" Height="50" Margin="2"
+                                        GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}" IsGlowing="False">
                                     <StackPanel>
                                         <TextBlock Text="{Binding Name}" Foreground="White" />
                                     </StackPanel>
