@@ -24,6 +24,7 @@ namespace DeviceEditor
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
+            StatesListViewModel = new ObservableCollection<StateViewModel>();
         }
 
         public ViewModel Parent { get; private set; }
@@ -45,19 +46,6 @@ namespace DeviceEditor
             DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
             devicesListView.DataContext = devicesListViewModel;
             devicesListView.ShowDialog();
-            //DeviceViewModel newDevice = new DeviceViewModel();
-            //newDevice.Parent = this.Parent;
-            //newDevice.Id = "Новое устройство";
-            //StateViewModel newState = new StateViewModel();
-            //newState.Id = "Новое состояние";
-            //FrameViewModel newFrame = new FrameViewModel();
-            //newFrame.Duration = 300;
-            //newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title></g></svg>";
-            //newDevice.StateViewModels = new ObservableCollection<StateViewModel>();
-            //newState.FrameViewModels = new ObservableCollection<FrameViewModel>();
-            //newState.FrameViewModels.Add(newFrame);
-            //newDevice.StateViewModels.Add(newState);
-            //this.Parent.DeviceViewModels.Insert(this.Parent.DeviceViewModels.IndexOf(this) + 1, newDevice);
         }
 
         ObservableCollection<StateViewModel> statesListViewModel;
@@ -73,8 +61,6 @@ namespace DeviceEditor
 
         public void LoadStates()
         {
-            StatesListViewModel = new ObservableCollection<StateViewModel>();
-            StateViewModel stateViewModel1 = new StateViewModel();
             StateViewModel stateViewModel2 = new StateViewModel();
             StateViewModel stateViewModel3 = new StateViewModel();
             StateViewModel stateViewModel4 = new StateViewModel();
@@ -83,7 +69,6 @@ namespace DeviceEditor
             StateViewModel stateViewModel7 = new StateViewModel();
             StateViewModel stateViewModel8 = new StateViewModel();
             StateViewModel stateViewModel9 = new StateViewModel();
-            stateViewModel1.Id = "Базовый рисунок";
             stateViewModel2.Id = "Тревога";
             stateViewModel3.Id = "Внимание (предтревожное)";
             stateViewModel4.Id = "Неисправность";
@@ -95,8 +80,6 @@ namespace DeviceEditor
 
             if (ViewModel.Current.SelectedDeviceViewModel != null)
             {
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel1.Id) == null)
-                    StatesListViewModel.Add(stateViewModel1);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel2.Id) == null)
                     StatesListViewModel.Add(stateViewModel2);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel3.Id) == null)

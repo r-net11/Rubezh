@@ -12,6 +12,7 @@ using System.Xml;
 using System.Windows.Markup;
 using System.Windows.Input;
 using Firesec.Metadata;
+using System.Windows;
 
 namespace DeviceEditor
 {
@@ -42,10 +43,15 @@ namespace DeviceEditor
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {
-            ViewModel.Current.SelectedDeviceViewModel.StateViewModels.Remove(this);
+            if (this.Id == "Базовый рисунок")
+            {
+                MessageBox.Show("Невозможно удалить Базовый рисунок");
+                return;
+            }
+            this.Parent.StateViewModels.Remove(this);
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = this.Id;
-            DeviceViewModel.Current.StatesListViewModel.Add(stateViewModel);
+            this.Parent.StatesListViewModel.Add(stateViewModel);
         }
 
         public static StateViewModel Current { get; private set; }

@@ -106,10 +106,10 @@ namespace DeviceEditor
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = (Canvas)XamlReader.Load(xmlReader);
 
-                    //string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    //StringReader _stringReader = new StringReader(_frameImage);
-                    //XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                    //DynamicPicture = (Canvas)XamlReader.Load(_xmlReader);
+                    string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    StringReader _stringReader = new StringReader(_frameImage);
+                    XmlReader _xmlReader = XmlReader.Create(_stringReader);
+                    DynamicPicture = (Canvas)XamlReader.Load(_xmlReader);
 
                 }
                 catch(Exception)

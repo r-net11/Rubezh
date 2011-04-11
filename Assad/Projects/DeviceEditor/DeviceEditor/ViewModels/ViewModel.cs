@@ -142,8 +142,8 @@ namespace DeviceEditor
                 {
                     frame2 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     frameDuration2 = selectedStateViewModel.FrameViewModels[1].Duration;
-                    TimerButtonName = "Старт таймер";
-                    dispatcherTimer.Stop();
+                    TimerButtonName = "Стоп таймер";
+                    dispatcherTimer.Start();
                 }
                 OnPropertyChanged("SelectedStateViewModel");
             }
@@ -169,7 +169,7 @@ namespace DeviceEditor
             string frameImage;
             StringReader stringReader;
             XmlReader xmlReader;
-           
+
             tick = !tick;
             if (tick)
             {
@@ -179,7 +179,7 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    FrameViewModel.Current.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
+                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 }
                 catch { }
             }
@@ -192,7 +192,7 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    FrameViewModel.Current.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
+                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 }
                 catch { }
             }
