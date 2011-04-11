@@ -23,15 +23,5 @@ namespace DeviceEditor
         {
             InitializeComponent();
         }
-        protected void SelectCurrentItem(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            ListBoxItem item = (ListBoxItem)sender;
-            item.IsSelected = true;
-        }
-        protected void RenameItem(object sender, MouseButtonEventArgs e)
-        {
-            TextBox item = (TextBox)sender;
-            item.IsEnabled = true;
-        }
     }
 }

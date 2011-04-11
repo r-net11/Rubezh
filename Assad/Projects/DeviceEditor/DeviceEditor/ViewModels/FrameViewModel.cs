@@ -56,6 +56,17 @@ namespace DeviceEditor
             }
         }
 
+        Canvas dynamicPicture;
+        public Canvas DynamicPicture
+        {
+            get { return dynamicPicture; }
+            set
+            {
+                dynamicPicture = value;
+                OnPropertyChanged("DynamicPicture");
+            }
+        }
+
         public int duration { get; set; }
         public int Duration
         {
@@ -66,16 +77,17 @@ namespace DeviceEditor
                 OnPropertyChanged("Duration");
             }
         }
-        Canvas readerLoadButton;
-        public Canvas ReaderLoadButton
+        Canvas picture;
+        public Canvas Picture
         {
-            get { return readerLoadButton; }
+            get { return picture; }
             set
             {
-                readerLoadButton = value;
-                OnPropertyChanged("ReaderLoadButton");
+                picture = value;
+                OnPropertyChanged("Picture");
             }
         }
+
         string image;
         public string Image
         {
@@ -92,7 +104,13 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    Picture = (Canvas)XamlReader.Load(xmlReader);
+
+                    //string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    //StringReader _stringReader = new StringReader(_frameImage);
+                    //XmlReader _xmlReader = XmlReader.Create(_stringReader);
+                    //DynamicPicture = (Canvas)XamlReader.Load(_xmlReader);
+
                 }
                 catch(Exception)
                 {
@@ -100,7 +118,7 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    ReaderLoadButton = (Canvas)XamlReader.Load(xmlReader);
+                    Picture = (Canvas)XamlReader.Load(xmlReader);
                 }
                 OnPropertyChanged("Image");
             }

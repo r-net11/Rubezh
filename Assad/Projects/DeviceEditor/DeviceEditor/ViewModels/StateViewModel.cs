@@ -26,8 +26,6 @@ namespace DeviceEditor
         }
         public DeviceViewModel Parent { get; set; }
 
-
-
         FrameViewModel selectedFrameViewModel;
         public FrameViewModel SelectedFrameViewModel
         {

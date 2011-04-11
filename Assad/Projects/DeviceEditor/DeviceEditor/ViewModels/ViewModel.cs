@@ -149,19 +149,37 @@ namespace DeviceEditor
             }
         }
 
+        Canvas dynamicPicture;
+        public Canvas DynamicPicture
+        {
+            get { return dynamicPicture; }
+            set
+            {
+                dynamicPicture = value;
+                OnPropertyChanged("DynamicPicture");
+            }
+        }
+
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         bool tick = false;
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             CommandManager.InvalidateRequerySuggested();
+            string frameImage;
+            StringReader stringReader;
+            XmlReader xmlReader;
+           
             tick = !tick;
             if (tick)
             {
                 try
                 {
                     dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[0].Duration);
-                    SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[0];
+                    frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    stringReader = new StringReader(frameImage);
+                    xmlReader = XmlReader.Create(stringReader);
+                    FrameViewModel.Current.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 }
                 catch { }
             }
@@ -171,8 +189,10 @@ namespace DeviceEditor
                 try
                 {
                     dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[1].Duration);
-                    SelectedStateViewModel.SelectedFrameViewModel = SelectedStateViewModel.FrameViewModels[1];
-
+                    frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    stringReader = new StringReader(frameImage);
+                    xmlReader = XmlReader.Create(stringReader);
+                    FrameViewModel.Current.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 }
                 catch { }
             }

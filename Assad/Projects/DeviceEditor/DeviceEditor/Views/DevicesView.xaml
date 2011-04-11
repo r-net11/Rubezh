@@ -7,24 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-            <ListBox ItemsSource="{Binding DeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}" BorderThickness="0">
+            <ListBox Background="Silver" ItemsSource="{Binding DeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Id}" />
-                            <Expander>
-                                <StackPanel>
-                                    <local:StatesView/>
-                                </StackPanel>
+                            <Expander Header="{Binding Id}" FontSize="13" Style="{DynamicResource PlusMinusExpanderStyle}">
+                                <DockPanel>
+                                    <local:StatesView FontSize="12"/>
+                                </DockPanel>
                             </Expander>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF"/>
-                    <ContextMenu x:Key="contextMenu">
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF"/>
+            <ContextMenu x:Key="contextMenu">
                         <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}"/>
                         <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}"/>
                         <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
@@ -33,7 +32,6 @@
                 <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
-                    <EventSetter Event="PreviewGotKeyboardFocus" Handler="SelectCurrentItem"/>
                 </Style>
             </ListBox.ItemContainerStyle>
             </ListBox>
