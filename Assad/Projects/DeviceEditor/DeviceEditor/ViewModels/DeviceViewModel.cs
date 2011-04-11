@@ -24,41 +24,16 @@ namespace DeviceEditor
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
-            StatesListViewModel = new ObservableCollection<StateViewModel>();
+            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
         }
 
         public ViewModel Parent { get; private set; }
         public static DeviceViewModel Current { get; private set; }
 
-        public RelayCommand AddStateCommand { get; private set; }
-        void OnAddStateCommand(object obj)
-        {
-            ListView statesListView = new ListView();
-            StatesListViewModel statesListViewModel = new StatesListViewModel();
-            statesListView.DataContext = statesListViewModel;
-            statesListView.ShowDialog();
-        }
-
-        public RelayCommand AddDeviceCommand { get; private set; }
-        void OnAddDeviceCommand(object obj)
-        {
-            ListView devicesListView = new ListView();
-            DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
-            devicesListView.DataContext = devicesListViewModel;
-            devicesListView.ShowDialog();
-        }
-
-        ObservableCollection<StateViewModel> statesListViewModel;
-        public ObservableCollection<StateViewModel> StatesListViewModel
-        {
-            get { return statesListViewModel; }
-            set
-            {
-                statesListViewModel = value;
-                OnPropertyChanged("StatesListViewModel");
-            }
-        }
-
+        /// <summary>
+        /// Загрузка доступных для выбора состояний в
+        /// StatesAvailableListViewModel(список доступных для выбора состояний).
+        /// </summary>
         public void LoadStates()
         {
             StateViewModel stateViewModel2 = new StateViewModel();
@@ -77,34 +52,80 @@ namespace DeviceEditor
             stateViewModel7.Id = "Неизвестно";
             stateViewModel8.Id = "Норма(*)";
             stateViewModel9.Id = "Норма";
-
+            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
             if (ViewModel.Current.SelectedDeviceViewModel != null)
             {
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel2.Id) == null)
-                    StatesListViewModel.Add(stateViewModel2);
+                    StatesAvailableListViewModel.Add(stateViewModel2);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel3.Id) == null)
-                    StatesListViewModel.Add(stateViewModel3);
+                    StatesAvailableListViewModel.Add(stateViewModel3);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel4.Id) == null)
-                    StatesListViewModel.Add(stateViewModel4);
+                    StatesAvailableListViewModel.Add(stateViewModel4);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel5.Id) == null)
-                    StatesListViewModel.Add(stateViewModel5);
+                    StatesAvailableListViewModel.Add(stateViewModel5);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel6.Id) == null)
-                    StatesListViewModel.Add(stateViewModel6);
+                    StatesAvailableListViewModel.Add(stateViewModel6);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel7.Id) == null)
-                    StatesListViewModel.Add(stateViewModel7);
+                    StatesAvailableListViewModel.Add(stateViewModel7);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel8.Id) == null)
-                    StatesListViewModel.Add(stateViewModel8);
+                    StatesAvailableListViewModel.Add(stateViewModel8);
                 if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel9.Id) == null)
-                    StatesListViewModel.Add(stateViewModel9);
+                    StatesAvailableListViewModel.Add(stateViewModel9);
             }
         }
 
+        /// <summary>
+        /// Список доступных для выбора состояний. Для каждого устройства свой список.
+        /// Доступные состояния для устройства - все состояния за исключением тех,
+        /// которые уже используются на данном устройстве.
+        /// </summary> 
+        ObservableCollection<StateViewModel> statesAvailableListViewModel;
+        public ObservableCollection<StateViewModel> StatesAvailableListViewModel
+        {
+            get { return statesAvailableListViewModel; }
+            set
+            {
+                statesAvailableListViewModel = value;
+                OnPropertyChanged("StatesAvailableListViewModel");
+            }
+        }
+
+        /// <summary>
+        /// Команда, показывающая список всех доступных устройств.
+        /// </summary>
+        public RelayCommand AddDeviceCommand { get; private set; }
+        void OnAddDeviceCommand(object obj)
+        {
+            ListView devicesListView = new ListView();
+            DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
+            devicesListView.DataContext = devicesListViewModel;
+            devicesListView.ShowDialog();
+        }
+
+        /// <summary>
+        /// Команда, показывающая список всех доступных состояний.
+        /// </summary>
+        public RelayCommand AddStateCommand { get; private set; }
+        void OnAddStateCommand(object obj)
+        {
+            ListView statesListView = new ListView();
+            StatesListViewModel statesListViewModel = new StatesListViewModel();
+            statesListView.DataContext = statesListViewModel;
+            statesListView.ShowDialog();
+        }
+
+        /// <summary>
+        /// Команда удаляющая устройство из списка.
+        /// </summary>
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDeviceCommand(object obj)
         {
             this.Parent.DeviceViewModels.Remove(this);
         }
 
+        /// <summary>
+        /// Идентификатор устройства
+        /// </summary>
         public string id;
         public string Id
         {
@@ -116,6 +137,9 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Выбранное состояние.
+        /// </summary>
         StateViewModel selectedStateViewModel;
         public StateViewModel SelectedStateViewModel
         {
@@ -128,6 +152,9 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Список всех используемых состояний для данного устройства
+        /// </summary>
         public ObservableCollection<StateViewModel> stateViewModels;
         public ObservableCollection<StateViewModel> StateViewModels
         {

@@ -13,6 +13,7 @@ using System;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Firesec.Metadata;
+using System.Linq;
 
 namespace DeviceEditor
 {
@@ -21,8 +22,7 @@ namespace DeviceEditor
         public ViewModel()
         {
             Current = this;
-            DeviceManager deviceManager = new DeviceManager();
-            Load(deviceManager);
+            Load();
 
             SaveCommand = new RelayCommand(OnSaveCommand);
             StartTimerCommand = new RelayCommand(OnStartTimerCommand);
@@ -30,9 +30,8 @@ namespace DeviceEditor
         }
 
         public static ViewModel Current { get; private set; }
-        public DeviceManager deviceManager;
-        static public string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
-        
+        public static string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
+
         public RelayCommand StartTimerCommand { get; private set; }
         void OnStartTimerCommand(object obj)
         {
@@ -68,6 +67,7 @@ namespace DeviceEditor
         public RelayCommand SaveCommand { get; private set; }
         public void OnSaveCommand(object obj)
         {
+            DeviceManager deviceManager = new DeviceManager();
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?", "Окно подтверждения", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
                 return;
@@ -111,10 +111,6 @@ namespace DeviceEditor
             }
         }
 
-        string frame1, frame2;
-        int frameDuration1 = 100, frameDuration2 = 100;
-        StateViewModel selectedStateViewModel;
-
         DeviceViewModel selectedDeviceViewModel;
         public DeviceViewModel SelectedDeviceViewModel
         {
@@ -127,21 +123,21 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Выбранное состояние.
+        /// </summary>
+        StateViewModel selectedStateViewModel;
         public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
             set
             {
                 selectedStateViewModel = value;
-                if (selectedStateViewModel == null)
+                if (SelectedStateViewModel == null)
                     return;
-                frame1 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                frameDuration1 = selectedStateViewModel.FrameViewModels[0].Duration;
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
-                    frame2 = Svg2Xaml.XSLT_Transform(selectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    frameDuration2 = selectedStateViewModel.FrameViewModels[1].Duration;
                     TimerButtonName = "Стоп таймер";
                     dispatcherTimer.Start();
                 }
@@ -198,9 +194,9 @@ namespace DeviceEditor
             }
         }
 
-        public void Load(DeviceManager deviceManager)
+        public void Load()
         {
-            this.deviceManager = deviceManager;
+            DeviceManager deviceManager = new DeviceManager();
             FileStream file_xml = new FileStream(deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             deviceManager = (DeviceManager)serializer.Deserialize(file_xml);

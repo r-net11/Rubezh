@@ -51,7 +51,7 @@ namespace DeviceEditor
             this.Parent.StateViewModels.Remove(this);
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = this.Id;
-            this.Parent.StatesListViewModel.Add(stateViewModel);
+            DeviceViewModel.Current.StatesAvailableListViewModel.Add(stateViewModel);
         }
 
         public static StateViewModel Current { get; private set; }

@@ -15,7 +15,7 @@ namespace DeviceEditor
         public StatesListViewModel()
         {
             Current = this;
-            Items = DeviceViewModel.Current.StatesListViewModel;
+            Items = DeviceViewModel.Current.StatesAvailableListViewModel;
             AddCommand = new RelayCommand(OnAddCommand);
         }
         public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
@@ -32,7 +32,7 @@ namespace DeviceEditor
             stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
             stateViewModel.FrameViewModels.Add(frameViewModel);
             ViewModel.Current.SelectedDeviceViewModel.StateViewModels.Add(stateViewModel);
-            DeviceViewModel.Current.StatesListViewModel.Remove(selectedItem);
+            DeviceViewModel.Current.StatesAvailableListViewModel.Remove(selectedItem);
         }
 
         StateViewModel selectedItem;
