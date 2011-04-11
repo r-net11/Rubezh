@@ -10,13 +10,13 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
         <Grid Grid.Column="0">
             <local:DevicesView/>
         </Grid>
         </ScrollViewer>
         <Grid Grid.Column="1">
-            <TabControl Background="#656B82" TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
+            <TabControl Background="#616161" TabStripPlacement="Bottom" DataContext="{Binding SelectedStateViewModel}" ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <DockPanel>
@@ -27,13 +27,13 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <Grid Background="Silver">
+                        <Grid Background="#BFBFBF">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                    <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
+                                    <TextBox Background="Black" Foreground="Yellow" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
                             </Grid>
                             <Grid Grid.Row="1">
                                 <ContentControl Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right" Content="{Binding DynamicPicture, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left">
@@ -60,11 +60,6 @@
                 </TabControl.ContentTemplate>
             </TabControl>
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
-                <!--<ContentControl Margin="0,0,0,200" Content="{Binding DynamicPicture}" HorizontalContentAlignment="Left" VerticalAlignment="Top">
-                    <ContentControl.LayoutTransform>
-                        <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
-                    </ContentControl.LayoutTransform>
-                </ContentControl>-->
                 <DockPanel VerticalAlignment="Bottom">
                     <Button Width="80" Height="22" Command="{Binding StartTimerCommand}" Content="{Binding TimerButtonName}"/>
                     <Button Width="80" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>

@@ -157,7 +157,7 @@ namespace DeviceEditor
         }
 
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        bool tick = false;
+        int tick = 0;
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -166,32 +166,17 @@ namespace DeviceEditor
             StringReader stringReader;
             XmlReader xmlReader;
 
-            tick = !tick;
-            if (tick)
+            try
             {
-                try
-                {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[0].Duration);
-                    frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[0].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    stringReader = new StringReader(frameImage);
-                    xmlReader = XmlReader.Create(stringReader);
-                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                }
-                catch { }
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[tick].Duration);
+                frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                stringReader = new StringReader(frameImage);
+                xmlReader = XmlReader.Create(stringReader);
+                SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
+                tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
-
-            else
-            {
-                try
-                {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[1].Duration);
-                    frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[1].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    stringReader = new StringReader(frameImage);
-                    xmlReader = XmlReader.Create(stringReader);
-                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                }
-                catch { }
-            }
+            catch
+            { }
         }
 
         public void Load()
