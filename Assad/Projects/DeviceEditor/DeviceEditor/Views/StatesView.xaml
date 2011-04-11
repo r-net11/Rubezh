@@ -7,20 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <ListBox Background="Silver" ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}" BorderThickness="0">
+    <ListBox Background="Silver" GotFocus="ListBox_GotFocus" ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}" BorderThickness="0">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel MinWidth="5000">
                     <TextBlock Text=" *         " FontFamily="Lucida Sans Unicode" Foreground="#656B82"/>
                     <TextBlock Text="{Binding Id}" />
-                    <TextBlock Text="                         "/>
                 </DockPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#AAAAAA" />
-            <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
+            <ContextMenu Background="#004080" x:Key="contextMenu">
+                <MenuItem Foreground="White" Header="Удалить состояние" Command="{Binding RemoveStateCommand}"/>
+                <ContextMenu.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#000033" />
+                </ContextMenu.Resources>
             </ContextMenu>
         </ListBox.Resources>
         <ListBox.ItemContainerStyle>

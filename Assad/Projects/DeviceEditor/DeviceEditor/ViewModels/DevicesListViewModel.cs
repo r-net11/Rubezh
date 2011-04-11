@@ -26,9 +26,15 @@ namespace DeviceEditor
             deviceViewModel.Id = selectedItem.Id;
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = "Базовый рисунок";
+            FrameViewModel frameViewModel = new FrameViewModel();
+            frameViewModel.Duration = 0;
+            frameViewModel.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
+            stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
+            stateViewModel.FrameViewModels.Add(frameViewModel);
             deviceViewModel.StateViewModels = new ObservableCollection<StateViewModel>();
-            deviceViewModel.StateViewModels[0] = stateViewModel;
+            deviceViewModel.StateViewModels.Add(stateViewModel);
             ViewModel.Current.DeviceViewModels.Add(deviceViewModel);
+            items.Remove(selectedItem);
         }
 
         ObservableCollection<DeviceViewModel> items;
@@ -62,11 +68,16 @@ namespace DeviceEditor
 
             Items = new ObservableCollection<DeviceViewModel>();
             foreach (drvType item in metadata.drv)
-            {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Id = item.name;
-                Items.Add(deviceViewModel);
-            }
+                try
+                {
+                    if (item.options.Contains("Placeable")&&(ViewModel.Current.DeviceViewModels.FirstOrDefault(x => x.Id == item.name) == null))
+                    {
+                        DeviceViewModel deviceViewModel = new DeviceViewModel();
+                        deviceViewModel.Id = item.name;
+                        Items.Add(deviceViewModel);
+                    }
+                }
+                catch { }
         }
     }
 }

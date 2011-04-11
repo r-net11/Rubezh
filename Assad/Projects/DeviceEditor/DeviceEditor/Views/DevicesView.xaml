@@ -20,13 +20,16 @@
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF0000"/>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"/>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF"/>
-            <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}"/>
-                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}"/>
-                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
+            <ContextMenu Background="#004080" x:Key="contextMenu">
+                <MenuItem Foreground="White" Header="Добавить устройство" Command="{Binding AddDeviceCommand}"/>
+                <MenuItem Foreground="White" Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}"/>
+                <MenuItem Foreground="White" Header="Добавить состояние" Command="{Binding AddStateCommand}"/>
+                <ContextMenu.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#000033" />
+                </ContextMenu.Resources>
             </ContextMenu>
         </ListBox.Resources>
         <ListBox.ItemContainerStyle>
