@@ -32,7 +32,7 @@ namespace JournalModule
         static void ShowJournal(object obj)
         {
             JournalViewModel journalViewModel = new JournalViewModel();
-            journalViewModel.Initialize();
+            //journalViewModel.Initialize();
             ServiceFactory.Layout.Show(journalViewModel);
         }
     }

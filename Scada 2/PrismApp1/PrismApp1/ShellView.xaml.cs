@@ -13,24 +13,20 @@ using System.Windows.Shapes;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Events;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace PrismApp1
 {
     /// <summary>
     /// Логика взаимодействия для Shell.xaml
     /// </summary>
-    public partial class ShellView : Window
+    public partial class ShellView : Window, INotifyPropertyChanged
     {
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
-            ShowAlarmsCommand = new RelayCommand(OnShowAlarms);
-            ShowPlansCommand = new RelayCommand(OnShowPlans);
-            ShowJournalCommand = new RelayCommand(OnShowJournal);
-            ShowDeviceParametersCommand = new RelayCommand(OnShowDeviceParameters);
-            ShowDevicesCommand = new RelayCommand(OnShowDevices);
-            ShowZonesCommand = new RelayCommand(OnShowZones);
         }
 
         public IViewPart MainContent
@@ -45,37 +41,101 @@ namespace PrismApp1
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
         }
 
-        public RelayCommand ShowAlarmsCommand { get; private set; }
-        void OnShowAlarms()
+        bool isAlarmSelected;
+        public bool IsAlarmSelected
         {
-            ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Publish(null);
+            get { return isAlarmSelected; }
+            set
+            {
+                isAlarmSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsAlarmSelected");
+            }
         }
 
-        public RelayCommand ShowPlansCommand { get; private set; }
-        void OnShowPlans()
+        bool isPlanSelected;
+        public bool IsPlanSelected
         {
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+            get { return isPlanSelected; }
+            set
+            {
+                isPlanSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsPlanSelected");
+            }
         }
 
-        public RelayCommand ShowJournalCommand { get; private set; }
-        void OnShowJournal()
+        bool isJournalSelected;
+        public bool IsJournalSelected
         {
-            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+            get { return isJournalSelected; }
+            set
+            {
+                isJournalSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsJournalSelected");
+            }
         }
 
-        public RelayCommand ShowDeviceParametersCommand { get; private set; }
-        void OnShowDeviceParameters()
+        bool isDeviceParametersSelectedSelected;
+        public bool IsDeviceParametersSelectedSelected
         {
+            get { return isDeviceParametersSelectedSelected; }
+            set
+            {
+                isDeviceParametersSelectedSelected = value;
+                if (value)
+                {
+                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsDeviceParametersSelectedSelected");
+            }
         }
 
-        public RelayCommand ShowDevicesCommand { get; private set; }
-        void OnShowDevices()
+        bool isDevicesSelected;
+        public bool IsDevicesSelected
         {
+            get { return isDevicesSelected; }
+            set
+            {
+                isDevicesSelected = value;
+                if (value)
+                {
+                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsDevicesSelected");
+            }
         }
 
-        public RelayCommand ShowZonesCommand { get; private set; }
-        void OnShowZones()
+        bool isZonesSelected;
+        public bool IsZonesSelected
         {
+            get { return isZonesSelected; }
+            set
+            {
+                isZonesSelected = value;
+                if (value)
+                {
+                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsZonesSelected");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

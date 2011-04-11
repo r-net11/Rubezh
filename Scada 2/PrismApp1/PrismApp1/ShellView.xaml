@@ -3,6 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         Title="Shell" Height="800" Width="1000">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/OutlookBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid Background="Gray">
 
@@ -18,17 +25,62 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0">
-                        <Button Content="Все тревоги" Command="{Binding ShowAlarmsCommand}" />
-                        <Button Content="Планы" Command="{Binding ShowPlansCommand}" />
-                        <Button Content="Журнал" Command="{Binding ShowJournalCommand}" />
-                        <Button Content="Параметры устройств" Command="{Binding ShowDeviceParametersCommand}" />
-                        <Button Content="Устройства" Command="{Binding ShowDevicesCommand}" />
-                        <Button Content="Зоны" Command="{Binding ShowZonesCommand}" />
+                        <TabControl Template="{StaticResource OutlookTab}">
+                            
+                            <TabItem IsSelected="{Binding IsAlarmSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Все тревоги" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+                            
+                            <TabItem IsSelected="{Binding IsPlanSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Планы" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+                            
+                            <TabItem IsSelected="{Binding IsJournalSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Журнал" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+
+                            <TabItem IsSelected="{Binding IsDeviceParametersSelectedSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Параметры устройств" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+
+                            <TabItem IsSelected="{Binding IsDevicesSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Устройства" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+
+                            <TabItem IsSelected="{Binding IsZonesSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Зоны" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+                            
+                        </TabControl>
                     </StackPanel>
 
                     <Grid Grid.Column="1" Name="centerStackPanel" Background="LightGray">
