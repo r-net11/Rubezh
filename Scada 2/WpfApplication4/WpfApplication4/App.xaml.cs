@@ -18,6 +18,11 @@ namespace WpfApplication4
             ViewModel viewModel = new ViewModel();
             mainWindow.DataContext = viewModel;
             mainWindow.Show();
+
+            AlarmImitatorView alarmImitatorView = new AlarmImitatorView();
+            AlarmImitatorViewModel alarmImitatorViewModel = new AlarmImitatorViewModel();
+            alarmImitatorView.DataContext = alarmImitatorViewModel;
+            alarmImitatorView.Show();
         }
     }
 }

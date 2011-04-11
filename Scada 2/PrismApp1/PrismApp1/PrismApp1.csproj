@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{502B8D6A-2584-42E9-A951-83B9D6380D83}</ProjectGuid>
+    <ProjectGuid>{D1EA90C8-D176-442F-A5DD-8AB97B476821}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WpfApplication4</RootNamespace>
-    <AssemblyName>WpfApplication4</AssemblyName>
+    <RootNamespace>PrismApp1</RootNamespace>
+    <AssemblyName>PrismApp1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -36,6 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
+      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>D:\PRISM\Lib\Desktop\Unity\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,55 +64,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Alarm.cs" />
-    <Compile Include="View\AlarmsView.xaml.cs">
-      <DependentUpon>AlarmsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AlarmType.cs" />
-    <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
-    <Compile Include="ViewModels\AlarmImitatorViewModel.cs" />
-    <Compile Include="View\AlarmImitatorView.xaml.cs">
-      <DependentUpon>AlarmImitatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\AlarmView.xaml.cs">
-      <DependentUpon>AlarmView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\DetailAlarm.cs" />
-    <Compile Include="ViewModels\MainAlarm.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
-    <Compile Include="View\PlanView.xaml.cs">
-      <DependentUpon>PlanView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="View\AlarmsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AlarmImitatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AlarmView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="LayoutService.cs" />
+    <Compile Include="ResourceService.cs" />
+    <Compile Include="ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\PlanView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -128,16 +100,21 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Assad\Projects\Common\Common\Common.csproj">
-      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
-      <Name>Common</Name>
+    <Page Include="ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlarmModule\AlarmModule.csproj">
+      <Project>{5994549E-4D3E-40BB-8630-CF696158E4E4}</Project>
+      <Name>AlarmModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AlarmButtons\AlarmButtons.csproj">
-      <Project>{6C8EB7DC-E896-4632-94CE-A7A267EAA64F}</Project>
-      <Name>AlarmButtons</Name>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
