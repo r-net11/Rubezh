@@ -11,6 +11,5 @@ namespace Infrastructure
         void Close();
 
         void AddAlarmGroups(IViewPart model);
-        void AddAlarms(IViewPart model);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure;
 using AlarmModule.Events;
+using Infrastructure.Events;
 
 namespace AlarmModule.ViewModels
 {
@@ -16,14 +17,12 @@ namespace AlarmModule.ViewModels
         }
 
         public Alarm alarm;
-        bool belongToGroup;
         public AlarmType AlarmType { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public void Initialize(Alarm alarm, bool belongToGroup)
+        public void Initialize(Alarm alarm)
         {
-            this.belongToGroup = belongToGroup;
             this.alarm = alarm;
             AlarmType = alarm.AlarmType;
             Name = alarm.Name;
@@ -34,15 +33,12 @@ namespace AlarmModule.ViewModels
         void OnReset()
         {
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
-            if (belongToGroup == false)
-            {
-                ServiceFactory.Layout.Close();
-            }
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
         }
 
         public override void Dispose()

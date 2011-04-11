@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrastructure;
+using AlarmModule.Events;
+using Infrastructure.Events;
 
 namespace PrismApp1
 {
@@ -22,6 +24,13 @@ namespace PrismApp1
         public ShellView()
         {
             InitializeComponent();
+            DataContext = this;
+            ShowAlarmsCommand = new RelayCommand(OnShowAlarms);
+            ShowPlansCommand = new RelayCommand(OnShowPlans);
+            ShowJournalCommand = new RelayCommand(OnShowJournal);
+            ShowDeviceParametersCommand = new RelayCommand(OnShowDeviceParameters);
+            ShowDevicesCommand = new RelayCommand(OnShowDevices);
+            ShowZonesCommand = new RelayCommand(OnShowZones);
         }
 
         public IViewPart MainContent
@@ -36,10 +45,37 @@ namespace PrismApp1
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
         }
 
-        public IViewPart Alarms
+        public RelayCommand ShowAlarmsCommand { get; private set; }
+        void OnShowAlarms()
         {
-            get { return _alarms.Content as IViewPart; }
-            set { _alarms.DataContext = _alarms.Content = value; }
+            ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Publish(null);
+        }
+
+        public RelayCommand ShowPlansCommand { get; private set; }
+        void OnShowPlans()
+        {
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+        }
+
+        public RelayCommand ShowJournalCommand { get; private set; }
+        void OnShowJournal()
+        {
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+        }
+
+        public RelayCommand ShowDeviceParametersCommand { get; private set; }
+        void OnShowDeviceParameters()
+        {
+        }
+
+        public RelayCommand ShowDevicesCommand { get; private set; }
+        void OnShowDevices()
+        {
+        }
+
+        public RelayCommand ShowZonesCommand { get; private set; }
+        void OnShowZones()
+        {
         }
     }
 }

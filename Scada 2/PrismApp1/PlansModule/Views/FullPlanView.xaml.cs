@@ -12,16 +12,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AlarmModule.Views
+namespace PlansModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AlarmsView.xaml
+    /// Логика взаимодействия для PlanView.xaml
     /// </summary>
-    public partial class AlarmsView : UserControl
+    public partial class FullPlanView : UserControl
     {
-        public AlarmsView()
+        public FullPlanView()
         {
             InitializeComponent();
+            //_MainCanvas = MainCanvas;
         }
+
+        //public static Canvas _MainCanvas { get; set; }
     }
 }

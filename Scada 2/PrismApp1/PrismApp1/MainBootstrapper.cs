@@ -42,6 +42,8 @@ namespace PrismApp1
 
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(AlarmModule.AlarmModule));
+            moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
+            moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
         }
     }
 }

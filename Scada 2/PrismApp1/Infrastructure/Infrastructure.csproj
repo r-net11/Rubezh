@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -52,6 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Events\ShowDeviceParametersEvent.cs" />
+    <Compile Include="Events\ShowDevicesEvent.cs" />
+    <Compile Include="Events\ShowJournalEvent.cs" />
+    <Compile Include="Events\ShowPlanEvent.cs" />
+    <Compile Include="Events\ShowZonesEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="IResourceService.cs" />
     <Compile Include="IViewPart.cs" />

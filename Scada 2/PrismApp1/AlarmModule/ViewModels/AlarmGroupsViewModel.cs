@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using AlarmModule.Events;
+using System.Diagnostics;
 
 namespace AlarmModule.ViewModels
 {
@@ -19,9 +21,26 @@ namespace AlarmModule.ViewModels
             MainAlarms.Add(new AlarmGroupViewModel() { Name = "Информация", AlarmType = AlarmType.Info });
             MainAlarms.Add(new AlarmGroupViewModel() { Name = "Обслуживание", AlarmType = AlarmType.Service });
             MainAlarms.Add(new AlarmGroupViewModel() { Name = "Автоматика", AlarmType = AlarmType.Auto });
+
+            ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Subscribe(OnShowAllAlarms);
         }
 
         public ObservableCollection<AlarmGroupViewModel> MainAlarms { get; set; }
+
+        void OnShowAllAlarms(object obj)
+        {
+            Trace.WriteLine("Show all alarms");
+
+            List<Alarm> alarms = new List<Alarm>();
+            foreach (AlarmGroupViewModel alarmGroupViewModel in MainAlarms)
+            {
+                alarms.AddRange(alarmGroupViewModel.Alarms);
+            }
+
+            AlarmGroupDetailsViewModel alarmGroupDetailsViewModel = new AlarmGroupDetailsViewModel();
+            alarmGroupDetailsViewModel.Initialize(alarms);
+            ServiceFactory.Layout.Show(alarmGroupDetailsViewModel);
+        }
 
         public override void Dispose()
         {

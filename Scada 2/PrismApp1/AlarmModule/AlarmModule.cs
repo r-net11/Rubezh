@@ -15,15 +15,13 @@ namespace AlarmModule
         {
             RegisterResources();
 
-            AlarmsViewModel alarmsViewModel = new AlarmsViewModel();
             AlarmGroupsViewModel alarmGroupsViewModel = new AlarmGroupsViewModel();
-            ServiceFactory.Layout.AddAlarms(alarmsViewModel);
             ServiceFactory.Layout.AddAlarmGroups(alarmGroupsViewModel);
 
             ShowImitatorView();
         }
 
-        private void RegisterResources()
+        void RegisterResources()
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));

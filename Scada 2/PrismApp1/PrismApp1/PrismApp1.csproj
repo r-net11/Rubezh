@@ -37,13 +37,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
-      <HintPath>D:\PRISM\Bin\Desktop\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>D:\PRISM\Lib\Desktop\Unity\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\..\Assad\3rdParty\PRISM\Bin\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,6 +58,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\..\..\Assad\3rdParty\WPF Toolkit\v3.5.50211.1\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -110,9 +113,21 @@
       <Project>{5994549E-4D3E-40BB-8630-CF696158E4E4}</Project>
       <Name>AlarmModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JournalModule\JournalModule.csproj">
+      <Project>{73FD68C0-A071-4BC1-8299-0EDB03B9C119}</Project>
+      <Name>JournalModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlansModule\PlansModule.csproj">
+      <Project>{299872B9-B3DB-45C0-867B-53F6D49A7E87}</Project>
+      <Name>PlansModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

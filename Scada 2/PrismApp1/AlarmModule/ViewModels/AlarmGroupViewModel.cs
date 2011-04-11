@@ -20,7 +20,7 @@ namespace AlarmModule.ViewModels
 
         public AlarmType AlarmType { get; set; }
         public string Name { get; set; }
-        List<Alarm> Alarms { get; set; }
+        public List<Alarm> Alarms { get; set; }
 
         void OnAlarmAdded(Alarm alarm)
         {

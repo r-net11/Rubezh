@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Common;
 using System.Collections.ObjectModel;
 using Infrastructure;
 using AlarmModule.Events;
@@ -14,6 +13,7 @@ namespace AlarmModule.ViewModels
         public AlarmGroupDetailsViewModel()
         {
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
+            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
         }
 
         void OnResetAlarm(Alarm alarm)
@@ -26,13 +26,20 @@ namespace AlarmModule.ViewModels
             }
         }
 
+        void OnAlarmAdded(Alarm alarm)
+        {
+            AlarmDetailsViewModel alarmDetailsViewModel = new AlarmDetailsViewModel();
+            alarmDetailsViewModel.Initialize(alarm);
+            AlarmDetails.Add(alarmDetailsViewModel);
+        }
+
         public void Initialize(List<Alarm> alarms)
         {
             AlarmDetails = new ObservableCollection<AlarmDetailsViewModel>();
             foreach (Alarm alarm in alarms)
             {
                 AlarmDetailsViewModel alarmDetailsViewModel = new AlarmDetailsViewModel();
-                alarmDetailsViewModel.Initialize(alarm, true);
+                alarmDetailsViewModel.Initialize(alarm);
                 AlarmDetails.Add(alarmDetailsViewModel);
             }
         }
@@ -51,6 +58,7 @@ namespace AlarmModule.ViewModels
         public override void Dispose()
         {
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Unsubscribe(OnResetAlarm);
+            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Unsubscribe(OnAlarmAdded);
         }
     }
 }

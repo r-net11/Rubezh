@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
-        Title="Shell" Height="800" Width="800">
+        Title="Shell" Height="800" Width="1000">
     <Grid>
         <Grid Background="Gray">
 
@@ -23,7 +23,12 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0">
-                        <ContentControl Name="_alarms" />
+                        <Button Content="Все тревоги" Command="{Binding ShowAlarmsCommand}" />
+                        <Button Content="Планы" Command="{Binding ShowPlansCommand}" />
+                        <Button Content="Журнал" Command="{Binding ShowJournalCommand}" />
+                        <Button Content="Параметры устройств" Command="{Binding ShowDeviceParametersCommand}" />
+                        <Button Content="Устройства" Command="{Binding ShowDevicesCommand}" />
+                        <Button Content="Зоны" Command="{Binding ShowZonesCommand}" />
                     </StackPanel>
 
                     <Grid Grid.Column="1" Name="centerStackPanel" Background="LightGray">
