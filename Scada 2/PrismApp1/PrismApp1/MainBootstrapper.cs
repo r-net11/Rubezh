@@ -19,7 +19,6 @@ namespace PrismApp1
             ShellView shellView = new ShellView();
             ServiceFactory.RegisterInstance(shellView);
             return shellView;
-            //return Container.Resolve<Shell>();
         }
 
         protected override void InitializeShell()
@@ -44,6 +43,7 @@ namespace PrismApp1
             moduleCatalog.AddModule(typeof(AlarmModule.AlarmModule));
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
+            moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
         }
     }
 }

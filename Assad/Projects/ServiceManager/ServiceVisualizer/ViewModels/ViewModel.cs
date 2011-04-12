@@ -283,12 +283,12 @@ namespace ServiceVisualizer
         {
             ZoneViewModels = new ObservableCollection<ZoneViewModel>();
 
-                foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
-                {
-                    ZoneViewModel zoneViewModel = new ZoneViewModel();
-                    zoneViewModel.SetZone(zone);
-                    ZoneViewModels.Add(zoneViewModel);
-                }
+            foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
+            {
+                ZoneViewModel zoneViewModel = new ZoneViewModel();
+                zoneViewModel.SetZone(zone);
+                ZoneViewModels.Add(zoneViewModel);
+            }
         }
     }
 }

@@ -12,11 +12,8 @@ namespace JournalModule.ViewModels
     {
         public void Initialize()
         {
-            ServiceClient serviceClient = new ServiceClient();
-            serviceClient.Start();
-
             JournalItemViewModels = new ObservableCollection<JournalItemViewModel>();
-            List<Firesec.ReadEvents.journalType> journalItems = serviceClient.ReadJournal(0, 100);
+            List<Firesec.ReadEvents.journalType> journalItems = ClientManager.Current.ReadJournal(0, 100);
             foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
             {
                 JournalItemViewModel journalItemViewModel = new JournalItemViewModel();

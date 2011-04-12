@@ -56,14 +56,6 @@
                                 </TabItem.Header>
                             </TabItem>
 
-                            <TabItem IsSelected="{Binding IsDeviceParametersSelectedSelected}">
-                                <TabItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Параметры устройств" FontWeight="Bold" />
-                                    </StackPanel>
-                                </TabItem.Header>
-                            </TabItem>
-
                             <TabItem IsSelected="{Binding IsDevicesSelected}">
                                 <TabItem.Header>
                                     <StackPanel Orientation="Horizontal">
@@ -76,6 +68,14 @@
                                 <TabItem.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Зоны" FontWeight="Bold" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                            </TabItem>
+
+                            <TabItem IsSelected="{Binding IsReportSelectedSelected}">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Отчеты" FontWeight="Bold" />
                                     </StackPanel>
                                 </TabItem.Header>
                             </TabItem>

@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseViewModel.cs" />
-    <Compile Include="Events\ShowDeviceParametersEvent.cs" />
+    <Compile Include="Events\ShowReportsEvent.cs" />
     <Compile Include="Events\ShowDevicesEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />

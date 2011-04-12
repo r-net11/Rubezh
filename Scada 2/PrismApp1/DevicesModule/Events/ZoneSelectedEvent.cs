@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Prism.Events;
+using ServiceApi;
 
-namespace Infrastructure.Events
+namespace DevicesModule.Events
 {
-    public class ShowDeviceParametersEvent : CompositePresentationEvent<object>
+    public class ZoneSelectedEvent : CompositePresentationEvent<Zone>
     {
     }
 }

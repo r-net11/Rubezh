@@ -86,21 +86,6 @@ namespace PrismApp1
             }
         }
 
-        bool isDeviceParametersSelectedSelected;
-        public bool IsDeviceParametersSelectedSelected
-        {
-            get { return isDeviceParametersSelectedSelected; }
-            set
-            {
-                isDeviceParametersSelectedSelected = value;
-                if (value)
-                {
-                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
-                }
-                OnPropertyChanged("IsDeviceParametersSelectedSelected");
-            }
-        }
-
         bool isDevicesSelected;
         public bool IsDevicesSelected
         {
@@ -110,7 +95,7 @@ namespace PrismApp1
                 isDevicesSelected = value;
                 if (value)
                 {
-                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsDevicesSelected");
             }
@@ -125,9 +110,24 @@ namespace PrismApp1
                 isZonesSelected = value;
                 if (value)
                 {
-                    //ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsZonesSelected");
+            }
+        }
+
+        bool isReportSelectedSelected;
+        public bool IsReportSelectedSelected
+        {
+            get { return isReportSelectedSelected; }
+            set
+            {
+                isReportSelectedSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsReportSelectedSelected");
             }
         }
 
