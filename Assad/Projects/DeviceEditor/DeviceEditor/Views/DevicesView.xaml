@@ -11,7 +11,7 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel>
-                    <Expander FontSize="14" Style="{DynamicResource PlusMinusExpanderStyle}">
+                    <Expander FontSize="13" Style="{DynamicResource PlusMinusExpanderStyle}">
                         <Expander.Header>
                             <DockPanel Margin="-5,0,0,0">
                                 <Image Source="{Binding IconPath}" Width="14"/>

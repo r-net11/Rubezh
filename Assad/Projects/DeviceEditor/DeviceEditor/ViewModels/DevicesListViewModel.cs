@@ -24,6 +24,7 @@ namespace DeviceEditor
             DeviceViewModel deviceViewModel = new DeviceViewModel();
             deviceViewModel.StateViewModels = new ObservableCollection<StateViewModel>();
             deviceViewModel.Id = selectedItem.Id;
+            deviceViewModel.IconPath = selectedItem.IconPath;
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = "Базовый рисунок";
             FrameViewModel frameViewModel = new FrameViewModel();

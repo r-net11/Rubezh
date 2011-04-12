@@ -7,13 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <ListBox Background="Silver" GotFocus="ListBox_GotFocus" ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}" BorderThickness="0">
+    <ListBox Background="Silver" GotFocus="ListBox_GotFocus" ItemsSource ="{Binding StateViewModels}" SelectedItem="{Binding SelectedStateViewModel}" BorderThickness="0"
+             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel MinWidth="5000">
-                    <TextBlock Text=" "/>
+                <DockPanel Margin="18,0,0,0">
                     <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="10" />
-                    <TextBlock Text="      "/>
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="3" />
                     <TextBlock Text="{Binding Id}" />
                 </DockPanel>
             </DataTemplate>
