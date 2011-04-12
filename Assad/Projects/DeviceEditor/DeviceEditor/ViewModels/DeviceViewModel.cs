@@ -27,6 +27,20 @@ namespace DeviceEditor
             StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
         }
 
+        string iconPath;
+        public string IconPath
+        {
+            get
+            {
+                return iconPath;
+            }
+            set
+            {
+                iconPath = value;
+                OnPropertyChanged("IconPath");
+            }
+        }
+
         public ViewModel Parent { get; private set; }
         public static DeviceViewModel Current { get; private set; }
 

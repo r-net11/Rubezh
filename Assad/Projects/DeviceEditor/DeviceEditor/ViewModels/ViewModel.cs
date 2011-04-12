@@ -22,12 +22,34 @@ namespace DeviceEditor
         public ViewModel()
         {
             Current = this;
+            LoadMetadata();
             Load();
 
             SaveCommand = new RelayCommand(OnSaveCommand);
             StartTimerCommand = new RelayCommand(OnStartTimerCommand);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         }
+
+        public List<drvType> Drivers;
+
+        public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
+        public void LoadMetadata()
+        {
+            FileStream file_xml = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            XmlSerializer serializer = new XmlSerializer(typeof(config));
+            config metadata = (config)serializer.Deserialize(file_xml);
+            file_xml.Close();
+
+            Drivers = new List<drvType>();
+            foreach (drvType drivers in metadata.drv)
+                try
+                {
+                    Drivers.Add(drivers);
+
+                }
+                catch { }
+        }
+
 
         public static ViewModel Current { get; private set; }
         public static string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
@@ -194,6 +216,11 @@ namespace DeviceEditor
                 deviceViewModel.Id = device.Id;
                 DeviceViewModels.Add(deviceViewModel);
                 deviceViewModel.StateViewModels = new ObservableCollection<StateViewModel>();
+                try
+                {
+                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + Drivers.FirstOrDefault(x => x.name == deviceViewModel.Id).dev_icon + ".ico";
+                }
+                catch { }
                 foreach (State state in device.States)
                 {
                     StateViewModel stateViewModel = new StateViewModel();

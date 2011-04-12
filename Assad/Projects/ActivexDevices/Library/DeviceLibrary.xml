@@ -292,17 +292,17 @@
             <Frame Id="0" Duration="200">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
-&lt;title&gt;Layer 1&lt;/title&gt;
-&lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
-&lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
-&lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;				  
+&lt;title&gt;Layer&lt;/title&gt;
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
             <Frame Id="1" Duration="1600">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
-&lt;title&gt;Layer&lt;/title&gt;
+&lt;title&gt;Layer 1&lt;/title&gt;
+&lt;rect fill="#FFFF99" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+&lt;line x1="250" y1="75" x2="250" y2="300" id="svg_1" stroke="#000000" stroke-width="60" fill="none"/&gt;
+&lt;ellipse cx="250" cy="370" id="svg_2" fill="#000000" stroke="#000000" stroke-width="20" rx="90" ry="90"/&gt;				  
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
@@ -370,7 +370,7 @@
         </State>
       </States>
     </Device>
-    <Device Id="Пожарный комбинированный извещатель ИП212//101-64-А2R1">
+    <Device Id="Пожарный комбинированный извещатель ИП212/101-64-А2R1">
       <States>
         <State Id="Базовый рисунок">
           <Frames>

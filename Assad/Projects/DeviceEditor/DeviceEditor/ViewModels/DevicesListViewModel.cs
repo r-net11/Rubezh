@@ -48,6 +48,17 @@ namespace DeviceEditor
             }
         }
 
+        string title = "Список устройств";
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+
         DeviceViewModel selectedItem;
         public DeviceViewModel SelectedItem
         {
@@ -74,6 +85,7 @@ namespace DeviceEditor
                     {
                         DeviceViewModel deviceViewModel = new DeviceViewModel();
                         deviceViewModel.Id = item.name;
+                        deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + item.dev_icon + ".ico";
                         Items.Add(deviceViewModel);
                     }
                 }

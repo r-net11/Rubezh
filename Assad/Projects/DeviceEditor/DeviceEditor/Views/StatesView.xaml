@@ -11,7 +11,9 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel MinWidth="5000">
-                    <TextBlock Text=" *         " FontFamily="Lucida Sans Unicode" Foreground="#656B82"/>
+                    <TextBlock Text=" "/>
+                    <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="10" />
+                    <TextBlock Text="      "/>
                     <TextBlock Text="{Binding Id}" />
                 </DockPanel>
             </DataTemplate>

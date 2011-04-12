@@ -11,7 +11,14 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel>
-                    <Expander Header="{Binding Id}" FontSize="13" Style="{DynamicResource PlusMinusExpanderStyle}">
+                    <Expander FontSize="14" Style="{DynamicResource PlusMinusExpanderStyle}">
+                        <Expander.Header>
+                            <DockPanel Margin="-5,0,0,0">
+                                <Image Source="{Binding IconPath}" Width="14"/>
+                                <TextBlock Text=" "/>
+                                <TextBlock Text="{Binding Id}"/>
+                            </DockPanel>
+                        </Expander.Header>
                         <DockPanel>
                             <local:StatesView FontSize="12"/>
                         </DockPanel>

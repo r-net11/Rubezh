@@ -40,6 +40,20 @@ namespace DeviceEditor
             }
         }
 
+        string iconPath = @"C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\3.png";
+        public string IconPath
+        {
+            get
+            {
+                return iconPath;
+            }
+            set
+            {
+                iconPath = value;
+                OnPropertyChanged("IconPath");
+            }
+        }
+
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {

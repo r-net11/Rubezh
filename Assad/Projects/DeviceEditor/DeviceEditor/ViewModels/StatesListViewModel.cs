@@ -35,6 +35,17 @@ namespace DeviceEditor
             DeviceViewModel.Current.StatesAvailableListViewModel.Remove(selectedItem);
         }
 
+        string title = "Список состояний";
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+
         StateViewModel selectedItem;
         public StateViewModel SelectedItem
         {
