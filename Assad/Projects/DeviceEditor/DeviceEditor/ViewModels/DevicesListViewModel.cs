@@ -38,17 +38,9 @@ namespace DeviceEditor
             items.Remove(selectedItem);
         }
 
-        ObservableCollection<DeviceViewModel> items;
-        public ObservableCollection<DeviceViewModel> Items
-        {
-            get { return items; }
-            set
-            {
-                items = value;
-                OnPropertyChanged("Items");
-            }
-        }
-
+        /// <summary>
+        /// Заголовок окна - "Список устройств".
+        /// </summary>
         string title = "Список устройств";
         public string Title
         {
@@ -57,6 +49,17 @@ namespace DeviceEditor
             {
                 title = value;
                 OnPropertyChanged("Title");
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> items;
+        public ObservableCollection<DeviceViewModel> Items
+        {
+            get { return items; }
+            set
+            {
+                items = value;
+                OnPropertyChanged("Items");
             }
         }
 
