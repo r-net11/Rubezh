@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -35,6 +36,15 @@ namespace PlansModule.ViewModels
         {
             IsSelected = true;
             ExpandParent();
+            ResetView();
+        }
+
+        void ResetView()
+        {
+            if (CanvasView.Current != null)
+            {
+                CanvasView.Current.Reset();
+            }
         }
 
         bool isSelected;

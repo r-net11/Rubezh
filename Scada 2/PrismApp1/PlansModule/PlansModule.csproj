@@ -56,7 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Plan.cs" />
+    <Compile Include="Plan2.cs" />
     <Compile Include="PlanBuilder.cs" />
+    <Compile Include="PlanBuilder2.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

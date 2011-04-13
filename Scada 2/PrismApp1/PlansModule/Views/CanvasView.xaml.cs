@@ -19,12 +19,21 @@ namespace PlansModule.Views
     /// </summary>
     public partial class CanvasView : UserControl
     {
-Point? lastCenterPositionOnTarget;
+        Point? lastCenterPositionOnTarget;
         Point? lastMousePositionOnTarget;
         Point? lastDragPoint;
 
+        public static CanvasView Current { get; set; }
+
+        public void Reset()
+        {
+            slider.Value = 1;
+        }
+
         public CanvasView()
         {
+            Current = this;
+
             InitializeComponent();
 
             scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
@@ -93,7 +102,7 @@ Point? lastCenterPositionOnTarget;
             scaleTransform.ScaleX = e.NewValue;
             scaleTransform.ScaleY = e.NewValue;
 
-            var centerOfViewport = new Point(scrollViewer.ViewportWidth/2, scrollViewer.ViewportHeight/2);
+            var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
         }
 
@@ -108,7 +117,7 @@ Point? lastCenterPositionOnTarget;
                 {
                     if (lastCenterPositionOnTarget.HasValue)
                     {
-                        var centerOfViewport = new Point(scrollViewer.ViewportWidth/2, scrollViewer.ViewportHeight/2);
+                        var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
                         Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, grid);
 
                         targetBefore = lastCenterPositionOnTarget;
@@ -128,11 +137,11 @@ Point? lastCenterPositionOnTarget;
                     double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
                     double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
 
-                    double multiplicatorX = e.ExtentWidth/grid.Width;
-                    double multiplicatorY = e.ExtentHeight/grid.Height;
+                    double multiplicatorX = e.ExtentWidth / grid.Width;
+                    double multiplicatorY = e.ExtentHeight / grid.Height;
 
-                    double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels*multiplicatorX;
-                    double newOffsetY = scrollViewer.VerticalOffset - dYInTargetPixels*multiplicatorY;
+                    double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
+                    double newOffsetY = scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
 
                     if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
                     {

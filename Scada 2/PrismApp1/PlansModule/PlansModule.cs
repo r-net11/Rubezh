@@ -21,6 +21,7 @@ namespace PlansModule
         public void Initialize()
         {
             RegisterResources();
+            PlanBuilder2.Build();
         }
 
         void RegisterResources()
