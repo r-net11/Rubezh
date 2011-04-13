@@ -15,7 +15,7 @@ namespace DeviceEditor
         public StatesListViewModel()
         {
             Current = this;
-            Items = DeviceViewModel.Current.StatesAvailableListViewModel;
+            LoadStates();
             AddCommand = new RelayCommand(OnAddCommand);
         }
         public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
@@ -25,6 +25,7 @@ namespace DeviceEditor
         {
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = selectedItem.Id;
+            stateViewModel.IsAdditional = selectedItem.IsAdditional;
             stateViewModel.Parent = ViewModel.Current.SelectedDeviceViewModel;
             FrameViewModel frameViewModel = new FrameViewModel();
             frameViewModel.Duration = 500;
@@ -35,6 +36,9 @@ namespace DeviceEditor
             DeviceViewModel.Current.StatesAvailableListViewModel.Remove(selectedItem);
         }
 
+        /// <summary>
+        /// Заголовок окна - "Список состояний".
+        /// </summary>
         string title = "Список состояний";
         public string Title
         {
@@ -66,6 +70,26 @@ namespace DeviceEditor
                 items = value;
                 OnPropertyChanged("Items");
             }
+        }
+
+        public void LoadStates()
+        {
+            FileStream file_xml = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            XmlSerializer serializer = new XmlSerializer(typeof(config));
+            config metadata = (config)serializer.Deserialize(file_xml);
+            file_xml.Close();
+
+            Items = DeviceViewModel.Current.StatesAvailableListViewModel;
+            drvType driver = metadata.drv.FirstOrDefault(x => x.name == ViewModel.Current.SelectedDeviceViewModel.Id);
+            foreach (stateType item in driver.state)
+                try
+                {
+                    StateViewModel stateViewModel = new StateViewModel();
+                    stateViewModel.Id = item.name;
+                    stateViewModel.IsAdditional = true;
+                    Items.Add(stateViewModel);
+                }
+                catch { }
         }
     }
 }

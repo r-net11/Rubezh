@@ -26,7 +26,12 @@ namespace DeviceEditor
             AddStateCommand = new RelayCommand(OnAddStateCommand);
             StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
         }
+        public static DeviceViewModel Current { get; private set; }
+        public ViewModel Parent { get; private set; }
 
+        /// <summary>
+        /// Путь к иконке устройства
+        /// </summary>
         string iconPath;
         public string IconPath
         {
@@ -40,9 +45,6 @@ namespace DeviceEditor
                 OnPropertyChanged("IconPath");
             }
         }
-
-        public ViewModel Parent { get; private set; }
-        public static DeviceViewModel Current { get; private set; }
 
         /// <summary>
         /// Загрузка доступных для выбора состояний в
@@ -138,7 +140,7 @@ namespace DeviceEditor
         }
 
         /// <summary>
-        /// Идентификатор устройства
+        /// Идентификатор устройства.
         /// </summary>
         public string id;
         public string Id

@@ -25,8 +25,12 @@ namespace DeviceEditor
             Parent = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
+        public static StateViewModel Current { get; private set; }
         public DeviceViewModel Parent { get; set; }
-
+        
+        /// <summary>
+        /// Выбранный кадр.
+        /// </summary>
         FrameViewModel selectedFrameViewModel;
         public FrameViewModel SelectedFrameViewModel
         {
@@ -40,6 +44,9 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Путь к иконке состояний.
+        /// </summary>
         string iconPath = @"C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\3.png";
         public string IconPath
         {
@@ -54,6 +61,9 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Команда удаления состояния.
+        /// </summary>
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {
@@ -68,7 +78,9 @@ namespace DeviceEditor
             DeviceViewModel.Current.StatesAvailableListViewModel.Add(stateViewModel);
         }
 
-        public static StateViewModel Current { get; private set; }
+        /// <summary>
+        /// Идентификатор состояния.
+        /// </summary>
         public string id;
         public string Id
         {
@@ -80,6 +92,9 @@ namespace DeviceEditor
             }
         }
 
+        /// <summary>
+        /// Список кадров состояния.
+        /// </summary>
         public ObservableCollection<FrameViewModel> frameViewModels;
         public ObservableCollection<FrameViewModel> FrameViewModels
         {
@@ -88,6 +103,17 @@ namespace DeviceEditor
             {
                 frameViewModels = value;
                 OnPropertyChanged("FrameViewModels");
+            }
+        }
+
+        bool isAdditional;
+        public bool IsAdditional
+        {
+            get { return isAdditional; }
+            set
+            {
+                isAdditional = value;
+                OnPropertyChanged("IsAdditional");
             }
         }
 

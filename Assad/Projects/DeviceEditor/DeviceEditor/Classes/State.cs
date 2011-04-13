@@ -11,6 +11,8 @@ namespace DeviceEditor
     {
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id { get; set; }
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public bool IsAdditional { get; set; }
         public List <Frame> Frames { get; set; }
     }
 }

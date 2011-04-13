@@ -3,7 +3,7 @@
   <Devices>
     <Device Id="Пожарный дымовой извещатель ИП 212-64">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -19,7 +19,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Обход устройств">
+        <State Id="Обход устройств" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -35,7 +35,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Требуется обслуживание">
+        <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -58,7 +58,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Тревога">
+        <State Id="Тревога" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="1000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -80,7 +80,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма">
+        <State Id="Норма" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -95,7 +95,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма(*)">
+        <State Id="Норма(*)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -121,7 +121,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неизвестно">
+        <State Id="Неизвестно" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -143,7 +143,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неисправность">
+        <State Id="Неисправность" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="1600">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -165,7 +165,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Внимание (предтревожное)">
+        <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2400">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -187,11 +187,33 @@
             </Frame>
           </Frames>
         </State>
+        <State Id="Пожарная тревога" IsAdditional="true">
+          <Frames>
+            <Frame Id="0" Duration="500">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Мониторинг устройства отключен" IsAdditional="true">
+          <Frames>
+            <Frame Id="0" Duration="500">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
       </States>
     </Device>
     <Device Id="Пожарный тепловой извещатель ИП 101-29-A3R1">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -206,7 +228,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Обход устройств">
+        <State Id="Обход устройств" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -221,7 +243,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Требуется обслуживание">
+        <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -244,7 +266,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Тревога">
+        <State Id="Тревога" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="1000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -265,7 +287,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Внимание (предтревожное)">
+        <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2400">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -286,7 +308,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неисправность">
+        <State Id="Неисправность" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="1600">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -307,7 +329,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неизвестно">
+        <State Id="Неизвестно" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -329,7 +351,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма(*)">
+        <State Id="Норма(*)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -353,7 +375,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма">
+        <State Id="Норма" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -371,7 +393,7 @@
     </Device>
     <Device Id="Пожарный комбинированный извещатель ИП212/101-64-А2R1">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -388,7 +410,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Обход устройств">
+        <State Id="Обход устройств" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -405,7 +427,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Требуется обслуживание">
+        <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -430,7 +452,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Тревога">
+        <State Id="Тревога" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="1000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -453,7 +475,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Внимание (предтревожное)">
+        <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2400">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -476,7 +498,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неисправность">
+        <State Id="Неисправность" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -499,7 +521,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неизвестно">
+        <State Id="Неизвестно" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="2000">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -522,7 +544,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма(*)">
+        <State Id="Норма(*)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -550,7 +572,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма">
+        <State Id="Норма" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -570,7 +592,7 @@
     </Device>
     <Device Id="Дренажный насос">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -584,7 +606,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Обнаружена неисправность">
+        <State Id="Обнаружена неисправность" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="300">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -606,7 +628,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Обнаружена неисправность. Потеря связи с дренажным насосом">
+        <State Id="Обнаружена неисправность. Потеря связи с дренажным насосом" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -620,7 +642,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма">
+        <State Id="Состояние - норма" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -634,7 +656,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма(*). Авто с БУНС отключено">
+        <State Id="Состояние - норма(*). Авто с БУНС отключено" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -648,7 +670,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма(*). Авто с ШУН отключено">
+        <State Id="Состояние - норма(*). Авто с ШУН отключено" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -662,7 +684,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма(*). Дренажный насос включен">
+        <State Id="Состояние - норма(*). Дренажный насос включен" IsAdditional="false">
           <Frames>
             <Frame Id="1" Duration="300">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -686,7 +708,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма. Авто с БУНС отключено">
+        <State Id="Состояние - норма. Авто с БУНС отключено" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="300">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -710,7 +732,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние - норма. Дренажный насос включен">
+        <State Id="Состояние - норма. Дренажный насос включен" IsAdditional="false">
           <Frames>
             <Frame Id="1" Duration="300">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -734,7 +756,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Состояние внимание">
+        <State Id="Состояние внимание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -748,7 +770,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Требуется обслуживание">
+        <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -766,7 +788,7 @@
     </Device>
     <Device Id="Релейный исполнительный модуль РМ-1">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; 
@@ -779,7 +801,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Тревога">
+        <State Id="Тревога" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="200">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; 
@@ -2241,7 +2263,7 @@
     </Device>
     <Device Id="БУНС">
       <States>
-        <State Id="Базовый рисунок">
+        <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2254,7 +2276,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Тревога">
+        <State Id="Тревога" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2276,7 +2298,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Внимание (предтревожное)">
+        <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="800">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2298,7 +2320,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Неисправность">
+        <State Id="Неисправность" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2311,7 +2333,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Требуется обслуживание">
+        <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2324,7 +2346,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма(*)">
+        <State Id="Норма(*)" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="600">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
@@ -2346,7 +2368,7 @@
             </Frame>
           </Frames>
         </State>
-        <State Id="Норма">
+        <State Id="Норма" IsAdditional="false">
           <Frames>
             <Frame Id="0" Duration="500">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;

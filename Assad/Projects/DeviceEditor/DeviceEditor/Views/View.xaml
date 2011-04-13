@@ -36,17 +36,17 @@
                                 <TextBox Background="Black" Foreground="Yellow" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
                             </Grid>
                             <Grid Grid.Row="1">
-                                <ContentControl Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right" Content="{Binding DynamicPicture, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left">
-                                    <ContentControl.LayoutTransform>
-                                        <ScaleTransform ScaleX="0.15" ScaleY="0.15"/>
-                                    </ContentControl.LayoutTransform>
-                                </ContentControl>
+                                <ItemsControl Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right" ItemsSource="{Binding Path=DynamicPicture, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left">
+                                    <ItemsControl.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
+                                    </ItemsControl.LayoutTransform>
+                                </ItemsControl>
                                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                    <ContentControl Content="{Binding Picture}" HorizontalContentAlignment="Left" Margin="5">
-                                        <ContentControl.LayoutTransform>
+                                    <ItemsControl ItemsSource="{Binding Path=Picture}">
+                                        <ItemsControl.LayoutTransform>
                                             <ScaleTransform ScaleX="0.3" ScaleY="0.3"/>
-                                        </ContentControl.LayoutTransform>
-                                    </ContentControl>
+                                        </ItemsControl.LayoutTransform>
+                                    </ItemsControl>
                                 </StackPanel>
                                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,5" HorizontalAlignment="Right">
                                     <Button Content="Добавить кадр" Command="{Binding AddFrameCommand}"/>

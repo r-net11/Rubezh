@@ -1,9 +1,10 @@
 ﻿<Application x:Class="DeviceEditor.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DeviceEditor"
     Startup="Application_Startup">
     <Application.Resources>
-
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
                 <Setter.Value>

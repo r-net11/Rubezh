@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace DeviceEditor
 {
@@ -25,7 +26,6 @@ namespace DeviceEditor
             Parent = StateViewModel.Current;
             Current = this;
         }
-
         public static FrameViewModel Current;
         public StateViewModel Parent{get; private set;}
 
@@ -56,17 +56,6 @@ namespace DeviceEditor
             }
         }
 
-        Canvas dynamicPicture;
-        public Canvas DynamicPicture
-        {
-            get { return dynamicPicture; }
-            set
-            {
-                dynamicPicture = value;
-                OnPropertyChanged("DynamicPicture");
-            }
-        }
-
         public int duration { get; set; }
         public int Duration
         {
@@ -77,14 +66,26 @@ namespace DeviceEditor
                 OnPropertyChanged("Duration");
             }
         }
-        Canvas picture;
-        public Canvas Picture
+
+        ObservableCollection<Canvas> picture;
+        public ObservableCollection<Canvas> Picture
         {
             get { return picture; }
             set
             {
                 picture = value;
                 OnPropertyChanged("Picture");
+            }
+        }
+
+        ObservableCollection<Canvas> dynamicPicture;
+        public ObservableCollection<Canvas> DynamicPicture
+        {
+            get { return dynamicPicture; }
+            set
+            {
+                dynamicPicture = value;
+                OnPropertyChanged("DynamicPicture");
             }
         }
 
@@ -104,12 +105,16 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    Picture = (Canvas)XamlReader.Load(xmlReader);
+                    Picture = new ObservableCollection<Canvas>();
+                    Picture.Add((Canvas)XamlReader.Load(xmlReader));
 
-                    string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    string text = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" + "ERROR SVG" + "</text> </g></svg>";
+                    string _frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     StringReader _stringReader = new StringReader(_frameImage);
                     XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                    DynamicPicture = (Canvas)XamlReader.Load(_xmlReader);
+                    //DynamicPicture = new ObservableCollection<Canvas>();
+                    //DynamicPicture.Add((Canvas)XamlReader.Load(_xmlReader));
+                    Picture.Add((Canvas)XamlReader.Load(_xmlReader));
 
                 }
                 catch(Exception)
@@ -118,7 +123,8 @@ namespace DeviceEditor
                     frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
-                    Picture = (Canvas)XamlReader.Load(xmlReader);
+                    Picture = new ObservableCollection<Canvas>();
+                    Picture.Add((Canvas)XamlReader.Load(xmlReader));
                 }
                 OnPropertyChanged("Image");
             }
