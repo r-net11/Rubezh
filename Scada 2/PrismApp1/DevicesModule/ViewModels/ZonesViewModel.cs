@@ -52,7 +52,51 @@ namespace DevicesModule.ViewModels
             set
             {
                 selectedZoneViewModel = value;
+                InitializeDevices();
                 OnPropertyChanged("SelectedZoneViewModel");
+            }
+        }
+
+        void InitializeDevices()
+        {
+            Devices = new ObservableCollection<DeviceViewModel>();
+
+            Device rooDevice = ServiceClient.CurrentConfiguration.RootDevice;
+
+            DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
+            rootDeviceViewModel.Parent = null;
+            rootDeviceViewModel.Initialize(rooDevice, Devices);
+            rootDeviceViewModel.IsExpanded = true;
+            Devices.Add(rootDeviceViewModel);
+            AddDevice(rooDevice, rootDeviceViewModel);
+        }
+
+        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
+        {
+            foreach (Device device in parentDevice.Children)
+            {
+                if ((device.UderlyingZones.Contains(SelectedZoneViewModel.ZoneNo) == false) &&
+                    (device.ZoneNo != SelectedZoneViewModel.ZoneNo))
+                    continue;
+
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Parent = parentDeviceViewModel;
+                deviceViewModel.Initialize(device, Devices);
+                deviceViewModel.IsExpanded = true;
+                parentDeviceViewModel.Children.Add(deviceViewModel);
+                Devices.Add(deviceViewModel);
+                AddDevice(device, deviceViewModel);
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> devices;
+        public ObservableCollection<DeviceViewModel> Devices
+        {
+            get { return devices; }
+            set
+            {
+                devices = value;
+                OnPropertyChanged("Devices");
             }
         }
 

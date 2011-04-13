@@ -9,6 +9,11 @@ namespace ServiceApi
     [DataContract]
     public class Device
     {
+        public Device()
+        {
+            UderlyingZones = new List<string>();
+        }
+
         [IgnoreDataMember]
         public Device Parent { get; set; }
 
@@ -47,5 +52,30 @@ namespace ServiceApi
 
         [DataMember]
         public List<ValidationError> ValidationErrors { get; set; }
+
+        public List<Device> AllParents
+        {
+            get
+            {
+                if (Parent == null)
+                    return new List<Device>();
+
+                List<Device> allParents = Parent.AllParents;
+                allParents.Add(Parent);
+                return allParents;
+            }
+        }
+
+        public List<string> UderlyingZones { get; set; }
+
+        public void AddUnderlyingZone(string zoneNo)
+        {
+            if (Parent != null)
+            {
+                if (Parent.UderlyingZones.Contains(zoneNo) == false)
+                    Parent.UderlyingZones.Add(zoneNo);
+                Parent.AddUnderlyingZone(zoneNo);
+            }
+        }
     }
 }

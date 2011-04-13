@@ -38,5 +38,21 @@ namespace ServiceApi
                 AddChild(device);
             }
         }
+
+        public void SetUnderlyingZones()
+        {
+            foreach (Device device in AllDevices)
+            {
+                device.UderlyingZones = new List<string>();
+            }
+
+            foreach (Device device in AllDevices)
+            {
+                if (string.IsNullOrEmpty(device.ZoneNo) == false)
+                {
+                    device.AddUnderlyingZone(device.ZoneNo);
+                }
+            }
+        }
     }
 }

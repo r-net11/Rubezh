@@ -27,14 +27,14 @@ namespace DevicesModule.ViewModels
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice);
+            rootDeviceViewModel.Initialize(rooDevice, AllDeviceViewModels);
             //rootDeviceViewModel.IsExpanded = false;
             DeviceViewModels.Add(rootDeviceViewModel);
             AllDeviceViewModels.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
             //DeviceViewModelList.Add(rootDeviceViewModel);
 
-            CollapseChild(AllDeviceViewModels[0]);
+            ExpandChild(AllDeviceViewModels[0]);
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device);
+                deviceViewModel.Initialize(device, AllDeviceViewModels);
                 //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 AllDeviceViewModels.Add(deviceViewModel);
@@ -52,13 +52,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = true;
             foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
             {
                 deviceViewModel.IsExpanded = true;
-                CollapseChild(deviceViewModel);
+                ExpandChild(deviceViewModel);
             }
         }
 

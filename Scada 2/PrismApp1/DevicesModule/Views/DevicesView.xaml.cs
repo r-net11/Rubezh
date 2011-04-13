@@ -22,6 +22,9 @@ namespace DevicesModule.Views
         public DevicesView()
         {
             InitializeComponent();
+            Current = this;
         }
+
+        public static DevicesView Current;
     }
 }

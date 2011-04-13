@@ -40,10 +40,14 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
-        static void OnShowZones(object obj)
+        static void OnShowZones(string zoneNo)
         {
             ZonesViewModel zonesViewModel = new ZonesViewModel();
             zonesViewModel.Initialize();
+            if (string.IsNullOrEmpty(zoneNo) == false)
+            {
+                zonesViewModel.SelectedZoneViewModel = zonesViewModel.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == zoneNo);
+            }
             ServiceFactory.Layout.Show(zonesViewModel);
         }
     }

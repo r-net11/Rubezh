@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-    public class ShowZonesEvent : CompositePresentationEvent<object>
+    public class ShowZonesEvent : CompositePresentationEvent<string>
     {
     }
 }

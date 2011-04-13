@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="PlansModule.Views.FullPlanView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:PlansModule.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
@@ -33,9 +34,9 @@
                     
                     <StackPanel DataContext="{Binding SelectedPlanViewModel}">
                         <TextBlock Text="{Binding Caption}" />
-                        <ContentControl
-                            Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MainCanvas}"
-                            Width="500" Height="500" Background="White" HorizontalAlignment="Left" />
+
+                        <Views:CanvasView Width="600" Height="600" />
+                        
 
                         <ListBox ItemsSource="{Binding ParentPlans}" BorderThickness="0" Background="Gray">
                             <ListBox.ItemsPanel>

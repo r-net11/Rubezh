@@ -6,21 +6,24 @@ using Infrastructure;
 using ServiceApi;
 using System.Collections.ObjectModel;
 using ClientApi;
+using DevicesModule.Views;
+using System.Diagnostics;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
-        //public DeviceDetailsView View { get; set; }
         public Device Device;
         public Firesec.Metadata.drvType Driver;
+
+        public ObservableCollection<DeviceViewModel> SourceDevices { get; set; }
 
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
-            //AddCommand = new RelayCommand(OnAddCommand);
-            //RemoveCommand = new RelayCommand(OnRemoveCommand);
-            //ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogicCommand);
+            ShowPlanCommand = new RelayCommand(OnShowPlan);
+            ShowZoneCommand = new RelayCommand(OnShowZone);
         }
 
         bool isExpanded;
@@ -29,47 +32,52 @@ namespace DevicesModule.ViewModels
             get { return isExpanded; }
             set
             {
+                DateTime start = DateTime.Now;
+
                 isExpanded = value;
 
                 if (isExpanded)
                 {
-                    AddChildren(this);
+                    ExpandChildren(this);
                 }
                 else
                 {
-                    RemoveChildren(this);
+                    HideChildren(this);
                 }
 
                 OnPropertyChanged("IsExpanded");
+                DateTime end = DateTime.Now;
+                TimeSpan interval = end.Subtract(start);
+                Trace.WriteLine(interval.Milliseconds);
             }
         }
 
-        void RemoveChildren(DeviceViewModel parentDeviceViewModel)
+        void HideChildren(DeviceViewModel parentDeviceViewModel)
         {
             foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
             {
-                if (DevicesViewModel.Current.AllDeviceViewModels.Contains(deviceViewModel))
-                    DevicesViewModel.Current.AllDeviceViewModels.Remove(deviceViewModel);
-                RemoveChildren(deviceViewModel);
+                if (SourceDevices.Contains(deviceViewModel))
+                    SourceDevices.Remove(deviceViewModel);
+                HideChildren(deviceViewModel);
             }
         }
 
-        void AddChildren(DeviceViewModel parentDeviceViewModel)
+        void ExpandChildren(DeviceViewModel parentDeviceViewModel)
         {
             if (parentDeviceViewModel.IsExpanded)
             {
-                int indexOf = DevicesViewModel.Current.AllDeviceViewModels.IndexOf(parentDeviceViewModel);
+                int indexOf = SourceDevices.IndexOf(parentDeviceViewModel);
                 for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
                 {
-                    if (DevicesViewModel.Current.AllDeviceViewModels.Contains(parentDeviceViewModel.Children[i]) == false)
+                    if (SourceDevices.Contains(parentDeviceViewModel.Children[i]) == false)
                     {
-                        DevicesViewModel.Current.AllDeviceViewModels.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
+                        SourceDevices.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
                     }
                 }
 
                 foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
                 {
-                    AddChildren(deviceViewModel);
+                    ExpandChildren(deviceViewModel);
                 }
             }
         }
@@ -102,98 +110,6 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("HasChildren");
         }
 
-        //public RelayCommand ShowZoneLogicCommand { get; private set; }
-        //void OnShowZoneLogicCommand(object obj)
-        //{
-        //    ZoneLogicView zoneLogicView = new ZoneLogicView();
-        //    ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-        //    zoneLogicViewModel.RequestClose += delegate { zoneLogicView.Close(); };
-        //    zoneLogicViewModel.SetDevice(this);
-        //    zoneLogicView.DataContext = zoneLogicViewModel;
-        //    zoneLogicView.ShowDialog();
-        //}
-
-        //public RelayCommand AddCommand { get; private set; }
-        //void OnAddCommand(object obj)
-        //{
-        //    NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel();
-        //    newDeviceViewModel.Init(this);
-        //    NewDeviceView newDeviceView = new NewDeviceView();
-        //    newDeviceView.DataContext = newDeviceViewModel;
-        //    newDeviceViewModel.RequestClose += delegate { newDeviceView.Close(); };
-        //    newDeviceView.ShowDialog();
-
-        //    if (newDeviceViewModel.SelectedAvailableDevice != null)
-        //    {
-        //        string driverId = newDeviceViewModel.SelectedAvailableDevice.DriverId;
-        //        DeviceViewModel deviceViewModel = new DeviceViewModel();
-        //        Device device = new Device();
-        //        device.Properties = new List<Property>();
-        //        device.DriverId = driverId;
-        //        Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
-        //        if (driver.ar_no_addr == "1")
-        //        {
-        //            device.PresentationAddress = "";
-        //        }
-        //        else
-        //        {
-        //            device.PresentationAddress = "0.0";
-        //        }
-        //        deviceViewModel.Initialize(device);
-        //        deviceViewModel.Parent = this;
-        //        this.Children.Add(deviceViewModel);
-
-
-
-        //        foreach (Firesec.Metadata.drvType childDriver in ServiceClient.CurrentConfiguration.Metadata.drv)
-        //        {
-        //            Firesec.Metadata.classType childClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-        //            if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == deviceViewModel.Driver.clsid)))
-        //            {
-        //                if ((childDriver.lim_parent != null) && (childDriver.lim_parent != deviceViewModel.Driver.id))
-        //                    continue;
-        //                if (childDriver.acr_enabled == "1")
-        //                {
-        //                    if ((childDriver.shortName == "МПТ") || (childDriver.shortName == "Выход"))
-        //                        continue;
-
-        //                    int minAddress = Convert.ToInt32(childDriver.acr_from);
-        //                    int maxAddress = Convert.ToInt32(childDriver.acr_to);
-        //                    for (int i = minAddress; i <= maxAddress; i++)
-        //                    {
-        //                        DeviceViewModel childDeviceViewModel = new DeviceViewModel();
-        //                        Device childDevice = new Device();
-        //                        childDevice.Properties = new List<Property>();
-        //                        childDevice.DriverId = childDriver.id;
-        //                        childDevice.PresentationAddress = i.ToString();
-        //                        childDeviceViewModel.Initialize(childDevice);
-        //                        childDeviceViewModel.Parent = deviceViewModel;
-        //                        deviceViewModel.Children.Add(childDeviceViewModel);
-        //                    }
-
-        //                    deviceViewModel.IsExpanded = true;
-        //                }
-        //            }
-        //        }
-
-        //        Update();
-        //        IsExpanded = false;
-        //        IsExpanded = true;
-        //    }
-        //}
-
-        //public RelayCommand RemoveCommand { get; private set; }
-        //void OnRemoveCommand(object obj)
-        //{
-        //    if (Parent != null)
-        //    {
-        //        Parent.IsExpanded = false;
-        //        Parent.Children.Remove(this);
-        //        Parent.Update();
-        //        Parent.IsExpanded = true;
-        //    }
-        //}
-
         public string DriverId
         {
             get
@@ -204,168 +120,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        //StackPanel propStackPanel;
-        //public StackPanel PropStackPanel
-        //{
-        //    get { return propStackPanel; }
-        //    set
-        //    {
-        //        propStackPanel = value;
-        //        OnPropertyChanged("PropStackPanel");
-        //    }
-        //}
-
-        //StringProperty _textBinding { get; set; }
-
-        //public List<StringProperty> StringProperties { get; set; }
-        //public List<BoolProperty> BoolProperties { get; set; }
-        //public List<EnumProperty> EnumProperties { get; set; }
-
-
-        //void SetProperties()
-        //{
-        //    StringProperties = new List<StringProperty>();
-        //    BoolProperties = new List<BoolProperty>();
-        //    EnumProperties = new List<EnumProperty>();
-
-        //    Grid grid = new Grid();
-        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
-        //    grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-        //    StackPanel _PropStackPanel = new StackPanel();
-        //    _PropStackPanel.Children.Clear();
-
-        //    if (Driver.propInfo != null)
-        //    {
-        //        foreach (Firesec.Metadata.propInfoType propertyInfo in Driver.propInfo)
-        //        {
-        //            if (propertyInfo.hidden == "1")
-        //                continue;
-        //            if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
-        //                continue;
-
-        //            UIElement uiElement = null;
-
-        //            if (propertyInfo.param != null)
-        //            {
-        //                EnumProperty enumProperty = new EnumProperty();
-        //                enumProperty.PropertyName = propertyInfo.name;
-        //                enumProperty.Values = new List<string>();
-        //                ComboBox comboBox = new ComboBox();
-        //                foreach (Firesec.Metadata.paramType propertyParameter in propertyInfo.param)
-        //                {
-        //                    enumProperty.Values.Add(propertyParameter.name);
-        //                    comboBox.Items.Add(propertyParameter.name);
-        //                }
-
-        //                Binding b = new Binding();
-        //                b.Source = enumProperty;
-        //                b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        //                b.Path = new PropertyPath("SelectedValue");
-        //                comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
-
-        //                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-        //                {
-        //                    enumProperty.SelectedValue = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-        //                    //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-        //                    //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
-        //                }
-        //                else
-        //                {
-        //                    string selectedValueIndex = propertyInfo.@default;
-        //                    enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
-        //                }
-
-        //                EnumProperties.Add(enumProperty);
-        //                uiElement = comboBox;
-        //            }
-        //            else
-        //            {
-        //                switch (propertyInfo.type)
-        //                {
-        //                    case "String":
-        //                    case "Int":
-        //                    case "Byte":
-        //                        TextBox textBox = new TextBox();
-
-        //                        StringProperty stringProperty = new StringProperty();
-        //                        stringProperty.PropertyName = propertyInfo.name;
-        //                        Binding b = new Binding();
-        //                        b.Source = stringProperty;
-        //                        b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        //                        b.Path = new System.Windows.PropertyPath("Text");
-        //                        textBox.SetBinding(TextBox.TextProperty, b);
-
-        //                        if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-        //                            stringProperty.Text = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-        //                        else
-        //                            stringProperty.Text = propertyInfo.@default;
-
-        //                        StringProperties.Add(stringProperty);
-        //                        uiElement = textBox;
-        //                        break;
-        //                    case "Bool":
-        //                        CheckBox checkBox = new CheckBox();
-
-        //                        BoolProperty boolProperty = new BoolProperty();
-        //                        boolProperty.PropertyName = propertyInfo.name;
-        //                        Binding b2 = new Binding();
-        //                        b2.Source = boolProperty;
-        //                        b2.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        //                        b2.Path = new PropertyPath("IsChecked");
-        //                        checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
-
-        //                        if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-        //                            boolProperty.IsChecked = (Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
-        //                        else
-        //                            boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
-
-        //                        BoolProperties.Add(boolProperty);
-        //                        uiElement = checkBox;
-        //                        break;
-        //                    default:
-        //                        throw new Exception("Неизвестный тип свойства");
-        //                }
-        //            }
-
-        //            grid.RowDefinitions.Add(new RowDefinition());
-        //            TextBlock textBlock = new TextBlock();
-        //            textBlock.Text = propertyInfo.caption;
-        //            grid.Children.Add(uiElement);
-        //            grid.Children.Add(textBlock);
-        //            Grid.SetColumn(textBlock, 0);
-        //            Grid.SetColumn(uiElement, 1);
-        //            Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
-        //            Grid.SetRow(uiElement, grid.RowDefinitions.Count - 1);
-        //        }
-        //    }
-        //    _PropStackPanel.Children.Add(grid);
-        //    PropStackPanel = _PropStackPanel;
-        //}
-
-        public void Initialize(Device device)
+        public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
+            SourceDevices = sourceDevices;
+
             this.Device = device;
             Driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-
-            //SetProperties();
-
-            Address = device.PresentationAddress;
-            Description = device.Description;
         }
-
-        public void SetZone()
-        {
-            if (Device.ZoneNo != null)
-            {
-                //Zone = DevicesViewModel.Current.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == Device.ZoneNo);
-            }
-        }
-
-        //public ObservableCollection<ZoneViewModel> Zones
-        //{
-        //    get { return ViewModel.Current.ZoneViewModels; }
-        //}
 
         public bool IsZoneDevice
         {
@@ -391,26 +152,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAddChildren
+        public string PresentationZone
         {
             get
             {
-                List<Firesec.Metadata.drvType> childDrivers = new List<Firesec.Metadata.drvType>();
+                if (string.IsNullOrEmpty(Device.ZoneNo))
+                    return "";
 
-                foreach (Firesec.Metadata.drvType childDriver in ServiceClient.CurrentConfiguration.Metadata.drv)
-                {
-                    Firesec.Metadata.classType childClass = ServiceClient.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == Driver.clsid)))
-                    {
-                        if ((childDriver.lim_parent != null) && (childDriver.lim_parent != Driver.id))
-                            continue;
-                        if (childDriver.acr_enabled == "1")
-                            continue;
-                        childDrivers.Add(childDriver);
-                    }
-                }
-
-                return (childDrivers.Count > 0);
+                Zone zone = ServiceClient.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+                return Device.ZoneNo + "." + zone.Name;
             }
         }
 
@@ -438,52 +188,19 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string address;
         public string Address
-        {
-            get { return address; }
-            set
-            {
-                address = value;
-                OnPropertyChanged("Address");
-            }
-        }
-
-        public bool CanEditAddress
         {
             get
             {
-                if (Driver.ar_no_addr != null)
-                {
-                    if (Driver.ar_no_addr == "1")
-                        return false;
-
-                    if (Driver.acr_enabled == "1")
-                        return false;
-                }
-                return true;
+                return Device.Address;
             }
         }
 
-        //ZoneViewModel zone;
-        //public ZoneViewModel Zone
-        //{
-        //    get { return zone; }
-        //    set
-        //    {
-        //        zone = value;
-        //        OnPropertyChanged("Zone");
-        //    }
-        //}
-
-        string description;
         public string Description
         {
-            get { return description; }
-            set
+            get
             {
-                description = value;
-                OnPropertyChanged("Description");
+                return Device.Description;
             }
         }
 
@@ -563,7 +280,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-
         public ObservableCollection<string> SelfStates
         {
             get
@@ -619,6 +335,22 @@ namespace DevicesModule.ViewModels
             {
                 DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
                 return deviceState.State;
+            }
+        }
+
+        public RelayCommand ShowPlanCommand { get; private set; }
+        void OnShowPlan()
+        {
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+        }
+
+        public RelayCommand ShowZoneCommand { get; private set; }
+        void OnShowZone()
+        {
+            string zoneNo = Device.ZoneNo;
+            if (string.IsNullOrEmpty(zoneNo) == false)
+            {
+                ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(zoneNo);
             }
         }
     }

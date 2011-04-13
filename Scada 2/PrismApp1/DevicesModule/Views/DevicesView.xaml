@@ -56,19 +56,8 @@
                     <WpfToolkit:DataGridTemplateColumn Header="Зона" Width="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
-                                    <TextBlock Text="{Binding ZoneNo}" />
-                                    <TextBlock Text=". " />
-                                    <TextBlock Text="{Binding ZoneName}" />
-                                    <StackPanel.Style>
-                                        <Style>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                                    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PresentationZone}" />
                                 </StackPanel>
                             </DataTemplate>
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -89,7 +78,6 @@
                 <WpfToolkit:DataGrid.CellStyle>
                     <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
                         <Style.Setters>
-                            <Setter Property="IsSelected" Value="{Binding IsSelected_, Mode=TwoWay}" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
@@ -151,8 +139,13 @@
                     </ListView>
                 </StackPanel>
 
+                <StackPanel>
+                    <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                    <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
+                </StackPanel>
+                
             </StackPanel>
-
+            
         </StackPanel>
     </Grid>
 </UserControl>

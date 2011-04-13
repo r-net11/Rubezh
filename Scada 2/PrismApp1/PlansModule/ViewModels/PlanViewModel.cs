@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace PlansModule.ViewModels
 {
@@ -89,7 +90,7 @@ namespace PlansModule.ViewModels
             {
                 Rectangle rectanglePlan = new Rectangle();
                 rectanglePlan.Name = childPlan.Name;
-                rectanglePlan.MouseLeftButtonDown += new MouseButtonEventHandler(rectanglePlan_MouseLeftButtonDown);
+                rectanglePlan.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(rectanglePlan_PreviewMouseLeftButtonDown);
                 rectanglePlan.Width = childPlan.Width;
                 rectanglePlan.Height = childPlan.Height;
                 rectanglePlan.Fill = childPlan.Brush;
@@ -110,6 +111,17 @@ namespace PlansModule.ViewModels
                 Canvas.SetTop(ellipse, element.Y);
                 MainCanvas.Children.Add(ellipse);
             }
+
+            ImageBrush imageBrush = new ImageBrush();
+            imageBrush.ImageSource = new BitmapImage(new Uri(@"D:/picture1.jpg", UriKind.Absolute));
+            plan.polygon.Fill = imageBrush;
+            Canvas.SetLeft(plan.polygon, 100);
+            Canvas.SetTop(plan.polygon, 100);
+            MainCanvas.Children.Add(plan.polygon);
+
+            ImageBrush canvasBackgroundBrush = new ImageBrush();
+            canvasBackgroundBrush.ImageSource = new BitmapImage(new Uri(@"D:/picture6.jpg", UriKind.Absolute));
+            MainCanvas.Background = canvasBackgroundBrush;
         }
 
         void UpdateParentPlans()
@@ -136,7 +148,7 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void rectanglePlan_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void rectanglePlan_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             string name = (sender as Rectangle).Name;
             if (e.ClickCount == 2)

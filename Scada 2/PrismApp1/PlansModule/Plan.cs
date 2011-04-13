@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows;
 
 namespace PlansModule
 {
@@ -14,6 +16,15 @@ namespace PlansModule
         {
             Children = new List<Plan>();
             Elements = new List<Element>();
+
+            polygon = new Polygon();
+            polygon.Points.Add(new Point(10, 10));
+            polygon.Points.Add(new Point(300, 10));
+            polygon.Points.Add(new Point(300, 200));
+            polygon.Points.Add(new Point(50, 200));
+            polygon.Points.Add(new Point(50, 100));
+            polygon.Points.Add(new Point(10, 100));
+            polygon.Points.Add(new Point(10, 20));
         }
 
         public Plan(double left, double top, double width, double height, Brush brush, string name, string caption, bool addElements)
@@ -52,6 +63,8 @@ namespace PlansModule
         public Brush Brush { get; set; }
 
         public List<Element> Elements { get; set; }
+
+        public Polygon polygon { get; set; }
     }
 
     public class Element

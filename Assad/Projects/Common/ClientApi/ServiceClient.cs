@@ -25,6 +25,7 @@ namespace ClientApi
             stateService = duplexChannelFactory.CreateChannel();
             CurrentConfiguration = stateService.GetConfiguration();
             CurrentConfiguration.FillAllDevices();
+            CurrentConfiguration.SetUnderlyingZones();
             stateService.Initialize();
             CurrentStates = stateService.GetStates();
         }
