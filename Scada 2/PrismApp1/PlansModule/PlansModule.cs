@@ -21,7 +21,7 @@ namespace PlansModule
         public void Initialize()
         {
             RegisterResources();
-            PlanBuilder2.Build();
+            PlanLoader.Load();
         }
 
         void RegisterResources()
@@ -32,7 +32,7 @@ namespace PlansModule
 
         static void OnShowPlan(object obj)
         {
-            FullPlanViewModel fullPlanViewModel = new FullPlanViewModel();
+            PlansViewModel fullPlanViewModel = new PlansViewModel();
             fullPlanViewModel.Initialize();
             ServiceFactory.Layout.Show(fullPlanViewModel);
             //fullPlanViewModel.MainCanvas = FullPlanView._MainCanvas;

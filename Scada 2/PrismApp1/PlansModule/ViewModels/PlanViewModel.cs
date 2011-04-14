@@ -10,6 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PlansModule.Views;
+using System.Diagnostics;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -31,10 +33,15 @@ namespace PlansModule.ViewModels
 
         public ObservableCollection<PlanViewModel> ParentPlans { get; set; }
 
+        Canvas MainCanvas { get; set; }
+
         public RelayCommand SelectCommand { get; private set; }
         public void Select()
         {
-            IsSelected = true;
+            //IsSelected = true;
+            isSelected = true;
+            OnPropertyChanged("IsSelected");
+            DrawPlan();
             ExpandParent();
             ResetView();
         }
@@ -57,8 +64,7 @@ namespace PlansModule.ViewModels
                 OnPropertyChanged("IsSelected");
                 if (isSelected)
                 {
-                    FullPlanViewModel.Current.SelectedPlanViewModel = this;
-                    DrawPlan();
+                    ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(Name);
                 }
             }
         }
@@ -83,8 +89,9 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void Initialize(Plan plan)
+        public void Initialize(Plan plan, Canvas mainCanvas)
         {
+            MainCanvas = mainCanvas;
             this.plan = plan;
             Name = plan.Name;
             Caption = plan.Caption;
@@ -93,45 +100,44 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
-            Canvas MainCanvas = FullPlanViewModel.Current.MainCanvas;
             MainCanvas.Children.Clear();
 
-            foreach (Plan childPlan in plan.Children)
+            MainCanvas.Width = plan.Width;
+            MainCanvas.Height = plan.Height;
+
+            ImageBrush backgroundImageBrush = new ImageBrush();
+            backgroundImageBrush.ImageSource = new BitmapImage(new Uri(plan.BackgroundSource, UriKind.Absolute));
+            MainCanvas.Background = backgroundImageBrush;
+
+            var x = this.Name;
+
+            foreach (SubPlan subPlan in plan.SubPlans)
             {
-                Rectangle rectanglePlan = new Rectangle();
-                rectanglePlan.Name = childPlan.Name;
-                rectanglePlan.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(rectanglePlan_PreviewMouseLeftButtonDown);
-                rectanglePlan.Width = childPlan.Width;
-                rectanglePlan.Height = childPlan.Height;
-                rectanglePlan.Fill = childPlan.Brush;
-                rectanglePlan.RadiusX = 10;
-                rectanglePlan.RadiusY = 10;
-                Canvas.SetLeft(rectanglePlan, childPlan.Left);
-                Canvas.SetTop(rectanglePlan, childPlan.Top);
-                MainCanvas.Children.Add(rectanglePlan);
+                SubPlanViewModel subPlanViewModel = new SubPlanViewModel();
+                subPlanViewModel.Initialize(subPlan, MainCanvas);
             }
 
-            foreach (Element element in plan.Elements)
+            foreach (PlanZone planZone in plan.PlanZones)
             {
-                Ellipse ellipse = new Ellipse();
-                ellipse.Width = 20;
-                ellipse.Height = 20;
-                ellipse.Fill = Brushes.GreenYellow;
-                Canvas.SetLeft(ellipse, element.X);
-                Canvas.SetTop(ellipse, element.Y);
-                MainCanvas.Children.Add(ellipse);
+                Polygon zonePolygon = new Polygon();
+                foreach (PolygonPoint polygonPoint in planZone.PolygonPoints)
+                {
+                    zonePolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
+                    zonePolygon.Fill = Brushes.Green;
+                }
+                MainCanvas.Children.Add(zonePolygon);
             }
 
-            ImageBrush imageBrush = new ImageBrush();
-            imageBrush.ImageSource = new BitmapImage(new Uri(@"D:/picture1.jpg", UriKind.Absolute));
-            plan.polygon.Fill = imageBrush;
-            Canvas.SetLeft(plan.polygon, 100);
-            Canvas.SetTop(plan.polygon, 100);
-            MainCanvas.Children.Add(plan.polygon);
-
-            ImageBrush canvasBackgroundBrush = new ImageBrush();
-            canvasBackgroundBrush.ImageSource = new BitmapImage(new Uri(@"D:/picture6.jpg", UriKind.Absolute));
-            MainCanvas.Background = canvasBackgroundBrush;
+            foreach (PlanDevice planDevice in plan.PlanDevices)
+            {
+                Rectangle deviceRectangle = new Rectangle();
+                deviceRectangle.Width = 20;
+                deviceRectangle.Height = 20;
+                deviceRectangle.Fill = Brushes.Blue;
+                Canvas.SetLeft(deviceRectangle, planDevice.Left);
+                Canvas.SetTop(deviceRectangle, planDevice.Top);
+                MainCanvas.Children.Add(deviceRectangle);
+            }
         }
 
         void UpdateParentPlans()
@@ -155,19 +161,6 @@ namespace PlansModule.ViewModels
                 List<PlanViewModel> allParents = Parent.AllParents;
                 allParents.Add(Parent);
                 return allParents;
-            }
-        }
-
-        void rectanglePlan_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            string name = (sender as Rectangle).Name;
-            if (e.ClickCount == 2)
-            {
-                if (Children.Count > 0)
-                {
-                    PlanViewModel SelectedPlanViewModel = Children.FirstOrDefault(x => x.Name == name);
-                    SelectedPlanViewModel.Select();
-                }
             }
         }
 

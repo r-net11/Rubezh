@@ -6,46 +6,52 @@ using Infrastructure;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class FullPlanViewModel :RegionViewModel
+    public class PlansViewModel :RegionViewModel
     {
-        public FullPlanViewModel()
+        List<PlanViewModel> AllPlanViewModels;
+        public PlanViewModel RootPlanViewModel;
+
+        public PlansViewModel()
         {
-            Current = this;
             MainCanvas = new Canvas();
             MainCanvas.Background = Brushes.Yellow;
+            AllPlanViewModels = new List<PlanViewModel>();
+            ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
         }
 
         public void Initialize()
         {
-            Plan rootPlan = PlanBuilder.Build();
+            Plan rootPlan = PlanLoader.Load();
 
             RootPlanViewModel = new PlanViewModel();
             RootPlanViewModel.Parent = null;
+            AllPlanViewModels.Add(RootPlanViewModel);
             AddPlan(rootPlan, RootPlanViewModel);
-            RootPlanViewModel.Initialize(rootPlan);
+            RootPlanViewModel.Initialize(rootPlan, MainCanvas);
 
             RootPlanViewModels = new ObservableCollection<PlanViewModel>();
             RootPlanViewModels.Add(RootPlanViewModel);
 
-            RootPlanViewModel.Select();
+            SelectedPlanViewModel = RootPlanViewModel;
         }
 
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanViewModel)
         {
+            if (parentPlan.Children != null)
             foreach (Plan plan in parentPlan.Children)
             {
                 PlanViewModel planViewModel = new PlanViewModel();
                 planViewModel.Parent = parentPlanViewModel;
                 parentPlanViewModel.Children.Add(planViewModel);
-                planViewModel.Initialize(plan);
+                planViewModel.Initialize(plan, MainCanvas);
+                AllPlanViewModels.Add(planViewModel);
                 AddPlan(plan, planViewModel);
             }
         }
-
-        public static FullPlanViewModel Current { get; set; }
 
         Canvas mainCanvas;
         public Canvas MainCanvas
@@ -57,10 +63,6 @@ namespace PlansModule.ViewModels
                 OnPropertyChanged("MainCanvas");
             }
         }
-
-        List<PlanViewModel> AllPlanViewModels;
-
-        public PlanViewModel RootPlanViewModel;
 
         ObservableCollection<PlanViewModel> rootPlanViewModels;
         public ObservableCollection<PlanViewModel> RootPlanViewModels
@@ -81,6 +83,16 @@ namespace PlansModule.ViewModels
             {
                 selectedPlanViewModel = value;
                 OnPropertyChanged("SelectedPlanViewModel");
+                selectedPlanViewModel.Select();
+            }
+        }
+
+        public void OnSelectPlan(string name)
+        {
+            PlanViewModel planViewModel = AllPlanViewModels.FirstOrDefault(x => x.Name == name);
+            if (planViewModel != null)
+            {
+                SelectedPlanViewModel = planViewModel;
             }
         }
 

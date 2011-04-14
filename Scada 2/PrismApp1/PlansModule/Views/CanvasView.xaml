@@ -25,7 +25,7 @@
                         
                         <ContentControl
                             Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, Path=DataContext.MainCanvas}"
-                            Width="500" Height="500" Background="White" HorizontalAlignment="Left" />
+                            Background="White" HorizontalAlignment="Left" />
                         
                     </Viewbox>
                 </Grid>

@@ -17,9 +17,9 @@ namespace PlansModule.Views
     /// <summary>
     /// Логика взаимодействия для PlanView.xaml
     /// </summary>
-    public partial class FullPlanView : UserControl
+    public partial class PlansView : UserControl
     {
-        public FullPlanView()
+        public PlansView()
         {
             InitializeComponent();
             //_MainCanvas = MainCanvas;
