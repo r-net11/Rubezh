@@ -108,14 +108,11 @@ namespace DeviceEditor
                     Picture = new ObservableCollection<Canvas>();
                     Picture.Add((Canvas)XamlReader.Load(xmlReader));
 
-                    string text = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" + "ERROR SVG" + "</text> </g></svg>";
-                    string _frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                    string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                     StringReader _stringReader = new StringReader(_frameImage);
                     XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                    //DynamicPicture = new ObservableCollection<Canvas>();
-                    //DynamicPicture.Add((Canvas)XamlReader.Load(_xmlReader));
-                    Picture.Add((Canvas)XamlReader.Load(_xmlReader));
-
+                    DynamicPicture = new ObservableCollection<Canvas>();
+                    DynamicPicture.Add((Canvas)XamlReader.Load(_xmlReader));
                 }
                 catch(Exception)
                 {

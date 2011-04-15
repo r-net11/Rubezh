@@ -26,7 +26,7 @@ namespace DeviceEditor
 
         private void ListBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            ((ListBox)sender).SelectedItem = null;
+            ((ListBox)sender).SelectedItem = ((ListBox)sender).SelectedItem ;
         }
     }
 }

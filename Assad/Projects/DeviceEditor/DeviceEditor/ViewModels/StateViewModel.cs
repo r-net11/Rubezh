@@ -13,6 +13,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using Firesec.Metadata;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace DeviceEditor
 {
@@ -41,6 +42,34 @@ namespace DeviceEditor
                 if (selectedFrameViewModel == null)
                     return;
                 OnPropertyChanged("SelectedFrameViewModel");
+            }
+        }
+
+        bool isChecked;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                isChecked = value;
+                if ((this.IsAdditional)&&(this.isChecked))
+                {
+                    DynamicPicturesList = new ObservableCollection<Canvas>();
+                    dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                    dispatcherTimer.Start();
+                }
+                if (!this.isChecked)
+                {
+                    try
+                    {
+                        ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Remove(Picture);
+                        DynamicPicturesList.Remove(DynamicPicture);
+                        dispatcherTimer.Stop();
+                    }
+                    catch { }
+                }
+                OnPropertyChanged("IsChecked");
             }
         }
 
@@ -115,6 +144,63 @@ namespace DeviceEditor
                 isAdditional = value;
                 OnPropertyChanged("IsAdditional");
             }
+        }
+
+        DispatcherTimer dispatcherTimer;
+        int tick;
+
+        public Canvas Picture;
+
+        Canvas dynamicPicture;
+        public Canvas DynamicPicture
+        {
+            get { return dynamicPicture; }
+            set
+            {
+                dynamicPicture = value;
+                OnPropertyChanged("DynamicPicture");
+            }
+        }
+
+        ObservableCollection<Canvas> dynamicPicturesList;
+        public ObservableCollection<Canvas> DynamicPicturesList
+        {
+            get { return dynamicPicturesList; }
+            set
+            {
+                dynamicPicturesList = value;
+                OnPropertyChanged("DynamicPicturesList");
+            }
+        }
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+
+            ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Remove(Picture);
+            DynamicPicturesList.Remove(DynamicPicture);
+
+            if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
+            {
+                string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(frameImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
+                Canvas.SetZIndex(DynamicPicture, 10);
+                DynamicPicturesList.Add(DynamicPicture);
+
+                string _frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader _stringReader = new StringReader(_frameImage);
+                XmlReader _xmlReader = XmlReader.Create(_stringReader);
+                Picture = (Canvas)XamlReader.Load(_xmlReader);
+                Canvas.SetZIndex(Picture, 10);
+                ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Add(Picture);
+
+                if (FrameViewModels.Count < 2)
+                {
+                    dispatcherTimer.Stop();
+                }
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
+            }
+            tick = (tick + 1) % FrameViewModels.Count;
         }
 
     }

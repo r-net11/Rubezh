@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Firesec.Metadata;
 using System.Linq;
+using System.Threading;
 
 namespace DeviceEditor
 {
@@ -49,7 +50,6 @@ namespace DeviceEditor
                 }
                 catch { }
         }
-
 
         public static ViewModel Current { get; private set; }
         public static string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
@@ -157,31 +157,35 @@ namespace DeviceEditor
             {
                 selectedStateViewModel = value;
                 if (SelectedStateViewModel == null)
-                    return;
-
-                foreach (StateViewModel state in SelectedStateViewModel.Parent.StateViewModels)
-                    //if (state.IsAdditional)
-                    //{
-                    //    string text = "<svg width=\"100\" height=\"100\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" + "Hi i'm first Canvas" + "</text> </g></svg>";
-                    //    string _frameImage = Svg2Xaml.XSLT_Transform(text, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    //    StringReader _stringReader = new StringReader(_frameImage);
-                    //    XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                    //    if (!selectedStateViewModel.IsAdditional)
-                    //        selectedStateViewModel.FrameViewModels[0].Picture.Add((Canvas)XamlReader.Load(_xmlReader));
-                    //}
+                    return;                
 
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
+
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
                     TimerButtonName = "Стоп таймер";
+                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Clear();
                     dispatcherTimer.Start();
                 }
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
 
+        ObservableCollection<StateViewModel> additionalStatesViewModel;
+        public ObservableCollection<StateViewModel> AdditionalStatesViewModel
+        {
+            get { return additionalStatesViewModel; }
+            set
+            {
+                additionalStatesViewModel = value;
+                OnPropertyChanged("AdditionalStatesViewModel");
+            }
+        }
+
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         int tick = 0;
+
+        public Canvas DynamicPicture;
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -190,18 +194,25 @@ namespace DeviceEditor
             StringReader stringReader;
             XmlReader xmlReader;
 
-            SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Clear();
             try
             {
+                try
+                {
+                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Remove(DynamicPicture);
+                }
+                catch { }
+
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[tick].Duration);
                 frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
-                SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Add((Canvas)XamlReader.Load(xmlReader));
+                DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
+                SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Add(DynamicPicture);
                 tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
             catch
             { }
+
         }
 
         public void Load()
@@ -213,6 +224,7 @@ namespace DeviceEditor
             file_xml.Close();
 
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
+            AdditionalStatesViewModel = new ObservableCollection<StateViewModel>();
             foreach (Device device in deviceManager.Devices)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
@@ -230,6 +242,9 @@ namespace DeviceEditor
                     stateViewModel.Id = state.Id;
                     stateViewModel.IsAdditional = state.IsAdditional;
                     deviceViewModel.StateViewModels.Add(stateViewModel);
+
+                    if (stateViewModel.IsAdditional)
+                        AdditionalStatesViewModel.Add(stateViewModel);
                     stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
                     foreach (Frame frame in state.Frames)
                     {

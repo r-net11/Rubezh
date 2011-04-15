@@ -12,7 +12,7 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel Margin="18,0,0,0">
-                    <CheckBox Panel.ZIndex="1" Margin="0,0,-20,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="0,0,-20,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <Image Source="C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\2.png" Width ="10" />
                     <TextBlock Margin="10,0,0,0" Text="{Binding Id}" />
                 </DockPanel>
