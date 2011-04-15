@@ -55,7 +55,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Events\PlanDeviceSelectedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
+    <Compile Include="Events\PlanZoneSelectedEvent.cs" />
+    <Compile Include="ViewModels\PlanDeviceViewModel.cs" />
+    <Compile Include="ViewModels\SelectedDeviceViewModel.cs" />
+    <Compile Include="ViewModels\SelectedZoneViewModel.cs" />
     <Compile Include="ViewModels\SubPlanViewModel.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="PlanBuilder.cs" />
@@ -75,8 +81,12 @@
     </Compile>
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
+    <Compile Include="ViewModels\ZonePlanViewModel.cs" />
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanSelectationView.xaml.cs">
+      <DependentUpon>PlanSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
@@ -103,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CanvasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlanSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

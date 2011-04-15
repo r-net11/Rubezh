@@ -56,6 +56,9 @@
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
+
+                        <Views:PlanSelectationView />
+
                     </StackPanel>
 
                 </Grid>

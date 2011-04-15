@@ -109,8 +109,6 @@ namespace PlansModule.ViewModels
             backgroundImageBrush.ImageSource = new BitmapImage(new Uri(plan.BackgroundSource, UriKind.Absolute));
             MainCanvas.Background = backgroundImageBrush;
 
-            var x = this.Name;
-
             foreach (SubPlan subPlan in plan.SubPlans)
             {
                 SubPlanViewModel subPlanViewModel = new SubPlanViewModel();
@@ -119,24 +117,14 @@ namespace PlansModule.ViewModels
 
             foreach (PlanZone planZone in plan.PlanZones)
             {
-                Polygon zonePolygon = new Polygon();
-                foreach (PolygonPoint polygonPoint in planZone.PolygonPoints)
-                {
-                    zonePolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
-                    zonePolygon.Fill = Brushes.Green;
-                }
-                MainCanvas.Children.Add(zonePolygon);
+                ZonePlanViewModel zonePlanViewModel = new ZonePlanViewModel();
+                zonePlanViewModel.Initialize(planZone, MainCanvas);
             }
 
             foreach (PlanDevice planDevice in plan.PlanDevices)
             {
-                Rectangle deviceRectangle = new Rectangle();
-                deviceRectangle.Width = 20;
-                deviceRectangle.Height = 20;
-                deviceRectangle.Fill = Brushes.Blue;
-                Canvas.SetLeft(deviceRectangle, planDevice.Left);
-                Canvas.SetTop(deviceRectangle, planDevice.Top);
-                MainCanvas.Children.Add(deviceRectangle);
+                PlanDeviceViewModel planDeviceViewModel = new PlanDeviceViewModel();
+                planDeviceViewModel.Initialize(planDevice, MainCanvas);
             }
         }
 
