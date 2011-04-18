@@ -24,7 +24,8 @@ namespace DeviceEditor
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
-            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
+            AdditionalStatesPicture = new ObservableCollection<Canvas>();
+            MainStatePicture = new ObservableCollection<Canvas>();
         }
         public static DeviceViewModel Current { get; private set; }
         public ViewModel Parent { get; private set; }
@@ -126,6 +127,7 @@ namespace DeviceEditor
         {
             ListView statesListView = new ListView();
             StatesListViewModel statesListViewModel = new StatesListViewModel();
+            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
             statesListView.DataContext = statesListViewModel;
             statesListView.ShowDialog();
         }
@@ -181,5 +183,28 @@ namespace DeviceEditor
                 OnPropertyChanged("StateViewModels");
             }
         }
+
+        public ObservableCollection<Canvas> additionalStatesPicture;
+        public ObservableCollection<Canvas> AdditionalStatesPicture
+        {
+            get { return additionalStatesPicture; }
+            set
+            {
+                additionalStatesPicture = value;
+                OnPropertyChanged("AdditionalStatesPicture");
+            }
+        }
+
+        public ObservableCollection<Canvas> mainStatePicture;
+        public ObservableCollection<Canvas> MainStatePicture
+        {
+            get { return mainStatePicture; }
+            set
+            {
+                mainStatePicture = value;
+                OnPropertyChanged("MainStatePicture");
+            }
+        }
+
     }
 }

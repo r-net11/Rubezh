@@ -217,13 +217,6 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="500">
-              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
-&lt;g&gt;
-&lt;title&gt;Layer&lt;/title&gt;
-&lt;/g&gt;
-&lt;/svg&gt;</Image>
-            </Frame>
           </Frames>
         </State>
       </States>

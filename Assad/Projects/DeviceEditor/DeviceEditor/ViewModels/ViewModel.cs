@@ -157,14 +157,17 @@ namespace DeviceEditor
             {
                 selectedStateViewModel = value;
                 if (SelectedStateViewModel == null)
-                    return;                
-
+                    return;
+                SelectedStateViewModel.Parent.MainStatePicture.Clear();
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
-
+                string frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.SelectedFrameViewModel.Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(frameImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                SelectedStateViewModel.Parent.MainStatePicture.Add((Canvas)XamlReader.Load(xmlReader));
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
                     TimerButtonName = "Стоп таймер";
-                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Clear();
+                    SelectedStateViewModel.Parent.MainStatePicture.Clear();
                     dispatcherTimer.Start();
                 }
                 OnPropertyChanged("SelectedStateViewModel");
@@ -198,7 +201,7 @@ namespace DeviceEditor
             {
                 try
                 {
-                    SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Remove(DynamicPicture);
+                    SelectedStateViewModel.Parent.MainStatePicture.Remove(DynamicPicture);
                 }
                 catch { }
 
@@ -207,7 +210,7 @@ namespace DeviceEditor
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
                 DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                SelectedStateViewModel.SelectedFrameViewModel.DynamicPicture.Add(DynamicPicture);
+                SelectedStateViewModel.Parent.MainStatePicture.Add(DynamicPicture);
                 tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
             catch

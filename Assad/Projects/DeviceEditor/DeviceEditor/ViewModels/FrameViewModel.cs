@@ -33,11 +33,13 @@ namespace DeviceEditor
         void OnAddFrameCommand(object obj)
         {
             FrameViewModel newFrame = new FrameViewModel();
-            newFrame.Parent = this.Parent;
+            this.Parent.IsChecked = this.Parent.IsChecked;
+            newFrame.Parent = this.Parent;           
             newFrame.Id = this.Parent.FrameViewModels.Count;
             newFrame.Duration = 500;
             newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
             this.Parent.FrameViewModels.Add(newFrame);
+            ViewModel.Current.SelectedStateViewModel = this.Parent;
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
@@ -107,12 +109,6 @@ namespace DeviceEditor
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
                     Picture.Add((Canvas)XamlReader.Load(xmlReader));
-
-                    string _frameImage = Svg2Xaml.XSLT_Transform(image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    StringReader _stringReader = new StringReader(_frameImage);
-                    XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                    DynamicPicture = new ObservableCollection<Canvas>();
-                    DynamicPicture.Add((Canvas)XamlReader.Load(_xmlReader));
                 }
                 catch(Exception)
                 {

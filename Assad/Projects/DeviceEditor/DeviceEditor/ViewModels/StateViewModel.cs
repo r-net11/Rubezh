@@ -54,7 +54,6 @@ namespace DeviceEditor
                 isChecked = value;
                 if ((this.IsAdditional)&&(this.isChecked))
                 {
-                    DynamicPicturesList = new ObservableCollection<Canvas>();
                     dispatcherTimer = new DispatcherTimer();
                     dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                     dispatcherTimer.Start();
@@ -63,8 +62,7 @@ namespace DeviceEditor
                 {
                     try
                     {
-                        ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Remove(Picture);
-                        DynamicPicturesList.Remove(DynamicPicture);
+                        this.Parent.AdditionalStatesPicture.Remove(FramePicture);
                         dispatcherTimer.Stop();
                     }
                     catch { }
@@ -96,9 +94,9 @@ namespace DeviceEditor
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {
-            if (this.Id == "Базовый рисунок")
+            if (!this.IsAdditional)
             {
-                MessageBox.Show("Невозможно удалить Базовый рисунок");
+                MessageBox.Show("Невозможно удалить основное состояние");
                 return;
             }
             this.Parent.StateViewModels.Remove(this);
@@ -149,50 +147,29 @@ namespace DeviceEditor
         DispatcherTimer dispatcherTimer;
         int tick;
 
-        public Canvas Picture;
-
-        Canvas dynamicPicture;
-        public Canvas DynamicPicture
+        Canvas framePicture;
+        public Canvas FramePicture
         {
-            get { return dynamicPicture; }
+            get { return framePicture; }
             set
             {
-                dynamicPicture = value;
-                OnPropertyChanged("DynamicPicture");
+                framePicture = value;
+                OnPropertyChanged("FramePicture");
             }
         }
 
-        ObservableCollection<Canvas> dynamicPicturesList;
-        public ObservableCollection<Canvas> DynamicPicturesList
-        {
-            get { return dynamicPicturesList; }
-            set
-            {
-                dynamicPicturesList = value;
-                OnPropertyChanged("DynamicPicturesList");
-            }
-        }
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
 
-            ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Remove(Picture);
-            DynamicPicturesList.Remove(DynamicPicture);
-
+            this.Parent.AdditionalStatesPicture.Remove(FramePicture);
             if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
             {
                 string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 StringReader stringReader = new StringReader(frameImage);
                 XmlReader xmlReader = XmlReader.Create(stringReader);
-                DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                Canvas.SetZIndex(DynamicPicture, 10);
-                DynamicPicturesList.Add(DynamicPicture);
-
-                string _frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                StringReader _stringReader = new StringReader(_frameImage);
-                XmlReader _xmlReader = XmlReader.Create(_stringReader);
-                Picture = (Canvas)XamlReader.Load(_xmlReader);
-                Canvas.SetZIndex(Picture, 10);
-                ViewModel.Current.SelectedStateViewModel.SelectedFrameViewModel.Picture.Add(Picture);
+                FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                Canvas.SetZIndex(FramePicture, 10);
+                this.Parent.AdditionalStatesPicture.Add(FramePicture);
 
                 if (FrameViewModels.Count < 2)
                 {

@@ -33,6 +33,8 @@ namespace DeviceEditor
             stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
             stateViewModel.FrameViewModels.Add(frameViewModel);
             ViewModel.Current.SelectedDeviceViewModel.StateViewModels.Add(stateViewModel);
+            if (stateViewModel.IsAdditional)
+                ViewModel.Current.AdditionalStatesViewModel.Add(stateViewModel);
             DeviceViewModel.Current.StatesAvailableListViewModel.Remove(selectedItem);
         }
 
