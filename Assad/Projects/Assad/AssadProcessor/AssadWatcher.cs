@@ -12,19 +12,19 @@ namespace AssadProcessor
     {
         internal void Start()
         {
-            ServiceClient.CurrentStates.DeviceStateChanged += new Action<DeviceState>(ServiceClient_DeviceChanged);
-            ServiceClient.CurrentStates.ZoneStateChanged += new Action<ZoneState>(CurrentStates_ZoneStateChanged);
+            ServiceClient.CurrentStates.DeviceStateChanged += new Action<string>(ServiceClient_DeviceChanged);
+            ServiceClient.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
             ServiceClient.CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
-        void ServiceClient_DeviceChanged(DeviceState deviceState)
+        void ServiceClient_DeviceChanged(string path)
         {
+            DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
             if ((AssadConfiguration.Devices != null) && (AssadConfiguration.Devices.Any(x => x.Path == deviceState.Path)))
             {
                 AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == deviceState.Path);
                 if (assadBase != null)
                 {
-
                     // МЕТОД - КОПИРОВАТЬ ДАННЫЕ ИЗ КОНФИГУРАЦИИ
 
                     assadBase.MainState = deviceState.State;
@@ -45,8 +45,9 @@ namespace AssadProcessor
             }
         }
 
-        void CurrentStates_ZoneStateChanged(ZoneState zoneState)
+        void CurrentStates_ZoneStateChanged(string zoneNo)
         {
+            ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             AssadZone assadZone = null;
             if (AssadConfiguration.Devices != null)
             {
@@ -63,7 +64,7 @@ namespace AssadProcessor
             if (assadZone != null)
             {
                 assadZone.MainState = zoneState.State;
-                string eventName = null;// zoneState.State;
+                string eventName = null;
                 Assad.CPeventType eventType = assadZone.CreateEvent(eventName);
                 NetManager.Send(eventType, null);
             }
@@ -92,7 +93,7 @@ namespace AssadProcessor
                 {
                     AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
 
-                    string eventName = StateHelper.GetState(Convert.ToInt32(journalItem.IDTypeEvents));// deviceState.State;
+                    string eventName = StateHelper.GetState(Convert.ToInt32(journalItem.IDTypeEvents));
                     Assad.CPeventType eventType = assadBase.CreateEvent(eventName);
                     NetManager.Send(eventType, null);
                 }

@@ -109,22 +109,13 @@ namespace ClientApi
                                 parameter.Value = innerParameter.value;
                             }
                         }
+
+                        if (deviceState.ChangeEntities.ParameterChanged)
+                        {
+                            ServiceClient.CurrentStates.OnDeviceParametersChanged(deviceState.Path);
+                        }
                     }
                 }
-
-                CurrentStates currentStates = new CurrentStates();
-                currentStates.DeviceStates = new List<DeviceState>();
-                currentStates.ZoneStates = new List<ZoneState>();
-
-                foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
-                {
-                    if (deviceState.ChangeEntities.ParameterChanged)
-                    {
-                        currentStates.DeviceStates.Add(deviceState);
-                    }
-                }
-
-                ServiceClient.StateChanged(currentStates);
             }
             catch (Exception e)
             {
@@ -137,7 +128,6 @@ namespace ClientApi
             Firesec.CoreState.config coreState = FiresecClient.GetCoreState();
             try
             {
-                Trace.WriteLine("OnStateChanged");
                 SetStates(coreState);
                 PropogateStates();
                 CalculateStates();
@@ -153,28 +143,13 @@ namespace ClientApi
                         device.States.Add(selfState);
                 }
 
-                CurrentStates currentStates = new CurrentStates();
-                currentStates.DeviceStates = new List<DeviceState>();
-                currentStates.ZoneStates = new List<ZoneState>();
-
                 foreach (DeviceState device in ServiceClient.CurrentStates.DeviceStates)
                 {
                     if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
                     {
-                        currentStates.DeviceStates.Add(device);
+                        ServiceClient.CurrentStates.OnDeviceStateChanged(device.Path);
                     }
                 }
-
-                foreach (ZoneState zone in ServiceClient.CurrentStates.ZoneStates)
-                {
-                    if (zone.ZoneChanged)
-                    {
-                        currentStates.ZoneStates.Add(zone);
-                    }
-                }
-
-                ServiceClient.StateChanged(currentStates);
-                Trace.WriteLine("OnStateChanged End");
             }
             catch (Exception e)
             {
@@ -325,15 +300,18 @@ namespace ClientApi
 
                     string newZoneState = StateHelper.GetState(minZonePriority);
 
+                    bool ZoneChanged = false;
+
                     if ((zoneState.State == null) || (zoneState.State != newZoneState))
                     {
-                        zoneState.ZoneChanged = true;
-                    }
-                    else
-                    {
-                        zoneState.ZoneChanged = false;
+                        ZoneChanged = true;
                     }
                     zoneState.State = newZoneState;
+
+                    if (ZoneChanged)
+                    {
+                        ServiceClient.CurrentStates.OnZoneStateChanged(zoneState.No);
+                    }
                 }
             }
         }

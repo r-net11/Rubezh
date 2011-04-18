@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
-using ServiceApi;
 using System.Windows.Media;
 
 namespace ServiceVisualizer

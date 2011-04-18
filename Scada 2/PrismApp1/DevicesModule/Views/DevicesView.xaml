@@ -10,7 +10,7 @@
 <Grid>
         <StackPanel>
             <WpfToolkit:DataGrid ItemsSource="{Binding AllDeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}"
-                            Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
+                            Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
                             Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"

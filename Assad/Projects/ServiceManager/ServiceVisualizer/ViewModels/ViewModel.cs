@@ -6,7 +6,6 @@ using System.ComponentModel;
 using Common;
 using ClientApi;
 using System.Collections.ObjectModel;
-using ServiceApi;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -112,7 +111,7 @@ namespace ServiceVisualizer
 
             currentConfiguration.RootDevice = rootDevice;
 
-            serviceClient.SetNewConfig(currentConfiguration);
+            ServiceClient.SetNewConfig(currentConfiguration);
         }
 
         void AddDevice(DeviceViewModel parentDeviceViewModel, Device parentDevice)

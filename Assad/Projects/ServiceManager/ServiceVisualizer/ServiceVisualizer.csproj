@@ -274,10 +274,6 @@
       <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
       <Name>FiresecMetadata</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\ServiceApi\ServiceApi.csproj">
-      <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
-      <Name>ServiceApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

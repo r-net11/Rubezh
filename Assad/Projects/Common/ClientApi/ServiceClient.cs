@@ -91,21 +91,21 @@ namespace ClientApi
             return new List<Firesec.ReadEvents.journalType>();
         }
 
-        public static void StateChanged(CurrentStates currentStates)
-        {
-            foreach (DeviceState deviceState in currentStates.DeviceStates)
-            {
-                DeviceState localDeviceState = CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == deviceState.Path);
-                localDeviceState = deviceState;
-                CurrentStates.OnDeviceStateChanged(deviceState);
-            }
-            foreach (ZoneState zoneState in currentStates.ZoneStates)
-            {
-                ZoneState localZoneState = CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneState.No);
-                localZoneState = zoneState;
-                CurrentStates.OnZoneStateChanged(zoneState);
-            }
-        }
+        //public static void StateChanged(CurrentStates currentStates)
+        //{
+        //    foreach (DeviceState deviceState in currentStates.DeviceStates)
+        //    {
+        //        DeviceState localDeviceState = CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == deviceState.Path);
+        //        localDeviceState = deviceState;
+        //        CurrentStates.OnDeviceStateChanged(deviceState);
+        //    }
+        //    foreach (ZoneState zoneState in currentStates.ZoneStates)
+        //    {
+        //        ZoneState localZoneState = CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneState.No);
+        //        localZoneState = zoneState;
+        //        CurrentStates.OnZoneStateChanged(zoneState);
+        //    }
+        //}
 
         public static void NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
         {

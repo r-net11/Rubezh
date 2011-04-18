@@ -33,16 +33,14 @@ namespace DevicesModule.ViewModels
             ExpandChild(AllDeviceViewModels[0]);
 
             ClientManager.Start();
-            ServiceClient.CurrentStates.DeviceStateChanged += new Action<DeviceState>(CurrentStates_DeviceStateChanged);
+            ServiceClient.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
         }
 
-        void CurrentStates_DeviceStateChanged(DeviceState deviceState)
+        void CurrentStates_DeviceStateChanged(string path)
         {
-            DeviceViewModel deviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.Path == deviceState.Path);
+            DeviceViewModel deviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.Path == path);
 
             deviceViewModel.InitializeParameters();
-
-            
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)

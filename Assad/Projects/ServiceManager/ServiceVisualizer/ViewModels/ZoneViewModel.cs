@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Common;
 using ClientApi;
-using ServiceApi;
 
 namespace ServiceVisualizer
 {
