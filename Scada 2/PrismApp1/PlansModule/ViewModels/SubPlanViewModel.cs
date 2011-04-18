@@ -14,7 +14,7 @@ namespace PlansModule.ViewModels
 {
     public class SubPlanViewModel : BaseViewModel
     {
-        public void Initialize(SubPlan subPlan, Canvas MainCanvas)
+        public void Initialize(SubPlan subPlan, Canvas canvas)
         {
             Polygon subPlanPolygon = new Polygon();
             subPlanPolygon.Name = subPlan.Name;
@@ -37,7 +37,7 @@ namespace PlansModule.ViewModels
                 subPlanPolygon.Fill = Brushes.Transparent;
             }
             subPlanPolygon.Stroke = new SolidColorBrush(Colors.Blue);
-            MainCanvas.Children.Add(subPlanPolygon);
+            canvas.Children.Add(subPlanPolygon);
         }
 
         void subPlanPolygon_MouseEnter(object sender, MouseEventArgs e)

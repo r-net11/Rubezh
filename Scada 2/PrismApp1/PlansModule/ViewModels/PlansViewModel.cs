@@ -21,6 +21,10 @@ namespace PlansModule.ViewModels
             MainCanvas.Background = Brushes.Yellow;
             AllPlanViewModels = new List<PlanViewModel>();
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
+            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Subscribe(OnPlanDeviceSelected);
+            ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Subscribe(OnPlanZoneSelected);
+            SelectedDeviceViewModel = new SelectedDeviceViewModel();
+            SelectedZoneViewModel = new SelectedZoneViewModel();
         }
 
         public void Initialize()
@@ -95,6 +99,44 @@ namespace PlansModule.ViewModels
                 SelectedPlanViewModel = planViewModel;
             }
         }
+
+        public void OnPlanDeviceSelected(string name)
+        {
+            SelectedDeviceViewModel.IsActive = true;
+            SelectedZoneViewModel.IsActive = false;
+            SelectedDeviceViewModel.Name = name;
+        }
+
+        public void OnPlanZoneSelected(string name)
+        {
+            SelectedDeviceViewModel.IsActive = false;
+            SelectedZoneViewModel.IsActive = true;
+            SelectedZoneViewModel.Name = name;
+        }
+
+        SelectedDeviceViewModel selectedDeviceViewModel;
+        public SelectedDeviceViewModel SelectedDeviceViewModel
+        {
+            get { return selectedDeviceViewModel; }
+            set
+            {
+                selectedDeviceViewModel = value;
+                OnPropertyChanged("SelectedDeviceViewModel");
+            }
+        }
+
+        SelectedZoneViewModel selectedZoneViewModel;
+        public SelectedZoneViewModel SelectedZoneViewModel
+        {
+            get { return selectedZoneViewModel; }
+            set
+            {
+                selectedZoneViewModel = value;
+                OnPropertyChanged("SelectedZoneViewModel");
+            }
+        }
+
+        
 
         public override void Dispose()
         {

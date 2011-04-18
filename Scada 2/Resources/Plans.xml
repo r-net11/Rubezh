@@ -77,10 +77,10 @@
           <PlanZones>
             <PlanZone ZoneNo="0">
               <PolygonPoints>
-                <PolygonPoint X="100" Y="100" />
-                <PolygonPoint X="200" Y="100" />
-                <PolygonPoint X="200" Y="200" />
-                <PolygonPoint X="100" Y="200" />
+                <PolygonPoint X="10" Y="10" />
+                <PolygonPoint X="200" Y="10" />
+                <PolygonPoint X="200" Y="300" />
+                <PolygonPoint X="10" Y="300" />
               </PolygonPoints>
             </PlanZone>
           </PlanZones>
