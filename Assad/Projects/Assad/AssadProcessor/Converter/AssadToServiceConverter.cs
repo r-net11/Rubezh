@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AssadDevices;
-using ServiceApi;
+using ClientApi;
 
 namespace AssadProcessor
 {
@@ -13,13 +13,13 @@ namespace AssadProcessor
         {
             CurrentConfiguration currentConfiguration = new CurrentConfiguration();
 
-            ServiceApi.Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
+            ClientApi.Device rootDevice = AddChild(AssadConfiguration.Devices[0]);
             currentConfiguration.Zones = FindAllZones(AssadConfiguration.Devices[0]);
             //configuration.shortDevice = rootDevice;
             return currentConfiguration;
         }
 
-        static ServiceApi.Device AddChild(AssadBase parentAssadBase)
+        static ClientApi.Device AddChild(AssadBase parentAssadBase)
         {
             if (parentAssadBase is AssadZone)
             {
@@ -28,7 +28,7 @@ namespace AssadProcessor
 
             if ((parentAssadBase is AssadDevice) || (parentAssadBase is AssadMC) || (parentAssadBase is AssadChannel) || (parentAssadBase is AssadPanel) || (parentAssadBase is AssadMC34) || (parentAssadBase is AssadPage) || (parentAssadBase is AssadIndicator) || (parentAssadBase is AssadComputer) || (parentAssadBase is AssadASPT) || (parentAssadBase is AssadPumpStation) || (parentAssadBase is AssadPump))
             {
-                ServiceApi.Device device = new ServiceApi.Device();
+                ClientApi.Device device = new ClientApi.Device();
                 device.Address = parentAssadBase.Address;
                 device.DriverId = parentAssadBase.DriverId;
                 device.Description = parentAssadBase.Description;
@@ -57,11 +57,11 @@ namespace AssadProcessor
 
                 foreach (AssadBase assadBase in parentAssadBase.Children)
                 {
-                    ServiceApi.Device childDevice = AddChild(assadBase);
+                    ClientApi.Device childDevice = AddChild(assadBase);
                     if (childDevice != null)
                     {
                         if (device.Children == null)
-                            device.Children = new List<ServiceApi.Device>();
+                            device.Children = new List<ClientApi.Device>();
                         device.Children.Add(childDevice);
                     }
                 }

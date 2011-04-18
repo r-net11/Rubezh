@@ -36,7 +36,7 @@ namespace FiresecDirect
             Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
             memoryStream.Close();
 
-            Firesec.FiresecClient.SetNewConfig(config);
+            //Firesec.FiresecClient.SetNewConfig(config);
             //Firesec.FiresecClient.DeviceWriteConfig(config, "0");
 
             textBox1.Text = message;
@@ -69,10 +69,10 @@ namespace FiresecDirect
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            Firesec.Metadata.config metadataConfig = Firesec.FiresecClient.GetMetaData();
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
-            FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
-            serializer.Serialize(fileStream, metadataConfig);
+            //Firesec.Metadata.config metadataConfig = Firesec.FiresecClient.GetMetaData();
+            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
+            //FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
+            //serializer.Serialize(fileStream, metadataConfig);
         }
     }
 }

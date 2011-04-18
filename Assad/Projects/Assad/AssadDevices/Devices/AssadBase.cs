@@ -110,7 +110,7 @@ namespace AssadDevices
             Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
             configurationState.state = "Конфигурация";
             if (string.IsNullOrEmpty(ValidationError))
-                configurationState.value = " ";
+                configurationState.value = "Норма";
             else
                 configurationState.value = ValidationError;
             states.Add(configurationState);
@@ -122,7 +122,13 @@ namespace AssadDevices
                     Assad.DeviceTypeState parameterState = new Assad.DeviceTypeState();
                     parameterState.state = assadParameter.Name;
                     if (assadParameter.Value != null)
+                    {
                         parameterState.value = assadParameter.Value;
+                        if (parameterState.value == "<NULL>")
+                        {
+                            Trace.WriteLine("NULL Parameter");
+                        }
+                    }
                     else
                         parameterState.value = " ";
                     states.Add(parameterState);

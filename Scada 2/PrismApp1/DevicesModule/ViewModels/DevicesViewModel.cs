@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Infrastructure;
 using System.Collections.ObjectModel;
-using ServiceApi;
 using ClientApi;
 
 namespace DevicesModule.ViewModels
@@ -21,8 +20,6 @@ namespace DevicesModule.ViewModels
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
             AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
 
-            //DeviceViewModelList = new List<DeviceViewModel>();
-
             Device rooDevice = ServiceClient.CurrentConfiguration.RootDevice;
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
@@ -32,9 +29,20 @@ namespace DevicesModule.ViewModels
             DeviceViewModels.Add(rootDeviceViewModel);
             AllDeviceViewModels.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
-            //DeviceViewModelList.Add(rootDeviceViewModel);
 
             ExpandChild(AllDeviceViewModels[0]);
+
+            ClientManager.Start();
+            ServiceClient.CurrentStates.DeviceStateChanged += new Action<DeviceState>(CurrentStates_DeviceStateChanged);
+        }
+
+        void CurrentStates_DeviceStateChanged(DeviceState deviceState)
+        {
+            DeviceViewModel deviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.Path == deviceState.Path);
+
+            deviceViewModel.InitializeParameters();
+
+            
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -46,9 +54,9 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Initialize(device, AllDeviceViewModels);
                 //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
+                DeviceViewModels.Add(deviceViewModel);
                 AllDeviceViewModels.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
-                //DeviceViewModelList.Add(deviceViewModel);
             }
         }
 

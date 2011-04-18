@@ -5,7 +5,6 @@ using System.Text;
 using AssadDevices;
 using System.Threading;
 using ClientApi;
-using ServiceApi;
 using System.Windows.Forms;
 
 namespace AssadProcessor
@@ -45,8 +44,8 @@ namespace AssadProcessor
                 {
                     waitForConfiguration = false;
 
-                    ServiceApi.CurrentConfiguration currentConfiguration = AssadToServiceConverter.Convert();
-                    serviceClient.SetNewConfig(currentConfiguration);
+                    ClientApi.CurrentConfiguration currentConfiguration = AssadToServiceConverter.Convert();
+                    ServiceClient.SetNewConfig(currentConfiguration);
                 }
             }
         }
@@ -93,14 +92,14 @@ namespace AssadProcessor
                             {
                                 if (driver.state.Any(x=>((x.name == commandName) && (x.manualReset == "1"))))
                                 {
-                                    serviceClient.ResetState(resetDevice, commandName);
+                                    ServiceClient.ResetState(resetDevice, commandName);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        serviceClient.ResetState(device, commandName);
+                        ServiceClient.ResetState(device, commandName);
                     }
                 }
             }
@@ -118,7 +117,7 @@ namespace AssadProcessor
                 {
                     if (state.manualReset == "1")
                     {
-                        serviceClient.ResetState(device, state.name);
+                        ServiceClient.ResetState(device, state.name);
                     }
                 }
             }
@@ -166,7 +165,7 @@ namespace AssadProcessor
                         assadBase.Parameters = new List<AssadParameter>();
 
                         if (deviceState.Parameters != null)
-                        foreach (ServiceApi.Parameter parameter in deviceState.Parameters)
+                            foreach (ClientApi.Parameter parameter in deviceState.Parameters)
                         {
                             if (parameter.Visible == false)
                             {

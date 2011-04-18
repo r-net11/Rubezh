@@ -5,10 +5,6 @@ using System.Text;
 
 namespace DeviveModelManager
 {
-    // Задача этого метода - свормировать модель устройств типа зона
-    // для зон в метаданных ком-сервера нормальной информации на русском языке нет, поэтому
-    // эту информацию нужно сформировать вручную
-
     public static class ZoneHelper
     {
         public static TreeItem CreateZone()

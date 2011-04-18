@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ServiceApi;
-using FiresecMetadata;
 using Firesec;
+using FiresecMetadata;
 
-namespace ServiseProcessor
+namespace ClientApi
 {
     public class FiresecToConfig
     {
@@ -18,19 +18,19 @@ namespace ServiseProcessor
             this.firesecConfig = firesecConfig;
             currentConfiguration = new CurrentConfiguration();
 
-            Services.AllDevices = new List<Device>();
-            Services.CurrentStates = new CurrentStates();
-            Services.CurrentStates.DeviceStates = new List<DeviceState>();
-            Services.CurrentStates.ZoneStates = new List<ZoneState>();
+            ServiceClient.CurrentConfiguration.AllDevices = new List<Device>();
+            ServiceClient.CurrentStates = new CurrentStates();
+            ServiceClient.CurrentStates.DeviceStates = new List<DeviceState>();
+            ServiceClient.CurrentStates.ZoneStates = new List<ZoneState>();
 
             AddZones();
 
-            Firesec.CoreConfig.devType rootInnerDevice = Services.CoreConfig.dev[0];
+            Firesec.CoreConfig.devType rootInnerDevice = ServiceClient.CoreConfig.dev[0];
             Device rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
-            Services.AllDevices.Add(rootDevice);
-            Services.CurrentStates.DeviceStates.Add(CreateDeviceState(rootDevice));
+            ServiceClient.CurrentConfiguration.AllDevices.Add(rootDevice);
+            ServiceClient.CurrentStates.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
             currentConfiguration.RootDevice = rootDevice;
@@ -49,8 +49,8 @@ namespace ServiseProcessor
                     device.Parent = parentDevice;
                     parentDevice.Children.Add(device);
                     SetInnerDevice(device, innerDevice);
-                    Services.AllDevices.Add(device);
-                    Services.CurrentStates.DeviceStates.Add(CreateDeviceState(device));
+                    ServiceClient.CurrentConfiguration.AllDevices.Add(device);
+                    ServiceClient.CurrentStates.DeviceStates.Add(CreateDeviceState(device));
                     AddDevice(innerDevice, device);
                 }
             }
@@ -58,7 +58,7 @@ namespace ServiseProcessor
 
         DeviceState CreateDeviceState(Device device)
         {
-            Firesec.Metadata.drvType driver = Services.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+            Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
 
             DeviceState deviceState = new DeviceState();
             deviceState.ChangeEntities = new ChangeEntities();
@@ -95,7 +95,7 @@ namespace ServiseProcessor
         void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             device.DriverId = firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-            Firesec.Metadata.drvType metadataDriver = Services.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+            Firesec.Metadata.drvType metadataDriver = ServiceClient.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
 
             // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
             device.Address = innerDevice.addr;
@@ -260,7 +260,7 @@ namespace ServiseProcessor
                             zone.DetectorCount = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount").value;
                     }
                     currentConfiguration.Zones.Add(zone);
-                    Services.CurrentStates.ZoneStates.Add(CreateZoneState(zone));
+                    ServiceClient.CurrentStates.ZoneStates.Add(CreateZoneState(zone));
                 }
             }
         }

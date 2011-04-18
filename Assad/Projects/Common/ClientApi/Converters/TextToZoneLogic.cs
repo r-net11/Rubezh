@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ServiceApi
+namespace ClientApi
 {
     public static class TextToZoneLogic
     {

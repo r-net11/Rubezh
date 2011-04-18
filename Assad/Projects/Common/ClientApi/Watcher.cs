@@ -2,31 +2,51 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ServiseProcessor;
 using System.Diagnostics;
 using ServiceApi;
 using Firesec;
 using FiresecMetadata;
 
-namespace ServiseProcessor
+namespace ClientApi
 {
     public class Watcher
     {
         internal void Start()
         {
-            Firesec.FiresecEventAggregator.StateChanged += new Action<string, Firesec.CoreState.config>(OnStateChanged);
-            Firesec.FiresecEventAggregator.ParametersChanged += new Action<string, Firesec.DeviceParams.config>(OnParametersChanged);
-            Firesec.FiresecEventAggregator.NewEvent += new Action(FiresecEventAggregator_NewEvent);
+            FiresecClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
 
-
-            // первый опрос не должен выкидывать события сервера
-            Firesec.CoreState.config coreState = Firesec.FiresecClient.GetCoreState();
-            OnStateChanged(Firesec.FiresecClient.CoreStateString, coreState);
-
-            Firesec.DeviceParams.config coreParameters = Firesec.FiresecClient.GetDeviceParams();
-            OnParametersChanged(FiresecClient.DeviceParametersString, coreParameters);
-
+            OnStateChanged();
+            OnParametersChanged();
             SetLastEvent();
+        }
+
+        void FiresecClient_NewEvent(int EventMask)
+        {
+            bool evmNewEvents = ((EventMask & 1) == 1);
+            bool evmStateChanged = ((EventMask & 2) == 2);
+            bool evmConfigChanged = ((EventMask & 4) == 4);
+            bool evmDeviceParamsUpdated = ((EventMask & 8) == 8);
+            bool evmPong = ((EventMask & 16) == 16);
+            bool evmDatabaseChanged = ((EventMask & 32) == 32);
+            bool evmReportsChanged = ((EventMask & 64) == 64);
+            bool evmSoundsChanged = ((EventMask & 128) == 128);
+            bool evmLibraryChanged = ((EventMask & 256) == 256);
+            bool evmPing = ((EventMask & 512) == 512);
+            bool evmIgnoreListChanged = ((EventMask & 1024) == 1024);
+            bool evmEventViewChanged = ((EventMask & 2048) == 2048);
+
+            if (evmStateChanged)
+            {
+                OnStateChanged();
+            }
+            if (evmDeviceParamsUpdated)
+            {
+                OnParametersChanged();
+            }
+            if (evmNewEvents)
+            {
+                OnNewEvent();
+            }
         }
 
         int LastEventId = 0;
@@ -42,7 +62,7 @@ namespace ServiseProcessor
 
         // ДОБАВИТЬ ПРОВЕРКУ - ЕСЛИ В ВЫЧИТАННЫХ 100 СОБЫТИЯХ ВСЕ СОБЫТИЯ НОВЫЕ, ТО ВЫЧИТАТЬ И ВТОРУЮ СОТНЮ
 
-        void FiresecEventAggregator_NewEvent()
+        void OnNewEvent()
         {
             Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
             string journalString = FiresecClient.JournalString;
@@ -53,20 +73,21 @@ namespace ServiseProcessor
                 {
                     if (Convert.ToInt32(journalItem.IDEvents) > LastEventId)
                     {
-                        StateService.NewJournalEvent(journalItem);
+                        ServiceClient.NewJournalEvent(journalItem);
                     }
                 }
                 LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);
             }
         }
 
-        void OnParametersChanged(string coreParametersString, Firesec.DeviceParams.config coreParameters)
+        void OnParametersChanged()
         {
+            Firesec.DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
             try
             {
                 Trace.WriteLine("OnParametersChanged");
 
-                foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+                foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
                 {
                     deviceState.ChangeEntities.Reset();
 
@@ -95,7 +116,7 @@ namespace ServiseProcessor
                 currentStates.DeviceStates = new List<DeviceState>();
                 currentStates.ZoneStates = new List<ZoneState>();
 
-                foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+                foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
                 {
                     if (deviceState.ChangeEntities.ParameterChanged)
                     {
@@ -103,7 +124,7 @@ namespace ServiseProcessor
                     }
                 }
 
-                StateService.StatesChanged(currentStates);
+                ServiceClient.StateChanged(currentStates);
             }
             catch (Exception e)
             {
@@ -111,8 +132,9 @@ namespace ServiseProcessor
             }
         }
 
-        public void OnStateChanged(string coreStateString, Firesec.CoreState.config coreState)
+        public void OnStateChanged()
         {
+            Firesec.CoreState.config coreState = FiresecClient.GetCoreState();
             try
             {
                 Trace.WriteLine("OnStateChanged");
@@ -121,7 +143,7 @@ namespace ServiseProcessor
                 CalculateStates();
                 CalculateZones();
 
-                foreach (DeviceState device in Services.CurrentStates.DeviceStates)
+                foreach (DeviceState device in ServiceClient.CurrentStates.DeviceStates)
                 {
                     device.States = new List<string>();
                     foreach (string parentState in device.ParentStringStates)
@@ -135,7 +157,7 @@ namespace ServiseProcessor
                 currentStates.DeviceStates = new List<DeviceState>();
                 currentStates.ZoneStates = new List<ZoneState>();
 
-                foreach (DeviceState device in Services.CurrentStates.DeviceStates)
+                foreach (DeviceState device in ServiceClient.CurrentStates.DeviceStates)
                 {
                     if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
                     {
@@ -143,7 +165,7 @@ namespace ServiseProcessor
                     }
                 }
 
-                foreach (ZoneState zone in Services.CurrentStates.ZoneStates)
+                foreach (ZoneState zone in ServiceClient.CurrentStates.ZoneStates)
                 {
                     if (zone.ZoneChanged)
                     {
@@ -151,7 +173,7 @@ namespace ServiseProcessor
                     }
                 }
 
-                StateService.StatesChanged(currentStates);
+                ServiceClient.StateChanged(currentStates);
                 Trace.WriteLine("OnStateChanged End");
             }
             catch (Exception e)
@@ -162,7 +184,7 @@ namespace ServiseProcessor
 
         void SetStates(Firesec.CoreState.config coreState)
         {
-            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+            foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
             {
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
@@ -207,25 +229,25 @@ namespace ServiseProcessor
 
         void PropogateStates()
         {
-            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+            foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
             {
                 deviceState.ParentInnerStates = new List<InnerState>();
                 deviceState.ParentStringStates = new List<string>();
             }
 
-            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+            foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
             {
                 foreach (InnerState state in deviceState.InnerStates)
                 {
                     if ((state.IsActive) && (state.AffectChildren))
                     {
-                        foreach (DeviceState chilDevice in Services.CurrentStates.DeviceStates)
+                        foreach (DeviceState chilDevice in ServiceClient.CurrentStates.DeviceStates)
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 chilDevice.ParentInnerStates.Add(state);
-                                string driverId = Services.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).DriverId;
-                                string driverName = Services.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
+                                string driverId = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).DriverId;
+                                string driverName = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
                                 chilDevice.ParentStringStates.Add(driverName + " - " + state.Name);
                                 chilDevice.ChangeEntities.StatesChanged = true;
                             }
@@ -237,7 +259,7 @@ namespace ServiseProcessor
 
         void CalculateStates()
         {
-            foreach (DeviceState deviceState in Services.CurrentStates.DeviceStates)
+            foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
             {
                 int minPriority = 7;
                 InnerState sourceState = null;
@@ -285,16 +307,16 @@ namespace ServiseProcessor
 
         void CalculateZones()
         {
-            if (Services.CurrentStates.ZoneStates != null)
+            if (ServiceClient.CurrentStates.ZoneStates != null)
             {
-                foreach (ZoneState zoneState in Services.CurrentStates.ZoneStates)
+                foreach (ZoneState zoneState in ServiceClient.CurrentStates.ZoneStates)
                 {
                     int minZonePriority = 7;
-                    foreach (Device device in Services.AllDevices)
+                    foreach (Device device in ServiceClient.CurrentConfiguration.AllDevices)
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
-                            DeviceState deviceState = Services.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
+                            DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
                             if (deviceState.MinPriority < minZonePriority)
                                 minZonePriority = deviceState.MinPriority;
@@ -345,3 +367,17 @@ namespace ServiseProcessor
         }
     }
 }
+
+
+//evmNewEvents           = $0001;
+//evmStateChanged        = $0002;
+//evmConfigChanged       = $0004;
+//evmDeviceParamsUpdated = $0008;
+//evmPong                = $0010;
+//evmDatabaseChanged     = $0020;
+//evmReportsChanged      = $0040;
+//evmSoundsChanged       = $0080;
+//evmLibraryChanged      = $0100;
+//evmPing                = $0200;
+//evmIgnoreListChanged   = $0400;
+//evmEventViewChanged    = $0800;

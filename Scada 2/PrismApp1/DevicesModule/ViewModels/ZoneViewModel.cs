@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure;
-using ServiceApi;
 using DevicesModule.Events;
+using ClientApi;
 
 namespace DevicesModule.ViewModels
 {

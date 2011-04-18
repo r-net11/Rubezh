@@ -13,10 +13,10 @@
                             Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
                             RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
-                    <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                    <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -43,7 +43,7 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" Width="100">
+                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" MinWidth="50">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -53,7 +53,7 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTemplateColumn Header="Зона" Width="100">
+                    <WpfToolkit:DataGridTemplateColumn Header="Зона" MinWidth="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -63,7 +63,7 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTemplateColumn Header="Примечание" Width="*">
+                    <WpfToolkit:DataGridTemplateColumn Header="Примечание" MinWidth="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -73,6 +73,13 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
+                    <WpfToolkit:DataGridTextColumn Header="Состояние" MinWidth="200" Binding="{Binding MainState}" />
+                    <WpfToolkit:DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
+                    <WpfToolkit:DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />
+                    <WpfToolkit:DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
+                    <WpfToolkit:DataGridTextColumn Header="Пыль, %" MinWidth="100" Binding="{Binding Dustiness}" />
+                    <WpfToolkit:DataGridTextColumn Header="Температура, °С" MinWidth="100" Binding="{Binding Temperature}" />
+                    
                 </WpfToolkit:DataGrid.Columns>
 
                 <WpfToolkit:DataGrid.CellStyle>

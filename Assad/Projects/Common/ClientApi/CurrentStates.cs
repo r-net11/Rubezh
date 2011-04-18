@@ -4,17 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ClientApi
 {
-    [DataContract]
     public class CurrentStates
     {
-        [DataMember]
         public List<DeviceState> DeviceStates { get; set; }
-
-        [DataMember]
         public List<ZoneState> ZoneStates { get; set; }
-
 
         public event Action<DeviceState> DeviceStateChanged;
         public void OnDeviceStateChanged(DeviceState device)

@@ -103,10 +103,6 @@
       <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
       <Name>FiresecMetadata</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\ServiceApi\ServiceApi.csproj">
-      <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
-      <Name>ServiceApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AssadDevices\AssadDevices.csproj">
       <Project>{55139F81-9B17-422B-BBA3-EB8F19E1D5FF}</Project>
       <Name>AssadDevices</Name>

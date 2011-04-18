@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ClientApi
 {
-    [DataContract]
     public class ValidationError
     {
         public ValidationError(string error, Level level)
@@ -15,10 +14,7 @@ namespace ServiceApi
             Level = level;
         }
 
-        [DataMember]
         public string Error { get; set; }
-
-        [DataMember]
         public Level Level { get; set; }
     }
 

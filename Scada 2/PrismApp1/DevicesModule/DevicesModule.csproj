@@ -132,10 +132,6 @@
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Assad\Projects\Common\ServiceApi\ServiceApi.csproj">
-      <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
-      <Name>ServiceApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>

@@ -57,22 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangeEntities.cs" />
-    <Compile Include="Converters\TextToZoneLogic.cs" />
-    <Compile Include="Converters\ZoneLogicToText.cs" />
-    <Compile Include="Property.cs" />
-    <Compile Include="ICallback.cs" />
-    <Compile Include="IStateService.cs" />
-    <Compile Include="Parameter.cs" />
+    <Compile Include="IFiresecCallback.cs" />
+    <Compile Include="IFiresecService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Device.cs" />
-    <Compile Include="DeviceState.cs" />
-    <Compile Include="CurrentStates.cs" />
-    <Compile Include="ValidationError.cs" />
-    <Compile Include="Zone.cs" />
-    <Compile Include="ZoneState.cs" />
-    <Compile Include="InnerState.cs" />
-    <Compile Include="CurrentConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FiresecApi\FiresecApi.csproj">

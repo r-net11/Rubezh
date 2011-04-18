@@ -5,7 +5,6 @@ using System.Text;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using ClientApi;
-using ServiceApi;
 using DevicesModule.Events;
 
 namespace DevicesModule.ViewModels

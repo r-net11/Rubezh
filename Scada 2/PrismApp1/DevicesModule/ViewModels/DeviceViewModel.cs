@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure;
-using ServiceApi;
 using System.Collections.ObjectModel;
 using ClientApi;
 using DevicesModule.Views;
@@ -126,6 +125,47 @@ namespace DevicesModule.ViewModels
 
             this.Device = device;
             Driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+
+            InitializeParameters();
+        }
+
+        public void InitializeParameters()
+        {
+            DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+
+            MainState = deviceState.State;
+
+            if (deviceState.Parameters != null)
+            {
+                foreach (Parameter parameter in deviceState.Parameters)
+                {
+                    switch (parameter.Name)
+                    {
+                        case "FailureType":
+                            FailureType = parameter.Value;
+                            break;
+
+                        case "AlarmReason":
+                            AlarmReason = parameter.Value;
+                            break;
+
+                        case "Smokiness":
+                            Smokiness = parameter.Value;
+                            break;
+
+                        case "Dustiness":
+                            Dustiness = parameter.Value;
+                            break;
+
+                        case "Temperature":
+                            Temperature = parameter.Value;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         public bool IsZoneDevice
@@ -351,6 +391,87 @@ namespace DevicesModule.ViewModels
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
                 ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(zoneNo);
+            }
+        }
+
+        string mainState;
+        public string MainState
+        {
+            get { return mainState; }
+            set
+            {
+                mainState = value;
+                OnPropertyChanged("MainState");
+            }
+        }
+
+        string failureType;
+        public string FailureType
+        {
+            get { return failureType; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    failureType = " - ";
+                else
+                    failureType = value;
+                OnPropertyChanged("FailureType");
+            }
+        }
+
+        string alarmReason;
+        public string AlarmReason
+        {
+            get { return alarmReason; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    alarmReason = " - ";
+                else
+                    alarmReason = value;
+                OnPropertyChanged("AlarmReason");
+            }
+        }
+
+        string smokiness;
+        public string Smokiness
+        {
+            get { return smokiness; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    smokiness = " - ";
+                else
+                    smokiness = value;
+                OnPropertyChanged("Smokiness");
+            }
+        }
+
+        string dustiness;
+        public string Dustiness
+        {
+            get { return dustiness; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    dustiness = " - ";
+                else
+                    dustiness = value;
+                OnPropertyChanged("Dustiness");
+            }
+        }
+
+        string temperature;
+        public string Temperature
+        {
+            get { return temperature; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    temperature = " - ";
+                else
+                    temperature = value;
+                OnPropertyChanged("Temperature");
             }
         }
     }

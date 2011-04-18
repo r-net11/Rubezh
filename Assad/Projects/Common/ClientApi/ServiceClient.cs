@@ -7,27 +7,26 @@ using ServiceApi;
 
 namespace ClientApi
 {
-    public class ServiceClient : ICallback
+    public class ServiceClient
     {
-        DuplexChannelFactory<IStateService> duplexChannelFactory;
-        IStateService stateService;
-        public static ServiceApi.CurrentConfiguration CurrentConfiguration { get; set; }
-        public static ServiceApi.CurrentStates CurrentStates { get; set; }
+        public static FiresecClient firesecClient;
+
+        public static CurrentConfiguration CurrentConfiguration { get; set; }
+        public static CurrentStates CurrentStates { get; set; }
+        public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
         public void Start()
         {
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.MaxBufferSize = Int32.MaxValue;
-            binding.MaxReceivedMessageSize = Int32.MaxValue;
-            binding.MaxBufferPoolSize = Int32.MaxValue;
-            EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
-            duplexChannelFactory = new DuplexChannelFactory<IStateService>(new InstanceContext(this), binding, endpointAddress);
-            stateService = duplexChannelFactory.CreateChannel();
-            CurrentConfiguration = stateService.GetConfiguration();
+            firesecClient = new FiresecClient();
+            firesecClient.Start();
+
+            BuildDeviceTree();
+
             CurrentConfiguration.FillAllDevices();
             CurrentConfiguration.SetUnderlyingZones();
-            stateService.Initialize();
-            CurrentStates = stateService.GetStates();
+
+            Watcher watcher = new Watcher();
+            watcher.Start();
         }
 
         public void Stop()
@@ -35,15 +34,64 @@ namespace ClientApi
             //duplexChannelFactory.Close();
         }
 
-        public void Notify(string message)
+        void BuildDeviceTree()
         {
+            CurrentConfiguration = new CurrentConfiguration();
+            CurrentConfiguration.Metadata = FiresecClient.GetMetaData();
+            CoreConfig = FiresecClient.GetCoreConfig();
+
+            FiresecToConfig firesecToConfig = new FiresecToConfig();
+            CurrentConfiguration stateConfiguration = firesecToConfig.Convert(CoreConfig);
+            stateConfiguration.Metadata = FiresecClient.GetMetaData();
+            CurrentConfiguration = stateConfiguration;
         }
 
-        public void ConfigurationChanged()
+        public static void SetNewConfig(CurrentConfiguration configuration)
         {
+            Validator validator = new Validator();
+            validator.Validate(configuration);
+
+            //Services.Configuration.Devices = configuration.Devices;
+            //Services.Configuration.Zones = configuration.Zones;
+
+            ConfigToFiresec configToFiresec = new ConfigToFiresec();
+            Firesec.CoreConfig.config config = configToFiresec.Convert(configuration);
+            FiresecClient.SetNewConfig(config);
         }
 
-        public void StateChanged(CurrentStates currentStates)
+        public static void ResetState(Device device, string stateName)
+        {
+            DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
+            //stateName = stateName.Remove(0, "Сброс ".Length);
+            InnerState state = deviceState.InnerStates.First(x => x.Name == stateName);
+            string id = state.Id;
+
+            Firesec.CoreState.config coreState = new Firesec.CoreState.config();
+            coreState.dev = new Firesec.CoreState.devType[1];
+            coreState.dev[0] = new Firesec.CoreState.devType();
+            string placeInTree = CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).PlaceInTree;
+            coreState.dev[0].name = placeInTree;
+            coreState.dev[0].state = new Firesec.CoreState.stateType[1];
+            coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
+            coreState.dev[0].state[0].id = id;
+
+            FiresecClient.ResetStates(coreState);
+        }
+
+        public List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)
+        {
+            Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(startIndex, count);
+            if (journal.Journal != null)
+            {
+                if (journal.Journal.Count() > 0)
+                {
+                    return journal.Journal.ToList();
+                }
+            }
+            return new List<Firesec.ReadEvents.journalType>();
+        }
+
+        public static void StateChanged(CurrentStates currentStates)
         {
             foreach (DeviceState deviceState in currentStates.DeviceStates)
             {
@@ -59,24 +107,9 @@ namespace ClientApi
             }
         }
 
-        public void NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        public static void NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
         {
             CurrentStates.OnNewJournalEvent(journalItem);
-        }
-
-        public void SetNewConfig(CurrentConfiguration currentConfiguration)
-        {
-            stateService.SetConfiguration(currentConfiguration);
-        }
-
-        public void ResetState(Device device, string command)
-        {
-            stateService.ResetState(device.Path, command);
-        }
-
-        public List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)
-        {
-            return stateService.ReadJournal(startIndex, count);
         }
     }
 }

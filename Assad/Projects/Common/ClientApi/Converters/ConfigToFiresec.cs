@@ -5,7 +5,7 @@ using System.Text;
 using ServiceApi;
 using FiresecMetadata;
 
-namespace ServiseProcessor
+namespace ClientApi
 {
     public class ConfigToFiresec
     {
@@ -17,9 +17,9 @@ namespace ServiseProcessor
             Firesec.CoreConfig.devType rootInnerDevice = DeviceToInnerDevice(rootDevice);
             AddInnerDevice(rootDevice, rootInnerDevice);
 
-            Services.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
-            Services.CoreConfig.dev[0] = rootInnerDevice;
-            return Services.CoreConfig;
+            ServiceClient.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
+            ServiceClient.CoreConfig.dev[0] = rootInnerDevice;
+            return ServiceClient.CoreConfig;
         }
 
         void AddInnerDevice(Device parentDevice, Firesec.CoreConfig.devType parentInnerDevice)
@@ -38,7 +38,7 @@ namespace ServiseProcessor
         Firesec.CoreConfig.devType DeviceToInnerDevice(Device device)
         {
             Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
-            innerDevice.drv = Services.CoreConfig.drv.FirstOrDefault(x => x.id == device.DriverId).idx;
+            innerDevice.drv = ServiceClient.CoreConfig.drv.FirstOrDefault(x => x.id == device.DriverId).idx;
             innerDevice.addr = ConvertAddress(device);
 
             if (device.ZoneNo != null)
@@ -72,15 +72,15 @@ namespace ServiseProcessor
 
         void SetZones(CurrentConfiguration currentConfiguration)
         {
-            Services.CoreConfig.zone = new Firesec.CoreConfig.zoneType[currentConfiguration.Zones.Count];
+            ServiceClient.CoreConfig.zone = new Firesec.CoreConfig.zoneType[currentConfiguration.Zones.Count];
             for (int i = 0; i < currentConfiguration.Zones.Count; i++)
             {
-                Services.CoreConfig.zone[i] = new Firesec.CoreConfig.zoneType();
-                Services.CoreConfig.zone[i].name = currentConfiguration.Zones[i].Name;
-                Services.CoreConfig.zone[i].idx = currentConfiguration.Zones[i].No;
-                Services.CoreConfig.zone[i].no = currentConfiguration.Zones[i].No;
+                ServiceClient.CoreConfig.zone[i] = new Firesec.CoreConfig.zoneType();
+                ServiceClient.CoreConfig.zone[i].name = currentConfiguration.Zones[i].Name;
+                ServiceClient.CoreConfig.zone[i].idx = currentConfiguration.Zones[i].No;
+                ServiceClient.CoreConfig.zone[i].no = currentConfiguration.Zones[i].No;
                 if (!string.IsNullOrEmpty(currentConfiguration.Zones[i].Description))
-                    Services.CoreConfig.zone[i].desc = currentConfiguration.Zones[i].Description;
+                    ServiceClient.CoreConfig.zone[i].desc = currentConfiguration.Zones[i].Description;
 
                 List<Firesec.CoreConfig.paramType> zoneParams = new List<Firesec.CoreConfig.paramType>();
                 if (!string.IsNullOrEmpty(currentConfiguration.Zones[i].DetectorCount))
@@ -100,7 +100,7 @@ namespace ServiseProcessor
                     zoneParams.Add(EvacuationTimeZoneParam);
                 }
                 if (zoneParams.Count > 0)
-                    Services.CoreConfig.zone[i].param = zoneParams.ToArray();
+                    ServiceClient.CoreConfig.zone[i].param = zoneParams.ToArray();
             }
         }
 
@@ -119,7 +119,7 @@ namespace ServiseProcessor
                         {
                             if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
                             {
-                                Firesec.Metadata.drvType metadataDriver = Services.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+                                Firesec.Metadata.drvType metadataDriver = ServiceClient.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
                                 if (metadataDriver.propInfo != null)
                                 {
                                     if (metadataDriver.propInfo.Any(x => x.name == deviceProperty.Name))
@@ -138,7 +138,7 @@ namespace ServiseProcessor
 
             if (device.ZoneLogic != null)
             {
-                string zoneLogic = Firesec.FiresecClient.SetZoneLogic(device.ZoneLogic);
+                string zoneLogic = FiresecClient.SetZoneLogic(device.ZoneLogic);
                 Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
                 property.name = "ExtendedZoneLogic";
                 property.value = zoneLogic;

@@ -4,18 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ClientApi
 {
-    [DataContract]
     public class ZoneState
     {
-        [DataMember]
         public string No { get; set; }
-
-        [DataMember]
         public string State { get; set; }
-
-        [DataMember]
         public bool ZoneChanged { get; set; }
     }
 }

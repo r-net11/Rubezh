@@ -4,21 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace ServiceApi
+namespace ClientApi
 {
-    [DataContract]
     public class ChangeEntities
     {
-        [DataMember]
         public bool StateChanged { get; set; }
-
-        [DataMember]
         public bool StatesChanged { get; set; }
-
-        [DataMember]
         public bool ParameterChanged { get; set; }
-
-        [DataMember]
         public bool VisibleParameterChanged { get; set; }
 
         public void Reset()

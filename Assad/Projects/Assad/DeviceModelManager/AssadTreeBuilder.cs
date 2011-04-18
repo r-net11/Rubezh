@@ -19,6 +19,7 @@ namespace DeviveModelManager
 
             CreateRootTreeItem();
             AddAssad(treeBuilder.rootDriver, RootTreeItem);
+            RootTreeItem.Children.Add(MonitorHelper.CreateMonitor());
             RootTreeItem.Children.Add(ZoneHelper.CreateZone());
             AddAssadChild(RootTreeItem);
             SaveToFile();

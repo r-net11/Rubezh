@@ -50,18 +50,18 @@ namespace Firesec
         {
             return Connectoin.ReadEvents(fromId, limit);
         }
-        
-        internal static void SetNewConfig(string coreConfig)
+
+        public static void SetNewConfig(string coreConfig)
         {
             Connectoin.SetNewConfig(coreConfig);
         }
 
-        internal static void DeviceWriteConfig(string coreConfig, string DevicePath)
+        public static void DeviceWriteConfig(string coreConfig, string DevicePath)
         {
             Connectoin.DeviceWriteConfig(coreConfig, DevicePath);
         }
 
-        internal static void ResetStates(string states)
+        public static void ResetStates(string states)
         {
             Connectoin.ResetStates(states);
         }

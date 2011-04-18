@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FiresecEventAggregator.cs" />
-    <Compile Include="FiresecClient.cs" />
     <Compile Include="NativeFiresecClient.cs" />
     <Compile Include="NotificationCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

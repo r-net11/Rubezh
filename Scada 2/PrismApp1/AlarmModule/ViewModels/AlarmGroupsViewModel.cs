@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using AlarmModule.Events;
 using System.Diagnostics;
+using ClientApi;
 
 namespace AlarmModule.ViewModels
 {
@@ -23,6 +24,19 @@ namespace AlarmModule.ViewModels
             MainAlarms.Add(new AlarmGroupViewModel() { Name = "Автоматика", AlarmType = AlarmType.Auto });
 
             ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Subscribe(OnShowAllAlarms);
+
+            ClientManager.Start();
+            ServiceClient.CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+        }
+
+        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            Alarm alarm = new Alarm();
+            alarm.AlarmType = AlarmType.Service;
+            alarm.Name = journalItem.EventDesc;
+            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
+            
+            Trace.WriteLine("New Event");
         }
 
         public ObservableCollection<AlarmGroupViewModel> MainAlarms { get; set; }

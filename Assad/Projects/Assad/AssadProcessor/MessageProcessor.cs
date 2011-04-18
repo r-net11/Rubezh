@@ -43,7 +43,7 @@ namespace AssadProcessor
             object content = GetMessageContent(message, out refMessageId);
             string messageType = content.GetType().Name;
 
-            OnNewMessage(message);
+            OnNewMessage(messageType);
 
             switch (messageType)
             {
@@ -125,11 +125,19 @@ namespace AssadProcessor
                     break;
 
                 case "MHconfirmAlarmType":
-                    Assad.MHconfirmAlarmType mHconfirmAlarmType = (Assad.MHconfirmAlarmType)content;
-                    Controller.Current.ResetAllStates(mHconfirmAlarmType.deviceId);
-
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHconfirmAlarm";
+                    confirmation.status = Assad.CommandStatus.OK;
+
+                    NetManager.Send(confirmation, refMessageId);
+                    break;
+
+                case "MHresetAlarmType":
+                    Assad.MHresetAlarmType mHresetAlarmType = (Assad.MHresetAlarmType)content;
+                    Controller.Current.ResetAllStates(mHresetAlarmType.deviceId);
+
+                    confirmation = new Assad.CPconfirmationType();
+                    confirmation.commandId = "MHresetAlarm";
                     confirmation.status = Assad.CommandStatus.OK;
 
                     NetManager.Send(confirmation, refMessageId);

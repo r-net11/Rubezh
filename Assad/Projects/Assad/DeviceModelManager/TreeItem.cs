@@ -176,7 +176,7 @@ namespace DeviveModelManager
             Assad.modelInfoTypeState AssadConfigurationState = new Assad.modelInfoTypeState();
             AssadConfigurationState.state = "Конфигурация";
             List<Assad.modelInfoTypeStateValue> ConfigurationStateValues = new List<Assad.modelInfoTypeStateValue>();
-            ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "" });
+            ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Ошибка" });
             AssadConfigurationState.value = ConfigurationStateValues.ToArray();
             States.Add(AssadConfigurationState);

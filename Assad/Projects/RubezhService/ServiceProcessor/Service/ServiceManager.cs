@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using ServiseProcessor.Service;
 
 namespace ServiseProcessor
 {
@@ -13,14 +14,14 @@ namespace ServiseProcessor
 
         public static void Open()
         {
-            host = new ServiceHost(typeof(StateService));
+            host = new ServiceHost(typeof(FiresecService));
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.MaxBufferSize = Int32.MaxValue;
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-            host.AddServiceEndpoint("ServiceApi.IStateService", binding, "net.tcp://localhost:8000/StateService");
+            host.AddServiceEndpoint("ServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/StateService");
 
             ServiceMetadataBehavior behavior = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
             if (behavior == null)

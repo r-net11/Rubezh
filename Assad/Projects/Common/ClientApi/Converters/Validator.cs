@@ -5,7 +5,7 @@ using System.Text;
 using ServiceApi;
 using FiresecMetadata;
 
-namespace ServiseProcessor
+namespace ClientApi
 {
     public class Validator
     {
@@ -320,7 +320,7 @@ namespace ServiseProcessor
 
         public Firesec.Metadata.drvType GetDriverByDriverId(string driverId)
         {
-            return Services.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+            return ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
         }
     }
 }

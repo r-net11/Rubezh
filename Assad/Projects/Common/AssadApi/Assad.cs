@@ -49,6 +49,7 @@ namespace Assad {
         [System.Xml.Serialization.XmlElementAttribute("MHchangeMode", typeof(MHchangeModeType))]
         [System.Xml.Serialization.XmlElementAttribute("MHconfig", typeof(MHconfigType))]
         [System.Xml.Serialization.XmlElementAttribute("MHconfirmAlarm", typeof(MHconfirmAlarmType))]
+        [System.Xml.Serialization.XmlElementAttribute("MHresetAlarm", typeof(MHresetAlarmType))]
         [System.Xml.Serialization.XmlElementAttribute("MHdeviceControl", typeof(MHdeviceControlType))]
         [System.Xml.Serialization.XmlElementAttribute("MHfullRewrite", typeof(MHfullRewriteType))]
         [System.Xml.Serialization.XmlElementAttribute("MHguardStart", typeof(MHguardStartType))]
@@ -1840,6 +1841,32 @@ namespace Assad {
                 return this.deviceIdField;
             }
             set {
+                this.deviceIdField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.42")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "baseMessages")]
+    public partial class MHresetAlarmType
+    {
+
+        private string deviceIdField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+        public string deviceId
+        {
+            get
+            {
+                return this.deviceIdField;
+            }
+            set
+            {
                 this.deviceIdField = value;
             }
         }
