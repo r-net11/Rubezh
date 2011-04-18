@@ -37,12 +37,22 @@
                             </Grid>
                             <Grid Grid.Row="1">
                                 <ItemsControl Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right" ItemsSource="{Binding Path=DynamicPicture, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Left">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas Width="500" Height="500"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
                                     <ItemsControl.LayoutTransform>
                                         <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
                                     </ItemsControl.LayoutTransform>
                                 </ItemsControl>
                                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                                    <ItemsControl ItemsSource="{Binding Path=Picture}">
+                                    <ItemsControl ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Canvas Width="500" Height="500"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
                                         <ItemsControl.LayoutTransform>
                                             <ScaleTransform ScaleX="0.3" ScaleY="0.3"/>
                                         </ItemsControl.LayoutTransform>
@@ -59,6 +69,34 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
+
+            <Grid>
+                <ContentControl DataContext="{Binding SelectedStateViewModel.Parent}" HorizontalAlignment="Right" >
+                    <Grid>
+                        <ItemsControl ItemsSource="{Binding MainStatePicture}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="500" Height="500"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.LayoutTransform>
+                                <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
+                            </ItemsControl.LayoutTransform>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding AdditionalStatesPicture}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Width="500" Height="500"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.LayoutTransform>
+                            <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
+                        </ItemsControl.LayoutTransform>
+                    </ItemsControl>
+                    </Grid>
+                </ContentControl>
+            </Grid>
+
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
                 <DockPanel VerticalAlignment="Bottom">
                     <Button Width="80" Height="22" Command="{Binding StartTimerCommand}" Content="{Binding TimerButtonName}"/>

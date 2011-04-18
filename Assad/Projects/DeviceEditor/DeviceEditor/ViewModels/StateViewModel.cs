@@ -13,6 +13,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using Firesec.Metadata;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace DeviceEditor
 {
@@ -44,6 +45,32 @@ namespace DeviceEditor
             }
         }
 
+        bool isChecked;
+        public bool IsChecked
+        {
+            get { return isChecked; }
+            set
+            {
+                isChecked = value;
+                if ((this.IsAdditional)&&(this.isChecked))
+                {
+                    dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                    dispatcherTimer.Start();
+                }
+                if (!this.isChecked)
+                {
+                    try
+                    {
+                        this.Parent.AdditionalStatesPicture.Remove(FramePicture);
+                        dispatcherTimer.Stop();
+                    }
+                    catch { }
+                }
+                OnPropertyChanged("IsChecked");
+            }
+        }
+
         /// <summary>
         /// Путь к иконке состояний.
         /// </summary>
@@ -67,9 +94,9 @@ namespace DeviceEditor
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveStateCommand(object obj)
         {
-            if (this.Id == "Базовый рисунок")
+            if (!this.IsAdditional)
             {
-                MessageBox.Show("Невозможно удалить Базовый рисунок");
+                MessageBox.Show("Невозможно удалить основное состояние");
                 return;
             }
             this.Parent.StateViewModels.Remove(this);
@@ -115,6 +142,42 @@ namespace DeviceEditor
                 isAdditional = value;
                 OnPropertyChanged("IsAdditional");
             }
+        }
+
+        DispatcherTimer dispatcherTimer;
+        int tick;
+
+        Canvas framePicture;
+        public Canvas FramePicture
+        {
+            get { return framePicture; }
+            set
+            {
+                framePicture = value;
+                OnPropertyChanged("FramePicture");
+            }
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+
+            this.Parent.AdditionalStatesPicture.Remove(FramePicture);
+            if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
+            {
+                string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(frameImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                Canvas.SetZIndex(FramePicture, 10);
+                this.Parent.AdditionalStatesPicture.Add(FramePicture);
+
+                if (FrameViewModels.Count < 2)
+                {
+                    dispatcherTimer.Stop();
+                }
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
+            }
+            tick = (tick + 1) % FrameViewModels.Count;
         }
 
     }
