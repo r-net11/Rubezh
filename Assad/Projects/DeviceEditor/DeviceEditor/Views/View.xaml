@@ -59,6 +59,8 @@
                                     </ItemsControl>
                                 </StackPanel>
                                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,5" HorizontalAlignment="Right">
+                                    <Label Content="Слой: " />
+                                    <TextBox Text="{Binding Layer}" />
                                     <Button Content="Добавить кадр" Command="{Binding AddFrameCommand}"/>
                                     <Button Content="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
                                     <Label Content="Длительность" Height="28" Name="label1" />
@@ -71,7 +73,7 @@
             </TabControl>
 
             <Grid>
-                <ContentControl DataContext="{Binding SelectedStateViewModel.Parent}" HorizontalAlignment="Right" >
+                <ContentControl DataContext="{Binding SelectedStateViewModel.ParentDevice}" HorizontalAlignment="Right" >
                     <Grid>
                         <ItemsControl ItemsSource="{Binding MainStatePicture}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
                             <ItemsControl.ItemsPanel>
@@ -83,7 +85,7 @@
                                 <ScaleTransform ScaleX="0.1" ScaleY="0.1"/>
                             </ItemsControl.LayoutTransform>
                         </ItemsControl>
-                        <ItemsControl ItemsSource="{Binding AdditionalStatesPicture}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
+                        <ItemsControl ItemsSource="{Binding AdditionalStatesPicture}" Visibility="{Binding SelectedStateViewModel.IsAdditional, Converter={StaticResource NotVisibleIfTrue}}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <Canvas Width="500" Height="500"/>
@@ -99,7 +101,6 @@
 
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
                 <DockPanel VerticalAlignment="Bottom">
-                    <Button Width="80" Height="22" Command="{Binding StartTimerCommand}" Content="{Binding TimerButtonName}"/>
                     <Button Width="80" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
                 </DockPanel>
             </Grid>

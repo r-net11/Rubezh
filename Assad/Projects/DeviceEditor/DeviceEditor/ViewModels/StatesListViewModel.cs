@@ -18,7 +18,6 @@ namespace DeviceEditor
             LoadStates();
             AddCommand = new RelayCommand(OnAddCommand);
         }
-        public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
         public static StatesListViewModel Current;
         public RelayCommand AddCommand { get; private set; }
         void OnAddCommand(object obj)
@@ -26,16 +25,14 @@ namespace DeviceEditor
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = selectedItem.Id;
             stateViewModel.IsAdditional = selectedItem.IsAdditional;
-            stateViewModel.Parent = ViewModel.Current.SelectedDeviceViewModel;
+            stateViewModel.ParentDevice = ViewModel.Current.SelectedDeviceViewModel;
             FrameViewModel frameViewModel = new FrameViewModel();
             frameViewModel.Duration = 500;
             frameViewModel.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
             stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
             stateViewModel.FrameViewModels.Add(frameViewModel);
-            ViewModel.Current.SelectedDeviceViewModel.StateViewModels.Add(stateViewModel);
-            if (stateViewModel.IsAdditional)
-                ViewModel.Current.AdditionalStatesViewModel.Add(stateViewModel);
-            DeviceViewModel.Current.StatesAvailableListViewModel.Remove(selectedItem);
+            ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.Add(stateViewModel);
+            Items.Remove(selectedItem);
         }
 
         /// <summary>
@@ -76,12 +73,12 @@ namespace DeviceEditor
 
         public void LoadStates()
         {
-            FileStream file_xml = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(ViewModel.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(config));
             config metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();
 
-            Items = DeviceViewModel.Current.StatesAvailableListViewModel;
+            Items = new ObservableCollection<StateViewModel>();
             drvType driver = metadata.drv.FirstOrDefault(x => x.name == ViewModel.Current.SelectedDeviceViewModel.Id);
             foreach (stateType item in driver.state)
                 try
@@ -89,7 +86,8 @@ namespace DeviceEditor
                     StateViewModel stateViewModel = new StateViewModel();
                     stateViewModel.Id = item.name;
                     stateViewModel.IsAdditional = true;
-                    Items.Add(stateViewModel);
+                    if (ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(x=>x.Id == stateViewModel.Id) == null)
+                        Items.Add(stateViewModel);
                 }
                 catch { }
         }

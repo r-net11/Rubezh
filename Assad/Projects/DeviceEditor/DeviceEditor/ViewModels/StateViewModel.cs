@@ -23,11 +23,11 @@ namespace DeviceEditor
         public StateViewModel()
         {
             Current = this;
-            Parent = DeviceViewModel.Current;
+            ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
         public static StateViewModel Current { get; private set; }
-        public DeviceViewModel Parent { get; set; }
+        public DeviceViewModel ParentDevice { get; set; }
         
         /// <summary>
         /// Выбранный кадр.
@@ -62,7 +62,7 @@ namespace DeviceEditor
                 {
                     try
                     {
-                        this.Parent.AdditionalStatesPicture.Remove(FramePicture);
+                        this.ParentDevice.AdditionalStatesPicture.Remove(FramePicture);
                         dispatcherTimer.Stop();
                     }
                     catch { }
@@ -99,10 +99,9 @@ namespace DeviceEditor
                 MessageBox.Show("Невозможно удалить основное состояние");
                 return;
             }
-            this.Parent.StateViewModels.Remove(this);
+            this.ParentDevice.StatesViewModel.Remove(this);
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = this.Id;
-            DeviceViewModel.Current.StatesAvailableListViewModel.Add(stateViewModel);
         }
 
         /// <summary>
@@ -160,16 +159,19 @@ namespace DeviceEditor
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-
-            this.Parent.AdditionalStatesPicture.Remove(FramePicture);
+            this.ParentDevice.AdditionalStatesPicture.Remove(FramePicture);
+            if (ViewModel.Current.SelectedStateViewModel == null)
+            {
+                return;
+            }
             if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
             {
                 string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 StringReader stringReader = new StringReader(frameImage);
                 XmlReader xmlReader = XmlReader.Create(stringReader);
                 FramePicture = (Canvas)XamlReader.Load(xmlReader);
-                Canvas.SetZIndex(FramePicture, 10);
-                this.Parent.AdditionalStatesPicture.Add(FramePicture);
+                Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
+                this.ParentDevice.AdditionalStatesPicture.Add(FramePicture);
 
                 if (FrameViewModels.Count < 2)
                 {

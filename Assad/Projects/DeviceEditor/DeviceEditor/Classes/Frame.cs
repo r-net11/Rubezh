@@ -12,6 +12,8 @@ namespace DeviceEditor
         public int Id { get; set; }
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int Duration { get; set; }
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int Layer { get; set;}
         public string Image { get; set; }
     }
 }
