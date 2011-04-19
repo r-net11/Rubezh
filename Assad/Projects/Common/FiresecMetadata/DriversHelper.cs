@@ -72,6 +72,7 @@ namespace FiresecMetadata
             drivers.Add(new Driver("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A"));
             drivers.Add(new Driver("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС"));
             drivers.Add(new Driver("zone", 0, "zone"));
+            drivers.Add(new Driver("monitor", 0, "monitor"));
         }
 
         public static string GetDriverNameById(string driverId)

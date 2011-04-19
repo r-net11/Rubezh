@@ -20,28 +20,11 @@ namespace AssadProcessor
         void ServiceClient_DeviceChanged(string path)
         {
             DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-            if ((AssadConfiguration.Devices != null) && (AssadConfiguration.Devices.Any(x => x.Path == deviceState.Path)))
+            AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == deviceState.Path);
+            if (assadBase != null)
             {
-                AssadBase assadBase = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == deviceState.Path);
-                if (assadBase != null)
-                {
-                    // МЕТОД - КОПИРОВАТЬ ДАННЫЕ ИЗ КОНФИГУРАЦИИ
-
-                    assadBase.MainState = deviceState.State;
-
-                    assadBase.States = new List<string>();
-                    if (deviceState.States != null)
-                        foreach (string state in deviceState.States)
-                        {
-                            assadBase.States.Add(state);
-                        }
-
-                    if ((deviceState.ChangeEntities.StateChanged) || (deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.VisibleParameterChanged))
-                    {
-                        Assad.CPeventType eventType = assadBase.CreateEvent(null);
-                        NetManager.Send(eventType, null);
-                    }
-                }
+                Assad.CPeventType eventType = assadBase.CreateEvent(null);
+                NetManager.Send(eventType, null);
             }
         }
 
@@ -63,9 +46,7 @@ namespace AssadProcessor
 
             if (assadZone != null)
             {
-                assadZone.MainState = zoneState.State;
-                string eventName = null;
-                Assad.CPeventType eventType = assadZone.CreateEvent(eventName);
+                Assad.CPeventType eventType = assadZone.CreateEvent(null);
                 NetManager.Send(eventType, null);
             }
         }

@@ -6,6 +6,8 @@ using System.Diagnostics;
 using ServiceApi;
 using Firesec;
 using FiresecMetadata;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace ClientApi
 {
@@ -13,14 +15,14 @@ namespace ClientApi
     {
         internal void Start()
         {
-            FiresecClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
+            FiresecClient.NewEvent += new Action<int, string>(FiresecClient_NewEvent);
 
-            OnStateChanged();
-            OnParametersChanged();
+            OnStateChanged(FiresecClient.firesecService.GetCoreState());
+            OnParametersChanged(FiresecClient.firesecService.GetCoreDeviceParams());
             SetLastEvent();
         }
 
-        void FiresecClient_NewEvent(int EventMask)
+        void FiresecClient_NewEvent(int EventMask, string obj)
         {
             bool evmNewEvents = ((EventMask & 1) == 1);
             bool evmStateChanged = ((EventMask & 2) == 2);
@@ -37,15 +39,15 @@ namespace ClientApi
 
             if (evmStateChanged)
             {
-                OnStateChanged();
+                OnStateChanged(obj);
             }
             if (evmDeviceParamsUpdated)
             {
-                OnParametersChanged();
+                OnParametersChanged(obj);
             }
             if (evmNewEvents)
             {
-                OnNewEvent();
+                OnNewEvent(obj);
             }
         }
 
@@ -62,9 +64,16 @@ namespace ClientApi
 
         // ДОБАВИТЬ ПРОВЕРКУ - ЕСЛИ В ВЫЧИТАННЫХ 100 СОБЫТИЯХ ВСЕ СОБЫТИЯ НОВЫЕ, ТО ВЫЧИТАТЬ И ВТОРУЮ СОТНЮ
 
-        void OnNewEvent()
+        void OnNewEvent(string obj)
         {
-            Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
+            byte[] bytes = Encoding.Default.GetBytes(obj);
+            MemoryStream memoryStream = new MemoryStream(bytes);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ReadEvents.document));
+            Firesec.ReadEvents.document journal = (Firesec.ReadEvents.document)serializer.Deserialize(memoryStream);
+            memoryStream.Close();
+            //Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
+
             string journalString = FiresecClient.JournalString;
 
             if ((journal != null) && (journal.Journal.Count() > 0))
@@ -80,9 +89,17 @@ namespace ClientApi
             }
         }
 
-        void OnParametersChanged()
+        void OnParametersChanged(string obj)
         {
-            Firesec.DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
+            byte[] bytes = Encoding.Default.GetBytes(obj);
+            MemoryStream memoryStream = new MemoryStream(bytes);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.DeviceParams.config));
+            Firesec.DeviceParams.config coreParameters = (Firesec.DeviceParams.config)serializer.Deserialize(memoryStream);
+            memoryStream.Close();
+            //Firesec.DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
+
+
             try
             {
                 Trace.WriteLine("OnParametersChanged");
@@ -123,9 +140,17 @@ namespace ClientApi
             }
         }
 
-        public void OnStateChanged()
+        public void OnStateChanged(string obj)
         {
-            Firesec.CoreState.config coreState = FiresecClient.GetCoreState();
+            byte[] bytes = Encoding.Default.GetBytes(obj);
+            MemoryStream memoryStream = new MemoryStream(bytes);
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
+            Firesec.CoreState.config coreState = (Firesec.CoreState.config)serializer.Deserialize(memoryStream);
+            memoryStream.Close();
+            //Firesec.CoreState.config coreState = FiresecClient.GetCoreState();
+
+
             try
             {
                 SetStates(coreState);

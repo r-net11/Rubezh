@@ -126,10 +126,10 @@ namespace DevicesModule.ViewModels
             this.Device = device;
             Driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
-            InitializeParameters();
+            UpdateParameters();
         }
 
-        public void InitializeParameters()
+        public void UpdateParameters()
         {
             DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
 
@@ -316,7 +316,7 @@ namespace DevicesModule.ViewModels
             {
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
-                DevicesViewModel.Current.SelectedDeviceViewModel = this;
+                DevicesViewModel.Current.SelectedDevice = this;
             }
         }
 

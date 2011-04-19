@@ -60,7 +60,7 @@ namespace AssadDevices
             Assad.DeviceType[] deviceItems = new Assad.DeviceType[devices.Count];
             for (int i = 0; i < devices.Count; i++)
             {
-                deviceItems[i] = (devices[i] as AssadBase).GetInnerStates();
+                deviceItems[i] = devices[i].GetInnerStates();
             }
 
             return deviceItems;

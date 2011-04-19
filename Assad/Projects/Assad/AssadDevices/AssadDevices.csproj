@@ -87,9 +87,9 @@
     <Compile Include="Devices\AssadIndicator.cs" />
     <Compile Include="Devices\AssadMC.cs" />
     <Compile Include="Devices\AssadMC34.cs" />
+    <Compile Include="Devices\AssadMonitor.cs" />
     <Compile Include="Devices\AssadPage.cs" />
     <Compile Include="Devices\AssadPanel.cs" />
-    <Compile Include="AssadParameter.cs" />
     <Compile Include="Devices\AssadPump.cs" />
     <Compile Include="Devices\AssadPumpStation.cs" />
     <Compile Include="Devices\AssadZone.cs" />
@@ -99,6 +99,10 @@
     <ProjectReference Include="..\..\Common\AssadApi\AssadApi.csproj">
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>
       <Name>AssadApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\ClientApi\ClientApi.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>ClientApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecMetadata\FiresecMetadata.csproj">
       <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>

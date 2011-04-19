@@ -78,7 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainBootstrapper.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +113,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Assad\Projects\Common\ClientApi\ClientApi.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>ClientApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AlarmModule\AlarmModule.csproj">
       <Project>{5994549E-4D3E-40BB-8630-CF696158E4E4}</Project>
       <Name>AlarmModule</Name>

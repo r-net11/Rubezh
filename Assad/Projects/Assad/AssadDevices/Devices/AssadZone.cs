@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ClientApi;
 
 namespace AssadDevices
 {
@@ -27,6 +28,81 @@ namespace AssadDevices
             {
                 throw new Exception("Неправильный формат зоны при конфигурации из ассада");
             }
+        }
+
+        public override Assad.DeviceType GetInnerStates()
+        {
+            Assad.DeviceType deviceType = new Assad.DeviceType();
+            deviceType.deviceId = DeviceId;
+            List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
+
+            Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
+            configurationState.state = "Конфигурация";
+            if (string.IsNullOrEmpty(ValidationError))
+                configurationState.value = "Норма";
+            else
+                configurationState.value = ValidationError;
+            states.Add(configurationState);
+
+            if (ServiceClient.CurrentStates.ZoneStates.Any(x => x.No == ZoneNo))
+            {
+                ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+
+                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
+                mainState.state = "Состояние";
+                mainState.value = zoneState.State;
+                states.Add(mainState);
+            }
+            else
+            {
+                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
+                mainState.state = "Состояние";
+                mainState.value = "Отсутствует в конфигурации сервера оборудования";
+                states.Add(mainState);
+            }
+
+            deviceType.state = states.ToArray();
+            return deviceType;
+        }
+
+        public override Assad.CPeventType CreateEvent(string eventName)
+        {
+            Assad.CPeventType eventType = new Assad.CPeventType();
+
+            eventType.deviceId = DeviceId;
+            eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
+            eventType.eventId = eventName;
+            eventType.alertLevel = "0";
+
+            if (ServiceClient.CurrentStates.ZoneStates.Any(x => x.No == ZoneNo))
+            {
+                ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+
+                eventType.state = new Assad.CPeventTypeState[1];
+                eventType.state[0] = new Assad.CPeventTypeState();
+                eventType.state[0].state = "Состояние";
+                eventType.state[0].value = zoneState.State;
+            }
+
+            return eventType;
+        }
+
+        public override Assad.DeviceType QueryAbility()
+        {
+            Assad.DeviceType deviceAbility = new Assad.DeviceType();
+            deviceAbility.deviceId = DeviceId;
+            List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
+
+            Assad.DeviceTypeParam configurationParameter = new Assad.DeviceTypeParam();
+            abilityParameters.Add(configurationParameter);
+            configurationParameter.name = "Конфигурация";
+            if (string.IsNullOrEmpty(ValidationError))
+                configurationParameter.value = "Норма";
+            else
+                configurationParameter.value = ValidationError;
+
+            deviceAbility.param = abilityParameters.ToArray();
+            return deviceAbility;
         }
     }
 }

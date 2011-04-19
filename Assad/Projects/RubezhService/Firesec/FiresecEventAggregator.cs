@@ -7,11 +7,11 @@ namespace Firesec
 {
     public class FiresecEventAggregator
     {
-        public static event Action<int> NewEventAvaliable;
-        public static void OnNewEventAvaliable(int eventMask)
+        public static event Action<int, string> NewEventAvaliable;
+        public static void OnNewEventAvaliable(int eventMask, string obj)
         {
             if (NewEventAvaliable != null)
-                NewEventAvaliable(eventMask);
+                NewEventAvaliable(eventMask, obj);
         }
     }
 }

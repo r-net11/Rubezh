@@ -27,6 +27,8 @@ namespace ClientApi
 
             Watcher watcher = new Watcher();
             watcher.Start();
+
+            firesecClient.Subscribe();
         }
 
         public void Stop()

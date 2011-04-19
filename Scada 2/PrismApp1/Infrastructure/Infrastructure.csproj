@@ -52,11 +52,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Events\DeviceParametersChangedEvent.cs" />
+    <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\ShowReportsEvent.cs" />
     <Compile Include="Events\ShowDevicesEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
     <Compile Include="Events\ShowZonesEvent.cs" />
+    <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="IResourceService.cs" />
     <Compile Include="IViewPart.cs" />

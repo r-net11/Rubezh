@@ -8,17 +8,19 @@ using System.ServiceModel;
 
 namespace ServiseProcessor.Service
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class FiresecService : IFiresecService
     {
         static IFiresecCallback callback;
 
-        public static void OnNewEventsAvailable(int eventMask)
+        public static void OnNewEventsAvailable(int eventMask, string obj)
         {
             try
             {
                 if (callback != null)
                 {
-                    callback.NewEventsAvailable(eventMask);
+                    callback.NewEventsAvailable(eventMask, obj);
                 }
             }
             catch { ;}
@@ -27,7 +29,7 @@ namespace ServiseProcessor.Service
         public void Initialize()
         {
             callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-            FiresecEventAggregator.NewEventAvaliable += new Action<int>(OnNewEventsAvailable);
+            FiresecEventAggregator.NewEventAvaliable += new Action<int, string>(OnNewEventsAvailable);
         }
 
         public string GetCoreConfig()

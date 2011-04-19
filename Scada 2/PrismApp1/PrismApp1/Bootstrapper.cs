@@ -9,10 +9,12 @@ using Microsoft.Practices.Unity;
 
 using System.Windows;
 using Infrastructure;
+using ClientApi;
+using Infrastructure.Events;
 
 namespace PrismApp1
 {
-    public class MainBootstrapper : UnityBootstrapper
+    public class Bootstrapper : UnityBootstrapper
     {
         protected override System.Windows.DependencyObject CreateShell()
         {
@@ -24,6 +26,8 @@ namespace PrismApp1
         protected override void InitializeShell()
         {
             RegisterServices();
+
+            StartFiresecClient();
 
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
@@ -44,6 +48,29 @@ namespace PrismApp1
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
+        }
+
+        void StartFiresecClient()
+        {
+            ClientManager.Start();
+            ServiceClient.CurrentStates.DeviceStateChanged += CurrentStates_DeviceStateChanged;
+            ServiceClient.CurrentStates.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
+            ServiceClient.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+        }
+
+        void CurrentStates_DeviceStateChanged(string obj)
+        {
+            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
+        }
+
+        void CurrentStates_DeviceParametersChanged(string obj)
+        {
+            ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(obj);
+        }
+
+        void CurrentStates_ZoneStateChanged(string obj)
+        {
+            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
         }
     }
 }

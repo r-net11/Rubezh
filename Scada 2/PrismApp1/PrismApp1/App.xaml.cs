@@ -16,8 +16,8 @@ namespace PrismApp1
         {
             base.OnStartup(e);
 
-            MainBootstrapper mainBootstrapper = new MainBootstrapper();
-            mainBootstrapper.Run();
+            Bootstrapper bootstrapper = new Bootstrapper();
+            bootstrapper.Run();
         }
     }
 }

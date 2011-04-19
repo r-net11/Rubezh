@@ -46,7 +46,7 @@ namespace DevicesModule
             zonesViewModel.Initialize();
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
-                zonesViewModel.SelectedZoneViewModel = zonesViewModel.ZoneViewModels.FirstOrDefault(x => x.ZoneNo == zoneNo);
+                zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
             }
             ServiceFactory.Layout.Show(zonesViewModel);
         }

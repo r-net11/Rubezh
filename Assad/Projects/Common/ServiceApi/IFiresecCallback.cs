@@ -9,6 +9,6 @@ namespace ServiceApi
     public interface IFiresecCallback
     {
         [OperationContract(IsOneWay = true)]
-        void NewEventsAvailable(int eventMask);
+        void NewEventsAvailable(int eventMask, string obj);
     }
 }

@@ -17,20 +17,20 @@ namespace DevicesModule.ViewModels
 
         public void Initilize()
         {
-            DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
+            plainDevices = new List<DeviceViewModel>();
+            Devices = new ObservableCollection<DeviceViewModel>();
 
             Device rooDevice = ServiceClient.CurrentConfiguration.RootDevice;
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice, AllDeviceViewModels);
+            rootDeviceViewModel.Initialize(rooDevice, Devices);
             //rootDeviceViewModel.IsExpanded = false;
-            DeviceViewModels.Add(rootDeviceViewModel);
-            AllDeviceViewModels.Add(rootDeviceViewModel);
+            plainDevices.Add(rootDeviceViewModel);
+            Devices.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
 
-            ExpandChild(AllDeviceViewModels[0]);
+            ExpandChild(Devices[0]);
 
             ClientManager.Start();
             ServiceClient.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
@@ -38,9 +38,9 @@ namespace DevicesModule.ViewModels
 
         void CurrentStates_DeviceStateChanged(string path)
         {
-            DeviceViewModel deviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.Path == path);
+            DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
 
-            deviceViewModel.InitializeParameters();
+            deviceViewModel.UpdateParameters();
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -49,11 +49,11 @@ namespace DevicesModule.ViewModels
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device, AllDeviceViewModels);
+                deviceViewModel.Initialize(device, Devices);
                 //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
-                DeviceViewModels.Add(deviceViewModel);
-                AllDeviceViewModels.Add(deviceViewModel);
+                plainDevices.Add(deviceViewModel);
+                Devices.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }
         }
@@ -70,36 +70,27 @@ namespace DevicesModule.ViewModels
 
         public static DevicesViewModel Current { get; private set; }
 
-        ObservableCollection<DeviceViewModel> deviceViewModels;
-        public ObservableCollection<DeviceViewModel> DeviceViewModels
+        List<DeviceViewModel> plainDevices;
+
+        ObservableCollection<DeviceViewModel> devices;
+        public ObservableCollection<DeviceViewModel> Devices
         {
-            get { return deviceViewModels; }
+            get { return devices; }
             set
             {
-                deviceViewModels = value;
-                OnPropertyChanged("DeviceViewModels");
+                devices = value;
+                OnPropertyChanged("Devices");
             }
         }
 
-        ObservableCollection<DeviceViewModel> allDeviceViewModels;
-        public ObservableCollection<DeviceViewModel> AllDeviceViewModels
+        DeviceViewModel selectedDevice;
+        public DeviceViewModel SelectedDevice
         {
-            get { return allDeviceViewModels; }
+            get { return selectedDevice; }
             set
             {
-                allDeviceViewModels = value;
-                OnPropertyChanged("AllDeviceViewModels");
-            }
-        }
-
-        DeviceViewModel selectedDeviceViewModel;
-        public DeviceViewModel SelectedDeviceViewModel
-        {
-            get { return selectedDeviceViewModel; }
-            set
-            {
-                selectedDeviceViewModel = value;
-                OnPropertyChanged("SelectedDeviceViewModel");
+                selectedDevice = value;
+                OnPropertyChanged("SelectedDevice");
             }
         }
 

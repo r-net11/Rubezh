@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 <Grid>
         <StackPanel>
-            <WpfToolkit:DataGrid ItemsSource="{Binding AllDeviceViewModels}" SelectedItem="{Binding SelectedDeviceViewModel}"
+            <WpfToolkit:DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
                             Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
@@ -106,7 +106,7 @@
 
             </WpfToolkit:DataGrid>
 
-            <StackPanel DataContext="{Binding SelectedDeviceViewModel}" Margin="10">
+            <StackPanel DataContext="{Binding SelectedDevice}" Margin="10">
 
                 <TextBlock Text="Состояние" FontWeight="Bold" />
 

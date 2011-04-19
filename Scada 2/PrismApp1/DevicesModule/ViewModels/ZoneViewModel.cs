@@ -17,74 +17,57 @@ namespace DevicesModule.ViewModels
 
         Zone zone;
 
-        public void SetZone(Zone zone)
+        public void Initialize(Zone zone)
         {
             this.zone = zone;
-            ZoneName = zone.Name;
-            zoneNo = zone.No;
-            ZoneDescription = zone.Description;
-            ZoneDetectorCount = zone.DetectorCount;
-            ZoneEvacuationTime = zone.EvacuationTime;
+            ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+            State = zoneState.State;
         }
 
         public RelayCommand SelectCommand { get; private set; }
         void OnSelect()
         {
-            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(zone);
+            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(zone.No);
         }
 
-        string zoneName;
-        public string ZoneName
+        public string Name
         {
-            get { return zoneName; }
-            set
-            {
-                zoneName = value;
-                OnPropertyChanged("ZoneName");
-            }
+            get { return zone.Name; }
         }
 
-        string zoneNo;
-        public string ZoneNo
+        public string No
         {
-            get { return zoneNo; }
-            set
-            {
-                zoneNo = value;
-                OnPropertyChanged("ZoneNo");
-            }
+            get { return zone.No; }
         }
 
-        string zoneDescription;
-        public string ZoneDescription
+        public string Description
         {
-            get { return zoneDescription; }
-            set
-            {
-                zoneDescription = value;
-                OnPropertyChanged("ZoneDescription");
-            }
+            get { return zone.Description; }
         }
 
-        string zoneDetectorCount;
-        public string ZoneDetectorCount
+        public string DetectorCount
         {
-            get { return zoneDetectorCount; }
-            set
-            {
-                zoneDetectorCount = value;
-                OnPropertyChanged("ZoneDetectorCount");
-            }
+            get { return zone.DetectorCount; }
         }
 
-        string zoneEvacuationTime;
-        public string ZoneEvacuationTime
+        public string EvacuationTime
         {
-            get { return zoneEvacuationTime; }
+            get { return zone.EvacuationTime; }
+        }
+
+        public string PresentationName
+        {
+            get { return zone.No + "." + zone.Name; }
+        }
+
+        string state;
+        public string State
+        {
+            get { return state; }
             set
             {
-                zoneEvacuationTime = value;
-                OnPropertyChanged("ZoneEvacuationTime");
+                state = value;
+                OnPropertyChanged("State");
             }
         }
     }

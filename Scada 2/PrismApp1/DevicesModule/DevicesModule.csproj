@@ -61,6 +61,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

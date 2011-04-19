@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using ClientApi;
 
 namespace AssadDevices
 {
@@ -13,8 +14,6 @@ namespace AssadDevices
         {
             Children = new List<AssadBase>();
             Properties = new List<AssadProperty>();
-            Parameters = new List<AssadParameter>();
-            States = new List<string>();
         }
 
         public AssadBase Parent { get; set; }
@@ -26,11 +25,7 @@ namespace AssadDevices
         public string Path { get; set; }
         public string DeviceName { get; set; }
         public string Description { get; set; }
-        public string MainState { get; set; }
         public List<AssadProperty> Properties { get; set; }
-        public List<AssadParameter> Parameters { get; set; }
-        public List<string> States { get; set; }
-        public Assad.modelInfoType InnerType { get; set; }
         public string Zone { get; set; }
         public string ZoneLogic { get; set; }
         public string ValidationError { get; set; }
@@ -44,7 +39,6 @@ namespace AssadDevices
             DriverId = AssadDeviceFactory.GetDriverId(innerDevice);
             DeviceId = innerDevice.deviceId;
             DeviceName = innerDevice.deviceName;
-            InnerType = AssadServices.AssadDeviceTypesManager.GetModelInfo(innerDevice.type);
 
             // сброс валидации
             ValidationError = "";
@@ -102,11 +96,6 @@ namespace AssadDevices
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 
-            Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
-            mainState.state = "Состояние";
-            mainState.value = MainState;
-            states.Add(mainState);
-
             Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
             configurationState.state = "Конфигурация";
             if (string.IsNullOrEmpty(ValidationError))
@@ -115,24 +104,38 @@ namespace AssadDevices
                 configurationState.value = ValidationError;
             states.Add(configurationState);
 
-            foreach (AssadParameter assadParameter in Parameters)
+            if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == Path))
             {
-                if (assadParameter.Visible)
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+
+                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
+                mainState.state = "Состояние";
+                mainState.value = deviceState.State;
+                states.Add(mainState);
+
+                foreach (Parameter parameter in deviceState.Parameters)
                 {
-                    Assad.DeviceTypeState parameterState = new Assad.DeviceTypeState();
-                    parameterState.state = assadParameter.Name;
-                    if (assadParameter.Value != null)
+                    if (parameter.Visible)
                     {
-                        parameterState.value = assadParameter.Value;
-                        if (parameterState.value == "<NULL>")
+                        Assad.DeviceTypeState parameterState = new Assad.DeviceTypeState();
+                        parameterState.state = parameter.Name;
+                        parameterState.value = parameter.Value;
+
+                        if (!(string.IsNullOrEmpty(parameter.Value)) && (parameter.Value != "<NULL>"))
                         {
-                            Trace.WriteLine("NULL Parameter");
+                            parameterState.value = " ";
                         }
+
+                        states.Add(parameterState);
                     }
-                    else
-                        parameterState.value = " ";
-                    states.Add(parameterState);
                 }
+            }
+            else
+            {
+                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
+                mainState.state = "Состояние";
+                mainState.value = "Отсутствует в конфигурации сервера оборудования";
+                states.Add(mainState);
             }
 
             deviceType.state = states.ToArray();
@@ -141,20 +144,24 @@ namespace AssadDevices
 
         // свормировать событие с устройством и послать его ассаду
 
-        public Assad.CPeventType CreateEvent(string eventName)
+        public virtual Assad.CPeventType CreateEvent(string eventName)
         {
             Assad.CPeventType eventType = new Assad.CPeventType();
 
             eventType.deviceId = DeviceId;
             eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
-            eventType.eventId = eventName;// +".Test";
-            //eventType.eventIdStored = "eventType.eventIdStored";
+            eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            eventType.state = new Assad.CPeventTypeState[1];
-            eventType.state[0] = new Assad.CPeventTypeState();
-            eventType.state[0].state = "Состояние";
-            eventType.state[0].value = MainState;
+            if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == Path))
+            {
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+
+                eventType.state = new Assad.CPeventTypeState[1];
+                eventType.state[0] = new Assad.CPeventTypeState();
+                eventType.state[0].state = "Состояние";
+                eventType.state[0].value = deviceState.State;
+            }
 
             return eventType;
         }
@@ -162,7 +169,7 @@ namespace AssadDevices
         // передать в ассад информацию о дополнительных параметрах устройства
         // а также информацию о валидности концигурации
 
-        public Assad.DeviceType QueryAbility()
+        public virtual Assad.DeviceType QueryAbility()
         {
             Assad.DeviceType deviceAbility = new Assad.DeviceType();
             deviceAbility.deviceId = DeviceId;
@@ -176,26 +183,28 @@ namespace AssadDevices
             else
                 configurationParameter.value = ValidationError;
 
-            foreach (AssadParameter assadParameter in Parameters)
+            if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == Path))
             {
-                if (string.IsNullOrEmpty(assadParameter.Value))
-                    continue;
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+                
+                foreach (Parameter parameter in deviceState.Parameters)
+                {
+                    if (!(string.IsNullOrEmpty(parameter.Value)) && (parameter.Value != "<NULL>"))
+                    {
+                        Assad.DeviceTypeParam abilityParameter = new Assad.DeviceTypeParam();
+                        abilityParameter.name = parameter.Caption;
+                        abilityParameter.value = parameter.Value;
+                        abilityParameters.Add(abilityParameter);
+                    }
+                }
 
-                if (assadParameter.Value == "<NULL>")
-                    continue;
-
-                Assad.DeviceTypeParam parameter = new Assad.DeviceTypeParam();
-                parameter.name = assadParameter.Name;
-                parameter.value = assadParameter.Value;
-                abilityParameters.Add(parameter);
-            }
-
-            foreach (string state in States)
-            {
-                Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
-                stateParameter.name = state;
-                stateParameter.value = " ";
-                abilityParameters.Add(stateParameter);
+                foreach (string state in deviceState.States)
+                {
+                    Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
+                    stateParameter.name = state;
+                    stateParameter.value = " ";
+                    abilityParameters.Add(stateParameter);
+                }
             }
 
             deviceAbility.param = abilityParameters.ToArray();

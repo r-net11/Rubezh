@@ -6,6 +6,7 @@ using Infrastructure;
 using System.Collections.ObjectModel;
 using ClientApi;
 using DevicesModule.Events;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -14,50 +15,88 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(OnZoneSelected);
+            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
+            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+        }
+
+        void OnZoneStateChanged(string zoneNo)
+        {
+            if (ServiceClient.CurrentStates.ZoneStates.Any(x => x.No == zoneNo))
+            {
+                ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+                if (Zones.Any(x => x.No == zoneNo))
+                {
+                    ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
+                    zoneViewModel.State = zoneState.State;
+                }
+            }
+        }
+
+        void OnDeviceStateChanged(string path)
+        {
+            if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == path))
+            {
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
+                if (plainDevices.Any(x => x.Device.Path == path))
+                {
+                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                    deviceViewModel.MainState = deviceState.State;
+                }
+            }
         }
 
         public void Initialize()
         {
-            ZoneViewModels = new ObservableCollection<ZoneViewModel>();
+            Zones = new ObservableCollection<ZoneViewModel>();
 
             foreach (Zone zone in ServiceClient.CurrentConfiguration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel();
-                zoneViewModel.SetZone(zone);
-                ZoneViewModels.Add(zoneViewModel);
+                zoneViewModel.Initialize(zone);
+                Zones.Add(zoneViewModel);
+            }
+
+            ServiceClient.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+        }
+
+        void CurrentStates_ZoneStateChanged(string zoneNo)
+        {
+            ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x=>x.No == zoneNo);
+            ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
+            zoneViewModel.State = zoneState.State;
+        }
+
+        void OnZoneSelected(string zoneNo)
+        {
+            SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
+        }
+
+        ObservableCollection<ZoneViewModel> zones;
+        public ObservableCollection<ZoneViewModel> Zones
+        {
+            get { return zones; }
+            set
+            {
+                zones = value;
+                OnPropertyChanged("Zones");
             }
         }
 
-        void OnZoneSelected(Zone zone)
+        ZoneViewModel selectedZone;
+        public ZoneViewModel SelectedZone
         {
-            SelectedZoneViewModel = ZoneViewModels.FirstOrDefault(x=>x.ZoneNo == zone.No);
-        }
-
-        ObservableCollection<ZoneViewModel> zoneViewModels;
-        public ObservableCollection<ZoneViewModel> ZoneViewModels
-        {
-            get { return zoneViewModels; }
+            get { return selectedZone; }
             set
             {
-                zoneViewModels = value;
-                OnPropertyChanged("ZoneViewModels");
-            }
-        }
-
-        ZoneViewModel selectedZoneViewModel;
-        public ZoneViewModel SelectedZoneViewModel
-        {
-            get { return selectedZoneViewModel; }
-            set
-            {
-                selectedZoneViewModel = value;
+                selectedZone = value;
                 InitializeDevices();
-                OnPropertyChanged("SelectedZoneViewModel");
+                OnPropertyChanged("SelectedZone");
             }
         }
 
         void InitializeDevices()
         {
+            plainDevices = new List<DeviceViewModel>();
             Devices = new ObservableCollection<DeviceViewModel>();
 
             Device rooDevice = ServiceClient.CurrentConfiguration.RootDevice;
@@ -66,6 +105,7 @@ namespace DevicesModule.ViewModels
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.Initialize(rooDevice, Devices);
             rootDeviceViewModel.IsExpanded = true;
+            plainDevices.Add(rootDeviceViewModel);
             Devices.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
         }
@@ -74,8 +114,8 @@ namespace DevicesModule.ViewModels
         {
             foreach (Device device in parentDevice.Children)
             {
-                if ((device.UderlyingZones.Contains(SelectedZoneViewModel.ZoneNo) == false) &&
-                    (device.ZoneNo != SelectedZoneViewModel.ZoneNo))
+                if ((device.UderlyingZones.Contains(SelectedZone.No) == false) &&
+                    (device.ZoneNo != SelectedZone.No))
                     continue;
 
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
@@ -83,10 +123,13 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
+                plainDevices.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }
         }
+
+        public List<DeviceViewModel> plainDevices;
 
         ObservableCollection<DeviceViewModel> devices;
         public ObservableCollection<DeviceViewModel> Devices

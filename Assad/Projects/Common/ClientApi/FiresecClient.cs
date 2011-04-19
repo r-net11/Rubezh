@@ -20,6 +20,8 @@ namespace ClientApi
         DuplexChannelFactory<IFiresecService> duplexChannelFactory;
         public static IFiresecService firesecService;
 
+        static object locker = new object();
+
         public void Start()
         {
             NetTcpBinding binding = new NetTcpBinding();
@@ -30,67 +32,86 @@ namespace ClientApi
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
             duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             firesecService = duplexChannelFactory.CreateChannel();
+        }
+
+        public void Subscribe()
+        {
             firesecService.Initialize();
         }
 
         public static Firesec.CoreConfig.config GetCoreConfig()
         {
-            CoreConfigString = firesecService.GetCoreConfig();
-            byte[] bytes = Encoding.Default.GetBytes(CoreConfigString);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            lock (locker)
+            {
+                CoreConfigString = firesecService.GetCoreConfig();
+                byte[] bytes = Encoding.Default.GetBytes(CoreConfigString);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
-            Firesec.CoreConfig.config coreConfig = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return coreConfig;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
+                Firesec.CoreConfig.config coreConfig = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return coreConfig;
+            }
         }
 
         public static Firesec.CoreState.config GetCoreState()
         {
-            CoreStateString = firesecService.GetCoreState();
-            byte[] bytes = Encoding.Default.GetBytes(CoreStateString);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            lock (locker)
+            {
+                CoreStateString = firesecService.GetCoreState();
+                byte[] bytes = Encoding.Default.GetBytes(CoreStateString);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
-            Firesec.CoreState.config coreConfig = (Firesec.CoreState.config)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return coreConfig;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
+                Firesec.CoreState.config coreState = (Firesec.CoreState.config)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return coreState;
+            }
         }
 
         public static Firesec.Metadata.config GetMetaData()
         {
-            MetadataString = firesecService.GetMetaData();
-            byte[] bytes = Encoding.Default.GetBytes(MetadataString);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            lock (locker)
+            {
+                MetadataString = firesecService.GetMetaData();
+                byte[] bytes = Encoding.Default.GetBytes(MetadataString);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
-            Firesec.Metadata.config coreConfig = (Firesec.Metadata.config)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return coreConfig;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
+                Firesec.Metadata.config coreConfig = (Firesec.Metadata.config)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return coreConfig;
+            }
         }
 
         public static Firesec.DeviceParams.config GetDeviceParams()
         {
-            DeviceParametersString = firesecService.GetCoreDeviceParams();
-            byte[] bytes = Encoding.Default.GetBytes(DeviceParametersString);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            lock (locker)
+            {
+                DeviceParametersString = firesecService.GetCoreDeviceParams();
+                byte[] bytes = Encoding.Default.GetBytes(DeviceParametersString);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.DeviceParams.config));
-            Firesec.DeviceParams.config deviceParamsConfig = (Firesec.DeviceParams.config)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return deviceParamsConfig;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.DeviceParams.config));
+                Firesec.DeviceParams.config deviceParamsConfig = (Firesec.DeviceParams.config)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return deviceParamsConfig;
+            }
         }
 
         public static Firesec.ReadEvents.document ReadEvents(int fromId, int limit)
         {
-            JournalString = firesecService.ReadEvents(fromId, limit);
-            byte[] bytes = Encoding.Default.GetBytes(JournalString);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            lock (locker)
+            {
+                JournalString = firesecService.ReadEvents(fromId, limit);
+                byte[] bytes = Encoding.Default.GetBytes(JournalString);
+                MemoryStream memoryStream = new MemoryStream(bytes);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ReadEvents.document));
-            Firesec.ReadEvents.document journal = (Firesec.ReadEvents.document)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
-            return journal;
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ReadEvents.document));
+                Firesec.ReadEvents.document journal = (Firesec.ReadEvents.document)serializer.Deserialize(memoryStream);
+                memoryStream.Close();
+                return journal;
+            }
         }
 
         public static Firesec.ZoneLogic.expr GetZoneLogic(string zoneLogicString)
@@ -139,56 +160,66 @@ namespace ClientApi
 
         public static void SetNewConfig(Firesec.CoreConfig.config coreConfig)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
-            MemoryStream memoryStream = new MemoryStream();
-            serializer.Serialize(memoryStream, coreConfig);
-            byte[] bytes = memoryStream.ToArray();
-            memoryStream.Close();
-            string message = Encoding.UTF8.GetString(bytes);
-            message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            lock (locker)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
+                MemoryStream memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, coreConfig);
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+                string message = Encoding.UTF8.GetString(bytes);
+                message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            StreamWriter writer = new StreamWriter("SetNewConfig.xml");
-            writer.Write(message);
-            writer.Close();
+                StreamWriter writer = new StreamWriter("SetNewConfig.xml");
+                writer.Write(message);
+                writer.Close();
 
-            firesecService.SetNewConfig(message);
+                firesecService.SetNewConfig(message);
+            }
         }
 
         public static void DeviceWriteConfig(Firesec.CoreConfig.config coreConfig, string DevicePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
-            MemoryStream memoryStream = new MemoryStream();
-            serializer.Serialize(memoryStream, coreConfig);
-            byte[] bytes = memoryStream.ToArray();
-            memoryStream.Close();
-            string message = Encoding.UTF8.GetString(bytes);
-            message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            lock (locker)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
+                MemoryStream memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, coreConfig);
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+                string message = Encoding.UTF8.GetString(bytes);
+                message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            firesecService.DeviceWriteConfig(message, DevicePath);
+                firesecService.DeviceWriteConfig(message, DevicePath);
+            }
         }
 
         public static void ResetStates(Firesec.CoreState.config coreState)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
-            MemoryStream memoryStream = new MemoryStream();
-            serializer.Serialize(memoryStream, coreState);
-            byte[] bytes = memoryStream.ToArray();
-            memoryStream.Close();
-            string message = Encoding.UTF8.GetString(bytes);
-            message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+            lock (locker)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
+                MemoryStream memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, coreState);
+                byte[] bytes = memoryStream.ToArray();
+                memoryStream.Close();
+                string message = Encoding.UTF8.GetString(bytes);
+                message = message.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            firesecService.ResetStates(message);
+                firesecService.ResetStates(message);
+            }
         }
 
-        public void NewEventsAvailable(int eventMask)
+        public void NewEventsAvailable(int eventMask, string obj)
         {
+            OnNewEvent(eventMask, obj);
         }
 
-        public static event Action<int> NewEvent;
-        static void OnNewEvent(int eventMask)
+        public static event Action<int, string> NewEvent;
+        static void OnNewEvent(int eventMask, string obj)
         {
             if (NewEvent != null)
-                NewEvent(eventMask);
+                NewEvent(eventMask, obj);
         }
     }
 }
