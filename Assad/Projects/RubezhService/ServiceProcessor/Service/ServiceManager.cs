@@ -5,6 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using ServiseProcessor.Service;
+using System.Diagnostics;
 
 namespace ServiseProcessor
 {
@@ -20,6 +21,7 @@ namespace ServiseProcessor
             binding.MaxBufferSize = Int32.MaxValue;
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
+            binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("ServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/StateService");
 

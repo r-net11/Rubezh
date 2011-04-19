@@ -62,6 +62,7 @@
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
+    <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,7 +98,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\DS_Unknown.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Brushes.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,6 +140,15 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Critical.ico" />
+    <Resource Include="Icons\DS_Error.ico" />
+    <Resource Include="Icons\DS_Mute.ico" />
+    <Resource Include="Icons\DS_Normal.ico" />
+    <Resource Include="Icons\DS_ServiceRequired.ico" />
+    <Resource Include="Icons\DS_ServiceRequired_old.ico" />
+    <Resource Include="Icons\DS_Warning.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,6 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
+        <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
 <Grid>
         <StackPanel HorizontalAlignment="Left">
@@ -74,6 +75,7 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
+                                        <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
                                         <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
@@ -88,36 +90,10 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" Width="100">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Address}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
-                    <WpfToolkit:DataGridTemplateColumn Header="Зона" Width="100">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding PresentationZone}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
-                    <WpfToolkit:DataGridTemplateColumn Header="Примечание" Width="*">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Description}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
+                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                    <WpfToolkit:DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
+                    <WpfToolkit:DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+                    
                 </WpfToolkit:DataGrid.Columns>
 
                 <WpfToolkit:DataGrid.CellStyle>

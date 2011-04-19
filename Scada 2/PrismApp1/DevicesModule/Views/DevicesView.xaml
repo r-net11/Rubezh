@@ -2,11 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
-             xmlns:local="clr-namespace:DevicesModule.ViewModels"
+             xmlns:Converters="clr-namespace:DevicesModule.Converters"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+    </UserControl.Resources>
 <Grid>
         <StackPanel>
             <WpfToolkit:DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
@@ -29,6 +32,7 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
+                                        <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
                                         <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
@@ -43,37 +47,9 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" MinWidth="50">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Address}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
-                    <WpfToolkit:DataGridTemplateColumn Header="Зона" MinWidth="100">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding PresentationZone}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
-                    <WpfToolkit:DataGridTemplateColumn Header="Примечание" MinWidth="100">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Description}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
-
-                    <WpfToolkit:DataGridTextColumn Header="Состояние" MinWidth="200" Binding="{Binding MainState}" />
+                    <WpfToolkit:DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Address}" />
+                    <WpfToolkit:DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" />
+                    <WpfToolkit:DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Description}" />
                     <WpfToolkit:DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
                     <WpfToolkit:DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />
                     <WpfToolkit:DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
@@ -108,8 +84,6 @@
 
             <StackPanel DataContext="{Binding SelectedDevice}" Margin="10">
 
-                <TextBlock Text="Состояние" FontWeight="Bold" />
-
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{Binding Address}" />
@@ -118,7 +92,8 @@
                     <TextBlock Text="{Binding DriverName}" />
                 </StackPanel>
 
-                <TextBlock Text="{Binding State}" Padding="10" />
+                <TextBlock Text="Состояние" FontWeight="Bold" />
+                <TextBlock Text="{Binding State}" />
 
                 <ListView ItemsSource="{Binding ParentStates}">
                     <ListView.ItemTemplate>
