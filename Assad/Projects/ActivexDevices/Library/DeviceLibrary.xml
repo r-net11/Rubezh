@@ -5,7 +5,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -21,7 +21,7 @@
         </State>
         <State Id="Обход устройств" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -37,7 +37,7 @@
         </State>
         <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -48,7 +48,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;		  </Image>
             </Frame>
-            <Frame Id="1" Duration="500">
+            <Frame Id="1" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -60,7 +60,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="1000">
+            <Frame Id="0" Duration="1000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -71,7 +71,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -82,7 +82,7 @@
         </State>
         <State Id="Норма" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -97,7 +97,7 @@
         </State>
         <State Id="Норма(*)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -108,7 +108,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="800">
+            <Frame Id="1" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -123,7 +123,7 @@
         </State>
         <State Id="Неизвестно" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2000">
+            <Frame Id="0" Duration="2000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -134,7 +134,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -145,7 +145,7 @@
         </State>
         <State Id="Неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="1600">
+            <Frame Id="0" Duration="1600" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -156,7 +156,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -167,7 +167,7 @@
         </State>
         <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2400">
+            <Frame Id="0" Duration="2400" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -178,7 +178,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -189,7 +189,7 @@
         </State>
         <State Id="Пожарная тревога" IsAdditional="true">
           <Frames>
-            <Frame Id="0" Duration="1500">
+            <Frame Id="0" Duration="1500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -197,7 +197,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="500">
+            <Frame Id="1" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -208,7 +208,7 @@
         </State>
         <State Id="Мониторинг устройства отключен" IsAdditional="true">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -225,7 +225,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1 &lt;/title&gt;
@@ -240,7 +240,7 @@
         </State>
         <State Id="Обход устройств" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -255,7 +255,7 @@
         </State>
         <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -266,7 +266,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="1" Duration="500">
+            <Frame Id="1" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -278,7 +278,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="1000">
+            <Frame Id="0" Duration="1000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -288,7 +288,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -299,7 +299,7 @@
         </State>
         <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2400">
+            <Frame Id="0" Duration="2400" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -309,7 +309,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -320,7 +320,7 @@
         </State>
         <State Id="Неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="1600">
+            <Frame Id="0" Duration="1600" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -330,7 +330,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -341,7 +341,7 @@
         </State>
         <State Id="Неизвестно" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2000">
+            <Frame Id="0" Duration="2000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -351,7 +351,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -363,7 +363,7 @@
         </State>
         <State Id="Норма(*)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -373,7 +373,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="800">
+            <Frame Id="1" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -387,7 +387,7 @@
         </State>
         <State Id="Норма" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -405,7 +405,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1 &lt;/title&gt;
@@ -422,7 +422,7 @@
         </State>
         <State Id="Обход устройств" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -439,7 +439,7 @@
         </State>
         <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -452,7 +452,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="1" Duration="500">
+            <Frame Id="1" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -464,7 +464,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="1000">
+            <Frame Id="0" Duration="1000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -476,7 +476,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -487,7 +487,7 @@
         </State>
         <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2400">
+            <Frame Id="0" Duration="2400" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -499,7 +499,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -510,7 +510,7 @@
         </State>
         <State Id="Неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -522,7 +522,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -533,7 +533,7 @@
         </State>
         <State Id="Неизвестно" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="2000">
+            <Frame Id="0" Duration="2000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -545,7 +545,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -556,7 +556,7 @@
         </State>
         <State Id="Норма(*)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -568,7 +568,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="800">
+            <Frame Id="1" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -584,7 +584,7 @@
         </State>
         <State Id="Норма" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -604,7 +604,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1 &lt;/title&gt;
@@ -618,7 +618,7 @@
         </State>
         <State Id="Обнаружена неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="300">
+            <Frame Id="0" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -628,7 +628,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="1" Duration="200">
+            <Frame Id="1" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -640,7 +640,7 @@
         </State>
         <State Id="Обнаружена неисправность. Потеря связи с дренажным насосом" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -654,7 +654,7 @@
         </State>
         <State Id="Состояние - норма" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1 &lt;/title&gt;
@@ -668,7 +668,7 @@
         </State>
         <State Id="Состояние - норма(*). Авто с БУНС отключено" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -682,7 +682,7 @@
         </State>
         <State Id="Состояние - норма(*). Авто с ШУН отключено" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -696,7 +696,7 @@
         </State>
         <State Id="Состояние - норма(*). Дренажный насос включен" IsAdditional="false">
           <Frames>
-            <Frame Id="1" Duration="300">
+            <Frame Id="1" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -706,7 +706,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="0" Duration="300">
+            <Frame Id="0" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -720,7 +720,7 @@
         </State>
         <State Id="Состояние - норма. Авто с БУНС отключено" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="300">
+            <Frame Id="0" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -730,7 +730,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="1" Duration="300">
+            <Frame Id="1" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -744,7 +744,7 @@
         </State>
         <State Id="Состояние - норма. Дренажный насос включен" IsAdditional="false">
           <Frames>
-            <Frame Id="1" Duration="300">
+            <Frame Id="1" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -754,7 +754,7 @@
 &lt;/svg&gt;
 			  </Image>
             </Frame>
-            <Frame Id="0" Duration="300">
+            <Frame Id="0" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -768,7 +768,7 @@
         </State>
         <State Id="Состояние внимание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -782,7 +782,7 @@
         </State>
         <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -800,7 +800,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; 
 &lt;g&gt; 
 &lt;title&gt;Layer 1&lt;/title&gt;
@@ -813,7 +813,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="200">
+            <Frame Id="0" Duration="200" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; 
 &lt;title&gt;Layer 1&lt;/title&gt; 
  &lt;g transform="translate(200,150)" style="fill-opacity:1; fill:none;"&gt;
@@ -1540,7 +1540,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="1000">
+            <Frame Id="1" Duration="1000" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt; 
 &lt;title&gt;Layer 1&lt;/title&gt; 
  &lt;g transform="translate(200,150)" style="fill-opacity:1; fill:none;"&gt;
@@ -2275,7 +2275,7 @@
       <States>
         <State Id="Базовый рисунок" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0">
+            <Frame Id="0" Duration="0" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2288,7 +2288,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2297,7 +2297,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="300">
+            <Frame Id="1" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2310,7 +2310,7 @@
         </State>
         <State Id="Внимание (предтревожное)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="800">
+            <Frame Id="0" Duration="800" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2319,7 +2319,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="300">
+            <Frame Id="1" Duration="300" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2332,7 +2332,7 @@
         </State>
         <State Id="Неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2345,7 +2345,7 @@
         </State>
         <State Id="Требуется обслуживание" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2358,7 +2358,7 @@
         </State>
         <State Id="Норма(*)" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="600">
+            <Frame Id="0" Duration="600" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2367,7 +2367,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="900">
+            <Frame Id="1" Duration="900" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2380,12 +2380,168 @@
         </State>
         <State Id="Норма" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="500">
+            <Frame Id="0" Duration="500" Layer="0">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
 &lt;rect fill="#00FF00" stroke-width="3" stroke="#000000" height="460" width="460" x="20" y="20" /&gt;
 &lt;rect fill="#000000" stroke="#000000" height="180" width="180" x="300" y="20"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+      </States>
+    </Device>
+    <Device Id="Задвижка">
+      <States>
+        <State Id="Базовый рисунок" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="1">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#349967" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Тревога" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#FF0101" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Внимание (предтревожное)" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#FFCC01" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Неисправность" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="200" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#FF0101" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+            <Frame Id="1" Duration="200" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Требуется обслуживание" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Обход устройств" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Неизвестно" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#808080" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Норма(*)" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#349966" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Норма" IsAdditional="false">
+          <Frames>
+            <Frame Id="0" Duration="0" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;polyline stroke-width="5" points="50,150 50,350 450,150 450,350 50,150 " id="svg_7" fill="#349966" stroke="#000000"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Локальное управление" IsAdditional="true">
+          <Frames>
+            <Frame Id="0" Duration="500" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer 1&lt;/title&gt;
+&lt;rect fill="none" stroke-width="20" stroke="#000000" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+            <Frame Id="1" Duration="500" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+          </Frames>
+        </State>
+        <State Id="Дистанционное управление" IsAdditional="true">
+          <Frames>
+            <Frame Id="0" Duration="500" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer 1&lt;/title&gt;
+&lt;rect fill="#FF0101" stroke-width="0" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+            <Frame Id="1" Duration="500" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer 1&lt;/title&gt;
+&lt;rect fill="#349966" stroke-width="0" id="svg_8" x="0" y="0" width="500" height="500"/&gt;
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>

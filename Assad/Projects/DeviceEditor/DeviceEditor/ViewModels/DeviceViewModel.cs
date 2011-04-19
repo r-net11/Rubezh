@@ -48,66 +48,6 @@ namespace DeviceEditor
         }
 
         /// <summary>
-        /// Загрузка доступных для выбора состояний в
-        /// StatesAvailableListViewModel(список доступных для выбора состояний).
-        /// </summary>
-        public void LoadStates()
-        {
-            StateViewModel stateViewModel2 = new StateViewModel();
-            StateViewModel stateViewModel3 = new StateViewModel();
-            StateViewModel stateViewModel4 = new StateViewModel();
-            StateViewModel stateViewModel5 = new StateViewModel();
-            StateViewModel stateViewModel6 = new StateViewModel();
-            StateViewModel stateViewModel7 = new StateViewModel();
-            StateViewModel stateViewModel8 = new StateViewModel();
-            StateViewModel stateViewModel9 = new StateViewModel();
-            stateViewModel2.Id = "Тревога";
-            stateViewModel3.Id = "Внимание (предтревожное)";
-            stateViewModel4.Id = "Неисправность";
-            stateViewModel5.Id = "Требуется обслуживание";
-            stateViewModel6.Id = "Обход устройств";
-            stateViewModel7.Id = "Неизвестно";
-            stateViewModel8.Id = "Норма(*)";
-            stateViewModel9.Id = "Норма";
-            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
-            if (ViewModel.Current.SelectedDeviceViewModel != null)
-            {
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel2.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel2);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel3.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel3);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel4.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel4);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel5.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel5);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel6.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel6);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel7.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel7);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel8.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel8);
-                if (ViewModel.Current.SelectedDeviceViewModel.StateViewModels.FirstOrDefault(x => x.Id == stateViewModel9.Id) == null)
-                    StatesAvailableListViewModel.Add(stateViewModel9);
-            }
-        }
-
-        /// <summary>
-        /// Список доступных для выбора состояний. Для каждого устройства свой список.
-        /// Доступные состояния для устройства - все состояния за исключением тех,
-        /// которые уже используются на данном устройстве.
-        /// </summary> 
-        ObservableCollection<StateViewModel> statesAvailableListViewModel;
-        public ObservableCollection<StateViewModel> StatesAvailableListViewModel
-        {
-            get { return statesAvailableListViewModel; }
-            set
-            {
-                statesAvailableListViewModel = value;
-                OnPropertyChanged("StatesAvailableListViewModel");
-            }
-        }
-
-        /// <summary>
         /// Команда, показывающая список всех доступных устройств.
         /// </summary>
         public RelayCommand AddDeviceCommand { get; private set; }
@@ -127,7 +67,6 @@ namespace DeviceEditor
         {
             ListView statesListView = new ListView();
             StatesListViewModel statesListViewModel = new StatesListViewModel();
-            StatesAvailableListViewModel = new ObservableCollection<StateViewModel>();
             statesListView.DataContext = statesListViewModel;
             statesListView.ShowDialog();
         }
@@ -164,6 +103,8 @@ namespace DeviceEditor
             get { return selectedStateViewModel; }
             set
             {
+                if (value == null)
+                    return;
                 selectedStateViewModel = value;
                 ViewModel.Current.SelectedStateViewModel = selectedStateViewModel;
                 OnPropertyChanged("SelectedStateViewModel");
@@ -173,14 +114,14 @@ namespace DeviceEditor
         /// <summary>
         /// Список всех используемых состояний для данного устройства
         /// </summary>
-        public ObservableCollection<StateViewModel> stateViewModels;
-        public ObservableCollection<StateViewModel> StateViewModels
+        public ObservableCollection<StateViewModel> statesViewModel;
+        public ObservableCollection<StateViewModel> StatesViewModel
         {
-            get { return stateViewModels; }
+            get { return statesViewModel; }
             set
             {
-                stateViewModels = value;
-                OnPropertyChanged("StateViewModels");
+                statesViewModel = value;
+                OnPropertyChanged("StatesViewModel");
             }
         }
 

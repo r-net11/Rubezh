@@ -24,6 +24,7 @@ namespace DeviceEditor
             AddFrameCommand = new RelayCommand(OnAddFrameCommand);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrameCommand);
             Parent = StateViewModel.Current;
+            Layer = 0;
             Current = this;
         }
         public static FrameViewModel Current;
@@ -91,6 +92,17 @@ namespace DeviceEditor
             }
         }
 
+        int layer;
+        public int Layer
+        {
+            get { return layer; }
+            set
+            {
+                layer = value;
+                OnPropertyChanged("Layer");
+            }
+        }
+
         string image;
         public string Image
         {
@@ -108,7 +120,9 @@ namespace DeviceEditor
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    Picture.Add((Canvas)XamlReader.Load(xmlReader));
+                    Canvas FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                    Canvas.SetZIndex(FramePicture, this.Layer);
+                    Picture.Add(FramePicture);
                 }
                 catch(Exception)
                 {
@@ -117,7 +131,9 @@ namespace DeviceEditor
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    Picture.Add((Canvas)XamlReader.Load(xmlReader));
+                    Canvas FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                    Canvas.SetZIndex(FramePicture, this.Layer);
+                    Picture.Add(FramePicture);
                 }
                 OnPropertyChanged("Image");
             }
