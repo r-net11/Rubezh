@@ -9,27 +9,28 @@ using System.Windows.Shapes;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using PlansModule.Events;
+using PlansModule.Models;
 
 namespace PlansModule.ViewModels
 {
-    public class SubPlanViewModel : BaseViewModel
+    public class ElementSubPlanViewModel : BaseViewModel
     {
-        public void Initialize(SubPlan subPlan, Canvas canvas)
+        public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
         {
             Polygon subPlanPolygon = new Polygon();
-            subPlanPolygon.Name = subPlan.Name;
-            subPlanPolygon.ToolTip = subPlan.Caption;
+            subPlanPolygon.Name = elementSubPlan.Name;
+            subPlanPolygon.ToolTip = elementSubPlan.Caption;
             subPlanPolygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
             subPlanPolygon.MouseEnter += new MouseEventHandler(subPlanPolygon_MouseEnter);
             subPlanPolygon.MouseLeave += new MouseEventHandler(subPlanPolygon_MouseLeave);
-            foreach (PolygonPoint polygonPoint in subPlan.PolygonPoints)
+            foreach (PolygonPoint polygonPoint in elementSubPlan.PolygonPoints)
             {
                 subPlanPolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-            if (subPlan.ShowBackgroundImage)
+            if (elementSubPlan.ShowBackgroundImage)
             {
                 ImageBrush polygonImageBrush = new ImageBrush();
-                polygonImageBrush.ImageSource = new BitmapImage(new Uri(subPlan.BackgroundSource, UriKind.Absolute));
+                polygonImageBrush.ImageSource = new BitmapImage(new Uri(elementSubPlan.BackgroundSource, UriKind.Absolute));
                 subPlanPolygon.Fill = polygonImageBrush;
             }
             else

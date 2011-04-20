@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using PlansModule.Models;
 
 namespace PlansModule
 {
@@ -14,7 +15,7 @@ namespace PlansModule
             try
             {
                 XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                StreamReader reader = new StreamReader("D:/Plans.xml");
+                StreamReader reader = new StreamReader("../../Data/Plans.xml");
                 Plan plan = (Plan)deserializer.Deserialize(reader);
                 reader.Close();
                 return plan;
@@ -33,28 +34,27 @@ namespace PlansModule
             plan.Caption = "cap";
             plan.Height = 500;
             plan.Width = 500;
-            plan.SubPlans = new List<SubPlan>();
-            plan.SubPlans.Add(new SubPlan());
-            plan.SubPlans[0].Name = "subPlan1";
-            plan.SubPlans[0].PolygonPoints = new List<PolygonPoint>();
-            plan.SubPlans[0].BackgroundSource = "D:/picture1.jpg";
-            plan.SubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 100 });
-            plan.SubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 200 });
-            plan.SubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 200 });
-            plan.SubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 100 });
-            plan.PlanZones = new List<PlanZone>();
-            plan.PlanZones.Add(new PlanZone());
-            plan.PlanZones[0].ZoneNo = "0";
-            plan.PlanZones[0].PolygonPoints = new List<PolygonPoint>();
-            plan.PlanZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 300 });
-            plan.PlanZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 400 });
-            plan.PlanZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 400 });
-            plan.PlanZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 300 });
-            plan.PlanDevices = new List<PlanDevice>();
-            plan.PlanDevices.Add(new PlanDevice());
-            plan.PlanDevices[0].Driver = "driver";
-            plan.PlanDevices[0].Left = 100;
-            plan.PlanDevices[0].Top = 200;
+            plan.ElementSubPlans = new List<ElementSubPlan>();
+            plan.ElementSubPlans.Add(new ElementSubPlan());
+            plan.ElementSubPlans[0].Name = "subPlan1";
+            plan.ElementSubPlans[0].PolygonPoints = new List<PolygonPoint>();
+            plan.ElementSubPlans[0].BackgroundSource = "D:/picture1.jpg";
+            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 100 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 200 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 200 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 100 });
+            plan.ElementZones = new List<ElementZone>();
+            plan.ElementZones.Add(new ElementZone());
+            plan.ElementZones[0].ZoneNo = "0";
+            plan.ElementZones[0].PolygonPoints = new List<PolygonPoint>();
+            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 300 });
+            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 400 });
+            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 400 });
+            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 300 });
+            plan.ElementDevices = new List<ElementDevice>();
+            plan.ElementDevices.Add(new ElementDevice());
+            plan.ElementDevices[0].Left = 100;
+            plan.ElementDevices[0].Top = 200;
             plan.Children = new List<Plan>();
             plan.Children.Add(new Plan());
             plan.Children[0].Name = "subPlan1";

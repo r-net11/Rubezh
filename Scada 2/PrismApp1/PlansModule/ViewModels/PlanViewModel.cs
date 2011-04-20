@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using PlansModule.Views;
 using System.Diagnostics;
 using PlansModule.Events;
+using PlansModule.Models;
+using System.Reflection;
 
 namespace PlansModule.ViewModels
 {
@@ -100,33 +102,42 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
+            SubPlans = new List<ElementSubPlanViewModel>();
+            Zones = new List<ElementZoneViewModel>();
+            Devices = new List<ElementDeviceViewModel>();
+
             MainCanvas.Children.Clear();
 
             MainCanvas.Width = plan.Width;
             MainCanvas.Height = plan.Height;
 
-            ImageBrush backgroundImageBrush = new ImageBrush();
-            backgroundImageBrush.ImageSource = new BitmapImage(new Uri(plan.BackgroundSource, UriKind.Absolute));
-            MainCanvas.Background = backgroundImageBrush;
+            MainCanvas.Background = CreateBrush(plan.BackgroundSource);
 
-            foreach (SubPlan subPlan in plan.SubPlans)
+            foreach (ElementSubPlan elementSubPlan in plan.ElementSubPlans)
             {
-                SubPlanViewModel subPlanViewModel = new SubPlanViewModel();
-                subPlanViewModel.Initialize(subPlan, MainCanvas);
+                ElementSubPlanViewModel subPlanViewModel = new ElementSubPlanViewModel();
+                SubPlans.Add(subPlanViewModel);
+                subPlanViewModel.Initialize(elementSubPlan, MainCanvas);
             }
 
-            foreach (PlanZone planZone in plan.PlanZones)
+            foreach (ElementZone elementZone in plan.ElementZones)
             {
-                ZonePlanViewModel zonePlanViewModel = new ZonePlanViewModel();
-                zonePlanViewModel.Initialize(planZone, MainCanvas);
+                ElementZoneViewModel zonePlanViewModel = new ElementZoneViewModel();
+                Zones.Add(zonePlanViewModel);
+                zonePlanViewModel.Initialize(elementZone, MainCanvas);
             }
 
-            foreach (PlanDevice planDevice in plan.PlanDevices)
+            foreach (ElementDevice elementDevice in plan.ElementDevices)
             {
-                PlanDeviceViewModel planDeviceViewModel = new PlanDeviceViewModel();
-                planDeviceViewModel.Initialize(planDevice, MainCanvas);
+                ElementDeviceViewModel planDeviceViewModel = new ElementDeviceViewModel();
+                Devices.Add(planDeviceViewModel);
+                planDeviceViewModel.Initialize(elementDevice, MainCanvas);
             }
         }
+
+        public List<ElementSubPlanViewModel> SubPlans { get; set; }
+        public List<ElementZoneViewModel> Zones { get; set; }
+        public List<ElementDeviceViewModel> Devices { get; set; }
 
         void UpdateParentPlans()
         {
@@ -154,6 +165,16 @@ namespace PlansModule.ViewModels
 
         public override void Dispose()
         {
+        }
+
+        ImageBrush CreateBrush(string source)
+        {
+            ImageBrush imageBrush = new ImageBrush();
+            string executablePath = Assembly.GetExecutingAssembly().Location;
+            string relativePath = "../../../Data/" + source;
+            Uri uri = new Uri(System.IO.Path.Combine(executablePath, relativePath));
+            imageBrush.ImageSource = new BitmapImage(uri);
+            return imageBrush;
         }
     }
 }

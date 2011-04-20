@@ -59,11 +59,15 @@
     <Compile Include="Events\PlanDeviceSelectedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="Events\PlanZoneSelectedEvent.cs" />
-    <Compile Include="ViewModels\PlanDeviceViewModel.cs" />
+    <Compile Include="Models\ElementDevice.cs" />
+    <Compile Include="Models\ElementSubPlan.cs" />
+    <Compile Include="Models\ElementZone.cs" />
+    <Compile Include="Models\PolygonPoint.cs" />
+    <Compile Include="ViewModels\ElementDeviceViewModel.cs" />
     <Compile Include="ViewModels\SelectedDeviceViewModel.cs" />
     <Compile Include="ViewModels\SelectedZoneViewModel.cs" />
-    <Compile Include="ViewModels\SubPlanViewModel.cs" />
-    <Compile Include="Plan.cs" />
+    <Compile Include="ViewModels\ElementSubPlanViewModel.cs" />
+    <Compile Include="Models\Plan.cs" />
     <Compile Include="PlanBuilder.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -81,7 +85,7 @@
     </Compile>
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
-    <Compile Include="ViewModels\ZonePlanViewModel.cs" />
+    <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
     </Compile>

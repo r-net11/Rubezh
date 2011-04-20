@@ -8,10 +8,11 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using PlansModule.Events;
 using System.Diagnostics;
+using PlansModule.Models;
 
 namespace PlansModule.ViewModels
 {
-    public class PlansViewModel :RegionViewModel
+    public class PlansViewModel : RegionViewModel
     {
         List<PlanViewModel> AllPlanViewModels;
         public PlanViewModel RootPlanViewModel;
@@ -24,8 +25,7 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
             ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Subscribe(OnPlanDeviceSelected);
             ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Subscribe(OnPlanZoneSelected);
-            SelectedDeviceViewModel = new SelectedDeviceViewModel();
-            SelectedZoneViewModel = new SelectedZoneViewModel();
+            //SelectedZoneViewModel = new SelectedZoneViewModel();
         }
 
         public void Initialize()
@@ -47,15 +47,15 @@ namespace PlansModule.ViewModels
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanViewModel)
         {
             if (parentPlan.Children != null)
-            foreach (Plan plan in parentPlan.Children)
-            {
-                PlanViewModel planViewModel = new PlanViewModel();
-                planViewModel.Parent = parentPlanViewModel;
-                parentPlanViewModel.Children.Add(planViewModel);
-                planViewModel.Initialize(plan, MainCanvas);
-                AllPlanViewModels.Add(planViewModel);
-                AddPlan(plan, planViewModel);
-            }
+                foreach (Plan plan in parentPlan.Children)
+                {
+                    PlanViewModel planViewModel = new PlanViewModel();
+                    planViewModel.Parent = parentPlanViewModel;
+                    parentPlanViewModel.Children.Add(planViewModel);
+                    planViewModel.Initialize(plan, MainCanvas);
+                    AllPlanViewModels.Add(planViewModel);
+                    AddPlan(plan, planViewModel);
+                }
         }
 
         Canvas mainCanvas;
@@ -103,20 +103,38 @@ namespace PlansModule.ViewModels
 
         public void OnPlanDeviceSelected(string path)
         {
-            SelectedDeviceViewModel.Initialize(path);
+            foreach (ElementDeviceViewModel elementDeviceViewModel in SelectedPlanViewModel.Devices)
+            {
+                if (elementDeviceViewModel.elementDevice.Path == path)
+                {
+                    elementDeviceViewModel.IsSelected = true;
+                }
+                else
+                {
+                    elementDeviceViewModel.IsSelected = false;
+                }
+            }
+
+            SelectedDeviceViewModel = this.SelectedPlanViewModel.Devices.FirstOrDefault(x => x.elementDevice.Path == path);
+
             SelectedDeviceViewModel.IsActive = true;
-            SelectedZoneViewModel.IsActive = false;
+
+            if (SelectedZoneViewModel != null)
+                SelectedZoneViewModel.IsActive = false;
         }
 
-        public void OnPlanZoneSelected(string name)
+        public void OnPlanZoneSelected(string zoneNo)
         {
-            SelectedDeviceViewModel.IsActive = false;
+            SelectedZoneViewModel = this.SelectedPlanViewModel.Zones.FirstOrDefault(x => x.elementZone.ZoneNo == zoneNo);
+
+            if (SelectedDeviceViewModel != null)
+                SelectedDeviceViewModel.IsActive = false;
             SelectedZoneViewModel.IsActive = true;
-            SelectedZoneViewModel.Name = name;
+            //SelectedZoneViewModel.Name = zoneNo;
         }
 
-        SelectedDeviceViewModel selectedDeviceViewModel;
-        public SelectedDeviceViewModel SelectedDeviceViewModel
+        ElementDeviceViewModel selectedDeviceViewModel;
+        public ElementDeviceViewModel SelectedDeviceViewModel
         {
             get { return selectedDeviceViewModel; }
             set
@@ -126,8 +144,8 @@ namespace PlansModule.ViewModels
             }
         }
 
-        SelectedZoneViewModel selectedZoneViewModel;
-        public SelectedZoneViewModel SelectedZoneViewModel
+        ElementZoneViewModel selectedZoneViewModel;
+        public ElementZoneViewModel SelectedZoneViewModel
         {
             get { return selectedZoneViewModel; }
             set
@@ -141,7 +159,7 @@ namespace PlansModule.ViewModels
         {
             foreach (PlanViewModel planViewModel in AllPlanViewModels)
             {
-                foreach(PlanDevice planDevice in planViewModel.plan.PlanDevices)
+                foreach (ElementDevice planDevice in planViewModel.plan.ElementDevices)
                 {
                     if (planDevice.Path == path)
                     {

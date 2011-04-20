@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Plan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="rootPlan" Caption="Основной план" BackgroundSource="root.bmp" ShowBackgroundImage="true" Width="732" Height="517">
+  <Children>
+    <Plan Name="rootPlan_ElementSubPlan1" Caption="Строение 1" BackgroundSource="building1.bmp" ShowBackgroundImage="true" Width="805" Height="641">
+      <ElementSubPlans>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan1_ElementSubPlan5" Caption="Этаж 5">
+          <PolygonPoints>
+            <PolygonPoint X="169" Y="100" />
+            <PolygonPoint X="690" Y="58" />
+            <PolygonPoint X="694" Y="134" />
+            <PolygonPoint X="162" Y="167" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan1_ElementSubPlan4" Caption="Этаж 4">
+          <PolygonPoints>
+            <PolygonPoint X="162" Y="172" />
+            <PolygonPoint X="695" Y="137" />
+            <PolygonPoint X="701" Y="216" />
+            <PolygonPoint X="155" Y="241" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan1_ElementSubPlan3" Caption="Этаж 3">
+          <PolygonPoints>
+            <PolygonPoint X="154" Y="245" />
+            <PolygonPoint X="701" Y="219" />
+            <PolygonPoint X="706" Y="304" />
+            <PolygonPoint X="148" Y="326" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan1_ElementSubPlan2" Caption="Этаж 2">
+          <PolygonPoints>
+            <PolygonPoint X="148" Y="324" />
+            <PolygonPoint X="706" Y="307" />
+            <PolygonPoint X="712" Y="396" />
+            <PolygonPoint X="141" Y="403" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan1_ElementSubPlan1" Caption="Этаж 1">
+          <PolygonPoints>
+            <PolygonPoint X="140" Y="407" />
+            <PolygonPoint X="712" Y="399" />
+            <PolygonPoint X="716" Y="490" />
+            <PolygonPoint X="134" Y="488" />
+          </PolygonPoints>
+        </ElementSubPlan>
+      </ElementSubPlans>
+    </Plan>
+    <Plan Name="rootPlan_ElementSubPlan2" Caption="Строение 2" BackgroundSource="building2.bmp" ShowBackgroundImage="true" Width="838" Height="536">
+      <ElementSubPlans>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan2_ElementSubPlan3" Caption="Этаж 3">
+          <PolygonPoints>
+            <PolygonPoint X="226" Y="147" />
+            <PolygonPoint X="617" Y="148" />
+            <PolygonPoint X="617" Y="234" />
+            <PolygonPoint X="227" Y="229" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan2_ElementSubPlan2" Caption="Этаж 2">
+          <PolygonPoints>
+            <PolygonPoint X="227" Y="229" />
+            <PolygonPoint X="617" Y="234" />
+            <PolygonPoint X="620" Y="316" />
+            <PolygonPoint X="223" Y="314" />
+          </PolygonPoints>
+        </ElementSubPlan>
+        <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan2_ElementSubPlan1" Caption="Этаж 1">
+          <PolygonPoints>
+            <PolygonPoint X="223" Y="314" />
+            <PolygonPoint X="620" Y="316" />
+            <PolygonPoint X="622" Y="397" />
+            <PolygonPoint X="222" Y="398" />
+          </PolygonPoints>
+        </ElementSubPlan>
+      </ElementSubPlans>
+      <Children>
+        <Plan Name="rootPlan_ElementSubPlan2_ElementSubPlan1" Caption="Строение 2 - Этаж 1" BackgroundSource="picture6.jpg" ShowBackgroundImage="true" Width="400" Height="400">
+          <ElementZones>
+            <ElementZone ZoneNo="9">
+              <PolygonPoints>
+                <PolygonPoint X="10" Y="10" />
+                <PolygonPoint X="200" Y="10" />
+                <PolygonPoint X="200" Y="300" />
+                <PolygonPoint X="10" Y="300" />
+              </PolygonPoints>
+            </ElementZone>
+          </ElementZones>
+          <ElementDevices>
+            <ElementDevice Left="50" Top="200" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.16" />
+            <ElementDevice Left="70" Top="150" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17" />
+            <ElementDevice Left="150" Top="90" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/4935848F-0084-4151-A0C8-3A900E3CB5C5:1.1" />
+          </ElementDevices>
+
+        </Plan>
+      </Children>
+    </Plan>
+  </Children>
+  <ElementSubPlans>
+    <ElementSubPlan ShowBackgroundImage="false" BorderColor="Blue" Name="rootPlan_ElementSubPlan1" Caption="Строение 1">
+      <PolygonPoints>
+        <PolygonPoint X="232" Y="142" />
+        <PolygonPoint X="279" Y="108" />
+        <PolygonPoint X="307" Y="152" />
+        <PolygonPoint X="289" Y="157" />
+        <PolygonPoint X="297" Y="170" />
+        <PolygonPoint X="267" Y="194" />
+      </PolygonPoints>
+    </ElementSubPlan>
+    <ElementSubPlan ShowBackgroundImage="false" BorderColor="Red" Name="rootPlan_ElementSubPlan2" Caption="Строение 2">
+      <PolygonPoints>
+        <PolygonPoint X="284" Y="193" />
+        <PolygonPoint X="325" Y="163" />
+        <PolygonPoint X="416" Y="297" />
+        <PolygonPoint X="374" Y="324" />
+      </PolygonPoints>
+    </ElementSubPlan>
+  </ElementSubPlans>
+</Plan>

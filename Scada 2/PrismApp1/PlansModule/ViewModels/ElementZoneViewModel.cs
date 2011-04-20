@@ -7,23 +7,36 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using PlansModule.Events;
+using PlansModule.Models;
+using ClientApi;
+using Infrastructure.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class ZonePlanViewModel : BaseViewModel
+    public class ElementZoneViewModel : BaseViewModel
     {
-        Polygon zonePolygon;
-
-        public void Initialize(PlanZone planZone, Canvas canvas)
+        public ElementZoneViewModel()
         {
+            ShowInListCommand = new RelayCommand(OnShowInList);
+        }
+
+        Polygon zonePolygon;
+        public ElementZone elementZone;
+
+        public void Initialize(ElementZone elementZone, Canvas canvas)
+        {
+            this.elementZone = elementZone;
+            Zone zone = ServiceClient.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
+            Name = zone.Name;
+
             zonePolygon = new Polygon();
-            foreach (PolygonPoint polygonPoint in planZone.PolygonPoints)
+            foreach (PolygonPoint polygonPoint in elementZone.PolygonPoints)
             {
                 zonePolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
             zonePolygon.Fill = Brushes.Transparent;
 
-            zonePolygon.ToolTip = "Зона " + planZone.ZoneNo;
+            zonePolygon.ToolTip = "Зона " + elementZone.ZoneNo;
 
             zonePolygon.MouseEnter += new System.Windows.Input.MouseEventHandler(zonePolygon_MouseEnter);
             zonePolygon.MouseLeave += new System.Windows.Input.MouseEventHandler(zonePolygon_MouseLeave);
@@ -48,7 +61,35 @@ namespace PlansModule.ViewModels
 
         void zonePolygon_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Publish("Zone");
+            ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Publish(elementZone.ZoneNo);
+        }
+
+        string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        bool isActive;
+        public bool IsActive
+        {
+            get { return isActive; }
+            set
+            {
+                isActive = value;
+                OnPropertyChanged("IsActive");
+            }
+        }
+
+        public RelayCommand ShowInListCommand { get; private set; }
+        void OnShowInList()
+        {
+            ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(elementZone.ZoneNo);
         }
     }
 }
