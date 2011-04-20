@@ -62,7 +62,7 @@ namespace DeviceEditor
                 {
                     try
                     {
-                        this.ParentDevice.AdditionalStatesPicture.Remove(FramePicture);
+                        this.ParentDevice.StatesPicture.Remove(FramePicture);
                         dispatcherTimer.Stop();
                     }
                     catch { }
@@ -159,7 +159,7 @@ namespace DeviceEditor
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            this.ParentDevice.AdditionalStatesPicture.Remove(FramePicture);
+            this.ParentDevice.StatesPicture.Remove(FramePicture);
             if (ViewModel.Current.SelectedStateViewModel == null)
             {
                 return;
@@ -171,12 +171,8 @@ namespace DeviceEditor
                 XmlReader xmlReader = XmlReader.Create(stringReader);
                 FramePicture = (Canvas)XamlReader.Load(xmlReader);
                 Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
-                this.ParentDevice.AdditionalStatesPicture.Add(FramePicture);
+                this.ParentDevice.StatesPicture.Add(FramePicture);
 
-                if (FrameViewModels.Count < 2)
-                {
-                    dispatcherTimer.Stop();
-                }
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
             }
             tick = (tick + 1) % FrameViewModels.Count;
