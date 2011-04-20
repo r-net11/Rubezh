@@ -13,9 +13,12 @@ namespace PlansModule.ViewModels
     public class PlanDeviceViewModel : BaseViewModel
     {
         Rectangle borderRectangle;
+        PlanDevice planDevice;
 
         public void Initialize(PlanDevice planDevice, Canvas canvas)
         {
+            this.planDevice = planDevice;
+
             Canvas innerCanvas = new Canvas();
             Canvas.SetLeft(innerCanvas, planDevice.Left);
             Canvas.SetTop(innerCanvas, planDevice.Top);
@@ -63,7 +66,7 @@ namespace PlansModule.ViewModels
 
         void innerCanvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Publish("Device");
+            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Publish(planDevice.Path);
         }
     }
 }

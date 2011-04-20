@@ -29,14 +29,21 @@ namespace PrismApp1
         {
             if (ActiveViewModel != null)
             {
-                IViewPart temp = ActiveViewModel;
-                try
+                if (ActiveViewModel is StaticRegionViewModel)
                 {
-                    temp.Dispose();
+                    //
                 }
-                catch (Exception ex)
+                else
                 {
-                    //Logger.Error("Error in LayoutService::Replace", ex);
+                    IViewPart temp = ActiveViewModel;
+                    try
+                    {
+                        //temp.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        //Logger.Error("Error in LayoutService::Replace", ex);
+                    }
                 }
             }
             ActiveViewModel = model;
@@ -50,8 +57,6 @@ namespace PrismApp1
                 Shell.MainContent = value;
             }
         }
-
-
 
         public void AddAlarmGroups(IViewPart model)
         {

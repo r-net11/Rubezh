@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace DevicesModule.Views
 {
@@ -23,6 +24,20 @@ namespace DevicesModule.Views
         {
             InitializeComponent();
             Current = this;
+            this.Loaded += new RoutedEventHandler(DevicesView_Loaded);
+        }
+
+        void DevicesView_Loaded(object sender, RoutedEventArgs e)
+        {
+            ScrollToSelected();
+        }
+
+        void ScrollToSelected()
+        {
+            if (Current.dataGrid.SelectedItem != null)
+            {
+                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+            }
         }
 
         public static DevicesView Current;

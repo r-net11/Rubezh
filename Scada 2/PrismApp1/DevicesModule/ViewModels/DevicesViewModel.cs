@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using ClientApi;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,6 +14,21 @@ namespace DevicesModule.ViewModels
         public DevicesViewModel()
         {
             Current = this;
+            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+        }
+
+        void OnDeviceStateChanged(string path)
+        {
+            if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == path))
+            {
+                //DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
+                //if (plainDevices.Any(x => x.Device.Path == path))
+                //{
+                DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                    deviceViewModel.Update();
+                    //deviceViewModel.MainState = deviceState.State;
+                //}
+            }
         }
 
         public void Initilize()
@@ -70,7 +86,7 @@ namespace DevicesModule.ViewModels
 
         public static DevicesViewModel Current { get; private set; }
 
-        List<DeviceViewModel> plainDevices;
+        List<DeviceViewModel> plainDevices { get; set; }
 
         ObservableCollection<DeviceViewModel> devices;
         public ObservableCollection<DeviceViewModel> Devices
@@ -91,6 +107,19 @@ namespace DevicesModule.ViewModels
             {
                 selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
+            }
+        }
+
+        public void Select(string path)
+        {
+            if (string.IsNullOrEmpty(path) == false)
+            {
+                if (plainDevices.Any(x => x.Device.Path == path))
+                {
+                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                    deviceViewModel.ExpantToThis();
+                    SelectedDevice = deviceViewModel;
+                }
             }
         }
 

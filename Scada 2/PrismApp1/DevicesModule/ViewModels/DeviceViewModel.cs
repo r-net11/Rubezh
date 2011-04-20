@@ -31,8 +31,6 @@ namespace DevicesModule.ViewModels
             get { return isExpanded; }
             set
             {
-                DateTime start = DateTime.Now;
-
                 isExpanded = value;
 
                 if (isExpanded)
@@ -45,9 +43,6 @@ namespace DevicesModule.ViewModels
                 }
 
                 OnPropertyChanged("IsExpanded");
-                DateTime end = DateTime.Now;
-                TimeSpan interval = end.Subtract(start);
-                Trace.WriteLine(interval.Milliseconds);
             }
         }
 
@@ -93,20 +88,36 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (Parent == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return Parent.Level + 1;
-                }
+                return GetAllParents().Count();
+
+                //if (Parent == null)
+                //{
+                //    return 0;
+                //}
+                //else
+                //{
+                //    return Parent.Level + 1;
+                //}
             }
         }
 
-        public void Update()
+        public void ExpantToThis()
         {
-            OnPropertyChanged("HasChildren");
+            GetAllParents().ForEach(x => x.IsExpanded = true);
+        }
+
+        List<DeviceViewModel> GetAllParents()
+        {
+            if (Parent == null)
+            {
+                return new List<DeviceViewModel>();
+            }
+            else
+            {
+                List<DeviceViewModel> allParents = Parent.GetAllParents();
+                allParents.Add(Parent);
+                return allParents;
+            }
         }
 
         public string DriverId
@@ -369,19 +380,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string State
-        {
-            get
-            {
-                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
-                return deviceState.State;
-            }
-        }
-
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Path);
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
@@ -392,6 +394,20 @@ namespace DevicesModule.ViewModels
             {
                 ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(zoneNo);
             }
+        }
+
+        public string State
+        {
+            get
+            {
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                return deviceState.State;
+            }
+        }
+
+        public void Update()
+        {
+            OnPropertyChanged("State");
         }
 
         string mainState;
@@ -473,6 +489,11 @@ namespace DevicesModule.ViewModels
                     temperature = value;
                 OnPropertyChanged("Temperature");
             }
+        }
+
+        public string Path
+        {
+            get { return Device.Path; }
         }
     }
 }

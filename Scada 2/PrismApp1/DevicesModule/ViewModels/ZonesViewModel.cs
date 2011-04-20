@@ -14,7 +14,7 @@ namespace DevicesModule.ViewModels
     {
         public ZonesViewModel()
         {
-            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(OnZoneSelected);
+            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
@@ -40,7 +40,8 @@ namespace DevicesModule.ViewModels
                 if (plainDevices.Any(x => x.Device.Path == path))
                 {
                     DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
-                    deviceViewModel.MainState = deviceState.State;
+                    deviceViewModel.Update();
+                    //deviceViewModel.MainState = deviceState.State;
                 }
             }
         }
@@ -66,9 +67,15 @@ namespace DevicesModule.ViewModels
             zoneViewModel.State = zoneState.State;
         }
 
-        void OnZoneSelected(string zoneNo)
+        public void Select(string zoneNo)
         {
-            SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
+            if (string.IsNullOrEmpty(zoneNo) == false)
+            {
+                if (Zones.Any(x => x.No == zoneNo))
+                {
+                    SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
+                }
+            }
         }
 
         ObservableCollection<ZoneViewModel> zones;

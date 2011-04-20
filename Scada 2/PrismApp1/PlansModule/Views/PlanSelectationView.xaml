@@ -12,7 +12,7 @@
     <Grid>
         <StackPanel DataContext="{Binding SelectedDeviceViewModel}" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">
             <TextBlock Text="{Binding Name}" />
-            <Button Content="Показать в дереве" />
+            <Button Content="Показать в дереве" Command="{Binding ShowCommand}" />
         </StackPanel>
 
         <StackPanel DataContext="{Binding SelectedZoneViewModel}" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}">

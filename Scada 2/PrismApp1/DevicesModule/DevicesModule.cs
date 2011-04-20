@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using DevicesModule.ViewModels;
 using ClientApi;
+using DevicesModule.Views;
 
 namespace DevicesModule
 {
@@ -21,7 +22,7 @@ namespace DevicesModule
         public void Initialize()
         {
             RegisterResources();
-            ClientManager.Start();
+            CreateViewModels();
         }
 
         void RegisterResources()
@@ -33,21 +34,27 @@ namespace DevicesModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/TreeExpanderStyle.xaml"));
         }
 
-        static void OnShowDevices(object obj)
+        static void CreateViewModels()
         {
-            DevicesViewModel devicesViewModel = new DevicesViewModel();
+            devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initilize();
+
+            zonesViewModel = new ZonesViewModel();
+            zonesViewModel.Initialize();
+        }
+
+        static DevicesViewModel devicesViewModel;
+        static ZonesViewModel zonesViewModel;
+
+        static void OnShowDevices(string path)
+        {
+            devicesViewModel.Select(path);
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
         static void OnShowZones(string zoneNo)
         {
-            ZonesViewModel zonesViewModel = new ZonesViewModel();
-            zonesViewModel.Initialize();
-            if (string.IsNullOrEmpty(zoneNo) == false)
-            {
-                zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
-            }
+            zonesViewModel.Select(zoneNo);
             ServiceFactory.Layout.Show(zonesViewModel);
         }
     }

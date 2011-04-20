@@ -54,6 +54,7 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
+    <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowReportsEvent.cs" />
     <Compile Include="Events\ShowDevicesEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="ResourceDescription.cs" />
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="StaticRegionViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

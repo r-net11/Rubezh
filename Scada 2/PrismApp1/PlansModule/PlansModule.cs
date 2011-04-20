@@ -16,12 +16,14 @@ namespace PlansModule
         public PlansModule()
         {
             ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(OnShowPlan);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
         }
 
         public void Initialize()
         {
             RegisterResources();
             PlanLoader.Load();
+            CreateViewModels();
         }
 
         void RegisterResources()
@@ -30,13 +32,23 @@ namespace PlansModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
+        void CreateViewModels()
+        {
+            plansViewModel = new PlansViewModel();
+            plansViewModel.Initialize();
+        }
+
+        static PlansViewModel plansViewModel;
+
         static void OnShowPlan(object obj)
         {
-            PlansViewModel fullPlanViewModel = new PlansViewModel();
-            fullPlanViewModel.Initialize();
-            ServiceFactory.Layout.Show(fullPlanViewModel);
-            //fullPlanViewModel.MainCanvas = FullPlanView._MainCanvas;
-            //fullPlanViewModel.Initialize();
+            ServiceFactory.Layout.Show(plansViewModel);
+        }
+
+        static void OnShowDeviceOnPlan(string path)
+        {
+            plansViewModel.ShowDevice(path);
+            ServiceFactory.Layout.Show(plansViewModel);
         }
     }
 }

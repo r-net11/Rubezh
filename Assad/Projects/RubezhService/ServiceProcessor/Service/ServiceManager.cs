@@ -22,6 +22,7 @@ namespace ServiseProcessor
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReceiveTimeout = TimeSpan.MaxValue;
+            binding.MaxConnections = 1000;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("ServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/StateService");
 

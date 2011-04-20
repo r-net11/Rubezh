@@ -60,6 +60,8 @@ namespace PlansModule
         public double Top { get; set; }
         [XmlAttribute]
         public string Driver { get; set; }
+        [XmlAttribute]
+        public string Path { get; set; }
     }
 
     public class PolygonPoint

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using PlansModule.Events;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -100,11 +101,11 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void OnPlanDeviceSelected(string name)
+        public void OnPlanDeviceSelected(string path)
         {
+            SelectedDeviceViewModel.Initialize(path);
             SelectedDeviceViewModel.IsActive = true;
             SelectedZoneViewModel.IsActive = false;
-            SelectedDeviceViewModel.Name = name;
         }
 
         public void OnPlanZoneSelected(string name)
@@ -136,7 +137,20 @@ namespace PlansModule.ViewModels
             }
         }
 
-        
+        public void ShowDevice(string path)
+        {
+            foreach (PlanViewModel planViewModel in AllPlanViewModels)
+            {
+                foreach(PlanDevice planDevice in planViewModel.plan.PlanDevices)
+                {
+                    if (planDevice.Path == path)
+                    {
+                        planViewModel.IsSelected = true;
+                        return;
+                    }
+                }
+            }
+        }
 
         public override void Dispose()
         {

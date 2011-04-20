@@ -18,9 +18,21 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" HorizontalAlignment="Left" Width="100">
-                <Controls:AlarmButton Content="Сброс" Command="{Binding ResetCommand}" Height="30" />
-                <Controls:AlarmButton Content="План" Command="{Binding ShowOnPlanCommand}" Height="30" />
+            <StackPanel Grid.Column="0" HorizontalAlignment="Left" Width="Auto">
+                <StackPanel Orientation="Horizontal">
+                    <Controls:AlarmButton Content="Подтвердить событие" Command="{Binding ConfirmCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Сбросить событие" Command="{Binding ResetCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Закрыть событие" Command="{Binding CloseCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Отложить событие" Command="{Binding LeaveCommand}" Height="30" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Controls:AlarmButton Content="Инструкции" Command="{Binding ShowInstructionCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Просмотр на плане" Command="{Binding ShowOnPlanCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Оповещение по телефону" Command="{Binding NotifyPthoneCommand}" Height="30" />
+                    <Controls:AlarmButton Content="СМС сообщение" Command="{Binding NotifySmsCommand}" Height="30" />
+                    <Controls:AlarmButton Content="Включить видео" Command="{Binding ShowVideoCommand}" Height="30" />
+                </StackPanel>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="12" Margin="2" />

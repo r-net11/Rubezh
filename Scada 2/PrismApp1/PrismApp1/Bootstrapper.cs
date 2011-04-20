@@ -56,11 +56,12 @@ namespace PrismApp1
             ServiceClient.CurrentStates.DeviceStateChanged += CurrentStates_DeviceStateChanged;
             ServiceClient.CurrentStates.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
             ServiceClient.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+            ServiceClient.CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void CurrentStates_DeviceStateChanged(string obj)
         {
-            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
+            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(obj);
         }
 
         void CurrentStates_DeviceParametersChanged(string obj)
@@ -71,6 +72,16 @@ namespace PrismApp1
         void CurrentStates_ZoneStateChanged(string obj)
         {
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
+        }
+
+        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            //Alarm alarm = new Alarm();
+            //alarm.AlarmType = AlarmType.Service;
+            //alarm.Name = journalItem.EventDesc;
+            //ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
+
+            //Trace.WriteLine("New Event");
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-    public class ShowDevicesEvent : CompositePresentationEvent<string>
+    public class ShowDeviceOnPlanEvent : CompositePresentationEvent<string>
     {
     }
 }

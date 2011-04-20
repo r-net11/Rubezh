@@ -12,7 +12,8 @@
     </UserControl.Resources>
 <Grid>
         <StackPanel>
-            <WpfToolkit:DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+            
+            <WpfToolkit:DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
                             Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
@@ -82,51 +83,60 @@
 
             </WpfToolkit:DataGrid>
 
-            <StackPanel DataContext="{Binding SelectedDevice}" Margin="10">
+                <Grid DataContext="{Binding SelectedDevice}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="{Binding Address}" />
-                        <TextBlock Text=" - " />
+                <StackPanel Grid.Column="0">
+
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Address}" />
+                            <TextBlock Text=" - " />
+                        </StackPanel>
+                        <TextBlock Text="{Binding DriverName}" />
                     </StackPanel>
-                    <TextBlock Text="{Binding DriverName}" />
-                </StackPanel>
 
-                <TextBlock Text="Состояние" FontWeight="Bold" />
-                <TextBlock Text="{Binding State}" />
+                    <TextBox Text="{Binding Path, Mode=OneWay}" />
 
-                <ListView ItemsSource="{Binding ParentStates}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    <TextBlock Text="Состояние" FontWeight="Bold" />
+                    <TextBlock Text="{Binding State}" />
 
-                <ListView ItemsSource="{Binding SelfStates}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-
-                <StackPanel Margin="10">
-                    <ListView ItemsSource="{Binding Parameters}">
+                    <ListView ItemsSource="{Binding ParentStates}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock Text="{Binding}" Foreground="Green" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+
+                    <ListView ItemsSource="{Binding SelfStates}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Foreground="Red" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackPanel>
+                        <ListView ItemsSource="{Binding Parameters}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Foreground="Blue" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
                 </StackPanel>
 
-                <StackPanel>
+                <StackPanel Grid.Column="1">
                     <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
                     <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
                 </StackPanel>
-                
-            </StackPanel>
+                    
+            </Grid>
             
         </StackPanel>
     </Grid>
