@@ -24,8 +24,8 @@ namespace DeviceEditor
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
-            AdditionalStatesPicture = new ObservableCollection<Canvas>();
-            MainStatePicture = new ObservableCollection<Canvas>();
+            StatesPicture = new ObservableCollection<Canvas>();
+            StatesPicture = new ObservableCollection<Canvas>();
         }
         public static DeviceViewModel Current { get; private set; }
         public ViewModel Parent { get; private set; }
@@ -125,27 +125,15 @@ namespace DeviceEditor
             }
         }
 
-        public ObservableCollection<Canvas> additionalStatesPicture;
-        public ObservableCollection<Canvas> AdditionalStatesPicture
+        public ObservableCollection<Canvas> statesPicture;
+        public ObservableCollection<Canvas> StatesPicture
         {
-            get { return additionalStatesPicture; }
+            get { return statesPicture; }
             set
             {
-                additionalStatesPicture = value;
-                OnPropertyChanged("AdditionalStatesPicture");
+                statesPicture = value;
+                OnPropertyChanged("StatesPicture");
             }
         }
-
-        public ObservableCollection<Canvas> mainStatePicture;
-        public ObservableCollection<Canvas> MainStatePicture
-        {
-            get { return mainStatePicture; }
-            set
-            {
-                mainStatePicture = value;
-                OnPropertyChanged("MainStatePicture");
-            }
-        }
-
     }
 }

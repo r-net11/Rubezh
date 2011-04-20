@@ -147,12 +147,13 @@ namespace DeviceEditor
             set
             {
                 selectedStateViewModel = value;
-                SelectedStateViewModel.ParentDevice.MainStatePicture.Clear();
+                SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
-                SelectedStateViewModel.ParentDevice.MainStatePicture.Add(Str2Canvas(SelectedStateViewModel.SelectedFrameViewModel.Image, selectedStateViewModel.FrameViewModels[0].Layer));
+                SelectedStateViewModel.ParentDevice.StatesPicture.Add(Str2Canvas(SelectedStateViewModel.SelectedFrameViewModel.Image, selectedStateViewModel.FrameViewModels[0].Layer));
+
                 if (selectedStateViewModel.FrameViewModels.Count > 1)
                 {
-                    SelectedStateViewModel.ParentDevice.MainStatePicture.Clear();
+                    SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
                     dispatcherTimer.Start();
                 }
                 OnPropertyChanged("SelectedStateViewModel");
@@ -183,14 +184,14 @@ namespace DeviceEditor
             XmlReader xmlReader;
             try
             {
-                SelectedStateViewModel.ParentDevice.MainStatePicture.Remove(DynamicPicture);
+                SelectedStateViewModel.ParentDevice.StatesPicture.Remove(DynamicPicture);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[tick].Duration);
                 frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
                 DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 Canvas.SetZIndex(DynamicPicture, SelectedStateViewModel.FrameViewModels[tick].Layer);
-                SelectedStateViewModel.ParentDevice.MainStatePicture.Add(DynamicPicture);
+                SelectedStateViewModel.ParentDevice.StatesPicture.Add(DynamicPicture);
                 tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
             catch { }
