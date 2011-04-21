@@ -37,6 +37,11 @@ namespace PlansModule.ViewModels
 
         Canvas MainCanvas { get; set; }
 
+        public List<ElementSubPlanViewModel> SubPlans { get; set; }
+        public List<ElementZoneViewModel> Zones { get; set; }
+        public List<ElementDeviceViewModel> Devices { get; set; }
+
+
         public RelayCommand SelectCommand { get; private set; }
         public void Select()
         {
@@ -134,10 +139,6 @@ namespace PlansModule.ViewModels
                 planDeviceViewModel.Initialize(elementDevice, MainCanvas);
             }
         }
-
-        public List<ElementSubPlanViewModel> SubPlans { get; set; }
-        public List<ElementZoneViewModel> Zones { get; set; }
-        public List<ElementDeviceViewModel> Devices { get; set; }
 
         void UpdateParentPlans()
         {

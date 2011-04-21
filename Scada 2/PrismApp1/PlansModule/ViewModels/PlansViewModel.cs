@@ -25,7 +25,6 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
             ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Subscribe(OnPlanDeviceSelected);
             ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Subscribe(OnPlanZoneSelected);
-            //SelectedZoneViewModel = new SelectedZoneViewModel();
         }
 
         public void Initialize()

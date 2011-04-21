@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ClientApi;
+using FiresecMetadata;
 
-namespace AssadDevices.Devices
+namespace AssadDevices
 {
     public class AssadMonitor : AssadBase
     {
@@ -67,6 +69,51 @@ namespace AssadDevices.Devices
             return deviceType;
         }
 
+        public virtual Assad.CPeventType CreateEvent(string eventName)
+        {
+            Assad.CPeventType eventType = new Assad.CPeventType();
+
+            eventType.deviceId = DeviceId;
+            eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
+            eventType.eventId = eventName;
+            eventType.alertLevel = "0";
+
+            List<StateTypeCounter> counters = new List<StateTypeCounter>();
+            counters.Add(new StateTypeCounter() { StateType = StateType.Alarm });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Failure});
+            counters.Add(new StateTypeCounter() { StateType = StateType.Info });
+            //counters.Add(new StateTypeCounter() { StateType = StateType.No });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Norm });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Off });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Service });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Unknown });
+            counters.Add(new StateTypeCounter() { StateType = StateType.Warning });
+
+            foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
+            {
+                StateType stateType = StateHelper.NameToType(deviceState.State);
+                StateTypeCounter stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
+                if (stateTypeCounter != null)
+                {
+                    stateTypeCounter.Count++;
+                }
+            }
+
+            List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
+
+            foreach (StateTypeCounter stateTypeCounter in counters)
+            {
+                Assad.CPeventTypeState AlarmState = new Assad.CPeventTypeState();
+                AlarmState.state = StateHelper.TypeToName(stateTypeCounter.StateType);
+                AlarmState.value = (stateTypeCounter.Count > 0) ? "Есть" : "Нет";
+                states.Add(AlarmState);
+            }
+
+            eventType.state = states.ToArray();
+
+            return eventType;
+        }
+
         public override Assad.DeviceType QueryAbility()
         {
             Assad.DeviceType deviceAbility = new Assad.DeviceType();
@@ -76,5 +123,11 @@ namespace AssadDevices.Devices
             deviceAbility.param = abilityParameters.ToArray();
             return deviceAbility;
         }
+    }
+
+    class StateTypeCounter
+    {
+        public StateType StateType { get; set; }
+        public int Count { get; set; }
     }
 }

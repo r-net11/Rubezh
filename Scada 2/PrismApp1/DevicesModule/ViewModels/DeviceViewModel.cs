@@ -410,17 +410,6 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("State");
         }
 
-        string mainState;
-        public string MainState
-        {
-            get { return mainState; }
-            set
-            {
-                mainState = value;
-                OnPropertyChanged("MainState");
-            }
-        }
-
         string failureType;
         public string FailureType
         {

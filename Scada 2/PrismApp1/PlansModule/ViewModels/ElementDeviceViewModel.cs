@@ -10,11 +10,19 @@ using PlansModule.Events;
 using PlansModule.Models;
 using ClientApi;
 using Infrastructure.Events;
+using FiresecMetadata;
 
 namespace PlansModule.ViewModels
 {
     public class ElementDeviceViewModel : BaseViewModel
     {
+        public ElementDeviceViewModel()
+        {
+            ShowCommand = new RelayCommand(OnShow);
+            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+        }
+
+        Rectangle deviceRectangle;
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
@@ -36,10 +44,6 @@ namespace PlansModule.ViewModels
                 }
             }
         }
-        public ElementDeviceViewModel()
-        {
-            ShowCommand = new RelayCommand(OnShow);
-        }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
@@ -56,11 +60,11 @@ namespace PlansModule.ViewModels
             Canvas.SetLeft(innerCanvas, elementDevice.Left);
             Canvas.SetTop(innerCanvas, elementDevice.Top);
 
-            innerCanvas.ToolTip = "Устройство";
+            innerCanvas.ToolTip = Name;
 
             canvas.Children.Add(innerCanvas);
 
-            Rectangle deviceRectangle = new Rectangle();
+            deviceRectangle = new Rectangle();
             deviceRectangle.Width = 20;
             deviceRectangle.Height = 20;
             deviceRectangle.Fill = Brushes.Blue;
@@ -71,7 +75,7 @@ namespace PlansModule.ViewModels
             polyline.Points.Add(new System.Windows.Point(7, 11));
             polyline.Points.Add(new System.Windows.Point(13, 8));
             polyline.Points.Add(new System.Windows.Point(8, 18));
-            polyline.Stroke = Brushes.Red;
+            polyline.Stroke = Brushes.Black;
             polyline.StrokeThickness = 1;
             polyline.StrokeLineJoin = PenLineJoin.Round;
             innerCanvas.Children.Add(polyline);
@@ -91,6 +95,8 @@ namespace PlansModule.ViewModels
             innerCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseEnter);
             innerCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseLeave);
             innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
+
+            OnDeviceStateChanged(elementDevice.Path);
         }
 
         void innerCanvas_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -109,20 +115,7 @@ namespace PlansModule.ViewModels
         }
 
 
-
-
-
         Device device;
-
-        //public void Initialize(string path)
-        //{
-        //    if (ServiceClient.CurrentConfiguration.AllDevices.Any(x => x.Path == path))
-        //    {
-        //        device = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == path);
-        //        Firesec.Metadata.drvType Driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-        //        Name = Driver.shortName;
-        //    }
-        //}
 
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
@@ -150,6 +143,53 @@ namespace PlansModule.ViewModels
             {
                 isActive = value;
                 OnPropertyChanged("IsActive");
+            }
+        }
+
+        void OnDeviceStateChanged(string path)
+        {
+            if (path == elementDevice.Path)
+            {
+                DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
+                StateType stateType = StateHelper.NameToType(deviceState.State);
+                switch (stateType)
+                {
+                    case StateType.Alarm:
+                        deviceRectangle.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Failure:
+                        deviceRectangle.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Info:
+                        deviceRectangle.Fill = Brushes.YellowGreen;
+                        break;
+
+                    case StateType.No:
+                        deviceRectangle.Fill = Brushes.Transparent;
+                        break;
+
+                    case StateType.Norm:
+                        deviceRectangle.Fill = Brushes.Green;
+                        break;
+
+                    case StateType.Off:
+                        deviceRectangle.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Service:
+                        deviceRectangle.Fill = Brushes.Yellow;
+                        break;
+
+                    case StateType.Unknown:
+                        deviceRectangle.Fill = Brushes.Gray;
+                        break;
+
+                    case StateType.Warning:
+                        deviceRectangle.Fill = Brushes.Yellow;
+                        break;
+                }
             }
         }
     }

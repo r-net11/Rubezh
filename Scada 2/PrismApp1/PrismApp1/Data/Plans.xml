@@ -73,7 +73,7 @@
         </ElementSubPlan>
       </ElementSubPlans>
       <Children>
-        <Plan Name="rootPlan_ElementSubPlan2_ElementSubPlan1" Caption="Строение 2 - Этаж 1" BackgroundSource="picture6.jpg" ShowBackgroundImage="true" Width="400" Height="400">
+        <Plan Name="rootPlan_ElementSubPlan2_ElementSubPlan1" Caption="Строение 2 - Этаж 1" BackgroundSource="picture6.jpg" ShowBackgroundImage="true" Width="500" Height="400">
           <ElementZones>
             <ElementZone ZoneNo="9">
               <PolygonPoints>
@@ -83,11 +83,19 @@
                 <PolygonPoint X="10" Y="300" />
               </PolygonPoints>
             </ElementZone>
+            <ElementZone ZoneNo="47">
+              <PolygonPoints>
+                <PolygonPoint X="250" Y="100" />
+                <PolygonPoint X="400" Y="100" />
+                <PolygonPoint X="400" Y="350" />
+                <PolygonPoint X="250" Y="350" />
+              </PolygonPoints>
+            </ElementZone>
           </ElementZones>
           <ElementDevices>
             <ElementDevice Left="50" Top="200" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.16" />
             <ElementDevice Left="70" Top="150" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17" />
-            <ElementDevice Left="150" Top="90" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/4935848F-0084-4151-A0C8-3A900E3CB5C5:1.1" />
+            <ElementDevice Left="300" Top="300" Path="F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:7/641FA899-FAA0-455B-B626-646E5FBE785A:1.22" />
           </ElementDevices>
 
         </Plan>

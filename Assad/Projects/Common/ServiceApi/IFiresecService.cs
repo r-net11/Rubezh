@@ -13,6 +13,9 @@ namespace ServiceApi
         void Initialize();
 
         [OperationContract]
+        string Ping();
+
+        [OperationContract]
         string GetCoreConfig();
 
         [OperationContract]

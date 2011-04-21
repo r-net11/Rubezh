@@ -37,11 +37,14 @@ namespace DevicesModule.ViewModels
             if (ServiceClient.CurrentStates.DeviceStates.Any(x => x.Path == path))
             {
                 DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                if (plainDevices.Any(x => x.Device.Path == path))
+                if (plainDevices != null)
                 {
-                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
-                    deviceViewModel.Update();
-                    //deviceViewModel.MainState = deviceState.State;
+                    if (plainDevices.Any(x => x.Device.Path == path))
+                    {
+                        DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                        deviceViewModel.Update();
+                        //deviceViewModel.MainState = deviceState.State;
+                    }
                 }
             }
         }

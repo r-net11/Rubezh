@@ -60,8 +60,11 @@ namespace AssadDevices
                 }
             }
 
-            Description = Properties.First(x => x.Name == "Примечание").Value;
-            Properties.Remove(Properties.First(x => x.Name == "Примечание"));
+            if (Properties.Any(x => x.Name == "Примечание"))
+            {
+                Description = Properties.First(x => x.Name == "Примечание").Value;
+                Properties.Remove(Properties.First(x => x.Name == "Примечание"));
+            }
         }
 
         public void SetPath()

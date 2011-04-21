@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.ServiceModel;
 using ServiceApi;
+using System.Threading;
 
 namespace ClientApi
 {
@@ -32,11 +33,21 @@ namespace ClientApi
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
             duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             firesecService = duplexChannelFactory.CreateChannel();
+
+            //new Thread(DoPing).Start();
         }
 
         public void Subscribe()
         {
             firesecService.Initialize();
+        }
+
+        public static void Ping()
+        {
+            lock (locker)
+            {
+                firesecService.Ping();
+            }
         }
 
         public static Firesec.CoreConfig.config GetCoreConfig()
@@ -220,6 +231,12 @@ namespace ClientApi
         {
             if (NewEvent != null)
                 NewEvent(eventMask, obj);
+        }
+
+        public static void DoPing()
+        {
+            Thread.Sleep(TimeSpan.FromMinutes(1));
+            Ping();
         }
     }
 }

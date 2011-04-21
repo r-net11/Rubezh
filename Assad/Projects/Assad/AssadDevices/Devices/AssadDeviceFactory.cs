@@ -22,6 +22,8 @@ namespace AssadDevices
                     assadBase = new AssadZone();
                     break;
                 case "monitor":
+                                        assadBase = new AssadMonitor();
+                    break;
 
                 case "USB преобразователь МС-1":
                 case "USB преобразователь МС-2":

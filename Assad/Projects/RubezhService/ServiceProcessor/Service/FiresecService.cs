@@ -12,24 +12,42 @@ namespace ServiseProcessor.Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
     public class FiresecService : IFiresecService
     {
-        static IFiresecCallback callback;
+        public FiresecService()
+        {
+            callbacks = new List<IFiresecCallback>();
+            FiresecEventAggregator.NewEventAvaliable += new Action<int, string>(OnNewEventsAvailable);
+        }
+
+        static List<IFiresecCallback> callbacks;
 
         public static void OnNewEventsAvailable(int eventMask, string obj)
         {
-            try
+            foreach (IFiresecCallback callback in callbacks)
             {
-                if (callback != null)
+                try
                 {
-                    callback.NewEventsAvailable(eventMask, obj);
+                    if (callback != null)
+                    {
+                        callback.NewEventsAvailable(eventMask, obj);
+                    }
+                }
+                catch
+                {
+                    //callback = null;
+                    //callbacks.Remove(callback);
                 }
             }
-            catch { ;}
         }
 
         public void Initialize()
         {
-            callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-            FiresecEventAggregator.NewEventAvaliable += new Action<int, string>(OnNewEventsAvailable);
+            IFiresecCallback callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+            callbacks.Add(callback);
+        }
+
+        public string Ping()
+        {
+            return "Pong";
         }
 
         public string GetCoreConfig()

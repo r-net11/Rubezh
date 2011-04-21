@@ -10,6 +10,7 @@ using PlansModule.Events;
 using PlansModule.Models;
 using ClientApi;
 using Infrastructure.Events;
+using FiresecMetadata;
 
 namespace PlansModule.ViewModels
 {
@@ -18,6 +19,7 @@ namespace PlansModule.ViewModels
         public ElementZoneViewModel()
         {
             ShowInListCommand = new RelayCommand(OnShowInList);
+            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
         }
 
         Polygon zonePolygon;
@@ -43,20 +45,22 @@ namespace PlansModule.ViewModels
             zonePolygon.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(zonePolygon_PreviewMouseLeftButtonDown);
 
             canvas.Children.Add(zonePolygon);
+
+            OnZoneStateChanged(elementZone.ZoneNo);
         }
 
         void zonePolygon_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             zonePolygon.Stroke = Brushes.Orange;
             zonePolygon.StrokeThickness = 1;
-            zonePolygon.Fill = Brushes.Green;
-            zonePolygon.Opacity = 0.5;
+            //zonePolygon.Fill = Brushes.Green;
+            zonePolygon.Opacity = 0.3;
         }
 
         void zonePolygon_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             zonePolygon.StrokeThickness = 0;
-            zonePolygon.Opacity = 0.0;
+            zonePolygon.Opacity = 0.6;
         }
 
         void zonePolygon_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -90,6 +94,54 @@ namespace PlansModule.ViewModels
         void OnShowInList()
         {
             ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(elementZone.ZoneNo);
+        }
+
+        void OnZoneStateChanged(string zoneNo)
+        {
+            if (elementZone.ZoneNo == zoneNo)
+            {
+                ZoneState zoneState = ServiceClient.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+
+                StateType stateType = StateHelper.NameToType(zoneState.State);
+                switch (stateType)
+                {
+                    case StateType.Alarm:
+                        zonePolygon.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Failure:
+                        zonePolygon.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Info:
+                        zonePolygon.Fill = Brushes.YellowGreen;
+                        break;
+
+                    case StateType.No:
+                        zonePolygon.Fill = Brushes.Transparent;
+                        break;
+
+                    case StateType.Norm:
+                        zonePolygon.Fill = Brushes.Green;
+                        break;
+
+                    case StateType.Off:
+                        zonePolygon.Fill = Brushes.Red;
+                        break;
+
+                    case StateType.Service:
+                        zonePolygon.Fill = Brushes.Yellow;
+                        break;
+
+                    case StateType.Unknown:
+                        zonePolygon.Fill = Brushes.Gray;
+                        break;
+
+                    case StateType.Warning:
+                        zonePolygon.Fill = Brushes.Yellow;
+                        break;
+                }
+            }
         }
     }
 }

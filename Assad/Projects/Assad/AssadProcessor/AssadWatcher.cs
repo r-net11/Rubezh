@@ -26,6 +26,14 @@ namespace AssadProcessor
                 Assad.CPeventType eventType = assadBase.CreateEvent(null);
                 NetManager.Send(eventType, null);
             }
+
+            if (AssadConfiguration.Devices.Any(x => x is AssadMonitor))
+            {
+                AssadMonitor assadMonitor = (AssadMonitor)AssadConfiguration.Devices.FirstOrDefault(x => x is AssadMonitor);
+
+                Assad.CPeventType monitorEventType = assadMonitor.CreateEvent(null);
+                NetManager.Send(monitorEventType, null);
+            }
         }
 
         void CurrentStates_ZoneStateChanged(string zoneNo)
@@ -80,5 +88,63 @@ namespace AssadProcessor
                 }
             }
         }
+
+        //void SetMonitorState()
+        //{
+        //    int Alarm = 0;
+        //    int Warning = 0;
+        //    int Failure = 0;
+        //    int Service = 0;
+        //    int Off = 0;
+        //    int Unknown = 0;
+        //    int Info = 0;
+        //    int Norm = 0;
+        //    foreach (DeviceState deviceState in ServiceClient.CurrentStates.DeviceStates)
+        //    {
+        //        switch (deviceState.State)
+        //        {
+        //            case "Тревога":
+        //                Alarm++;
+        //                break;
+
+        //            case "Внимание (предтревожное)":
+        //                Warning++;
+        //                break;
+
+        //            case "Неисправность":
+        //                Failure++;
+        //                break;
+
+        //            case "Требуется обслуживание":
+        //                Service++;
+        //                break;
+
+        //            case "Обход устройств":
+        //                Off++;
+        //                break;
+
+        //            case "Неопределено":
+        //                Unknown++;
+        //                break;
+
+        //            case "Норма(*)":
+        //                Info++;
+        //                break;
+
+        //            case "Норма":
+        //                Norm++;
+        //                break;
+
+        //            default:
+        //                break;
+        //        }
+        //    }
+
+
+
+        //    if (Alarm > 0)
+        //    {
+        //    }
+        //}
     }
 }

@@ -64,8 +64,6 @@
     <Compile Include="Models\ElementZone.cs" />
     <Compile Include="Models\PolygonPoint.cs" />
     <Compile Include="ViewModels\ElementDeviceViewModel.cs" />
-    <Compile Include="ViewModels\SelectedDeviceViewModel.cs" />
-    <Compile Include="ViewModels\SelectedZoneViewModel.cs" />
     <Compile Include="ViewModels\ElementSubPlanViewModel.cs" />
     <Compile Include="Models\Plan.cs" />
     <Compile Include="PlanBuilder.cs" />
@@ -113,6 +111,10 @@
     <ProjectReference Include="..\..\..\Assad\Projects\Common\FiresecApi\FiresecApi.csproj">
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Assad\Projects\Common\FiresecMetadata\FiresecMetadata.csproj">
+      <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
+      <Name>FiresecMetadata</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
