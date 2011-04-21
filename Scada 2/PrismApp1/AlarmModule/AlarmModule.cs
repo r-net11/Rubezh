@@ -15,10 +15,10 @@ namespace AlarmModule
         {
             RegisterResources();
 
-            AlarmGroupsViewModel alarmGroupsViewModel = new AlarmGroupsViewModel();
-            ServiceFactory.Layout.AddAlarmGroups(alarmGroupsViewModel);
+            AlarmGroupListViewModel alarmGroupListViewModel = new AlarmGroupListViewModel();
+            ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
 
-            //ShowImitatorView();
+            ShowImitatorView();
         }
 
         void RegisterResources()

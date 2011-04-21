@@ -43,9 +43,9 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
         {
-            AlarmGroupDetailsViewModel alarmGroupDetailsViewModel = new AlarmGroupDetailsViewModel();
-            alarmGroupDetailsViewModel.Initialize(Alarms);
-            ServiceFactory.Layout.Show(alarmGroupDetailsViewModel);
+            AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
+            alarmListViewModel.Initialize(Alarms);
+            ServiceFactory.Layout.Show(alarmListViewModel);
         }
 
         public void Update()

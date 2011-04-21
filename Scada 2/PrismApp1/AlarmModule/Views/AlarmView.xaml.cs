@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace AlarmModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AlarmGroupsView.xaml
+    /// Логика взаимодействия для AlarmDetailsView.xaml
     /// </summary>
-    public partial class AlarmGroupsView : UserControl
+    public partial class AlarmView : UserControl
     {
-        public AlarmGroupsView()
+        public AlarmView()
         {
             InitializeComponent();
         }

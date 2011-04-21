@@ -15,6 +15,7 @@
         <StackPanel Grid.Row="0">
             <StackPanel DataContext="{Binding SelectedPlanViewModel}">
                 <TextBlock Text="{Binding Caption}" />
+                <TextBlock Text="{Binding State}" />
                 <ListBox ItemsSource="{Binding ParentPlans}" BorderThickness="0" Background="Gray">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>

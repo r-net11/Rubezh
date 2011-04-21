@@ -62,5 +62,10 @@ namespace PrismApp1
         {
             Shell.AlarmGroups = model;
         }
+
+        public void ShowAlarm(IViewPart model)
+        {
+            Shell.Alarm = model;
+        }
     }
 }

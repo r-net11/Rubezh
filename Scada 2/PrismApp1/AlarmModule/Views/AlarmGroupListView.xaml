@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AlarmModule.Views.AlarmGroupsView"
+﻿<UserControl x:Class="AlarmModule.Views.AlarmGroupListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -11,7 +11,7 @@
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
     </UserControl.Resources>
     <Grid>
-        <ItemsControl ItemsSource="{Binding MainAlarms}">
+        <ItemsControl ItemsSource="{Binding AlarmGroups}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
@@ -23,7 +23,7 @@
                              GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
                              IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Visibility="Visible" Source="D:/xxx2.png" Stretch="None" />
+                            <Image Visibility="Visible" Source="D:/_xxx2.png" Stretch="None" />
                             <TextBlock Visibility="Collapsed" Text="{Binding Name}" Foreground="Black" TextWrapping="WrapWithOverflow" />
                             <TextBlock Text="{Binding Count}" Foreground="Black" VerticalAlignment="Center" />
                         </StackPanel>

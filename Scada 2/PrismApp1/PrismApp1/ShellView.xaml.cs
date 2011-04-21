@@ -27,6 +27,13 @@ namespace PrismApp1
         {
             InitializeComponent();
             DataContext = this;
+
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowZonesEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
+            ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
         }
 
         public IViewPart MainContent
@@ -39,6 +46,12 @@ namespace PrismApp1
         {
             get { return _alarmGroups.Content as IViewPart; }
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
+        }
+
+        public IViewPart Alarm
+        {
+            get { return _alarm.Content as IViewPart; }
+            set { _alarm.DataContext = _alarm.Content = value; }
         }
 
         bool isAlarmSelected;
@@ -116,18 +129,18 @@ namespace PrismApp1
             }
         }
 
-        bool isReportSelectedSelected;
-        public bool IsReportSelectedSelected
+        bool isReportSelected;
+        public bool IsReportSelected
         {
-            get { return isReportSelectedSelected; }
+            get { return isReportSelected; }
             set
             {
-                isReportSelectedSelected = value;
+                isReportSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);
                 }
-                OnPropertyChanged("IsReportSelectedSelected");
+                OnPropertyChanged("IsReportSelected");
             }
         }
 

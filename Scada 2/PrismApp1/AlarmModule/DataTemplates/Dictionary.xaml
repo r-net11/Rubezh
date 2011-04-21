@@ -3,16 +3,16 @@
                     xmlns:Views="clr-namespace:AlarmModule.Views"
                     xmlns:ViewModels="clr-namespace:AlarmModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:AlarmGroupsViewModel}">
-        <Views:AlarmGroupsView />
+    <DataTemplate DataType="{x:Type ViewModels:AlarmGroupListViewModel}">
+        <Views:AlarmGroupListView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AlarmGroupDetailsViewModel}">
-        <Views:AlarmGroupDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:AlarmListViewModel}">
+        <Views:AlarmListView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AlarmDetailsViewModel}">
-        <Views:AlarmDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:AlarmViewModel}">
+        <Views:AlarmView />
     </DataTemplate>
     
 </ResourceDictionary>

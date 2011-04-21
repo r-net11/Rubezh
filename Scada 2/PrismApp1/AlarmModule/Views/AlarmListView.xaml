@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AlarmModule.Views.AlarmGroupDetailsView"
+﻿<UserControl x:Class="AlarmModule.Views.AlarmListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ItemsControl ItemsSource="{Binding AlarmDetails}">
-            <ItemsControl.ItemTemplate>
+        <ListBox ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Views:AlarmDetailsView />
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

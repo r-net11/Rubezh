@@ -34,7 +34,7 @@ namespace ClientApi
             duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             firesecService = duplexChannelFactory.CreateChannel();
 
-            //new Thread(DoPing).Start();
+            new Thread(DoPing).Start();
         }
 
         public void Subscribe()

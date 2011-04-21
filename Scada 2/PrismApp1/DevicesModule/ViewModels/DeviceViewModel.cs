@@ -144,7 +144,7 @@ namespace DevicesModule.ViewModels
         {
             DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
 
-            MainState = deviceState.State;
+            Update();
 
             if (deviceState.Parameters != null)
             {

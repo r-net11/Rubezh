@@ -14,6 +14,7 @@ using System.Diagnostics;
 using PlansModule.Events;
 using PlansModule.Models;
 using System.Reflection;
+using FiresecMetadata;
 
 namespace PlansModule.ViewModels
 {
@@ -136,7 +137,57 @@ namespace PlansModule.ViewModels
             {
                 ElementDeviceViewModel planDeviceViewModel = new ElementDeviceViewModel();
                 Devices.Add(planDeviceViewModel);
-                planDeviceViewModel.Initialize(elementDevice, MainCanvas);
+                planDeviceViewModel.Initialize(elementDevice, MainCanvas, this);
+            }
+        }
+
+        string selfState = "Норма";
+        public string SelfState
+        {
+            get { return selfState; }
+            set { selfState = value; }
+        }
+
+        string state = "Норма";
+        public string State
+        {
+            get { return state; }
+            set
+            {
+                state = value;
+                OnPropertyChanged("State");
+            }
+        }
+
+        public void UpdateSelfState()
+        {
+            int minPriority = 7;
+            foreach (ElementDeviceViewModel planDeviceViewModel in Devices)
+            {
+                int priority = StateHelper.NameToPriority(planDeviceViewModel.State);
+                if (priority < minPriority)
+                    minPriority = priority;
+            }
+            SelfState = StateHelper.GetState(minPriority);
+
+            UpdateStates();
+        }
+
+        public void UpdateStates()
+        {
+            int minPriority = StateHelper.NameToPriority(SelfState);
+
+            foreach (PlanViewModel planViewModel in Children)
+            {
+                int priority = StateHelper.NameToPriority(planViewModel.State);
+                if (priority < minPriority)
+                    minPriority = priority;
+            }
+            State = StateHelper.GetState(minPriority);
+
+            if (Parent != null)
+            {
+                Parent.UpdateStates();
             }
         }
 

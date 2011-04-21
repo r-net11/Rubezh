@@ -15,8 +15,9 @@
 
             <DockPanel>
                 
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal"  Margin="2">
+                <StackPanel DockPanel.Dock="Top"  Margin="2">
                     <ContentControl Name="_alarmGroups" />
+                    <ContentControl Name="_alarm" />
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom">
@@ -72,7 +73,7 @@
                                 </TabItem.Header>
                             </TabItem>
 
-                            <TabItem IsSelected="{Binding IsReportSelectedSelected}">
+                            <TabItem IsSelected="{Binding IsReportSelected}">
                                 <TabItem.Header>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Отчеты" FontWeight="Bold" />

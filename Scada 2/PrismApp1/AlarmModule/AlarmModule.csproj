@@ -65,19 +65,19 @@
     </Compile>
     <Compile Include="Imitator\AlarmImitatorViewModel.cs" />
     <Compile Include="Events\ResetAlarmEvent.cs" />
-    <Compile Include="ViewModels\AlarmGroupDetailsViewModel.cs" />
-    <Compile Include="ViewModels\AlarmGroupsViewModel.cs" />
+    <Compile Include="ViewModels\AlarmListViewModel.cs" />
+    <Compile Include="ViewModels\AlarmGroupListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
-    <Compile Include="Views\AlarmDetailsView.xaml.cs">
-      <DependentUpon>AlarmDetailsView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmView.xaml.cs">
+      <DependentUpon>AlarmView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AlarmDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AlarmViewModel.cs" />
     <Compile Include="AlarmModule.cs" />
-    <Compile Include="Views\AlarmGroupDetailsView.xaml.cs">
-      <DependentUpon>AlarmGroupDetailsView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmListView.xaml.cs">
+      <DependentUpon>AlarmListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AlarmGroupsView.xaml.cs">
-      <DependentUpon>AlarmGroupsView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmGroupListView.xaml.cs">
+      <DependentUpon>AlarmGroupListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -125,15 +125,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AlarmDetailsView.xaml">
+    <Page Include="Views\AlarmView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AlarmGroupDetailsView.xaml">
+    <Page Include="Views\AlarmListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AlarmGroupsView.xaml">
+    <Page Include="Views\AlarmGroupListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

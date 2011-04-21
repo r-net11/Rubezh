@@ -8,9 +8,9 @@ using Infrastructure.Events;
 
 namespace AlarmModule.ViewModels
 {
-    public class AlarmDetailsViewModel : RegionViewModel
+    public class AlarmViewModel : RegionViewModel
     {
-        public AlarmDetailsViewModel()
+        public AlarmViewModel()
         {
             ResetCommand = new RelayCommand(OnReset);
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
@@ -33,6 +33,7 @@ namespace AlarmModule.ViewModels
         void OnReset()
         {
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
+            ServiceFactory.Layout.ShowAlarm(null);
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }

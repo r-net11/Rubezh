@@ -37,6 +37,11 @@ namespace FiresecMetadata
         {
             return StateClasses.FirstOrDefault(x => x.StateType == stateType).Name;
         }
+
+        public static int NameToPriority(string name)
+        {
+            return StateClasses.FirstOrDefault(x => x.Name == name).Id;
+        }
     }
 
     class StateClass

@@ -26,6 +26,7 @@ namespace PlansModule.ViewModels
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
+        PlanViewModel planViewModel;
 
         bool isSelected = false;
         public bool IsSelected
@@ -45,8 +46,9 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void Initialize(ElementDevice elementDevice, Canvas canvas)
+        public void Initialize(ElementDevice elementDevice, Canvas canvas, PlanViewModel planViewModel)
         {
+            this.planViewModel = planViewModel;
             this.elementDevice = elementDevice;
 
             if (ServiceClient.CurrentConfiguration.AllDevices.Any(x => x.Path == elementDevice.Path))
@@ -120,7 +122,6 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
         {
-            //string path = @"F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:6/1E045AD6-66F9-4F0B-901C-68C46C89E8DA:1.62";
             ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(device.Path);
         }
 
@@ -146,11 +147,14 @@ namespace PlansModule.ViewModels
             }
         }
 
+        public string State { get; set; }
+
         void OnDeviceStateChanged(string path)
         {
             if (path == elementDevice.Path)
             {
                 DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
+                State = deviceState.State;
                 StateType stateType = StateHelper.NameToType(deviceState.State);
                 switch (stateType)
                 {
@@ -190,6 +194,8 @@ namespace PlansModule.ViewModels
                         deviceRectangle.Fill = Brushes.Yellow;
                         break;
                 }
+
+                planViewModel.UpdateSelfState();
             }
         }
     }
