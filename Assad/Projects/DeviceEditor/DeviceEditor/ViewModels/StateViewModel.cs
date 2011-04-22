@@ -99,6 +99,10 @@ namespace DeviceEditor
                 MessageBox.Show("Невозможно удалить основное состояние");
                 return;
             }
+            else
+            {
+                this.IsChecked = false;
+            }
             this.ParentDevice.StatesViewModel.Remove(this);
             StateViewModel stateViewModel = new StateViewModel();
             stateViewModel.Id = this.Id;
