@@ -113,7 +113,7 @@ namespace ActiveX
 
         public void SetDriverId(string driverId)
         {
-            activeX.DriverId = DriverId;
+            activeX.DriverId = driverId;
         }
     }
 }

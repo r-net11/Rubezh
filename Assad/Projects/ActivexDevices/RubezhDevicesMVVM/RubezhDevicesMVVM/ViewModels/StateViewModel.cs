@@ -15,7 +15,7 @@ using Firesec.Metadata;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace DeviceEditor
+namespace RubezhDevicesMVVM
 {
     public class StateViewModel : BaseViewModel
     {
@@ -166,18 +166,14 @@ namespace DeviceEditor
             }
             if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
             {
-                try
-                {
-                    string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
-                    StringReader stringReader = new StringReader(frameImage);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FramePicture = (Canvas)XamlReader.Load(xmlReader);
-                    Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
-                    this.ParentDevice.StatesPicture.Add(FramePicture);
+                string frameImage = Svg2Xaml.XSLT_Transform(FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(frameImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
+                this.ParentDevice.StatesPicture.Add(FramePicture);
 
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
-                }
-                catch { }
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
             }
             tick = (tick + 1) % FrameViewModels.Count;
         }
