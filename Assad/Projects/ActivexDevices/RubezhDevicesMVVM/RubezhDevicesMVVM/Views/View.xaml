@@ -3,16 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="RubezhDevices" Height="200" Width="200">
         <StackPanel>
-        <ItemsControl ItemsSource="{Binding StatesPicture}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas Width="500" Height="500"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.LayoutTransform>
-                    <ScaleTransform ScaleX="0.25" ScaleY="0.25"/>
-                </ItemsControl.LayoutTransform>
-            </ItemsControl>        
+        <ContentControl DataContext="{Binding SelectedStateViewModel.ParentDevice}" >
+            <Grid>
+                <ItemsControl ItemsSource="{Binding StatesPicture}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Width="500" Height="500"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.LayoutTransform>
+                        <ScaleTransform ScaleX="0.25" ScaleY="0.25"/>
+                    </ItemsControl.LayoutTransform>
+                </ItemsControl>
+            </Grid>
+        </ContentControl>
         <Button Content="Выбор устройства" Margin="10" Command="{Binding DeviceSelectionCommand}"/>
         </StackPanel>
 </Window>

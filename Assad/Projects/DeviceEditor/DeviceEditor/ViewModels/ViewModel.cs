@@ -2,7 +2,6 @@
 using System.Windows;
 using System.IO;
 using System.Xml.Serialization;
-using System.ComponentModel;
 using Common;
 using System.Xml;
 using System.Windows.Controls;
@@ -14,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Firesec.Metadata;
 using System.Linq;
-using System.Threading;
 
 namespace DeviceEditor
 {

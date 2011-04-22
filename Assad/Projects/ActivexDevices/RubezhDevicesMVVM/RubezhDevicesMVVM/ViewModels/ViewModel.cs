@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using System.Xml;
 using System.Windows.Markup;
+using RubezhDevices;
 
 namespace RubezhDevicesMVVM
 {
@@ -74,14 +75,40 @@ namespace RubezhDevicesMVVM
             }
         }
 
+        /// <summary>
+        /// Метод преобразующий svg-строку в Canvas c рисунком.
+        /// </summary>
+        /// <param name="svgString">svg-строка</param>
+        /// <returns>Canvas, полученный из svg-строки</returns>
+        static public Canvas Str2Canvas(string svgString, int layer)
+        {
+            string frameImage = Svg2Xaml.XSLT_Transform(svgString, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+            StringReader stringReader = new StringReader(frameImage);
+            XmlReader xmlReader = XmlReader.Create(stringReader);
+            Canvas Picture = (Canvas)XamlReader.Load(xmlReader);
+            Canvas.SetZIndex(Picture, layer);
+            return (Picture);
+        }
+
         StateViewModel selectedStateViewModel;
+        /// <summary>
+        /// Выбранное состояние.
+        /// </summary>
         public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
             set
             {
                 selectedStateViewModel = value;
-                dispatcherTimer.Start();
+                SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
+                SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
+                SelectedStateViewModel.ParentDevice.StatesPicture.Add(Str2Canvas(SelectedStateViewModel.SelectedFrameViewModel.Image, selectedStateViewModel.FrameViewModels[0].Layer));
+
+                if (selectedStateViewModel.FrameViewModels.Count > 1)
+                {
+                    SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
+                    dispatcherTimer.Start();
+                }
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
@@ -139,14 +166,14 @@ namespace RubezhDevicesMVVM
             XmlReader xmlReader;
             try
             {
-                StatesPicture.Remove(DynamicPicture);
+                SelectedStateViewModel.ParentDevice.StatesPicture.Remove(DynamicPicture);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[tick].Duration);
                 frameImage = RubezhDevices.Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
                 DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
                 Canvas.SetZIndex(DynamicPicture, SelectedStateViewModel.FrameViewModels[tick].Layer);
-                StatesPicture.Add(DynamicPicture);
+                SelectedStateViewModel.ParentDevice.StatesPicture.Add(DynamicPicture);
                 tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
             catch { }

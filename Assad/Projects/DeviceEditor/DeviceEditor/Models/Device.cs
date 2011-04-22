@@ -9,7 +9,7 @@ namespace DeviceEditor
     [Serializable]
     public class Device
     {
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public string Id { get; set; }
         public List<State> States { get; set; }
     }
