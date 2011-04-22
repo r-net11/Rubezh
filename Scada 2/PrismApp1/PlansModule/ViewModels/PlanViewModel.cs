@@ -139,6 +139,9 @@ namespace PlansModule.ViewModels
                 Devices.Add(planDeviceViewModel);
                 planDeviceViewModel.Initialize(elementDevice, MainCanvas, this);
             }
+
+            UpdateSelfState();
+            //UpdateSubPlans();
         }
 
         string selfState = "Норма";
@@ -170,10 +173,10 @@ namespace PlansModule.ViewModels
             }
             SelfState = StateHelper.GetState(minPriority);
 
-            UpdateStates();
+            UpdateState();
         }
 
-        public void UpdateStates()
+        public void UpdateState()
         {
             int minPriority = StateHelper.NameToPriority(SelfState);
 
@@ -185,9 +188,23 @@ namespace PlansModule.ViewModels
             }
             State = StateHelper.GetState(minPriority);
 
+            UpdateSubPlans();
+
             if (Parent != null)
             {
-                Parent.UpdateStates();
+                Parent.UpdateState();
+            }
+        }
+
+        public void UpdateSubPlans()
+        {
+            foreach (ElementSubPlanViewModel subPlan in SubPlans)
+            {
+                PlanViewModel planViewModel = Children.FirstOrDefault(x => x.Name == subPlan.Name);
+                if (planViewModel != null)
+                {
+                    subPlan.Update(planViewModel.State);
+                }
             }
         }
 

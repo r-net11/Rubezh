@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Events;
+using ClientApi;
 
 namespace AlarmModule.ViewModels
 {
@@ -32,6 +33,23 @@ namespace AlarmModule.ViewModels
         public RelayCommand ResetCommand { get; private set; }
         void OnReset()
         {
+            if (alarm.PanelPath != null)
+            {
+                Device device = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == alarm.PanelPath);
+
+                Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+                if (driver.state != null)
+                {
+                    foreach (Firesec.Metadata.stateType state in driver.state)
+                    {
+                        if ((state.@class == alarm.ClassId) && (state.manualReset == "1"))
+                        {
+                            ServiceClient.ResetState(device, state.name);
+                        }
+                    }
+                }
+            }
+
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
             ServiceFactory.Layout.ShowAlarm(null);
         }
