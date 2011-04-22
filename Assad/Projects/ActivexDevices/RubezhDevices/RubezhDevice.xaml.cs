@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace RubezhDevices
 {
@@ -39,9 +40,9 @@ namespace RubezhDevices
             svgHeight = 500.0;
         }
 
-        string cadr1, cadr2;
-        int cadrDuration1 = 100;
-        int cadrDuration2 = 100;
+        string frame1, frame2;
+        int frameDuration1 = 100;
+        int frameDuration2 = 100;
         DeviceManager deviceManager;
 
         Canvas readerLoadButton = new Canvas();
@@ -53,6 +54,7 @@ namespace RubezhDevices
         bool tick = false;
 
         string driverId;
+        [ComVisible(true)]
         public string DriverId
         {
             get { return driverId; }
@@ -81,19 +83,19 @@ namespace RubezhDevices
                 return;
             }
 
-            cadrDuration1 = state.Cadrs[0].Duration;
-            cadr1 = Svg2Xaml.XSLT_Transform(state.Cadrs[0].Image, svg2xaml_xsl);
+            frameDuration1 = state.Frames[0].Duration;
+            frame1 = Svg2Xaml.XSLT_Transform(state.Frames[0].Image, svg2xaml_xsl);
 
             dispatcherTimer.Stop();
-            if (state.Cadrs.Count > 1)
+            if (state.Frames.Count > 1)
             {
-                cadrDuration2 = state.Cadrs[1].Duration;
-                cadr2 = Svg2Xaml.XSLT_Transform(state.Cadrs[1].Image, svg2xaml_xsl);
+                frameDuration2 = state.Frames[1].Duration;
+                frame2 = Svg2Xaml.XSLT_Transform(state.Frames[1].Image, svg2xaml_xsl);
                 dispatcherTimer.Start();
             }
             else
             {
-                StringReader stringReader = new StringReader(cadr1);
+                StringReader stringReader = new StringReader(frame1);
                 XmlReader xmlReader = XmlReader.Create(stringReader);
                 readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                 contentControl1.Content = readerLoadButton;
@@ -158,8 +160,8 @@ namespace RubezhDevices
             {
                 try
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, cadrDuration1);
-                    StringReader stringReader = new StringReader(cadr1);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, frameDuration1);
+                    StringReader stringReader = new StringReader(frame1);
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     contentControl1.Content = readerLoadButton;
@@ -175,8 +177,8 @@ namespace RubezhDevices
             {
                 try
                 {
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, cadrDuration2);
-                    StringReader stringReader = new StringReader(cadr2);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, frameDuration2);
+                    StringReader stringReader = new StringReader(frame2);
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     Canvas readerLoadButton = (Canvas)XamlReader.Load(xmlReader);
                     contentControl1.Content = readerLoadButton;
@@ -205,11 +207,11 @@ namespace RubezhDevices
     {
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id { get; set; }
-        public List<Cadr> Cadrs { get; set; }
+        public List<Frame> Frames { get; set; }
     }
 
     [Serializable]
-    public class Cadr
+    public class Frame
     {
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public int Id { get; set; }

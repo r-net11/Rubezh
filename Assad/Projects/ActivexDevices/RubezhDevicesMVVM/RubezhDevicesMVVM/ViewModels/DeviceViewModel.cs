@@ -13,7 +13,7 @@ using System.Xml;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace DeviceEditor
+namespace RubezhDevicesMVVM
 {
     public class DeviceViewModel : BaseViewModel
     {
@@ -56,7 +56,7 @@ namespace DeviceEditor
             ListView devicesListView = new ListView();
             DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
             devicesListView.DataContext = devicesListViewModel;
-            devicesListView.ShowDialog();
+            //devicesListView.ShowDialog();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace DeviceEditor
             ListView statesListView = new ListView();
             StatesListViewModel statesListViewModel = new StatesListViewModel();
             statesListView.DataContext = statesListViewModel;
-            statesListView.ShowDialog();
+            //statesListView.ShowDialog();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace DeviceEditor
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDeviceCommand(object obj)
         {
-            this.Parent.DeviceViewModels.Remove(this);
+            this.Parent.DevicesViewModel.Remove(this);
         }
 
         /// <summary>
