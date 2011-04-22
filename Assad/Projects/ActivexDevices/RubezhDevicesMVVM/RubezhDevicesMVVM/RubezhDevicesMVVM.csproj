@@ -55,10 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Device.cs" />
-    <Compile Include="Classes\DeviceManager.cs" />
-    <Compile Include="Classes\Frame.cs" />
-    <Compile Include="Classes\State.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceManager.cs" />
+    <Compile Include="Models\Frame.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="ViewModels\DevicesListViewModel.cs" />

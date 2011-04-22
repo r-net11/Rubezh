@@ -189,7 +189,7 @@
         </State>
         <State Id="Пожарная тревога" IsAdditional="true">
           <Frames>
-            <Frame Id="0" Duration="1500" Layer="0">
+            <Frame Id="0" Duration="1500" Layer="1">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -197,23 +197,23 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="500" Layer="0">
-              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
-&lt;g&gt;
-&lt;title&gt;Layer&lt;/title&gt;
-&lt;/g&gt;
-&lt;/svg&gt;</Image>
-            </Frame>
           </Frames>
         </State>
         <State Id="Мониторинг устройства отключен" IsAdditional="true">
           <Frames>
-            <Frame Id="0" Duration="500" Layer="0">
+            <Frame Id="0" Duration="500" Layer="1">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
  &lt;line fill="none" stroke-width="15" stroke="#000000" y2="480" x2="480" y1="20" x1="20"/&gt;
  &lt;line fill="none" stroke-width="15" stroke="#000000" y2="480" x2="20" y1="20" x1="480"/&gt;
+&lt;/g&gt;
+&lt;/svg&gt;</Image>
+            </Frame>
+            <Frame Id="1" Duration="500" Layer="0">
+              <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g&gt;
+&lt;title&gt;Layer&lt;/title&gt;
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>

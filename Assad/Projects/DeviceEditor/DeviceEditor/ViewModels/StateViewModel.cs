@@ -23,6 +23,8 @@ namespace DeviceEditor
         public StateViewModel()
         {
             Current = this;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
@@ -54,8 +56,6 @@ namespace DeviceEditor
                 isChecked = value;
                 if ((this.IsAdditional)&&(this.isChecked))
                 {
-                    dispatcherTimer = new DispatcherTimer();
-                    dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                     dispatcherTimer.Start();
                 }
                 if (!this.isChecked)

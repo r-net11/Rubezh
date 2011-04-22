@@ -58,7 +58,7 @@
                                 </StackPanel>
                                 <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,5" HorizontalAlignment="Right">
                                     <Label Content="Слой: " />
-                                    <TextBox Text="{Binding Layer}" />
+                                    <TextBox Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
                                     <Button Content="Добавить кадр" Command="{Binding AddFrameCommand}"/>
                                     <Button Content="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
                                     <Label Content="Длительность" Height="28" Name="label1" />
