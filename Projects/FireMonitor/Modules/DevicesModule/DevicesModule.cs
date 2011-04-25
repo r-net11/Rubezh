@@ -37,7 +37,7 @@ namespace DevicesModule
         static void CreateViewModels()
         {
             devicesViewModel = new DevicesViewModel();
-            devicesViewModel.Initilize();
+            devicesViewModel.Initialize();
 
             zonesViewModel = new ZonesViewModel();
             zonesViewModel.Initialize();

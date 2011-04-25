@@ -29,12 +29,6 @@ namespace FireMonitor
         {
             if (ActiveViewModel != null)
             {
-                if (ActiveViewModel is StaticRegionViewModel)
-                {
-                    //
-                }
-                else
-                {
                     IViewPart temp = ActiveViewModel;
                     try
                     {
@@ -42,9 +36,7 @@ namespace FireMonitor
                     }
                     catch (Exception ex)
                     {
-                        //Logger.Error("Error in LayoutService::Replace", ex);
                     }
-                }
             }
             ActiveViewModel = model;
         }

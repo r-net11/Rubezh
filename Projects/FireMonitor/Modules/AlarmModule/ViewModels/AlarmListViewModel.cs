@@ -14,6 +14,7 @@ namespace AlarmModule.ViewModels
         {
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
+            ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Subscribe(OnMoveAlarmToEnd);
         }
 
         void OnResetAlarm(Alarm alarm)
@@ -30,7 +31,14 @@ namespace AlarmModule.ViewModels
         {
             AlarmViewModel alarmViewModel = new AlarmViewModel();
             alarmViewModel.Initialize(alarm);
-            Alarms.Add(alarmViewModel);
+            Alarms.Insert(0, alarmViewModel);
+        }
+
+        void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
+        {
+            int oldIndex = Alarms.IndexOf(alarmViewModel);
+            int newIndex = Alarms.Count;
+            Alarms.Move(oldIndex, newIndex - 1);
         }
 
         public void Initialize(List<Alarm> alarms)
