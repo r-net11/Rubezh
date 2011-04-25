@@ -2429,7 +2429,7 @@
         </State>
         <State Id="Тревога" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="0" Layer="1">
+            <Frame Id="0" Duration="0" Layer="4">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2455,7 +2455,7 @@
         </State>
         <State Id="Неисправность" IsAdditional="false">
           <Frames>
-            <Frame Id="0" Duration="200" Layer="1">
+            <Frame Id="0" Duration="300" Layer="1">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;
@@ -2463,7 +2463,7 @@
 &lt;/g&gt;
 &lt;/svg&gt;</Image>
             </Frame>
-            <Frame Id="1" Duration="200" Layer="0">
+            <Frame Id="1" Duration="500" Layer="1">
               <Image>&lt;svg width="500" height="500" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"&gt;
 &lt;g&gt;
 &lt;title&gt;Layer&lt;/title&gt;

@@ -7,8 +7,8 @@ using System.Reflection;
 using Microsoft.Win32;
 using System.Windows.Forms.Integration;
 using Microsoft.VisualStudio.OLE.Interop;
-using System.Threading;
 using ServiceVisualizer;
+using System.Threading;
 
 namespace ActiveX
 {
@@ -106,14 +106,14 @@ namespace ActiveX
             RubezhDevices.Device device = new RubezhDevices.Device();
 
             WindowManager.Show();
-            DriverId = WindowManager.DriverId;
+            DriverId =  WindowManager.DriverId;
             SetDriverId(DriverId);
         }
         public string DriverId { get; set; }
 
         public void SetDriverId(string driverId)
         {
-            activeX.DriverId = driverId;
+            activeX.DriverId = DriverId;
         }
     }
 }

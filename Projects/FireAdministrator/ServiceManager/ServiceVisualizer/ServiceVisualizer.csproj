@@ -250,20 +250,6 @@
   <ItemGroup>
     <Resource Include="Views\delete_64.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
-      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
-      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
-      <Name>FiresecApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
-      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
-      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

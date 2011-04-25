@@ -30,7 +30,6 @@
         {
             this.activeX = new ActiveX.CActiveX();
             this.button1 = new System.Windows.Forms.Button();
-            this.cActiveX1 = new ActiveX.CActiveX();
             this.SuspendLayout();
             // 
             // activeX
@@ -52,25 +51,16 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // cActiveX1
-            // 
-            this.cActiveX1.BackColor = System.Drawing.Color.Transparent;
-            this.cActiveX1.DriverId = null;
-            this.cActiveX1.Location = new System.Drawing.Point(263, 226);
-            this.cActiveX1.Name = "cActiveX1";
-            this.cActiveX1.Size = new System.Drawing.Size(30, 32);
-            this.cActiveX1.TabIndex = 2;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(303, 266);
-            this.Controls.Add(this.cActiveX1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.activeX);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }
@@ -80,7 +70,6 @@
         //private System.Windows.Forms.Integration.ElementHost activeX;
         private ActiveX.CActiveX activeX;
         private System.Windows.Forms.Button button1;
-        private ActiveX.CActiveX cActiveX1;
 
 
 

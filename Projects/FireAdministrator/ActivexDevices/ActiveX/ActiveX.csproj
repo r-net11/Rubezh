@@ -139,6 +139,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecMetadata\FiresecMetadata.csproj">
+      <Project>{729A5C7F-C908-40A4-8D99-06D80EBC3816}</Project>
+      <Name>FiresecMetadata</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ServiceManager\ServiceVisualizer\ServiceVisualizer.csproj">
       <Project>{169F25D4-6CAB-437D-8BD9-A22C5FAB9D14}</Project>
       <Name>ServiceVisualizer</Name>

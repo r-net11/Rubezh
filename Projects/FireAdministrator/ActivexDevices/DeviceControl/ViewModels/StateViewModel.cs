@@ -11,10 +11,11 @@ using System.IO;
 using System.Xml;
 using System.Windows.Markup;
 using System.Windows.Input;
+using Firesec;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace DeviceEditor
+namespace DevicesControl
 {
     public class StateViewModel : BaseViewModel
     {
@@ -22,8 +23,6 @@ namespace DeviceEditor
         public StateViewModel()
         {
             Current = this;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
@@ -55,6 +54,8 @@ namespace DeviceEditor
                 isChecked = value;
                 if ((this.IsAdditional)&&(this.isChecked))
                 {
+                    dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
                     dispatcherTimer.Start();
                 }
                 if (!this.isChecked)
@@ -97,10 +98,6 @@ namespace DeviceEditor
             {
                 MessageBox.Show("Невозможно удалить основное состояние");
                 return;
-            }
-            else
-            {
-                this.IsChecked = false;
             }
             this.ParentDevice.StatesViewModel.Remove(this);
             StateViewModel stateViewModel = new StateViewModel();
@@ -169,18 +166,14 @@ namespace DeviceEditor
             }
             if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
             {
-                try
-                {
-                    string frameImage = Functions.Svg2Xaml(FrameViewModels[tick].Image, Resources.References.svg2xaml_xsl);
-                    StringReader stringReader = new StringReader(frameImage);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FramePicture = (Canvas)XamlReader.Load(xmlReader);
-                    Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
-                    this.ParentDevice.StatesPicture.Add(FramePicture);
+                string frameImage = Functions.Svg2Xaml(FrameViewModels[tick].Image, Resources.References.svg2xaml_xsl);
+                StringReader stringReader = new StringReader(frameImage);
+                XmlReader xmlReader = XmlReader.Create(stringReader);
+                FramePicture = (Canvas)XamlReader.Load(xmlReader);
+                Canvas.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
+                this.ParentDevice.StatesPicture.Add(FramePicture);
 
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
-                }
-                catch { }
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
             }
             tick = (tick + 1) % FrameViewModels.Count;
         }

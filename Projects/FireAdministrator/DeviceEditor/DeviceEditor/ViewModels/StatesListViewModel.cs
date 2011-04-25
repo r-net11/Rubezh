@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Firesec.Metadata;
+using Resources;
 
 namespace DeviceEditor
 {
@@ -73,7 +74,7 @@ namespace DeviceEditor
 
         public void LoadStates()
         {
-            FileStream file_xml = new FileStream(ViewModel.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(References.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(config));
             config metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();

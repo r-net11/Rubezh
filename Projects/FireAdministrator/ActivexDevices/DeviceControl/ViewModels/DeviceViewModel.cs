@@ -13,7 +13,7 @@ using System.Xml;
 using System.Windows.Controls;
 using System.Windows.Markup;
 
-namespace DeviceEditor
+namespace DevicesControl
 {
     public class DeviceViewModel : BaseViewModel
     {
@@ -21,9 +21,7 @@ namespace DeviceEditor
         {
             Current = this;
             Parent = ViewModel.Current;
-            AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
-            AddStateCommand = new RelayCommand(OnAddStateCommand);
             StatesPicture = new ObservableCollection<Canvas>();
             StatesPicture = new ObservableCollection<Canvas>();
         }
@@ -47,29 +45,7 @@ namespace DeviceEditor
             }
         }
 
-        /// <summary>
-        /// Команда, показывающая список всех доступных устройств.
-        /// </summary>
-        public RelayCommand AddDeviceCommand { get; private set; }
-        void OnAddDeviceCommand(object obj)
-        {
-            ListView devicesListView = new ListView();
-            DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
-            devicesListView.DataContext = devicesListViewModel;
-            devicesListView.ShowDialog();
-        }
 
-        /// <summary>
-        /// Команда, показывающая список всех доступных состояний.
-        /// </summary>
-        public RelayCommand AddStateCommand { get; private set; }
-        void OnAddStateCommand(object obj)
-        {
-            ListView statesListView = new ListView();
-            StatesListViewModel statesListViewModel = new StatesListViewModel();
-            statesListView.DataContext = statesListViewModel;
-            statesListView.ShowDialog();
-        }
 
         /// <summary>
         /// Команда удаляющая устройство из списка.
@@ -77,7 +53,7 @@ namespace DeviceEditor
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDeviceCommand(object obj)
         {
-            this.Parent.DeviceViewModels.Remove(this);
+            this.Parent.DevicesViewModel.Remove(this);
         }
 
         /// <summary>

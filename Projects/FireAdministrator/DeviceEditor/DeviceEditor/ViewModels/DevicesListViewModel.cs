@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Firesec.Metadata;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
 using Common;
+using Firesec.Metadata;
+using Resources;
 
 namespace DeviceEditor
 {
@@ -114,7 +115,7 @@ namespace DeviceEditor
 
         public void LoadMetadata()
         {
-            FileStream file_xml = new FileStream(ViewModel.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(References.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(config));
             config metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();

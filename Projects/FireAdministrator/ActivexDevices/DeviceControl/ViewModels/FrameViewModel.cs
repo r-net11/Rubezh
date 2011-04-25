@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
 
-namespace DeviceEditor
+namespace DevicesControl
 {
     public class FrameViewModel : BaseViewModel
     {

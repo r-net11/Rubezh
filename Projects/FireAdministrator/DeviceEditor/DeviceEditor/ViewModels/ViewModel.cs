@@ -4,8 +4,8 @@ using System.IO;
 using System.Xml.Serialization;
 using Common;
 using System.Xml;
-using System.Windows.Controls;
-using RubezhDevices;
+
+using Resources;
 using System.Windows.Markup;
 using System.Collections.Generic;
 using System;
@@ -27,8 +27,7 @@ namespace DeviceEditor
             SaveCommand = new RelayCommand(OnSaveCommand);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
         }
-        public static string deviceLibrary_xml = @"c:\Rubezh\Assad\Projects\ActivexDevices\Library\DeviceLibrary.xml";
-        public static string metadata_xml = @"c:\Rubezh\Assad\Projects\Assad\DeviceModelManager\metadata.xml";
+
         public static ViewModel Current { get; private set; }
         /// <summary>
         /// Список всех устройств, полученный из файла metadata.xml
@@ -36,7 +35,7 @@ namespace DeviceEditor
         public List<drvType> DevicesList;
         public void LoadMetadata()
         {
-            FileStream file_xml = new FileStream(metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(References.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(config));
             config metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();
@@ -56,13 +55,13 @@ namespace DeviceEditor
         /// </summary>
         /// <param name="svgString">svg-строка</param>
         /// <returns>Canvas, полученный из svg-строки</returns>
-        static public Canvas Str2Canvas(string svgString, int layer)
+        static public System.Windows.Controls.Canvas Str2Canvas(string svgString, int layer)
         {
-            string frameImage = Svg2Xaml.XSLT_Transform(svgString, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+            string frameImage = Functions.Svg2Xaml(svgString, Resources.References.svg2xaml_xsl);
             StringReader stringReader = new StringReader(frameImage);
             XmlReader xmlReader = XmlReader.Create(stringReader);
-            Canvas Picture = (Canvas)XamlReader.Load(xmlReader);
-            Canvas.SetZIndex(Picture, layer);
+            System.Windows.Controls.Canvas Picture = (System.Windows.Controls.Canvas)XamlReader.Load(xmlReader);
+            System.Windows.Controls.Canvas.SetZIndex(Picture, layer);
             return (Picture);
         }
 
@@ -101,7 +100,7 @@ namespace DeviceEditor
                     }
                 }
             }
-            FileStream file_xml = new FileStream(ViewModel.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
+            FileStream file_xml = new FileStream(Resources.References.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             serializer.Serialize(file_xml, deviceManager);
             file_xml.Close();
@@ -172,7 +171,7 @@ namespace DeviceEditor
         public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
         int tick = 0;
 
-        public Canvas DynamicPicture;
+        public System.Windows.Controls.Canvas DynamicPicture;
         /****************Таймер*****************/
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -184,11 +183,11 @@ namespace DeviceEditor
             {
                 SelectedStateViewModel.ParentDevice.StatesPicture.Remove(DynamicPicture);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, SelectedStateViewModel.FrameViewModels[tick].Duration);
-                frameImage = Svg2Xaml.XSLT_Transform(SelectedStateViewModel.FrameViewModels[tick].Image, RubezhDevices.RubezhDevice.svg2xaml_xsl);
+                frameImage = Functions.Svg2Xaml(SelectedStateViewModel.FrameViewModels[tick].Image, Resources.References.svg2xaml_xsl);
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
-                DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                Canvas.SetZIndex(DynamicPicture, SelectedStateViewModel.FrameViewModels[tick].Layer);
+                DynamicPicture = (System.Windows.Controls.Canvas)XamlReader.Load(xmlReader);
+                System.Windows.Controls.Canvas.SetZIndex(DynamicPicture, SelectedStateViewModel.FrameViewModels[tick].Layer);
                 SelectedStateViewModel.ParentDevice.StatesPicture.Add(DynamicPicture);
                 tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
             }
@@ -198,7 +197,7 @@ namespace DeviceEditor
         public void Load()
         {
             DeviceManager deviceManager = new DeviceManager();
-            FileStream file_xml = new FileStream(deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream file_xml = new FileStream(References.deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             deviceManager = (DeviceManager)serializer.Deserialize(file_xml);
             file_xml.Close();
