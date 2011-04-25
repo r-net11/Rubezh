@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using PlansModule.Events;
 using PlansModule.Models;
-using FiresecMetadata;
+using Firesec;
 
 namespace PlansModule.ViewModels
 {

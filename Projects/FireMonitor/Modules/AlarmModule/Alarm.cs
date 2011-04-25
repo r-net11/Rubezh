@@ -93,9 +93,9 @@ namespace AlarmModule
             string panelDatabaseId = journalItem.IDDevicesSource;
             if (string.IsNullOrEmpty(panelDatabaseId) == false)
             {
-                if (ServiceClient.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == panelDatabaseId))
+                if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == panelDatabaseId))
                 {
-                    Device device = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
+                    Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
                     panelPath = device.Path;
                 }
             }

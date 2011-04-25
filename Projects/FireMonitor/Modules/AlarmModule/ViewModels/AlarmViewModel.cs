@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Events;
-using ClientApi;
+using FiresecClient;
 
 namespace AlarmModule.ViewModels
 {
@@ -35,16 +35,16 @@ namespace AlarmModule.ViewModels
         {
             if (alarm.PanelPath != null)
             {
-                Device device = ServiceClient.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == alarm.PanelPath);
+                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == alarm.PanelPath);
 
-                Firesec.Metadata.drvType driver = ServiceClient.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+                Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
                 if (driver.state != null)
                 {
                     foreach (Firesec.Metadata.stateType state in driver.state)
                     {
                         if ((state.@class == alarm.ClassId) && (state.manualReset == "1"))
                         {
-                            ServiceClient.ResetState(device, state.name);
+                            FiresecManager.ResetState(device, state.name);
                         }
                     }
                 }
