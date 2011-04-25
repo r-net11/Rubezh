@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure;
+using System.Collections.ObjectModel;
+using FiresecClient;
+
+namespace JournalModule.ViewModels
+{
+    public class JournalViewModel : RegionViewModel
+    {
+        public void Initialize()
+        {
+            JournalItemViewModels = new ObservableCollection<JournalItemViewModel>();
+            List<Firesec.ReadEvents.journalType> journalItems = FiresecManager.ReadJournal(0, 100);
+            foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
+            {
+                JournalItemViewModel journalItemViewModel = new JournalItemViewModel();
+                journalItemViewModel.Initialize(journalItem);
+                JournalItemViewModels.Add(journalItemViewModel);
+            }
+        }
+
+        ObservableCollection<JournalItemViewModel> journalItemViewModels;
+        public ObservableCollection<JournalItemViewModel> JournalItemViewModels
+        {
+            get { return journalItemViewModels; }
+            set
+            {
+                journalItemViewModels = value;
+                OnPropertyChanged("JournalItemViewModels");
+            }
+        }
+
+        public override void Dispose()
+        {
+        }
+    }
+}
