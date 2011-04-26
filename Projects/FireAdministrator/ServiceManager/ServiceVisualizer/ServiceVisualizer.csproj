@@ -81,7 +81,7 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WPFToolkit">
-      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\WPFToolkit.dll</HintPath>
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

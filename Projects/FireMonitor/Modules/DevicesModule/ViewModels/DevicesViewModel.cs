@@ -21,17 +21,12 @@ namespace DevicesModule.ViewModels
         {
             if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == path))
             {
-                //DeviceState deviceState = ServiceClient.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                //if (plainDevices.Any(x => x.Device.Path == path))
-                //{
                 DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
-                    deviceViewModel.Update();
-                    //deviceViewModel.MainState = deviceState.State;
-                //}
+                deviceViewModel.Update();
             }
         }
 
-        public void Initilize()
+        public void Initialize()
         {
             plainDevices = new List<DeviceViewModel>();
             Devices = new ObservableCollection<DeviceViewModel>();
