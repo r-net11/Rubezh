@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Common;
 using Firesec.Metadata;
+using Firesec;
 using DeviceLibrary;
 using Frame = DeviceLibrary.Frame;
 
@@ -218,7 +219,7 @@ namespace DeviceEditor
                 try
                 {
                     deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" +
-                                               DevicesList.FirstOrDefault(x => x.name == deviceViewModel.Id).dev_icon +
+                                               DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon +
                                                ".ico";
                 }
                 catch

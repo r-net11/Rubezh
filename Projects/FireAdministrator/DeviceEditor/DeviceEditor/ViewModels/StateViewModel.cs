@@ -8,6 +8,9 @@ using System.Windows.Threading;
 using System.Xml;
 using Common;
 using DeviceLibrary;
+using System.Linq;
+using Firesec;
+using Firesec.Metadata;
 
 namespace DeviceEditor
 {
@@ -111,7 +114,20 @@ namespace DeviceEditor
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                drvType driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
+                stateType state = driver.state.FirstOrDefault(x => x.id == id);
+                Name = state.name;
+            }
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
             }
         }
 
