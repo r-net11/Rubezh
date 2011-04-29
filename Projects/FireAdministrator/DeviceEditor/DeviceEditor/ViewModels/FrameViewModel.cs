@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using Common;
-using System.Windows.Controls;
-using System.Xml;
-using Resources;
-using System.IO;
-using System.Windows.Markup;
-using System.Xml.Serialization;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Xml;
+using Common;
+using Resources;
 
 namespace DeviceEditor
 {
     public class FrameViewModel : BaseViewModel
     {
+        public static FrameViewModel Current;
+        private ObservableCollection<Canvas> dynamicPicture;
+        public int id;
+        private string image;
+        private int layer;
+        private ObservableCollection<Canvas> picture;
+
         public FrameViewModel()
         {
             AddFrameCommand = new RelayCommand(OnAddFrameCommand);
@@ -27,28 +26,13 @@ namespace DeviceEditor
             Layer = 0;
             Current = this;
         }
-        public static FrameViewModel Current;
-        public StateViewModel Parent{get; private set;}
+
+        public StateViewModel Parent { get; private set; }
 
         public RelayCommand AddFrameCommand { get; private set; }
-        void OnAddFrameCommand(object obj)
-        {
-            FrameViewModel newFrame = new FrameViewModel();
-            this.Parent.IsChecked = this.Parent.IsChecked;
-            newFrame.Parent = this.Parent;           
-            newFrame.Id = this.Parent.FrameViewModels.Count;
-            newFrame.Duration = 500;
-            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
-            this.Parent.FrameViewModels.Add(newFrame);
-            ViewModel.Current.SelectedStateViewModel = this.Parent;
-        }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
-        void OnRemoveFrameCommand(object obj)
-        {
-            this.Parent.FrameViewModels.Remove(this);
-        }
-        public int id;
+
         public int Id
         {
             get { return id; }
@@ -60,6 +44,7 @@ namespace DeviceEditor
         }
 
         public int duration { get; set; }
+
         public int Duration
         {
             get { return duration; }
@@ -70,7 +55,6 @@ namespace DeviceEditor
             }
         }
 
-        ObservableCollection<Canvas> picture;
         public ObservableCollection<Canvas> Picture
         {
             get { return picture; }
@@ -81,7 +65,6 @@ namespace DeviceEditor
             }
         }
 
-        ObservableCollection<Canvas> dynamicPicture;
         public ObservableCollection<Canvas> DynamicPicture
         {
             get { return dynamicPicture; }
@@ -92,7 +75,6 @@ namespace DeviceEditor
             }
         }
 
-        int layer;
         public int Layer
         {
             get { return layer; }
@@ -103,7 +85,6 @@ namespace DeviceEditor
             }
         }
 
-        string image;
         public string Image
         {
             get { return image; }
@@ -116,27 +97,47 @@ namespace DeviceEditor
 
                 try
                 {
-                    frameImage = Functions.Svg2Xaml(image, Resources.References.svg2xaml_xsl);
+                    frameImage = Functions.Svg2Xaml(image, References.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    Canvas FramePicture = (Canvas)XamlReader.Load(xmlReader);
-                    Canvas.SetZIndex(FramePicture, this.Layer);
+                    var FramePicture = (Canvas) XamlReader.Load(xmlReader);
+                    Panel.SetZIndex(FramePicture, Layer);
                     Picture.Add(FramePicture);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
-                    string text = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">"+ "ERROR SVG" +"</text> </g></svg>";
-                    frameImage = Functions.Svg2Xaml(text, Resources.References.svg2xaml_xsl);
+                    string text =
+                        "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" +
+                        "ERROR SVG" + "</text> </g></svg>";
+                    frameImage = Functions.Svg2Xaml(text, References.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    Canvas FramePicture = (Canvas)XamlReader.Load(xmlReader);
-                    Canvas.SetZIndex(FramePicture, this.Layer);
+                    var FramePicture = (Canvas) XamlReader.Load(xmlReader);
+                    Panel.SetZIndex(FramePicture, Layer);
                     Picture.Add(FramePicture);
                 }
                 OnPropertyChanged("Image");
             }
+        }
+
+        private void OnAddFrameCommand(object obj)
+        {
+            var newFrame = new FrameViewModel();
+            Parent.IsChecked = Parent.IsChecked;
+            newFrame.Parent = Parent;
+            newFrame.Id = Parent.FrameViewModels.Count;
+            newFrame.Duration = 500;
+            newFrame.Image =
+                "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
+            Parent.FrameViewModels.Add(newFrame);
+            ViewModel.Current.SelectedStateViewModel = Parent;
+        }
+
+        private void OnRemoveFrameCommand(object obj)
+        {
+            Parent.FrameViewModels.Remove(this);
         }
     }
 }

@@ -20,41 +20,9 @@ namespace DevicesControl
         public DeviceViewModel()
         {
             Current = this;
-            Parent = ViewModel.Current;
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
-            StatesPicture = new ObservableCollection<Canvas>();
             StatesPicture = new ObservableCollection<Canvas>();
         }
         public static DeviceViewModel Current { get; private set; }
-        public ViewModel Parent { get; private set; }
-
-        /// <summary>
-        /// Путь к иконке устройства
-        /// </summary>
-        string iconPath;
-        public string IconPath
-        {
-            get
-            {
-                return iconPath;
-            }
-            set
-            {
-                iconPath = value;
-                OnPropertyChanged("IconPath");
-            }
-        }
-
-
-
-        /// <summary>
-        /// Команда удаляющая устройство из списка.
-        /// </summary>
-        public RelayCommand RemoveDeviceCommand { get; private set; }
-        void OnRemoveDeviceCommand(object obj)
-        {
-            this.Parent.DevicesViewModel.Remove(this);
-        }
 
         /// <summary>
         /// Идентификатор устройства.
@@ -67,24 +35,6 @@ namespace DevicesControl
             {
                 id = value;
                 OnPropertyChanged("Id");
-            }
-        }
-
-        /// <summary>
-        /// Выбранное состояние.
-        /// </summary>
-        StateViewModel selectedStateViewModel;
-        public StateViewModel SelectedStateViewModel
-        {
-            get { return selectedStateViewModel; }
-            set
-            {
-                if (value == null)
-                    return;
-                selectedStateViewModel = value;
-                if (ViewModel.Current != null)
-                    ViewModel.Current.SelectedStateViewModel = selectedStateViewModel;
-                OnPropertyChanged("SelectedStateViewModel");
             }
         }
 

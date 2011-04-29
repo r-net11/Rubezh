@@ -7,11 +7,13 @@ using System.IO;
 using System.Xml;
 using System.Windows.Markup;
 using System.Xml.Xsl;
+using System.Xml.Serialization;
 
 namespace Resources
 {
     public static class Functions
-    {
+    {      
+
         /// <summary>
         /// Метод преобразующий svg-строку в Canvas c рисунком.
         /// </summary>

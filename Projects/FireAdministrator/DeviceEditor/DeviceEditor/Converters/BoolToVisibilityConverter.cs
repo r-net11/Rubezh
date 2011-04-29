@@ -1,33 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Data;
 
 namespace DeviceEditor
 {
     public class BoolToVisibilityConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public bool Not { get; set; }
+
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool boolValue = (bool)value;
+            var boolValue = (bool) value;
             return boolValue ^ Not ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
 
-        private bool not = false;
-        public bool Not
-        {
-
-            get { return not; }
-
-            set { not = value; }
-
-        }
+        #endregion
     }
 }

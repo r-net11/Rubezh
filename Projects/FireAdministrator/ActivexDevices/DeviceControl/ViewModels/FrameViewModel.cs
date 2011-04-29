@@ -21,33 +21,11 @@ namespace DevicesControl
     {
         public FrameViewModel()
         {
-            AddFrameCommand = new RelayCommand(OnAddFrameCommand);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrameCommand);
-            Parent = StateViewModel.Current;
             Layer = 0;
             Current = this;
         }
         public static FrameViewModel Current;
-        public StateViewModel Parent{get; private set;}
-
-        public RelayCommand AddFrameCommand { get; private set; }
-        void OnAddFrameCommand(object obj)
-        {
-            FrameViewModel newFrame = new FrameViewModel();
-            this.Parent.IsChecked = this.Parent.IsChecked;
-            newFrame.Parent = this.Parent;           
-            newFrame.Id = this.Parent.FrameViewModels.Count;
-            newFrame.Duration = 500;
-            newFrame.Image = "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
-            this.Parent.FrameViewModels.Add(newFrame);
-            ViewModel.Current.SelectedStateViewModel = this.Parent;
-        }
-
-        public RelayCommand RemoveFrameCommand { get; private set; }
-        void OnRemoveFrameCommand(object obj)
-        {
-            this.Parent.FrameViewModels.Remove(this);
-        }
+        
         public int id;
         public int Id
         {
@@ -78,17 +56,6 @@ namespace DevicesControl
             {
                 picture = value;
                 OnPropertyChanged("Picture");
-            }
-        }
-
-        ObservableCollection<Canvas> dynamicPicture;
-        public ObservableCollection<Canvas> DynamicPicture
-        {
-            get { return dynamicPicture; }
-            set
-            {
-                dynamicPicture = value;
-                OnPropertyChanged("DynamicPicture");
             }
         }
 

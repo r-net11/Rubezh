@@ -1,36 +1,33 @@
-﻿<Window x:Class="DeviceEditor.ListView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{Binding Title}" Height="300" Width="300">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="100" />
-        </Grid.ColumnDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Grid Grid.Column="0">
-                <ListBox Background="Silver" ItemsSource="{Binding Items}" BorderThickness="0" SelectedItem="{Binding SelectedItem}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <Image Source="{Binding IconPath}" Width="12" />
-                                <TextBlock Text=" " />
-                                <TextBlock Text="{Binding Id}" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#0080FF" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF"/>
-                    </ListBox.Resources>
-                </ListBox>
-            </Grid>
-        </ScrollViewer>
-        <Grid Grid.Column="1" Background="#808080">
-        <StackPanel VerticalAlignment="Bottom">
-            <Button Content="Добавить" Command="{Binding AddCommand}" />
-        </StackPanel>            
-        </Grid>
-    </Grid>
+﻿<Window x:Class="DeviceEditor.ListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="{Binding Title}" Height="300" Width="300">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="100" />
+		</Grid.ColumnDefinitions>
+		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+			<Grid Grid.Column="0">
+				<ListBox Background="Silver" ItemsSource="{Binding Items}" BorderThickness="0" SelectedItem="{Binding SelectedItem}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<DockPanel>
+								<Image Source="{Binding IconPath}" Width="12" />
+								<TextBlock Text=" " />
+								<TextBlock Text="{Binding Id}" />
+							</DockPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+					<ListBox.Resources>
+						<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#0080FF" />
+						<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+						<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF" />
+					</ListBox.Resources>
+				</ListBox>
+			</Grid>
+		</ScrollViewer>
+		<Grid Grid.Column="1" Background="#808080">
+			<StackPanel VerticalAlignment="Bottom">
+				<Button Content="Добавить" Command="{Binding AddCommand}" />
+			</StackPanel>
+		</Grid>
+	</Grid>
 </Window>

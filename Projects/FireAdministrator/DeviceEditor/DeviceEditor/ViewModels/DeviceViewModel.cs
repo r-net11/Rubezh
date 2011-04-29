@@ -1,45 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using Common;
-using System.Windows.Threading;
-using Resources;
-using System.Windows.Input;
-using System.IO;
-using System.Xml;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using System.Windows.Markup;
+using Common;
 
 namespace DeviceEditor
 {
     public class DeviceViewModel : BaseViewModel
     {
+        /// <summary>
+        /// Путь к иконке устройства
+        /// </summary>
+        private string iconPath;
+
+        /// <summary>
+        /// Идентификатор устройства.
+        /// </summary>
+        public string id;
+
+        /// <summary>
+        /// Выбранное состояние.
+        /// </summary>
+        private StateViewModel selectedStateViewModel;
+
+        public ObservableCollection<Canvas> statesPicture;
+
+        /// <summary>
+        /// Список всех используемых состояний для данного устройства
+        /// </summary>
+        public ObservableCollection<StateViewModel> statesViewModel;
+
         public DeviceViewModel()
         {
             Current = this;
-            Parent = ViewModel.Current;
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
             StatesPicture = new ObservableCollection<Canvas>();
-            StatesPicture = new ObservableCollection<Canvas>();
         }
-        public static DeviceViewModel Current { get; private set; }
-        public ViewModel Parent { get; private set; }
 
-        /// <summary>
-        /// Путь к иконке устройства
-        /// </summary>
-        string iconPath;
+        public static DeviceViewModel Current { get; private set; }
+
+
         public string IconPath
         {
-            get
-            {
-                return iconPath;
-            }
+            get { return iconPath; }
             set
             {
                 iconPath = value;
@@ -51,39 +54,17 @@ namespace DeviceEditor
         /// Команда, показывающая список всех доступных устройств.
         /// </summary>
         public RelayCommand AddDeviceCommand { get; private set; }
-        void OnAddDeviceCommand(object obj)
-        {
-            ListView devicesListView = new ListView();
-            DevicesListViewModel devicesListViewModel = new DevicesListViewModel();
-            devicesListView.DataContext = devicesListViewModel;
-            devicesListView.ShowDialog();
-        }
 
         /// <summary>
         /// Команда, показывающая список всех доступных состояний.
         /// </summary>
         public RelayCommand AddStateCommand { get; private set; }
-        void OnAddStateCommand(object obj)
-        {
-            ListView statesListView = new ListView();
-            StatesListViewModel statesListViewModel = new StatesListViewModel();
-            statesListView.DataContext = statesListViewModel;
-            statesListView.ShowDialog();
-        }
 
         /// <summary>
         /// Команда удаляющая устройство из списка.
         /// </summary>
         public RelayCommand RemoveDeviceCommand { get; private set; }
-        void OnRemoveDeviceCommand(object obj)
-        {
-            this.Parent.DeviceViewModels.Remove(this);
-        }
 
-        /// <summary>
-        /// Идентификатор устройства.
-        /// </summary>
-        public string id;
         public string Id
         {
             get { return id; }
@@ -94,10 +75,6 @@ namespace DeviceEditor
             }
         }
 
-        /// <summary>
-        /// Выбранное состояние.
-        /// </summary>
-        StateViewModel selectedStateViewModel;
         public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
@@ -112,10 +89,6 @@ namespace DeviceEditor
             }
         }
 
-        /// <summary>
-        /// Список всех используемых состояний для данного устройства
-        /// </summary>
-        public ObservableCollection<StateViewModel> statesViewModel;
         public ObservableCollection<StateViewModel> StatesViewModel
         {
             get { return statesViewModel; }
@@ -126,7 +99,6 @@ namespace DeviceEditor
             }
         }
 
-        public ObservableCollection<Canvas> statesPicture;
         public ObservableCollection<Canvas> StatesPicture
         {
             get { return statesPicture; }
@@ -135,6 +107,27 @@ namespace DeviceEditor
                 statesPicture = value;
                 OnPropertyChanged("StatesPicture");
             }
+        }
+
+        private void OnAddDeviceCommand(object obj)
+        {
+            var devicesListView = new ListView();
+            var devicesListViewModel = new DevicesListViewModel();
+            devicesListView.DataContext = devicesListViewModel;
+            devicesListView.ShowDialog();
+        }
+
+        private void OnAddStateCommand(object obj)
+        {
+            var statesListView = new ListView();
+            var statesListViewModel = new StatesListViewModel();
+            statesListView.DataContext = statesListViewModel;
+            statesListView.ShowDialog();
+        }
+
+        private void OnRemoveDeviceCommand(object obj)
+        {
+            ViewModel.Current.DeviceViewModels.Remove(this);
         }
     }
 }

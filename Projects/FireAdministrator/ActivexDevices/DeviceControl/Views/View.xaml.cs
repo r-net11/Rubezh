@@ -14,18 +14,16 @@ using Firesec;
 
 namespace DevicesControl
 {
-    /// <summary>
-    /// Логика взаимодействия для View.xaml
-    /// </summary>
+
     public partial class DeviceControl : UserControl
     {
         public DeviceControl()
         {
             InitializeComponent();
-            ViewModel viewModel = new ViewModel();
+            viewModel = new ViewModel();
             this.DataContext = viewModel;
         }
-
+        public ViewModel viewModel;
         string driverId;
         public string DriverId
         {
@@ -34,7 +32,7 @@ namespace DevicesControl
             {
                 driverId = value;
                 string driverName = DriversHelper.GetDriverNameById(driverId);
-                ViewModel.Current.SelectedDeviceViewModel = ViewModel.Current.DevicesViewModel.FirstOrDefault(x => x.Id == driverName);
+                viewModel.SelectedDeviceViewModel = ViewModel.DevicesViewModel.FirstOrDefault(x => x.Id == driverName);
             }
         }
 
@@ -45,7 +43,8 @@ namespace DevicesControl
             set
             {
                 stateId = value;
-                ViewModel.Current.SelectedStateViewModel = ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(x => x.Id == stateId);
+                viewModel.SelectedStateViewModel = viewModel.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(x => x.Id == stateId);
+                ViewModel.Current.SelectedStateViewModel = viewModel.SelectedStateViewModel;
             }
         }
 
@@ -56,12 +55,10 @@ namespace DevicesControl
             set
             {
                 additionalStates = value;
-                StateViewModel stateViewModel;
-                for (int i = 0; i < additionalStates.Count; i++)
-                {
-                    stateViewModel = ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(x => x.Id == additionalStates[i]);
-                    stateViewModel.IsChecked = true;
-                }
+                List<StateViewModel> StatesViewModel = new List<StateViewModel>();
+                for (int i = 0; i < additionalStates.Count; i++ )
+                    StatesViewModel.Add(viewModel.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(x => x.id == additionalStates[i]));
+                viewModel.AdditionalStatesViewModel = StatesViewModel;
             }
         }
     }
