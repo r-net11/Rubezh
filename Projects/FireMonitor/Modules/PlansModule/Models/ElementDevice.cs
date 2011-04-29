@@ -13,6 +13,10 @@ namespace PlansModule.Models
         [XmlAttribute]
         public double Top { get; set; }
         [XmlAttribute]
+        public double Width { get; set; }
+        [XmlAttribute]
+        public double Height { get; set; }
+        [XmlAttribute]
         public string Path { get; set; }
     }
 }

@@ -25,6 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Firesec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecServiceApi", "..\FiresecClient\FiresecServiceApi\FiresecServiceApi.csproj", "{269328F0-5ED8-4DFA-85B3-0EBC826EE573}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devices", "Devices", "{71F0A801-0625-4EEC-8E7A-6813C7E7176E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceControls", "..\Common\DeviceControls\DeviceControls.csproj", "{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceLibrary", "..\Common\DeviceLibrary\DeviceLibrary.csproj", "{CA6164BD-CFB8-419E-982B-28D52DB86C81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +141,26 @@ Global
 		{269328F0-5ED8-4DFA-85B3-0EBC826EE573}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{269328F0-5ED8-4DFA-85B3-0EBC826EE573}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{269328F0-5ED8-4DFA-85B3-0EBC826EE573}.Release|x86.ActiveCfg = Release|Any CPU
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Debug|x86.ActiveCfg = Debug|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Debug|x86.Build.0 = Debug|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Release|Any CPU.ActiveCfg = Release|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Release|Mixed Platforms.Build.0 = Release|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Release|x86.ActiveCfg = Release|x86
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}.Release|x86.Build.0 = Release|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Debug|x86.ActiveCfg = Debug|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Debug|x86.Build.0 = Debug|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Release|Any CPU.ActiveCfg = Release|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Release|x86.ActiveCfg = Release|x86
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,5 +173,7 @@ Global
 		{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5} = {04FCA07C-0FFC-4911-A716-67A52E82B703}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {04FCA07C-0FFC-4911-A716-67A52E82B703}
 		{269328F0-5ED8-4DFA-85B3-0EBC826EE573} = {04FCA07C-0FFC-4911-A716-67A52E82B703}
+		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2} = {71F0A801-0625-4EEC-8E7A-6813C7E7176E}
+		{CA6164BD-CFB8-419E-982B-28D52DB86C81} = {71F0A801-0625-4EEC-8E7A-6813C7E7176E}
 	EndGlobalSection
 EndGlobal

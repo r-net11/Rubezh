@@ -22,7 +22,7 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        Rectangle deviceRectangle;
+        DeviceControls.DeviceControl deviceControl;
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
@@ -61,36 +61,26 @@ namespace PlansModule.ViewModels
             Canvas innerCanvas = new Canvas();
             Canvas.SetLeft(innerCanvas, elementDevice.Left);
             Canvas.SetTop(innerCanvas, elementDevice.Top);
-
-            innerCanvas.ToolTip = Name;
-
             canvas.Children.Add(innerCanvas);
 
-            deviceRectangle = new Rectangle();
-            deviceRectangle.Width = 20;
-            deviceRectangle.Height = 20;
-            deviceRectangle.Fill = Brushes.Blue;
-            innerCanvas.Children.Add(deviceRectangle);
-
-            Polyline polyline = new Polyline();
-            polyline.Points.Add(new System.Windows.Point(11, 2));
-            polyline.Points.Add(new System.Windows.Point(7, 11));
-            polyline.Points.Add(new System.Windows.Point(13, 8));
-            polyline.Points.Add(new System.Windows.Point(8, 18));
-            polyline.Stroke = Brushes.Black;
-            polyline.StrokeThickness = 1;
-            polyline.StrokeLineJoin = PenLineJoin.Round;
-            innerCanvas.Children.Add(polyline);
+            deviceControl = new DeviceControls.DeviceControl();
+            string deviceName = DriversHelper.GetDriverNameById(device.DriverId);
+            deviceName = deviceName.Replace("//", "/");
+            deviceControl.DriverId = deviceName;
+            //deviceControl.ToolTip = Name;
+            deviceControl.Width = elementDevice.Width;
+            deviceControl.Height = elementDevice.Height;
+            innerCanvas.Children.Add(deviceControl);
 
             mouseOverRectangle = new Rectangle();
-            mouseOverRectangle.Width = 20;
-            mouseOverRectangle.Height = 20;
+            mouseOverRectangle.Width = elementDevice.Width;
+            mouseOverRectangle.Height = elementDevice.Height;
             mouseOverRectangle.Stroke = Brushes.Red;
             innerCanvas.Children.Add(mouseOverRectangle);
 
             selectationRectangle = new Rectangle();
-            selectationRectangle.Width = 20;
-            selectationRectangle.Height = 20;
+            selectationRectangle.Width = elementDevice.Width;
+            selectationRectangle.Height = elementDevice.Height;
             selectationRectangle.Stroke = Brushes.Orange;
             innerCanvas.Children.Add(selectationRectangle);
 
@@ -156,44 +146,11 @@ namespace PlansModule.ViewModels
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
                 State = deviceState.State;
                 StateType stateType = StateHelper.NameToType(deviceState.State);
-                switch (stateType)
-                {
-                    case StateType.Alarm:
-                        deviceRectangle.Fill = Brushes.Red;
-                        break;
 
-                    case StateType.Failure:
-                        deviceRectangle.Fill = Brushes.Red;
-                        break;
-
-                    case StateType.Info:
-                        deviceRectangle.Fill = Brushes.YellowGreen;
-                        break;
-
-                    case StateType.No:
-                        deviceRectangle.Fill = Brushes.Transparent;
-                        break;
-
-                    case StateType.Norm:
-                        deviceRectangle.Fill = Brushes.Green;
-                        break;
-
-                    case StateType.Off:
-                        deviceRectangle.Fill = Brushes.Red;
-                        break;
-
-                    case StateType.Service:
-                        deviceRectangle.Fill = Brushes.Yellow;
-                        break;
-
-                    case StateType.Unknown:
-                        deviceRectangle.Fill = Brushes.Gray;
-                        break;
-
-                    case StateType.Warning:
-                        deviceRectangle.Fill = Brushes.Yellow;
-                        break;
-                }
+                if (deviceState.State == "Неопределено")
+                    deviceControl.StateId = "Неизвестно";
+                else
+                deviceControl.StateId = deviceState.State;
 
                 planViewModel.UpdateSelfState();
             }

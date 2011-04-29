@@ -40,6 +40,8 @@ namespace Firesec
 
         public static int NameToPriority(string name)
         {
+            if (name == null)
+                return 8;
             return StateClasses.FirstOrDefault(x => x.Name == name).Id;
         }
     }

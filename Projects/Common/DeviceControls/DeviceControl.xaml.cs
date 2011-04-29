@@ -19,6 +19,7 @@ using System.Xml;
 using Frame = DeviceLibrary.Frame;
 using System.Windows.Markup;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace DeviceControls
 {
@@ -49,10 +50,8 @@ namespace DeviceControls
             set
             {
                 _stateId = value;
-                Device device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
-                State state = device.States.FirstOrDefault(x => x.Id == value);
 
-                new StateViewModel(state, _stateCanvases);
+                Update();
             }
         }
 
@@ -64,14 +63,25 @@ namespace DeviceControls
             {
                 _additionalStates = value;
 
-                foreach (string additionalState in value)
-                {
-                    Device device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
-                    State state = device.States.FirstOrDefault(x => x.Id == additionalState);
-
-                    new StateViewModel(state, _stateCanvases);
-                }
+                Update();
             }
+        }
+
+        void Update()
+        {
+            StateCanvases = new ObservableCollection<Canvas>();
+
+            Device device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
+            State state = device.States.FirstOrDefault(x => x.Id == StateId);
+            new StateViewModel(state, StateCanvases);
+
+            if (AdditionalStates != null)
+                foreach (string additionalState in AdditionalStates)
+                {
+                    State a_state = device.States.FirstOrDefault(x => x.Id == additionalState);
+
+                    new StateViewModel(a_state, StateCanvases);
+                }
         }
 
         ObservableCollection<Canvas> _stateCanvases;
@@ -90,6 +100,11 @@ namespace DeviceControls
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _itemsControl.LayoutTransform = new ScaleTransform((double)ActualWidth / 500, (double)ActualHeight / 500);
         }
     }
 }

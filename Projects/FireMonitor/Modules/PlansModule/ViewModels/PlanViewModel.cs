@@ -198,6 +198,7 @@ namespace PlansModule.ViewModels
 
         public void UpdateSubPlans()
         {
+            if (SubPlans != null)
             foreach (ElementSubPlanViewModel subPlan in SubPlans)
             {
                 PlanViewModel planViewModel = Children.FirstOrDefault(x => x.Name == subPlan.Name);

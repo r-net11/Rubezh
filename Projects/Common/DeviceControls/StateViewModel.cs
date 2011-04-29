@@ -40,12 +40,21 @@ namespace DeviceControls
             }
         }
 
+        static int count = 0;
+
         private void TimerTick(object sender, EventArgs e)
         {
+            DateTime start = DateTime.Now;
+
             var frame = _frames[_tick];
             _timer.Interval = new TimeSpan(0, 0, 0, 0, frame.Duration);
             Draw(frame);
             _tick = (_tick + 1) % _frames.Count;
+
+            DateTime end = DateTime.Now;
+            TimeSpan ts = end.Subtract(start);
+            //Trace.WriteLine(ts);
+            Trace.WriteLine(count++.ToString());
         }
 
         void Draw(Frame frame)
