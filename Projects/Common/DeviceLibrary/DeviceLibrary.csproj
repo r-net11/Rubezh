@@ -84,7 +84,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
+      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
+      <Name>FiresecApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

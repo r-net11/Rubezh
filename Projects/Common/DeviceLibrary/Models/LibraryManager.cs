@@ -4,16 +4,28 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
+using Firesec.Metadata;
 
 namespace DeviceLibrary
 {
     public static class LibraryManager
     {
         public static List<Device> Devices { get; set; }
+        public static drvType[] Drivers { get; set; }
 
         static LibraryManager()
         {
             Load();
+            LoadMetadata();
+        }
+
+        static void LoadMetadata()
+        {
+            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var serializer = new XmlSerializer(typeof(config));
+            var metadata = (config)serializer.Deserialize(file_xml);
+            file_xml.Close();
+            Drivers = metadata.drv;
         }
 
         static void Load()

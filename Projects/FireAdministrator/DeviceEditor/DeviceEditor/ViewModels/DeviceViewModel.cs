@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Common;
+using Firesec;
 
 namespace DeviceEditor
 {
@@ -11,10 +12,6 @@ namespace DeviceEditor
         /// </summary>
         private string iconPath;
 
-        /// <summary>
-        /// Идентификатор устройства.
-        /// </summary>
-        public string id;
 
         /// <summary>
         /// Выбранное состояние.
@@ -65,16 +62,30 @@ namespace DeviceEditor
         /// </summary>
         public RelayCommand RemoveDeviceCommand { get; private set; }
 
+        string id;
+        /// <summary>
+        /// Идентификатор устройства.
+        /// </summary>
         public string Id
         {
             get { return id; }
             set
             {
                 id = value;
-                OnPropertyChanged("Id");
+                Name = name = DriversHelper.GetDriverNameById(id);
             }
         }
 
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
         public StateViewModel SelectedStateViewModel
         {
             get { return selectedStateViewModel; }
