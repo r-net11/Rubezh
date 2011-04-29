@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
-namespace Resources
+namespace DeviceLibrary
 {
     [Serializable]
     public class Frame
     {
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public int Id { get; set; }
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public int Duration { get; set; }
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public int Layer { get; set;}
         public string Image { get; set; }
     }

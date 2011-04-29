@@ -9,25 +9,24 @@ using System.Windows.Markup;
 using System.Xml.Xsl;
 using System.Xml.Serialization;
 
-namespace Resources
+namespace DeviceLibrary
 {
-    public static class Functions
+    public static class SvgConverter
     {      
-
         /// <summary>
         /// Метод преобразующий svg-строку в Canvas c рисунком.
         /// </summary>
         /// <param name="svgString">svg-строка</param>
         /// <returns>Canvas, полученный из svg-строки</returns>
-        public static Canvas Str2Canvas(string svgString, int layer)
-        {
-            string frameImage = Svg2Xaml(svgString, References.svg2xaml_xsl);
-            StringReader stringReader = new StringReader(frameImage);
-            XmlReader xmlReader = XmlReader.Create(stringReader);
-            Canvas Picture = (Canvas)XamlReader.Load(xmlReader);
-            Canvas.SetZIndex(Picture, layer);
-            return (Picture);
-        }
+        //public static Canvas Str2Canvas(string svgString, int layer)
+        //{
+        //    var frameImage = Svg2Xaml(svgString, ResourceHelper.svg2xaml_xsl);
+        //    var stringReader = new StringReader(frameImage);
+        //    var xmlReader = XmlReader.Create(stringReader);
+        //    var canvas = (Canvas)XamlReader.Load(xmlReader);
+        //    Panel.SetZIndex(canvas, layer);
+        //    return (canvas);
+        //}
 
         /// <summary>
         /// Purpose   Transform an XML document with XSLT.
@@ -37,22 +36,19 @@ namespace Resources
         /// Return    An empty string if successful, else an error description.
         /// Comments  The output file is directly saved to disk.
         /// </summary>
-        public static string Svg2Xaml(string input,
-                                      string sFileName_xsl)
+        public static string Svg2Xaml(string input, string sFileName_xsl)
         {
             try
             {
-
-                XsltSettings settings = new XsltSettings(true, true);
-                string output;
-                XslCompiledTransform xslt = new XslCompiledTransform();
+                var settings = new XsltSettings(true, true);
+                var xslt = new XslCompiledTransform();
                 xslt.Load(sFileName_xsl, settings, new XmlUrlResolver());
-                StringReader stringReader = new StringReader(input);
-                XmlReader xmlReader = XmlReader.Create(stringReader);
-                StringBuilder stringBuilder = new StringBuilder();
-                XmlWriter xmlWriter = XmlWriter.Create(stringBuilder);
+                var stringReader = new StringReader(input);
+                var xmlReader = XmlReader.Create(stringReader);
+                var stringBuilder = new StringBuilder();
+                var xmlWriter = XmlWriter.Create(stringBuilder);
                 xslt.Transform(xmlReader, xmlWriter);
-                output = stringBuilder.ToString();
+                var output = stringBuilder.ToString();
                 return output;
             }
             catch (Exception ex)

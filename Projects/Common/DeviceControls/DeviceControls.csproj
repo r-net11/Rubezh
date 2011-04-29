@@ -8,8 +8,8 @@
     <ProjectGuid>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeviceEditor</RootNamespace>
-    <AssemblyName>DeviceControl</AssemblyName>
+    <RootNamespace>DeviceControls</RootNamespace>
+    <AssemblyName>DeviceControls</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -54,14 +54,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\FrameViewModel.cs" />
-    <Compile Include="ViewModels\StateViewModel.cs" />
-    <Compile Include="Views\View.xaml.cs">
-      <DependentUpon>View.xaml</DependentUpon>
+    <Compile Include="DeviceControl.xaml.cs">
+      <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="StateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -88,23 +84,23 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\View.xaml">
+    <Page Include="DeviceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
+    <ProjectReference Include="..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Resources\Resources.csproj">
+    <ProjectReference Include="..\DeviceLibrary\DeviceLibrary.csproj">
       <Project>{CA6164BD-CFB8-419E-982B-28D52DB86C81}</Project>
-      <Name>Resources</Name>
+      <Name>DeviceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

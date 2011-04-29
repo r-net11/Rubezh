@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using Common;
-using Resources;
+using DeviceLibrary;
 
 namespace DeviceEditor
 {
@@ -97,7 +97,7 @@ namespace DeviceEditor
 
                 try
                 {
-                    frameImage = Functions.Svg2Xaml(image, References.svg2xaml_xsl);
+                    frameImage = SvgConverter.Svg2Xaml(image, ResourceHelper.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
@@ -110,7 +110,7 @@ namespace DeviceEditor
                     string text =
                         "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" +
                         "ERROR SVG" + "</text> </g></svg>";
-                    frameImage = Functions.Svg2Xaml(text, References.svg2xaml_xsl);
+                    frameImage = SvgConverter.Svg2Xaml(text, ResourceHelper.svg2xaml_xsl);
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();

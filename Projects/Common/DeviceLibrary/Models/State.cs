@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
-namespace Resources
+namespace DeviceLibrary
 {
     [Serializable]
     public class State
     {
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public string Id { get; set; }
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public bool IsAdditional { get; set; }
         public List <Frame> Frames { get; set; }
     }

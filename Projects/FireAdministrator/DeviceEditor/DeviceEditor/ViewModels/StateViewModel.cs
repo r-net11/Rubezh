@@ -7,7 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using System.Xml;
 using Common;
-using Resources;
+using DeviceLibrary;
 
 namespace DeviceEditor
 {
@@ -172,7 +172,7 @@ namespace DeviceEditor
             {
                 try
                 {
-                    string frameImage = Functions.Svg2Xaml(FrameViewModels[tick].Image, References.svg2xaml_xsl);
+                    string frameImage = SvgConverter.Svg2Xaml(FrameViewModels[tick].Image, ResourceHelper.svg2xaml_xsl);
                     var stringReader = new StringReader(frameImage);
                     XmlReader xmlReader = XmlReader.Create(stringReader);
                     FramePicture = (Canvas) XamlReader.Load(xmlReader);

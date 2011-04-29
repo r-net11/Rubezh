@@ -11,8 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevicesControl;
+using DeviceControls;
 using Common;
+using Firesec;
 
 namespace Test
 {
@@ -26,46 +27,52 @@ namespace Test
             InitializeComponent();
 
             List<DeviceControl> deviceControls = new List<DeviceControl>();
-            DevicesControl.ViewModel.DeviceManagerLoad();
-            DevicesControl.DeviceControl deviceControl = new DeviceControl();
-            deviceControl.viewModel.Name = "1";
+            //DevicesControl.ViewModel.DeviceManagerLoad();
+            DeviceControls.DeviceControl deviceControl = new DeviceControl();
+            //deviceControl.viewModel.Name = "1";
             deviceControls.Add(deviceControl);
-            DevicesControl.DeviceControl deviceControl2 = new DeviceControl();
-            deviceControl2.viewModel.Name = "2";
+            DeviceControls.DeviceControl deviceControl2 = new DeviceControl();
+            //deviceControl2.viewModel.Name = "2";
             deviceControls.Add(deviceControl2);
 
-            //DevicesControl.DeviceControl deviceControl3 = new DeviceControl();
+            DeviceControls.DeviceControl deviceControl3 = new DeviceControl();
             //deviceControl.viewModel.Name = "3";
+            deviceControls.Add(deviceControl3);
             //DevicesControl.DeviceControl deviceControl4 = new DeviceControl();
             //deviceControl.viewModel.Name = "4";
             //DevicesControl.DeviceControl deviceControl5 = new DeviceControl();
             //DevicesControl.DeviceControl deviceControl6 = new DeviceControl();
             //DevicesControl.DeviceControl deviceControl7 = new DeviceControl();
 
-            dockPanel.Children.Add(deviceControl);
-            dockPanel.Children.Add(deviceControl2);
-            //dockPanel.Children.Add(deviceControl3);
+            wrapPanel.Children.Add(deviceControl);
+            wrapPanel.Children.Add(deviceControl2);
+            wrapPanel.Children.Add(deviceControl3);
             //dockPanel.Children.Add(deviceControl4);
             //dockPanel.Children.Add(deviceControl5);
             //dockPanel.Children.Add(deviceControl6);
             //dockPanel.Children.Add(deviceControl7);
 
-            deviceControl.DriverId = "4935848F-0084-4151-A0C8-3A900E3CB5C5";
-            deviceControl.StateId = "Норма";
+            deviceControl.DriverId = DriversHelper.GetDriverNameById("4935848F-0084-4151-A0C8-3A900E3CB5C5");
+            deviceControl.StateId = "Неисправность";
+
             List<String> list1 = new List<string>();
             List<String> list2 = new List<string>();
-            string str1 = "Открыто";
+            string str1 = "Ход на открытие";
             string str2 = "Открыто";
+            string str3 = "Ход на закрытие";
             list1.Add(str1);
             list2.Add(str2);
+            list2.Add(str3);
             deviceControl.AdditionalStates = list1;
 
-            deviceControl2.DriverId = "4935848F-0084-4151-A0C8-3A900E3CB5C5";
+            //return;
+
+            deviceControl2.DriverId = DriversHelper.GetDriverNameById("4935848F-0084-4151-A0C8-3A900E3CB5C5");
             deviceControl2.StateId = "Неисправность";
             deviceControl2.AdditionalStates = list2;
 
-            //deviceControl3.DriverId = "799686B6-9CFA-4848-A0E7-B33149AB940C";
-            //deviceControl3.StateId = "Тревога";
+            deviceControl3.DriverId = DriversHelper.GetDriverNameById("799686B6-9CFA-4848-A0E7-B33149AB940C");
+            deviceControl3.StateId = "Тревога";
 
             //deviceControl4.DriverId = "799686B6-9CFA-4848-A0E7-B33149AB940C";
             //deviceControl4.StateId = "Тревога";

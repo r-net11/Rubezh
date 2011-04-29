@@ -8,8 +8,8 @@
     <ProjectGuid>{CA6164BD-CFB8-419E-982B-28D52DB86C81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Resources</RootNamespace>
-    <AssemblyName>Resources</AssemblyName>
+    <RootNamespace>DeviceLibrary</RootNamespace>
+    <AssemblyName>DeviceLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -54,7 +54,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions.cs" />
+    <Compile Include="Models\LibraryManager.cs" />
+    <Compile Include="SvgConverter.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceManager.cs" />
     <Compile Include="Models\Frame.cs" />
@@ -72,7 +73,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="References.cs" />
+    <Compile Include="ResourceHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

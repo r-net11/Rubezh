@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Common;
 using Firesec.Metadata;
-using Resources;
+using DeviceLibrary;
 
 namespace DeviceEditor
 {
@@ -76,7 +76,7 @@ namespace DeviceEditor
 
         public void LoadStates()
         {
-            var file_xml = new FileStream(References.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof (config));
             var metadata = (config) serializer.Deserialize(file_xml);
             file_xml.Close();

@@ -4,12 +4,12 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 
-namespace Resources
+namespace DeviceLibrary
 {
     [Serializable]
     public class Device
     {
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public string Id { get; set; }
         public List<State> States { get; set; }
     }

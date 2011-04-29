@@ -12,8 +12,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using Common;
 using Firesec.Metadata;
-using Resources;
-using Frame = Resources.Frame;
+using DeviceLibrary;
+using Frame = DeviceLibrary.Frame;
 
 namespace DeviceEditor
 {
@@ -112,7 +112,7 @@ namespace DeviceEditor
 
         public void LoadMetadata()
         {
-            var file_xml = new FileStream(References.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof(config));
             var metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();
@@ -135,7 +135,7 @@ namespace DeviceEditor
         /// <returns>Canvas, полученный из svg-строки</returns>
         public static Canvas Str2Canvas(string svgString, int layer)
         {
-            string frameImage = Functions.Svg2Xaml(svgString, References.svg2xaml_xsl);
+            string frameImage = SvgConverter.Svg2Xaml(svgString, ResourceHelper.svg2xaml_xsl);
             var stringReader = new StringReader(frameImage);
             XmlReader xmlReader = XmlReader.Create(stringReader);
             var Picture = (Canvas)XamlReader.Load(xmlReader);
@@ -145,18 +145,17 @@ namespace DeviceEditor
 
         public void OnSaveCommand(object obj)
         {
-            var deviceManager = new DeviceManager();
             MessageBoxResult result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                                       "Окно подтверждения", MessageBoxButton.OKCancel,
                                                       MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
                 return;
-            deviceManager.Devices = new List<Device>();
+            LibraryManager.Devices = new List<Device>();
             foreach (DeviceViewModel deviceViewModel in DeviceViewModels)
             {
                 var device = new Device();
                 device.Id = deviceViewModel.Id;
-                deviceManager.Devices.Add(device);
+                LibraryManager.Devices.Add(device);
                 device.States = new List<State>();
                 foreach (StateViewModel stateViewModel in deviceViewModel.StatesViewModel)
                 {
@@ -176,11 +175,7 @@ namespace DeviceEditor
                     }
                 }
             }
-            var file_xml = new FileStream(References.deviceLibrary_xml, FileMode.Create, FileAccess.Write,
-                                          FileShare.Write);
-            var serializer = new XmlSerializer(typeof(DeviceManager));
-            serializer.Serialize(file_xml, deviceManager);
-            file_xml.Close();
+            LibraryManager.Save();
         }
 
         /****************Таймер*****************/
@@ -196,8 +191,8 @@ namespace DeviceEditor
                 SelectedStateViewModel.ParentDevice.StatesPicture.Remove(DynamicPicture);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0,
                                                         SelectedStateViewModel.FrameViewModels[tick].Duration);
-                frameImage = Functions.Svg2Xaml(SelectedStateViewModel.FrameViewModels[tick].Image,
-                                                References.svg2xaml_xsl);
+                frameImage = SvgConverter.Svg2Xaml(SelectedStateViewModel.FrameViewModels[tick].Image,
+                                                ResourceHelper.svg2xaml_xsl);
                 stringReader = new StringReader(frameImage);
                 xmlReader = XmlReader.Create(stringReader);
                 DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
@@ -212,15 +207,9 @@ namespace DeviceEditor
 
         public void Load()
         {
-            var deviceManager = new DeviceManager();
-            var file_xml = new FileStream(References.deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof(DeviceManager));
-            deviceManager = (DeviceManager)serializer.Deserialize(file_xml);
-            file_xml.Close();
-
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
             AdditionalStatesViewModel = new ObservableCollection<StateViewModel>();
-            foreach (Device device in deviceManager.Devices)
+            foreach (Device device in LibraryManager.Devices)
             {
                 var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Id = device.Id;

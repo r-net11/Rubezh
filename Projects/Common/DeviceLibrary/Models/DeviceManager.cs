@@ -6,11 +6,11 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
 
-namespace Resources
+namespace DeviceLibrary
 {
     [Serializable]
     public class DeviceManager
     {
-        public List<Device> Devices;
+        public List<Device> Devices { get; set; }
     }
 }

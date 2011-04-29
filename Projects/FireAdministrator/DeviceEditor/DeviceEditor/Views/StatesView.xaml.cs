@@ -17,16 +17,5 @@ namespace DeviceEditor
         {
             ((ListBox)sender).SelectedItem = ((ListBox)sender).SelectedItem;
         }
-
-        private void ListBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            sender = new ListBox();
-        }
-
-        private void ListBox_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ((ListBox)sender).SelectedItem = ((ListBox)sender).SelectedItem;
-        }
-
     }
 }
