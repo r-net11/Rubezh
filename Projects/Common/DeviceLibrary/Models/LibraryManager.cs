@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 using Firesec.Metadata;
+using System.Collections.ObjectModel;
 
 namespace DeviceLibrary
 {
@@ -12,11 +13,26 @@ namespace DeviceLibrary
     {
         public static List<Device> Devices { get; set; }
         public static drvType[] Drivers { get; set; }
-
+        public static ObservableCollection<string> BaseStatesList { get; set; }
         static LibraryManager()
         {
             Load();
             LoadMetadata();
+            LoadBaseStates();
+        }
+
+        static void LoadBaseStates()
+        {
+            BaseStatesList = new ObservableCollection<string>();
+            BaseStatesList.Add("Тревога");
+            BaseStatesList.Add("Внимание (предтревожное)");
+            BaseStatesList.Add("Неисправность");
+            BaseStatesList.Add("Требуется обслуживание");
+            BaseStatesList.Add("Обход устройств");
+            BaseStatesList.Add("Неопределено");
+            BaseStatesList.Add("Норма(*)");
+            BaseStatesList.Add("Норма");
+            BaseStatesList.Add("Базовый рисунок");
         }
 
         static void LoadMetadata()

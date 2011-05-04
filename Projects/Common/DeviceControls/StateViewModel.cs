@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using DeviceLibrary;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -17,7 +18,7 @@ namespace DeviceControls
 {
     public class StateViewModel
     {
-        readonly DispatcherTimer _timer = new DispatcherTimer();
+        DispatcherTimer _timer;
         int _tick;
         readonly List<DeviceLibrary.Frame> _frames;
         Canvas _canvas;
@@ -32,7 +33,8 @@ namespace DeviceControls
             {
                 _timer = new DispatcherTimer();
                 _timer.Tick += TimerTick;
-                _timer.IsEnabled = true;
+                _timer.Start();
+
             }
             else
             {
@@ -40,14 +42,15 @@ namespace DeviceControls
             }
         }
 
-        static int count = 0;
 
+        int count = 0;
+        
         private void TimerTick(object sender, EventArgs e)
         {
             DateTime start = DateTime.Now;
 
             var frame = _frames[_tick];
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, frame.Duration);
+            _timer.Interval = new TimeSpan(0,0,0,0, 10);
             Draw(frame);
             _tick = (_tick + 1) % _frames.Count;
 
@@ -55,6 +58,7 @@ namespace DeviceControls
             TimeSpan ts = end.Subtract(start);
             //Trace.WriteLine(ts);
             Trace.WriteLine(count++.ToString());
+
         }
 
         void Draw(Frame frame)
@@ -62,7 +66,8 @@ namespace DeviceControls
             _stateCanvases.Remove(_canvas);
             _canvas = SvgToCanvas(frame.Image);
             Panel.SetZIndex(_canvas, frame.Layer);
-            _stateCanvases.Add(_canvas);
+            _stateCanvases.Add(_canvas);  
+
         }
 
         static Canvas SvgToCanvas(string svg)
@@ -70,7 +75,7 @@ namespace DeviceControls
             var frameImage = SvgConverter.Svg2Xaml(svg, ResourceHelper.svg2xaml_xsl);
             var stringReader = new StringReader(frameImage);
             var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);
+            var canvas = (Canvas)XamlReader.Load(xmlReader);;
             return canvas;
         }
     }

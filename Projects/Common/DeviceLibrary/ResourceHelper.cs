@@ -7,8 +7,8 @@ namespace DeviceLibrary
 {
     public static class ResourceHelper
     {
-        public static string deviceLibrary_xml = @"D:\Projects\Projects\FireAdministrator\ActivexDevices\Library\DeviceLibrary.xml";
-        public static string metadata_xml = @"D:\Projects\Projects\Assad\DeviceModelManager\metadata.xml";
-        public static string svg2xaml_xsl = @"D:\Projects\Projects\FireAdministrator\ActivexDevices\Library\svg2xaml.xsl";
+        public static string deviceLibrary_xml = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\DeviceLibrary.xml";
+        public static string metadata_xml = @"C:\Rubezh\Projects\Assad\DeviceModelManager\metadata.xml";
+        public static string svg2xaml_xsl = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\svg2xaml.xsl";
     }
 }

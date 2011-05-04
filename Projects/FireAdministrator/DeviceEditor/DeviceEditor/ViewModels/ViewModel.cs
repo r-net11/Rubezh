@@ -218,9 +218,7 @@ namespace DeviceEditor
                 deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
                 try
                 {
-                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" +
-                                               DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon +
-                                               ".ico";
+                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon +".ico";
                 }
                 catch
                 {
@@ -228,8 +226,8 @@ namespace DeviceEditor
                 foreach (State state in device.States)
                 {
                     var stateViewModel = new StateViewModel();
-                    stateViewModel.Id = state.Id;
                     stateViewModel.IsAdditional = state.IsAdditional;
+                    stateViewModel.Id = state.Id;
                     deviceViewModel.StatesViewModel.Add(stateViewModel);
                     stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
                     foreach (Frame frame in state.Frames)

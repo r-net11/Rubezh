@@ -115,8 +115,11 @@ namespace DeviceEditor
             {
                 id = value;
                 drvType driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
-                stateType state = driver.state.FirstOrDefault(x => x.id == id);
-                Name = state.name;
+                if (IsAdditional)
+                    Name = driver.state.FirstOrDefault(x => x.id == id).name;
+                else
+                    Name = LibraryManager.BaseStatesList[Convert.ToInt16(id)];
+
             }
         }
 
