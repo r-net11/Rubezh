@@ -50,7 +50,7 @@ namespace DeviceControls
             DateTime start = DateTime.Now;
 
             var frame = _frames[_tick];
-            _timer.Interval = new TimeSpan(0,0,0,0, 10);
+            _timer.Interval = new TimeSpan(0,0,0,0, frame.Duration);
             Draw(frame);
             _tick = (_tick + 1) % _frames.Count;
 
@@ -67,7 +67,6 @@ namespace DeviceControls
             _canvas = SvgToCanvas(frame.Image);
             Panel.SetZIndex(_canvas, frame.Layer);
             _stateCanvases.Add(_canvas);  
-
         }
 
         static Canvas SvgToCanvas(string svg)

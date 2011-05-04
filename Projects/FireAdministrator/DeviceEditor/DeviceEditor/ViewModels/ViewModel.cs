@@ -15,12 +15,12 @@ using Firesec.Metadata;
 using Firesec;
 using DeviceLibrary;
 using Frame = DeviceLibrary.Frame;
+using DeviceControls;
 
 namespace DeviceEditor
 {
     public class ViewModel : BaseViewModel
     {
-        public static DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
         /// <summary>
         /// Список всех устройств, полученный из файла metadata.xml
@@ -28,7 +28,7 @@ namespace DeviceEditor
         public List<drvType> DevicesList;
 
         public Canvas DynamicPicture;
-        private ObservableCollection<StateViewModel> additionalStatesViewModel;
+
         private ObservableCollection<DeviceViewModel> deviceViewModels;
         private DeviceViewModel selectedDeviceViewModel;
         private StateViewModel selectedStateViewModel;
@@ -41,7 +41,7 @@ namespace DeviceEditor
             Load();
 
             SaveCommand = new RelayCommand(OnSaveCommand);
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
+
         }
 
         public static ViewModel Current { get; private set; }
@@ -77,6 +77,16 @@ namespace DeviceEditor
             }
         }
 
+        private DeviceControl deviceControl;
+        public DeviceControl DeviceControl
+        {
+            get { return deviceControl; }
+            set
+            {
+                deviceControl = value;
+                OnPropertyChanged("DeviceControl");
+            }
+        }
         /// <summary>
         /// Выбранное состояние.
         /// </summary>
@@ -88,28 +98,18 @@ namespace DeviceEditor
                 selectedStateViewModel = value;
                 SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
-                SelectedStateViewModel.ParentDevice.StatesPicture.Add(
-                    Str2Canvas(SelectedStateViewModel.SelectedFrameViewModel.Image,
-                               selectedStateViewModel.FrameViewModels[0].Layer));
 
-                if (selectedStateViewModel.FrameViewModels.Count > 1)
-                {
-                    SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
-                    dispatcherTimer.Start();
-                }
+                DeviceControl = new DeviceControl();
+                DeviceControl.Width = deviceControl.Height = 50;
+
+                DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
+                DeviceControl.StateId = SelectedStateViewModel.Id;
+                DeviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("SelectedStateViewModel");
+
             }
         }
 
-        public ObservableCollection<StateViewModel> AdditionalStatesViewModel
-        {
-            get { return additionalStatesViewModel; }
-            set
-            {
-                additionalStatesViewModel = value;
-                OnPropertyChanged("AdditionalStatesViewModel");
-            }
-        }
 
         public void LoadMetadata()
         {
@@ -179,37 +179,9 @@ namespace DeviceEditor
             LibraryManager.Save();
         }
 
-        /****************Таймер*****************/
-
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            CommandManager.InvalidateRequerySuggested();
-            string frameImage;
-            StringReader stringReader;
-            XmlReader xmlReader;
-            try
-            {
-                SelectedStateViewModel.ParentDevice.StatesPicture.Remove(DynamicPicture);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0,
-                                                        SelectedStateViewModel.FrameViewModels[tick].Duration);
-                frameImage = SvgConverter.Svg2Xaml(SelectedStateViewModel.FrameViewModels[tick].Image,
-                                                ResourceHelper.svg2xaml_xsl);
-                stringReader = new StringReader(frameImage);
-                xmlReader = XmlReader.Create(stringReader);
-                DynamicPicture = (Canvas)XamlReader.Load(xmlReader);
-                Panel.SetZIndex(DynamicPicture, SelectedStateViewModel.FrameViewModels[tick].Layer);
-                SelectedStateViewModel.ParentDevice.StatesPicture.Add(DynamicPicture);
-                tick = (tick + 1) % SelectedStateViewModel.FrameViewModels.Count;
-            }
-            catch
-            {
-            }
-        }
-
         public void Load()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            AdditionalStatesViewModel = new ObservableCollection<StateViewModel>();
             foreach (Device device in LibraryManager.Devices)
             {
                 var deviceViewModel = new DeviceViewModel();
@@ -218,7 +190,7 @@ namespace DeviceEditor
                 deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
                 try
                 {
-                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon +".ico";
+                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon + ".ico";
                 }
                 catch
                 {

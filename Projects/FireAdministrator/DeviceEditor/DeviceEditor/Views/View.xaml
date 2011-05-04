@@ -67,9 +67,9 @@
 			</TabControl>
 
 			<Grid>
-				<ContentControl DataContext="{Binding SelectedStateViewModel.ParentDevice}" HorizontalAlignment="Right">
+				<ContentControl DataContext="{Binding DeviceControl}" HorizontalAlignment="Right">
 					<Grid>
-						<ItemsControl ItemsSource="{Binding StatesPicture}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
+						<ItemsControl ItemsSource="{Binding StateCanvases}" VerticalAlignment="Center" Margin="0,40,10,0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Width="500">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
 									<Canvas Width="500" Height="500" />

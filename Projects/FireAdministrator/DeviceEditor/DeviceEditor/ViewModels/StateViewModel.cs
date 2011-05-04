@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -41,7 +42,6 @@ namespace DeviceEditor
         /// Выбранный кадр.
         /// </summary>
         private FrameViewModel selectedFrameViewModel;
-
         private int tick;
 
         public StateViewModel()
@@ -52,10 +52,8 @@ namespace DeviceEditor
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
-
         public static StateViewModel Current { get; private set; }
         public DeviceViewModel ParentDevice { get; set; }
-
         public FrameViewModel SelectedFrameViewModel
         {
             get { return selectedFrameViewModel; }
@@ -74,21 +72,16 @@ namespace DeviceEditor
             set
             {
                 isChecked = value;
-                if ((IsAdditional) && (isChecked))
+                if (isChecked)
                 {
-                    dispatcherTimer.Start();
+                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Add(this.Id);
+
                 }
                 if (!isChecked)
                 {
-                    try
-                    {
-                        ParentDevice.StatesPicture.Remove(FramePicture);
-                        dispatcherTimer.Stop();
-                    }
-                    catch
-                    {
-                    }
+                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(this.Id);
                 }
+                ViewModel.Current.DeviceControl.AdditionalStates = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("IsChecked");
             }
         }

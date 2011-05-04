@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Common;
 using Firesec;
@@ -17,7 +18,7 @@ namespace DeviceEditor
         /// Выбранное состояние.
         /// </summary>
         private StateViewModel selectedStateViewModel;
-
+        private List<string> additionalStatesViewModel;
         public ObservableCollection<Canvas> statesPicture;
 
         /// <summary>
@@ -32,6 +33,7 @@ namespace DeviceEditor
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
             StatesPicture = new ObservableCollection<Canvas>();
+            AdditionalStatesViewModel = new List<string>();
         }
 
         public static DeviceViewModel Current { get; private set; }
@@ -139,6 +141,16 @@ namespace DeviceEditor
         private void OnRemoveDeviceCommand(object obj)
         {
             ViewModel.Current.DeviceViewModels.Remove(this);
+        }
+
+        public List<string> AdditionalStatesViewModel
+        {
+            get { return additionalStatesViewModel; }
+            set
+            {
+                additionalStatesViewModel = value;
+                OnPropertyChanged("AdditionalStatesViewModel");
+            }
         }
     }
 }

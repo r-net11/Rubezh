@@ -29,7 +29,6 @@ namespace DeviceControls
         {
             InitializeComponent();
             this.DataContext = this;
-
             StateCanvases = new ObservableCollection<Canvas>();
         }
 
@@ -79,7 +78,6 @@ namespace DeviceControls
                 foreach (string additionalState in AdditionalStates)
                 {
                     State a_state = device.States.FirstOrDefault(x => x.Id == additionalState);
-
                     new StateViewModel(a_state, StateCanvases);
                 }
         }
@@ -94,6 +92,7 @@ namespace DeviceControls
                 OnPropertyChanged("StateCanvases");
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
