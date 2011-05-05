@@ -53,6 +53,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
@@ -82,6 +85,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="ViewModels\PlanTreeItemViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="Views\CanvasView.xaml.cs">
@@ -120,6 +124,10 @@
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
@@ -129,6 +137,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataTemplates\TreeExpanderStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CanvasView.xaml">
       <SubType>Designer</SubType>

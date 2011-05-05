@@ -15,7 +15,21 @@ namespace PlansModule.ViewModels
     public class PlansViewModel : RegionViewModel
     {
         List<PlanViewModel> AllPlanViewModels;
-        public PlanViewModel RootPlanViewModel;
+        public ObservableCollection<PlanTreeItemViewModel> PlanTreeItems { get; set; }
+
+        PlanTreeItemViewModel selectedPlanTreeItem;
+        public PlanTreeItemViewModel SelectedPlanTreeItem
+        {
+            get { return selectedPlanTreeItem; }
+            set
+            {
+                selectedPlanTreeItem = value;
+                PlanViewModel planViewModel = AllPlanViewModels.FirstOrDefault(x => x.Name == value.plan.Name);
+                //SelectedPlanViewModel = planViewModel;
+                planViewModel.Select();
+                OnPropertyChanged("SelectedPlanTreeItem");
+            }
+        }
 
         public PlansViewModel()
         {
@@ -29,18 +43,40 @@ namespace PlansModule.ViewModels
 
         public void Initialize()
         {
+            PlanTreeItems = new ObservableCollection<PlanTreeItemViewModel>();
+
             Plan rootPlan = PlanLoader.Load();
 
-            RootPlanViewModel = new PlanViewModel();
+            PlanViewModel RootPlanViewModel = new PlanViewModel();
             RootPlanViewModel.Parent = null;
             AllPlanViewModels.Add(RootPlanViewModel);
+            
+            PlanTreeItemViewModel planTreeItemViewModel = new ViewModels.PlanTreeItemViewModel();
+            planTreeItemViewModel.Parent = null;
+            planTreeItemViewModel.Initialize(rootPlan, PlanTreeItems);
+            planTreeItemViewModel.IsExpanded = true;
+            PlanTreeItems.Add(planTreeItemViewModel);
+            AddPlan2(rootPlan, planTreeItemViewModel);
+
             AddPlan(rootPlan, RootPlanViewModel);
             RootPlanViewModel.Initialize(rootPlan, MainCanvas);
 
-            RootPlanViewModels = new ObservableCollection<PlanViewModel>();
-            RootPlanViewModels.Add(RootPlanViewModel);
+            //SelectedPlanViewModel = RootPlanViewModel;
+        }
 
-            SelectedPlanViewModel = RootPlanViewModel;
+        void AddPlan2(Plan parentPlan, PlanTreeItemViewModel parentPlanTreeItem)
+        {
+            if (parentPlan.Children != null)
+                foreach (Plan plan in parentPlan.Children)
+                {
+                    PlanTreeItemViewModel planTreeItemViewModel = new ViewModels.PlanTreeItemViewModel();
+                    planTreeItemViewModel.Parent = parentPlanTreeItem;
+                    parentPlanTreeItem.Children.Add(planTreeItemViewModel);
+                    planTreeItemViewModel.Initialize(plan, PlanTreeItems);
+                    planTreeItemViewModel.IsExpanded = true;
+                    PlanTreeItems.Add(planTreeItemViewModel);
+                    AddPlan2(plan, planTreeItemViewModel);
+                }
         }
 
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanViewModel)
@@ -68,17 +104,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        ObservableCollection<PlanViewModel> rootPlanViewModels;
-        public ObservableCollection<PlanViewModel> RootPlanViewModels
-        {
-            get { return rootPlanViewModels; }
-            set
-            {
-                rootPlanViewModels = value;
-                OnPropertyChanged("RootPlanViewModels");
-            }
-        }
-
         PlanViewModel selectedPlanViewModel;
         public PlanViewModel SelectedPlanViewModel
         {
@@ -93,11 +118,7 @@ namespace PlansModule.ViewModels
 
         public void OnSelectPlan(string name)
         {
-            PlanViewModel planViewModel = AllPlanViewModels.FirstOrDefault(x => x.Name == name);
-            if (planViewModel != null)
-            {
-                SelectedPlanViewModel = planViewModel;
-            }
+            SelectedPlanTreeItem = PlanTreeItems.FirstOrDefault(x => x.plan.Name == name);
         }
 
         public void OnPlanDeviceSelected(string path)

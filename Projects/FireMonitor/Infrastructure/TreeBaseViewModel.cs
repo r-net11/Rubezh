@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using Infrastructure;
 
-namespace DevicesModule.ViewModels
+namespace Infrastructure
 {
     public class TreeBaseViewModel<T> : BaseViewModel
         where T : TreeBaseViewModel<T>

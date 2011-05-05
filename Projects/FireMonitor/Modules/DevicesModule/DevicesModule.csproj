@@ -80,7 +80,6 @@
     </Compile>
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\TreeBaseViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">

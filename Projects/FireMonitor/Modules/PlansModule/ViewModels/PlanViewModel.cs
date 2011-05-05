@@ -23,7 +23,6 @@ namespace PlansModule.ViewModels
         public PlanViewModel()
         {
             Children = new ObservableCollection<PlanViewModel>();
-            ParentPlans = new ObservableCollection<PlanViewModel>();
             SelectCommand = new RelayCommand(Select);
         }
 
@@ -33,8 +32,6 @@ namespace PlansModule.ViewModels
         public Plan plan { get; set; }
         public string Name { get; set; }
         public string Caption { get; set; }
-
-        public ObservableCollection<PlanViewModel> ParentPlans { get; set; }
 
         Canvas MainCanvas { get; set; }
 
@@ -103,7 +100,6 @@ namespace PlansModule.ViewModels
             this.plan = plan;
             Name = plan.Name;
             Caption = plan.Caption;
-            UpdateParentPlans();
         }
 
         public void DrawPlan()
@@ -206,15 +202,6 @@ namespace PlansModule.ViewModels
                 {
                     subPlan.Update(planViewModel.State);
                 }
-            }
-        }
-
-        void UpdateParentPlans()
-        {
-            ParentPlans = new ObservableCollection<PlanViewModel>();
-            foreach (PlanViewModel parentPlan in AllParents)
-            {
-                ParentPlans.Add(parentPlan);
             }
         }
 
