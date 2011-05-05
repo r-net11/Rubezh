@@ -28,7 +28,6 @@ namespace DeviceEditor
         public ViewModel()
         {
             Current = this;
-            DeviceControl = new DeviceControl();
             LoadMetadata();
             Load();
             SaveCommand = new RelayCommand(OnSaveCommand);
@@ -72,16 +71,6 @@ namespace DeviceEditor
             }
         }
 
-        private DeviceControl deviceControl;
-        public DeviceControl DeviceControl
-        {
-            get { return deviceControl; }
-            set
-            {
-                deviceControl = value;
-                OnPropertyChanged("DeviceControl");
-            }
-        }
         /// <summary>
         /// Выбранное состояние.
         /// </summary>
@@ -94,13 +83,13 @@ namespace DeviceEditor
                 SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
 
-                DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
-                DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
-                DeviceControl.StateId = SelectedStateViewModel.Id;
+                SelectedStateViewModel.ParentDevice.DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
+                SelectedStateViewModel.ParentDevice.DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
+                SelectedStateViewModel.ParentDevice.DeviceControl.StateId = SelectedStateViewModel.Id;
                 if (SelectedStateViewModel.IsAdditional)
-                    DeviceControl.AdditionalStatesIds = null;
+                    SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = null;
                 else
-                    DeviceControl.AdditionalStatesIds = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                    SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
 
                 OnPropertyChanged("SelectedStateViewModel");
             }

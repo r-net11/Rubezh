@@ -8,6 +8,7 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using System.Xml;
 using Common;
+using DeviceControls;
 using DeviceLibrary;
 using System.Linq;
 using Firesec;
@@ -81,7 +82,7 @@ namespace DeviceEditor
                 {
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(this.Id);
                 }
-                ViewModel.Current.DeviceControl.AdditionalStatesIds = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("IsChecked");
             }
         }

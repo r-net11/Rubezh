@@ -53,6 +53,7 @@ namespace DeviceControls
             var frame = _frames[_tick];
             _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);// new TimeSpan(0, 0, 0, 0, frame.Duration);
             Draw(frame);
+
             _tick = (_tick + 1) % _frames.Count;
 
             DateTime end = DateTime.Now;

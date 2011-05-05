@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Common;
+using DeviceControls;
 using Firesec;
 
 namespace DeviceEditor
@@ -29,6 +30,7 @@ namespace DeviceEditor
         public DeviceViewModel()
         {
             Current = this;
+            DeviceControl = new DeviceControl();
             AddDeviceCommand = new RelayCommand(OnAddDeviceCommand);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
             AddStateCommand = new RelayCommand(OnAddStateCommand);
@@ -38,6 +40,16 @@ namespace DeviceEditor
 
         public static DeviceViewModel Current { get; private set; }
 
+        private DeviceControl deviceControl;
+        public DeviceControl DeviceControl
+        {
+            get { return deviceControl; }
+            set
+            {
+                deviceControl = value;
+                OnPropertyChanged("DeviceControl");
+            }
+        }
 
         public string IconPath
         {
