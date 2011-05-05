@@ -27,7 +27,7 @@ namespace Test
         {
             InitializeComponent();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 500; i++)
             {
                 DeviceControls.DeviceControl deviceControl = new DeviceControl();
                 deviceControl.Width = deviceControl.Height = 50;
@@ -43,17 +43,6 @@ namespace Test
 
                 wrapPanel.Children.Add(deviceControl);
             }
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    DeviceControls.DeviceControl deviceControl = new DeviceControl();
-            //    deviceControl.Width = deviceControl.Height = 50;
-
-            //    deviceControl.DriverId = "799686B6-9CFA-4848-A0E7-B33149AB940C";
-            //    deviceControl.StateId = "0";
-
-            //    wrapPanel.Children.Add(deviceControl);
-            //}
         }
     }
 }

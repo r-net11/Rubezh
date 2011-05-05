@@ -45,13 +45,12 @@ namespace DeviceControls
 
 
         int count = 0;
-        
         private void TimerTick(object sender, EventArgs e)
         {
             DateTime start = DateTime.Now;
 
             var frame = _frames[_tick];
-            _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);// new TimeSpan(0, 0, 0, 0, frame.Duration);
+            _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);
             Draw(frame);
 
             _tick = (_tick + 1) % _frames.Count;
@@ -59,8 +58,7 @@ namespace DeviceControls
             DateTime end = DateTime.Now;
             TimeSpan ts = end.Subtract(start);
             //Trace.WriteLine(ts);
-            Trace.WriteLine(count++.ToString());
-
+            //Trace.WriteLine(count++.ToString());
         }
 
         void Draw(Frame frame)
@@ -73,10 +71,10 @@ namespace DeviceControls
 
         static Canvas SvgToCanvas(string svg)
         {
-            var frameImage = SvgConverter.Svg2Xaml(svg, ResourceHelper.svg2xaml_xsl);
+            var frameImage = svg;
             var stringReader = new StringReader(frameImage);
             var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);;
+            var canvas = (Canvas)XamlReader.Load(xmlReader);
             return canvas;
         }
 

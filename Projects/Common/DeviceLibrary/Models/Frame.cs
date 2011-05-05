@@ -15,6 +15,16 @@ namespace DeviceLibrary
         public int Duration { get; set; }
         [XmlAttribute]
         public int Layer { get; set;}
-        public string Image { get; set; }
+
+        private string image;
+        public string Image
+        {
+            get { return image; }
+            set
+            {
+                image = SvgConverter.Svg2Xaml(value, ResourceHelper.svg2xaml_xsl);
+            } 
+        }
+
     }
 }
