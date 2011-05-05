@@ -21,29 +21,24 @@ namespace DeviceEditor
 {
     public class ViewModel : BaseViewModel
     {
-
-        /// <summary>
-        /// Список всех устройств, полученный из файла metadata.xml
-        /// </summary>
-        public List<drvType> DevicesList;
-
-        public Canvas DynamicPicture;
-
         private ObservableCollection<DeviceViewModel> deviceViewModels;
         private DeviceViewModel selectedDeviceViewModel;
         private StateViewModel selectedStateViewModel;
-        private int tick;
 
         public ViewModel()
         {
             Current = this;
+            DeviceControl = new DeviceControl();
             LoadMetadata();
             Load();
-
             SaveCommand = new RelayCommand(OnSaveCommand);
 
         }
-
+        /// <summary>
+        /// Список всех устройств, полученный из файла metadata.xml
+        /// </summary>
+        public List<drvType> DevicesList;
+        public Canvas DynamicPicture;
         public static ViewModel Current { get; private set; }
 
         /// <summary>
@@ -99,14 +94,15 @@ namespace DeviceEditor
                 SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
                 SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
 
-                DeviceControl = new DeviceControl();
-                DeviceControl.Width = deviceControl.Height = 50;
-
                 DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
+                DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
                 DeviceControl.StateId = SelectedStateViewModel.Id;
-                DeviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
-                OnPropertyChanged("SelectedStateViewModel");
+                if (SelectedStateViewModel.IsAdditional)
+                    DeviceControl.AdditionalStatesIds = null;
+                else
+                    DeviceControl.AdditionalStatesIds = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
 
+                OnPropertyChanged("SelectedStateViewModel");
             }
         }
 
@@ -151,31 +147,6 @@ namespace DeviceEditor
                                                       MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
                 return;
-            LibraryManager.Devices = new List<Device>();
-            foreach (DeviceViewModel deviceViewModel in DeviceViewModels)
-            {
-                var device = new Device();
-                device.Id = deviceViewModel.Id;
-                LibraryManager.Devices.Add(device);
-                device.States = new List<State>();
-                foreach (StateViewModel stateViewModel in deviceViewModel.StatesViewModel)
-                {
-                    var state = new State();
-                    state.Id = stateViewModel.Id;
-                    state.IsAdditional = stateViewModel.IsAdditional;
-                    device.States.Add(state);
-                    state.Frames = new List<Frame>();
-                    foreach (FrameViewModel frameViewModel in stateViewModel.FrameViewModels)
-                    {
-                        var frame = new Frame();
-                        frame.Id = frameViewModel.Id;
-                        frame.Image = frameViewModel.Image;
-                        frame.Duration = frameViewModel.Duration;
-                        frame.Layer = frameViewModel.Layer;
-                        state.Frames.Add(frame);
-                    }
-                }
-            }
             LibraryManager.Save();
         }
 

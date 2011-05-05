@@ -30,6 +30,7 @@ namespace DeviceControls
             InitializeComponent();
             this.DataContext = this;
             StateCanvases = new ObservableCollection<Canvas>();
+            StatesViewModels = new List<StateViewModel>();
         }
 
         string _driverId;
@@ -39,6 +40,7 @@ namespace DeviceControls
             set
             {
                 _driverId = value;
+                CurrentDevice = LibraryManager.Devices.FirstOrDefault(x => x.Id == value);
             }
         }
 
@@ -49,36 +51,52 @@ namespace DeviceControls
             set
             {
                 _stateId = value;
-
+                
                 Update();
             }
         }
 
-        List<string> _additionalStates;
-        public List<string> AdditionalStates
+        List<string> _additionalStatesIds;
+        public List<string> AdditionalStatesIds
         {
-            get { return _additionalStates; }
+            get { return _additionalStatesIds; }
             set
             {
-                _additionalStates = value;
+                _additionalStatesIds = value;
 
                 Update();
             }
         }
+
+        private List<StateViewModel> StatesViewModels { get; set; }
+
+        private ObservableCollection<StateViewModel> additionalStatesViewModels;
+        ObservableCollection<StateViewModel> AdditionalStatesViewModels
+        {
+            get { return additionalStatesViewModels; }
+            set
+            {
+                additionalStatesViewModels = value;
+            }
+        }
+
+        public bool IsAdditional;
+        public static Device CurrentDevice;
 
         void Update()
         {
+            if (StatesViewModels != null)
+                StatesViewModels.ForEach(x => x.Dispose());
             StateCanvases = new ObservableCollection<Canvas>();
-
-            Device device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
-            State state = device.States.FirstOrDefault(x => x.Id == StateId);
-            new StateViewModel(state, StateCanvases);
-
-            if (AdditionalStates != null)
-                foreach (string additionalState in AdditionalStates)
+            State state = CurrentDevice.States.FirstOrDefault(x => (x.Id == StateId)&&(x.IsAdditional == IsAdditional));
+            StatesViewModels.Add(new StateViewModel(state, StateCanvases));
+            if (IsAdditional)
+                return;
+            if (AdditionalStatesIds != null)
+                foreach (string additionalState in AdditionalStatesIds)
                 {
-                    State a_state = device.States.FirstOrDefault(x => x.Id == additionalState);
-                    new StateViewModel(a_state, StateCanvases);
+                    State a_state = CurrentDevice.States.FirstOrDefault(x => (x.Id == additionalState) && (x.IsAdditional));
+                    StatesViewModels.Add(new StateViewModel(a_state, StateCanvases));
                 }
         }
 

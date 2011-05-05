@@ -16,8 +16,9 @@ using Frame = DeviceLibrary.Frame;
 
 namespace DeviceControls
 {
-    public class StateViewModel
+    public class StateViewModel : IDisposable
     {
+        public bool IsAdditional;
         DispatcherTimer _timer;
         int _tick;
         readonly List<DeviceLibrary.Frame> _frames;
@@ -32,7 +33,7 @@ namespace DeviceControls
             if (state.Frames.Count > 1)
             {
                 _timer = new DispatcherTimer();
-                _timer.Tick += TimerTick;
+                _timer.Tick += new EventHandler(TimerTick);
                 _timer.Start();
 
             }
@@ -50,7 +51,7 @@ namespace DeviceControls
             DateTime start = DateTime.Now;
 
             var frame = _frames[_tick];
-            _timer.Interval = new TimeSpan(0,0,0,0, frame.Duration);
+            _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);// new TimeSpan(0, 0, 0, 0, frame.Duration);
             Draw(frame);
             _tick = (_tick + 1) % _frames.Count;
 
@@ -76,6 +77,12 @@ namespace DeviceControls
             var xmlReader = XmlReader.Create(stringReader);
             var canvas = (Canvas)XamlReader.Load(xmlReader);;
             return canvas;
+        }
+
+        public void Dispose()
+        {
+            if(_timer != null)
+                _timer.Stop();
         }
     }
 }

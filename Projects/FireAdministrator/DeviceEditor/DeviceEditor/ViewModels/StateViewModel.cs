@@ -81,7 +81,7 @@ namespace DeviceEditor
                 {
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(this.Id);
                 }
-                ViewModel.Current.DeviceControl.AdditionalStates = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                ViewModel.Current.DeviceControl.AdditionalStatesIds = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("IsChecked");
             }
         }

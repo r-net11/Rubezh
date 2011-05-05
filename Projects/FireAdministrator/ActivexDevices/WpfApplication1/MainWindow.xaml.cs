@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -38,7 +39,7 @@ namespace Test
                 stateList.Add("32");
                 stateList.Add("36");
                 stateList.Add("37");
-                deviceControl.AdditionalStates = stateList;
+                deviceControl.AdditionalStatesIds = stateList;
 
                 wrapPanel.Children.Add(deviceControl);
             }
