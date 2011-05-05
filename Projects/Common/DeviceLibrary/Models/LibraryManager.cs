@@ -6,11 +6,18 @@ using System.IO;
 using System.Xml.Serialization;
 using Firesec.Metadata;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Xml;
+using System.Windows.Markup;
 
 namespace DeviceLibrary
 {
     public static class LibraryManager
     {
+        static string metadataFileName = @"../../Data/metadata.xml";
+        static string deviceLibraryFileName = @"../../Data/DeviceLibrary.xml";
+        static string transormFileName = @"../../Data/svg2xaml.xsl";
+
         public static List<Device> Devices { get; set; }
         public static drvType[] Drivers { get; set; }
         public static ObservableCollection<string> BaseStatesList { get; set; }
@@ -37,7 +44,7 @@ namespace DeviceLibrary
 
         static void LoadMetadata()
         {
-            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var file_xml = new FileStream(metadataFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof(config));
             var metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();
@@ -46,7 +53,7 @@ namespace DeviceLibrary
 
         static void Load()
         {
-            FileStream fileStream = new FileStream(ResourceHelper.deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream fileStream = new FileStream(deviceLibraryFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             DeviceManager deviceManager = (DeviceManager)serializer.Deserialize(fileStream);
             fileStream.Close();
@@ -59,10 +66,19 @@ namespace DeviceLibrary
             DeviceManager deviceManager = new DeviceManager();
             deviceManager.Devices = Devices;
 
-            FileStream fileStream = new FileStream(ResourceHelper.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
+            FileStream fileStream = new FileStream(deviceLibraryFileName, FileMode.Create, FileAccess.Write, FileShare.Write);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             serializer.Serialize(fileStream, deviceManager);
             fileStream.Close();
+        }
+
+        public static Canvas SvgToCanvas(string svg)
+        {
+            var frameImage = SvgConverter.Svg2Xaml(svg, transormFileName);
+            var stringReader = new StringReader(frameImage);
+            var xmlReader = XmlReader.Create(stringReader);
+            var canvas = (Canvas)XamlReader.Load(xmlReader); ;
+            return canvas;
         }
     }
 }

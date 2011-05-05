@@ -65,18 +65,9 @@ namespace DeviceControls
         void Draw(Frame frame)
         {
             _stateCanvases.Remove(_canvas);
-            _canvas = SvgToCanvas(frame.Image);
+            _canvas = LibraryManager.SvgToCanvas(frame.Image);
             Panel.SetZIndex(_canvas, frame.Layer);
             _stateCanvases.Add(_canvas);  
-        }
-
-        static Canvas SvgToCanvas(string svg)
-        {
-            var frameImage = SvgConverter.Svg2Xaml(svg, ResourceHelper.svg2xaml_xsl);
-            var stringReader = new StringReader(frameImage);
-            var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);;
-            return canvas;
         }
 
         public void Dispose()

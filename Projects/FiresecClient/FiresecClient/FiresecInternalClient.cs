@@ -30,7 +30,7 @@ namespace FiresecClient
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-            EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/StateService");
+            EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
             duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             firesecService = duplexChannelFactory.CreateChannel();
 

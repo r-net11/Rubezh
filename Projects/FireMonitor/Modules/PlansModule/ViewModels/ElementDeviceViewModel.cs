@@ -64,9 +64,12 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(innerCanvas);
 
             deviceControl = new DeviceControls.DeviceControl();
-            string deviceName = DriversHelper.GetDriverNameById(device.DriverId);
-            deviceName = deviceName.Replace("//", "/");
-            deviceControl.DriverId = deviceName;
+            //string deviceName = DriversHelper.GetDriverNameById(device.DriverId);
+            //deviceName = deviceName.Replace("//", "/");
+            //deviceControl.DriverId = deviceName;
+
+            deviceControl.DriverId = device.DriverId;
+
             //deviceControl.ToolTip = Name;
             deviceControl.Width = elementDevice.Width;
             deviceControl.Height = elementDevice.Height;
@@ -144,13 +147,14 @@ namespace PlansModule.ViewModels
             if (path == elementDevice.Path)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                State = deviceState.State;
-                StateType stateType = StateHelper.NameToType(deviceState.State);
+                //State = deviceState.State;
+                //StateType stateType = StateHelper.NameToType(deviceState.State);
 
-                if (deviceState.State == "Неопределено")
-                    deviceControl.StateId = "Неизвестно";
-                else
-                deviceControl.StateId = deviceState.State;
+                //if (deviceState.State == "Неопределено")
+                //    deviceControl.StateId = "Неизвестно";
+                //else
+                //deviceControl.StateId = deviceState.State;
+                deviceControl.StateId = StateHelper.NameToPriority(deviceState.State).ToString();
 
                 planViewModel.UpdateSelfState();
             }

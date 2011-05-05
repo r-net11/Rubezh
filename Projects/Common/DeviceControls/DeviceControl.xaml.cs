@@ -88,7 +88,10 @@ namespace DeviceControls
             if (StatesViewModels != null)
                 StatesViewModels.ForEach(x => x.Dispose());
             StateCanvases = new ObservableCollection<Canvas>();
-            State state = CurrentDevice.States.FirstOrDefault(x => (x.Id == StateId)&&(x.IsAdditional == IsAdditional));
+
+            Device device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
+            State state = device.States.FirstOrDefault(x => (x.Id == StateId) && (x.IsAdditional == IsAdditional));
+            
             StatesViewModels.Add(new StateViewModel(state, StateCanvases));
             if (IsAdditional)
                 return;
