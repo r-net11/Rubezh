@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DeviceEditor
+namespace DeviceEditor.Views
 {
     /// <summary>
     /// Логика взаимодействия для DevicesView.xaml

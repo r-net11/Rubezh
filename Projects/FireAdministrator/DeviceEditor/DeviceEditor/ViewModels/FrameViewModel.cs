@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Markup;
@@ -7,121 +6,106 @@ using System.Xml;
 using Common;
 using DeviceLibrary;
 
-namespace DeviceEditor
+namespace DeviceEditor.ViewModels
 {
     public class FrameViewModel : BaseViewModel
     {
-        public static FrameViewModel Current;
-        private ObservableCollection<Canvas> dynamicPicture;
-        public int id;
-        private string image;
-        private int layer;
-        private ObservableCollection<Canvas> picture;
-
+        private int _id;
+        private string _image;
+        private int _layer;
+        private ObservableCollection<Canvas> _picture;
+        private int _duration;
         public FrameViewModel()
         {
             AddFrameCommand = new RelayCommand(OnAddFrameCommand);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrameCommand);
             Parent = StateViewModel.Current;
             Layer = 0;
-            Current = this;
         }
-
         public StateViewModel Parent { get; private set; }
-
         public RelayCommand AddFrameCommand { get; private set; }
-
         public RelayCommand RemoveFrameCommand { get; private set; }
-
+        /// <summary>
+        /// Идентификатор кадра.
+        /// </summary>
         public int Id
         {
-            get { return id; }
+            get { return _id; }
             set
             {
-                id = value;
+                _id = value;
                 OnPropertyChanged("Id");
             }
         }
-
-        public int duration { get; set; }
-
+        /// <summary>
+        /// Длительность кадра.
+        /// </summary>
         public int Duration
         {
-            get { return duration; }
+            get { return _duration; }
             set
             {
-                duration = value;
+                _duration = value;
                 OnPropertyChanged("Duration");
             }
         }
-
+        /// <summary>
+        /// Рисунок кадра.
+        /// </summary>
         public ObservableCollection<Canvas> Picture
         {
-            get { return picture; }
+            get { return _picture; }
             set
             {
-                picture = value;
+                _picture = value;
                 OnPropertyChanged("Picture");
             }
         }
-
-        public ObservableCollection<Canvas> DynamicPicture
-        {
-            get { return dynamicPicture; }
-            set
-            {
-                dynamicPicture = value;
-                OnPropertyChanged("DynamicPicture");
-            }
-        }
-
+        /// <summary>
+        /// Слой кадра.
+        /// </summary>
         public int Layer
         {
-            get { return layer; }
+            get { return _layer; }
             set
             {
-                layer = value;
+                _layer = value;
                 OnPropertyChanged("Layer");
             }
         }
-
         public string Image
         {
-            get { return image; }
+            get { return _image; }
             set
             {
-                image = value;
-                string frameImage;
+                _image = value;
                 StringReader stringReader;
                 XmlReader xmlReader;
-
+                string frameImage;
                 try
                 {
-                    frameImage = image;
+                    frameImage = _image;
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    var FramePicture = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(FramePicture, Layer);
-                    Picture.Add(FramePicture);
+                    var framePicture = (Canvas) XamlReader.Load(xmlReader);
+                    Panel.SetZIndex(framePicture, Layer);
+                    Picture.Add(framePicture);
                 }
-                catch (Exception)
+                catch
                 {
-                    string text =
-                        "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\"> <g><title>Layer 1</title> <text xml:space=\"preserve\" text-anchor=\"middle\" font-family=\"serif\" font-size=\"94\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\" id=\"svg_1\" y=\"0\" x=\"0\">" +
-                        "ERROR SVG" + "</text> </g></svg>";
-                    frameImage = text;
+                    frameImage = LibraryManager.ErrorFrame;
                     stringReader = new StringReader(frameImage);
                     xmlReader = XmlReader.Create(stringReader);
                     Picture = new ObservableCollection<Canvas>();
-                    var FramePicture = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(FramePicture, Layer);
-                    Picture.Add(FramePicture);
+                    var framePicture = (Canvas)XamlReader.Load(xmlReader);
+                    Panel.SetZIndex(framePicture, Layer);
+                    Picture.Add(framePicture);
                 }
+
                 OnPropertyChanged("Image");
             }
         }
-
         private void OnAddFrameCommand(object obj)
         {
             var newFrame = new FrameViewModel();
@@ -129,12 +113,10 @@ namespace DeviceEditor
             newFrame.Parent = Parent;
             newFrame.Id = Parent.FrameViewModels.Count;
             newFrame.Duration = 500;
-            newFrame.Image =
-                "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
+            newFrame.Image = LibraryManager.EmptyFrame;
             Parent.FrameViewModels.Add(newFrame);
             ViewModel.Current.SelectedStateViewModel = Parent;
         }
-
         private void OnRemoveFrameCommand(object obj)
         {
             Parent.FrameViewModels.Remove(this);

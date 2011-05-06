@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace DeviceEditor
+namespace DeviceEditor.Views
 {
     /// <summary>
     /// Логика взаимодействия для StatesView.xaml
@@ -15,7 +15,7 @@ namespace DeviceEditor
 
         private void ListBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            ((ListBox)sender).SelectedItem = ((ListBox)sender).SelectedItem;
+            ((ListBox) sender).SelectedItem = ((ListBox) sender).SelectedItem;
         }
     }
 }

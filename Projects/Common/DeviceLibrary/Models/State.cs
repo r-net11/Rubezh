@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using DeviceLibrary.Models;
 
 namespace DeviceLibrary
 {

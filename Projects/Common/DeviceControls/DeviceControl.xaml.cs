@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.IO;
 using System.Xml;
-using Frame = DeviceLibrary.Frame;
+using Frame = DeviceLibrary.Models.Frame;
 using System.Windows.Markup;
 using System.ComponentModel;
 using System.Diagnostics;

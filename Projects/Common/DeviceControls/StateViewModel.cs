@@ -12,7 +12,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-using Frame = DeviceLibrary.Frame;
+using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceControls
 {
@@ -21,7 +21,7 @@ namespace DeviceControls
         public bool IsAdditional;
         DispatcherTimer _timer;
         int _tick;
-        readonly List<DeviceLibrary.Frame> _frames;
+        readonly List<Frame> _frames;
         Canvas _canvas;
         readonly ObservableCollection<Canvas> _stateCanvases;
 

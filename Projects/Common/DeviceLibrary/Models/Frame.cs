@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
-namespace DeviceLibrary
+namespace DeviceLibrary.Models
 {
     [Serializable]
     public class Frame
@@ -16,13 +13,14 @@ namespace DeviceLibrary
         [XmlAttribute]
         public int Layer { get; set;}
 
-        private string image;
+        private string _image;
         public string Image
         {
-            get { return image; }
+            get { return _image; }
             set
             {
-                image = SvgConverter.Svg2Xaml(value, ResourceHelper.svg2xaml_xsl);
+                _image = value;
+                //image = SvgConverter.Svg2Xaml(value, ResourceHelper.svg2xaml_xsl); // для загрузки из SVG
             } 
         }
 

@@ -11,7 +11,12 @@ namespace DeviceLibrary
 {
     public static class LibraryManager
     {
+        public static string EmptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?><Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"/>";
+        public static string ErrorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?><Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"><TextBlock Text=\"Error Xaml Code\" FontSize=\"100\" /> </Canvas>";
         public static List<Device> Devices { get; set; }
+        /// <summary>
+        /// Список всех устройств, полученный из файла metadata.xml
+        /// </summary>
         public static drvType[] Drivers { get; set; }
         public static ObservableCollection<string> BaseStatesList { get; set; }
         static LibraryManager()
@@ -37,7 +42,7 @@ namespace DeviceLibrary
 
         static void LoadMetadata()
         {
-            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var file_xml = new FileStream(ResourceHelper.MetadataXml, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof(config));
             var metadata = (config)serializer.Deserialize(file_xml);
             file_xml.Close();
@@ -46,7 +51,7 @@ namespace DeviceLibrary
 
         static void Load()
         {
-            FileStream fileStream = new FileStream(ResourceHelper.deviceLibrary_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream fileStream = new FileStream(ResourceHelper.DeviceLibraryXml, FileMode.Open, FileAccess.Read, FileShare.Read);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             DeviceManager deviceManager = (DeviceManager)serializer.Deserialize(fileStream);
             fileStream.Close();
@@ -59,7 +64,7 @@ namespace DeviceLibrary
             DeviceManager deviceManager = new DeviceManager();
             deviceManager.Devices = Devices;
 
-            FileStream fileStream = new FileStream(ResourceHelper.deviceLibrary_xml, FileMode.Create, FileAccess.Write, FileShare.Write);
+            FileStream fileStream = new FileStream(ResourceHelper.DeviceLibraryXml, FileMode.Create, FileAccess.Write, FileShare.Write);
             XmlSerializer serializer = new XmlSerializer(typeof(DeviceManager));
             serializer.Serialize(fileStream, deviceManager);
             fileStream.Close();

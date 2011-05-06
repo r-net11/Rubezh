@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using DeviceEditor.ViewModels;
+using DeviceEditor.Views;
 
 namespace DeviceEditor
 {
@@ -7,7 +9,7 @@ namespace DeviceEditor
     /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private void ApplicationStartup(object sender, StartupEventArgs e)
         {
             var view = new View();
             var viewModel = new ViewModel();

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DeviceEditor
+namespace DeviceEditor.Converters
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

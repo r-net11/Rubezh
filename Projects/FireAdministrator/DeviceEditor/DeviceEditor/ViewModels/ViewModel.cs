@@ -1,59 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Threading;
-using System.Xml;
-using System.Xml.Serialization;
 using Common;
-using Firesec.Metadata;
-using Firesec;
 using DeviceLibrary;
-using Frame = DeviceLibrary.Frame;
-using DeviceControls;
 
-namespace DeviceEditor
+namespace DeviceEditor.ViewModels
 {
     public class ViewModel : BaseViewModel
     {
-        private ObservableCollection<DeviceViewModel> deviceViewModels;
-        private DeviceViewModel selectedDeviceViewModel;
-        private StateViewModel selectedStateViewModel;
+        private ObservableCollection<DeviceViewModel> _deviceViewModels;
+        private DeviceViewModel _selectedDeviceViewModel;
+        private StateViewModel _selectedStateViewModel;
 
         public ViewModel()
         {
             Current = this;
-            LoadMetadata();
             Load();
             SaveCommand = new RelayCommand(OnSaveCommand);
-
         }
-        /// <summary>
-        /// Список всех устройств, полученный из файла metadata.xml
-        /// </summary>
-        public List<drvType> DevicesList;
-        public Canvas DynamicPicture;
-        public static ViewModel Current { get; private set; }
 
+        public static ViewModel Current { get; private set; }
         /// <summary>
         /// Комманда сохранения текущей конфигурации в файл.
         /// </summary>
         public RelayCommand SaveCommand { get; private set; }
-
         /// <summary>
         /// Список всех устройств
         /// </summary>
         public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
-            get { return deviceViewModels; }
+            get { return _deviceViewModels; }
             set
             {
-                deviceViewModels = value;
+                _deviceViewModels = value;
                 OnPropertyChanged("DeviceViewModels");
             }
         }
@@ -63,10 +42,10 @@ namespace DeviceEditor
         /// </summary>
         public DeviceViewModel SelectedDeviceViewModel
         {
-            get { return selectedDeviceViewModel; }
+            get { return _selectedDeviceViewModel; }
             set
             {
-                selectedDeviceViewModel = value;
+                _selectedDeviceViewModel = value;
                 OnPropertyChanged("SelectedDeviceViewModel");
             }
         }
@@ -76,47 +55,23 @@ namespace DeviceEditor
         /// </summary>
         public StateViewModel SelectedStateViewModel
         {
-            get { return selectedStateViewModel; }
+            get { return _selectedStateViewModel; }
             set
             {
-                selectedStateViewModel = value;
-                SelectedStateViewModel.ParentDevice.StatesPicture.Clear();
-                SelectedStateViewModel.SelectedFrameViewModel = selectedStateViewModel.FrameViewModels[0];
-
+                _selectedStateViewModel = value;
+                SelectedStateViewModel.SelectedFrameViewModel = _selectedStateViewModel.FrameViewModels[0];
                 SelectedStateViewModel.ParentDevice.DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
                 SelectedStateViewModel.ParentDevice.DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
                 SelectedStateViewModel.ParentDevice.DeviceControl.StateId = SelectedStateViewModel.Id;
-                if (SelectedStateViewModel.IsAdditional)
-                    SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = null;
-                else
-                    SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = SelectedStateViewModel.IsAdditional ? null : SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
 
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
 
-
-        public void LoadMetadata()
-        {
-            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof(config));
-            var metadata = (config)serializer.Deserialize(file_xml);
-            file_xml.Close();
-
-            DevicesList = new List<drvType>();
-            foreach (drvType drivers in metadata.drv)
-                try
-                {
-                    DevicesList.Add(drivers);
-                }
-                catch
-                {
-                }
-        }
-
         public void OnSaveCommand(object obj)
         {
-            MessageBoxResult result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
+            var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                                       "Окно подтверждения", MessageBoxButton.OKCancel,
                                                       MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
@@ -127,33 +82,34 @@ namespace DeviceEditor
         public void Load()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            foreach (Device device in LibraryManager.Devices)
+            foreach (var device in LibraryManager.Devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Id = device.Id;
+                var deviceViewModel = new
+                DeviceViewModel
+                {
+                    Id = device.Id,
+                    StatesViewModel = new ObservableCollection<StateViewModel>()
+                };
                 DeviceViewModels.Add(deviceViewModel);
-                deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
                 try
                 {
-                    deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + DevicesList.FirstOrDefault(x => x.name == DriversHelper.GetDriverNameById(deviceViewModel.Id)).dev_icon + ".ico";
+                    deviceViewModel.IconPath = ResourceHelper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
                 }
-                catch
+                catch { }
+                foreach (var state in device.States)
                 {
-                }
-                foreach (State state in device.States)
-                {
-                    var stateViewModel = new StateViewModel();
-                    stateViewModel.IsAdditional = state.IsAdditional;
-                    stateViewModel.Id = state.Id;
+                    var stateViewModel = new StateViewModel { IsAdditional = state.IsAdditional, Id = state.Id };
                     deviceViewModel.StatesViewModel.Add(stateViewModel);
                     stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
-                    foreach (Frame frame in state.Frames)
+                    foreach (var frameViewModel in state.Frames.Select(frame => new
+                    FrameViewModel
                     {
-                        var frameViewModel = new FrameViewModel();
-                        frameViewModel.Id = frame.Id;
-                        frameViewModel.Image = frame.Image;
-                        frameViewModel.Duration = frame.Duration;
-                        frameViewModel.Layer = frame.Layer;
+                        Id = frame.Id,
+                        Image = frame.Image,
+                        Duration = frame.Duration,
+                        Layer = frame.Layer
+                    }))
+                    {
                         stateViewModel.FrameViewModels.Add(frameViewModel);
                     }
                 }
