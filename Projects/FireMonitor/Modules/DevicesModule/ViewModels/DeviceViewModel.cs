@@ -18,19 +18,8 @@ namespace DevicesModule.ViewModels
 
         public DeviceViewModel()
         {
-            Children = new ObservableCollection<DeviceViewModel>();
             ShowPlanCommand = new RelayCommand(OnShowPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone);
-        }
-
-        public string DriverId
-        {
-            get
-            {
-                if (Device != null)
-                    return Device.DriverId;
-                return null;
-            }
         }
 
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
@@ -79,6 +68,16 @@ namespace DevicesModule.ViewModels
                             break;
                     }
                 }
+            }
+        }
+
+        public string DriverId
+        {
+            get
+            {
+                if (Device != null)
+                    return Device.DriverId;
+                return null;
             }
         }
 

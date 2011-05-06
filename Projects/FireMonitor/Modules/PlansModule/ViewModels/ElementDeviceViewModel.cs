@@ -23,30 +23,12 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
+        Device device;
+        Firesec.Metadata.drvType Driver;
         DeviceControls.DeviceControl deviceControl;
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
-
-        bool isSelected;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                if (value)
-                {
-                    selectationRectangle.StrokeThickness = 1;
-                }
-                else
-                {
-                    selectationRectangle.StrokeThickness = 0;
-                }
-
-                OnPropertyChanged("IsSelected");
-            }
-        }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
@@ -55,8 +37,7 @@ namespace PlansModule.ViewModels
             if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Path == elementDevice.Path))
             {
                 device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == elementDevice.Path);
-                Firesec.Metadata.drvType Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-                Name = Driver.shortName;
+                Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
             }
 
             Canvas innerCanvas = new Canvas();
@@ -76,12 +57,14 @@ namespace PlansModule.ViewModels
             mouseOverRectangle.Width = elementDevice.Width;
             mouseOverRectangle.Height = elementDevice.Height;
             mouseOverRectangle.Stroke = Brushes.Red;
+            mouseOverRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(mouseOverRectangle);
 
             selectationRectangle = new Rectangle();
             selectationRectangle.Width = elementDevice.Width;
             selectationRectangle.Height = elementDevice.Height;
             selectationRectangle.Stroke = Brushes.Orange;
+            selectationRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(selectationRectangle);
 
             innerCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseEnter);
@@ -110,7 +93,17 @@ namespace PlansModule.ViewModels
                 Selected();
         }
 
-        Device device;
+        bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                selectationRectangle.StrokeThickness = value ? 1 : 0;
+                OnPropertyChanged("IsSelected");
+            }
+        }
 
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
@@ -118,18 +111,15 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(device.Path);
         }
 
-        string name;
         public string Name
         {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
+            get { return Driver.shortName; }
         }
 
-        public string State { get; set; }
+        public string Address
+        {
+            get { return device.Address; }
+        }
 
         void OnDeviceStateChanged(string path)
         {

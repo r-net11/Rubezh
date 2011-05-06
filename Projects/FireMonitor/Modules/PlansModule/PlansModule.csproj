@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="Models\ElementDevice.cs" />
     <Compile Include="Models\ElementSubPlan.cs" />

@@ -16,58 +16,53 @@ namespace PlansModule.ViewModels
 {
     public class ElementSubPlanViewModel : BaseViewModel
     {
-        Polygon subPlanPolygon;
-        public string Name { get; set; }
+        Polygon _subPlanPolygon;
+        public string Name { get; private set; }
 
         public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
         {
             Name = elementSubPlan.Name;
-            subPlanPolygon = new Polygon();
-            subPlanPolygon.Name = elementSubPlan.Name;
-            subPlanPolygon.Opacity = 0.7;
-            subPlanPolygon.ToolTip = elementSubPlan.Caption;
-            subPlanPolygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
-            subPlanPolygon.MouseEnter += new MouseEventHandler(subPlanPolygon_MouseEnter);
-            subPlanPolygon.MouseLeave += new MouseEventHandler(subPlanPolygon_MouseLeave);
+            _subPlanPolygon = new Polygon();
+            _subPlanPolygon.Opacity = 0.6;
+            _subPlanPolygon.Stroke = Brushes.Blue;
+            _subPlanPolygon.StrokeThickness = 1;
+            _subPlanPolygon.ToolTip = elementSubPlan.Caption;
+            _subPlanPolygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
+            _subPlanPolygon.MouseEnter += new MouseEventHandler(subPlanPolygon_MouseEnter);
+            _subPlanPolygon.MouseLeave += new MouseEventHandler(subPlanPolygon_MouseLeave);
             foreach (PolygonPoint polygonPoint in elementSubPlan.PolygonPoints)
             {
-                subPlanPolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
+                _subPlanPolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
             if (elementSubPlan.ShowBackgroundImage)
             {
                 ImageBrush polygonImageBrush = new ImageBrush();
                 polygonImageBrush.ImageSource = new BitmapImage(new Uri(elementSubPlan.BackgroundSource, UriKind.Absolute));
-                subPlanPolygon.Fill = polygonImageBrush;
+                _subPlanPolygon.Fill = polygonImageBrush;
             }
             else
             {
-                subPlanPolygon.Fill = Brushes.Transparent;
+                _subPlanPolygon.Fill = Brushes.Transparent;
             }
-            subPlanPolygon.Stroke = new SolidColorBrush(Colors.Blue);
-            canvas.Children.Add(subPlanPolygon);
+            _subPlanPolygon.Stroke = new SolidColorBrush(Colors.Blue);
+            canvas.Children.Add(_subPlanPolygon);
         }
 
         void subPlanPolygon_MouseEnter(object sender, MouseEventArgs e)
         {
-            Polygon subPlanPolygon = sender as Polygon;
-            subPlanPolygon.Stroke = Brushes.Orange;
-            //subPlanPolygon.Fill = Brushes.Red;
-            subPlanPolygon.Opacity = 0.5;
+            _subPlanPolygon.Stroke = Brushes.Orange;
         }
 
         void subPlanPolygon_MouseLeave(object sender, MouseEventArgs e)
         {
-            Polygon subPlanPolygon = sender as Polygon;
-            subPlanPolygon.Stroke = Brushes.Blue;
-            //subPlanPolygon.Fill = Brushes.Transparent;
+            _subPlanPolygon.Stroke = Brushes.Blue;
         }
 
         void subPlanPolygon_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string name = (sender as Polygon).Name;
             if (e.ClickCount == 2)
             {
-                ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(name);
+                ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(Name);
             }
         }
 
@@ -77,39 +72,39 @@ namespace PlansModule.ViewModels
             switch (stateType)
             {
                 case StateType.Alarm:
-                    subPlanPolygon.Fill = Brushes.Red;
+                    _subPlanPolygon.Fill = Brushes.Red;
                     break;
 
                 case StateType.Failure:
-                    subPlanPolygon.Fill = Brushes.Red;
+                    _subPlanPolygon.Fill = Brushes.Red;
                     break;
 
                 case StateType.Info:
-                    subPlanPolygon.Fill = Brushes.YellowGreen;
+                    _subPlanPolygon.Fill = Brushes.YellowGreen;
                     break;
 
                 case StateType.No:
-                    subPlanPolygon.Fill = Brushes.Transparent;
+                    _subPlanPolygon.Fill = Brushes.Transparent;
                     break;
 
                 case StateType.Norm:
-                    subPlanPolygon.Fill = Brushes.Green;
+                    _subPlanPolygon.Fill = Brushes.Green;
                     break;
 
                 case StateType.Off:
-                    subPlanPolygon.Fill = Brushes.Red;
+                    _subPlanPolygon.Fill = Brushes.Red;
                     break;
 
                 case StateType.Service:
-                    subPlanPolygon.Fill = Brushes.Yellow;
+                    _subPlanPolygon.Fill = Brushes.Yellow;
                     break;
 
                 case StateType.Unknown:
-                    subPlanPolygon.Fill = Brushes.Gray;
+                    _subPlanPolygon.Fill = Brushes.Gray;
                     break;
 
                 case StateType.Warning:
-                    subPlanPolygon.Fill = Brushes.Yellow;
+                    _subPlanPolygon.Fill = Brushes.Yellow;
                     break;
             }
         }

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -26,6 +27,7 @@ namespace PlansModule.ViewModels
         {
             _canvas = canvas;
             _canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
+            ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
         }
 
         public void Initialize(Plan plan)
@@ -33,6 +35,7 @@ namespace PlansModule.ViewModels
             this._plan = plan;
             DrawPlan();
             ResetView();
+            UpdateSubPlans();
         }
 
         public void DrawPlan()
@@ -157,6 +160,27 @@ namespace PlansModule.ViewModels
         public void SelectZone(string zoneNo)
         {
             SelectedZone = Zones.FirstOrDefault(x => x.elementZone.ZoneNo == zoneNo);
+        }
+
+        void OnPlanStateChanged(string planName)
+        {
+            if ((_plan != null) && (_plan.Name == planName))
+            {
+                UpdateSubPlans();
+            }
+        }
+
+        void UpdateSubPlans()
+        {
+            foreach (var subPlan in SubPlans)
+            {
+                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.Name == subPlan.Name);
+                if (planViewModel != null)
+                {
+                    string state = planViewModel.State;
+                    subPlan.Update(state);
+                }
+            }
         }
 
         public override void Dispose()

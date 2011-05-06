@@ -15,23 +15,12 @@ namespace PlansModule.ViewModels
     public class PlansViewModel : RegionViewModel
     {
         public ObservableCollection<PlanViewModel> Plans { get; set; }
-
         public PlanDetailsViewModel PlanDetails { get; set; }
-
-        PlanViewModel _selectedPlan;
-        public PlanViewModel SelectedPlan
-        {
-            get { return _selectedPlan; }
-            set
-            {
-                _selectedPlan = value;
-                PlanDetails.Initialize(value.plan);
-                OnPropertyChanged("SelectedPlan");
-            }
-        }
+        public static PlansViewModel Current;
 
         public PlansViewModel()
         {
+            Current = this;
             MainCanvas = new Canvas();
             PlanDetails = new PlanDetailsViewModel(MainCanvas);
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
@@ -41,6 +30,8 @@ namespace PlansModule.ViewModels
         {
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
+            if (Plans.Count > 0)
+                SelectedPlan = Plans[0];
         }
 
         void BuildTree()
@@ -81,16 +72,28 @@ namespace PlansModule.ViewModels
             }
         }
 
+        PlanViewModel _selectedPlan;
+        public PlanViewModel SelectedPlan
+        {
+            get { return _selectedPlan; }
+            set
+            {
+                _selectedPlan = value;
+                PlanDetails.Initialize(value._plan);
+                OnPropertyChanged("SelectedPlan");
+            }
+        }
+
         public void OnSelectPlan(string name)
         {
-            SelectedPlan = Plans.FirstOrDefault(x => x.plan.Name == name);
+            SelectedPlan = Plans.FirstOrDefault(x => x._plan.Name == name);
         }
 
         public void ShowDevice(string path)
         {
             foreach (var planViewModel in Plans)
             {
-                if (planViewModel.deviceStates.Any(x => x.Path == path))
+                if (planViewModel._deviceStates.Any(x => x.Path == path))
                 {
                     SelectedPlan = planViewModel;
                     PlanDetails.SelectDevice(path);

@@ -7,48 +7,44 @@ using PlansModule.Models;
 using System.Collections.ObjectModel;
 using Firesec;
 using FiresecClient;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
     public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
     {
-        public PlanViewModel()
-        {
-            Children = new ObservableCollection<PlanViewModel>();
-            SelfState = "Норма";
-            State = "Норма";
-        }
-
-        public Plan plan;
-        public List<DeviceState> deviceStates;
+        public Plan _plan;
+        public List<DeviceState> _deviceStates;
+        string _selfState;
 
         public void Initialize(Plan plan, ObservableCollection<PlanViewModel> source)
         {
-            this.plan = plan;
+            _plan = plan;
             Source = source;
-            deviceStates = new List<DeviceState>();
+            _deviceStates = new List<DeviceState>();
             foreach (var elementDevice in plan.ElementDevices)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == elementDevice.Path);
-                deviceStates.Add(deviceState);
+                _deviceStates.Add(deviceState);
                 deviceState.StateChanged += new Action(UpdateSelfState);
             }
+
+            UpdateSelfState();
         }
 
-        public string Name
+        public string Caption
         {
-            get { return plan.Caption; }
+            get { return _plan.Caption; }
         }
 
-        public string SelfState { get; set; }
-
-        string state;
+        string _state;
         public string State
         {
-            get { return state; }
+            get { return _state; }
             set
             {
-                state = value;
+                _state = value;
+                ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(_plan.Name);
                 OnPropertyChanged("State");
             }
         }
@@ -57,20 +53,20 @@ namespace PlansModule.ViewModels
         {
             int minPriority = 7;
 
-            foreach(var deviceState in deviceStates)
+            foreach(var deviceState in _deviceStates)
             {
                 int priority = StateHelper.NameToPriority(deviceState.State);
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            SelfState = StateHelper.GetState(minPriority);
+            _selfState = StateHelper.GetState(minPriority);
 
             UpdateState();
         }
 
         public void UpdateState()
         {
-            int minPriority = StateHelper.NameToPriority(SelfState);
+            int minPriority = StateHelper.NameToPriority(_selfState);
 
             foreach (var planViewModel in Children)
             {
@@ -80,25 +76,10 @@ namespace PlansModule.ViewModels
             }
             State = StateHelper.GetState(minPriority);
 
-            //UpdateSubPlans();
-
             if (Parent != null)
             {
                 Parent.UpdateState();
             }
         }
-
-        //public void UpdateSubPlans()
-        //{
-        //    //if (SubPlans != null)
-        //    //    foreach (ElementSubPlanViewModel subPlan in SubPlans)
-        //    //    {
-        //    //        PlanViewModel planViewModel = Children.FirstOrDefault(x => x.Name == subPlan.Name);
-        //    //        if (planViewModel != null)
-        //    //        {
-        //    //            subPlan.Update(planViewModel.State);
-        //    //        }
-        //    //    }
-        //}
     }
 }

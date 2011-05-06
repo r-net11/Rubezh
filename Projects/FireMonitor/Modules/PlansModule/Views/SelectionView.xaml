@@ -13,14 +13,15 @@
         <StackPanel Visibility="{Binding HasSelectedDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel DataContext="{Binding SelectedDevice}">
                 <TextBlock Text="{Binding Name}" />
-                <Button Content="Показать в дереве" Command="{Binding ShowCommand}" />
+                <TextBlock Text="{Binding Address}" />
+                <Button Content="Показать" Command="{Binding ShowCommand}" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel Visibility="{Binding HasSelectedZone, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel DataContext="{Binding SelectedZone}">
                 <TextBlock Text="{Binding Name}" />
-                <Button Content="Показать зону" Command="{Binding ShowInListCommand}" />
+                <Button Content="Показать" Command="{Binding ShowCommand}" />
                 <TextBlock Text="{Binding Zone}" />
             </StackPanel>
         </StackPanel>

@@ -19,20 +19,19 @@ namespace PlansModule.ViewModels
     {
         public ElementZoneViewModel()
         {
-            ShowInListCommand = new RelayCommand(OnShowInList);
+            ShowCommand = new RelayCommand(OnShow);
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
         }
 
         public bool IsSelected { get; set; }
-
         Polygon zonePolygon;
         public ElementZone elementZone;
+        Zone zone;
 
         public void Initialize(ElementZone elementZone, Canvas canvas)
         {
             this.elementZone = elementZone;
-            Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
-            Name = zone.Name;
+            zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
 
             zonePolygon = new Polygon();
             foreach (PolygonPoint polygonPoint in elementZone.PolygonPoints)
@@ -40,6 +39,9 @@ namespace PlansModule.ViewModels
                 zonePolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
             zonePolygon.Fill = Brushes.Transparent;
+            zonePolygon.Opacity = 0.6;
+            zonePolygon.Stroke = Brushes.Orange;
+            zonePolygon.StrokeThickness = 0;
 
             zonePolygon.ToolTip = "Зона " + elementZone.ZoneNo;
 
@@ -54,16 +56,12 @@ namespace PlansModule.ViewModels
 
         void zonePolygon_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            zonePolygon.Stroke = Brushes.Orange;
             zonePolygon.StrokeThickness = 1;
-            //zonePolygon.Fill = Brushes.Green;
-            zonePolygon.Opacity = 0.3;
         }
 
         void zonePolygon_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             zonePolygon.StrokeThickness = 0;
-            zonePolygon.Opacity = 0.6;
         }
 
         public event Action Selected;
@@ -74,19 +72,13 @@ namespace PlansModule.ViewModels
                 Selected();
         }
 
-        string name;
         public string Name
         {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
+            get { return zone.No + "." + zone.Name; }
         }
 
-        public RelayCommand ShowInListCommand { get; private set; }
-        void OnShowInList()
+        public RelayCommand ShowCommand { get; private set; }
+        void OnShow()
         {
             ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(elementZone.ZoneNo);
         }

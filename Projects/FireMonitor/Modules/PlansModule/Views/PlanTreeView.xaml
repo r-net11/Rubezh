@@ -13,14 +13,14 @@
     </UserControl.Resources>
     <WpfToolkit:DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}" IsReadOnly="True">
         <WpfToolkit:DataGrid.Columns>
-            <WpfToolkit:DataGridTemplateColumn Header="Имя">
+            <WpfToolkit:DataGridTemplateColumn Header="Название">
                 <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                             <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                             </StackPanel>
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding Caption}" />
                         </StackPanel>
                     </DataTemplate>
                 </WpfToolkit:DataGridTemplateColumn.CellTemplate>

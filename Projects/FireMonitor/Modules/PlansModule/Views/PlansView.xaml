@@ -12,58 +12,19 @@
         <Controls:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Controls:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0">
-            <StackPanel>
-            </StackPanel>
-        </StackPanel>
-        
-        <Grid Grid.Row="1" Background="WhiteSmoke" Name="_grid">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+    <Grid Background="WhiteSmoke" Name="_grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Column="0">
-                            <Views:CanvasView Grid.Row="1" Height="{Binding ElementName=_grid, Path=ActualHeight}" />
-                    </Grid>
-
-                    <StackPanel Grid.Column="1">
-
-                        <Views:PlanTreeView />
-                        
-                        <!--<WpfToolkit:DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}" IsReadOnly="True">
-                            <WpfToolkit:DataGrid.Columns>
-                                <WpfToolkit:DataGridTemplateColumn Header="Имя">
-                                    <WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                                <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
-                                                </StackPanel>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                                </WpfToolkit:DataGridTemplateColumn>
-                                <WpfToolkit:DataGridTextColumn Header="Состояние" Binding="{Binding State}" />
-                            </WpfToolkit:DataGrid.Columns>
-                        </WpfToolkit:DataGrid>-->
-
-                        <Views:SelectionView DataContext="{Binding PlanDetails}" />
-                        
-
-                    </StackPanel>
-
-                </Grid>
-            </StackPanel>
+        <Grid Grid.Column="0">
+            <Views:CanvasView Grid.Row="1" Height="{Binding ElementName=_grid, Path=ActualHeight}" />
         </Grid>
+
+        <StackPanel Grid.Column="1">
+            <Views:PlanTreeView />
+            <Views:SelectionView DataContext="{Binding PlanDetails}" />
+        </StackPanel>
     </Grid>
 </UserControl>

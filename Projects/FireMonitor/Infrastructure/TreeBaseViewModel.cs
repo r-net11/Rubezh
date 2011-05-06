@@ -10,6 +10,11 @@ namespace Infrastructure
     public class TreeBaseViewModel<T> : BaseViewModel
         where T : TreeBaseViewModel<T>
     {
+        public TreeBaseViewModel()
+        {
+            Children = new ObservableCollection<T>();
+        }
+
         public ObservableCollection<T> Source { get; set; }
 
         bool isExpanded;
