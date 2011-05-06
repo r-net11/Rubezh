@@ -114,21 +114,6 @@ namespace DeviceEditor
                 }
         }
 
-        /// <summary>
-        /// Метод преобразующий svg-строку в Canvas c рисунком.
-        /// </summary>
-        /// <param name="svgString">svg-строка</param>
-        /// <returns>Canvas, полученный из svg-строки</returns>
-        public static Canvas Str2Canvas(string svgString, int layer)
-        {
-            string frameImage = SvgConverter.Svg2Xaml(svgString, ResourceHelper.svg2xaml_xsl);
-            var stringReader = new StringReader(frameImage);
-            XmlReader xmlReader = XmlReader.Create(stringReader);
-            var Picture = (Canvas)XamlReader.Load(xmlReader);
-            Panel.SetZIndex(Picture, layer);
-            return (Picture);
-        }
-
         public void OnSaveCommand(object obj)
         {
             MessageBoxResult result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",

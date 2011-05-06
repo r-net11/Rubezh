@@ -18,7 +18,6 @@ namespace DeviceEditor
 {
     public class StateViewModel : BaseViewModel
     {
-        private readonly DispatcherTimer dispatcherTimer;
         private Canvas framePicture;
 
         /// <summary>
@@ -48,8 +47,6 @@ namespace DeviceEditor
         public StateViewModel()
         {
             Current = this;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
@@ -172,33 +169,6 @@ namespace DeviceEditor
             ParentDevice.StatesViewModel.Remove(this);
             var stateViewModel = new StateViewModel();
             stateViewModel.Id = Id;
-        }
-
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            ParentDevice.StatesPicture.Remove(FramePicture);
-            if (ViewModel.Current.SelectedStateViewModel == null)
-            {
-                return;
-            }
-            if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
-            {
-                try
-                {
-                    string frameImage = SvgConverter.Svg2Xaml(FrameViewModels[tick].Image, ResourceHelper.svg2xaml_xsl);
-                    var stringReader = new StringReader(frameImage);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FramePicture = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
-                    ParentDevice.StatesPicture.Add(FramePicture);
-
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
-                }
-                catch
-                {
-                }
-            }
-            tick = (tick + 1)%FrameViewModels.Count;
         }
     }
 }
