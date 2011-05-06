@@ -3,151 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using PlansModule.Views;
-using System.Diagnostics;
-using PlansModule.Events;
 using PlansModule.Models;
-using System.Reflection;
+using System.Collections.ObjectModel;
 using Firesec;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanViewModel : RegionViewModel
+    public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
     {
         public PlanViewModel()
         {
             Children = new ObservableCollection<PlanViewModel>();
-            SelectCommand = new RelayCommand(Select);
+            SelfState = "Норма";
+            State = "Норма";
         }
 
-        public PlanViewModel Parent { get; set; }
-        public ObservableCollection<PlanViewModel> Children { get; set; }
+        public Plan plan;
+        public List<DeviceState> deviceStates;
 
-        public Plan plan { get; set; }
-        public string Name { get; set; }
-        public string Caption { get; set; }
-
-        Canvas MainCanvas { get; set; }
-
-        public List<ElementSubPlanViewModel> SubPlans { get; set; }
-        public List<ElementZoneViewModel> Zones { get; set; }
-        public List<ElementDeviceViewModel> Devices { get; set; }
-
-
-        public RelayCommand SelectCommand { get; private set; }
-        public void Select()
+        public void Initialize(Plan plan, ObservableCollection<PlanViewModel> source)
         {
-            //IsSelected = true;
-            isSelected = true;
-            OnPropertyChanged("IsSelected");
-            DrawPlan();
-            ExpandParent();
-            ResetView();
-        }
-
-        void ResetView()
-        {
-            if (CanvasView.Current != null)
-            {
-                CanvasView.Current.Reset();
-            }
-        }
-
-        bool isSelected;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged("IsSelected");
-                if (isSelected)
-                {
-                    ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(Name);
-                }
-            }
-        }
-
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
-                OnPropertyChanged("IsExpanded");
-            }
-        }
-
-        void ExpandParent()
-        {
-            if (Parent != null)
-            {
-                Parent.IsExpanded = true;
-                //ExpandParent();
-            }
-        }
-
-        public void Initialize(Plan plan, Canvas mainCanvas)
-        {
-            MainCanvas = mainCanvas;
             this.plan = plan;
-            Name = plan.Name;
-            Caption = plan.Caption;
+            Source = source;
+            deviceStates = new List<DeviceState>();
+            foreach (var elementDevice in plan.ElementDevices)
+            {
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == elementDevice.Path);
+                deviceStates.Add(deviceState);
+                deviceState.StateChanged += new Action(UpdateSelfState);
+            }
         }
 
-        public void DrawPlan()
+        public string Name
         {
-            SubPlans = new List<ElementSubPlanViewModel>();
-            Zones = new List<ElementZoneViewModel>();
-            Devices = new List<ElementDeviceViewModel>();
-
-            MainCanvas.Children.Clear();
-
-            MainCanvas.Width = plan.Width;
-            MainCanvas.Height = plan.Height;
-
-            MainCanvas.Background = CreateBrush(plan.BackgroundSource);
-
-            foreach (ElementSubPlan elementSubPlan in plan.ElementSubPlans)
-            {
-                ElementSubPlanViewModel subPlanViewModel = new ElementSubPlanViewModel();
-                SubPlans.Add(subPlanViewModel);
-                subPlanViewModel.Initialize(elementSubPlan, MainCanvas);
-            }
-
-            foreach (ElementZone elementZone in plan.ElementZones)
-            {
-                ElementZoneViewModel zonePlanViewModel = new ElementZoneViewModel();
-                Zones.Add(zonePlanViewModel);
-                zonePlanViewModel.Initialize(elementZone, MainCanvas);
-            }
-
-            foreach (ElementDevice elementDevice in plan.ElementDevices)
-            {
-                ElementDeviceViewModel planDeviceViewModel = new ElementDeviceViewModel();
-                Devices.Add(planDeviceViewModel);
-                planDeviceViewModel.Initialize(elementDevice, MainCanvas, this);
-            }
-
-            UpdateSelfState();
-            //UpdateSubPlans();
+            get { return plan.Caption; }
         }
 
-        string selfState = "Норма";
-        public string SelfState
-        {
-            get { return selfState; }
-            set { selfState = value; }
-        }
+        public string SelfState { get; set; }
 
-        string state = "Норма";
+        string state;
         public string State
         {
             get { return state; }
@@ -161,9 +56,10 @@ namespace PlansModule.ViewModels
         public void UpdateSelfState()
         {
             int minPriority = 7;
-            foreach (ElementDeviceViewModel planDeviceViewModel in Devices)
+
+            foreach(var deviceState in deviceStates)
             {
-                int priority = StateHelper.NameToPriority(planDeviceViewModel.State);
+                int priority = StateHelper.NameToPriority(deviceState.State);
                 if (priority < minPriority)
                     minPriority = priority;
             }
@@ -176,7 +72,7 @@ namespace PlansModule.ViewModels
         {
             int minPriority = StateHelper.NameToPriority(SelfState);
 
-            foreach (PlanViewModel planViewModel in Children)
+            foreach (var planViewModel in Children)
             {
                 int priority = StateHelper.NameToPriority(planViewModel.State);
                 if (priority < minPriority)
@@ -184,7 +80,7 @@ namespace PlansModule.ViewModels
             }
             State = StateHelper.GetState(minPriority);
 
-            UpdateSubPlans();
+            //UpdateSubPlans();
 
             if (Parent != null)
             {
@@ -192,46 +88,17 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void UpdateSubPlans()
-        {
-            if (SubPlans != null)
-            foreach (ElementSubPlanViewModel subPlan in SubPlans)
-            {
-                PlanViewModel planViewModel = Children.FirstOrDefault(x => x.Name == subPlan.Name);
-                if (planViewModel != null)
-                {
-                    subPlan.Update(planViewModel.State);
-                }
-            }
-        }
-
-        public List<PlanViewModel> AllParents
-        {
-            get
-            {
-                if (Parent == null)
-                {
-                    return new List<PlanViewModel>();
-                }
-
-                List<PlanViewModel> allParents = Parent.AllParents;
-                allParents.Add(Parent);
-                return allParents;
-            }
-        }
-
-        public override void Dispose()
-        {
-        }
-
-        ImageBrush CreateBrush(string source)
-        {
-            ImageBrush imageBrush = new ImageBrush();
-            string executablePath = Assembly.GetExecutingAssembly().Location;
-            string relativePath = "../../../Data/" + source;
-            Uri uri = new Uri(System.IO.Path.Combine(executablePath, relativePath));
-            imageBrush.ImageSource = new BitmapImage(uri);
-            return imageBrush;
-        }
+        //public void UpdateSubPlans()
+        //{
+        //    //if (SubPlans != null)
+        //    //    foreach (ElementSubPlanViewModel subPlan in SubPlans)
+        //    //    {
+        //    //        PlanViewModel planViewModel = Children.FirstOrDefault(x => x.Name == subPlan.Name);
+        //    //        if (planViewModel != null)
+        //    //        {
+        //    //            subPlan.Update(planViewModel.State);
+        //    //        }
+        //    //    }
+        //}
     }
 }

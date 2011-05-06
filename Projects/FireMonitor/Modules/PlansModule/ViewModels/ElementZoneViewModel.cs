@@ -11,6 +11,7 @@ using PlansModule.Models;
 using FiresecClient;
 using Infrastructure.Events;
 using Firesec;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -21,6 +22,8 @@ namespace PlansModule.ViewModels
             ShowInListCommand = new RelayCommand(OnShowInList);
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
         }
+
+        public bool IsSelected { get; set; }
 
         Polygon zonePolygon;
         public ElementZone elementZone;
@@ -63,9 +66,12 @@ namespace PlansModule.ViewModels
             zonePolygon.Opacity = 0.6;
         }
 
+        public event Action Selected;
+
         void zonePolygon_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Publish(elementZone.ZoneNo);
+            if (Selected != null)
+                Selected();
         }
 
         string name;
@@ -76,17 +82,6 @@ namespace PlansModule.ViewModels
             {
                 name = value;
                 OnPropertyChanged("Name");
-            }
-        }
-
-        bool isActive;
-        public bool IsActive
-        {
-            get { return isActive; }
-            set
-            {
-                isActive = value;
-                OnPropertyChanged("IsActive");
             }
         }
 

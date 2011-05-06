@@ -11,6 +11,7 @@ using PlansModule.Models;
 using FiresecClient;
 using Infrastructure.Events;
 using Firesec;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -26,9 +27,8 @@ namespace PlansModule.ViewModels
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
-        PlanViewModel planViewModel;
 
-        bool isSelected = false;
+        bool isSelected;
         public bool IsSelected
         {
             get { return isSelected; }
@@ -43,12 +43,13 @@ namespace PlansModule.ViewModels
                 {
                     selectationRectangle.StrokeThickness = 0;
                 }
+
+                OnPropertyChanged("IsSelected");
             }
         }
 
-        public void Initialize(ElementDevice elementDevice, Canvas canvas, PlanViewModel planViewModel)
+        public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
-            this.planViewModel = planViewModel;
             this.elementDevice = elementDevice;
 
             if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Path == elementDevice.Path))
@@ -64,10 +65,6 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(innerCanvas);
 
             deviceControl = new DeviceControls.DeviceControl();
-            //string deviceName = DriversHelper.GetDriverNameById(device.DriverId);
-            //deviceName = deviceName.Replace("//", "/");
-            //deviceControl.DriverId = deviceName;
-
             deviceControl.DriverId = device.DriverId;
 
             //deviceControl.ToolTip = Name;
@@ -91,6 +88,7 @@ namespace PlansModule.ViewModels
             innerCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseLeave);
             innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
 
+            IsSelected = false;
             OnDeviceStateChanged(elementDevice.Path);
         }
 
@@ -104,11 +102,13 @@ namespace PlansModule.ViewModels
             mouseOverRectangle.StrokeThickness = 0;
         }
 
+        public event Action Selected;
+
         void innerCanvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Publish(elementDevice.Path);
+            if (Selected != null)
+                Selected();
         }
-
 
         Device device;
 
@@ -129,17 +129,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        bool isActive;
-        public bool IsActive
-        {
-            get { return isActive; }
-            set
-            {
-                isActive = value;
-                OnPropertyChanged("IsActive");
-            }
-        }
-
         public string State { get; set; }
 
         void OnDeviceStateChanged(string path)
@@ -147,16 +136,7 @@ namespace PlansModule.ViewModels
             if (path == elementDevice.Path)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                //State = deviceState.State;
-                //StateType stateType = StateHelper.NameToType(deviceState.State);
-
-                //if (deviceState.State == "Неопределено")
-                //    deviceControl.StateId = "Неизвестно";
-                //else
-                //deviceControl.StateId = deviceState.State;
                 deviceControl.StateId = StateHelper.NameToPriority(deviceState.State).ToString();
-
-                planViewModel.UpdateSelfState();
             }
         }
     }

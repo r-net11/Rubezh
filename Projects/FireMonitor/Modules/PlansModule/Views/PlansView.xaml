@@ -19,9 +19,7 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0">
-            <StackPanel DataContext="{Binding SelectedPlanViewModel}">
-                <TextBlock Text="{Binding Caption}" />
-                <TextBlock Text="{Binding State}" />
+            <StackPanel>
             </StackPanel>
         </StackPanel>
         
@@ -39,7 +37,9 @@
 
                     <StackPanel Grid.Column="1">
 
-                        <WpfToolkit:DataGrid AutoGenerateColumns="False" ItemsSource="{Binding PlanTreeItems}" SelectedItem="{Binding SelectedPlanTreeItem}" IsReadOnly="True">
+                        <Views:PlanTreeView />
+                        
+                        <!--<WpfToolkit:DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}" IsReadOnly="True">
                             <WpfToolkit:DataGrid.Columns>
                                 <WpfToolkit:DataGridTemplateColumn Header="Имя">
                                     <WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -55,9 +55,10 @@
                                 </WpfToolkit:DataGridTemplateColumn>
                                 <WpfToolkit:DataGridTextColumn Header="Состояние" Binding="{Binding State}" />
                             </WpfToolkit:DataGrid.Columns>
-                        </WpfToolkit:DataGrid>
+                        </WpfToolkit:DataGrid>-->
 
-                        <Views:PlanSelectationView />
+                        <Views:SelectionView DataContext="{Binding PlanDetails}" />
+                        
 
                     </StackPanel>
 

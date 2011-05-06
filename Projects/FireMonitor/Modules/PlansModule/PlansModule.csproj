@@ -59,9 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Events\PlanDeviceSelectedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
-    <Compile Include="Events\PlanZoneSelectedEvent.cs" />
     <Compile Include="Models\ElementDevice.cs" />
     <Compile Include="Models\ElementSubPlan.cs" />
     <Compile Include="Models\ElementZone.cs" />
@@ -84,18 +82,21 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
-    <Compile Include="ViewModels\PlanTreeItemViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlanSelectationView.xaml.cs">
-      <DependentUpon>PlanSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanTreeView.xaml.cs">
+      <DependentUpon>PlanTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectionView.xaml.cs">
+      <DependentUpon>SelectionView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -146,11 +147,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlanSelectationView.xaml">
+    <Page Include="Views\PlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlansView.xaml">
+    <Page Include="Views\PlanTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

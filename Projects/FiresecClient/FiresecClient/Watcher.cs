@@ -170,6 +170,7 @@ namespace FiresecClient
                 {
                     if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
                     {
+                        device.OnStateChanged();
                         FiresecManager.CurrentStates.OnDeviceStateChanged(device.Path);
                     }
                 }
