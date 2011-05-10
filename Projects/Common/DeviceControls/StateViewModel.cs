@@ -1,87 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using DeviceLibrary;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using System.IO;
-using System.Xml;
-using System.Windows.Markup;
-using System.Windows.Input;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
+using DeviceLibrary;
 using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceControls
 {
     public class StateViewModel : IDisposable
     {
-        public bool IsAdditional;
-        DispatcherTimer _timer;
-        int _tick;
-        readonly List<Frame> _frames;
-        Canvas _canvas;
-        readonly ObservableCollection<Canvas> _stateCanvases;
-
+        private readonly List<Frame> _frames;
+        private readonly ObservableCollection<Canvas> _stateCanvases;
+        private readonly DispatcherTimer _timer;
+        private Canvas _canvas = new Canvas();
+        private int _tick;
         public StateViewModel(State state, ObservableCollection<Canvas> stateCanvases)
         {
             _stateCanvases = stateCanvases;
             _frames = state.Frames;
-
+            var frame = _frames[0];
             if (state.Frames.Count > 1)
             {
                 _timer = new DispatcherTimer();
-                _timer.Tick += new EventHandler(TimerTick);
+                _timer.Tick += TimerTick;
                 _timer.Start();
-
             }
             else
             {
-                Draw(_frames[0]);
+                Functions.Draw(_stateCanvases, ref _canvas, frame.Image, frame.Layer);
             }
         }
-
-
-        int count = 0;
         private void TimerTick(object sender, EventArgs e)
         {
-            DateTime start = DateTime.Now;
-
             var frame = _frames[_tick];
             _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);
-            Draw(frame);
-
-            _tick = (_tick + 1) % _frames.Count;
-
-            DateTime end = DateTime.Now;
-            TimeSpan ts = end.Subtract(start);
-            //Trace.WriteLine(ts);
-            //Trace.WriteLine(count++.ToString());
+            Functions.Draw(_stateCanvases, ref _canvas, frame.Image, frame.Layer);
+            _tick = (_tick + 1)%_frames.Count;
         }
-
-        void Draw(Frame frame)
-        {
-            _stateCanvases.Remove(_canvas);
-            _canvas = SvgToCanvas(frame.Image);
-            Panel.SetZIndex(_canvas, frame.Layer);
-            _stateCanvases.Add(_canvas);  
-        }
-
-        static Canvas SvgToCanvas(string svg)
-        {
-            var frameImage = svg;
-            var stringReader = new StringReader(frameImage);
-            var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);
-            return canvas;
-        }
-
+        #region IDisposable Members
         public void Dispose()
         {
-            if(_timer != null)
+            if (_timer != null)
                 _timer.Stop();
         }
+        #endregion
     }
 }

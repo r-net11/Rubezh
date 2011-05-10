@@ -28,24 +28,27 @@ namespace DeviceLibrary
 
         static void LoadBaseStates()
         {
-            BaseStatesList = new ObservableCollection<string>();
-            BaseStatesList.Add("Тревога");
-            BaseStatesList.Add("Внимание (предтревожное)");
-            BaseStatesList.Add("Неисправность");
-            BaseStatesList.Add("Требуется обслуживание");
-            BaseStatesList.Add("Обход устройств");
-            BaseStatesList.Add("Неопределено");
-            BaseStatesList.Add("Норма(*)");
-            BaseStatesList.Add("Норма");
-            BaseStatesList.Add("Базовый рисунок");
+            BaseStatesList = new
+            ObservableCollection<string>
+            {
+                "Тревога",
+                "Внимание (предтревожное)",
+                "Неисправность",
+                "Требуется обслуживание",
+                "Обход устройств",
+                "Неопределено",
+                "Норма(*)",
+                "Норма",
+                "Базовый рисунок"
+            };
         }
 
         static void LoadMetadata()
         {
-            var file_xml = new FileStream(ResourceHelper.MetadataXml, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var fileXml = new FileStream(ResourceHelper.MetadataXml, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof(config));
-            var metadata = (config)serializer.Deserialize(file_xml);
-            file_xml.Close();
+            var metadata = (config)serializer.Deserialize(fileXml);
+            fileXml.Close();
             Drivers = metadata.drv;
         }
 

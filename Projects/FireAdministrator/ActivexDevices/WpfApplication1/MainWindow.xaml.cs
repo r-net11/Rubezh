@@ -15,7 +15,7 @@ namespace Test
         {
             InitializeComponent();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 100; i++)
             {
                 DeviceControls.DeviceControl deviceControl = new DeviceControl();
                 deviceControl.Width = deviceControl.Height = 50;
