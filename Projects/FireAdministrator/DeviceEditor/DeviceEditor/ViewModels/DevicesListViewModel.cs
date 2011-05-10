@@ -3,10 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Common;
-using Firesec.Metadata;
 using DeviceLibrary;
+using Firesec;
+using Firesec.Metadata;
 
-namespace DeviceEditor
+namespace DeviceEditor.ViewModels
 {
     internal class DevicesListViewModel : BaseViewModel
     {
@@ -20,7 +21,7 @@ namespace DeviceEditor
 
         public DevicesListViewModel()
         {
-            LoadMetadata();
+            Load();
             AddCommand = new RelayCommand(OnAddCommand);
         }
 
@@ -115,23 +116,21 @@ namespace DeviceEditor
             }
         }
 
-        public void LoadMetadata()
+        public void Load()
         {
-            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof (config));
-            var metadata = (config) serializer.Deserialize(file_xml);
-            file_xml.Close();
-
             Items = new ObservableCollection<DeviceViewModel>();
-            foreach (drvType item in metadata.drv)
+            foreach (drvType item in LibraryManager.Drivers)
                 try
                 {
                     if (item.options.Contains("Placeable") &&
-                        (ViewModel.Current.DeviceViewModels.FirstOrDefault(x => x.Id == item.name) == null))
+                        (ViewModel.Current.DeviceViewModels.FirstOrDefault(x => x.Id == item.id) == null))
                     {
-                        var deviceViewModel = new DeviceViewModel();
-                        deviceViewModel.Id = item.name;
-                        deviceViewModel.IconPath = @"C:/Program Files/Firesec/Icons/" + item.dev_icon + ".ico";
+                        var deviceViewModel = new 
+                        DeviceViewModel
+                        {
+                            Name = item.name,
+                            IconPath = ResourceHelper.IconsPath + item.dev_icon + ".ico"
+                        };
                         Items.Add(deviceViewModel);
                     }
                 }

@@ -12,7 +12,7 @@ using System.Windows.Markup;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-using Frame = DeviceLibrary.Frame;
+using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceControls
 {
@@ -21,7 +21,7 @@ namespace DeviceControls
         public bool IsAdditional;
         DispatcherTimer _timer;
         int _tick;
-        readonly List<DeviceLibrary.Frame> _frames;
+        readonly List<Frame> _frames;
         Canvas _canvas;
         readonly ObservableCollection<Canvas> _stateCanvases;
 
@@ -45,21 +45,20 @@ namespace DeviceControls
 
 
         int count = 0;
-        
         private void TimerTick(object sender, EventArgs e)
         {
             DateTime start = DateTime.Now;
 
             var frame = _frames[_tick];
-            _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);// new TimeSpan(0, 0, 0, 0, frame.Duration);
+            _timer.Interval = TimeSpan.FromMilliseconds(frame.Duration);
             Draw(frame);
+
             _tick = (_tick + 1) % _frames.Count;
 
             DateTime end = DateTime.Now;
             TimeSpan ts = end.Subtract(start);
             //Trace.WriteLine(ts);
-            Trace.WriteLine(count++.ToString());
-
+            //Trace.WriteLine(count++.ToString());
         }
 
         void Draw(Frame frame)

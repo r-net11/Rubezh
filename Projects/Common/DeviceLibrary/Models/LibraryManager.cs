@@ -19,6 +19,9 @@ namespace DeviceLibrary
         static string transormFileName = @"../../Data/svg2xaml.xsl";
 
         public static List<Device> Devices { get; set; }
+        /// <summary>
+        /// Список всех устройств, полученный из файла metadata.xml
+        /// </summary>
         public static drvType[] Drivers { get; set; }
         public static ObservableCollection<string> BaseStatesList { get; set; }
         static LibraryManager()

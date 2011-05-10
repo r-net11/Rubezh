@@ -1,20 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DeviceControls;
-using Common;
-using Firesec;
+
 
 namespace Test
 {
@@ -27,7 +15,7 @@ namespace Test
         {
             InitializeComponent();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 DeviceControls.DeviceControl deviceControl = new DeviceControl();
                 deviceControl.Width = deviceControl.Height = 50;
@@ -43,17 +31,6 @@ namespace Test
 
                 wrapPanel.Children.Add(deviceControl);
             }
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    DeviceControls.DeviceControl deviceControl = new DeviceControl();
-            //    deviceControl.Width = deviceControl.Height = 50;
-
-            //    deviceControl.DriverId = "799686B6-9CFA-4848-A0E7-B33149AB940C";
-            //    deviceControl.StateId = "0";
-
-            //    wrapPanel.Children.Add(deviceControl);
-            //}
         }
     }
 }

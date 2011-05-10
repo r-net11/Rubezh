@@ -1,102 +1,96 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Common;
-using Firesec.Metadata;
 using DeviceLibrary;
+using Firesec.Metadata;
 
-namespace DeviceEditor
+namespace DeviceEditor.ViewModels
 {
     internal class StatesListViewModel : BaseViewModel
     {
-        public static StatesListViewModel Current;
-        private ObservableCollection<StateViewModel> items;
-        private StateViewModel selectedItem;
-
-        /// <summary>
-        /// Заголовок окна - "Список состояний".
-        /// </summary>
-        private string title = "Список состояний";
-
+        private ObservableCollection<StateViewModel> _items;
+        private StateViewModel _selectedItem;
+        private string _title = "Список состояний";
         public StatesListViewModel()
         {
             Current = this;
-            LoadStates();
+            Load();
             AddCommand = new RelayCommand(OnAddCommand);
         }
-
+        public static StatesListViewModel Current;
         public RelayCommand AddCommand { get; private set; }
-
+        /// <summary>
+        /// Заголовок окна - "Список состояний".
+        /// </summary>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
             set
             {
-                title = value;
+                _title = value;
                 OnPropertyChanged("Title");
             }
         }
-
         public StateViewModel SelectedItem
         {
-            get { return selectedItem; }
+            get { return _selectedItem; }
             set
             {
-                selectedItem = value;
+                _selectedItem = value;
                 OnPropertyChanged("SelectedItem");
             }
         }
-
         public ObservableCollection<StateViewModel> Items
         {
-            get { return items; }
+            get { return _items; }
             set
             {
-                items = value;
+                _items = value;
                 OnPropertyChanged("Items");
             }
         }
-
         private void OnAddCommand(object obj)
         {
-            var stateViewModel = new StateViewModel();
-            stateViewModel.Id = selectedItem.Id;
-            stateViewModel.IsAdditional = selectedItem.IsAdditional;
-            stateViewModel.ParentDevice = ViewModel.Current.SelectedDeviceViewModel;
-            var frameViewModel = new FrameViewModel();
-            frameViewModel.Duration = 500;
-            frameViewModel.Image =
-                "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
-            stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
-            stateViewModel.FrameViewModels.Add(frameViewModel);
+            var stateViewModel = new
+            StateViewModel
+            {
+                Id = _selectedItem.Id,
+                IsAdditional = _selectedItem.IsAdditional,
+                ParentDevice = ViewModel.Current.SelectedDeviceViewModel
+            };
+            var frameViewModel = new
+            FrameViewModel
+            {
+                Duration = 500,
+                Image = LibraryManager.EmptyFrame
+            };
+            stateViewModel.FrameViewModels = new
+            ObservableCollection<FrameViewModel> {frameViewModel};
             ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.Add(stateViewModel);
-            Items.Remove(selectedItem);
+            Items.Remove(_selectedItem);
         }
-
-        public void LoadStates()
+        public void Load()
         {
-            var file_xml = new FileStream(ResourceHelper.metadata_xml, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof (config));
-            var metadata = (config) serializer.Deserialize(file_xml);
-            file_xml.Close();
-
             Items = new ObservableCollection<StateViewModel>();
-            drvType driver = metadata.drv.FirstOrDefault(x => x.name == ViewModel.Current.SelectedDeviceViewModel.Id);
-            foreach (stateType item in driver.state)
+            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ViewModel.Current.SelectedDeviceViewModel.Id);
+            foreach (var item in driver.state)
                 try
                 {
-                    var stateViewModel = new StateViewModel();
-                    stateViewModel.Id = item.name;
-                    stateViewModel.IsAdditional = true;
+                    var stateViewModel = new 
+                    StateViewModel
+                    {
+                        Name = item.name, 
+                        IsAdditional = true
+                    };
                     if (
                         ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(
                             x => x.Id == stateViewModel.Id) == null)
                         Items.Add(stateViewModel);
-                }
-                catch
-                {
-                }
+                }catch{}
         }
     }
 }

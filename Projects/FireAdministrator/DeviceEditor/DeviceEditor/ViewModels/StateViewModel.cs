@@ -1,162 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Threading;
-using System.Xml;
 using Common;
 using DeviceLibrary;
-using System.Linq;
-using Firesec;
 using Firesec.Metadata;
 
-namespace DeviceEditor
+namespace DeviceEditor.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        private readonly DispatcherTimer dispatcherTimer;
-        private Canvas framePicture;
-
-        /// <summary>
-        /// Список кадров состояния.
-        /// </summary>
-        public ObservableCollection<FrameViewModel> frameViewModels;
-
-        /// <summary>
-        /// Путь к иконке состояний.
-        /// </summary>
-        private string iconPath = @"C:\Rubezh\Assad\Projects\ActivexDevices\Library\Icons\3.png";
-
-        /// <summary>
-        /// Идентификатор состояния.
-        /// </summary>
-        public string id;
-
-        private bool isAdditional;
-        private bool isChecked;
-
-        /// <summary>
-        /// Выбранный кадр.
-        /// </summary>
-        private FrameViewModel selectedFrameViewModel;
-        private int tick;
-
+        private ObservableCollection<FrameViewModel> _frameViewModels;
+        private string _iconPath = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\states.png";
+        private string _id;
+        private bool _isAdditional;
+        private bool _isChecked;
+        private string _name;
+        private FrameViewModel _selectedFrameViewModel;
         public StateViewModel()
         {
             Current = this;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
         }
         public static StateViewModel Current { get; private set; }
+        /// <summary>
+        /// Родительское для данного состояния устройство.
+        /// </summary>
         public DeviceViewModel ParentDevice { get; set; }
+        /// <summary>
+        /// Выбранный кадр.
+        /// </summary>
         public FrameViewModel SelectedFrameViewModel
         {
-            get { return selectedFrameViewModel; }
+            get { return _selectedFrameViewModel; }
             set
             {
-                selectedFrameViewModel = value;
-                if (selectedFrameViewModel == null)
-                    return;
+                _selectedFrameViewModel = value;
                 OnPropertyChanged("SelectedFrameViewModel");
             }
         }
-
+        /// <summary>
+        /// Флаг. Если true -> дополнительное состояние выбранo.
+        /// </summary>
         public bool IsChecked
         {
-            get { return isChecked; }
+            get { return _isChecked; }
             set
             {
-                isChecked = value;
-                if (isChecked)
+                _isChecked = value;
+                if (_isChecked)
                 {
-                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Add(this.Id);
-
+                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Add(Id);
                 }
-                if (!isChecked)
+                if (!_isChecked)
                 {
-                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(this.Id);
+                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(Id);
                 }
-                ViewModel.Current.DeviceControl.AdditionalStatesIds = ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds =
+                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("IsChecked");
             }
         }
-
+        /// <summary>
+        /// Путь к иконке состояний.
+        /// </summary>
         public string IconPath
         {
-            get { return iconPath; }
+            get { return _iconPath; }
             set
             {
-                iconPath = value;
+                _iconPath = value;
                 OnPropertyChanged("IconPath");
             }
         }
-
         /// <summary>
         /// Команда удаления состояния.
         /// </summary>
         public RelayCommand RemoveStateCommand { get; private set; }
-
-        public string Id
-        {
-            get { return id; }
-            set
-            {
-                id = value;
-                drvType driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
-                if (IsAdditional)
-                    Name = driver.state.FirstOrDefault(x => x.id == id).name;
-                else
-                    Name = LibraryManager.BaseStatesList[Convert.ToInt16(id)];
-
-            }
-        }
-
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        public ObservableCollection<FrameViewModel> FrameViewModels
-        {
-            get { return frameViewModels; }
-            set
-            {
-                frameViewModels = value;
-                OnPropertyChanged("FrameViewModels");
-            }
-        }
-
-        public bool IsAdditional
-        {
-            get { return isAdditional; }
-            set
-            {
-                isAdditional = value;
-                OnPropertyChanged("IsAdditional");
-            }
-        }
-
-        public Canvas FramePicture
-        {
-            get { return framePicture; }
-            set
-            {
-                framePicture = value;
-                OnPropertyChanged("FramePicture");
-            }
-        }
-
         private void OnRemoveStateCommand(object obj)
         {
             if (!IsAdditional)
@@ -169,35 +91,58 @@ namespace DeviceEditor
                 IsChecked = false;
             }
             ParentDevice.StatesViewModel.Remove(this);
-            var stateViewModel = new StateViewModel();
-            stateViewModel.Id = Id;
         }
-
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// Идентификатор состояния.
+        /// </summary>
+        public string Id
         {
-            ParentDevice.StatesPicture.Remove(FramePicture);
-            if (ViewModel.Current.SelectedStateViewModel == null)
+            get { return _id; }
+            set
             {
-                return;
+                _id = value;
+                drvType driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
+                if (IsAdditional)
+                    Name = driver.state.FirstOrDefault(x => x.id == _id).name;
+                else
+                    Name = LibraryManager.BaseStatesList[Convert.ToInt16(_id)];
             }
-            if (!ViewModel.Current.SelectedStateViewModel.IsAdditional)
+        }
+        /// <summary>
+        /// Название состояния.
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
             {
-                try
-                {
-                    string frameImage = SvgConverter.Svg2Xaml(FrameViewModels[tick].Image, ResourceHelper.svg2xaml_xsl);
-                    var stringReader = new StringReader(frameImage);
-                    XmlReader xmlReader = XmlReader.Create(stringReader);
-                    FramePicture = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(FramePicture, FrameViewModels[tick].Layer);
-                    ParentDevice.StatesPicture.Add(FramePicture);
-
-                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, FrameViewModels[tick].Duration);
-                }
-                catch
-                {
-                }
+                _name = value;
+                OnPropertyChanged("Name");
             }
-            tick = (tick + 1)%FrameViewModels.Count;
+        }
+        /// <summary>
+        /// Список кадров состояния.
+        /// </summary>
+        public ObservableCollection<FrameViewModel> FrameViewModels
+        {
+            get { return _frameViewModels; }
+            set
+            {
+                _frameViewModels = value;
+                OnPropertyChanged("FrameViewModels");
+            }
+        }
+        /// <summary>
+        /// Флаг. Если true -> состояние дополнительное, иначе - основное.
+        /// </summary>
+        public bool IsAdditional
+        {
+            get { return _isAdditional; }
+            set
+            {
+                _isAdditional = value;
+                OnPropertyChanged("IsAdditional");
+            }
         }
     }
 }
