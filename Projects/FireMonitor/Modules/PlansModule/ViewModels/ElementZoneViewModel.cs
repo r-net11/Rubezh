@@ -80,7 +80,7 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
         {
-            ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(elementZone.ZoneNo);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(elementZone.ZoneNo);
         }
 
         void OnZoneStateChanged(string zoneNo)

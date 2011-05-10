@@ -15,8 +15,8 @@ namespace DevicesModule
     {
         public DevicesModule()
         {
-            ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Subscribe(OnShowDevices);
-            ServiceFactory.Events.GetEvent<ShowZonesEvent>().Subscribe(OnShowZones);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
         }
 
         public void Initialize()
@@ -46,13 +46,13 @@ namespace DevicesModule
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
 
-        static void OnShowDevices(string path)
+        static void OnShowDevice(string path)
         {
             devicesViewModel.Select(path);
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
-        static void OnShowZones(string zoneNo)
+        static void OnShowZone(string zoneNo)
         {
             zonesViewModel.Select(zoneNo);
             ServiceFactory.Layout.Show(zonesViewModel);

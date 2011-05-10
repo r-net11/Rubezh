@@ -31,8 +31,8 @@ namespace FireMonitor
 
             ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
-            ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowZonesEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
         }
@@ -91,7 +91,7 @@ namespace FireMonitor
                 isDevicesSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsDevicesSelected");
             }
@@ -106,7 +106,7 @@ namespace FireMonitor
                 isZonesSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsZonesSelected");
             }
