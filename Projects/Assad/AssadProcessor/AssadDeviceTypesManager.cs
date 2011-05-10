@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace AssadDevices
+namespace AssadProcessor
 {
     // в этом классе хранится модель устройств ассада
     // рутовый элемент доступен через свойство RootModelInfo

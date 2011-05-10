@@ -77,8 +77,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssadConfiguration.cs" />
+    <Compile Include="AssadDeviceManager.cs" />
+    <Compile Include="AssadDeviceTypesManager.cs" />
     <Compile Include="AssadWatcher.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Devices\AssadBase.cs" />
+    <Compile Include="Devices\AssadDevice.cs" />
+    <Compile Include="Devices\AssadDeviceFactory.cs" />
+    <Compile Include="Devices\AssadMonitor.cs" />
+    <Compile Include="Devices\AssadZone.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="NetManager.cs" />
@@ -97,10 +105,6 @@
     <ProjectReference Include="..\AssadApi\AssadApi.csproj">
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>
       <Name>AssadApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AssadDevices\AssadDevices.csproj">
-      <Project>{55139F81-9B17-422B-BBA3-EB8F19E1D5FF}</Project>
-      <Name>AssadDevices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logger\Logger.csproj">
       <Project>{B34963D3-C13E-49CF-B1FC-CA2E53F89CBA}</Project>

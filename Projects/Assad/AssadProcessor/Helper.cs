@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AssadDevices;
 using FiresecClient;
+using AssadProcessor.Devices;
 
 namespace AssadProcessor
 {
     public class Helper
     {
-        internal static Device ConvertDevice(AssadBase assadDevice)
+        internal static Device ConvertDevice(AssadDevice assadDevice)
         {
             try
             {
