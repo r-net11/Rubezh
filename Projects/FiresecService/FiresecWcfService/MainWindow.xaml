@@ -1,0 +1,13 @@
+﻿<Window x:Class="FiresecWcfService.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Firesec Service" Height="300" Width="300"
+        Closing="Window_Closing">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <Button Click="OnStart" Content="Start" Height="100" Margin="2" Background="DarkRed" Foreground="White" FontSize="20" />
+            <TextBlock Name="statusTextBlock" Text="None" />
+            <Button Click="OnStop"  Content="Stop" Height="50" Margin="2" />
+        </StackPanel>
+    </Grid>
+</Window>

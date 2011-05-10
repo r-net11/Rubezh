@@ -9,18 +9,6 @@ namespace AssadProcessor
 {
     public class Helper
     {
-        internal static AssadBase ConvertDevice(Device device)
-        {
-            try
-            {
-                return AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
         internal static Device ConvertDevice(AssadBase assadDevice)
         {
             try

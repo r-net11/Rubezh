@@ -52,6 +52,8 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="HighlightCornerRadiusConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

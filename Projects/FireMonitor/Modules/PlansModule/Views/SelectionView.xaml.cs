@@ -9,21 +9,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FiresecWcfService.ViewModel;
 
-namespace FiresecWcfService.Views
+namespace PlansModule.Views
 {
-    public partial class MainView : Window
+    /// <summary>
+    /// Логика взаимодействия для SelectionView.xaml
+    /// </summary>
+    public partial class SelectionView : UserControl
     {
-        public MainView()
+        public SelectionView()
         {
             InitializeComponent();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            (this.DataContext as MainViewModel).StopCommand.Execute(null);
         }
     }
 }

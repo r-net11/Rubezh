@@ -23,13 +23,13 @@ namespace FiresecWcfService.Service
             binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.MaxConnections = 1000;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-            host.AddServiceEndpoint("FiresecServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/StateService");
+            host.AddServiceEndpoint("FiresecServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
 
             ServiceMetadataBehavior behavior = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
             if (behavior == null)
             {
                 behavior = new ServiceMetadataBehavior();
-                behavior.HttpGetUrl = new Uri("http://localhost:8001/StateService");
+                behavior.HttpGetUrl = new Uri("http://localhost:8001/FiresecService");
                 behavior.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(behavior);
             }

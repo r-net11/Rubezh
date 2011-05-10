@@ -11,6 +11,7 @@ using PlansModule.Models;
 using FiresecClient;
 using Infrastructure.Events;
 using Firesec;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -22,40 +23,21 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
+        Device device;
+        Firesec.Metadata.drvType Driver;
         DeviceControls.DeviceControl deviceControl;
         Rectangle mouseOverRectangle;
         Rectangle selectationRectangle;
         public ElementDevice elementDevice;
-        PlanViewModel planViewModel;
 
-        bool isSelected = false;
-        public bool IsSelected
+        public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                if (value)
-                {
-                    selectationRectangle.StrokeThickness = 1;
-                }
-                else
-                {
-                    selectationRectangle.StrokeThickness = 0;
-                }
-            }
-        }
-
-        public void Initialize(ElementDevice elementDevice, Canvas canvas, PlanViewModel planViewModel)
-        {
-            this.planViewModel = planViewModel;
             this.elementDevice = elementDevice;
 
             if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Path == elementDevice.Path))
             {
                 device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == elementDevice.Path);
-                Firesec.Metadata.drvType Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-                Name = Driver.shortName;
+                Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
             }
 
             Canvas innerCanvas = new Canvas();
@@ -64,9 +46,8 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(innerCanvas);
 
             deviceControl = new DeviceControls.DeviceControl();
-            string deviceName = DriversHelper.GetDriverNameById(device.DriverId);
-            deviceName = deviceName.Replace("//", "/");
-            deviceControl.DriverId = deviceName;
+            deviceControl.DriverId = device.DriverId;
+
             //deviceControl.ToolTip = Name;
             deviceControl.Width = elementDevice.Width;
             deviceControl.Height = elementDevice.Height;
@@ -76,18 +57,21 @@ namespace PlansModule.ViewModels
             mouseOverRectangle.Width = elementDevice.Width;
             mouseOverRectangle.Height = elementDevice.Height;
             mouseOverRectangle.Stroke = Brushes.Red;
+            mouseOverRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(mouseOverRectangle);
 
             selectationRectangle = new Rectangle();
             selectationRectangle.Width = elementDevice.Width;
             selectationRectangle.Height = elementDevice.Height;
             selectationRectangle.Stroke = Brushes.Orange;
+            selectationRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(selectationRectangle);
 
             innerCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseEnter);
             innerCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseLeave);
             innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
 
+            IsSelected = false;
             OnDeviceStateChanged(elementDevice.Path);
         }
 
@@ -101,13 +85,25 @@ namespace PlansModule.ViewModels
             mouseOverRectangle.StrokeThickness = 0;
         }
 
+        public event Action Selected;
+
         void innerCanvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Publish(elementDevice.Path);
+            if (Selected != null)
+                Selected();
         }
 
-
-        Device device;
+        bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                selectationRectangle.StrokeThickness = value ? 1 : 0;
+                OnPropertyChanged("IsSelected");
+            }
+        }
 
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
@@ -115,44 +111,22 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(device.Path);
         }
 
-        string name;
         public string Name
         {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
+            get { return Driver.shortName; }
         }
 
-        bool isActive;
-        public bool IsActive
+        public string Address
         {
-            get { return isActive; }
-            set
-            {
-                isActive = value;
-                OnPropertyChanged("IsActive");
-            }
+            get { return device.Address; }
         }
-
-        public string State { get; set; }
 
         void OnDeviceStateChanged(string path)
         {
             if (path == elementDevice.Path)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                State = deviceState.State;
-                StateType stateType = StateHelper.NameToType(deviceState.State);
-
-                if (deviceState.State == "Неопределено")
-                    deviceControl.StateId = "Неизвестно";
-                else
-                deviceControl.StateId = deviceState.State;
-
-                planViewModel.UpdateSelfState();
+                deviceControl.StateId = StateHelper.NameToPriority(deviceState.State).ToString();
             }
         }
     }

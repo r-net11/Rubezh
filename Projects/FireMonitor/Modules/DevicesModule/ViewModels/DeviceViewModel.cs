@@ -11,128 +11,20 @@ using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceViewModel : BaseViewModel
+    public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
         public Device Device;
         public Firesec.Metadata.drvType Driver;
 
-        public ObservableCollection<DeviceViewModel> SourceDevices { get; set; }
-
         public DeviceViewModel()
         {
-            Children = new ObservableCollection<DeviceViewModel>();
             ShowPlanCommand = new RelayCommand(OnShowPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone);
         }
 
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
-
-                if (isExpanded)
-                {
-                    ExpandChildren(this);
-                }
-                else
-                {
-                    HideChildren(this);
-                }
-
-                OnPropertyChanged("IsExpanded");
-            }
-        }
-
-        void HideChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-            {
-                if (SourceDevices.Contains(deviceViewModel))
-                    SourceDevices.Remove(deviceViewModel);
-                HideChildren(deviceViewModel);
-            }
-        }
-
-        void ExpandChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            if (parentDeviceViewModel.IsExpanded)
-            {
-                int indexOf = SourceDevices.IndexOf(parentDeviceViewModel);
-                for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
-                {
-                    if (SourceDevices.Contains(parentDeviceViewModel.Children[i]) == false)
-                    {
-                        SourceDevices.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
-                    }
-                }
-
-                foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-                {
-                    ExpandChildren(deviceViewModel);
-                }
-            }
-        }
-
-        public bool HasChildren
-        {
-            get
-            {
-                return (Children.Count > 0);
-            }
-        }
-
-        public int Level
-        {
-            get
-            {
-                return GetAllParents().Count();
-
-                //if (Parent == null)
-                //{
-                //    return 0;
-                //}
-                //else
-                //{
-                //    return Parent.Level + 1;
-                //}
-            }
-        }
-
-        public void ExpantToThis()
-        {
-            GetAllParents().ForEach(x => x.IsExpanded = true);
-        }
-
-        List<DeviceViewModel> GetAllParents()
-        {
-            if (Parent == null)
-            {
-                return new List<DeviceViewModel>();
-            }
-            else
-            {
-                List<DeviceViewModel> allParents = Parent.GetAllParents();
-                allParents.Add(Parent);
-                return allParents;
-            }
-        }
-
-        public string DriverId
-        {
-            get
-            {
-                if (Device != null)
-                    return Device.DriverId;
-                return null;
-            }
-        }
-
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
-            SourceDevices = sourceDevices;
+            Source = sourceDevices;
 
             this.Device = device;
             Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
@@ -176,6 +68,16 @@ namespace DevicesModule.ViewModels
                             break;
                     }
                 }
+            }
+        }
+
+        public string DriverId
+        {
+            get
+            {
+                if (Device != null)
+                    return Device.DriverId;
+                return null;
             }
         }
 
@@ -303,19 +205,6 @@ namespace DevicesModule.ViewModels
 
                 return @"C:/Program Files/Firesec/Icons/" + ImageName + ".ico";
                 //return @"pack://application:,,,/Icons/" + ImageName + ".ico";
-            }
-        }
-
-        public DeviceViewModel Parent { get; set; }
-
-        ObservableCollection<DeviceViewModel> children;
-        public ObservableCollection<DeviceViewModel> Children
-        {
-            get { return children; }
-            set
-            {
-                children = value;
-                OnPropertyChanged("Children");
             }
         }
 

@@ -39,40 +39,17 @@ namespace AssadProcessor
             if (all)
             {
                 AssadServices.AssadDeviceManager.Config(innerDevice);
-                if (waitForConfiguration)
-                {
-                    waitForConfiguration = false;
-
-                    CurrentConfiguration currentConfiguration = AssadToServiceConverter.Convert();
-                    FiresecManager.SetNewConfig(currentConfiguration);
-                }
             }
-        }
-
-        bool waitForConfiguration = false;
-
-        void SetNewConfiguration()
-        {
-            waitForConfiguration = true;
-            Assad.CPqueryConfigurationType cPqueryConfigurationType = new Assad.CPqueryConfigurationType();
-            NetManager.Send(cPqueryConfigurationType, null);
         }
 
         public void AssadExecuteCommand(Assad.MHdeviceControlType controlType)
         {
             AssadBase assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == controlType.deviceId);
             string commandName = controlType.cmdId;
-            if (commandName == "Записать Конфигурацию")
+            if (commandName == "Обновить")
             {
-                // провести первичную проверку валидности
-                if (AssadConfiguration.IsValid)
-                {
-                    SetNewConfiguration();
-                }
-                else
-                {
-                    MessageBox.Show("Неправильная конфигурация");
-                }
+                Assad.CPqueryConfigurationType cPqueryConfigurationType = new Assad.CPqueryConfigurationType();
+                NetManager.Send(cPqueryConfigurationType, null);
             }
             else
             {

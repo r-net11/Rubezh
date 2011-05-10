@@ -92,6 +92,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\XmlViewer.xaml.cs">
+      <DependentUpon>XmlViewer.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IdManager.cs" />
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\XmlViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
@@ -146,10 +153,6 @@
     <ProjectReference Include="..\AssadApi\AssadApi.csproj">
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>
       <Name>AssadApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XMLViewer\XMLViewer.csproj">
-      <Project>{11D17F23-E54C-47D3-A04C-1338F456AC87}</Project>
-      <Name>XMLViewer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

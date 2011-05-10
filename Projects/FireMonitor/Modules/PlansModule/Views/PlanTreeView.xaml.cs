@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace PlansModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для PlanSelectationView.xaml
+    /// Логика взаимодействия для PlanTreeView.xaml
     /// </summary>
-    public partial class PlanSelectationView : UserControl
+    public partial class PlanTreeView : UserControl
     {
-        public PlanSelectationView()
+        public PlanTreeView()
         {
             InitializeComponent();
         }

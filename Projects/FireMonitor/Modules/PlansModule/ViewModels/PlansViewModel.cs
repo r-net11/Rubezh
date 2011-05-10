@@ -14,157 +14,90 @@ namespace PlansModule.ViewModels
 {
     public class PlansViewModel : RegionViewModel
     {
-        List<PlanViewModel> AllPlanViewModels;
-        public PlanViewModel RootPlanViewModel;
+        public ObservableCollection<PlanViewModel> Plans { get; set; }
+        public PlanDetailsViewModel PlanDetails { get; set; }
+        public static PlansViewModel Current;
 
         public PlansViewModel()
         {
+            Current = this;
             MainCanvas = new Canvas();
-            MainCanvas.Background = Brushes.Yellow;
-            AllPlanViewModels = new List<PlanViewModel>();
+            PlanDetails = new PlanDetailsViewModel(MainCanvas);
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
-            ServiceFactory.Events.GetEvent<PlanDeviceSelectedEvent>().Subscribe(OnPlanDeviceSelected);
-            ServiceFactory.Events.GetEvent<PlanZoneSelectedEvent>().Subscribe(OnPlanZoneSelected);
         }
 
         public void Initialize()
         {
-            Plan rootPlan = PlanLoader.Load();
-
-            RootPlanViewModel = new PlanViewModel();
-            RootPlanViewModel.Parent = null;
-            AllPlanViewModels.Add(RootPlanViewModel);
-            AddPlan(rootPlan, RootPlanViewModel);
-            RootPlanViewModel.Initialize(rootPlan, MainCanvas);
-
-            RootPlanViewModels = new ObservableCollection<PlanViewModel>();
-            RootPlanViewModels.Add(RootPlanViewModel);
-
-            SelectedPlanViewModel = RootPlanViewModel;
+            Plans = new ObservableCollection<PlanViewModel>();
+            BuildTree();
+            if (Plans.Count > 0)
+                SelectedPlan = Plans[0];
         }
 
-        void AddPlan(Plan parentPlan, PlanViewModel parentPlanViewModel)
+        void BuildTree()
+        {
+            Plan rootPlan = PlanLoader.Load();
+
+            PlanViewModel planTreeItemViewModel = new ViewModels.PlanViewModel();
+            planTreeItemViewModel.Parent = null;
+            planTreeItemViewModel.Initialize(rootPlan, Plans);
+            planTreeItemViewModel.IsExpanded = true;
+            Plans.Add(planTreeItemViewModel);
+            AddPlan(rootPlan, planTreeItemViewModel);
+        }
+
+        void AddPlan(Plan parentPlan, PlanViewModel parentPlanTreeItem)
         {
             if (parentPlan.Children != null)
                 foreach (Plan plan in parentPlan.Children)
                 {
-                    PlanViewModel planViewModel = new PlanViewModel();
-                    planViewModel.Parent = parentPlanViewModel;
-                    parentPlanViewModel.Children.Add(planViewModel);
-                    planViewModel.Initialize(plan, MainCanvas);
-                    AllPlanViewModels.Add(planViewModel);
-                    AddPlan(plan, planViewModel);
+                    PlanViewModel planTreeItemViewModel = new ViewModels.PlanViewModel();
+                    planTreeItemViewModel.Parent = parentPlanTreeItem;
+                    parentPlanTreeItem.Children.Add(planTreeItemViewModel);
+                    planTreeItemViewModel.Initialize(plan, Plans);
+                    planTreeItemViewModel.IsExpanded = true;
+                    Plans.Add(planTreeItemViewModel);
+                    AddPlan(plan, planTreeItemViewModel);
                 }
         }
 
-        Canvas mainCanvas;
+        Canvas _mainCanvas;
         public Canvas MainCanvas
         {
-            get { return mainCanvas; }
+            get { return _mainCanvas; }
             set
             {
-                mainCanvas = value;
+                _mainCanvas = value;
                 OnPropertyChanged("MainCanvas");
             }
         }
 
-        ObservableCollection<PlanViewModel> rootPlanViewModels;
-        public ObservableCollection<PlanViewModel> RootPlanViewModels
+        PlanViewModel _selectedPlan;
+        public PlanViewModel SelectedPlan
         {
-            get { return rootPlanViewModels; }
+            get { return _selectedPlan; }
             set
             {
-                rootPlanViewModels = value;
-                OnPropertyChanged("RootPlanViewModels");
-            }
-        }
-
-        PlanViewModel selectedPlanViewModel;
-        public PlanViewModel SelectedPlanViewModel
-        {
-            get { return selectedPlanViewModel; }
-            set
-            {
-                selectedPlanViewModel = value;
-                OnPropertyChanged("SelectedPlanViewModel");
-                selectedPlanViewModel.Select();
+                _selectedPlan = value;
+                PlanDetails.Initialize(value._plan);
+                OnPropertyChanged("SelectedPlan");
             }
         }
 
         public void OnSelectPlan(string name)
         {
-            PlanViewModel planViewModel = AllPlanViewModels.FirstOrDefault(x => x.Name == name);
-            if (planViewModel != null)
-            {
-                SelectedPlanViewModel = planViewModel;
-            }
-        }
-
-        public void OnPlanDeviceSelected(string path)
-        {
-            foreach (ElementDeviceViewModel elementDeviceViewModel in SelectedPlanViewModel.Devices)
-            {
-                if (elementDeviceViewModel.elementDevice.Path == path)
-                {
-                    elementDeviceViewModel.IsSelected = true;
-                }
-                else
-                {
-                    elementDeviceViewModel.IsSelected = false;
-                }
-            }
-
-            SelectedDeviceViewModel = this.SelectedPlanViewModel.Devices.FirstOrDefault(x => x.elementDevice.Path == path);
-
-            SelectedDeviceViewModel.IsActive = true;
-
-            if (SelectedZoneViewModel != null)
-                SelectedZoneViewModel.IsActive = false;
-        }
-
-        public void OnPlanZoneSelected(string zoneNo)
-        {
-            SelectedZoneViewModel = this.SelectedPlanViewModel.Zones.FirstOrDefault(x => x.elementZone.ZoneNo == zoneNo);
-
-            if (SelectedDeviceViewModel != null)
-                SelectedDeviceViewModel.IsActive = false;
-            SelectedZoneViewModel.IsActive = true;
-            //SelectedZoneViewModel.Name = zoneNo;
-        }
-
-        ElementDeviceViewModel selectedDeviceViewModel;
-        public ElementDeviceViewModel SelectedDeviceViewModel
-        {
-            get { return selectedDeviceViewModel; }
-            set
-            {
-                selectedDeviceViewModel = value;
-                OnPropertyChanged("SelectedDeviceViewModel");
-            }
-        }
-
-        ElementZoneViewModel selectedZoneViewModel;
-        public ElementZoneViewModel SelectedZoneViewModel
-        {
-            get { return selectedZoneViewModel; }
-            set
-            {
-                selectedZoneViewModel = value;
-                OnPropertyChanged("SelectedZoneViewModel");
-            }
+            SelectedPlan = Plans.FirstOrDefault(x => x._plan.Name == name);
         }
 
         public void ShowDevice(string path)
         {
-            foreach (PlanViewModel planViewModel in AllPlanViewModels)
+            foreach (var planViewModel in Plans)
             {
-                foreach (ElementDevice planDevice in planViewModel.plan.ElementDevices)
+                if (planViewModel._deviceStates.Any(x => x.Path == path))
                 {
-                    if (planDevice.Path == path)
-                    {
-                        planViewModel.IsSelected = true;
-                        return;
-                    }
+                    SelectedPlan = planViewModel;
+                    PlanDetails.SelectDevice(path);
+                    break;
                 }
             }
         }

@@ -88,6 +88,7 @@ namespace DeviceControls
             var state = CurrentDevice.States.FirstOrDefault(x => (x.Id == StateId) && (x.IsAdditional == IsAdditional));
             if (StatesViewModels != null) StatesViewModels.Add(new StateViewModel(state, StateCanvases));
             if (IsAdditional) return;
+            
             if (AdditionalStatesIds != null)
                 foreach (var aState in AdditionalStatesIds.Select(additionalState => CurrentDevice.States.FirstOrDefault(x => (x.Id == additionalState) && (x.IsAdditional))).Where(aState => StatesViewModels != null))
                 {

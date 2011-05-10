@@ -6,7 +6,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace PlansModule.Events
 {
-    public class PlanDeviceSelectedEvent : CompositePresentationEvent<string>
+    public class PlanStateChangedEvent : CompositePresentationEvent<string>
     {
     }
 }

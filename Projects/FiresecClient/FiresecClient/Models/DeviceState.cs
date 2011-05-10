@@ -20,5 +20,12 @@ namespace FiresecClient
         public List<string> ParentStringStates { get; set; }
         public int MinPriority { get; set; }
         public string SourceState { get; set; }
+
+        public event Action StateChanged;
+        public void OnStateChanged()
+        {
+            if (StateChanged != null)
+                StateChanged();
+        }
     }
 }
