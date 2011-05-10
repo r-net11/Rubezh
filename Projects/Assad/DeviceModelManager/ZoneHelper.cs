@@ -34,17 +34,17 @@ namespace DeviveModelManager
 
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
             parameters.Add(new Assad.modelInfoTypeParam() { param = "Номер зоны", type = "edit" });
-            parameters.Add(new Assad.modelInfoTypeParam() { param = "Наименование", type = "edit" });
-            parameters.Add(new Assad.modelInfoTypeParam() { param = "Число датчиков для формирования сигнала Пожар", type = "edit" });
-            parameters.Add(new Assad.modelInfoTypeParam() { param = "Время эвакуации", type = "edit" });
-            parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Наименование", type = "edit" });
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Число датчиков для формирования сигнала Пожар", type = "edit" });
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Время эвакуации", type = "edit" });
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
 
-            Assad.modelInfoTypeParam zoneTypeParam = new Assad.modelInfoTypeParam() { param = "Назначение зоны", type = "single" };
-            List<Assad.modelInfoTypeParamValue> zoneTypeValues = new List<Assad.modelInfoTypeParamValue>();
-            zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Пожарная" });
-            zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Охранная" });
-            zoneTypeParam.value = zoneTypeValues.ToArray();
-            parameters.Add(zoneTypeParam);
+            //Assad.modelInfoTypeParam zoneTypeParam = new Assad.modelInfoTypeParam() { param = "Назначение зоны", type = "single" };
+            //List<Assad.modelInfoTypeParamValue> zoneTypeValues = new List<Assad.modelInfoTypeParamValue>();
+            //zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Пожарная" });
+            //zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Охранная" });
+            //zoneTypeParam.value = zoneTypeValues.ToArray();
+            //parameters.Add(zoneTypeParam);
 
             zoneTreeItem.ModelInfo.param = parameters.ToArray();
 

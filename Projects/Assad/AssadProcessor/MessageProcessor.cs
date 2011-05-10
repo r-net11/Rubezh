@@ -27,7 +27,6 @@ namespace AssadProcessor
             }
             catch(Exception ex)
             {
-                //MessageBox.Show(message);
                 string s = message;
                 throw new InvalidOperationException();
             }

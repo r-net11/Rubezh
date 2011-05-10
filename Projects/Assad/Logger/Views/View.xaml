@@ -1,8 +1,8 @@
 ﻿<Window x:Class="Logger.View"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:XMLViewer="clr-namespace:XMLViewer;assembly=XMLViewer"
-    Title="Log Wather" Height="600" Width="900">
+    xmlns:Views="clr-namespace:Logger.Views"
+    Title="Журнал логирования" Height="600" Width="900">
     <StackPanel>
         <Button Command="{Binding OpenFileCommand}" Content="Open Log" />
         <Grid>
@@ -31,7 +31,7 @@
                 </ScrollViewer.Content>
             </ScrollViewer>
             <StackPanel Grid.Column="1" DataContext="{Binding SelectedEntry}">
-                <XMLViewer:Viewer Name="xmlViewer" />
+                <Views:XmlViewer x:Name="xmlViewer" />
             </StackPanel>
         </Grid>
     </StackPanel>

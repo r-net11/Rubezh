@@ -79,8 +79,7 @@
   <ItemGroup>
     <Compile Include="AssadWatcher.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="Converter\AssadToServiceConverter.cs" />
-    <Compile Include="Converter\Helper.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="NetManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
