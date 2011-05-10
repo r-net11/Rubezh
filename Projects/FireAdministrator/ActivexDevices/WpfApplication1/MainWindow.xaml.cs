@@ -15,9 +15,10 @@ namespace Test
         {
             InitializeComponent();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 300; i++)
             {
                 DeviceControls.DeviceControl deviceControl = new DeviceControl();
+                deviceControl.Margin = new Thickness(1);
                 deviceControl.Width = deviceControl.Height = 50;
 
                 deviceControl.DriverId = "4935848F-0084-4151-A0C8-3A900E3CB5C5";
@@ -28,6 +29,22 @@ namespace Test
                 stateList.Add("36");
                 stateList.Add("37");
                 deviceControl.AdditionalStatesIds = stateList;
+
+                wrapPanel.Children.Add(deviceControl);
+            }
+
+            for (int i = 0; i < 200; i++)
+            {
+                DeviceControls.DeviceControl deviceControl = new DeviceControl();
+                deviceControl.Margin = new Thickness(1);
+                deviceControl.Width = deviceControl.Height = 50;
+
+                deviceControl.DriverId = "799686B6-9CFA-4848-A0E7-B33149AB940C";
+                deviceControl.StateId = "0";
+
+                List<String> stateList = new List<string>();
+                stateList.Add("35");
+                //deviceControl.AdditionalStatesIds = stateList;
 
                 wrapPanel.Children.Add(deviceControl);
             }

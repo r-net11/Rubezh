@@ -80,11 +80,11 @@ namespace DeviceEditor.ViewModels
                 var canvas = new Canvas();
                 try
                 {
-                    DeviceLibrary.Functions.Draw(Picture, ref canvas, value, Layer);
+                    DeviceLibrary.Helper.Draw(Picture, ref canvas, value, Layer);
                 }
                 catch
                 {
-                    DeviceLibrary.Functions.Draw(Picture, ref canvas, LibraryManager.ErrorFrame, Layer);
+                    DeviceLibrary.Helper.Draw(Picture, ref canvas, LibraryManager.ErrorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
             }

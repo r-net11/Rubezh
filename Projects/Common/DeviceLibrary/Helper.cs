@@ -10,24 +10,26 @@ using System.Xml;
 
 namespace DeviceLibrary
 {
-    public static class Functions
+    public static class Helper
     {
         public static void Draw(ICollection<Canvas> stateCanvases, ref Canvas canvas, string image, int layer)
         {
             if (stateCanvases == null) throw new ArgumentNullException("stateCanvases");
             stateCanvases.Remove(canvas);
-            SvgToCanvas(ref canvas, image);
+            var stringReader = new StringReader(image);
+            var xmlReader = XmlReader.Create(stringReader);
+            canvas = (Canvas)XamlReader.Load(xmlReader);
             Panel.SetZIndex(canvas, layer);
             stateCanvases.Add(canvas);
         }
 
-        public static void SvgToCanvas(ref Canvas canvas, string svg)
+        public static Canvas Str2Canvas(string image, int layer)
         {
-            if (canvas == null) throw new ArgumentNullException("canvas");
-            var frameImage = svg;
-            var stringReader = new StringReader(frameImage);
+            var stringReader = new StringReader(image);
             var xmlReader = XmlReader.Create(stringReader);
-            canvas = (Canvas)XamlReader.Load(xmlReader);
+            var canvas = (Canvas)XamlReader.Load(xmlReader);
+            Panel.SetZIndex(canvas, layer);
+            return canvas;
         }
     }
 }
