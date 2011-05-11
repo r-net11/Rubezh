@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AssadDevices;
 using System.Threading;
 using FiresecClient;
 using System.Windows.Forms;
 using Firesec;
+using AssadProcessor.Devices;
 
 namespace AssadProcessor
 {
@@ -38,13 +38,13 @@ namespace AssadProcessor
         {
             if (all)
             {
-                AssadServices.AssadDeviceManager.Config(innerDevice);
+                Services.AssadDeviceManager.Config(innerDevice);
             }
         }
 
         public void AssadExecuteCommand(Assad.MHdeviceControlType controlType)
         {
-            AssadBase assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == controlType.deviceId);
+            AssadDevice assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == controlType.deviceId);
             string commandName = controlType.cmdId;
             if (commandName == "Обновить")
             {
@@ -83,7 +83,7 @@ namespace AssadProcessor
 
         public void ResetAllStates(string deviceId)
         {
-            AssadBase assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == deviceId);
+            AssadDevice assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == deviceId);
             Device device = Helper.ConvertDevice(assadDevice);
             string driverName = DriversHelper.GetDriverNameById(device.DriverId);
             Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
@@ -97,7 +97,6 @@ namespace AssadProcessor
                     }
                 }
             }
-
         }
 
         public void Stop()

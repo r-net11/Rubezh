@@ -5,7 +5,7 @@ using System.Text;
 using Firesec;
 using FiresecClient;
 
-namespace AssadDevices
+namespace AssadProcessor.Devices
 {
     public class AssadMonitor : AssadBase
     {
@@ -69,7 +69,7 @@ namespace AssadDevices
             return deviceType;
         }
 
-        public virtual Assad.CPeventType CreateEvent(string eventName)
+        public override Assad.CPeventType CreateEvent(string eventName)
         {
             Assad.CPeventType eventType = new Assad.CPeventType();
 
