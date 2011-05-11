@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Width="650" Height="200">
         <Grid>
-            <WrapPanel Name="wrapPanel" />
-        </Grid>
+        <ScrollViewer>
+            <WrapPanel Name="wrapPanel"/>
+        </ScrollViewer>
+    </Grid>
 </Window>

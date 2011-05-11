@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Common;
 using DeviceLibrary;
+using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceEditor.ViewModels
 {
@@ -11,14 +13,12 @@ namespace DeviceEditor.ViewModels
         private ObservableCollection<DeviceViewModel> _deviceViewModels;
         private DeviceViewModel _selectedDeviceViewModel;
         private StateViewModel _selectedStateViewModel;
-
         public ViewModel()
         {
             Current = this;
             Load();
-            SaveCommand = new RelayCommand(OnSaveCommand);
+            SaveCommand = new RelayCommand(OnSave);
         }
-
         public static ViewModel Current { get; private set; }
         /// <summary>
         /// Комманда сохранения текущей конфигурации в файл.
@@ -36,7 +36,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("DeviceViewModels");
             }
         }
-
         /// <summary>
         /// Выбранное устройство.
         /// </summary>
@@ -49,7 +48,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("SelectedDeviceViewModel");
             }
         }
-
         /// <summary>
         /// Выбранное состояние.
         /// </summary>
@@ -64,21 +62,47 @@ namespace DeviceEditor.ViewModels
                 SelectedStateViewModel.ParentDevice.DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
                 SelectedStateViewModel.ParentDevice.DeviceControl.StateId = SelectedStateViewModel.Id;
                 SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = SelectedStateViewModel.IsAdditional ? null : SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
-
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
-
-        public void OnSaveCommand(object obj)
+        public void OnSave(object obj)
         {
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                                       "Окно подтверждения", MessageBoxButton.OKCancel,
                                                       MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
                 return;
+            LibraryManager.Devices = new List<Device>();
+            foreach (var deviceViewModel in DeviceViewModels)
+            {
+                var device = new
+                Device
+                {
+                    Id = deviceViewModel.Id
+                };
+                LibraryManager.Devices.Add(device);
+                device.States = new List<State>();
+                foreach (var stateViewModel in deviceViewModel.StatesViewModel)
+                {
+                    var state = new State {Id = stateViewModel.Id, IsAdditional = stateViewModel.IsAdditional};
+                    device.States.Add(state);
+                    state.Frames = new List<Frame>();
+                    foreach (var frame in stateViewModel.FrameViewModels.Select(frameViewModel => new
+                    Frame
+                    {
+                        Id = frameViewModel.Id,
+                        Image = frameViewModel.Image,
+                        Duration = frameViewModel.Duration, 
+                        Layer = frameViewModel.Layer
+                    }
+                    ))
+                    {
+                        state.Frames.Add(frame);
+                    }
+                }
+            }
             LibraryManager.Save();
         }
-
         public void Load()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
@@ -93,7 +117,7 @@ namespace DeviceEditor.ViewModels
                 DeviceViewModels.Add(deviceViewModel);
                 try
                 {
-                    deviceViewModel.IconPath = ResourceHelper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
+                    deviceViewModel.IconPath = Helper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
                 }
                 catch { }
                 foreach (var state in device.States)

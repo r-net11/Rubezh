@@ -1,11 +1,9 @@
-﻿<UserControl x:Class="DeviceControls.DeviceControl"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SizeChanged="UserControl_SizeChanged">
-    <ItemsControl ItemsSource="{Binding StateCanvases}" Name="_itemsControl">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+﻿<UserControl x:Class="DeviceControls.DeviceControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SizeChanged="UserControlSizeChanged">
+	<ItemsControl ItemsSource="{Binding StateCanvases, Mode=OneWay}" Name="_itemsControl">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<Canvas />
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+	</ItemsControl>
 </UserControl>

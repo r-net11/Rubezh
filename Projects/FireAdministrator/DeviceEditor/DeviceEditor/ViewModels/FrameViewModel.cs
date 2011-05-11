@@ -1,8 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Xml;
 using Common;
 using DeviceLibrary;
 
@@ -79,30 +76,16 @@ namespace DeviceEditor.ViewModels
             set
             {
                 _image = value;
-                StringReader stringReader;
-                XmlReader xmlReader;
-                string frameImage;
+                Picture = new ObservableCollection<Canvas>();
+                var canvas = new Canvas();
                 try
                 {
-                    frameImage = _image;
-                    stringReader = new StringReader(frameImage);
-                    xmlReader = XmlReader.Create(stringReader);
-                    Picture = new ObservableCollection<Canvas>();
-                    var framePicture = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(framePicture, Layer);
-                    Picture.Add(framePicture);
+                    DeviceLibrary.Helper.Draw(Picture, ref canvas, value, Layer);
                 }
                 catch
                 {
-                    frameImage = LibraryManager.ErrorFrame;
-                    stringReader = new StringReader(frameImage);
-                    xmlReader = XmlReader.Create(stringReader);
-                    Picture = new ObservableCollection<Canvas>();
-                    var framePicture = (Canvas)XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(framePicture, Layer);
-                    Picture.Add(framePicture);
+                    DeviceLibrary.Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
                 }
-
                 OnPropertyChanged("Image");
             }
         }
@@ -113,7 +96,7 @@ namespace DeviceEditor.ViewModels
             newFrame.Parent = Parent;
             newFrame.Id = Parent.FrameViewModels.Count;
             newFrame.Duration = 500;
-            newFrame.Image = LibraryManager.EmptyFrame;
+            newFrame.Image = Helper.EmptyFrame;
             Parent.FrameViewModels.Add(newFrame);
             ViewModel.Current.SelectedStateViewModel = Parent;
         }

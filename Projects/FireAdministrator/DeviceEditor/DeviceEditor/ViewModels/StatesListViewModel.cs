@@ -66,7 +66,7 @@ namespace DeviceEditor.ViewModels
             FrameViewModel
             {
                 Duration = 500,
-                Image = LibraryManager.EmptyFrame
+                Image = Helper.EmptyFrame
             };
             stateViewModel.FrameViewModels = new
             ObservableCollection<FrameViewModel> {frameViewModel};

@@ -129,7 +129,7 @@ namespace DeviceEditor.ViewModels
                         DeviceViewModel
                         {
                             Name = item.name,
-                            IconPath = ResourceHelper.IconsPath + item.dev_icon + ".ico"
+                            IconPath = Helper.IconsPath + item.dev_icon + ".ico"
                         };
                         Items.Add(deviceViewModel);
                     }
