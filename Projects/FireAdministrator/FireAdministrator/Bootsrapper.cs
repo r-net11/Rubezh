@@ -14,11 +14,6 @@ using FiresecClient;
 
 namespace FireAdministrator
 {
-    public class A
-    {
-        public string Name { get; set; }
-    }
-
     public class Bootsrapper : UnityBootstrapper
     {
         protected override System.Windows.DependencyObject CreateShell()
@@ -32,7 +27,7 @@ namespace FireAdministrator
         {
             RegisterServices();
 
-            StartFiresecClient();
+            FiresecManager.Start();
 
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
@@ -53,11 +48,6 @@ namespace FireAdministrator
             moduleCatalog.AddModule(typeof(LibraryModule.LibraryModule));
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(SecurityModule.SequrityModule));
-        }
-
-        void StartFiresecClient()
-        {
-            FiresecManager.Start();
         }
     }
 }

@@ -91,9 +91,7 @@
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
-                                    <TextBlock Text="{Binding ZoneNo}" />
-                                    <TextBlock Text=". " />
-                                    <TextBlock Text="{Binding ZoneName}" />
+                                    <TextBlock Text="{Binding PresentationName}" />
                                     <StackPanel.Style>
                                         <Style>
                                             <Style.Triggers>
@@ -113,7 +111,7 @@
                                         <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding ZoneName}" VerticalAlignment="Stretch" />
+                                                    <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Stretch" />
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -173,6 +171,51 @@
                 </WpfToolkit:DataGrid.CellStyle>
 
             </WpfToolkit:DataGrid>
-        </StackPanel>
+
+                <StackPanel DataContext="{Binding SelectedDeviceViewModel}" Width="400" HorizontalAlignment="Left">
+
+                    <TextBlock Text="Устройство" FontWeight="Bold" Foreground="DarkOrange" />
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ImageSource}" Width="16" />
+                        <TextBlock Text="{Binding DriverName}" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" />
+                        <TextBlock Text="{Binding ConnectedTo}" />
+                        <StackPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConnectedTo}" Value="{x:Null}" >
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+
+                    <StackPanel DataContext="{Binding Zone}">
+                        <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ZoneNo}" />
+                            <TextBlock Text=". " />
+                            <TextBlock Text="{Binding ZoneName}" />
+                        </StackPanel>
+                        <StackPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+
+                    <ContentControl Content="{Binding PropStackPanel}" />
+
+                </StackPanel>
+
+            </StackPanel>
     </Grid>
 </UserControl>

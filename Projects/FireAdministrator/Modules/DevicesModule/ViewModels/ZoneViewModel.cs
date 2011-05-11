@@ -9,75 +9,76 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
-        public ZoneViewModel()
+        Zone _zone;
+
+        public ZoneViewModel(Zone zone)
         {
+            _zone = zone;
+            Name = zone.Name;
+            No = zone.No;
+            Description = zone.Description;
+            DetectorCount = zone.DetectorCount;
+            EvacuationTime = zone.EvacuationTime;
         }
 
-        Zone zone;
-
-        public void SetZone(Zone zone)
+        string _name;
+        public string Name
         {
-            this.zone = zone;
-            ZoneName = zone.Name;
-            zoneNo = zone.No;
-            ZoneDescription = zone.Description;
-            ZoneDetectorCount = zone.DetectorCount;
-            ZoneEvacuationTime = zone.EvacuationTime;
-        }
-
-        string zoneName;
-        public string ZoneName
-        {
-            get { return zoneName; }
+            get { return _name; }
             set
             {
-                zoneName = value;
-                OnPropertyChanged("ZoneName");
+                _name = value;
+                OnPropertyChanged("Name");
             }
         }
 
-        string zoneNo;
-        public string ZoneNo
+        string _no;
+        public string No
         {
-            get { return zoneNo; }
+            get { return _no; }
             set
             {
-                zoneNo = value;
-                OnPropertyChanged("ZoneNo");
+                _no = value;
+                OnPropertyChanged("No");
             }
         }
 
-        string zoneDescription;
-        public string ZoneDescription
+        string _description;
+        public string Description
         {
-            get { return zoneDescription; }
+            get { return _description; }
             set
             {
-                zoneDescription = value;
-                OnPropertyChanged("ZoneDescription");
+                _description = value;
+                OnPropertyChanged("Description");
             }
         }
 
-        string zoneDetectorCount;
-        public string ZoneDetectorCount
+        string _detectorCount;
+        public string DetectorCount
         {
-            get { return zoneDetectorCount; }
+            get { return _detectorCount; }
             set
             {
-                zoneDetectorCount = value;
-                OnPropertyChanged("ZoneDetectorCount");
+                _detectorCount = value;
+                OnPropertyChanged("DetectorCount");
             }
         }
 
-        string zoneEvacuationTime;
-        public string ZoneEvacuationTime
+        string _evacuationTime;
+        public string EvacuationTime
         {
-            get { return zoneEvacuationTime; }
+            get { return _evacuationTime; }
             set
             {
-                zoneEvacuationTime = value;
-                OnPropertyChanged("ZoneEvacuationTime");
+                _evacuationTime = value;
+                OnPropertyChanged("EvacuationTime");
             }
+        }
+
+        public string PresentationName
+        {
+            get { return No + "." + Name; }
         }
     }
 }

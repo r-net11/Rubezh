@@ -137,11 +137,11 @@ namespace ServiceVisualizer
                 Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
                 if (driver.ar_no_addr == "1")
                 {
-                    device.PresentationAddress = "";
+                    device.Address = "";
                 }
                 else
                 {
-                    device.PresentationAddress = "0.0";
+                    device.Address = "0.0";
                 }
                 deviceViewModel.Initialize(device);
                 deviceViewModel.Parent = this;
@@ -169,7 +169,7 @@ namespace ServiceVisualizer
                                 Device childDevice = new Device();
                                 childDevice.Properties = new List<Property>();
                                 childDevice.DriverId = childDriver.id;
-                                childDevice.PresentationAddress = i.ToString();
+                                childDevice.Address = i.ToString();
                                 childDeviceViewModel.Initialize(childDevice);
                                 childDeviceViewModel.Parent = deviceViewModel;
                                 deviceViewModel.Children.Add(childDeviceViewModel);
@@ -354,7 +354,7 @@ namespace ServiceVisualizer
 
             SetProperties();
 
-            Address = device.PresentationAddress;
+            Address = device.Address;
             Description = device.Description;
         }
 

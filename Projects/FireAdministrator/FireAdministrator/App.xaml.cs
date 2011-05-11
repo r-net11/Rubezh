@@ -16,7 +16,6 @@ namespace FireAdministrator
         {
             base.OnStartup(e);
 
-            A a = new A();
             Bootsrapper bootstrapper = new Bootsrapper();
             bootstrapper.Run();
         }

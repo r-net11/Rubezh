@@ -1,0 +1,57 @@
+﻿<Window x:Class="DevicesModule.Views.ZoneLogicSectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+        Title="ZoneLogicSectionView" Height="300" Width="800">
+    <Grid>
+        <StackPanel>
+            <Button Content="Ok" Command="{Binding SaveCommand}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <WpfToolkit:DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
+                        Height="200" AutoGenerateColumns="False" SelectionMode="Single"
+                                    CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                                    IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                                    Background="White" BorderBrush="Black" BorderThickness="0"
+                                    AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
+                                    RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
+                        <WpfToolkit:DataGrid.Columns>
+                            <WpfToolkit:DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+                            <WpfToolkit:DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                            <WpfToolkit:DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                        </WpfToolkit:DataGrid.Columns>
+                    </WpfToolkit:DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <Button Content="+" Command="{Binding AddOneCommand}" />
+                    <Button Content="-" Command="{Binding RemoveOneCommand}" />
+                    <Button Content="++" Command="{Binding AddAllCommand}" />
+                    <Button Content="--" Command="{Binding RemoveAllCommand}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <WpfToolkit:DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
+                                    Height="200" AutoGenerateColumns="False" SelectionMode="Single"
+                                    CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                                    IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
+                                    Background="White" BorderBrush="Black" BorderThickness="0"
+                                    AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
+                                    RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
+                        <WpfToolkit:DataGrid.Columns>
+                            <WpfToolkit:DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+                            <WpfToolkit:DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                            <WpfToolkit:DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                        </WpfToolkit:DataGrid.Columns>
+                    </WpfToolkit:DataGrid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

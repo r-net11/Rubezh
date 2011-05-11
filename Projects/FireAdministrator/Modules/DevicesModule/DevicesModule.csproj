@@ -78,11 +78,31 @@
     <Compile Include="PropertyBindings\BoolProperty.cs" />
     <Compile Include="PropertyBindings\EnumProperty.cs" />
     <Compile Include="PropertyBindings\StringProperty.cs" />
+    <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="ViewModels\ZoneLogicSectionViewModel.cs" />
+    <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
+    <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Views\ClauseView.xaml.cs">
+      <DependentUpon>ClauseView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneLogicSectionView.xaml.cs">
+      <DependentUpon>ZoneLogicSectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneLogicView.xaml.cs">
+      <DependentUpon>ZoneLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -130,7 +150,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ClauseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneLogicSectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
