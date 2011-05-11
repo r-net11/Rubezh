@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Common;
 using DeviceControls;
@@ -31,6 +32,24 @@ namespace DeviceEditor.ViewModels
 
         public static DeviceViewModel Current { get; private set; }
 
+        /// <summary>
+        /// Загрузка основных состояний.
+        /// </summary>
+        public void LoadBaseStates()
+        {
+            this.StatesViewModel = new ObservableCollection<StateViewModel>();
+            for (var stateId = 0; stateId < 9; stateId++)
+            {
+                var stateViewModel = new StateViewModel();
+                stateViewModel.Id = Convert.ToString(stateId);
+                var frameViewModel = new FrameViewModel();
+                frameViewModel.Duration = 0;
+                frameViewModel.Image = Helper.EmptyFrame;
+                stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
+                stateViewModel.FrameViewModels.Add(frameViewModel);
+                this.StatesViewModel.Add(stateViewModel);
+            }
+        }
         public DeviceControl DeviceControl
         {
             get { return _deviceControl; }

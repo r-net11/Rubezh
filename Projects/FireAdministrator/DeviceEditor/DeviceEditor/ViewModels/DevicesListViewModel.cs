@@ -54,85 +54,25 @@ namespace DeviceEditor.ViewModels
 
         private void OnAdd(object obj)
         {
-            var deviceViewModel = new DeviceViewModel();
-            deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
-            deviceViewModel.Id = _selectedItem.Id;
-            deviceViewModel.IconPath = _selectedItem.IconPath;
-            deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
-            LoadBaseStates(deviceViewModel);
+            var deviceViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
             ViewModel.Current.DeviceViewModels.Add(deviceViewModel);
-            _items.Remove(_selectedItem);
-        }
-
-        /// <summary>
-        /// Загрузка основный состояний.
-        /// </summary>
-        public void LoadBaseStates(DeviceViewModel deviceViewModel)
-        {
-            var stateViewModel1 = new StateViewModel();
-            var stateViewModel2 = new StateViewModel();
-            var stateViewModel3 = new StateViewModel();
-            var stateViewModel4 = new StateViewModel();
-            var stateViewModel5 = new StateViewModel();
-            var stateViewModel6 = new StateViewModel();
-            var stateViewModel7 = new StateViewModel();
-            var stateViewModel8 = new StateViewModel();
-            var stateViewModel9 = new StateViewModel();
-
-            stateViewModel1.Id = "Базовый рисунок";
-            stateViewModel2.Id = "Тревога";
-            stateViewModel3.Id = "Внимание (предтревожное)";
-            stateViewModel4.Id = "Неисправность";
-            stateViewModel5.Id = "Требуется обслуживание";
-            stateViewModel6.Id = "Обход устройств";
-            stateViewModel7.Id = "Неизвестно";
-            stateViewModel8.Id = "Норма(*)";
-            stateViewModel9.Id = "Норма";
-            deviceViewModel.StatesViewModel.Add(stateViewModel1);
-            deviceViewModel.StatesViewModel.Add(stateViewModel2);
-            deviceViewModel.StatesViewModel.Add(stateViewModel3);
-            deviceViewModel.StatesViewModel.Add(stateViewModel4);
-            deviceViewModel.StatesViewModel.Add(stateViewModel5);
-            deviceViewModel.StatesViewModel.Add(stateViewModel6);
-            deviceViewModel.StatesViewModel.Add(stateViewModel7);
-            deviceViewModel.StatesViewModel.Add(stateViewModel8);
-            deviceViewModel.StatesViewModel.Add(stateViewModel9);
-
-            foreach (StateViewModel stateViewModel in deviceViewModel.StatesViewModel)
-            {
-                var frameViewModel = new FrameViewModel();
-                frameViewModel.Duration = 0;
-                frameViewModel.Image =
-                    "<svg width=\"500\" height=\"500\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\">\n<g>\n<title>Layer</title>\n</g>\n</svg>";
-                stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
-                stateViewModel.FrameViewModels.Add(frameViewModel);
-                stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
-                stateViewModel.FrameViewModels.Add(frameViewModel);
-            }
+            Items.Remove(_selectedItem);
         }
 
         public void Load()
         {
             Items = new ObservableCollection<DeviceViewModel>();
-            foreach (drvType item in LibraryManager.Drivers)
+            foreach (var item in LibraryManager.Drivers)
                 try
                 {
-                    if (item.options.Contains("Placeable") &&
-                        (ViewModel.Current.DeviceViewModels.FirstOrDefault(x => x.Id == item.id) == null))
-                    {
-                        var deviceViewModel = new 
-                        DeviceViewModel
-                        {
-                            Name = item.name,
-                            Id = item.id,
-                            IconPath = Helper.DevicesIconsPath + item.dev_icon + ".ico"
-                        };
-                        Items.Add(deviceViewModel);
-                    }
-                }
-                catch
-                {
-                }
+                    if (!item.options.Contains("Placeable") ||
+                        (ViewModel.Current.DeviceViewModels.FirstOrDefault(x => x.Id == item.id) != null)) continue;
+                    var deviceViewModel = new DeviceViewModel();
+                    deviceViewModel.Id = item.id;
+                    deviceViewModel.IconPath = Helper.DevicesIconsPath + item.dev_icon + ".ico";
+                    deviceViewModel.LoadBaseStates();
+                    Items.Add(deviceViewModel);
+                }catch{}
         }
     }
 }
