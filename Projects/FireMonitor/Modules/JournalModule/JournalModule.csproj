@@ -58,6 +58,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\StateToColorConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="JournalModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

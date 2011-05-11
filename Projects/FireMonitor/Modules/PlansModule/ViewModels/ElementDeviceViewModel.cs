@@ -108,7 +108,7 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
         {
-            ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(device.Path);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(device.Path);
         }
 
         public string Name

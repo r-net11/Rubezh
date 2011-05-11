@@ -44,6 +44,11 @@ namespace Firesec
                 return 8;
             return StateClasses.FirstOrDefault(x => x.Name == name).Id;
         }
+
+        public static StateType ClassToType(int id)
+        {
+            return StateClasses.FirstOrDefault(x => x.Id == id).StateType;
+        }
     }
 
     class StateClass

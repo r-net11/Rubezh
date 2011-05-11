@@ -2,13 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+             xmlns:Converter="clr-namespace:JournalModule.Converters"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Converter:StateToColorConverter x:Key="StateToColorConverter" />
+        <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <WpfToolkit:DataGrid ItemsSource="{Binding JournalItemViewModels}"
+            <WpfToolkit:DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
                             IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
@@ -37,7 +42,7 @@
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="Background" Value="{Binding EventColor}" />
+                            <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
                         </Style.Setters>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -49,6 +54,41 @@
                 </WpfToolkit:DataGrid.CellStyle>
 
             </WpfToolkit:DataGrid>
+
+            <StackPanel DataContext="{Binding SelectedItem}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Класс" Padding="0, 0, 2, 0" />
+                    <TextBlock Text="{Binding State}" Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Время" Padding="0, 0, 2, 0" />
+                    <TextBlock Text="{Binding SystemTime}" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding Description}" />
+
+                <StackPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
+                    <TextBlock Text="Пользователь" Padding="0, 0, 2, 0" />
+                    <TextBlock Text="{Binding User}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
+                    <TextBlock Text="Устройство - Датчик" Padding="0, 0, 2, 0" />
+                    <TextBlock Text="{Binding Device}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
+                    <TextBlock Text="Устройство" Padding="0, 0, 2, 0" />
+                    <TextBlock Text="{Binding Panel}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                    <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" />
+                    <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -281,7 +281,7 @@ namespace DevicesModule.ViewModels
             string zoneNo = Device.ZoneNo;
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
-                ServiceFactory.Events.GetEvent<ShowZonesEvent>().Publish(zoneNo);
+                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zoneNo);
             }
         }
 
