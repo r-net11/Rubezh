@@ -4,21 +4,26 @@ using System.Linq;
 using System.Windows;
 using Common;
 using DeviceLibrary;
+using DeviceLibrary.Models;
 using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceEditor.ViewModels
 {
     public class ViewModel : BaseViewModel
     {
+        #region Private Fields
         private ObservableCollection<DeviceViewModel> _deviceViewModels;
         private DeviceViewModel _selectedDeviceViewModel;
         private StateViewModel _selectedStateViewModel;
+        #endregion
+
         public ViewModel()
         {
             Current = this;
             Load();
             SaveCommand = new RelayCommand(OnSave);
         }
+
         public static ViewModel Current { get; private set; }
         /// <summary>
         /// Комманда сохранения текущей конфигурации в файл.
@@ -65,75 +70,65 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
+
         public void OnSave(object obj)
         {
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                                       "Окно подтверждения", MessageBoxButton.OKCancel,
                                                       MessageBoxImage.Question);
-            if (result == MessageBoxResult.Cancel)
-                return;
+            if (result == MessageBoxResult.Cancel) return;
             LibraryManager.Devices = new List<Device>();
             foreach (var deviceViewModel in DeviceViewModels)
             {
-                var device = new
-                Device
-                {
-                    Id = deviceViewModel.Id
-                };
+                var device = new Device();
+                device.Id = deviceViewModel.Id;
                 LibraryManager.Devices.Add(device);
                 device.States = new List<State>();
                 foreach (var stateViewModel in deviceViewModel.StatesViewModel)
                 {
-                    var state = new State {Id = stateViewModel.Id, IsAdditional = stateViewModel.IsAdditional};
+                    var state = new State();
+                    state.Id = stateViewModel.Id;
+                    state.IsAdditional = stateViewModel.IsAdditional;
                     device.States.Add(state);
                     state.Frames = new List<Frame>();
-                    foreach (var frame in stateViewModel.FrameViewModels.Select(frameViewModel => new
-                    Frame
+                    foreach (var frameViewModel in stateViewModel.FrameViewModels)
                     {
-                        Id = frameViewModel.Id,
-                        Image = frameViewModel.Image,
-                        Duration = frameViewModel.Duration, 
-                        Layer = frameViewModel.Layer
-                    }
-                    ))
-                    {
+                        var frame = new Frame();
+                        frame.Id = frameViewModel.Id;
+                        frame.Image = frameViewModel.Image;
+                        frame.Duration = frameViewModel.Duration;
+                        frame.Layer = frameViewModel.Layer;
                         state.Frames.Add(frame);
                     }
                 }
             }
             LibraryManager.Save();
         }
+
         public void Load()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
             foreach (var device in LibraryManager.Devices)
             {
-                var deviceViewModel = new
-                DeviceViewModel
-                {
-                    Id = device.Id,
-                    StatesViewModel = new ObservableCollection<StateViewModel>()
-                };
+                var deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Id = device.Id;
+                deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
                 DeviceViewModels.Add(deviceViewModel);
-                try
-                {
-                    deviceViewModel.IconPath = Helper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
-                }
-                catch { }
+                try {deviceViewModel.IconPath = Helper.DevicesIconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";}catch{}
                 foreach (var state in device.States)
                 {
-                    var stateViewModel = new StateViewModel { IsAdditional = state.IsAdditional, Id = state.Id };
+                    var stateViewModel = new StateViewModel();
+                    stateViewModel.IsAdditional = state.IsAdditional;
+                    stateViewModel.Id = state.Id;
                     deviceViewModel.StatesViewModel.Add(stateViewModel);
                     stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
-                    foreach (var frameViewModel in state.Frames.Select(frame => new
-                    FrameViewModel
+                    foreach (var frame in state.Frames)
                     {
-                        Id = frame.Id,
-                        Image = frame.Image,
-                        Duration = frame.Duration,
-                        Layer = frame.Layer
-                    }))
-                    {
+                        var frameViewModel = new FrameViewModel();
+                        frameViewModel.Id = frame.Id;
+                        frameViewModel.Image = frame.Image;
+                        frameViewModel.Duration = frame.Duration;
+                        frameViewModel.Layer = frame.Layer;
                         stateViewModel.FrameViewModels.Add(frameViewModel);
                     }
                 }

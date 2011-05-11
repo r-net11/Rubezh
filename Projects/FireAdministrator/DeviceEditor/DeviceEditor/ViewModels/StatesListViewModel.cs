@@ -1,27 +1,28 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 using Common;
-using DeviceLibrary;
-using Firesec.Metadata;
+using DeviceLibrary.Models;
 
 namespace DeviceEditor.ViewModels
 {
     internal class StatesListViewModel : BaseViewModel
     {
+        #region Private Fields
         private ObservableCollection<StateViewModel> _items;
         private StateViewModel _selectedItem;
         private string _title = "Список состояний";
+        #endregion
+
         public StatesListViewModel()
         {
             Current = this;
             Load();
-            AddCommand = new RelayCommand(OnAddCommand);
+            AddCommand = new RelayCommand(OnAdd);
         }
+
         public static StatesListViewModel Current;
+
         public RelayCommand AddCommand { get; private set; }
         /// <summary>
         /// Заголовок окна - "Список состояний".
@@ -35,6 +36,7 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Title");
             }
         }
+
         public StateViewModel SelectedItem
         {
             get { return _selectedItem; }
@@ -44,6 +46,7 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("SelectedItem");
             }
         }
+
         public ObservableCollection<StateViewModel> Items
         {
             get { return _items; }
@@ -53,44 +56,35 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Items");
             }
         }
-        private void OnAddCommand(object obj)
-        {
-            var stateViewModel = new
-            StateViewModel
-            {
-                Id = _selectedItem.Id,
-                IsAdditional = _selectedItem.IsAdditional,
-                ParentDevice = ViewModel.Current.SelectedDeviceViewModel
-            };
-            var frameViewModel = new
-            FrameViewModel
-            {
-                Duration = 500,
-                Image = Helper.EmptyFrame
-            };
-            stateViewModel.FrameViewModels = new
-            ObservableCollection<FrameViewModel> {frameViewModel};
-            ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.Add(stateViewModel);
-            Items.Remove(_selectedItem);
-        }
+
         public void Load()
         {
             Items = new ObservableCollection<StateViewModel>();
-            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ViewModel.Current.SelectedDeviceViewModel.Id);
+            var selectedDevice = ViewModel.Current.SelectedDeviceViewModel;
+            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == selectedDevice.Id);
             foreach (var item in driver.state)
                 try
                 {
-                    var stateViewModel = new 
-                    StateViewModel
-                    {
-                        Name = item.name, 
-                        IsAdditional = true
-                    };
-                    if (
-                        ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.FirstOrDefault(
-                            x => x.Id == stateViewModel.Id) == null)
-                        Items.Add(stateViewModel);
-                }catch{}
+                    if (selectedDevice.StatesViewModel.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
+                    var stateViewModel = new StateViewModel();
+                    stateViewModel.ParentDevice = ViewModel.Current.SelectedDeviceViewModel;
+                    stateViewModel.IsAdditional = true;
+                    stateViewModel.Id = item.id;
+                    var frameViewModel = new FrameViewModel();
+                    frameViewModel.Duration = 500;
+                    frameViewModel.Layer = 0;
+                    frameViewModel.Image = Helper.EmptyFrame;
+                    stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel> { frameViewModel };
+                    Items.Add(stateViewModel);
+                }catch { }
         }
+
+        private void OnAdd(object obj)
+        {
+            var stateViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
+            ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.Add(stateViewModel);
+            Items.Remove(_selectedItem);
+        }
+
     }
 }

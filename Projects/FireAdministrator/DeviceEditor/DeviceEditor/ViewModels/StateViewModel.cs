@@ -2,28 +2,31 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using Common;
-using DeviceLibrary;
+using DeviceLibrary.Models;
 using Firesec.Metadata;
 
 namespace DeviceEditor.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
+        #region Private Fields
         private ObservableCollection<FrameViewModel> _frameViewModels;
-        private string _iconPath = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\states.png";
+        private string _iconPath = Helper.StatesIconPath;
         private string _id;
         private bool _isAdditional;
         private bool _isChecked;
         private string _name;
         private FrameViewModel _selectedFrameViewModel;
+        #endregion
+
         public StateViewModel()
         {
             Current = this;
             ParentDevice = DeviceViewModel.Current;
-            RemoveStateCommand = new RelayCommand(OnRemoveStateCommand);
+            RemoveStateCommand = new RelayCommand(OnRemoveState);
         }
+
         public static StateViewModel Current { get; private set; }
         /// <summary>
         /// Родительское для данного состояния устройство.
@@ -79,7 +82,7 @@ namespace DeviceEditor.ViewModels
         /// Команда удаления состояния.
         /// </summary>
         public RelayCommand RemoveStateCommand { get; private set; }
-        private void OnRemoveStateCommand(object obj)
+        private void OnRemoveState(object obj)
         {
             if (!IsAdditional)
             {
@@ -101,11 +104,11 @@ namespace DeviceEditor.ViewModels
             set
             {
                 _id = value;
-                drvType driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
+                var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
                 if (IsAdditional)
                     Name = driver.state.FirstOrDefault(x => x.id == _id).name;
                 else
-                    Name = LibraryManager.BaseStatesList[Convert.ToInt16(_id)];
+                    Name = Helper.BaseStatesList[Convert.ToInt16(_id)];
             }
         }
         /// <summary>

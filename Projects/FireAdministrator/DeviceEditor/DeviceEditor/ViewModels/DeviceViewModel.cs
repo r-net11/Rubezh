@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using Common;
 using DeviceControls;
 using Firesec;
@@ -10,6 +9,7 @@ namespace DeviceEditor.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
+        #region Private Fields
         private List<string> _additionalStatesViewModel;
         private DeviceControl _deviceControl;
         private string _iconPath;
@@ -17,16 +17,20 @@ namespace DeviceEditor.ViewModels
         private string _name;
         private ObservableCollection<StateViewModel> _statesViewModel;
         private StateViewModel _selectedStateViewModel;
+        #endregion
+
         public DeviceViewModel()
         {
             Current = this;
             DeviceControl = new DeviceControl();
-            ShowDevicesCommand = new RelayCommand(OnShowDevicesCommand);
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDeviceCommand);
-            ShowStatesCommand = new RelayCommand(OnShowStatesCommand);
+            ShowDevicesCommand = new RelayCommand(OnShowDevices);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
+            ShowStatesCommand = new RelayCommand(OnShowStates);
             AdditionalStatesViewModel = new List<string>();
         }
+
         public static DeviceViewModel Current { get; private set; }
+
         public DeviceControl DeviceControl
         {
             get { return _deviceControl; }
@@ -52,7 +56,7 @@ namespace DeviceEditor.ViewModels
         /// Команда, показывающая список всех доступных устройств.
         /// </summary>
         public RelayCommand ShowDevicesCommand { get; private set; }
-        private static void OnShowDevicesCommand(object obj)
+        private static void OnShowDevices(object obj)
         {
             var devicesListView = new ListView();
             var devicesListViewModel = new DevicesListViewModel();
@@ -63,7 +67,7 @@ namespace DeviceEditor.ViewModels
         /// Команда, показывающая список всех доступных состояний.
         /// </summary>
         public RelayCommand ShowStatesCommand { get; private set; }
-        private static void OnShowStatesCommand(object obj)
+        private static void OnShowStates(object obj)
         {
             var statesListView = new ListView();
             var statesListViewModel = new StatesListViewModel();
@@ -74,7 +78,7 @@ namespace DeviceEditor.ViewModels
         /// Команда удаляющая устройство из списка.
         /// </summary>
         public RelayCommand RemoveDeviceCommand { get; private set; }
-        private void OnRemoveDeviceCommand(object obj)
+        private void OnRemoveDevice(object obj)
         {
             ViewModel.Current.DeviceViewModels.Remove(this);
         }
@@ -90,6 +94,7 @@ namespace DeviceEditor.ViewModels
                 Name = _name = DriversHelper.GetDriverNameById(_id);
             }
         }
+
         public string Name
         {
             get { return _name; }
@@ -126,6 +131,7 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("StatesViewModel");
             }
         }
+
         public List<string> AdditionalStatesViewModel;
 
     }

@@ -1,72 +1,67 @@
 ﻿using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 using Common;
-using DeviceLibrary;
-using Firesec;
+using DeviceLibrary.Models;
 using Firesec.Metadata;
 
 namespace DeviceEditor.ViewModels
 {
     internal class DevicesListViewModel : BaseViewModel
     {
-        private ObservableCollection<DeviceViewModel> items;
-        private DeviceViewModel selectedItem;
-
-        /// <summary>
-        /// Заголовок окна - "Список устройств".
-        /// </summary>
-        private string title = "Список устройств";
+        private ObservableCollection<DeviceViewModel> _items;
+        private DeviceViewModel _selectedItem;
+        private string _title = "Список устройств";
 
         public DevicesListViewModel()
         {
             Load();
-            AddCommand = new RelayCommand(OnAddCommand);
+            AddCommand = new RelayCommand(OnAdd);
         }
 
         public RelayCommand AddCommand { get; private set; }
-
+        /// <summary>
+        /// Заголовок окна - "Список устройств".
+        /// </summary>
         public string Title
         {
-            get { return title; }
+            get { return _title; }
             set
             {
-                title = value;
+                _title = value;
                 OnPropertyChanged("Title");
             }
         }
 
         public ObservableCollection<DeviceViewModel> Items
         {
-            get { return items; }
+            get { return _items; }
             set
             {
-                items = value;
+                _items = value;
                 OnPropertyChanged("Items");
             }
         }
 
         public DeviceViewModel SelectedItem
         {
-            get { return selectedItem; }
+            get { return _selectedItem; }
             set
             {
-                selectedItem = value;
+                _selectedItem = value;
                 OnPropertyChanged("SelectedItem");
             }
         }
 
-        private void OnAddCommand(object obj)
+        private void OnAdd(object obj)
         {
             var deviceViewModel = new DeviceViewModel();
             deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
-            deviceViewModel.Id = selectedItem.Id;
-            deviceViewModel.IconPath = selectedItem.IconPath;
+            deviceViewModel.Id = _selectedItem.Id;
+            deviceViewModel.IconPath = _selectedItem.IconPath;
             deviceViewModel.StatesViewModel = new ObservableCollection<StateViewModel>();
             LoadBaseStates(deviceViewModel);
             ViewModel.Current.DeviceViewModels.Add(deviceViewModel);
-            items.Remove(selectedItem);
+            _items.Remove(_selectedItem);
         }
 
         /// <summary>
@@ -129,7 +124,8 @@ namespace DeviceEditor.ViewModels
                         DeviceViewModel
                         {
                             Name = item.name,
-                            IconPath = Helper.IconsPath + item.dev_icon + ".ico"
+                            Id = item.id,
+                            IconPath = Helper.DevicesIconsPath + item.dev_icon + ".ico"
                         };
                         Items.Add(deviceViewModel);
                     }
