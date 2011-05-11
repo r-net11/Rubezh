@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Firesec.Metadata;
@@ -23,7 +20,9 @@ namespace DeviceLibrary
         /// Список всех устройств, полученный из файла metadata.xml
         /// </summary>
         public static drvType[] Drivers { get; set; }
+
         public static ObservableCollection<string> BaseStatesList { get; set; }
+
         static LibraryManager()
         {
             Load();
@@ -52,8 +51,8 @@ namespace DeviceLibrary
         {
             var file_xml = new FileStream(metadataFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             var serializer = new XmlSerializer(typeof(config));
-            var metadata = (config)serializer.Deserialize(fileXml);
-            fileXml.Close();
+            var metadata = (config)serializer.Deserialize(file_xml);
+            file_xml.Close();
             Drivers = metadata.drv;
         }
 

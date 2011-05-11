@@ -4,7 +4,7 @@
         Title="MainWindow" Width="650" Height="200">
         <Grid>
         <ScrollViewer>
-            <WrapPanel Name="wrapPanel" Margin="1" />
+            <WrapPanel Name="wrapPanel"/>
         </ScrollViewer>
     </Grid>
 </Window>

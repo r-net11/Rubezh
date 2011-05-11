@@ -14,47 +14,38 @@ namespace DeviceControls
     public partial class DeviceControl : UserControl, INotifyPropertyChanged
     {
         private List<string> _additionalStatesIds;
-        private string _driverId;
         private ObservableCollection<Canvas> _stateCanvases;
         private string _stateId;
-        private List<StateViewModel> StatesViewModels { get; set; }
 
         public DeviceControl()
         {
             InitializeComponent();
             DataContext = this;
             StateCanvases = new ObservableCollection<Canvas>();
-            StatesViewModels = new List<StateViewModel>();
         }
-
-        public static DispatcherTimer Timer { get; set; }
-        public static event Action Tick;
 
         static DeviceControl()
         {
             Timer = new DispatcherTimer();
             Timer.Interval = TimeSpan.FromMilliseconds(100);
-            Timer.Tick += new EventHandler(Timer_Tick);
+            Timer.Tick += new EventHandler(TimerTick);
             Timer.Start();
         }
 
-        static void Timer_Tick(object sender, EventArgs e)
+        public static DispatcherTimer Timer { get; set; }
+
+        public static event Action Tick;
+
+        static void TimerTick(object sender, EventArgs e)
         {
             if (Tick != null)
                 Tick();
         }
 
-        public static Device CurrentDevice;
         public bool IsAdditional;
-        public string DriverId
-        {
-            get { return _driverId; }
-            set
-            {
-                _driverId = value;
-                CurrentDevice = LibraryManager.Devices.FirstOrDefault(x => x.Id == value);
-            }
-        }
+
+        public string DriverId { get; set; }
+
         public string StateId
         {
             get { return _stateId; }
@@ -64,6 +55,7 @@ namespace DeviceControls
                 Update();
             }
         }
+
         public List<string> AdditionalStatesIds
         {
             get { return _additionalStatesIds; }
@@ -73,6 +65,7 @@ namespace DeviceControls
                 Update();
             }
         }
+
         public ObservableCollection<Canvas> StateCanvases
         {
             get { return _stateCanvases; }
@@ -82,19 +75,22 @@ namespace DeviceControls
                 OnPropertyChanged("StateCanvases");
             }
         }
+
         private void Update()
         {
+            var device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
             StateCanvases = new ObservableCollection<Canvas>();
-            var state = CurrentDevice.States.FirstOrDefault(x => (x.Id == StateId) && (x.IsAdditional == IsAdditional));
-            if (StatesViewModels != null) StatesViewModels.Add(new StateViewModel(state, StateCanvases));
+            var state = device.States.FirstOrDefault(x => (x.Id == StateId) && (x.IsAdditional == IsAdditional));
+            new StateViewModel(state, StateCanvases);
             if (IsAdditional) return;
-            
-            if (AdditionalStatesIds != null)
-                foreach (var aState in AdditionalStatesIds.Select(additionalState => CurrentDevice.States.FirstOrDefault(x => (x.Id == additionalState) && (x.IsAdditional))).Where(aState => StatesViewModels != null))
-                {
-                    new StateViewModel(aState, StateCanvases);
-                }
+            if (AdditionalStatesIds == null) return;
+            foreach (var additionalStateId in AdditionalStatesIds)
+            {
+                var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
+                new StateViewModel(aState, StateCanvases);
+            }
         }
+
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
@@ -103,6 +99,7 @@ namespace DeviceControls
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
         private void UserControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
             _itemsControl.LayoutTransform = new ScaleTransform(ActualWidth/500, ActualHeight/500);

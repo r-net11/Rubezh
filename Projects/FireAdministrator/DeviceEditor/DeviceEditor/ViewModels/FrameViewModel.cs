@@ -84,7 +84,7 @@ namespace DeviceEditor.ViewModels
                 }
                 catch
                 {
-                    DeviceLibrary.Helper.Draw(Picture, ref canvas, LibraryManager.ErrorFrame, Layer);
+                    DeviceLibrary.Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
             }
@@ -96,7 +96,7 @@ namespace DeviceEditor.ViewModels
             newFrame.Parent = Parent;
             newFrame.Id = Parent.FrameViewModels.Count;
             newFrame.Duration = 500;
-            newFrame.Image = LibraryManager.EmptyFrame;
+            newFrame.Image = Helper.EmptyFrame;
             Parent.FrameViewModels.Add(newFrame);
             ViewModel.Current.SelectedStateViewModel = Parent;
         }

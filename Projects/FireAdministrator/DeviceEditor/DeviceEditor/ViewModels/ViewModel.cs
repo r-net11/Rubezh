@@ -117,7 +117,7 @@ namespace DeviceEditor.ViewModels
                 DeviceViewModels.Add(deviceViewModel);
                 try
                 {
-                    deviceViewModel.IconPath = ResourceHelper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
+                    deviceViewModel.IconPath = Helper.IconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == deviceViewModel.Id).dev_icon + ".ico";
                 }
                 catch { }
                 foreach (var state in device.States)
