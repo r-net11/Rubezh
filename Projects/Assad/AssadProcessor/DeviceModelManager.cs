@@ -12,17 +12,12 @@ namespace AssadProcessor
     // все модели для каждого устройства доступны через свойство ModelInfos
     // класс доступен для всех через клас AssadServices
 
-    public class AssadDeviceTypesManager
+    public class DeviceModelManager
     {
         public List<Assad.modelInfoType> ModelInfos { get; private set; }
         public Assad.modelInfoType RootModelInfo { get; private set; }
 
-        public Assad.modelInfoType GetModelInfo(string deviceType)
-        {
-            return ModelInfos.Find(a => a.type1 == deviceType);
-        }
-
-        public AssadDeviceTypesManager()
+        public DeviceModelManager()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
             FileStream fileStream = new FileStream("DeviceModel.xml", FileMode.Open);

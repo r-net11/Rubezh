@@ -6,7 +6,7 @@ using AssadProcessor.Devices;
 
 namespace AssadProcessor
 {
-    public static class AssadConfiguration
+    public static class Configuration
     {
         public static List<AssadBase> BaseDevices { get; set; }
         public static List<AssadDevice> Devices { get; set; }

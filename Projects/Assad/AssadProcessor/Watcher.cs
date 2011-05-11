@@ -8,7 +8,7 @@ using AssadProcessor.Devices;
 
 namespace AssadProcessor
 {
-    public class AssadWatcher
+    public class Watcher
     {
         internal void Start()
         {
@@ -19,29 +19,26 @@ namespace AssadProcessor
 
         void ServiceClient_DeviceChanged(string path)
         {
-            AssadDevice assadDevice = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == path);
+            AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Path == path);
             if (assadDevice != null)
             {
-                Assad.CPeventType eventType = assadDevice.CreateEvent(null);
-                NetManager.Send(eventType, null);
+                assadDevice.FireEvent(null);
             }
 
-            if (AssadConfiguration.Monitor != null)
+            if (Configuration.Monitor != null)
             {
-                Assad.CPeventType monitorEventType = AssadConfiguration.Monitor.CreateEvent(null);
-                NetManager.Send(monitorEventType, null);
+                Configuration.Monitor.FireEvent(null);
             }
         }
 
         void CurrentStates_ZoneStateChanged(string zoneNo)
         {
-            if (AssadConfiguration.Zones != null)
+            if (Configuration.Zones != null)
             {
-                AssadZone assadZone = AssadConfiguration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
+                AssadZone assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
                 if (assadZone != null)
                 {
-                    Assad.CPeventType eventType = assadZone.CreateEvent(null);
-                    NetManager.Send(eventType, null);
+                    assadZone.FireEvent(null);
                 }
             }
         }
@@ -65,13 +62,12 @@ namespace AssadProcessor
                 Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
 
-                if ((AssadConfiguration.Devices != null) && (AssadConfiguration.Devices.Any(x => x.Path == device.Path)))
+                if ((Configuration.Devices != null) && (Configuration.Devices.Any(x => x.Path == device.Path)))
                 {
-                    AssadDevice assadDevice = AssadConfiguration.Devices.FirstOrDefault(x => x.Path == device.Path);
+                    AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Path == device.Path);
 
                     string eventName = StateHelper.GetState(Convert.ToInt32(journalItem.IDTypeEvents));
-                    Assad.CPeventType eventType = assadDevice.CreateEvent(eventName);
-                    NetManager.Send(eventType, null);
+                    assadDevice.FireEvent(eventName);
                 }
             }
         }

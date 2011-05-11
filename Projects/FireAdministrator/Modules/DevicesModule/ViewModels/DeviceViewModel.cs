@@ -353,7 +353,7 @@ namespace DevicesModule.ViewModels
 
             SetProperties();
 
-            Address = device.PresentationAddress;
+            Address = device.Address;
             Description = device.Description;
         }
 

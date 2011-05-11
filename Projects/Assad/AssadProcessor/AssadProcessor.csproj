@@ -77,14 +77,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssadConfiguration.cs" />
-    <Compile Include="AssadDeviceManager.cs" />
-    <Compile Include="AssadDeviceTypesManager.cs" />
-    <Compile Include="AssadWatcher.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="DeviceManager.cs" />
+    <Compile Include="DeviceModelManager.cs" />
+    <Compile Include="Watcher.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Devices\AssadBase.cs" />
     <Compile Include="Devices\AssadDevice.cs" />
-    <Compile Include="Devices\AssadDeviceFactory.cs" />
     <Compile Include="Devices\AssadMonitor.cs" />
     <Compile Include="Devices\AssadZone.cs" />
     <Compile Include="Helper.cs" />

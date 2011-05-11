@@ -20,7 +20,6 @@ namespace FiresecClient
         public string PlaceInTree { get; set; }
         public string Path { get; set; }
         public string Address { get; set; }
-        public string PresentationAddress { get; set; }
         public string ZoneNo { get; set; }
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<Property> Properties { get; set; }

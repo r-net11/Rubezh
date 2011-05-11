@@ -46,7 +46,7 @@ namespace AssadProcessor
             switch (messageType)
             {
                 case "MHqueryCPType":
-                    Assad.modelInfoType RootModelInfo = Services.AssadDeviceTypesManager.RootModelInfo;
+                    Assad.modelInfoType RootModelInfo = Services.DeviceModelManager.RootModelInfo;
 
                     Assad.CPconfirmationType confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryCP";
@@ -76,7 +76,7 @@ namespace AssadProcessor
                     break;
 
                 case "MHqueryStateType":
-                    Assad.DeviceType[] deviceItems = Services.AssadDeviceManager.QueryState((Assad.MHqueryStateType)content);
+                    Assad.DeviceType[] deviceItems = Controller.Current.QueryState((Assad.MHqueryStateType)content);
 
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryState";
@@ -113,7 +113,7 @@ namespace AssadProcessor
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryAbilityType";
 
-                    Assad.DeviceType deviceAbility = Services.AssadDeviceManager.QueryAbility((Assad.MHqueryAbilityType)content);
+                    Assad.DeviceType deviceAbility = Controller.Current.QueryAbility((Assad.MHqueryAbilityType)content);
 
                     confirmation.Items = new Assad.DeviceType[1];
                     confirmation.Items[0] = deviceAbility;

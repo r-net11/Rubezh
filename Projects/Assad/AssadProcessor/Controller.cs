@@ -7,13 +7,14 @@ using FiresecClient;
 using System.Windows.Forms;
 using Firesec;
 using AssadProcessor.Devices;
+using System.Diagnostics;
 
 namespace AssadProcessor
 {
     public class Controller
     {
         internal static Controller Current { get; private set; }
-        AssadWatcher assadWather { get; set; }
+        Watcher Wather { get; set; }
 
         public Controller()
         {
@@ -24,8 +25,8 @@ namespace AssadProcessor
         {
             Services.NetManager.Start();
 
-            assadWather = new AssadWatcher();
-            assadWather.Start();
+            Wather = new Watcher();
+            Wather.Start();
         }
 
         public void Start()
@@ -38,13 +39,38 @@ namespace AssadProcessor
         {
             if (all)
             {
-                Services.AssadDeviceManager.Config(innerDevice);
+                Services.DeviceManager.Config(innerDevice);
             }
+        }
+
+        public Assad.DeviceType[] QueryState(Assad.MHqueryStateType content)
+        {
+            AssadBase device = Configuration.BaseDevices.FirstOrDefault(a => a.DeviceId == content.deviceId);
+
+            if (device != null)
+            {
+                List<AssadBase> devices = device.FindAllChildren();
+
+                List<Assad.DeviceType> deviceItems = new List<Assad.DeviceType>();
+                foreach (AssadBase assadBase in devices)
+                {
+                    deviceItems.Add(assadBase.GetStates());
+                }
+                return deviceItems.ToArray();
+            }
+            return null;
+        }
+
+        public Assad.DeviceType QueryAbility(Assad.MHqueryAbilityType content)
+        {
+            AssadBase device = Configuration.BaseDevices.First(a => a.DeviceId == content.deviceId);
+            Assad.DeviceType ability = device.QueryAbility();
+            return ability;
         }
 
         public void AssadExecuteCommand(Assad.MHdeviceControlType controlType)
         {
-            AssadDevice assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == controlType.deviceId);
+            AssadDevice assadDevice = Configuration.Devices.First(x => x.DeviceId == controlType.deviceId);
             string commandName = controlType.cmdId;
             if (commandName == "Обновить")
             {
@@ -53,29 +79,32 @@ namespace AssadProcessor
             }
             else
             {
-                Device device = Helper.ConvertDevice(assadDevice);
-                if (commandName.StartsWith("Сброс "))
+                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == assadDevice.Path);
+                if (device != null)
                 {
-                    commandName = commandName.Replace("Сброс ", "");
-
-                    string driverName = DriversHelper.GetDriverNameById(device.DriverId);
-                    if (driverName == "Компьютер")
+                    if (commandName.StartsWith("Сброс "))
                     {
-                        foreach (Device resetDevice in FiresecManager.CurrentConfiguration.AllDevices)
+                        commandName = commandName.Replace("Сброс ", "");
+
+                        string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                        if (driverName == "Компьютер")
                         {
-                            Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == resetDevice.DriverId);
-                            if(driver.state != null)
+                            foreach (Device resetDevice in FiresecManager.CurrentConfiguration.AllDevices)
                             {
-                                if (driver.state.Any(x=>((x.name == commandName) && (x.manualReset == "1"))))
+                                Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == resetDevice.DriverId);
+                                if (driver.state != null)
                                 {
-                                    FiresecManager.ResetState(resetDevice, commandName);
+                                    if (driver.state.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
+                                    {
+                                        FiresecManager.ResetState(resetDevice, commandName);
+                                    }
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        FiresecManager.ResetState(device, commandName);
+                        else
+                        {
+                            FiresecManager.ResetState(device, commandName);
+                        }
                     }
                 }
             }
@@ -83,17 +112,20 @@ namespace AssadProcessor
 
         public void ResetAllStates(string deviceId)
         {
-            AssadDevice assadDevice = AssadConfiguration.Devices.First(x => x.DeviceId == deviceId);
-            Device device = Helper.ConvertDevice(assadDevice);
-            string driverName = DriversHelper.GetDriverNameById(device.DriverId);
-            Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-            if (driver.state != null)
+            AssadDevice assadDevice = Configuration.Devices.First(x => x.DeviceId == deviceId);
+            Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == assadDevice.Path);
+            if (device != null)
             {
-                foreach (Firesec.Metadata.stateType state in driver.state)
+                string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+                if (driver.state != null)
                 {
-                    if (state.manualReset == "1")
+                    foreach (Firesec.Metadata.stateType state in driver.state)
                     {
-                        FiresecManager.ResetState(device, state.name);
+                        if (state.manualReset == "1")
+                        {
+                            FiresecManager.ResetState(device, state.name);
+                        }
                     }
                 }
             }
@@ -106,14 +138,6 @@ namespace AssadProcessor
             Services.NetManager.Stop();
         }
 
-        bool ready = false;
-        internal bool Ready
-        {
-            get { return ready; }
-            set
-            {
-                ready = true;
-            }
-        }
+        internal bool Ready { get; set; }
     }
 }

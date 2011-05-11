@@ -138,39 +138,17 @@ namespace FiresecClient
 
         void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
         {
-            device.PresentationAddress = device.Address;
             string DriverName = DriversHelper.GetDriverNameById(device.DriverId);
 
             switch (DriverName)
             {
                 case "Компьютер":
-                    device.Address = "Компьютер";
-                    device.PresentationAddress = "";
-                    break;
-
                 case "Насосная Станция":
-                    device.Address = "Насосная Станция";
-                    device.PresentationAddress = "";
-                    break;
-
                 case "Жокей-насос":
-                    device.Address = "Жокей-насос";
-                    device.PresentationAddress = "";
-                    break;
-
                 case "Компрессор":
-                    device.Address = "Компрессор";
-                    device.PresentationAddress = "";
-                    break;
-
                 case "Дренажный насос":
-                    device.Address = "Дренажный насос";
-                    device.PresentationAddress = "";
-                    break;
-
                 case "Насос компенсации утечек":
-                    device.Address = "Насос компенсации утечек";
-                    device.PresentationAddress = "";
+                    device.Address = "0";
                     break;
 
                 case "USB преобразователь МС-1":
@@ -182,7 +160,6 @@ namespace FiresecClient
                     }
                     else
                         device.Address = "0";
-                    device.PresentationAddress = "";
                     break;
             }
         }

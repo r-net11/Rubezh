@@ -11,10 +11,9 @@ namespace AssadProcessor.Devices
     {
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
         {
-            base.SetInnerDevice(innerDevice);
         }
 
-        public override Assad.DeviceType GetInnerStates()
+        public override Assad.DeviceType GetStates()
         {
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
@@ -69,7 +68,7 @@ namespace AssadProcessor.Devices
             return deviceType;
         }
 
-        public override Assad.CPeventType CreateEvent(string eventName)
+        public override void FireEvent(string eventName)
         {
             Assad.CPeventType eventType = new Assad.CPeventType();
 
@@ -111,7 +110,7 @@ namespace AssadProcessor.Devices
 
             eventType.state = states.ToArray();
 
-            return eventType;
+            NetManager.Send(eventType, null);
         }
 
         public override Assad.DeviceType QueryAbility()

@@ -74,7 +74,6 @@ namespace AssadProcessor
                 while (string.IsNullOrEmpty(message) == false)
                 {
                     iteration++;
-                    Trace.WriteLine("Iteration " + iteration.ToString());
 
                     int firstIndexOf = message.IndexOf("<?xml");
 
@@ -83,7 +82,6 @@ namespace AssadProcessor
                         partMessage += message;
                         if (partMessage.EndsWith("</message>"))
                         {
-                            Trace.WriteLine("Process 1");
                             messageProcessor.ProcessMessage(partMessage);
                             partMessage = "";
                         }
@@ -94,7 +92,6 @@ namespace AssadProcessor
                         partMessage += message.Substring(0, firstIndexOf);
                         if (partMessage.EndsWith("</message>"))
                         {
-                            Trace.WriteLine("Process 2");
                             messageProcessor.ProcessMessage(partMessage);
                             partMessage = "";
                         }
@@ -109,7 +106,6 @@ namespace AssadProcessor
                         else
                         {
                             string fullMessage = message.Substring(0, lastIndexOf + "</message>".Length);
-                            Trace.WriteLine("Process 3");
                             messageProcessor.ProcessMessage(fullMessage);
                             message = message.Remove(0, lastIndexOf + "</message>".Length);
                         }

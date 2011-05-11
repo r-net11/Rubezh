@@ -15,8 +15,6 @@ namespace AssadProcessor.Devices
 
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
         {
-            base.SetInnerDevice(innerDevice);
-
             if (innerDevice.param == null)
                 return;
 
@@ -29,27 +27,12 @@ namespace AssadProcessor.Devices
             switch (driverName)
             {
                 case "Компьютер":
-                    Address = "Компьютер";
-                    break;
-
                 case "Насосная Станция":
-                    Address = "Насосная Станция";
-                    break;
-
                 case "Жокей-насос":
-                    Address = "Жокей-насос";
-                    break;
-
                 case "Компрессор":
-                    Address = "Компрессор";
-                    break;
-
                 case "Дренажный насос":
-                    Address = "Дренажный насос";
-                    break;
-
                 case "Насос компенсации утечек":
-                    Address = "Насос компенсации утечек";
+                    Address = "0";
                     break;
 
                 case "USB преобразователь МС-1":
@@ -74,7 +57,7 @@ namespace AssadProcessor.Devices
             SetPath();
         }
 
-        public override Assad.DeviceType GetInnerStates()
+        public override Assad.DeviceType GetStates()
         {
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
@@ -118,7 +101,7 @@ namespace AssadProcessor.Devices
             return deviceType;
         }
 
-        public override Assad.CPeventType CreateEvent(string eventName)
+        public override void FireEvent(string eventName)
         {
             Assad.CPeventType eventType = new Assad.CPeventType();
 
@@ -137,7 +120,7 @@ namespace AssadProcessor.Devices
                 eventType.state[0].value = deviceState.State;
             }
 
-            return eventType;
+            NetManager.Send(eventType, null);
         }
 
         public override Assad.DeviceType QueryAbility()

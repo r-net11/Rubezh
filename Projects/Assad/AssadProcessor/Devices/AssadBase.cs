@@ -19,13 +19,9 @@ namespace AssadProcessor.Devices
         public List<AssadBase> Children { get; set; }
         public string DeviceId { get; set; }
 
-        public virtual void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
-        {
-            DeviceId = innerDevice.deviceId;
-        }
-
-        public abstract Assad.DeviceType GetInnerStates();
-        public abstract Assad.CPeventType CreateEvent(string eventName);
+        public abstract void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice);
+        public abstract Assad.DeviceType GetStates();
+        public abstract void FireEvent(string eventName);
         public abstract Assad.DeviceType QueryAbility();
 
         List<AssadBase> allChildren;
