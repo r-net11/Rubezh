@@ -1,30 +1,48 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using Common;
-using DeviceLibrary;
 
 namespace DeviceEditor.ViewModels
 {
     public class FrameViewModel : BaseViewModel
     {
+        #region Private Fields
         private int _id;
         private string _image;
         private int _layer;
         private ObservableCollection<Canvas> _picture;
         private int _duration;
+        #endregion
+
         public FrameViewModel()
         {
-            AddFrameCommand = new RelayCommand(OnAddFrameCommand);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrameCommand);
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
             Parent = StateViewModel.Current;
             Layer = 0;
         }
+
         public StateViewModel Parent { get; private set; }
+
         public RelayCommand AddFrameCommand { get; private set; }
+        private void OnAddFrame(object obj)
+        {
+            var newFrame = new FrameViewModel();
+            Parent.IsChecked = Parent.IsChecked;
+            newFrame.Parent = Parent;
+            newFrame.Id = Parent.FrameViewModels.Count;
+            newFrame.Duration = 500;
+            newFrame.Image = Helper.EmptyFrame;
+            Parent.FrameViewModels.Add(newFrame);
+            ViewModel.Current.SelectedStateViewModel = Parent;
+            ViewModel.Current.Update();
+        }
         public RelayCommand RemoveFrameCommand { get; private set; }
-        /// <summary>
-        /// Идентификатор кадра.
-        /// </summary>
+        private void OnRemoveFrame(object obj)
+        {
+            Parent.FrameViewModels.Remove(this);
+            ViewModel.Current.Update();
+        }
         public int Id
         {
             get { return _id; }
@@ -34,9 +52,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Id");
             }
         }
-        /// <summary>
-        /// Длительность кадра.
-        /// </summary>
         public int Duration
         {
             get { return _duration; }
@@ -44,11 +59,9 @@ namespace DeviceEditor.ViewModels
             {
                 _duration = value;
                 OnPropertyChanged("Duration");
+                ViewModel.Current.Update();
             }
         }
-        /// <summary>
-        /// Рисунок кадра.
-        /// </summary>
         public ObservableCollection<Canvas> Picture
         {
             get { return _picture; }
@@ -58,9 +71,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Picture");
             }
         }
-        /// <summary>
-        /// Слой кадра.
-        /// </summary>
         public int Layer
         {
             get { return _layer; }
@@ -68,6 +78,7 @@ namespace DeviceEditor.ViewModels
             {
                 _layer = value;
                 OnPropertyChanged("Layer");
+                ViewModel.Current.Update();
             }
         }
         public string Image
@@ -87,22 +98,8 @@ namespace DeviceEditor.ViewModels
                     DeviceLibrary.Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
+                ViewModel.Current.Update();
             }
-        }
-        private void OnAddFrameCommand(object obj)
-        {
-            var newFrame = new FrameViewModel();
-            Parent.IsChecked = Parent.IsChecked;
-            newFrame.Parent = Parent;
-            newFrame.Id = Parent.FrameViewModels.Count;
-            newFrame.Duration = 500;
-            newFrame.Image = Helper.EmptyFrame;
-            Parent.FrameViewModels.Add(newFrame);
-            ViewModel.Current.SelectedStateViewModel = Parent;
-        }
-        private void OnRemoveFrameCommand(object obj)
-        {
-            Parent.FrameViewModels.Remove(this);
         }
     }
 }

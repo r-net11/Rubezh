@@ -7,15 +7,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using DeviceLibrary;
+using DeviceLibrary.Models;
 
 namespace DeviceControls
 {
     public partial class DeviceControl : UserControl, INotifyPropertyChanged
     {
+        #region Private Fields
         private List<string> _additionalStatesIds;
         private ObservableCollection<Canvas> _stateCanvases;
         private string _stateId;
+        #endregion
 
         public DeviceControl()
         {
