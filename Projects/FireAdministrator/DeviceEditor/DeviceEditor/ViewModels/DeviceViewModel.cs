@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Common;
 using DeviceControls;
+using DeviceLibrary.Models;
 using Firesec;
 using ListView = DeviceEditor.Views.ListView;
+using System.Linq;
 
 namespace DeviceEditor.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
-        #region Private Fields
-        private List<string> _additionalStatesViewModel;
-        private DeviceControl _deviceControl;
-        private string _iconPath;
-        private string _id;
-        private string _name;
-        private ObservableCollection<StateViewModel> _statesViewModel;
-        private StateViewModel _selectedStateViewModel;
-        #endregion
-
         public DeviceViewModel()
         {
             Current = this;
@@ -32,14 +24,14 @@ namespace DeviceEditor.ViewModels
 
         public static DeviceViewModel Current { get; private set; }
 
-        /// <summary>
-        /// Загрузка основных состояний.
-        /// </summary>
         public void LoadBaseStates()
         {
+            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == this.Id);
             this.StatesViewModel = new ObservableCollection<StateViewModel>();
             for (var stateId = 0; stateId < 9; stateId++)
             {
+                if(stateId < 7)
+                    if (driver.state.FirstOrDefault(x => x.@class == Convert.ToString(stateId)) == null) continue;
                 var stateViewModel = new StateViewModel();
                 stateViewModel.Id = Convert.ToString(stateId);
                 var frameViewModel = new FrameViewModel();
@@ -48,8 +40,11 @@ namespace DeviceEditor.ViewModels
                 stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
                 stateViewModel.FrameViewModels.Add(frameViewModel);
                 this.StatesViewModel.Add(stateViewModel);
+                ViewModel.Current.Update();
             }
         }
+
+        private DeviceControl _deviceControl;
         public DeviceControl DeviceControl
         {
             get { return _deviceControl; }
@@ -59,9 +54,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("DeviceControl");
             }
         }
-        /// <summary>
-        /// Путь к иконке устройства
-        /// </summary>
+
+        private string _iconPath;
         public string IconPath
         {
             get { return _iconPath; }
@@ -71,9 +65,7 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("IconPath");
             }
         }
-        /// <summary>
-        /// Команда, показывающая список всех доступных устройств.
-        /// </summary>
+
         public RelayCommand ShowDevicesCommand { get; private set; }
         private static void OnShowDevices(object obj)
         {
@@ -82,9 +74,7 @@ namespace DeviceEditor.ViewModels
             devicesListView.DataContext = devicesListViewModel;
             devicesListView.ShowDialog();
         }
-        /// <summary>
-        /// Команда, показывающая список всех доступных состояний.
-        /// </summary>
+
         public RelayCommand ShowStatesCommand { get; private set; }
         private static void OnShowStates(object obj)
         {
@@ -93,17 +83,16 @@ namespace DeviceEditor.ViewModels
             statesListView.DataContext = statesListViewModel;
             statesListView.ShowDialog();
         }
-        /// <summary>
-        /// Команда удаляющая устройство из списка.
-        /// </summary>
+
         public RelayCommand RemoveDeviceCommand { get; private set; }
         private void OnRemoveDevice(object obj)
         {
             ViewModel.Current.DeviceViewModels.Remove(this);
+            ViewModel.Current.SelectedStateViewModel = null;
+            ViewModel.Current.Update();
         }
-        /// <summary>
-        /// Идентификатор устройства.
-        /// </summary>
+
+        private string _id;
         public string Id
         {
             get { return _id; }
@@ -114,6 +103,7 @@ namespace DeviceEditor.ViewModels
             }
         }
 
+        private string _name;
         public string Name
         {
             get { return _name; }
@@ -123,9 +113,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Name");
             }
         }
-        /// <summary>
-        /// Выбранное состояние.
-        /// </summary>
+
+        private StateViewModel _selectedStateViewModel;
         public StateViewModel SelectedStateViewModel
         {
             get { return _selectedStateViewModel; }
@@ -138,9 +127,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }
-        /// <summary>
-        /// Список всех используемых состояний для данного устройства
-        /// </summary>
+
+        private ObservableCollection<StateViewModel> _statesViewModel;
         public ObservableCollection<StateViewModel> StatesViewModel
         {
             get { return _statesViewModel; }

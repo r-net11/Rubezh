@@ -4,22 +4,11 @@ using System.Linq;
 using System.Windows;
 using Common;
 using DeviceLibrary.Models;
-using Firesec.Metadata;
 
 namespace DeviceEditor.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        #region Private Fields
-        private ObservableCollection<FrameViewModel> _frameViewModels;
-        private string _iconPath = Helper.StatesIconPath;
-        private string _id;
-        private bool _isAdditional;
-        private bool _isChecked;
-        private string _name;
-        private FrameViewModel _selectedFrameViewModel;
-        #endregion
-
         public StateViewModel()
         {
             Current = this;
@@ -28,13 +17,10 @@ namespace DeviceEditor.ViewModels
         }
 
         public static StateViewModel Current { get; private set; }
-        /// <summary>
-        /// Родительское для данного состояния устройство.
-        /// </summary>
+
         public DeviceViewModel ParentDevice { get; set; }
-        /// <summary>
-        /// Выбранный кадр.
-        /// </summary>
+
+        private FrameViewModel _selectedFrameViewModel;
         public FrameViewModel SelectedFrameViewModel
         {
             get { return _selectedFrameViewModel; }
@@ -44,9 +30,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("SelectedFrameViewModel");
             }
         }
-        /// <summary>
-        /// Флаг. Если true -> дополнительное состояние выбранo.
-        /// </summary>
+
+        private bool _isChecked;
         public bool IsChecked
         {
             get { return _isChecked; }
@@ -66,9 +51,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("IsChecked");
             }
         }
-        /// <summary>
-        /// Путь к иконке состояний.
-        /// </summary>
+
+        private string _iconPath = Helper.StatesIconPath;
         public string IconPath
         {
             get { return _iconPath; }
@@ -78,9 +62,7 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("IconPath");
             }
         }
-        /// <summary>
-        /// Команда удаления состояния.
-        /// </summary>
+
         public RelayCommand RemoveStateCommand { get; private set; }
         private void OnRemoveState(object obj)
         {
@@ -89,15 +71,12 @@ namespace DeviceEditor.ViewModels
                 MessageBox.Show("Невозможно удалить основное состояние");
                 return;
             }
-            else
-            {
-                IsChecked = false;
-            }
+            IsChecked = false;
             ParentDevice.StatesViewModel.Remove(this);
+            ViewModel.Current.SelectedStateViewModel = null;
         }
-        /// <summary>
-        /// Идентификатор состояния.
-        /// </summary>
+
+        private string _id;
         public string Id
         {
             get { return _id; }
@@ -105,15 +84,11 @@ namespace DeviceEditor.ViewModels
             {
                 _id = value;
                 var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
-                if (IsAdditional)
-                    Name = driver.state.FirstOrDefault(x => x.id == _id).name;
-                else
-                    Name = Helper.BaseStatesList[Convert.ToInt16(_id)];
+                Name = IsAdditional ? driver.state.FirstOrDefault(x => x.id == _id).name : Helper.BaseStatesList[Convert.ToInt16(_id)];
             }
         }
-        /// <summary>
-        /// Название состояния.
-        /// </summary>
+
+        private string _name;
         public string Name
         {
             get { return _name; }
@@ -123,9 +98,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Name");
             }
         }
-        /// <summary>
-        /// Список кадров состояния.
-        /// </summary>
+
+        private ObservableCollection<FrameViewModel> _frameViewModels;
         public ObservableCollection<FrameViewModel> FrameViewModels
         {
             get { return _frameViewModels; }
@@ -135,9 +109,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("FrameViewModels");
             }
         }
-        /// <summary>
-        /// Флаг. Если true -> состояние дополнительное, иначе - основное.
-        /// </summary>
+
+        private bool _isAdditional;
         public bool IsAdditional
         {
             get { return _isAdditional; }

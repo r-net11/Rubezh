@@ -2,7 +2,6 @@
 using System.Linq;
 using Common;
 using DeviceLibrary.Models;
-using Firesec.Metadata;
 
 namespace DeviceEditor.ViewModels
 {
@@ -54,9 +53,11 @@ namespace DeviceEditor.ViewModels
 
         private void OnAdd(object obj)
         {
+            if (SelectedItem == null) return;
             var deviceViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
             ViewModel.Current.DeviceViewModels.Add(deviceViewModel);
             Items.Remove(_selectedItem);
+            ViewModel.Current.Update();
         }
 
         public void Load()

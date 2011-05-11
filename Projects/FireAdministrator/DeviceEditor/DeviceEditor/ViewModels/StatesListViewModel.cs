@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using DeviceLibrary.Models;
@@ -8,12 +7,6 @@ namespace DeviceEditor.ViewModels
 {
     internal class StatesListViewModel : BaseViewModel
     {
-        #region Private Fields
-        private ObservableCollection<StateViewModel> _items;
-        private StateViewModel _selectedItem;
-        private string _title = "Список состояний";
-        #endregion
-
         public StatesListViewModel()
         {
             Current = this;
@@ -24,9 +17,8 @@ namespace DeviceEditor.ViewModels
         public static StatesListViewModel Current;
 
         public RelayCommand AddCommand { get; private set; }
-        /// <summary>
-        /// Заголовок окна - "Список состояний".
-        /// </summary>
+
+        private string _title = "Список состояний";
         public string Title
         {
             get { return _title; }
@@ -37,6 +29,7 @@ namespace DeviceEditor.ViewModels
             }
         }
 
+        private StateViewModel _selectedItem;
         public StateViewModel SelectedItem
         {
             get { return _selectedItem; }
@@ -47,6 +40,7 @@ namespace DeviceEditor.ViewModels
             }
         }
 
+        private ObservableCollection<StateViewModel> _items;
         public ObservableCollection<StateViewModel> Items
         {
             get { return _items; }
@@ -81,9 +75,11 @@ namespace DeviceEditor.ViewModels
 
         private void OnAdd(object obj)
         {
+            if(SelectedItem == null) return;
             var stateViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
             ViewModel.Current.SelectedDeviceViewModel.StatesViewModel.Add(stateViewModel);
             Items.Remove(_selectedItem);
+            ViewModel.Current.Update();
         }
 
     }

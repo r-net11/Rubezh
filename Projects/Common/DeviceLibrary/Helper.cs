@@ -22,10 +22,15 @@ namespace DeviceLibrary
 
         public static Canvas Str2Canvas(string image, int layer)
         {
-            var stringReader = new StringReader(image);
-            var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);
-            Panel.SetZIndex(canvas, layer);
+            var canvas = new Canvas();
+            try
+            {
+                var stringReader = new StringReader(image);
+                var xmlReader = XmlReader.Create(stringReader);
+                canvas = (Canvas)XamlReader.Load(xmlReader);
+                Panel.SetZIndex(canvas, layer);
+            }catch{}
+
             return canvas;
         }
     }

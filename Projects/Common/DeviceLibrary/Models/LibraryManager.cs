@@ -15,9 +15,7 @@ namespace DeviceLibrary.Models
         const string TransormFileName = @"../../../../Data/svg2xaml.xsl";
 
         public static List<Device> Devices { get; set; }
-        /// <summary>
-        /// Список всех устройств, полученный из файла metadata.xml
-        /// </summary>
+
         public static drvType[] Drivers { get; set; }
 
         static LibraryManager()

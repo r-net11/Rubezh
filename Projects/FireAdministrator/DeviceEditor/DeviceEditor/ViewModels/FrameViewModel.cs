@@ -35,15 +35,14 @@ namespace DeviceEditor.ViewModels
             newFrame.Image = Helper.EmptyFrame;
             Parent.FrameViewModels.Add(newFrame);
             ViewModel.Current.SelectedStateViewModel = Parent;
+            ViewModel.Current.Update();
         }
         public RelayCommand RemoveFrameCommand { get; private set; }
         private void OnRemoveFrame(object obj)
         {
             Parent.FrameViewModels.Remove(this);
+            ViewModel.Current.Update();
         }
-        /// <summary>
-        /// Идентификатор кадра.
-        /// </summary>
         public int Id
         {
             get { return _id; }
@@ -53,9 +52,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Id");
             }
         }
-        /// <summary>
-        /// Длительность кадра.
-        /// </summary>
         public int Duration
         {
             get { return _duration; }
@@ -63,11 +59,9 @@ namespace DeviceEditor.ViewModels
             {
                 _duration = value;
                 OnPropertyChanged("Duration");
+                ViewModel.Current.Update();
             }
         }
-        /// <summary>
-        /// Рисунок кадра.
-        /// </summary>
         public ObservableCollection<Canvas> Picture
         {
             get { return _picture; }
@@ -77,9 +71,6 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Picture");
             }
         }
-        /// <summary>
-        /// Слой кадра.
-        /// </summary>
         public int Layer
         {
             get { return _layer; }
@@ -87,9 +78,9 @@ namespace DeviceEditor.ViewModels
             {
                 _layer = value;
                 OnPropertyChanged("Layer");
+                ViewModel.Current.Update();
             }
         }
-
         public string Image
         {
             get { return _image; }
@@ -107,6 +98,7 @@ namespace DeviceEditor.ViewModels
                     DeviceLibrary.Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
+                ViewModel.Current.Update();
             }
         }
     }
