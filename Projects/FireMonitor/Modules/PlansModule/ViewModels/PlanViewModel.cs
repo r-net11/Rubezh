@@ -37,6 +37,11 @@ namespace PlansModule.ViewModels
             get { return _plan.Caption; }
         }
 
+        public string Description
+        {
+            get { return _plan.Description; }
+        }
+
         string _state;
         public string State
         {

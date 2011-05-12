@@ -17,6 +17,8 @@ namespace PlansModule.Models
         [XmlAttribute]
         public string Caption { get; set; }
         [XmlAttribute]
+        public string Description { get; set; }
+        [XmlAttribute]
         public string BackgroundSource { get; set; }
         [XmlAttribute]
         public bool ShowBackgroundImage { get; set; }
