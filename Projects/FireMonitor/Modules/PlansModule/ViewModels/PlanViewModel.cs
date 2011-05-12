@@ -15,7 +15,7 @@ namespace PlansModule.ViewModels
     {
         public Plan _plan;
         public List<DeviceState> _deviceStates;
-        string _selfState;
+        State _selfState;
 
         public void Initialize(Plan plan, ObservableCollection<PlanViewModel> source)
         {
@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
             _deviceStates = new List<DeviceState>();
             foreach (var elementDevice in plan.ElementDevices)
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == elementDevice.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
                 _deviceStates.Add(deviceState);
                 deviceState.StateChanged += new Action(UpdateSelfState);
             }
@@ -42,8 +42,8 @@ namespace PlansModule.ViewModels
             get { return _plan.Description; }
         }
 
-        string _state;
-        public string State
+        State _state;
+        public State State
         {
             get { return _state; }
             set
@@ -60,26 +60,26 @@ namespace PlansModule.ViewModels
 
             foreach(var deviceState in _deviceStates)
             {
-                int priority = StateHelper.NameToPriority(deviceState.State);
+                int priority = deviceState.State.Id;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            _selfState = StateHelper.GetState(minPriority);
+            _selfState = new Firesec.State(minPriority);
 
             UpdateState();
         }
 
         public void UpdateState()
         {
-            int minPriority = StateHelper.NameToPriority(_selfState);
+            int minPriority = _selfState.Id;
 
             foreach (var planViewModel in Children)
             {
-                int priority = StateHelper.NameToPriority(planViewModel.State);
+                int priority = planViewModel.State.Id;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            State = StateHelper.GetState(minPriority);
+            State = new State(minPriority);
 
             if (Parent != null)
             {

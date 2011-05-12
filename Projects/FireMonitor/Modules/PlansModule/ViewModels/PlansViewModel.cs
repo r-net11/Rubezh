@@ -89,14 +89,14 @@ namespace PlansModule.ViewModels
             SelectedPlan = Plans.FirstOrDefault(x => x._plan.Name == name);
         }
 
-        public void ShowDevice(string path)
+        public void ShowDevice(string id)
         {
             foreach (var planViewModel in Plans)
             {
-                if (planViewModel._deviceStates.Any(x => x.Path == path))
+                if (planViewModel._deviceStates.Any(x => x.Id == id))
                 {
                     SelectedPlan = planViewModel;
-                    PlanDetails.SelectDevice(path);
+                    PlanDetails.SelectDevice(id);
                     break;
                 }
             }

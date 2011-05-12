@@ -66,10 +66,9 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void Update(string state)
+        public void Update(State state)
         {
-            StateType stateType = StateHelper.NameToType(state);
-            switch (stateType)
+            switch (state.StateType)
             {
                 case StateType.Alarm:
                     _subPlanPolygon.Fill = Brushes.Red;

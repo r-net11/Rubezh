@@ -32,16 +32,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnDeviceStateChanged(string path)
+        void OnDeviceStateChanged(string id)
         {
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == path))
+            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
                 if (plainDevices != null)
                 {
-                    if (plainDevices.Any(x => x.Device.Path == path))
+                    if (plainDevices.Any(x => x.Device.Id == id))
                     {
-                        DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                        DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
                         deviceViewModel.Update();
                         //deviceViewModel.MainState = deviceState.State;
                     }

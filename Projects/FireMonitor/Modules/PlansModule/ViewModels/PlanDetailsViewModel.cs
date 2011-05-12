@@ -152,9 +152,9 @@ namespace PlansModule.ViewModels
             SelectedZone = null;
         }
 
-        public void SelectDevice(string path)
+        public void SelectDevice(string id)
         {
-            SelectedDevice = Devices.FirstOrDefault(x => x.elementDevice.Path == path);
+            SelectedDevice = Devices.FirstOrDefault(x => x.elementDevice.Id == id);
         }
 
         public void SelectZone(string zoneNo)
@@ -177,8 +177,7 @@ namespace PlansModule.ViewModels
                 var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.Name == subPlan.Name);
                 if (planViewModel != null)
                 {
-                    string state = planViewModel.State;
-                    subPlan.Update(state);
+                    subPlan.Update(planViewModel.State);
                 }
             }
         }

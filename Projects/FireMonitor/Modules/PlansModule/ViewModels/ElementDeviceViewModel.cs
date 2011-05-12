@@ -34,9 +34,9 @@ namespace PlansModule.ViewModels
         {
             this.elementDevice = elementDevice;
 
-            if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Path == elementDevice.Path))
+            if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Id == elementDevice.Id))
             {
-                device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == elementDevice.Path);
+                device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == elementDevice.Id);
                 Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
             }
 
@@ -72,7 +72,7 @@ namespace PlansModule.ViewModels
             innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
 
             IsSelected = false;
-            OnDeviceStateChanged(elementDevice.Path);
+            OnDeviceStateChanged(elementDevice.Id);
         }
 
         void innerCanvas_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -108,7 +108,7 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShow()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(device.Path);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(device.Id);
         }
 
         public string Name
@@ -121,12 +121,12 @@ namespace PlansModule.ViewModels
             get { return device.Address; }
         }
 
-        void OnDeviceStateChanged(string path)
+        void OnDeviceStateChanged(string id)
         {
-            if (path == elementDevice.Path)
+            if (id == elementDevice.Id)
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == path);
-                deviceControl.StateId = StateHelper.NameToPriority(deviceState.State).ToString();
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+                deviceControl.StateId = deviceState.State.Id.ToString();
             }
         }
     }

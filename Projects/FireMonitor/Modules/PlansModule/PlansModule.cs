@@ -46,9 +46,9 @@ namespace PlansModule
             ServiceFactory.Layout.Show(plansViewModel);
         }
 
-        static void OnShowDeviceOnPlan(string path)
+        static void OnShowDeviceOnPlan(string id)
         {
-            plansViewModel.ShowDevice(path);
+            plansViewModel.ShowDevice(id);
             ServiceFactory.Layout.Show(plansViewModel);
         }
     }

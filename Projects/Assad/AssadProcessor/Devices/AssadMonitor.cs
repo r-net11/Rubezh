@@ -90,7 +90,7 @@ namespace AssadProcessor.Devices
 
             foreach (DeviceState deviceState in FiresecManager.CurrentStates.DeviceStates)
             {
-                StateType stateType = StateHelper.NameToType(deviceState.State);
+                StateType stateType = deviceState.State.StateType;
                 StateTypeCounter stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
                 if (stateTypeCounter != null)
                 {
@@ -103,7 +103,7 @@ namespace AssadProcessor.Devices
             foreach (StateTypeCounter stateTypeCounter in counters)
             {
                 Assad.CPeventTypeState AlarmState = new Assad.CPeventTypeState();
-                AlarmState.state = StateHelper.TypeToName(stateTypeCounter.StateType);
+                AlarmState.state = stateTypeCounter.StateType.ToString();
                 AlarmState.value = (stateTypeCounter.Count > 0) ? "Есть" : "Нет";
                 states.Add(AlarmState);
             }

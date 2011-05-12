@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
+using Firesec;
 
 namespace DevicesModule.Converters
 {
@@ -11,31 +12,31 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string state = (string)value;
-            switch (state)
+            State state = (State)value;
+            switch (state.StateType)
             {
-                case "Тревога":
+                case StateType.Alarm:
                     return Brushes.Red;
 
-                case "Внимание (предтревожное)":
+                case StateType.Warning:
                     return Brushes.Yellow;
 
-                case "Неисправность":
+                case StateType.Failure:
                     return Brushes.Red;
 
-                case "Требуется обслуживание":
+                case StateType.Service:
                     return Brushes.Yellow;
 
-                case "Обход устройств":
+                case StateType.Off:
                     return Brushes.Red;
 
-                case "Неопределено":
+                case StateType.Unknown:
                     return Brushes.Gray;
 
-                case "Норма(*)":
+                case StateType.Info:
                     return Brushes.Blue;
 
-                case "Норма":
+                case StateType.Norm:
                     return Brushes.Green;
 
                 default:

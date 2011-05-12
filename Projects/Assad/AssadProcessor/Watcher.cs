@@ -17,9 +17,9 @@ namespace AssadProcessor
             CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
-        void ServiceClient_DeviceChanged(string path)
+        void ServiceClient_DeviceChanged(string id)
         {
-            AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Path == path);
+            AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == id);
             if (assadDevice != null)
             {
                 assadDevice.FireEvent(null);
@@ -60,13 +60,13 @@ namespace AssadProcessor
             if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == dataBaseId))
             {
                 Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
 
-                if ((Configuration.Devices != null) && (Configuration.Devices.Any(x => x.Path == device.Path)))
+                if ((Configuration.Devices != null) && (Configuration.Devices.Any(x => x.Id == device.Id)))
                 {
-                    AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Path == device.Path);
+                    AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
 
-                    string eventName = StateHelper.GetState(Convert.ToInt32(journalItem.IDTypeEvents));
+                    string eventName = new State(Convert.ToInt32(journalItem.IDTypeEvents)).ToString();
                     assadDevice.FireEvent(eventName);
                 }
             }
