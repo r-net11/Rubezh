@@ -5,11 +5,34 @@ using System.Text;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using Controls;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicViewModel : BaseViewModel
+    public class ZoneLogicViewModel : BaseViewModel, IDialogContent
     {
+        public string Title
+        {
+            get { return "Настройка логики зон"; }
+        }
+
+        public object InternalViewModel
+        {
+            get { return this; }
+        }
+
+        public Window Surface { get; set; }
+
+        public void Close(bool result)
+        {
+            if (Surface != null)
+            {
+                Surface.DialogResult = result;
+                Surface.Close();
+            }
+        }
+
         public ZoneLogicViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
@@ -17,7 +40,7 @@ namespace DevicesModule.ViewModels
             SaveCommand = new RelayCommand(OnSave);
         }
 
-        public void SetDevice(DeviceViewModel deviceViewModel)
+        public void Initialize(DeviceViewModel deviceViewModel)
         {
             Firesec.ZoneLogic.expr zoneLogic = deviceViewModel._device.ZoneLogic;
 

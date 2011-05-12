@@ -13,7 +13,6 @@ namespace DevicesModule.ViewModels
     {
         public DevicesViewModel()
         {
-            Current = this;
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
@@ -21,35 +20,26 @@ namespace DevicesModule.ViewModels
         {
             if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
             {
-                DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
+                DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
                 deviceViewModel.Update();
             }
         }
 
         public void Initialize()
         {
-            plainDevices = new List<DeviceViewModel>();
             Devices = new ObservableCollection<DeviceViewModel>();
 
-            Device rooDevice = FiresecManager.CurrentConfiguration.RootDevice;
+            Device device = FiresecManager.CurrentConfiguration.RootDevice;
 
-            DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
-            rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice, Devices);
-            plainDevices.Add(rootDeviceViewModel);
-            Devices.Add(rootDeviceViewModel);
-            AddDevice(rooDevice, rootDeviceViewModel);
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = null;
+            deviceViewModel.Initialize(device, Devices);
+            Devices.Add(deviceViewModel);
+            AddDevice(device, deviceViewModel);
 
             ExpandChild(Devices[0]);
 
             FiresecManager.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
-        }
-
-        void CurrentStates_DeviceStateChanged(string id)
-        {
-            DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
-
-            deviceViewModel.UpdateParameters();
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -60,10 +50,16 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.Initialize(device, Devices);
                 parentDeviceViewModel.Children.Add(deviceViewModel);
-                plainDevices.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }
+        }
+
+        void CurrentStates_DeviceStateChanged(string id)
+        {
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+
+            deviceViewModel.UpdateParameters();
         }
 
         void ExpandChild(DeviceViewModel parentDeviceViewModel)
@@ -76,42 +72,35 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public static DevicesViewModel Current { get; private set; }
-
-        List<DeviceViewModel> plainDevices { get; set; }
-
-        ObservableCollection<DeviceViewModel> devices;
+        ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
-            get { return devices; }
+            get { return _devices; }
             set
             {
-                devices = value;
+                _devices = value;
                 OnPropertyChanged("Devices");
             }
         }
 
-        DeviceViewModel selectedDevice;
+        DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
         {
-            get { return selectedDevice; }
+            get { return _selectedDevice; }
             set
             {
-                selectedDevice = value;
+                _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
         }
 
         public void Select(string id)
         {
-            if (string.IsNullOrEmpty(id) == false)
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            if (deviceViewModel != null)
             {
-                if (plainDevices.Any(x => x.Device.Id == id))
-                {
-                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
-                    deviceViewModel.ExpantToThis();
-                    SelectedDevice = deviceViewModel;
-                }
+                deviceViewModel.ExpantToThis();
+                SelectedDevice = deviceViewModel;
             }
         }
 

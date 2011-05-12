@@ -13,13 +13,6 @@ namespace DevicesModule.ViewModels
 {
     public class DevicesViewModel : RegionViewModel
     {
-        public DevicesViewModel()
-        {
-            Current = this;
-        }
-
-        public static DevicesViewModel Current { get; private set; }
-
         ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
@@ -41,17 +34,6 @@ namespace DevicesModule.ViewModels
                 OnPropertyChanged("SelectedDevice");
             }
         }
-
-        //ObservableCollection<DeviceViewModel> allDeviceViewModels;
-        //public ObservableCollection<DeviceViewModel> AllDeviceViewModels
-        //{
-        //    get { return allDeviceViewModels; }
-        //    set
-        //    {
-        //        allDeviceViewModels = value;
-        //        OnPropertyChanged("AllDeviceViewModels");
-        //    }
-        //}
 
         public void Save()
         {
@@ -137,20 +119,14 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-            //AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
 
-            DeviceViewModelList = new List<DeviceViewModel>();
+            Device device = FiresecManager.CurrentConfiguration.RootDevice;
 
-            Device rooDevice = FiresecManager.CurrentConfiguration.RootDevice;
-
-            DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
-            rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice, Devices);
-            //rootDeviceViewModel.IsExpanded = false;
-            Devices.Add(rootDeviceViewModel);
-            //AllDeviceViewModels.Add(rootDeviceViewModel);
-            AddDevice(rooDevice, rootDeviceViewModel);
-            DeviceViewModelList.Add(rootDeviceViewModel);
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = null;
+            deviceViewModel.Initialize(device, Devices);
+            Devices.Add(deviceViewModel);
+            AddDevice(device, deviceViewModel);
 
             CollapseChild(Devices[0]);
         }
@@ -162,12 +138,9 @@ namespace DevicesModule.ViewModels
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.Initialize(device, Devices);
-                //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);
-                //AllDeviceViewModels.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
-                DeviceViewModelList.Add(deviceViewModel);
             }
         }
 
@@ -180,8 +153,6 @@ namespace DevicesModule.ViewModels
                 CollapseChild(deviceViewModel);
             }
         }
-
-        List<DeviceViewModel> DeviceViewModelList;
 
         public override void Dispose()
         {

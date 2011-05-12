@@ -209,18 +209,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        //bool isSelected;
-        //public bool IsSelected
-        //{
-        //    get { return isSelected; }
-        //    set
-        //    {
-        //        isSelected = value;
-        //        OnPropertyChanged("IsSelected");
-        //        DevicesViewModel.Current.SelectedDevice = this;
-        //    }
-        //}
-
         public ObservableCollection<string> SelfStates
         {
             get
