@@ -45,7 +45,7 @@ namespace DevicesModule
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
 
-        static void OnShowDevice(string path)
+        static void OnShowDevice(string id)
         {
             ServiceFactory.Layout.Show(devicesViewModel);
         }

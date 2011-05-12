@@ -17,11 +17,11 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        void OnDeviceStateChanged(string path)
+        void OnDeviceStateChanged(string id)
         {
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == path))
+            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
             {
-                DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
                 deviceViewModel.Update();
             }
         }
@@ -45,9 +45,9 @@ namespace DevicesModule.ViewModels
             FiresecManager.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
         }
 
-        void CurrentStates_DeviceStateChanged(string path)
+        void CurrentStates_DeviceStateChanged(string id)
         {
-            DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+            DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
 
             deviceViewModel.UpdateParameters();
         }
@@ -102,13 +102,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public void Select(string path)
+        public void Select(string id)
         {
-            if (string.IsNullOrEmpty(path) == false)
+            if (string.IsNullOrEmpty(id) == false)
             {
-                if (plainDevices.Any(x => x.Device.Path == path))
+                if (plainDevices.Any(x => x.Device.Id == id))
                 {
-                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Path == path);
+                    DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
                     deviceViewModel.ExpantToThis();
                     SelectedDevice = deviceViewModel;
                 }

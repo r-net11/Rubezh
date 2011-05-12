@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="Models\ElementDevice.cs" />
@@ -89,6 +90,9 @@
     <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlanDetailsView.xaml.cs">
+      <DependentUpon>PlanDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
@@ -148,6 +152,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PlanDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +168,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Critical.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Error.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Mute.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Normal.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_ServiceRequired.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_ServiceRequired_old.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Unknown.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\DS_Warning.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

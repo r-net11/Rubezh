@@ -574,7 +574,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == _device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.SelfStates != null)
                     foreach (string selfState in deviceState.SelfStates)
                     {
@@ -589,7 +589,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == _device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (string parentState in deviceState.ParentStringStates)
                     {

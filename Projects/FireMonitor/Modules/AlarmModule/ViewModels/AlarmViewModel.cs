@@ -81,9 +81,9 @@ namespace AlarmModule.ViewModels
 
         void Reset()
         {
-            if (alarm.PanelPath != null)
+            if (alarm.PanelId != null)
             {
-                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == alarm.PanelPath);
+                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == alarm.PanelId);
 
                 Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
                 if (driver.state != null)

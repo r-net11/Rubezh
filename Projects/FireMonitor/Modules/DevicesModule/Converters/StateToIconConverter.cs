@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using Firesec;
 
 namespace DevicesModule.Converters
 {
@@ -10,7 +11,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string state = (string)value;
+            State state = (State)value;
             string icon = StateToIcon(state);
             if (icon != null)
             {
@@ -27,32 +28,32 @@ namespace DevicesModule.Converters
             throw new NotImplementedException();
         }
 
-        string StateToIcon(string state)
+        string StateToIcon(State state)
         {
-            switch (state)
+            switch (state.StateType)
             {
-                case "Тревога":
+                case StateType.Alarm:
                     return "DS_Critical";
 
-                case "Внимание (предтревожное)":
+                case StateType.Warning:
                     return "DS_Warning";
 
-                case "Неисправность":
+                case StateType.Failure:
                     return "DS_Error";
 
-                case "Требуется обслуживание":
+                case StateType.Service:
                     return "DS_ServiceRequired";
 
-                case "Обход устройств":
+                case StateType.Off:
                     return "DS_Mute";
 
-                case "Неопределено":
+                case StateType.Unknown:
                     return "DS_Unknown";
 
-                case "Норма(*)":
+                case StateType.Info:
                     return "DS_Normal";
 
-                case "Норма":
+                case StateType.Norm:
                     return null;
 
                 default:

@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure;
 using DevicesModule.Events;
 using FiresecClient;
+using Firesec;
 
 namespace DevicesModule.ViewModels
 {
@@ -60,8 +61,8 @@ namespace DevicesModule.ViewModels
             get { return zone.No + "." + zone.Name; }
         }
 
-        string state;
-        public string State
+        State state;
+        public State State
         {
             get { return state; }
             set

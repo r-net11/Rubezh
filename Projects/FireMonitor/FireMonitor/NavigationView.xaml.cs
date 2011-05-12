@@ -136,11 +136,8 @@ namespace FireMonitor
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //string path = @"F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:6/1E045AD6-66F9-4F0B-901C-68C46C89E8DA:1.62";
-            //ServiceFactory.Events.GetEvent<ShowDevicesEvent>().Publish(path);
-
-            string path2 = @"F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17";
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(path2);
+            string id = @"F8340ECE-C950-498D-88CD-DCBABBC604F3:Компьютер/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17";
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(id);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace JournalModule.ViewModels
             Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
             {
-                _deviceId = device.Path;
+                _deviceId = device.Id;
                 _zoneNo = device.ZoneNo;
             }
         }
@@ -118,7 +118,7 @@ namespace JournalModule.ViewModels
             get
             {
                 int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return StateHelper.ClassToType(id);
+                return new State(id).StateType;
             }
         }
 
@@ -127,7 +127,7 @@ namespace JournalModule.ViewModels
             get
             {
                 int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return StateHelper.GetState(id);
+                return new State(id).ToString();
             }
         }
 

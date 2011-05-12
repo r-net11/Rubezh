@@ -99,7 +99,7 @@
                         <TextBlock Text="{Binding DriverName}" />
                     </StackPanel>
 
-                    <TextBox Text="{Binding Path, Mode=OneWay}" />
+                    <TextBox Text="{Binding Id, Mode=OneWay}" />
 
                     <TextBlock Text="Состояние" FontWeight="Bold" />
                     <TextBlock Text="{Binding State}" />

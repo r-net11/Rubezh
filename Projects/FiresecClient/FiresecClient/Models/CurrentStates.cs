@@ -21,17 +21,17 @@ namespace FiresecClient
         }
 
         public event Action<string> DeviceStateChanged;
-        public void OnDeviceStateChanged(string path)
+        public void OnDeviceStateChanged(string id)
         {
             if (DeviceStateChanged != null)
-                DeviceStateChanged(path);
+                DeviceStateChanged(id);
         }
 
         public event Action<string> DeviceParametersChanged;
-        public void OnDeviceParametersChanged(string path)
+        public void OnDeviceParametersChanged(string id)
         {
             if (DeviceParametersChanged != null)
-                DeviceParametersChanged(path);
+                DeviceParametersChanged(id);
         }
 
         public event Action<string> ZoneStateChanged;

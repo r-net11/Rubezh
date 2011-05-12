@@ -67,14 +67,14 @@ namespace FiresecClient
 
         public static void ResetState(Device device, string stateName)
         {
-            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
+            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
             InnerState state = deviceState.InnerStates.First(x => x.Name == stateName);
             string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
             coreState.dev[0] = new Firesec.CoreState.devType();
-            string placeInTree = CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).PlaceInTree;
+            string placeInTree = CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == deviceState.Id).PlaceInTree;
             coreState.dev[0].name = placeInTree;
             coreState.dev[0].state = new Firesec.CoreState.stateType[1];
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();

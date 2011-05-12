@@ -60,7 +60,7 @@ namespace FiresecClient
 
             DeviceState deviceState = new DeviceState();
             deviceState.ChangeEntities = new ChangeEntities();
-            deviceState.Path = device.Path;
+            deviceState.Id = device.Id;
             deviceState.PlaceInTree = device.PlaceInTree;
 
             deviceState.InnerStates = new List<InnerState>();
@@ -131,7 +131,7 @@ namespace FiresecClient
             device.Description = innerDevice.name;
 
             SetAddress(device, innerDevice);
-            SetPath(device);
+            SetId(device);
             SetPlaceInTree(device);
             SetZone(device, innerDevice);
         }
@@ -164,16 +164,16 @@ namespace FiresecClient
             }
         }
 
-        void SetPath(Device device)
+        void SetId(Device device)
         {
-            string currentPath = device.DriverId + ":" + device.Address;
+            string currentId = device.DriverId + ":" + device.Address;
             if (device.Parent != null)
             {
-                device.Path = device.Parent.Path + @"/" + currentPath;
+                device.Id = device.Parent.Id + @"/" + currentId;
             }
             else
             {
-                device.Path = currentPath;
+                device.Id = currentId;
             }
         }
 

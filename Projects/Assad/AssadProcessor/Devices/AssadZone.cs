@@ -29,7 +29,7 @@ namespace AssadProcessor.Devices
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
-                mainState.value = zoneState.State;
+                mainState.value = zoneState.State.ToString();
                 states.Add(mainState);
             }
             else
@@ -60,7 +60,7 @@ namespace AssadProcessor.Devices
                 eventType.state = new Assad.CPeventTypeState[1];
                 eventType.state[0] = new Assad.CPeventTypeState();
                 eventType.state[0].state = "Состояние";
-                eventType.state[0].value = zoneState.State;
+                eventType.state[0].value = zoneState.State.ToString();
             }
 
             NetManager.Send(eventType, null);
