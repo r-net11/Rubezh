@@ -38,6 +38,8 @@ namespace DeviceEditor.ViewModels
             set
             {
                 _isChecked = value;
+                if (ViewModel.Current.SelectedStateViewModel == null)
+                    ViewModel.Current.SelectedStateViewModel = this;
                 if (_isChecked)
                 {
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Add(Id);

@@ -96,7 +96,8 @@ namespace DeviceEditor.ViewModels
                 }
             }
             
-            SelectedStateViewModel = SelectedStateViewModel;
+            if (SelectedStateViewModel == null) return;
+            SelectedStateViewModel.ParentDevice.DeviceControl.StateId = SelectedStateViewModel.Id;
         }
 
         private ObservableCollection<DeviceViewModel> _deviceViewModels;
