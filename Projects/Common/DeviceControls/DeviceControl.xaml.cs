@@ -26,24 +26,6 @@ namespace DeviceControls
             StateCanvases = new ObservableCollection<Canvas>();
         }
 
-        static DeviceControl()
-        {
-            Timer = new DispatcherTimer();
-            Timer.Interval = TimeSpan.FromMilliseconds(100);
-            Timer.Tick += new EventHandler(TimerTick);
-            Timer.Start();
-        }
-
-        public static DispatcherTimer Timer { get; set; }
-
-        public static event Action Tick;
-
-        static void TimerTick(object sender, EventArgs e)
-        {
-            if (Tick != null)
-                Tick();
-        }
-
         public bool IsAdditional;
 
         public string DriverId { get; set; }
@@ -78,18 +60,24 @@ namespace DeviceControls
             }
         }
 
+        private List<StateViewModel> StateViewModelList;
+
         private void Update()
         {
+            if (StateViewModelList != null)
+                StateViewModelList.ForEach(x => x.Dispose());
+            StateViewModelList = new List<StateViewModel>();
+
             var device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
             StateCanvases = new ObservableCollection<Canvas>();
             var state = device.States.FirstOrDefault(x => (x.Id == StateId) && (x.IsAdditional == IsAdditional));
-            new StateViewModel(state, StateCanvases);
+            StateViewModelList.Add(new StateViewModel(state, StateCanvases));
             if (IsAdditional) return;
             if (AdditionalStatesIds == null) return;
             foreach (var additionalStateId in AdditionalStatesIds)
             {
                 var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
-                new StateViewModel(aState, StateCanvases);
+                StateViewModelList.Add(new StateViewModel(aState, StateCanvases));
             }
         }
 

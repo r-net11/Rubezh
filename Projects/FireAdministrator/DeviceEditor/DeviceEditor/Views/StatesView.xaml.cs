@@ -15,7 +15,7 @@ namespace DeviceEditor.Views
 
         private void ListBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            ((ListBox) sender).SelectedItem = ((ListBox) sender).SelectedItem;
+            //((ListBox) sender).SelectedItem = ((ListBox) sender).SelectedItem;
         }
     }
 }
