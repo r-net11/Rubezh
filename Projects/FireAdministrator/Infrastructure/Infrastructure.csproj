@@ -91,6 +91,7 @@
     <Compile Include="ResourceDescription.cs" />
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="TreeBaseViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

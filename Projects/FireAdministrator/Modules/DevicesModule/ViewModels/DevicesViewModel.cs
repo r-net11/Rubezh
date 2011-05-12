@@ -42,16 +42,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ObservableCollection<DeviceViewModel> allDeviceViewModels;
-        public ObservableCollection<DeviceViewModel> AllDeviceViewModels
-        {
-            get { return allDeviceViewModels; }
-            set
-            {
-                allDeviceViewModels = value;
-                OnPropertyChanged("AllDeviceViewModels");
-            }
-        }
+        //ObservableCollection<DeviceViewModel> allDeviceViewModels;
+        //public ObservableCollection<DeviceViewModel> AllDeviceViewModels
+        //{
+        //    get { return allDeviceViewModels; }
+        //    set
+        //    {
+        //        allDeviceViewModels = value;
+        //        OnPropertyChanged("AllDeviceViewModels");
+        //    }
+        //}
 
         public void Save()
         {
@@ -137,7 +137,7 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-            AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
+            //AllDeviceViewModels = new ObservableCollection<DeviceViewModel>();
 
             DeviceViewModelList = new List<DeviceViewModel>();
 
@@ -145,14 +145,14 @@ namespace DevicesModule.ViewModels
 
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice);
+            rootDeviceViewModel.Initialize(rooDevice, Devices);
             //rootDeviceViewModel.IsExpanded = false;
             Devices.Add(rootDeviceViewModel);
-            AllDeviceViewModels.Add(rootDeviceViewModel);
+            //AllDeviceViewModels.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
             DeviceViewModelList.Add(rootDeviceViewModel);
 
-            CollapseChild(AllDeviceViewModels[0]);
+            CollapseChild(Devices[0]);
         }
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
@@ -161,10 +161,11 @@ namespace DevicesModule.ViewModels
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device);
+                deviceViewModel.Initialize(device, Devices);
                 //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
-                AllDeviceViewModels.Add(deviceViewModel);
+                Devices.Add(deviceViewModel);
+                //AllDeviceViewModels.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
                 DeviceViewModelList.Add(deviceViewModel);
             }

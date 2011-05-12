@@ -36,7 +36,6 @@ namespace DevicesModule.ViewModels
             DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.Initialize(rooDevice, Devices);
-            //rootDeviceViewModel.IsExpanded = false;
             plainDevices.Add(rootDeviceViewModel);
             Devices.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
@@ -60,7 +59,6 @@ namespace DevicesModule.ViewModels
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.Initialize(device, Devices);
-                //deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
                 plainDevices.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);

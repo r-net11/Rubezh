@@ -13,7 +13,7 @@ using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceViewModel : BaseViewModel
+    public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel> //: BaseViewModel
     {
         public Device _device;
         public Firesec.Metadata.drvType Driver;
@@ -26,79 +26,106 @@ namespace DevicesModule.ViewModels
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogicCommand);
         }
 
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
+        //bool isExpanded;
+        //public bool IsExpanded
+        //{
+        //    get { return isExpanded; }
+        //    set
+        //    {
+        //        isExpanded = value;
 
-                if (isExpanded)
-                {
-                    AddChildren(this);
-                }
-                else
-                {
-                    RemoveChildren(this);
-                }
+        //        if (isExpanded)
+        //        {
+        //            AddChildren(this);
+        //        }
+        //        else
+        //        {
+        //            RemoveChildren(this);
+        //        }
 
-                OnPropertyChanged("IsExpanded");
-            }
-        }
+        //        OnPropertyChanged("IsExpanded");
+        //    }
+        //}
 
-        void RemoveChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-            {
-                if (DevicesViewModel.Current.AllDeviceViewModels.Contains(deviceViewModel))
-                    DevicesViewModel.Current.AllDeviceViewModels.Remove(deviceViewModel);
-                RemoveChildren(deviceViewModel);
-            }
-        }
+        //void RemoveChildren(DeviceViewModel parentDeviceViewModel)
+        //{
+        //    foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+        //    {
+        //        if (DevicesViewModel.Current.Devices.Contains(deviceViewModel))
+        //            DevicesViewModel.Current.Devices.Remove(deviceViewModel);
+        //        RemoveChildren(deviceViewModel);
+        //    }
+        //}
 
-        void AddChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            if (parentDeviceViewModel.IsExpanded)
-            {
-                int indexOf = DevicesViewModel.Current.AllDeviceViewModels.IndexOf(parentDeviceViewModel);
-                for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
-                {
-                    if (DevicesViewModel.Current.AllDeviceViewModels.Contains(parentDeviceViewModel.Children[i]) == false)
-                    {
-                        DevicesViewModel.Current.AllDeviceViewModels.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
-                    }
-                }
+        //void AddChildren(DeviceViewModel parentDeviceViewModel)
+        //{
+        //    if (parentDeviceViewModel.IsExpanded)
+        //    {
+        //        int indexOf = DevicesViewModel.Current.Devices.IndexOf(parentDeviceViewModel);
+        //        for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
+        //        {
+        //            if (DevicesViewModel.Current.Devices.Contains(parentDeviceViewModel.Children[i]) == false)
+        //            {
+        //                DevicesViewModel.Current.Devices.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
+        //            }
+        //        }
 
-                foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-                {
-                    AddChildren(deviceViewModel);
-                }
-            }
-        }
+        //        foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+        //        {
+        //            AddChildren(deviceViewModel);
+        //        }
+        //    }
+        //}
 
-        public bool HasChildren
-        {
-            get
-            {
-                return (Children.Count > 0);
-            }
-        }
+        //public bool HasChildren
+        //{
+        //    get
+        //    {
+        //        return (Children.Count > 0);
+        //    }
+        //}
 
-        public int Level
-        {
-            get
-            {
-                if (Parent == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return Parent.Level + 1;
-                }
-            }
-        }
+        //public int Level
+        //{
+        //    get
+        //    {
+        //        if (Parent == null)
+        //        {
+        //            return 0;
+        //        }
+        //        else
+        //        {
+        //            return Parent.Level + 1;
+        //        }
+        //    }
+        //}
+
+        //public DeviceViewModel Parent { get; set; }
+
+        //ObservableCollection<DeviceViewModel> children;
+        //public ObservableCollection<DeviceViewModel> Children
+        //{
+        //    get { return children; }
+        //    set
+        //    {
+        //        children = value;
+        //        OnPropertyChanged("Children");
+        //    }
+        //}
+
+        //bool isSelected;
+        //public bool IsSelected
+        //{
+        //    get { return isSelected; }
+        //    set
+        //    {
+        //        isSelected = value;
+        //        OnPropertyChanged("IsSelected");
+        //        DevicesViewModel.Current.SelectedDevice = this;
+        //    }
+        //}
+
+        //public ObservableCollection<DeviceViewModel> Source { get; set; }
 
         public void Update()
         {
@@ -142,7 +169,7 @@ namespace DevicesModule.ViewModels
                 {
                     device.Address = "0.0";
                 }
-                deviceViewModel.Initialize(device);
+                deviceViewModel.Initialize(device, Source);
                 deviceViewModel.Parent = this;
                 this.Children.Add(deviceViewModel);
 
@@ -167,7 +194,7 @@ namespace DevicesModule.ViewModels
                                 childDevice.Properties = new List<Property>();
                                 childDevice.DriverId = childDriver.id;
                                 childDevice.Address = i.ToString();
-                                childDeviceViewModel.Initialize(childDevice);
+                                childDeviceViewModel.Initialize(childDevice, Source);
                                 childDeviceViewModel.Parent = deviceViewModel;
                                 deviceViewModel.Children.Add(childDeviceViewModel);
                             }
@@ -344,8 +371,10 @@ namespace DevicesModule.ViewModels
             PropStackPanel = _PropStackPanel;
         }
 
-        public void Initialize(Device device)
+        public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
+            Source = sourceDevices;
+
             _device = device;
             Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
@@ -539,32 +568,6 @@ namespace DevicesModule.ViewModels
                 //return @"pack://application:,,,/Icons/" + ImageName + ".ico";
             }
         }
-
-        public DeviceViewModel Parent { get; set; }
-
-        ObservableCollection<DeviceViewModel> children;
-        public ObservableCollection<DeviceViewModel> Children
-        {
-            get { return children; }
-            set
-            {
-                children = value;
-                OnPropertyChanged("Children");
-            }
-        }
-
-        bool isSelected;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged("IsSelected");
-                DevicesViewModel.Current.SelectedDevice = this;
-            }
-        }
-
 
         public ObservableCollection<string> SelfStates
         {
