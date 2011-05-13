@@ -44,34 +44,29 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public string DeviceTime
+        public int Id
         {
             get
             {
-                return ConvertTime(_journalItem.Dt).ToString();
+                return Convert.ToInt32(_journalItem.IDEvents);
             }
         }
 
-        public string SystemTime
+        public DateTime DeviceTime
         {
             get
             {
-                return ConvertTime(_journalItem.SysDt).ToString();
+                return ConvertTime(_journalItem.Dt);
             }
         }
 
-        DateTime ConvertTime(string firesecTime)
+        public DateTime SystemTime
         {
-            int year = Convert.ToInt32(firesecTime.Substring(0, 4));
-            int month = Convert.ToInt32(firesecTime.Substring(4, 2));
-            int day = Convert.ToInt32(firesecTime.Substring(6, 2));
-            int hour = Convert.ToInt32(firesecTime.Substring(9, 2));
-            int minute = Convert.ToInt32(firesecTime.Substring(12, 2));
-            int secunde = Convert.ToInt32(firesecTime.Substring(15, 2));
-            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
-            return dt;
+            get
+            {
+                return ConvertTime(_journalItem.SysDt);
+            }
         }
-
 
         public string ZoneName
         {
@@ -147,6 +142,18 @@ namespace JournalModule.ViewModels
         void OnShowZone()
         {
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zoneNo);
+        }
+
+        DateTime ConvertTime(string firesecTime)
+        {
+            int year = Convert.ToInt32(firesecTime.Substring(0, 4));
+            int month = Convert.ToInt32(firesecTime.Substring(4, 2));
+            int day = Convert.ToInt32(firesecTime.Substring(6, 2));
+            int hour = Convert.ToInt32(firesecTime.Substring(9, 2));
+            int minute = Convert.ToInt32(firesecTime.Substring(12, 2));
+            int secunde = Convert.ToInt32(firesecTime.Substring(15, 2));
+            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
+            return dt;
         }
     }
 }
