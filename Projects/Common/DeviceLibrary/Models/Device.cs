@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.IO;
 using System.Xml.Serialization;
-using System.Collections.ObjectModel;
 
-namespace DeviceLibrary
+namespace DeviceLibrary.Models
 {
     [Serializable]
     public class Device

@@ -1,4 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Xml;
 
 namespace DeviceEditor
 {
@@ -8,7 +14,7 @@ namespace DeviceEditor
         {
             LoadBaseStates();
         }
-        public static string EmptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"/>";
+        public static string EmptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
         public static string ErrorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"100\" />\n</Canvas>";
         public static string DevicesIconsPath = @"C:\Program Files\Firesec\Icons\";
         public static string StatesIconPath = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\states.png";
@@ -28,6 +34,17 @@ namespace DeviceEditor
                 "Норма",
                 "Базовый рисунок"
             };
+        }
+
+        public static void Draw(ICollection<Canvas> stateCanvases, ref Canvas canvas, string image, int layer)
+        {
+            if (stateCanvases == null) throw new ArgumentNullException("stateCanvases");
+            stateCanvases.Remove(canvas);
+            var stringReader = new StringReader(image);
+            var xmlReader = XmlReader.Create(stringReader);
+            canvas = (Canvas)XamlReader.Load(xmlReader);
+            Panel.SetZIndex(canvas, layer);
+            stateCanvases.Add(canvas);
         }
     }
 }

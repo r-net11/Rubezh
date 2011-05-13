@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Common;
 using DeviceControls;
-using DeviceLibrary.Models;
+using DeviceLibrary;
 using Firesec;
 using ListView = DeviceEditor.Views.ListView;
 using System.Linq;
