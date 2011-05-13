@@ -18,7 +18,7 @@ namespace AlarmModule
             AlarmGroupListViewModel alarmGroupListViewModel = new AlarmGroupListViewModel();
             ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
 
-            ShowImitatorView();
+            //ShowImitatorView();
         }
 
         void RegisterResources()

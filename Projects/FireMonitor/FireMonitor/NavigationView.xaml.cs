@@ -35,6 +35,8 @@ namespace FireMonitor
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
+            ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(x => { isCallSelected = true; OnPropertyChanged("IsCallSelected"); });
+            ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
         }
 
         bool isAlarmSelected;
@@ -126,6 +128,37 @@ namespace FireMonitor
                 OnPropertyChanged("IsReportSelected");
             }
         }
+
+        bool isArchiveSelected;
+        public bool IsArchiveSelected
+        {
+            get { return isArchiveSelected; }
+            set
+            {
+                isArchiveSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsArchiveSelected");
+            }
+        }
+
+        bool isCallSelected;
+        public bool IsCallSelected
+        {
+            get { return isCallSelected; }
+            set
+            {
+                isCallSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowCallEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsCallSelected");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)

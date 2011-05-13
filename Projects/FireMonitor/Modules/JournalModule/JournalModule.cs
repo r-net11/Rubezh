@@ -13,7 +13,8 @@ namespace JournalModule
     {
         public JournalModule()
         {
-            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(ShowJournal);
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
+            ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
         }
 
         public void Initialize()
@@ -29,11 +30,18 @@ namespace JournalModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/DataGrid.xaml"));
         }
 
-        static void ShowJournal(object obj)
+        static void OnShowJournal(object obj)
         {
             JournalViewModel journalViewModel = new JournalViewModel();
             journalViewModel.Initialize();
             ServiceFactory.Layout.Show(journalViewModel);
+        }
+
+        static void OnShowArchive(object obj)
+        {
+            ArchiveViewModel archiveViewModel = new ArchiveViewModel();
+            archiveViewModel.Initialize();
+            ServiceFactory.Layout.Show(archiveViewModel);
         }
     }
 }

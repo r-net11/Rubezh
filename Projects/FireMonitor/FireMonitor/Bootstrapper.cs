@@ -48,6 +48,8 @@ namespace FireMonitor
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
+            moduleCatalog.AddModule(typeof(ReportsModule.ReportsModule));
+            moduleCatalog.AddModule(typeof(CallModule.CallModule));
         }
 
         void StartFiresecClient()

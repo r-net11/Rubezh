@@ -54,6 +54,8 @@
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
+    <Compile Include="Events\ShowArchiveEvent.cs" />
+    <Compile Include="Events\ShowCallEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowReportsEvent.cs" />
     <Compile Include="Events\ShowDevicesEvent.cs" />
