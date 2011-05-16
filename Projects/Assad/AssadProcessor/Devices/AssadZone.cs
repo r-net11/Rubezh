@@ -14,7 +14,7 @@ namespace AssadProcessor.Devices
         {
             if (innerDevice.param != null);
             if (innerDevice.param.Any(x => x.param == "Номер зоны"))
-                ZoneNo = innerDevice.param.FirstOrDefault(x => x.param == "Адрес").value;
+                ZoneNo = innerDevice.param.FirstOrDefault(x => x.param == "Номер зоны").value;
         }
 
         public override Assad.DeviceType GetStates()
