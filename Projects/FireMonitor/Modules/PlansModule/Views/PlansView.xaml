@@ -12,14 +12,19 @@
         <Controls:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Controls:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     </UserControl.Resources>
-    <Grid Background="WhiteSmoke" Name="_grid">
+    <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Views:CanvasView Grid.Row="1" Height="{Binding ElementName=_grid, Path=ActualHeight}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Views:CanvasView Grid.Row="0" />
+            <Views:PlanDetailsView Grid.Row="1" DataContext="{Binding SelectedPlan}" />
         </Grid>
 
         <StackPanel Grid.Column="1">

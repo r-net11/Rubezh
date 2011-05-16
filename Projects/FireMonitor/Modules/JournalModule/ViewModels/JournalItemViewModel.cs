@@ -39,39 +39,34 @@ namespace JournalModule.ViewModels
             Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
             {
-                _deviceId = device.Path;
+                _deviceId = device.Id;
                 _zoneNo = device.ZoneNo;
             }
         }
 
-        public string DeviceTime
+        public int Id
         {
             get
             {
-                return ConvertTime(_journalItem.Dt).ToString();
+                return Convert.ToInt32(_journalItem.IDEvents);
             }
         }
 
-        public string SystemTime
+        public DateTime DeviceTime
         {
             get
             {
-                return ConvertTime(_journalItem.SysDt).ToString();
+                return ConvertTime(_journalItem.Dt);
             }
         }
 
-        DateTime ConvertTime(string firesecTime)
+        public DateTime SystemTime
         {
-            int year = Convert.ToInt32(firesecTime.Substring(0, 4));
-            int month = Convert.ToInt32(firesecTime.Substring(4, 2));
-            int day = Convert.ToInt32(firesecTime.Substring(6, 2));
-            int hour = Convert.ToInt32(firesecTime.Substring(9, 2));
-            int minute = Convert.ToInt32(firesecTime.Substring(12, 2));
-            int secunde = Convert.ToInt32(firesecTime.Substring(15, 2));
-            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
-            return dt;
+            get
+            {
+                return ConvertTime(_journalItem.SysDt);
+            }
         }
-
 
         public string ZoneName
         {
@@ -118,7 +113,7 @@ namespace JournalModule.ViewModels
             get
             {
                 int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return StateHelper.ClassToType(id);
+                return new State(id).StateType;
             }
         }
 
@@ -127,7 +122,7 @@ namespace JournalModule.ViewModels
             get
             {
                 int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return StateHelper.GetState(id);
+                return new State(id).ToString();
             }
         }
 
@@ -147,6 +142,18 @@ namespace JournalModule.ViewModels
         void OnShowZone()
         {
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zoneNo);
+        }
+
+        DateTime ConvertTime(string firesecTime)
+        {
+            int year = Convert.ToInt32(firesecTime.Substring(0, 4));
+            int month = Convert.ToInt32(firesecTime.Substring(4, 2));
+            int day = Convert.ToInt32(firesecTime.Substring(6, 2));
+            int hour = Convert.ToInt32(firesecTime.Substring(9, 2));
+            int minute = Convert.ToInt32(firesecTime.Substring(12, 2));
+            int secunde = Convert.ToInt32(firesecTime.Substring(15, 2));
+            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
+            return dt;
         }
     }
 }

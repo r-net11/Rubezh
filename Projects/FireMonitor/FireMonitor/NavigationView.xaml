@@ -14,59 +14,75 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-        <TabControl Template="{StaticResource OutlookTab}">
+            <TabControl Template="{StaticResource OutlookTab}">
 
-            <TabItem IsSelected="{Binding IsAlarmSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Все тревоги" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsAlarmSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Тревоги" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-            <TabItem IsSelected="{Binding IsPlanSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Планы" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsPlanSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Планы" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-            <TabItem IsSelected="{Binding IsJournalSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Журнал" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsJournalSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Журнал" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-            <TabItem IsSelected="{Binding IsDevicesSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Устройства" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsDevicesSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Устройства" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-            <TabItem IsSelected="{Binding IsZonesSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Зоны" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsZonesSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Зоны" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-            <TabItem IsSelected="{Binding IsReportSelected}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Отчеты" FontWeight="Bold" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
+                <TabItem IsSelected="{Binding IsReportSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Отчеты" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-        </TabControl>
+                <TabItem IsSelected="{Binding IsArchiveSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Архив" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
 
-        <Button Content="Test" Click="Button_Click" />
+                <TabItem IsSelected="{Binding IsCallSelected}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Дозвон" FontWeight="Bold" />
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>
+
+            </TabControl>
+
+            <Button Content="Test" Click="Button_Click" />
 
         </StackPanel>
     </Grid>

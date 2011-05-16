@@ -1,0 +1,65 @@
+﻿<Window x:Class="JournalModule.Views.FilterView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Фильтр журнала" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Временной диапазон" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="С" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="По" />
+                <TextBox Grid.Row="1" Grid.Column="0" />
+                <TextBox Grid.Row="1" Grid.Column="1" />
+                <TextBox Grid.Row="1" Grid.Column="2" />
+                <TextBox Grid.Row="1" Grid.Column="3" />
+            </Grid>
+            <CheckBox Content="Использовать дату регистрации события в системе(иначе дату возникновения)" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Классы событий" />
+            <ListBox Grid.Row="1">
+                <ListBoxItem Content="Тревога" />
+                <ListBoxItem Content="Внимание" />
+                <ListBoxItem Content="Неисправность" />
+                <ListBoxItem Content="Требуется обслуживание" />
+                <ListBoxItem Content="Тревоги отключены" />
+                <ListBoxItem Content="Информация" />
+                <ListBoxItem Content="Прочие" />
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Очистить" HorizontalAlignment="Left" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Ok" />
+                <Button Content="Отмена"  />
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</Window>

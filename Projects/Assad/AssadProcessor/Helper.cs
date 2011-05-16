@@ -13,7 +13,7 @@ namespace AssadProcessor
         {
             try
             {
-                return FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == assadDevice.Path);
+                return FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == assadDevice.Id);
             }
             catch (Exception ex)
             {

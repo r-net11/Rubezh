@@ -15,8 +15,8 @@ namespace AlarmModule
         public string Description { get; set; }
         public string Time { get; set; }
 
-        public string Path { get; set; }
-        public string PanelPath { get; set; }
+        public string DeviceId { get; set; }
+        public string PanelId { get; set; }
         public string ZoneNo { get; set; }
         public string ClassId { get; set; }
 
@@ -79,27 +79,27 @@ namespace AlarmModule
                 databaseId = journalItem.IDDevices;
             }
 
-            string path = null;
+            string id = null;
             if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == databaseId))
             {
                 Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
-                path = device.Path;
+                id = device.Id;
             }
 
-            alarm.Path = path;
+            alarm.DeviceId = id;
 
 
-            string panelPath = null;
+            string panelId = null;
             string panelDatabaseId = journalItem.IDDevicesSource;
             if (string.IsNullOrEmpty(panelDatabaseId) == false)
             {
                 if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == panelDatabaseId))
                 {
                     Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
-                    panelPath = device.Path;
+                    panelId = device.Id;
                 }
             }
-            alarm.PanelPath = panelPath;
+            alarm.PanelId = panelId;
 
             alarm.ClassId = journalItem.IDTypeEvents;
 

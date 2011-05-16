@@ -57,6 +57,7 @@
     <Compile Include="DeviceControl.xaml.cs">
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="StateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

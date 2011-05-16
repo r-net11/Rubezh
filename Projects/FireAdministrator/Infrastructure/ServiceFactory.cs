@@ -32,6 +32,14 @@ namespace Infrastructure
             }
         }
 
+        public static IUserDialogService UserDialogs
+        {
+            get
+            {
+                return Get<IUserDialogService>();
+            }
+        }
+
         public static IEventAggregator Events
         {
             get

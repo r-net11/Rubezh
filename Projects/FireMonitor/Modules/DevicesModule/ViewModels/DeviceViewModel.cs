@@ -8,6 +8,7 @@ using FiresecClient;
 using DevicesModule.Views;
 using System.Diagnostics;
 using Infrastructure.Events;
+using Firesec;
 
 namespace DevicesModule.ViewModels
 {
@@ -34,7 +35,7 @@ namespace DevicesModule.ViewModels
 
         public void UpdateParameters()
         {
-            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
 
             Update();
 
@@ -208,24 +209,12 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool isSelected;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged("IsSelected");
-                DevicesViewModel.Current.SelectedDevice = this;
-            }
-        }
-
         public ObservableCollection<string> SelfStates
         {
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.SelfStates != null)
                     foreach (string selfState in deviceState.SelfStates)
                     {
@@ -240,7 +229,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (string parentState in deviceState.ParentStringStates)
                     {
@@ -255,7 +244,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parameters = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.Parameters != null)
                     foreach (Parameter parameter in deviceState.Parameters)
                     {
@@ -272,7 +261,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Path);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Id);
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
@@ -285,11 +274,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string State
+        public State State
         {
             get
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 return deviceState.State;
             }
         }
@@ -369,9 +358,9 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string Path
+        public string Id
         {
-            get { return Device.Path; }
+            get { return Device.Id; }
         }
     }
 }

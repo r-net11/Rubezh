@@ -54,9 +54,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
-    <Compile Include="Models\LibraryManager.cs" />
-    <Compile Include="SvgConverter.cs" />
+    <Compile Include="LibraryManager.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceManager.cs" />
     <Compile Include="Models\Frame.cs" />

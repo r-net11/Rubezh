@@ -16,14 +16,12 @@ namespace DeviceEditor.ViewModels
         public ViewModel()
         {
             Current = this;
-            var start = DateTime.Now;
             Load();
-            var end = DateTime.Now;
-            var ts = end.Subtract(start);
-            Trace.WriteLine(ts.Ticks);
             SaveCommand = new RelayCommand(OnSave);
+            _flag = 1;
         }
 
+        private int _flag;
         public static ViewModel Current { get; private set; }
 
         public void Load()
@@ -70,6 +68,7 @@ namespace DeviceEditor.ViewModels
 
         public void Update()
         {
+            if (_flag == 0) return;
             LibraryManager.Devices = new List<Device>();
             foreach (var deviceViewModel in DeviceViewModels)
             {
@@ -96,7 +95,17 @@ namespace DeviceEditor.ViewModels
                 }
             }
             
-            SelectedStateViewModel = SelectedStateViewModel;
+            if (SelectedStateViewModel == null) return;
+            if (SelectedStateViewModel.IsAdditional)
+            {
+                SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStates = new List<string>() { SelectedStateViewModel.Id };
+                SelectedStateViewModel.ParentDevice.DeviceControl.State = "-1";
+            }
+            else
+            {
+                SelectedStateViewModel.ParentDevice.DeviceControl.State = SelectedStateViewModel.Id;
+                //deviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+            }
         }
 
         private ObservableCollection<DeviceViewModel> _deviceViewModels;
@@ -129,11 +138,22 @@ namespace DeviceEditor.ViewModels
             {
                 _selectedStateViewModel = value;
                 if (value == null) return;
-                SelectedStateViewModel.SelectedFrameViewModel = _selectedStateViewModel.FrameViewModels[0];
-                SelectedStateViewModel.ParentDevice.DeviceControl.DriverId = SelectedStateViewModel.ParentDevice.Id;
-                SelectedStateViewModel.ParentDevice.DeviceControl.IsAdditional = SelectedStateViewModel.IsAdditional;
-                SelectedStateViewModel.ParentDevice.DeviceControl.StateId = SelectedStateViewModel.Id;
-                SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds = SelectedStateViewModel.IsAdditional ? null : SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                var deviceControl = SelectedStateViewModel.ParentDevice.DeviceControl;
+                SelectedDeviceViewModel = value.ParentDevice;
+                SelectedStateViewModel.SelectedFrameViewModel = value.FrameViewModels[0];
+                deviceControl.DriverId = value.ParentDevice.Id;
+
+                if (value.IsAdditional)
+                {
+                    deviceControl.AdditionalStates = new List<string>() { value.Id };
+                    deviceControl.State = "-1";
+                }
+                else
+                {
+                    deviceControl.State = value.Id;
+                    deviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                }
+
                 OnPropertyChanged("SelectedStateViewModel");
             }
         }

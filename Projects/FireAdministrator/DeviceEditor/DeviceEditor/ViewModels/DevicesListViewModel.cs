@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using DeviceLibrary.Models;
+using DeviceLibrary;
 
 namespace DeviceEditor.ViewModels
 {

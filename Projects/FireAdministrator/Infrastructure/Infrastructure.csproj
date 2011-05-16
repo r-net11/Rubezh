@@ -71,6 +71,7 @@
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="IResourceService.cs" />
+    <Compile Include="IUserDialogService.cs" />
     <Compile Include="IViewPart.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -91,6 +92,7 @@
     <Compile Include="ResourceDescription.cs" />
     <Compile Include="ResourceHelper.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="TreeBaseViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -101,7 +103,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Controls\Controls.csproj">
+      <Project>{B4D93FD8-71DE-41E9-9E5B-19AB7FB9D475}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

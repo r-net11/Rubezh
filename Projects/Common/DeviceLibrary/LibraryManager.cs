@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using DeviceLibrary.Models;
 using Firesec.Metadata;
-using System.Windows.Controls;
-using System.Xml;
-using System.Windows.Markup;
 
-namespace DeviceLibrary.Models
+namespace DeviceLibrary
 {
     public static class LibraryManager
     {
@@ -52,15 +50,6 @@ namespace DeviceLibrary.Models
             var serializer = new XmlSerializer(typeof(DeviceManager));
             serializer.Serialize(fileStream, deviceManager);
             fileStream.Close();
-        }
-
-        public static Canvas SvgToCanvas(string svg)
-        {
-            var frameImage = SvgConverter.Svg2Xaml(svg, TransormFileName);
-            var stringReader = new StringReader(frameImage);
-            var xmlReader = XmlReader.Create(stringReader);
-            var canvas = (Canvas)XamlReader.Load(xmlReader);
-            return canvas;
         }
     }
 }

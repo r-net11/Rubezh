@@ -89,8 +89,7 @@ namespace PlansModule.ViewModels
             {
                 ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
 
-                StateType stateType = StateHelper.NameToType(zoneState.State);
-                switch (stateType)
+                switch (zoneState.State.StateType)
                 {
                     case StateType.Alarm:
                         zonePolygon.Fill = Brushes.Red;

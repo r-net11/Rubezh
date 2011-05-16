@@ -5,11 +5,34 @@ using System.Text;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using Controls;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public class NewDeviceViewModel : BaseViewModel
+    public class NewDeviceViewModel : BaseViewModel, IDialogContent
     {
+        public string Title
+        {
+            get { return "Новое устройство"; }
+        }
+
+        public object InternalViewModel
+        {
+            get { return this; }
+        }
+
+        public Window Surface { get; set; }
+
+        public void Close(bool result)
+        {
+            if (Surface != null)
+            {
+                //Surface.DialogResult = result;
+                Surface.Close();
+            }
+        }
+
         public NewDeviceViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
@@ -24,7 +47,7 @@ namespace DevicesModule.ViewModels
 
         DeviceViewModel ParentDeviceViewModel;
 
-        public void Init(DeviceViewModel deviceViewModel)
+        public void Initialize(DeviceViewModel deviceViewModel)
         {
             ParentDeviceViewModel = deviceViewModel;
             AvailableDevices = new ObservableCollection<AvailableDevice>();

@@ -17,6 +17,6 @@ namespace PlansModule.Models
         [XmlAttribute]
         public double Height { get; set; }
         [XmlAttribute]
-        public string Path { get; set; }
+        public string Id { get; set; }
     }
 }

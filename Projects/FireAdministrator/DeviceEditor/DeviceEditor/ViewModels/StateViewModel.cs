@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Common;
+using DeviceLibrary;
 using DeviceLibrary.Models;
 
 namespace DeviceEditor.ViewModels
@@ -38,6 +39,8 @@ namespace DeviceEditor.ViewModels
             set
             {
                 _isChecked = value;
+                if (ViewModel.Current.SelectedStateViewModel == null)
+                    ViewModel.Current.SelectedStateViewModel = this;
                 if (_isChecked)
                 {
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Add(Id);
@@ -46,7 +49,8 @@ namespace DeviceEditor.ViewModels
                 {
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(Id);
                 }
-                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStatesIds =
+                if (ViewModel.Current.SelectedStateViewModel.IsAdditional) return;
+                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStates =
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
                 OnPropertyChanged("IsChecked");
             }

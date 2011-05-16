@@ -10,7 +10,7 @@ namespace AssadProcessor.Devices
     public class AssadDevice : AssadBase
     {
         public string Address { get; set; }
-        public string Path { get; set; }
+        public string Id { get; set; }
         public string DriverId { get; set; }
 
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
@@ -64,13 +64,13 @@ namespace AssadProcessor.Devices
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 //            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
 
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == Path))
+            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
-                mainState.value = deviceState.State;
+                mainState.value = deviceState.State.ToString();
                 states.Add(mainState);
 
                 foreach (Parameter parameter in deviceState.Parameters)
@@ -111,9 +111,9 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == Path))
+            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
                 List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
@@ -152,9 +152,9 @@ namespace AssadProcessor.Devices
             deviceAbility.deviceId = DeviceId;
             List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
 
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == Path))
+            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 foreach (Parameter parameter in deviceState.Parameters)
                 {
@@ -185,11 +185,11 @@ namespace AssadProcessor.Devices
             string currentPath = DriverId + ":" + Address;
             if (Parent != null)
             {
-                Path = (Parent as AssadDevice).Path + @"/" + currentPath;
+                Id = (Parent as AssadDevice).Id + @"/" + currentPath;
             }
             else
             {
-                Path = currentPath;
+                Id = currentPath;
             }
         }
     }

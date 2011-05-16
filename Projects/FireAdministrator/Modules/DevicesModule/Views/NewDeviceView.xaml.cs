@@ -16,7 +16,7 @@ namespace DevicesModule.Views
     /// <summary>
     /// Логика взаимодействия для NewDeviceView.xaml
     /// </summary>
-    public partial class NewDeviceView : Window
+    public partial class NewDeviceView : UserControl
     {
         public NewDeviceView()
         {

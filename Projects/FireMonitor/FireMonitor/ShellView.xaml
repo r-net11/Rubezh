@@ -11,11 +11,10 @@
                 
                 <StackPanel DockPanel.Dock="Top"  Margin="2">
                     <ContentControl Name="_alarmGroups" />
-                    <ContentControl Name="_alarm" />
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom">
-                    <TextBlock Text="Состояние" />
+                    <ContentControl Name="_alarm" />
                 </StackPanel>
 
                 <Grid>
@@ -26,7 +25,7 @@
 
                     <local:NavigationView Grid.Column="0" />
 
-                    <Grid Grid.Column="1" Name="centerStackPanel" Background="LightGray">
+                    <Grid Grid.Column="1" Background="LightGray">
                         <ContentControl Name="_mainRegionHost" />
                     </Grid>
 

@@ -6,14 +6,6 @@ namespace DeviceEditor.ViewModels
 {
     public class FrameViewModel : BaseViewModel
     {
-        #region Private Fields
-        private int _id;
-        private string _image;
-        private int _layer;
-        private ObservableCollection<Canvas> _picture;
-        private int _duration;
-        #endregion
-
         public FrameViewModel()
         {
             AddFrameCommand = new RelayCommand(OnAddFrame);
@@ -37,12 +29,15 @@ namespace DeviceEditor.ViewModels
             ViewModel.Current.SelectedStateViewModel = Parent;
             ViewModel.Current.Update();
         }
+
         public RelayCommand RemoveFrameCommand { get; private set; }
         private void OnRemoveFrame(object obj)
         {
             Parent.FrameViewModels.Remove(this);
             ViewModel.Current.Update();
         }
+
+        private int _id;
         public int Id
         {
             get { return _id; }
@@ -52,6 +47,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Id");
             }
         }
+
+        private int _duration;
         public int Duration
         {
             get { return _duration; }
@@ -62,6 +59,8 @@ namespace DeviceEditor.ViewModels
                 ViewModel.Current.Update();
             }
         }
+
+        private ObservableCollection<Canvas> _picture;
         public ObservableCollection<Canvas> Picture
         {
             get { return _picture; }
@@ -71,6 +70,8 @@ namespace DeviceEditor.ViewModels
                 OnPropertyChanged("Picture");
             }
         }
+
+        private int _layer;
         public int Layer
         {
             get { return _layer; }
@@ -81,6 +82,8 @@ namespace DeviceEditor.ViewModels
                 ViewModel.Current.Update();
             }
         }
+
+        private string _image;
         public string Image
         {
             get { return _image; }
@@ -91,11 +94,11 @@ namespace DeviceEditor.ViewModels
                 var canvas = new Canvas();
                 try
                 {
-                    DeviceLibrary.Helper.Draw(Picture, ref canvas, value, Layer);
+                    Helper.Draw(Picture, ref canvas, value, Layer);
                 }
                 catch
                 {
-                    DeviceLibrary.Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
+                    Helper.Draw(Picture, ref canvas, Helper.ErrorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
                 ViewModel.Current.Update();

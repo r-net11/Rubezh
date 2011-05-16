@@ -10,10 +10,11 @@ using System.Windows.Data;
 using DevicesModule.PropertyBindings;
 using System.Windows;
 using DevicesModule.Views;
+using Controls;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceViewModel : BaseViewModel
+    public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
         public Device _device;
         public Firesec.Metadata.drvType Driver;
@@ -23,81 +24,7 @@ namespace DevicesModule.ViewModels
             Children = new ObservableCollection<DeviceViewModel>();
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand(OnRemove);
-            ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogicCommand);
-        }
-
-        bool isExpanded;
-        public bool IsExpanded
-        {
-            get { return isExpanded; }
-            set
-            {
-                isExpanded = value;
-
-                if (isExpanded)
-                {
-                    AddChildren(this);
-                }
-                else
-                {
-                    RemoveChildren(this);
-                }
-
-                OnPropertyChanged("IsExpanded");
-            }
-        }
-
-        void RemoveChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-            {
-                if (DevicesViewModel.Current.AllDeviceViewModels.Contains(deviceViewModel))
-                    DevicesViewModel.Current.AllDeviceViewModels.Remove(deviceViewModel);
-                RemoveChildren(deviceViewModel);
-            }
-        }
-
-        void AddChildren(DeviceViewModel parentDeviceViewModel)
-        {
-            if (parentDeviceViewModel.IsExpanded)
-            {
-                int indexOf = DevicesViewModel.Current.AllDeviceViewModels.IndexOf(parentDeviceViewModel);
-                for (int i = 0; i < parentDeviceViewModel.Children.Count; i++)
-                {
-                    if (DevicesViewModel.Current.AllDeviceViewModels.Contains(parentDeviceViewModel.Children[i]) == false)
-                    {
-                        DevicesViewModel.Current.AllDeviceViewModels.Insert(indexOf + 1 + i, parentDeviceViewModel.Children[i]);
-                    }
-                }
-
-                foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-                {
-                    AddChildren(deviceViewModel);
-                }
-            }
-        }
-
-        public bool HasChildren
-        {
-            get
-            {
-                return (Children.Count > 0);
-            }
-        }
-
-        public int Level
-        {
-            get
-            {
-                if (Parent == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return Parent.Level + 1;
-                }
-            }
+            ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
         }
 
         public void Update()
@@ -106,25 +33,20 @@ namespace DevicesModule.ViewModels
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }
-        void OnShowZoneLogicCommand()
+        void OnShowZoneLogic()
         {
-            ZoneLogicView zoneLogicView = new ZoneLogicView();
             ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-            zoneLogicViewModel.RequestClose += delegate { zoneLogicView.Close(); };
-            zoneLogicViewModel.SetDevice(this);
-            zoneLogicView.DataContext = zoneLogicViewModel;
-            zoneLogicView.ShowDialog();
+            //zoneLogicViewModel.RequestClose += delegate { zoneLogicView.Close(); };
+            zoneLogicViewModel.Initialize(this);
+            ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
         }
 
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
             NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel();
-            newDeviceViewModel.Init(this);
-            NewDeviceView newDeviceView = new NewDeviceView();
-            newDeviceView.DataContext = newDeviceViewModel;
-            newDeviceViewModel.RequestClose += delegate { newDeviceView.Close(); };
-            newDeviceView.ShowDialog();
+            newDeviceViewModel.Initialize(this);
+            ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
 
             if (newDeviceViewModel.SelectedAvailableDevice != null)
             {
@@ -142,7 +64,7 @@ namespace DevicesModule.ViewModels
                 {
                     device.Address = "0.0";
                 }
-                deviceViewModel.Initialize(device);
+                deviceViewModel.Initialize(device, Source);
                 deviceViewModel.Parent = this;
                 this.Children.Add(deviceViewModel);
 
@@ -167,7 +89,7 @@ namespace DevicesModule.ViewModels
                                 childDevice.Properties = new List<Property>();
                                 childDevice.DriverId = childDriver.id;
                                 childDevice.Address = i.ToString();
-                                childDeviceViewModel.Initialize(childDevice);
+                                childDeviceViewModel.Initialize(childDevice, Source);
                                 childDeviceViewModel.Parent = deviceViewModel;
                                 deviceViewModel.Children.Add(childDeviceViewModel);
                             }
@@ -344,8 +266,10 @@ namespace DevicesModule.ViewModels
             PropStackPanel = _PropStackPanel;
         }
 
-        public void Initialize(Device device)
+        public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
+            Source = sourceDevices;
+
             _device = device;
             Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
@@ -540,38 +464,12 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public DeviceViewModel Parent { get; set; }
-
-        ObservableCollection<DeviceViewModel> children;
-        public ObservableCollection<DeviceViewModel> Children
-        {
-            get { return children; }
-            set
-            {
-                children = value;
-                OnPropertyChanged("Children");
-            }
-        }
-
-        bool isSelected;
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged("IsSelected");
-                DevicesViewModel.Current.SelectedDevice = this;
-            }
-        }
-
-
         public ObservableCollection<string> SelfStates
         {
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == _device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.SelfStates != null)
                     foreach (string selfState in deviceState.SelfStates)
                     {
@@ -586,7 +484,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == _device.Path);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (string parentState in deviceState.ParentStringStates)
                     {

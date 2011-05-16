@@ -1,7 +1,7 @@
-﻿<Window x:Class="DevicesModule.Views.NewDeviceView"
+﻿<UserControl x:Class="DevicesModule.Views.NewDeviceView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Новое устройство" Height="500" Width="500">
+        Height="500" Width="500">
     <Grid>
         <StackPanel>
             <ListBox ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
@@ -17,4 +17,4 @@
             <Button Content="Ok" Command="{Binding AddCommand}" />
         </StackPanel>
     </Grid>
-</Window>
+</UserControl>

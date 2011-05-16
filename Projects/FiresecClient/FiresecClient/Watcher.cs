@@ -127,7 +127,7 @@ namespace FiresecClient
 
                         if (deviceState.ChangeEntities.ParameterChanged)
                         {
-                            FiresecManager.CurrentStates.OnDeviceParametersChanged(deviceState.Path);
+                            FiresecManager.CurrentStates.OnDeviceParametersChanged(deviceState.Id);
                         }
                     }
                 }
@@ -171,7 +171,7 @@ namespace FiresecClient
                     if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
                     {
                         device.OnStateChanged();
-                        FiresecManager.CurrentStates.OnDeviceStateChanged(device.Path);
+                        FiresecManager.CurrentStates.OnDeviceStateChanged(device.Id);
                     }
                 }
             }
@@ -245,7 +245,7 @@ namespace FiresecClient
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 chilDevice.ParentInnerStates.Add(state);
-                                string driverId = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Path == deviceState.Path).DriverId;
+                                string driverId = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == deviceState.Id).DriverId;
                                 string driverName = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
                                 chilDevice.ParentStringStates.Add(driverName + " - " + state.Name);
                                 chilDevice.ChangeEntities.StatesChanged = true;
@@ -290,7 +290,7 @@ namespace FiresecClient
                 {
                     deviceState.ChangeEntities.StateChanged = false;
                 }
-                deviceState.State = StateHelper.GetState(minPriority);
+                deviceState.State = new State(minPriority);
                 deviceState.MinPriority = minPriority;
 
                 if (sourceState != null)
@@ -315,14 +315,14 @@ namespace FiresecClient
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
-                            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == device.Path);
+                            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
                             if (deviceState.MinPriority < minZonePriority)
                                 minZonePriority = deviceState.MinPriority;
                         }
                     }
 
-                    string newZoneState = StateHelper.GetState(minZonePriority);
+                    State newZoneState = new State(minZonePriority);
 
                     bool ZoneChanged = false;
 
