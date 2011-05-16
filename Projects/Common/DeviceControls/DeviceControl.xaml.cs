@@ -10,14 +10,8 @@ using DeviceLibrary;
 
 namespace DeviceControls
 {
-    public partial class DeviceControl : UserControl, INotifyPropertyChanged
+    public partial class DeviceControl : INotifyPropertyChanged
     {
-        #region Private Fields
-        private List<string> _additionalStates;
-        private ObservableCollection<Canvas> _stateCanvases;
-        private string _state;
-        #endregion
-
         public DeviceControl()
         {
             InitializeComponent();
@@ -27,6 +21,7 @@ namespace DeviceControls
         
         public string DriverId { get; set; }
 
+        private string _state;
         public string State
         {
             get { return _state; }
@@ -37,6 +32,7 @@ namespace DeviceControls
             }
         }
 
+        private List<string> _additionalStates;
         public List<string> AdditionalStates
         {
             get { return _additionalStates; }
@@ -47,6 +43,7 @@ namespace DeviceControls
             }
         }
 
+        private ObservableCollection<Canvas> _stateCanvases;
         public ObservableCollection<Canvas> StateCanvases
         {
             get { return _stateCanvases; }

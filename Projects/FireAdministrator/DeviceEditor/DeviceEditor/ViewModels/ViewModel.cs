@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
@@ -21,7 +19,7 @@ namespace DeviceEditor.ViewModels
             _flag = 1;
         }
 
-        private int _flag;
+        private readonly int _flag;
         public static ViewModel Current { get; private set; }
 
         public void Load()
@@ -104,7 +102,6 @@ namespace DeviceEditor.ViewModels
             else
             {
                 SelectedStateViewModel.ParentDevice.DeviceControl.State = SelectedStateViewModel.Id;
-                //deviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
             }
         }
 
