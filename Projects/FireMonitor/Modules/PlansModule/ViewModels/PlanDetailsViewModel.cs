@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using PlansModule.Events;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {

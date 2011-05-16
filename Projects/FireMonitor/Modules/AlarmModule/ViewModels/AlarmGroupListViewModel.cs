@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using Infrastructure.Common;
 using AlarmModule.Events;
 using System.Diagnostics;
 using FiresecClient;
+
 
 namespace AlarmModule.ViewModels
 {

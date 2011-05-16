@@ -10,6 +10,7 @@ using Microsoft.Practices.Unity;
 using System.Windows;
 using Infrastructure;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Events;
 
 namespace FireMonitor

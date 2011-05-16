@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
     public abstract class BaseViewModel :
         DependencyObject, // TODO: do we need all VM be inherited from DependencyObject ?

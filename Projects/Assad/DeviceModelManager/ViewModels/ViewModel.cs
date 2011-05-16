@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using System.IO;
 using System.Windows;
-using Common;
+using Infrastructure.Common;
 
 namespace DeviveModelManager
 {
@@ -22,7 +22,7 @@ namespace DeviveModelManager
         }
 
         public RelayCommand GenarateCommand { get; private set; }
-        void OnGenarateCommand(object parameter)
+        void OnGenarateCommand()
         {
             AssadTreeBuilder assadTreeBuilder = new AssadTreeBuilder();
             assadTreeBuilder.Build();

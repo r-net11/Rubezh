@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using Infrastructure.Common;
 using AlarmModule.Events;
 
 namespace AlarmModule.ViewModels

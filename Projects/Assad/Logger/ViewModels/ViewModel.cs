@@ -7,10 +7,10 @@ using System.IO;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Xml;
-using Common;
 using Microsoft.Win32;
 using System.Windows;
 using System.Diagnostics;
+using Infrastructure.Common;
 
 namespace Logger
 {
@@ -23,7 +23,7 @@ namespace Logger
         }
 
         public RelayCommand OpenFileCommand { get; private set; }
-        public void OpenFile(object parameter)
+        public void OpenFile()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "log files|*.xml";

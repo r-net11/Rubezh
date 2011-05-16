@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Controls;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
     public interface IUserDialogService
     {

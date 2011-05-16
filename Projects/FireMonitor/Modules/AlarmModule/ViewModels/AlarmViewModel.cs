@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure;
 using AlarmModule.Events;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using FiresecClient;
 

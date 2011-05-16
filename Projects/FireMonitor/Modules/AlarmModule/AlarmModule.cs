@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Prism.Modularity;
+using Infrastructure.Common;
 using Infrastructure;
 using AlarmModule.ViewModels;
 using AlarmModule.Imitator;

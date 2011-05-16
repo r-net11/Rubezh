@@ -6,6 +6,7 @@ using Microsoft.Practices.Prism.Modularity;
 using Infrastructure;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
+using Infrastructure.Common;
 
 namespace ReportsModule
 {

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using PlansModule.Events;
 using PlansModule.Models;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using Firesec;
 using System.Diagnostics;
@@ -126,7 +127,7 @@ namespace PlansModule.ViewModels
             if (id == elementDevice.Id)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
-                deviceControl.StateId = deviceState.State.Id.ToString();
+                deviceControl.State = deviceState.State.Id.ToString();
             }
         }
     }

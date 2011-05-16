@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrastructure;
+using Infrastructure.Common;
 using AlarmModule.Events;
 using Infrastructure.Events;
 using System.Diagnostics;

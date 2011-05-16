@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Common;
 using AssadProcessor;
 using System.Diagnostics;
 using System.ComponentModel;
+using Infrastructure.Common;
 
 namespace AutoHosting
 {
@@ -22,7 +22,7 @@ namespace AutoHosting
         }
 
         public RelayCommand StartCommand { get; private set; }
-        void OnStart(object parameter)
+        void OnStart()
         {
             controller = new Controller();
             controller.Start();
@@ -37,7 +37,7 @@ namespace AutoHosting
         }
 
         public RelayCommand StopCommand { get; private set; }
-        void OnStop(object parameter)
+        void OnStop()
         {
             if (controller != null)
             {
@@ -48,7 +48,7 @@ namespace AutoHosting
         }
 
         public RelayCommand TestCommand { get; private set; }
-        void OnTest(object parameter)
+        void OnTest()
         {
         }
 

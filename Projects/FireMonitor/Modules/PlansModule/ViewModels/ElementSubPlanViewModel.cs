@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using PlansModule.Events;
 using PlansModule.Models;
 using Firesec;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {

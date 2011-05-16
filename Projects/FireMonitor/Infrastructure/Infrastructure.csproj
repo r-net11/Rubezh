@@ -51,7 +51,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
@@ -64,16 +63,14 @@
     <Compile Include="Events\ShowZonesEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="ILayoutService.cs" />
-    <Compile Include="IResourceService.cs" />
-    <Compile Include="IViewPart.cs" />
-    <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegionViewModel.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="ResourceDescription.cs" />
-    <Compile Include="ResourceHelper.cs" />
     <Compile Include="ServiceFactory.cs" />
-    <Compile Include="TreeBaseViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

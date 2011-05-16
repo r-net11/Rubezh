@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
     public class TreeBaseViewModel<T> : BaseViewModel
         where T : TreeBaseViewModel<T>

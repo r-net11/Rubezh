@@ -9,6 +9,7 @@ using System.Windows.Media;
 using PlansModule.Events;
 using PlansModule.Models;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using Firesec;
 using System.Diagnostics;

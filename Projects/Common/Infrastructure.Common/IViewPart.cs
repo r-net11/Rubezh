@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
     public interface IViewPart :
         INotifyPropertyChanged,

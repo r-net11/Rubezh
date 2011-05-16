@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using Infrastructure;
 using AlarmModule.Events;
+using Infrastructure.Common;
 
 namespace AlarmModule.ViewModels
 {

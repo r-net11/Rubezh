@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure;
+using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using System.Diagnostics;

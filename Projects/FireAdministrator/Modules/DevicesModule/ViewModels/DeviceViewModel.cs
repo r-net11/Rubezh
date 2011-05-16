@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using FiresecClient;
-using Infrastructure;
+using Infrastructure.Common;
 using System.Windows.Controls;
 using System.Windows.Data;
 using DevicesModule.PropertyBindings;
 using System.Windows;
 using DevicesModule.Views;
-using Controls;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {

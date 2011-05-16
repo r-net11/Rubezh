@@ -8,8 +8,9 @@ using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
 
 using System.Windows;
-using Infrastructure;
+using Infrastructure.Common;
 using FiresecClient;
+using Infrastructure;
 //using Infrastructure.Events;
 
 namespace FireAdministrator

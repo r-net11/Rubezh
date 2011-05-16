@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace Controls
+namespace Infrastructure.Common
 {
     public interface IDialogContent
     {

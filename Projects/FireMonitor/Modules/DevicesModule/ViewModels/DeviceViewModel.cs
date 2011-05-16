@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using FiresecClient;
 using DevicesModule.Views;
 using System.Diagnostics;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using Firesec;
 

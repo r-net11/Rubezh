@@ -22,7 +22,7 @@ namespace AutoHosting
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ((sender as View).DataContext as ViewModel).StopCommand.Execute(null);
+            ((sender as View).DataContext as ViewModel).StopCommand.Execute();
         }
     }
 }

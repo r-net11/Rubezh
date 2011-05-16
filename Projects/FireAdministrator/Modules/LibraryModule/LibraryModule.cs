@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Prism.Modularity;
-using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
+using Infrastructure;
 
 namespace LibraryModule
 {

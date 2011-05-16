@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common;
 
 namespace Infrastructure
 {
@@ -32,19 +33,19 @@ namespace Infrastructure
             }
         }
 
-        public static IUserDialogService UserDialogs
-        {
-            get
-            {
-                return Get<IUserDialogService>();
-            }
-        }
-
         public static IEventAggregator Events
         {
             get
             {
                 return Get<IEventAggregator>();
+            }
+        }
+
+        public static IUserDialogService UserDialogs
+        {
+            get
+            {
+                return Get<IUserDialogService>();
             }
         }
 

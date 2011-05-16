@@ -10,15 +10,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Infrastructure;
 using System.ComponentModel;
+using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure;
 
 namespace FireAdministrator
 {
-    /// <summary>
-    /// Логика взаимодействия для ShellView.xaml
-    /// </summary>
     public partial class ShellView : Window, INotifyPropertyChanged
     {
         public ShellView()
