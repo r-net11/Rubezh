@@ -62,6 +62,7 @@ namespace AssadProcessor.Devices
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
+//            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
 
             if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == Path))
             {
@@ -77,10 +78,10 @@ namespace AssadProcessor.Devices
                     if (parameter.Visible)
                     {
                         Assad.DeviceTypeState parameterState = new Assad.DeviceTypeState();
-                        parameterState.state = parameter.Name;
+                        parameterState.state = parameter.Caption;
                         parameterState.value = parameter.Value;
 
-                        if (!(string.IsNullOrEmpty(parameter.Value)) && (parameter.Value != "<NULL>"))
+                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
                         {
                             parameterState.value = " ";
                         }
@@ -113,13 +114,35 @@ namespace AssadProcessor.Devices
             if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Path == Path))
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Path == Path);
+                List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
-                eventType.state = new Assad.CPeventTypeState[1];
-                eventType.state[0] = new Assad.CPeventTypeState();
-                eventType.state[0].state = "Состояние";
-                eventType.state[0].value = deviceState.State;
+                Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
+                mainState.state = "Состояние";
+                mainState.value = deviceState.State;
+                states.Add(mainState);
+
+                //eventType.state[0] = new Assad.CPeventTypeState();
+                //eventType.state[0].state = "Состояние"; 
+                //eventType.state[0].value = deviceState.State;
+
+
+                foreach (Parameter parameter in deviceState.Parameters)
+                {
+                    if (parameter.Visible)
+                    {
+                        Assad.CPeventTypeState parameterState = new Assad.CPeventTypeState();
+                        parameterState.state = parameter.Name;
+                        parameterState.value = parameter.Value;
+
+                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
+                        {
+                            parameterState.value = " ";
+                        }
+                        states.Add(parameterState);
+                    }
+                }                
+                eventType.state = states.ToArray();
             }
-
             NetManager.Send(eventType, null);
         }
 
