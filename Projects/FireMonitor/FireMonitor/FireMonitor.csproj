@@ -79,6 +79,7 @@
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserDialogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />

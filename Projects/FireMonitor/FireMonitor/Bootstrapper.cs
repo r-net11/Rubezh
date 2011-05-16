@@ -38,6 +38,7 @@ namespace FireMonitor
         {
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
+            ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
         }
 
         protected override void ConfigureModuleCatalog()

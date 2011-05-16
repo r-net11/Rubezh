@@ -8,6 +8,7 @@ using FiresecClient;
 using System.Diagnostics;
 using System.Threading;
 using JournalModule.Views;
+using Infrastructure;
 
 namespace JournalModule.ViewModels
 {
@@ -28,12 +29,14 @@ namespace JournalModule.ViewModels
 
         void Read()
         {
-            int offset = 0;
+            int lastJournalId = 0;
+            lastJournalId = 2510;
+            lastJournalId = 1000;
             while (true)
             {
-                List<Firesec.ReadEvents.journalType> journalItems = FiresecManager.ReadJournal(offset * 100, 100);
+                List<Firesec.ReadEvents.journalType> journalItems = FiresecManager.ReadJournal(0, 10000);
 
-                if ((journalItems == null) || (journalItems.Count < 100))
+                if (journalItems == null)
                     break;
 
                 foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
@@ -42,8 +45,16 @@ namespace JournalModule.ViewModels
                     Dispatcher.Invoke((Action<JournalItemViewModel>)Add, journalItemViewModel);
                 }
 
-                offset++;
-                Trace.WriteLine(offset.ToString());
+                //if (journalItems.Count < 100)
+                //    break;
+
+                break;
+
+                if (journalItems.Count > 0)
+                    lastJournalId = Convert.ToInt32(journalItems[journalItems.Count - 1].IDEvents) - 1;
+                else
+                    lastJournalId--;
+                Trace.WriteLine(lastJournalId.ToString());
             }
         }
 
@@ -78,10 +89,8 @@ namespace JournalModule.ViewModels
         void OnShowFilter()
         {
             FilterViewModel filterViewModel = new FilterViewModel();
-            filterViewModel.Initialize();
-            FilterView filterView = new FilterView();
-            filterView.DataContext = filterViewModel;
-            filterView.ShowDialog();
+            filterViewModel.Initialize(JournalItems);
+            ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
         }
 
         bool _isFiltered;

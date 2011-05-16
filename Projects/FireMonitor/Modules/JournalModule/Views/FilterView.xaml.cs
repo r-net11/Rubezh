@@ -13,10 +13,7 @@ using System.Windows.Shapes;
 
 namespace JournalModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для FilterView.xaml
-    /// </summary>
-    public partial class FilterView : Window
+    public partial class FilterView : UserControl
     {
         public FilterView()
         {

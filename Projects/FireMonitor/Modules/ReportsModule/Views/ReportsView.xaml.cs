@@ -14,14 +14,20 @@ using System.Windows.Shapes;
 
 namespace ReportsModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ReportsView.xaml
-    /// </summary>
     public partial class ReportsView : UserControl
     {
         public ReportsView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog dialog = new PrintDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                dialog.PrintVisual(_grid, "Отчет: Устройства по типам");
+            }
         }
     }
 }
