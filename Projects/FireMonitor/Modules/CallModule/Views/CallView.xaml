@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="Дозвон" />
+        <StackPanel Margin="10">
+            <Button Content="Отправить SMS" Width="200" Margin="2" />
+            <Button Content="Позвонить" Width="200" Margin="2" />
+            <Button Content="Отправить email" Width="200" Margin="2" />
+        </StackPanel>
     </Grid>
 </UserControl>

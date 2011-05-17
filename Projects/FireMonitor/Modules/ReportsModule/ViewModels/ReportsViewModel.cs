@@ -6,6 +6,13 @@ using Infrastructure.Common;
 using FiresecClient;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using ReportsModule.Views;
+using CodeReason.Reports;
+using System.IO;
+using System.Data;
+using System.Windows.Xps.Packaging;
+using ReportsModule.Reports;
+using System.Windows;
 
 namespace ReportsModule.ViewModels
 {
@@ -13,53 +20,41 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
-            PrintCommand = new RelayCommand(OnPrint);
+            ShowReport1Command = new RelayCommand(OnShowReport1);
+        }
+
+        public RelayCommand ShowReport1Command {get; private set;}
+        void OnShowReport1()
+        {
+            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
+            cc.Visibility = Visibility.Collapsed;
+
+            Report1 report1 = new Report1();
+            XpsDocument xpsDocument = report1.CreateReport();
+            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
         }
 
         public void Initialize()
         {
-            DriverCounters = new ObservableCollection<DriverCounter>();
-
-            foreach (var driver in FiresecManager.CurrentConfiguration.Metadata.drv)
-            {
-                if ((driver.options != null) && (driver.options.Contains("Placeable")) && (driver.shortName != "Компьютер"))
-                {
-                    var devices = FiresecManager.CurrentConfiguration.AllDevices.FindAll(x => x.DriverId == driver.id);
-                    if (devices.Count > 0)
-                    {
-                        DriverCounter driverCounter = new DriverCounter();
-                        driverCounter.DriverName = driver.shortName;
-                        driverCounter.Count = devices.Count;
-                        DriverCounters.Add(driverCounter);
-                    }
-                }
-            }
+            _documentViewer = new DocumentViewer();
+            ReportContent = _documentViewer;
         }
 
-        public RelayCommand PrintCommand {get; private set;}
-        void OnPrint()
-        {
-        }
+        DocumentViewer _documentViewer;
 
-        ObservableCollection<DriverCounter> _driverCounters;
-        public ObservableCollection<DriverCounter> DriverCounters
+        object _reportContent;
+        public object ReportContent
         {
-            get { return _driverCounters; }
+            get { return _reportContent; }
             set
             {
-                _driverCounters = value;
-                OnPropertyChanged("DriverCounters");
+                _reportContent = value;
+                OnPropertyChanged("ReportContent");
             }
         }
 
         public override void Dispose()
         {
         }
-    }
-
-    public class DriverCounter
-    {
-        public string DriverName { get; set; }
-        public int Count { get; set; }
     }
 }

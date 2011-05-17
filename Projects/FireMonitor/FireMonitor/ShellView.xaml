@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:FireMonitor"
         WindowStartupLocation="CenterScreen"
-        Title="Станция пожарного мониторинга" Height="800" Width="1000">
+        Title="Станция пожарного мониторинга" Height="800" Width="1100">
     <Grid>
         <Grid Background="Gray">
 

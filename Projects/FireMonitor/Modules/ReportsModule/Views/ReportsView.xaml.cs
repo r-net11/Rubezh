@@ -20,14 +20,5 @@ namespace ReportsModule.Views
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            PrintDialog dialog = new PrintDialog();
-            if (dialog.ShowDialog() == true)
-            {
-                dialog.PrintVisual(_grid, "Отчет: Устройства по типам");
-            }
-        }
     }
 }
