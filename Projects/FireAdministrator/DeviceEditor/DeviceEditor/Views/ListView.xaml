@@ -6,7 +6,10 @@
 		</Grid.ColumnDefinitions>
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 			<Grid Grid.Column="0">
-				<ListBox Background="Silver" ItemsSource="{Binding Items}" BorderThickness="0" SelectedItem="{Binding SelectedItem}">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Style/1.jpg" Viewport="0,0,5,5" TileMode="Tile" Stretch="None" ViewportUnits="Absolute" />
+                </Grid.Background>
+                <ListBox Background="Transparent" ItemsSource="{Binding Items}" BorderThickness="0" SelectedItem="{Binding SelectedItem}">
                         <ListBox.ItemTemplate>
 						<DataTemplate>
 							<DockPanel>
@@ -26,7 +29,7 @@
 		</ScrollViewer>
 		<Grid Grid.Column="1">
             <Grid.Background>
-                <ImageBrush ImageSource="Style/2.jpg" Viewport="0,0,3,3" ViewportUnits="Absolute" TileMode="Tile" />
+                <ImageBrush ImageSource="Style/2.jpg" Viewport="0,0,35,35" ViewportUnits="Absolute" TileMode="Tile" />
             </Grid.Background>
             <StackPanel VerticalAlignment="Bottom">
 				<Button Content="Добавить" Command="{Binding AddCommand}" />

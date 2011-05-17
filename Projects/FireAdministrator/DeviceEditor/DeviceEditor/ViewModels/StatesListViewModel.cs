@@ -65,7 +65,7 @@ namespace DeviceEditor.ViewModels
                     stateViewModel.IsAdditional = true;
                     stateViewModel.Id = item.id;
                     var frameViewModel = new FrameViewModel();
-                    frameViewModel.Duration = 500;
+                    frameViewModel.Duration = 300;
                     frameViewModel.Layer = 0;
                     frameViewModel.Image = Helper.EmptyFrame;
                     stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel> { frameViewModel };

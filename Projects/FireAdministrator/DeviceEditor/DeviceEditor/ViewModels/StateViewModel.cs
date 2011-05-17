@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -50,8 +51,18 @@ namespace DeviceEditor.ViewModels
                     ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel.Remove(Id);
                 }
                 if (ViewModel.Current.SelectedStateViewModel.IsAdditional) return;
-                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStates =
-                    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+                //ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStates =
+                //    ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+
+                var tempAstate = new List<string>();
+                foreach (var state in ViewModel.Current.SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel)
+                {
+                    var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == ViewModel.Current.SelectedDeviceViewModel.Id).state.FirstOrDefault(x => x.id == state);
+                    if (astate.@class == ViewModel.Current.SelectedStateViewModel.Id)
+                        tempAstate.Add(astate.id);
+                }
+                ViewModel.Current.SelectedStateViewModel.ParentDevice.DeviceControl.AdditionalStates = tempAstate;
+
                 OnPropertyChanged("IsChecked");
             }
         }
