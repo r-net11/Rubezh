@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="LibraryModule.Views.DevicesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Views="clr-namespace:LibraryModule.Views"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+    <ListBox Background="Transparent" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" BorderThickness="0">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <DockPanel>
+                    <Expander FontSize="13" Style="{DynamicResource PlusMinusExpanderStyle}">
+                        <Expander.Header>
+                            <DockPanel Margin="-5,0,0,0">
+                                <Image Source="{Binding IconPath}" Width="14" />
+                                <TextBlock Text=" " />
+                                <TextBlock Foreground="Black" Text="{Binding Name}" />
+                            </DockPanel>
+                        </Expander.Header>
+                        <DockPanel>
+                            <Views:StatesView FontSize="12" />
+                        </DockPanel>
+                    </Expander>
+                </DockPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.Resources>
+            <SolidColorBrush x:Key="SolidBorderBrush" Color="DarkBlue"/>            
+            <Style TargetType="ContextMenu">
+                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+                <Setter Property="HasDropShadow" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContextMenu">
+                            <Border Name="Border" BorderBrush="{StaticResource SolidBorderBrush}">
+                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="HasDropShadow" Value="true">
+                                    <Setter TargetName="Border" Property="CornerRadius" Value="4"/>
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="3"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+            <ContextMenu x:Key="contextMenu">
+                <MenuItem Header="Добавить устройство" Command="{Binding ShowDevicesCommand}" />
+                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
+                <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
+                <ContextMenu.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />
+                </ContextMenu.Resources>
+            </ContextMenu>
+        </ListBox.Resources>
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListBox>
+</UserControl>

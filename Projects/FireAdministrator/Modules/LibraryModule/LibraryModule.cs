@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
+﻿using Microsoft.Practices.Prism.Modularity;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
@@ -27,6 +23,7 @@ namespace LibraryModule
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Styles.xaml"));
         }
 
         static void CreateViewModels()

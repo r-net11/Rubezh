@@ -16,10 +16,18 @@ namespace DeviceEditor.ViewModels
             Current = this;
             Load();
             SaveCommand = new RelayCommand(OnSave);
-            _flag = 1;
         }
 
-        private readonly int _flag;
+        private bool _flag;
+        public bool Flag
+        {
+            get { return _flag; }
+            set 
+            { 
+                _flag = value;
+                OnPropertyChanged("Flag");
+            }
+        }
         public static ViewModel Current { get; private set; }
 
         public void Load()
@@ -66,7 +74,7 @@ namespace DeviceEditor.ViewModels
 
         public void Update()
         {
-            if (_flag == 0) return;
+            if (!_flag) return;
             LibraryManager.Devices = new List<Device>();
             foreach (var deviceViewModel in DeviceViewModels)
             {
@@ -133,6 +141,7 @@ namespace DeviceEditor.ViewModels
             get { return _selectedStateViewModel; }
             set
             {
+                Flag = true;
                 _selectedStateViewModel = value;
                 if (value == null) return;
                 var deviceControl = SelectedStateViewModel.ParentDevice.DeviceControl;
