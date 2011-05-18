@@ -148,7 +148,15 @@ namespace DeviceEditor.ViewModels
                 else
                 {
                     deviceControl.State = value.Id;
-                    deviceControl.AdditionalStates = SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel;
+
+                    var tempAstate = new List<string>();
+                    foreach (var state in SelectedStateViewModel.ParentDevice.AdditionalStatesViewModel)
+                    {
+                        var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == SelectedDeviceViewModel.Id).state.FirstOrDefault(x=>x.id == state);
+                        if(astate.@class == value.Id)
+                            tempAstate.Add(astate.id);
+                    }
+                    deviceControl.AdditionalStates = tempAstate;
                 }
 
                 OnPropertyChanged("SelectedStateViewModel");

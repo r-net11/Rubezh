@@ -35,7 +35,7 @@ namespace DeviceEditor.ViewModels
                 var stateViewModel = new StateViewModel();
                 stateViewModel.Id = Convert.ToString(stateId);
                 var frameViewModel = new FrameViewModel();
-                frameViewModel.Duration = 0;
+                frameViewModel.Duration = 300;
                 frameViewModel.Image = Helper.EmptyFrame;
                 stateViewModel.FrameViewModels = new ObservableCollection<FrameViewModel>();
                 stateViewModel.FrameViewModels.Add(frameViewModel);

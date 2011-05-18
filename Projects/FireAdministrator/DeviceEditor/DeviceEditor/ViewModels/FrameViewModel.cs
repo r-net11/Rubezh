@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using Common;
 
@@ -23,7 +24,7 @@ namespace DeviceEditor.ViewModels
             Parent.IsChecked = Parent.IsChecked;
             newFrame.Parent = Parent;
             newFrame.Id = Parent.FrameViewModels.Count;
-            newFrame.Duration = 500;
+            newFrame.Duration = 300;
             newFrame.Image = Helper.EmptyFrame;
             Parent.FrameViewModels.Add(newFrame);
             ViewModel.Current.SelectedStateViewModel = Parent;
@@ -33,6 +34,11 @@ namespace DeviceEditor.ViewModels
         public RelayCommand RemoveFrameCommand { get; private set; }
         private void OnRemoveFrame(object obj)
         {
+            if (Parent.FrameViewModels.Count == 1)
+            {
+                MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
+                return;
+            }
             Parent.FrameViewModels.Remove(this);
             ViewModel.Current.Update();
         }
