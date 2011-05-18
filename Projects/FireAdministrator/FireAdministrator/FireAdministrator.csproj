@@ -73,6 +73,9 @@
     </Compile>
     <Compile Include="Bootsrapper.cs" />
     <Compile Include="LayoutService.cs" />
+    <Compile Include="NavigationView.xaml.cs">
+      <DependentUpon>NavigationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceService.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -104,6 +107,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +136,10 @@
     <ProjectReference Include="..\Modules\DevicesModule\DevicesModule.csproj">
       <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
       <Name>DevicesModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\JournalModule\JournalModule.csproj">
+      <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>
+      <Name>JournalModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\LibraryModule\LibraryModule.csproj">
       <Project>{16D926CB-C605-48A0-91FC-105C80AA685B}</Project>

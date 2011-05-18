@@ -9,13 +9,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    public partial class ZoneLogicSectionView : Window
+    /// <summary>
+    /// Логика взаимодействия для ZoneDetailsView.xaml
+    /// </summary>
+    public partial class ZoneDetailsView : UserControl
     {
-        public ZoneLogicSectionView()
+        public ZoneDetailsView()
         {
             InitializeComponent();
         }

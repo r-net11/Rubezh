@@ -9,31 +9,11 @@ using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicViewModel : BaseViewModel, IDialogContent
+    public class ZoneLogicViewModel : DialogContent
     {
-        public string Title
-        {
-            get { return "Настройка логики зон"; }
-        }
-
-        public object InternalViewModel
-        {
-            get { return this; }
-        }
-
-        public Window Surface { get; set; }
-
-        public void Close(bool result)
-        {
-            if (Surface != null)
-            {
-                Surface.DialogResult = result;
-                Surface.Close();
-            }
-        }
-
         public ZoneLogicViewModel()
         {
+            Title = "Настройка логики зон";
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
             SaveCommand = new RelayCommand(OnSave);

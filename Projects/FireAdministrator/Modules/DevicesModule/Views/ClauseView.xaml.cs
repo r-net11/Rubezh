@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ClauseView.xaml
-    /// </summary>
     public partial class ClauseView : UserControl
     {
         public ClauseView()

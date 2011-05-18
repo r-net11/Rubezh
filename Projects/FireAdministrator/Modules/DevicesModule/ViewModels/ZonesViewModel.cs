@@ -5,6 +5,8 @@ using System.Text;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using Infrastructure;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -12,7 +14,9 @@ namespace DevicesModule.ViewModels
     {
         public ZonesViewModel()
         {
-            AddZoneCommand = new RelayCommand(OnAddZone);
+            AddCommand = new RelayCommand(OnAdd);
+            DeleteCommand = new RelayCommand(OnDelete);
+            EditCommand = new RelayCommand(OnEdit);
         }
 
         public void Initialize()
@@ -48,14 +52,37 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddZoneCommand { get; private set; }
-        void OnAddZone()
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
         {
             Zone zone = new Zone();
             zone.No = "0";
-            zone.Name = "новая зона";
+            zone.Name = "Новая зона";
             ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
             Zones.Add(zoneViewModel);
+        }
+
+        public RelayCommand DeleteCommand { get; private set; }
+        void OnDelete()
+        {
+            if (SelectedZone != null)
+            {
+                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
+                if (dialogResult == MessageBoxResult.Yes)
+                    Zones.Remove(SelectedZone);
+            }
+        }
+
+        public RelayCommand EditCommand { get; private set; }
+        void OnEdit()
+        {
+            if (SelectedZone != null)
+            {
+                ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel();
+                zoneDetailsViewModel.Initialize(SelectedZone._zone);
+                ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
+                SelectedZone.Update();
+            }
         }
 
         public void Save()

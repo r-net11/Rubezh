@@ -6,71 +6,68 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Background="{StaticResource HeaderBackgroundBrush}">
-        <WpfToolkit:DataGrid Margin="5" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                            IsReadOnly="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            Height="500" RowHeight="20">
-            <WpfToolkit:DataGrid.Columns>
-                <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
-                <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                <WpfToolkit:DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
-                <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
-                <WpfToolkit:DataGridTextColumn Header="Время эвакуации" Width="2*" Binding="{Binding EvacuationTime}" />
-            </WpfToolkit:DataGrid.Columns>
-            <WpfToolkit:DataGrid.CellStyle>
-                <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
-                            <Setter Property="Foreground" Value="Red" />
-                        </Trigger>
-                    </Style.Triggers>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                    <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </WpfToolkit:DataGrid.CellStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        </WpfToolkit:DataGrid>
-
-        <StackPanel DataContext="{Binding SelectedZone}" Width="500" HorizontalAlignment="Left">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Число ИП для перехода в пожар" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Время эвакуации" />
-
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DetectorCount}" />
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding EvacuationTime}" />
-            </Grid>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Добавить" Command="{Binding AddCommand}" HorizontalAlignment="Left" Width="100" />
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Width="100" />
+            <Button Content="Редактировать" Command="{Binding EditCommand}" HorizontalAlignment="Left" Width="100" />
         </StackPanel>
 
-        <Button Content="Добавить зону" Command="{Binding AddZoneCommand}" HorizontalAlignment="Left" Height="40" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
 
-    </StackPanel>
+            <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
+                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            RowHeight="20">
+                <WpfToolkit:DataGrid.Columns>
+                    <WpfToolkit:DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
+                    <WpfToolkit:DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
+                    <WpfToolkit:DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
+                    <WpfToolkit:DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
+                </WpfToolkit:DataGrid.Columns>
+                <WpfToolkit:DataGrid.CellStyle>
+                    <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </WpfToolkit:DataGrid.CellStyle>
+            </WpfToolkit:DataGrid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="устройства" />
+                <TextBlock Grid.Row="1" Text="зоны" />
+            </Grid>
+
+        </Grid>
+
+    </Grid>
 </UserControl>

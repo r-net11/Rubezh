@@ -8,12 +8,13 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicSectionViewModel : BaseViewModel
+    public class ZoneLogicSectionViewModel : DialogContent
     {
         Firesec.ZoneLogic.clauseType clause;
 
         public ZoneLogicSectionViewModel()
         {
+            Title = "Выбор зон";
             SaveCommand = new RelayCommand(OnSave);
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);

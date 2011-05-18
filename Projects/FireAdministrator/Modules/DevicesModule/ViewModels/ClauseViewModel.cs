@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using DevicesModule.Views;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -30,12 +31,9 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-            ZoneLogicSectionView zoneLogicSectionView = new ZoneLogicSectionView();
             ZoneLogicSectionViewModel zoneLogicSectionViewModel = new ZoneLogicSectionViewModel();
-            zoneLogicSectionViewModel.RequestClose += delegate { zoneLogicSectionView.Close(); };
             zoneLogicSectionViewModel.Initialize(clause);
-            zoneLogicSectionView.DataContext = zoneLogicSectionViewModel;
-            zoneLogicSectionView.ShowDialog();
+            ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicSectionViewModel);
         }
 
         public void Initialize(Firesec.ZoneLogic.clauseType clause)

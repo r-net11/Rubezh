@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicSectionViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
@@ -94,6 +95,9 @@
     </Compile>
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZoneLogicSectionView.xaml.cs">
       <DependentUpon>ZoneLogicSectionView.xaml</DependentUpon>
@@ -163,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

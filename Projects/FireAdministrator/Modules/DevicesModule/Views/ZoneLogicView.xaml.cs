@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ZoneLogicView.xaml
-    /// </summary>
     public partial class ZoneLogicView : UserControl
     {
         public ZoneLogicView()
