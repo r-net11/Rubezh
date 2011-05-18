@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ZoneDetailsView.xaml
-    /// </summary>
     public partial class ZoneDetailsView : UserControl
     {
         public ZoneDetailsView()

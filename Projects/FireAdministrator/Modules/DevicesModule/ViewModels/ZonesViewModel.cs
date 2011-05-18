@@ -48,7 +48,121 @@ namespace DevicesModule.ViewModels
             set
             {
                 _selectedZone = value;
+
+                InitializeAvaliableDevices();
+                InitializeDevices();
+
                 OnPropertyChanged("SelectedZone");
+            }
+        }
+
+        void InitializeAvaliableDevices()
+        {
+            List<Device> resultDevices = new List<Device>();
+            foreach (Device device in FiresecManager.CurrentConfiguration.AllDevices)
+            {
+                var driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+                if (driver.minZoneCardinality != "0")
+                {
+                    if (string.IsNullOrEmpty(device.ZoneNo))
+                    {
+                        List<Device> allParents = device.AllParents;
+                        foreach (var parentDevice in allParents)
+                        {
+                            if (resultDevices.Any(x => x.Id == parentDevice.Id) == false)
+                            {
+                                resultDevices.Add(parentDevice);
+                            }
+                        }
+                        resultDevices.Add(device);
+                    }
+                }
+            }
+
+            var _Devices = new ObservableCollection<DeviceViewModel>();
+            foreach (Device device in resultDevices)
+            {
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Initialize(device, Devices);
+                _Devices.Add(deviceViewModel);
+            }
+
+            foreach (var _device in _Devices)
+            {
+                if (_device._device.Parent != null)
+                {
+                    var id = _device._device.Parent.Id;
+                    var parent = _Devices.FirstOrDefault(x => x._device.Id == id);
+                    _device.Parent = parent;
+                }
+            }
+
+            AvaliableDevices = _Devices;
+        }
+
+        void InitializeDevices()
+        {
+            List<Device> resultDevices = new List<Device>();
+            foreach (Device device in FiresecManager.CurrentConfiguration.AllDevices)
+            {
+                var driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x=>x.id == device.DriverId);
+                if (driver.minZoneCardinality != "0")
+                {
+                    if (device.ZoneNo == SelectedZone.No)
+                    {
+                        List<Device> allParents = device.AllParents;
+                        foreach (var parentDevice in allParents)
+                        {
+                            if (resultDevices.Any(x => x.Id == parentDevice.Id) == false)
+                            {
+                                resultDevices.Add(parentDevice);
+                            }
+                        }
+                        resultDevices.Add(device);
+                    }
+                }
+            }
+
+            var _Devices = new ObservableCollection<DeviceViewModel>();
+            foreach (Device device in resultDevices)
+            {
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Initialize(device, Devices);
+                _Devices.Add(deviceViewModel);
+            }
+
+            foreach (var _device in _Devices)
+            {
+                if (_device._device.Parent != null)
+                {
+                    var id = _device._device.Parent.Id;
+                    var parent = _Devices.FirstOrDefault(x => x._device.Id == id);
+                    _device.Parent = parent;
+                }
+            }
+
+            Devices = _Devices;
+        }
+
+        ObservableCollection<DeviceViewModel> devices;
+        public ObservableCollection<DeviceViewModel> Devices
+        {
+            get { return devices; }
+            set
+            {
+                devices = value;
+                OnPropertyChanged("Devices");
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> _avaliableDevices;
+        public ObservableCollection<DeviceViewModel> AvaliableDevices
+        {
+            get { return _avaliableDevices; }
+            set
+            {
+                _avaliableDevices = value;
+                OnPropertyChanged("AvaliableDevices");
             }
         }
 

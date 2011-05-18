@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace LibraryModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ListView.xaml
-    /// </summary>
     public partial class ListView : UserControl
     {
         public ListView()

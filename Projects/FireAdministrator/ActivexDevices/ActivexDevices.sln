@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceEditor", "..\DeviceEditor\DeviceEditor\DeviceEditor.csproj", "{34C8CE8F-15B5-49F5-9929-60BFD518117E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\..\Common\Common\Common.csproj", "{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecApi", "..\..\FiresecClient\FiresecApi\FiresecApi.csproj", "{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "WpfApplication1\Test.csproj", "{D956EE98-F492-4EC4-B5F0-D89044F2C2DB}"
@@ -23,26 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Debug|x86.ActiveCfg = Debug|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Debug|x86.Build.0 = Debug|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Release|Any CPU.ActiveCfg = Release|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Release|Mixed Platforms.Build.0 = Release|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Release|x86.ActiveCfg = Release|x86
-		{34C8CE8F-15B5-49F5-9929-60BFD518117E}.Release|x86.Build.0 = Release|x86
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}.Release|x86.ActiveCfg = Release|Any CPU
 		{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

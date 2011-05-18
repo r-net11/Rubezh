@@ -93,10 +93,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
-      <Project>{F919D935-BDAC-4DB8-AF1A-83E34F3B1581}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
       <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
       <Name>DeviceControls</Name>

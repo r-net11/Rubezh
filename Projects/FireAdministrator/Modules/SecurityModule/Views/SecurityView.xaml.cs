@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace SecurityModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для SecurityView.xaml
-    /// </summary>
     public partial class SecurityView : UserControl
     {
         public SecurityView()
