@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    public partial class ZoneLogicSectionView : Window
+    public partial class ZoneLogicSectionView : UserControl
     {
         public ZoneLogicSectionView()
         {

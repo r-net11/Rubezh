@@ -67,8 +67,7 @@ namespace DevicesModule.ViewModels
 
             ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel();
             zoneDetailsViewModel.Initialize(zone);
-            ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-            bool result = zoneDetailsViewModel.Result;
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
 
             ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
             Zones.Add(zoneViewModel);
@@ -92,7 +91,7 @@ namespace DevicesModule.ViewModels
             {
                 ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel();
                 zoneDetailsViewModel.Initialize(SelectedZone._zone);
-                ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
+                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
                 SelectedZone.Update();
             }
         }

@@ -6,20 +6,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Converters:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter" />
+    </UserControl.Resources>
     <Grid>
-        <Grid.Resources>
-            <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
-            <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-            <Converters:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter" />
-        </Grid.Resources>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <WpfToolkit:DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
                             IsReadOnly="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
                             Background="White" BorderBrush="Black" BorderThickness="0"
-                            Height="500" RowHeight="20">
+                            RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
                     <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -148,30 +152,10 @@
 
                 </WpfToolkit:DataGrid.Columns>
 
-                <WpfToolkit:DataGrid.CellStyle>
-                    <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="YellowGreen" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WpfToolkit:DataGrid.CellStyle>
-
             </WpfToolkit:DataGrid>
+        </Grid>
 
+        <Grid Grid.Row="1">
             <StackPanel DataContext="{Binding SelectedDevice}" Width="400" HorizontalAlignment="Left">
 
                 <TextBlock Text="Устройство" FontWeight="Bold" Foreground="DarkOrange" />
@@ -196,11 +180,7 @@
 
                 <StackPanel DataContext="{Binding Zone}">
                     <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ZoneNo}" />
-                        <TextBlock Text=". " />
-                        <TextBlock Text="{Binding ZoneName}" />
-                    </StackPanel>
+                    <TextBlock Text="{Binding PresentationName}" />
                     <StackPanel.Style>
                         <Style>
                             <Style.Triggers>
@@ -215,7 +195,6 @@
                 <ContentControl Content="{Binding PropStackPanel}" />
 
             </StackPanel>
-
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -10,13 +10,17 @@
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
-<Grid>
-        <StackPanel>
-            
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <WpfToolkit:DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                            Height="500" AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
+                            AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            IsReadOnly="True" SelectionUnit="FullRow" ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
+                            IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
                             Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
                             RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
@@ -56,38 +60,17 @@
                     <WpfToolkit:DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
                     <WpfToolkit:DataGridTextColumn Header="Пыль, %" MinWidth="100" Binding="{Binding Dustiness}" />
                     <WpfToolkit:DataGridTextColumn Header="Температура, °С" MinWidth="100" Binding="{Binding Temperature}" />
-                    
+
                 </WpfToolkit:DataGrid.Columns>
 
-                <WpfToolkit:DataGrid.CellStyle>
-                    <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Foreground" Value="YellowGreen" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WpfToolkit:DataGrid.CellStyle>
-
             </WpfToolkit:DataGrid>
+        </Grid>
 
-                <Grid DataContext="{Binding SelectedDevice}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
 
@@ -135,9 +118,7 @@
                     <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
                     <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
                 </StackPanel>
-                    
+
             </Grid>
-            
-        </StackPanel>
     </Grid>
 </UserControl>

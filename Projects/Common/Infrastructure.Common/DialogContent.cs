@@ -8,7 +8,6 @@ namespace Infrastructure.Common
 {
     public class DialogContent : BaseViewModel, IDialogContent
     {
-        public bool Result { get; set; }
         public string Title { get; set; }
 
         public object InternalViewModel
@@ -22,8 +21,7 @@ namespace Infrastructure.Common
         {
             if (Surface != null)
             {
-                Result = result;
-                //Surface.DialogResult = result;
+                Surface.DialogResult = result;
                 Surface.Close();
             }
         }

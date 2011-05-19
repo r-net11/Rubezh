@@ -102,10 +102,6 @@
     <Resource Include="Icons\DS_Unknown.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DataTemplates\DataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

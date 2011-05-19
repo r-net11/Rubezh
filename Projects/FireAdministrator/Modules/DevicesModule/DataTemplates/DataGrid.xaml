@@ -219,7 +219,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
-                <Setter Property="Foreground" Value="Red" />
+                <Setter Property="Foreground" Value="YellowGreen" />
             </Trigger>
         </Style.Triggers>
         <Setter Property="Template">

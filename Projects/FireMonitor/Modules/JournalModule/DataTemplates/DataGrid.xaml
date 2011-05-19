@@ -3,9 +3,38 @@
                     xmlns:WpfToolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
                     xmlns:Primitives="clr-namespace:Microsoft.Windows.Controls.Primitives;assembly=WPFToolkit">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Brushes.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
+    <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
+    <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
+    <SolidColorBrush x:Key="DefaultControlForegroundBrush" Color="#FF10257F"/>
+
+    <!-- DataGrid related brushes -->
+    <SolidColorBrush x:Key="GridLineColorBrush" Color="#FFCEDFF6" />
+    <LinearGradientBrush x:Key="AlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
+        <GradientStop Color="#FFFEFEFF" Offset="0"/>
+        <GradientStop Color="#FFE4F0FC" Offset="1"/>
+    </LinearGradientBrush>
+
+    <!-- Header related brushes -->
+    <SolidColorBrush x:Key="HeaderBorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="HeaderInnerBorderBrush" Color="Transparent" />
+
+    <LinearGradientBrush x:Key="RowSelectionBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Beige" Offset="0"/>
+        <GradientStop Color="LightGray" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Black" Offset="0"/>
+        <GradientStop Color="Gray" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HeaderHighlightedBackgoundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Gray" Offset="0"/>
+        <GradientStop Color="Black" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HeaderPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Gray" Offset="1"/>
+        <GradientStop Color="DarkRed" Offset="0"/>
+    </LinearGradientBrush>
 
     <!-- DataGridColumnHeader Right Gripper Style -->
     <Style x:Key="ColumnHeaderRightGripperStyle" TargetType="{x:Type Thumb}">
@@ -101,18 +130,6 @@
     </Style>
 
 
-    <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
-    <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
-    <SolidColorBrush x:Key="DefaultControlForegroundBrush" Color="#FF10257F"/>
-
-    <!-- DataGrid related brushes -->
-    <SolidColorBrush x:Key="GridLineColorBrush" Color="#FFCEDFF6" />
-    <LinearGradientBrush x:Key="AlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
-        <GradientStop Color="#FFFEFEFF" Offset="0"/>
-        <GradientStop Color="#FFE4F0FC" Offset="1"/>
-    </LinearGradientBrush>
-
-
     <Style x:Key="{x:Type WpfToolkit:DataGrid}" TargetType="{x:Type WpfToolkit:DataGrid}">
 
         <Setter Property="BorderThickness" Value="1" />
@@ -198,6 +215,23 @@
     </Style>
 
 
+    <Style x:Key="DataGridCellStyle" TargetType="{x:Type WpfToolkit:DataGridCell}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                <Setter Property="Foreground" Value="YellowGreen" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>

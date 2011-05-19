@@ -12,14 +12,18 @@
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <WpfToolkit:DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
                             IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
                             HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
                             Background="White" BorderBrush="Black" BorderThickness="0"
-                            Height="500" RowHeight="20">
+                            RowHeight="20">
                 <WpfToolkit:DataGrid.Columns>
                     <WpfToolkit:DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
                     <WpfToolkit:DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
@@ -30,31 +34,10 @@
                     <WpfToolkit:DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
                 </WpfToolkit:DataGrid.Columns>
 
-                <WpfToolkit:DataGrid.CellStyle>
-                    <Style TargetType="{x:Type WpfToolkit:DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="YellowGreen" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </WpfToolkit:DataGrid.CellStyle>
-
             </WpfToolkit:DataGrid>
+        </Grid>
 
+        <Grid Grid.Row="1">
             <StackPanel DataContext="{Binding SelectedItem}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Класс" Padding="0, 0, 2, 0" />
@@ -89,6 +72,6 @@
                     <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
