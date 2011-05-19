@@ -153,6 +153,10 @@
       <Project>{773BFF09-076C-4FE5-A602-71FA8F87B1D0}</Project>
       <Name>SecurityModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\SoundModule\SoundsModule.csproj">
+      <Project>{1D308F1E-F990-4CB8-8613-609C3637130D}</Project>
+      <Name>SoundsModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

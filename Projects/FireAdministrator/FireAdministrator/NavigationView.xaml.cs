@@ -29,6 +29,8 @@ namespace FireAdministrator
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsLibrarySelected"); });
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(x => { isSecuritySelected = true; OnPropertyChanged("IsSecuritySelected"); });
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
+            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(x => { isSoundsSelected = true; OnPropertyChanged("IsSoundsSelected"); });
         }
 
         bool isDevicesSelected;
@@ -118,6 +120,21 @@ namespace FireAdministrator
                     ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsJournalSelected");
+            }
+        }
+
+        bool isSoundsSelected;
+        public bool IsSoundsSelected
+        {
+            get { return isSoundsSelected; }
+            set
+            {
+                isSoundsSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsSoundsSelected");
             }
         }
 

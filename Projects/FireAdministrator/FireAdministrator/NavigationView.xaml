@@ -51,7 +51,7 @@
             <TabItem IsSelected="{Binding IsSecuritySelected}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Безопасность" FontWeight="Bold" />
+                        <TextBlock Text="Права" FontWeight="Bold" />
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
@@ -64,6 +64,14 @@
                 </TabItem.Header>
             </TabItem>
 
+            <TabItem IsSelected="{Binding IsSoundsSelected}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Звуки" FontWeight="Bold" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            
         </TabControl>
     </StackPanel>
 </UserControl>

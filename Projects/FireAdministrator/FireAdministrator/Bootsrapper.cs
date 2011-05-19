@@ -51,6 +51,7 @@ namespace FireAdministrator
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(SecurityModule.SequrityModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
+            moduleCatalog.AddModule(typeof(SoundsModule.SoundsModule));
         }
     }
 }

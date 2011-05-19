@@ -12,5 +12,6 @@ namespace Infrastructure.Common
         void Close(bool result);
         Window Surface { set; }
         object InternalViewModel { get; }
+        bool Result { get; set; }
     }
 }

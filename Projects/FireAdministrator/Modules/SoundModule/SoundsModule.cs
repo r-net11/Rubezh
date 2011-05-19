@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Prism.Modularity;
-using Infrastructure.Common;
-using Infrastructure.Events;
-using SecurityModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Events;
+using Infrastructure.Common;
+using SoundsModule.ViewModels;
 
-namespace SecurityModule
+namespace SoundsModule
 {
-    public class SequrityModule : IModule
+    public class SoundsModule : IModule
     {
-        public SequrityModule()
+        public SoundsModule()
         {
-            ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(OnShowSecurity);
+            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
         }
 
         public void Initialize()
@@ -32,15 +32,15 @@ namespace SecurityModule
 
         static void CreateViewModels()
         {
-            securityViewModel = new SecurityViewModel();
-            securityViewModel.Initialize();
+            soundsViewModel = new SoundsViewModel();
+            soundsViewModel.Initialize();
         }
 
-        static SecurityViewModel securityViewModel;
+        static SoundsViewModel soundsViewModel;
 
-        static void OnShowSecurity(string obj)
+        static void OnShowSounds(string obj)
         {
-            ServiceFactory.Layout.Show(securityViewModel);
+            ServiceFactory.Layout.Show(soundsViewModel);
         }
     }
 }

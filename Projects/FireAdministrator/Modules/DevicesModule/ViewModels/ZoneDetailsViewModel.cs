@@ -97,7 +97,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand CancelCommand { get; private set; }
         void OnCancel()
         {
-            Close(true);
+            Close(false);
         }
     }
 }

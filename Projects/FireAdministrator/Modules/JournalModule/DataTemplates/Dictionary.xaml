@@ -7,4 +7,8 @@
         <Views:JournalView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:NewJournalViewModel}">
+        <Views:NewJournalView />
+    </DataTemplate>
+
 </ResourceDictionary>

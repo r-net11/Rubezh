@@ -1,11 +1,47 @@
 ﻿<UserControl x:Class="SecurityModule.Views.SecurityView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="Редактор пользователей/Групп/Разрешений" />
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Пользователи" />
+        <Grid Grid.Row="1">
+            <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridSelectionStyle}" 
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
+                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            RowHeight="20">
+                <WpfToolkit:DataGrid.Columns>
+                    <WpfToolkit:DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
+                    <WpfToolkit:DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding FullName}" />
+                </WpfToolkit:DataGrid.Columns>
+            </WpfToolkit:DataGrid>
+        </Grid>
+
+        <TextBlock Grid.Row="2" Text="Группы" />
+        <Grid Grid.Row="3">
+            <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridSelectionStyle}" 
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
+                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            RowHeight="20">
+                <WpfToolkit:DataGrid.Columns>
+                    <WpfToolkit:DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
+                </WpfToolkit:DataGrid.Columns>
+            </WpfToolkit:DataGrid>
+        </Grid>
     </Grid>
 </UserControl>

@@ -13,8 +13,8 @@ namespace FireAdministrator
             DialogWindow dialog = new DialogWindow();
             dialog.SetContent(model);
 
-            dialog.ShowDialog();
-            return true;
+            bool? result = dialog.ShowDialog();
+            return result.Value;
         }
     }
 }

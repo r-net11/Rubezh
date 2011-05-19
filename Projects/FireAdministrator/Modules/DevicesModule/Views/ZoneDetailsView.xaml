@@ -11,7 +11,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" DataContext="{Binding Zone}">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

@@ -68,6 +68,7 @@
     <Compile Include="Events\ShowLibraryEvent.cs" />
     <Compile Include="Events\ShowPlansEvent.cs" />
     <Compile Include="Events\ShowSecurityEvent.cs" />
+    <Compile Include="Events\ShowSoundsEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

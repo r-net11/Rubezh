@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicSectionViewModel.cs" />
     <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
@@ -98,6 +99,9 @@
     </Compile>
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneDevicesView.xaml.cs">
+      <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZoneLogicSectionView.xaml.cs">
       <DependentUpon>ZoneLogicSectionView.xaml</DependentUpon>
@@ -138,10 +142,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="DataTemplates\Brushes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DataTemplates\DataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZoneDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
