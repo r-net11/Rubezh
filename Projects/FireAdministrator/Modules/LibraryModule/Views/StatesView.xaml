@@ -8,10 +8,14 @@
     <ListBox Background="Transparent" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="0" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel Margin="18,0,0,0">
-                    <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="0,0,-20,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}" />
-                    <Image Source="{Binding IconPath}" Width="10" />
-                    <TextBlock Margin="10,0,0,0" Text="{Binding Name}" />
+                <DockPanel Margin="30,2,0,2">
+                    <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="27,2,5,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <Image Source="{Binding IconPath}" Margin="10,0,5,0" Width="12" Visibility="{Binding IsAdditional, Converter={StaticResource NotVisibleIfTrue}}" />
+                    <TextBlock Text="{Binding Name}" />
                 </DockPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>

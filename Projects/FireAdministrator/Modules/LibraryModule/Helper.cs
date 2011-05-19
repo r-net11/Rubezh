@@ -19,7 +19,7 @@ namespace LibraryModule
         public static string EmptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
         public static string ErrorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"100\" />\n</Canvas>";
         public static string DevicesIconsPath = @"C:\Program Files\Firesec\Icons\";
-        public static string StatesIconPath = @"C:\Rubezh\Projects\FireAdministrator\ActivexDevices\Library\states.png";
+        public static string StatesIconPath = @"C:\Rubezh\Projects\Data\states.png";
         public static ObservableCollection<string> BaseStatesList { get; set; }
         static void LoadBaseStates()
         {
@@ -44,7 +44,7 @@ namespace LibraryModule
             stateCanvases.Remove(canvas);
             var stringReader = new StringReader(image);
             var xmlReader = XmlReader.Create(stringReader);
-            canvas = (Canvas)XamlReader.Load(xmlReader);
+            canvas = (Canvas) XamlReader.Load(xmlReader);
             Panel.SetZIndex(canvas, layer);
             stateCanvases.Add(canvas);
         }

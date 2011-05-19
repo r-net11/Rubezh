@@ -66,6 +66,7 @@ namespace LibraryModule.ViewModels
             var stateViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
             LibraryViewModel.Current.SelectedDevice.States.Add(stateViewModel);
             Items.Remove(_selectedItem);
+            LibraryViewModel.Current.SelectedDevice.SortStates();
             LibraryViewModel.Current.Update();
         }
     }

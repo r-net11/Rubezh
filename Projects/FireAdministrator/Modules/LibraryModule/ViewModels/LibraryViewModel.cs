@@ -37,6 +37,8 @@ namespace LibraryModule.ViewModels
                         stateViewModel.Frames.Add(frameViewModel);
                     }
                 }
+
+                deviceViewModel.SortStates();
             }
         }
 
@@ -97,11 +99,11 @@ namespace LibraryModule.ViewModels
                     deviceControl.State = value.Id;
 
                     var tempAstate = new List<string>();
-                    foreach (var state in SelectedState.ParentDevice.AdditionalStates)
+                    foreach (var stateId in SelectedState.ParentDevice.AdditionalStates)
                     {
-                        var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == SelectedDevice.Id).state.FirstOrDefault(x => x.id == state);
-                        if (astate.@class == value.Id)
-                            tempAstate.Add(astate.id);
+                        var state = SelectedState.ParentDevice.States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
+                        if (state.Class(SelectedDevice) == SelectedState.Id)
+                            tempAstate.Add(state.Id);
                     }
                     deviceControl.AdditionalStates = tempAstate;
                 }

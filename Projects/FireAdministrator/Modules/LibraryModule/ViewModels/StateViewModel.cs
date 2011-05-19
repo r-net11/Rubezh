@@ -61,16 +61,22 @@ namespace LibraryModule.ViewModels
                 if (LibraryViewModel.Current.SelectedState.IsAdditional) return;
 
                 var tempAstate = new List<string>();
-                foreach (var state in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
+                foreach (var stateId in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
                 {
-                    var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == LibraryViewModel.Current.SelectedDevice.Id).state.FirstOrDefault(x => x.id == state);
-                    if (astate.@class == LibraryViewModel.Current.SelectedState.Id)
-                        tempAstate.Add(astate.id);
+                    var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId)&&(x.IsAdditional));
+                    if (state.Class(LibraryViewModel.Current.SelectedDevice) == LibraryViewModel.Current.SelectedState.Id)
+                        tempAstate.Add(state.Id);
                 }
                 LibraryViewModel.Current.SelectedState.ParentDevice.DeviceControl.AdditionalStates = tempAstate;
 
                 OnPropertyChanged("IsChecked");
             }
+        }
+
+        public string Class(DeviceViewModel device)
+        {
+            var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == device.Id).state.FirstOrDefault(x => x.id == this.Id);
+            return astate.@class;
         }
 
         private string _iconPath = Helper.StatesIconPath;

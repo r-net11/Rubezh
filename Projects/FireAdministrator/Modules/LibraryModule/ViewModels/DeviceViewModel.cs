@@ -56,6 +56,19 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        public void SortStates()
+        {
+            var sortedStates = new ObservableCollection<StateViewModel>(States);
+            foreach (var state in States)
+            {
+                if (!state.IsAdditional) continue;
+                sortedStates.Remove(state);
+                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class(this)) && (!x.IsAdditional)));
+                sortedStates.Insert(index+1, state);
+            }
+            States = sortedStates;
+        }
+
         public string IconPath
         {
             get
