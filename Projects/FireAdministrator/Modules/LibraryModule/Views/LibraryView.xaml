@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
- 
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -20,7 +20,7 @@
         <Grid Grid.Column="1">
             <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedState}" ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
                 <TabControl.Background>
-                    <ImageBrush ImageSource="Style/1.jpg" Viewport="0,0,15,15" TileMode="Tile" Stretch="None" ViewportUnits="Absolute" />
+                    <ImageBrush ImageSource="Style/1.png" Viewport="0,0,15,15" TileMode="Tile" Stretch="None" ViewportUnits="Absolute" />
                 </TabControl.Background>
                 <TabControl.ItemTemplate>
                     <DataTemplate>
@@ -37,8 +37,8 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
+                            <Grid Background="#FFBB55" Grid.Row="0">
+                                <TextBox Background="Transparent" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
@@ -46,7 +46,7 @@
                                     <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
-                                    <ItemsControl VerticalAlignment="Bottom" HorizontalAlignment="Left" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
+                                    <ItemsControl Padding="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas Width="500" Height="500">
@@ -54,7 +54,7 @@
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.LayoutTransform>
-                                            <ScaleTransform ScaleX="0.4" ScaleY="0.4" />
+                                            <ScaleTransform ScaleX="0.3" ScaleY="0.3" />
                                         </ItemsControl.LayoutTransform>
                                     </ItemsControl>
                                 </Grid>
@@ -93,7 +93,7 @@
             </Grid>
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
                 <DockPanel VerticalAlignment="Bottom">
-                    <Button Width="80" Height="22" Command="{Binding SaveCommand}">Сохранить</Button>
+                    <Button Content="Сохранить" Visibility="{Binding Path=Flag, Converter={StaticResource VisibleIfTrue}}" Width="80" Height="22" Command="{Binding SaveCommand}" />
                 </DockPanel>
             </Grid>
         </Grid>

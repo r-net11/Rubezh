@@ -149,7 +149,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Style\1.jpg" />
+    <Resource Include="Views\Style\1.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Style\2.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

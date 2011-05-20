@@ -63,7 +63,7 @@ namespace LibraryModule.ViewModels
             {
                 if (!state.IsAdditional) continue;
                 sortedStates.Remove(state);
-                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class(this)) && (!x.IsAdditional)));
+                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class()) && (!x.IsAdditional)));
                 sortedStates.Insert(index+1, state);
             }
             States = sortedStates;

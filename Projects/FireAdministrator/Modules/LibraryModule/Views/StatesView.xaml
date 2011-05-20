@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ListBox Background="Transparent" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="0" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
+    <ListBox Background="#0080FF" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="0" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel Margin="30,2,0,2">
-                    <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="27,2,5,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
+                    <DockPanel Height="30" Margin="30,0,0,0">
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="27,2,5,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
                         <CheckBox.LayoutTransform>
                             <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
                         </CheckBox.LayoutTransform>
                     </CheckBox>
                     <Image Source="{Binding IconPath}" Margin="10,0,5,0" Width="12" Visibility="{Binding IsAdditional, Converter={StaticResource NotVisibleIfTrue}}" />
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                 </DockPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
