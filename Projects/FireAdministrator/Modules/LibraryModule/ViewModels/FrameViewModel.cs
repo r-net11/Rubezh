@@ -97,13 +97,11 @@ namespace LibraryModule.ViewModels
         private void OnAddFrame()
         {
             var newFrame = new FrameViewModel();
-            Parent.IsChecked = Parent.IsChecked;
             newFrame.Parent = Parent;
             newFrame.Id = Parent.Frames.Count;
             newFrame.Duration = 300;
             newFrame.Image = Helper.EmptyFrame;
             Parent.Frames.Add(newFrame);
-            LibraryViewModel.Current.SelectedState = Parent;
             LibraryViewModel.Current.Update();
         }
 

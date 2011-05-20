@@ -66,7 +66,7 @@ namespace LibraryModule.ViewModels
                 foreach (var stateId in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
                 {
                     var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId)&&(x.IsAdditional));
-                    if (state.Class(LibraryViewModel.Current.SelectedDevice) == LibraryViewModel.Current.SelectedState.Id)
+                    if (state.Class() == LibraryViewModel.Current.SelectedState.Id)
                         tempAstate.Add(state.Id);
                 }
                 LibraryViewModel.Current.SelectedState.ParentDevice.DeviceControl.AdditionalStates = tempAstate;
@@ -75,9 +75,9 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public string Class(DeviceViewModel device)
+        public string Class()
         {
-            var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == device.Id).state.FirstOrDefault(x => x.id == this.Id);
+            var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == this.Id);
             return astate.@class;
         }
 
@@ -149,6 +149,8 @@ namespace LibraryModule.ViewModels
             }
             IsChecked = false;
             ParentDevice.States.Remove(this);
+            if (this._isAdditional)
+                ParentDevice.AdditionalStates.Remove(this.Id);
             LibraryViewModel.Current.SelectedState = null;
         }
     }

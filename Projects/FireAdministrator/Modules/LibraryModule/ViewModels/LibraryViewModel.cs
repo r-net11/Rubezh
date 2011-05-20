@@ -70,6 +70,7 @@ namespace LibraryModule.ViewModels
             get { return _selectedDevice; }
             set
             {
+                Flag = true;
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
@@ -102,7 +103,7 @@ namespace LibraryModule.ViewModels
                     foreach (var stateId in SelectedState.ParentDevice.AdditionalStates)
                     {
                         var state = SelectedState.ParentDevice.States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
-                        if (state.Class(SelectedDevice) == SelectedState.Id)
+                        if (state.Class() == SelectedState.Id)
                             tempAstate.Add(state.Id);
                     }
                     deviceControl.AdditionalStates = tempAstate;
