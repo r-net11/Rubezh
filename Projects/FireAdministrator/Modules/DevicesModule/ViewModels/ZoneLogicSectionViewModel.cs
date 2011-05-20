@@ -15,11 +15,14 @@ namespace DevicesModule.ViewModels
         public ZoneLogicSectionViewModel()
         {
             Title = "Выбор зон";
-            SaveCommand = new RelayCommand(OnSave);
+
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public void Initialize(Firesec.ZoneLogic.clauseType clause)
@@ -47,6 +50,50 @@ namespace DevicesModule.ViewModels
 
             if (SourceZones.Count > 0)
                 SelectedSourceZone = SourceZones[0];
+        }
+
+        ObservableCollection<ZoneViewModel> _sourceZones;
+        public ObservableCollection<ZoneViewModel> SourceZones
+        {
+            get { return _sourceZones; }
+            set
+            {
+                _sourceZones = value;
+                OnPropertyChanged("SourceZones");
+            }
+        }
+
+        ZoneViewModel _selectedSourceZone;
+        public ZoneViewModel SelectedSourceZone
+        {
+            get { return _selectedSourceZone; }
+            set
+            {
+                _selectedSourceZone = value;
+                OnPropertyChanged("SelectedSourceZone");
+            }
+        }
+
+        ObservableCollection<ZoneViewModel> _targetZones;
+        public ObservableCollection<ZoneViewModel> TargetZones
+        {
+            get { return _targetZones; }
+            set
+            {
+                _targetZones = value;
+                OnPropertyChanged("TargetZones");
+            }
+        }
+
+        ZoneViewModel _selectedTargetZone;
+        public ZoneViewModel SelectedTargetZone
+        {
+            get { return _selectedTargetZone; }
+            set
+            {
+                _selectedTargetZone = value;
+                OnPropertyChanged("SelectedTargetZone");
+            }
         }
 
         public RelayCommand AddOneCommand { get; private set; }
@@ -107,57 +154,6 @@ namespace DevicesModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        ObservableCollection<ZoneViewModel> _sourceZones;
-        public ObservableCollection<ZoneViewModel> SourceZones
-        {
-            get { return _sourceZones; }
-            set
-            {
-                _sourceZones = value;
-                OnPropertyChanged("SourceZones");
-            }
-        }
-
-        ZoneViewModel _selectedSourceZone;
-        public ZoneViewModel SelectedSourceZone
-        {
-            get { return _selectedSourceZone; }
-            set
-            {
-                _selectedSourceZone = value;
-                OnPropertyChanged("SelectedSourceZone");
-            }
-        }
-
-        ObservableCollection<ZoneViewModel> _targetZones;
-        public ObservableCollection<ZoneViewModel> TargetZones
-        {
-            get { return _targetZones; }
-            set
-            {
-                _targetZones = value;
-                OnPropertyChanged("TargetZones");
-            }
-        }
-
-        ZoneViewModel _selectedTargetZone;
-        public ZoneViewModel SelectedTargetZone
-        {
-            get { return _selectedTargetZone; }
-            set
-            {
-                _selectedTargetZone = value;
-                OnPropertyChanged("SelectedTargetZone");
-            }
-        }
-
-        public Action RequestClose { get; set; }
-        void OnRequestClose()
-        {
-            if (RequestClose != null)
-                RequestClose();
-        }
-
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
@@ -168,7 +164,13 @@ namespace DevicesModule.ViewModels
             }
 
             clause.zone = zoneIds.ToArray();
-            OnRequestClose();
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        void OnCancel()
+        {
+            Close(false);
         }
     }
 }

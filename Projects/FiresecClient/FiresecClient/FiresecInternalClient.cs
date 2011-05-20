@@ -113,7 +113,14 @@ namespace FiresecClient
 
         public static Firesec.ZoneLogic.expr GetZoneLogic(string zoneLogicString)
         {
-            return Deserialize<Firesec.ZoneLogic.expr>(zoneLogicString);
+            try
+            {
+                return Deserialize<Firesec.ZoneLogic.expr>(zoneLogicString);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string SetZoneLogic(Firesec.ZoneLogic.expr zoneLogic)

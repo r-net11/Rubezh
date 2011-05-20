@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Firesec;
+using System.Diagnostics;
 
 namespace FiresecClient
 {
     public class FiresecToConfig
     {
-        CurrentConfiguration currentConfiguration;
         Firesec.CoreConfig.config firesecConfig;
 
-        public CurrentConfiguration Convert(Firesec.CoreConfig.config firesecConfig)
+        public void Convert(Firesec.CoreConfig.config firesecConfig)
         {
             this.firesecConfig = firesecConfig;
-            currentConfiguration = new CurrentConfiguration();
 
             FiresecManager.CurrentConfiguration.AllDevices = new List<Device>();
             FiresecManager.CurrentStates = new CurrentStates();
@@ -31,9 +30,7 @@ namespace FiresecClient
             FiresecManager.CurrentStates.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
-            currentConfiguration.RootDevice = rootDevice;
-
-            return currentConfiguration;
+            FiresecManager.CurrentConfiguration.RootDevice = rootDevice;
         }
 
         void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
@@ -207,17 +204,23 @@ namespace FiresecClient
             }
             if (innerDevice.prop != null)
             {
-                if (innerDevice.prop.Any(x => x.name == "ExtendedZoneLogic"))
+                var property = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
+                if (property != null)
                 {
-                    string zoleLogicstring = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic").value;
-                    device.ZoneLogic = FiresecInternalClient.GetZoneLogic(zoleLogicstring);
+                    string zoneLogicstring = property.value;
+                    if (string.IsNullOrEmpty(zoneLogicstring) == false)
+                    {
+                        Trace.WriteLine(device.Address);
+                        Trace.WriteLine(zoneLogicstring);
+                        device.ZoneLogic = FiresecInternalClient.GetZoneLogic(zoneLogicstring);
+                    }
                 }
             }
         }
 
         void AddZones()
         {
-            currentConfiguration.Zones = new List<Zone>();
+            FiresecManager.CurrentConfiguration.Zones = new List<Zone>();
 
             if (firesecConfig.zone != null)
             {
@@ -234,7 +237,7 @@ namespace FiresecClient
                         if (innerZone.param.Any(x => x.name == "FireDeviceCount"))
                             zone.DetectorCount = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount").value;
                     }
-                    currentConfiguration.Zones.Add(zone);
+                    FiresecManager.CurrentConfiguration.Zones.Add(zone);
                     FiresecManager.CurrentStates.ZoneStates.Add(CreateZoneState(zone));
                 }
             }

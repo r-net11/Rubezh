@@ -61,19 +61,6 @@ namespace DevicesModule.ViewModels
 
                 if ((driver.options != null) && (driver.options.Contains("ExtendedZoneLogic")))
                 {
-                    if (device.ZoneLogic == null)
-                    {
-                        List<Device> allParents = device.AllParents;
-                        foreach (var parentDevice in allParents)
-                        {
-                            if (availableDevices.Any(x => x.Id == parentDevice.Id) == false)
-                            {
-                                availableDevices.Add(parentDevice);
-                            }
-                        }
-                        availableDevices.Add(device);
-                    }
-
                     if (device.ZoneLogic != null)
                     {
                         if (device.ZoneLogic.clause != null)
@@ -203,17 +190,11 @@ namespace DevicesModule.ViewModels
                 SelectedDevice._device.ZoneNo = null;
                 Initialize(_zoneNo);
             }
-
-            if ((SelectedDevice != null) && (SelectedDevice.IsZoneLogicDevice))
-            {
-                SelectedDevice._device.ZoneLogic = null;
-                Initialize(_zoneNo);
-            }
         }
 
         public bool CanRemove(object obj)
         {
-            return ((SelectedDevice != null) && ((SelectedDevice.IsZoneDevice) || (SelectedDevice.IsZoneLogicDevice)));
+            return ((SelectedDevice != null) && (SelectedDevice.IsZoneDevice));
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }

@@ -23,62 +23,51 @@ namespace DevicesModule.ViewModels
         {
             Firesec.ZoneLogic.expr zoneLogic = deviceViewModel._device.ZoneLogic;
 
-            StringZoneLogic = ZoneLogicToText.Convert(zoneLogic);
-
-            ClauseViewModels = new ObservableCollection<ClauseViewModel>();
+            Clauses = new ObservableCollection<ClauseViewModel>();
             if (zoneLogic != null)
                 foreach (Firesec.ZoneLogic.clauseType clause in zoneLogic.clause)
                 {
                     ClauseViewModel clauseViewModel = new ClauseViewModel();
                     clauseViewModel.Initialize(clause);
-                    ClauseViewModels.Add(clauseViewModel);
+                    Clauses.Add(clauseViewModel);
                 }
         }
 
-        public string stringZoneLogic;
-        public string StringZoneLogic
+        ObservableCollection<ClauseViewModel> _clauses;
+        public ObservableCollection<ClauseViewModel> Clauses
         {
-            get { return stringZoneLogic; }
+            get { return _clauses; }
             set
             {
-                stringZoneLogic = value;
-                OnPropertyChanged("StringZoneLogic");
-            }
-        }
-
-        public Action RequestClose { get; set; }
-        void OnRequestClose()
-        {
-            if (RequestClose != null)
-                RequestClose();
-        }
-
-        ObservableCollection<ClauseViewModel> clauseViewModels;
-        public ObservableCollection<ClauseViewModel> ClauseViewModels
-        {
-            get { return clauseViewModels; }
-            set
-            {
-                clauseViewModels = value;
-                OnPropertyChanged("ClauseViewModels");
+                _clauses = value;
+                OnPropertyChanged("Clauses");
             }
         }
 
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
+            ClauseViewModel clauseViewModel = new ClauseViewModel();
+            clauseViewModel.Initialize(null);
+            Clauses.Add(clauseViewModel);
         }
 
         public RelayCommand CancelCommand { get; private set; }
         void OnCancel()
         {
-            OnRequestClose();
+            Close(false);
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            OnRequestClose();
+            foreach (var clause in Clauses)
+            {
+                clause.Save();
+                var x1 = clause.Clause.operation;
+                var x2 = clause.Clause.state;
+            }
+            Close(true);
         }
     }
 }

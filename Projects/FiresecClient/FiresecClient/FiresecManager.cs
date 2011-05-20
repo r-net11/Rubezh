@@ -45,14 +45,12 @@ namespace FiresecClient
 
         static void BuildDeviceTree()
         {
+            CoreConfig = FiresecInternalClient.GetCoreConfig();
+            FiresecToConfig firesecToConfig = new FiresecToConfig();
+
             CurrentConfiguration = new CurrentConfiguration();
             CurrentConfiguration.Metadata = FiresecInternalClient.GetMetaData();
-            CoreConfig = FiresecInternalClient.GetCoreConfig();
-
-            FiresecToConfig firesecToConfig = new FiresecToConfig();
-            CurrentConfiguration stateConfiguration = firesecToConfig.Convert(CoreConfig);
-            stateConfiguration.Metadata = FiresecInternalClient.GetMetaData();
-            CurrentConfiguration = stateConfiguration;
+            firesecToConfig.Convert(CoreConfig);
         }
 
         public static void SetNewConfig(CurrentConfiguration configuration)

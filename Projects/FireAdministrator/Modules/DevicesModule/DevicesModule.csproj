@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
+    <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
+    <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

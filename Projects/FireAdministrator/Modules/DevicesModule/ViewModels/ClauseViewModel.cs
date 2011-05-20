@@ -14,127 +14,92 @@ namespace DevicesModule.ViewModels
         public ClauseViewModel()
         {
             ShowZonesCommand = new RelayCommand(OnShowZones);
-            ClauseStates = new ObservableCollection<ClauseStateViewModel>();
-            ClauseStates.Add(new ClauseStateViewModel() { Name = "Включение автоматики", Id = "0" });
-            ClauseStates.Add(new ClauseStateViewModel() { Name = "Тревога", Id = "1" });
-            ClauseStates.Add(new ClauseStateViewModel() { Name = "Пожар", Id = "2" });
-            ClauseStates.Add(new ClauseStateViewModel() { Name = "Внимание", Id = "5" });
-            ClauseStates.Add(new ClauseStateViewModel() { Name = "Включение модуля пожаротушения", Id = "6" });
-
-            ClauseOperations = new ObservableCollection<ClauseOperationViewModel>();
-            ClauseOperations.Add(new ClauseOperationViewModel() { Name = "во всех зонах из", Id = "and" });
-            ClauseOperations.Add(new ClauseOperationViewModel() { Name = "в любой зонах из", Id = "or" });
         }
 
-        Firesec.ZoneLogic.clauseType clause;
+        public Firesec.ZoneLogic.clauseType Clause { get; private set; }
+
+        public void Initialize(Firesec.ZoneLogic.clauseType clause)
+        {
+            Clause = clause;
+            SelectedState = clause.state;
+            SelectedOperation = clause.operation;
+        }
+
+        public ObservableCollection<string> States
+        {
+            get
+            {
+                ObservableCollection<string> _states = new ObservableCollection<string>();
+                _states.Add("0");
+                _states.Add("1");
+                _states.Add("2");
+                _states.Add("5");
+                _states.Add("6");
+                return _states;
+            }
+        }
+        public ObservableCollection<string> Operations
+        {
+            get
+            {
+                ObservableCollection<string> _operations = new ObservableCollection<string>();
+                _operations.Add("and");
+                _operations.Add("or");
+                return _operations;
+            }
+        }
+
+        public string Zones
+        {
+            get
+            {
+                string zones = "";
+                foreach (string zoneId in Clause.zone)
+                {
+                    zones += zoneId + ",";
+                }
+                if (zones.EndsWith(","))
+                {
+                    zones = zones.Remove(zones.Length - 1, 1);
+                }
+                return zones;
+            }
+        }
+
+        string _selectedState;
+        public string SelectedState
+        {
+            get { return _selectedState; }
+            set
+            {
+                _selectedState = value;
+                OnPropertyChanged("SelectedState");
+            }
+        }
+
+        string _selectedOperation;
+        public string SelectedOperation
+        {
+            get { return _selectedOperation; }
+            set
+            {
+                _selectedOperation = value;
+                OnPropertyChanged("SelectedOperation");
+            }
+        }
 
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
             ZoneLogicSectionViewModel zoneLogicSectionViewModel = new ZoneLogicSectionViewModel();
-            zoneLogicSectionViewModel.Initialize(clause);
+            zoneLogicSectionViewModel.Initialize(Clause);
             ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicSectionViewModel);
         }
 
-        public void Initialize(Firesec.ZoneLogic.clauseType clause)
+        public void Save()
         {
-            this.clause = clause;
-            SelectedClauseState = ClauseStates.FirstOrDefault(x => x.Id == clause.state);
-            SelectedClauseOperation = ClauseOperations.FirstOrDefault(x => x.Id == clause.operation);
-            string zonesIds = "";
-            foreach (string zoneId in clause.zone)
-            {
-                zonesIds += zoneId + ",";
-            }
-            Zones = zonesIds;
-        }
-
-        public ObservableCollection<ClauseStateViewModel> ClauseStates { get; private set; }
-        public ObservableCollection<ClauseOperationViewModel> ClauseOperations { get; private set; }
-
-        ClauseStateViewModel selectedClauseState;
-        public ClauseStateViewModel SelectedClauseState
-        {
-            get { return selectedClauseState; }
-            set
-            {
-                selectedClauseState = value;
-                clause.state = selectedClauseState.Id;
-                OnPropertyChanged("SelectedClauseState");
-            }
-        }
-
-        ClauseOperationViewModel selectedClauseOperation;
-        public ClauseOperationViewModel SelectedClauseOperation
-        {
-            get { return selectedClauseOperation; }
-            set
-            {
-                selectedClauseOperation = value;
-                clause.operation = selectedClauseOperation.Id;
-                OnPropertyChanged("SelectedClauseOperation");
-            }
-        }
-
-        string zones;
-        public string Zones
-        {
-            get { return zones; }
-            set
-            {
-                zones = value;
-                OnPropertyChanged("Zones");
-            }
-        }
-    }
-
-    public class ClauseStateViewModel : BaseViewModel
-    {
-        string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        string id;
-        public string Id
-        {
-            get { return id; }
-            set
-            {
-                id = value;
-                OnPropertyChanged("Id");
-            }
-        }
-    }
-
-    public class ClauseOperationViewModel : BaseViewModel
-    {
-        string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        string id;
-        public string Id
-        {
-            get { return id; }
-            set
-            {
-                id = value;
-                OnPropertyChanged("Id");
-            }
+            Clause.state = SelectedState;
+            Clause.operation = SelectedOperation;
         }
     }
 }
