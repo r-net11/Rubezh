@@ -61,11 +61,9 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            foreach (var clause in Clauses)
+            foreach (var clauseViewModel in Clauses)
             {
-                clause.Save();
-                var x1 = clause.Clause.operation;
-                var x2 = clause.Clause.state;
+                var clause = clauseViewModel.Save();
             }
             Close(true);
         }

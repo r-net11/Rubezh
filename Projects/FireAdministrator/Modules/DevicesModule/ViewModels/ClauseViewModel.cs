@@ -16,11 +16,16 @@ namespace DevicesModule.ViewModels
             ShowZonesCommand = new RelayCommand(OnShowZones);
         }
 
-        public Firesec.ZoneLogic.clauseType Clause { get; private set; }
+        List<string> _zones;
 
         public void Initialize(Firesec.ZoneLogic.clauseType clause)
         {
-            Clause = clause;
+            _zones = new List<string>();
+            if (clause.zone != null)
+            {
+                foreach (var zone in clause.zone)
+                    _zones.Add(zone);
+            }
             SelectedState = clause.state;
             SelectedOperation = clause.operation;
         }
@@ -49,20 +54,20 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string Zones
+        public string PresenrationZones
         {
             get
             {
-                string zones = "";
-                foreach (string zoneId in Clause.zone)
+                string presenrationZones = "";
+                foreach (string zone in _zones)
                 {
-                    zones += zoneId + ",";
+                    presenrationZones += zone + ",";
                 }
-                if (zones.EndsWith(","))
+                if (presenrationZones.EndsWith(","))
                 {
-                    zones = zones.Remove(zones.Length - 1, 1);
+                    presenrationZones = presenrationZones.Remove(presenrationZones.Length - 1, 1);
                 }
-                return zones;
+                return presenrationZones;
             }
         }
 
@@ -92,14 +97,16 @@ namespace DevicesModule.ViewModels
         void OnShowZones()
         {
             ZoneLogicSectionViewModel zoneLogicSectionViewModel = new ZoneLogicSectionViewModel();
-            zoneLogicSectionViewModel.Initialize(Clause);
+            zoneLogicSectionViewModel.Initialize(_zones);
             ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicSectionViewModel);
         }
 
-        public void Save()
+        public Firesec.ZoneLogic.clauseType Save()
         {
-            Clause.state = SelectedState;
-            Clause.operation = SelectedOperation;
+            Firesec.ZoneLogic.clauseType clause = new Firesec.ZoneLogic.clauseType();
+            clause.state = SelectedState;
+            clause.operation = SelectedOperation;
+            return clause;
         }
     }
 }

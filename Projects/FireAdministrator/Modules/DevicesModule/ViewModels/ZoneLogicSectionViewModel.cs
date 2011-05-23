@@ -10,8 +10,6 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneLogicSectionViewModel : DialogContent
     {
-        Firesec.ZoneLogic.clauseType clause;
-
         public ZoneLogicSectionViewModel()
         {
             Title = "Выбор зон";
@@ -25,9 +23,11 @@ namespace DevicesModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public void Initialize(Firesec.ZoneLogic.clauseType clause)
+        public List<string> Zones { get; private set; }
+
+        public void Initialize(List<string> zones)
         {
-            this.clause = clause;
+            Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
 
-                if (clause.zone.Contains(zone.No))
+                if (Zones.Contains(zone.No))
                 {
                     TargetZones.Add(zoneViewModel);
                 }
@@ -157,13 +157,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            List<string> zoneIds = new List<string>();
+            Zones = new List<string>();
             foreach (ZoneViewModel zoneViewModel in TargetZones)
             {
-                zoneIds.Add(zoneViewModel.No);
+                Zones.Add(zoneViewModel.No);
             }
 
-            clause.zone = zoneIds.ToArray();
             Close(true);
         }
 

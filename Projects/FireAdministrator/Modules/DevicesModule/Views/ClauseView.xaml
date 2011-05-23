@@ -35,7 +35,7 @@
         </ComboBox>
 
         <Button Grid.Column="3" Command="{Binding ShowZonesCommand}">
-            <TextBlock Text="{Binding Zones}" />
+            <TextBlock Text="{Binding PresenrationZones}" />
         </Button>
     </Grid>
 </UserControl>
