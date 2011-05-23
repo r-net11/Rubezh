@@ -42,6 +42,7 @@ namespace AssadProcessor
             string messageType = content.GetType().Name;
 
             OnNewMessage(messageType);
+            Services.LogEngine.AddEntry(new Logger.LogEntry(Logger.LogType.Incoming, message));
 
             switch (messageType)
             {

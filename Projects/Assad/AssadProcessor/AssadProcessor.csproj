@@ -116,6 +116,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\DataSources\ComDevices.ComDevice.datasource" />
   </ItemGroup>
   <ItemGroup>
