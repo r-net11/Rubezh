@@ -20,14 +20,64 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
+        public void Initialize()
+        {
+            FiresecManager.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+        }
+
+        public ObservableCollection<ZoneViewModel> Zones
+        {
+            get
+            {
+                List<ZoneViewModel> zones = new List<ZoneViewModel>();
+
+                foreach (Zone zone in FiresecManager.CurrentConfiguration.Zones)
+                {
+                    ZoneViewModel zoneViewModel = new ZoneViewModel();
+                    zoneViewModel.Initialize(zone);
+                    zones.Add(zoneViewModel);
+                }
+
+                zones.Sort(delegate(ZoneViewModel zone1, ZoneViewModel zone2)
+                {
+                    return System.Convert.ToInt32(zone1.No) - System.Convert.ToInt32(zone2.No);
+                });
+
+                return new ObservableCollection<ZoneViewModel>(zones);
+            }
+        }
+
+        ZoneViewModel _selectedZone;
+        public ZoneViewModel SelectedZone
+        {
+            get { return _selectedZone; }
+            set
+            {
+                _selectedZone = value;
+                InitializeDevices();
+                OnPropertyChanged("SelectedZone");
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> _devices;
+        public ObservableCollection<DeviceViewModel> Devices
+        {
+            get { return _devices; }
+            set
+            {
+                _devices = value;
+                OnPropertyChanged("Devices");
+            }
+        }
+
         void OnZoneStateChanged(string zoneNo)
         {
             if (FiresecManager.CurrentStates.ZoneStates.Any(x => x.No == zoneNo))
             {
                 ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-                if (Zones.Any(x => x.No == zoneNo))
+                ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
+                if (zoneViewModel != null)
                 {
-                    ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
                     zoneViewModel.State = zoneState.State;
                 }
             }
@@ -38,30 +88,16 @@ namespace DevicesModule.ViewModels
             if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
-                if (plainDevices != null)
+                if (Devices != null)
                 {
-                    if (plainDevices.Any(x => x.Device.Id == id))
+                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+                    if (deviceViewModel != null)
                     {
-                        DeviceViewModel deviceViewModel = plainDevices.FirstOrDefault(x => x.Device.Id == id);
                         deviceViewModel.Update();
                         //deviceViewModel.MainState = deviceState.State;
                     }
                 }
             }
-        }
-
-        public void Initialize()
-        {
-            Zones = new ObservableCollection<ZoneViewModel>();
-
-            foreach (Zone zone in FiresecManager.CurrentConfiguration.Zones)
-            {
-                ZoneViewModel zoneViewModel = new ZoneViewModel();
-                zoneViewModel.Initialize(zone);
-                Zones.Add(zoneViewModel);
-            }
-
-            FiresecManager.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
         }
 
         void CurrentStates_ZoneStateChanged(string zoneNo)
@@ -75,39 +111,12 @@ namespace DevicesModule.ViewModels
         {
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
-                if (Zones.Any(x => x.No == zoneNo))
-                {
-                    SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
-                }
-            }
-        }
-
-        ObservableCollection<ZoneViewModel> zones;
-        public ObservableCollection<ZoneViewModel> Zones
-        {
-            get { return zones; }
-            set
-            {
-                zones = value;
-                OnPropertyChanged("Zones");
-            }
-        }
-
-        ZoneViewModel selectedZone;
-        public ZoneViewModel SelectedZone
-        {
-            get { return selectedZone; }
-            set
-            {
-                selectedZone = value;
-                InitializeDevices();
-                OnPropertyChanged("SelectedZone");
+                SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
             }
         }
 
         void InitializeDevices()
         {
-            plainDevices = new List<DeviceViewModel>();
             Devices = new ObservableCollection<DeviceViewModel>();
 
             Device rooDevice = FiresecManager.CurrentConfiguration.RootDevice;
@@ -116,7 +125,6 @@ namespace DevicesModule.ViewModels
             rootDeviceViewModel.Parent = null;
             rootDeviceViewModel.Initialize(rooDevice, Devices);
             rootDeviceViewModel.IsExpanded = true;
-            plainDevices.Add(rootDeviceViewModel);
             Devices.Add(rootDeviceViewModel);
             AddDevice(rooDevice, rootDeviceViewModel);
         }
@@ -134,22 +142,8 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 parentDeviceViewModel.Children.Add(deviceViewModel);
-                plainDevices.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
-            }
-        }
-
-        public List<DeviceViewModel> plainDevices;
-
-        ObservableCollection<DeviceViewModel> devices;
-        public ObservableCollection<DeviceViewModel> Devices
-        {
-            get { return devices; }
-            set
-            {
-                devices = value;
-                OnPropertyChanged("Devices");
             }
         }
 

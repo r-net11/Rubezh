@@ -118,7 +118,7 @@ namespace AssadProcessor.Devices
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
                 mainState.state = "Состояние";
-                mainState.value = deviceState.State;
+                mainState.value = deviceState.State.ToString();
                 states.Add(mainState);
 
                 //eventType.state[0] = new Assad.CPeventTypeState();

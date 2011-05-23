@@ -13,7 +13,15 @@
         <Controls:LevelToMarginConverter x:Key="LevelToMarginConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
-    <WpfToolkit:DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}" IsReadOnly="True">
+    <WpfToolkit:DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
+                            AutoGenerateColumns="False" 
+                            IsReadOnly="True"
+                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
+                            Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
+                            SelectionMode="Single" SelectionUnit="FullRow"
+                            HeadersVisibility="Column" RowHeaderWidth="0" RowHeight="20">
         <WpfToolkit:DataGrid.Columns>
             <WpfToolkit:DataGridTemplateColumn Header="Название">
                 <WpfToolkit:DataGridTemplateColumn.CellTemplate>
@@ -28,7 +36,7 @@
                     </DataTemplate>
                 </WpfToolkit:DataGridTemplateColumn.CellTemplate>
             </WpfToolkit:DataGridTemplateColumn>
-            <WpfToolkit:DataGridTextColumn Header="Состояние" Binding="{Binding State}" />
+            <WpfToolkit:DataGridTextColumn Header="Состояние" Binding="{Binding State}" Width="*" />
         </WpfToolkit:DataGrid.Columns>
     </WpfToolkit:DataGrid>
 </UserControl>
