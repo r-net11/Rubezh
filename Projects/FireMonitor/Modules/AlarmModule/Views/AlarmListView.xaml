@@ -9,11 +9,17 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <WpfToolkit:DataGrid ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}"
-                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                             IsReadOnly="True" CanUserAddRows="True" CanUserDeleteRows="False" CanUserSortColumns="False">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
+                            AutoGenerateColumns="False" 
+                            IsReadOnly="True"
+                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
+                            Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
+                            SelectionMode="Single" SelectionUnit="FullRow"
+                            HeadersVisibility="Column" RowHeaderWidth="0" RowHeight="20">
             <WpfToolkit:DataGrid.Columns>
                 <WpfToolkit:DataGridTextColumn Header="Время" Binding="{Binding Time}" />
-                <WpfToolkit:DataGridTextColumn Header="Название" Binding="{Binding Name}" />
+                <WpfToolkit:DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" />
             </WpfToolkit:DataGrid.Columns>
         </WpfToolkit:DataGrid>
     </Grid>

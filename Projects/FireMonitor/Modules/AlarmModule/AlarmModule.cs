@@ -19,13 +19,14 @@ namespace AlarmModule
             AlarmGroupListViewModel alarmGroupListViewModel = new AlarmGroupListViewModel();
             ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
 
-            //ShowImitatorView();
+            ShowImitatorView();
         }
 
         void RegisterResources()
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/DataGrid.xaml"));
         }
 
         void ShowImitatorView()
