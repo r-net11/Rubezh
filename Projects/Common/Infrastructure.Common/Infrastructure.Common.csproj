@@ -69,6 +69,7 @@
     <Compile Include="IUserDialogService.cs" />
     <Compile Include="IViewPart.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
+    <Compile Include="PathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegionViewModel.cs" />
     <Compile Include="RelayCommand.cs" />

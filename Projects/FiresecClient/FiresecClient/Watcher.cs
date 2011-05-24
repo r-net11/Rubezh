@@ -15,8 +15,8 @@ namespace FiresecClient
         {
             FiresecInternalClient.NewEvent += new Action<int, string>(FiresecClient_NewEvent);
 
-            OnStateChanged(FiresecInternalClient.firesecService.GetCoreState());
-            OnParametersChanged(FiresecInternalClient.firesecService.GetCoreDeviceParams());
+            OnStateChanged(FiresecInternalClient.FiresecService.GetCoreState());
+            OnParametersChanged(FiresecInternalClient.FiresecService.GetCoreDeviceParams());
             SetLastEvent();
         }
 

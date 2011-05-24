@@ -50,7 +50,8 @@ namespace PlansModule.ViewModels
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
 
-            _canvas.Background = CreateBrush(_plan.BackgroundSource);
+            string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
+            _canvas.Background = CreateBrush(backgroundPath);
 
             foreach (ElementSubPlan elementSubPlan in _plan.ElementSubPlans)
             {
@@ -198,11 +199,16 @@ namespace PlansModule.ViewModels
         ImageBrush CreateBrush(string source)
         {
             ImageBrush imageBrush = new ImageBrush();
-            string executablePath = Assembly.GetExecutingAssembly().Location;
-            string relativePath = "../../../Data/" + source;
-            Uri uri = new Uri(System.IO.Path.Combine(executablePath, relativePath));
+            Uri uri = new Uri(source);
             imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
+
+            //ImageBrush imageBrush = new ImageBrush();
+            //string executablePath = Assembly.GetExecutingAssembly().Location;
+            //string relativePath = "../../../Data/" + source;
+            //Uri uri = new Uri(System.IO.Path.Combine(executablePath, relativePath));
+            //imageBrush.ImageSource = new BitmapImage(uri);
+            //return imageBrush;
         }
     }
 }

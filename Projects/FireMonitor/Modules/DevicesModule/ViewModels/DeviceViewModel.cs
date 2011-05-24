@@ -151,6 +151,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string PresentationAddress
+        {
+            get
+            {
+                if (Device.Address == "0")
+                    return "";
+                return Device.Address;
+            }
+        }
+
         public string Description
         {
             get
@@ -249,11 +259,14 @@ namespace DevicesModule.ViewModels
                 if (deviceState.Parameters != null)
                     foreach (Parameter parameter in deviceState.Parameters)
                     {
-                        if (string.IsNullOrEmpty(parameter.Value))
-                            continue;
-                        if (parameter.Value == "<NULL>")
-                            continue;
-                        parameters.Add(parameter.Caption + " - " + parameter.Value);
+                        if (parameter.Visible)
+                        {
+                            if (string.IsNullOrEmpty(parameter.Value))
+                                continue;
+                            if (parameter.Value == "<NULL>")
+                                continue;
+                            parameters.Add(parameter.Caption + " - " + parameter.Value);
+                        }
                     }
                 return parameters;
             }

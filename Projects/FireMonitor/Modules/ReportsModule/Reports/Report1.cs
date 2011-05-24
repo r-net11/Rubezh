@@ -7,6 +7,7 @@ using System.IO;
 using System.Data;
 using FiresecClient;
 using System.Windows.Xps.Packaging;
+using Infrastructure.Common;
 
 namespace ReportsModule.Reports
 {
@@ -19,7 +20,7 @@ namespace ReportsModule.Reports
             Initialize();
 
             ReportDocument reportDocument = new ReportDocument();
-            StreamReader streamReader = new StreamReader(new FileStream(@"..\\..\\Data\\ReportTemplates\\TypesCountReport.xaml", FileMode.Open, FileAccess.Read));
+            StreamReader streamReader = new StreamReader(new FileStream(PathHelper.Report, FileMode.Open, FileAccess.Read));
             reportDocument.XamlData = streamReader.ReadToEnd();
             streamReader.Close();
 

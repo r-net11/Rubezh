@@ -17,60 +17,10 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        void OnDeviceStateChanged(string id)
-        {
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
-            {
-                DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
-                deviceViewModel.Update();
-            }
-        }
-
         public void Initialize()
         {
-            Devices = new ObservableCollection<DeviceViewModel>();
-
-            Device device = FiresecManager.CurrentConfiguration.RootDevice;
-
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Parent = null;
-            deviceViewModel.Initialize(device, Devices);
-            Devices.Add(deviceViewModel);
-            AddDevice(device, deviceViewModel);
-
-            ExpandChild(Devices[0]);
-
+            BuildDeviceTree();
             FiresecManager.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
-        }
-
-        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
-        {
-            foreach (Device device in parentDevice.Children)
-            {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device, Devices);
-                parentDeviceViewModel.Children.Add(deviceViewModel);
-                Devices.Add(deviceViewModel);
-                AddDevice(device, deviceViewModel);
-            }
-        }
-
-        void CurrentStates_DeviceStateChanged(string id)
-        {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
-
-            deviceViewModel.UpdateParameters();
-        }
-
-        void ExpandChild(DeviceViewModel parentDeviceViewModel)
-        {
-            parentDeviceViewModel.IsExpanded = true;
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
-            {
-                deviceViewModel.IsExpanded = true;
-                ExpandChild(deviceViewModel);
-            }
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -92,6 +42,57 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
+            }
+        }
+
+        void OnDeviceStateChanged(string id)
+        {
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            if (deviceViewModel != null)
+            {
+                deviceViewModel.Update();
+            }
+        }
+
+        void CurrentStates_DeviceStateChanged(string id)
+        {
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            if (deviceViewModel != null)
+            {
+                deviceViewModel.UpdateParameters();
+            }
+        }
+
+        void BuildDeviceTree()
+        {
+            Devices = new ObservableCollection<DeviceViewModel>();
+
+            Device device = FiresecManager.CurrentConfiguration.RootDevice;
+
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = null;
+            deviceViewModel.Initialize(device, Devices);
+            deviceViewModel.IsExpanded = true;
+            Devices.Add(deviceViewModel);
+            AddDevice(device, deviceViewModel);
+
+            if (Devices.Count > 0)
+            {
+                SelectedDevice = Devices[0];
+            }
+        }
+
+        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
+        {
+            foreach (Device device in parentDevice.Children)
+            {
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Parent = parentDeviceViewModel;
+                deviceViewModel.Initialize(device, Devices);
+                deviceViewModel.IsExpanded = true;
+                parentDeviceViewModel.Children.Add(deviceViewModel);
+                Devices.Add(deviceViewModel);
+                AddDevice(device, deviceViewModel);
             }
         }
 

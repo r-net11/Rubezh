@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using PlansModule.Models;
+using Infrastructure.Common;
 
 namespace PlansModule
 {
@@ -15,7 +16,7 @@ namespace PlansModule
             try
             {
                 XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                StreamReader reader = new StreamReader("../../Data/Plans.xml");
+                StreamReader reader = new StreamReader(PathHelper.Plans);
                 Plan plan = (Plan)deserializer.Deserialize(reader);
                 reader.Close();
                 return plan;

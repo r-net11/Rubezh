@@ -30,6 +30,9 @@ namespace FireMonitor
 
             StartFiresecClient();
 
+            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
+            plansModule.Initialize();
+
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
         }
@@ -47,7 +50,7 @@ namespace FireMonitor
 
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(AlarmModule.AlarmModule));
-            moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
+            //moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
             moduleCatalog.AddModule(typeof(ReportsModule.ReportsModule));
