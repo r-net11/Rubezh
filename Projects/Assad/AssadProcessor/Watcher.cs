@@ -27,6 +27,8 @@ namespace AssadProcessor
 
             if (Configuration.Monitor != null)
             {
+                // отладочное событие
+                // Configuration.Monitor.FireEvent("Изменено состояние монитора");
                 Configuration.Monitor.FireEvent(null);
             }
         }

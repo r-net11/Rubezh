@@ -4,11 +4,19 @@ using System.Linq;
 using System.Text;
 using Firesec;
 using FiresecClient;
-
+using System.Diagnostics;
 namespace AssadProcessor.Devices
 {
     public class AssadMonitor : AssadBase
     {
+
+        private List<StateTypeCounter> prevcounters;
+        public AssadMonitor()
+        {
+            if (prevcounters == null) prevcounters = new List<StateTypeCounter>();
+        
+        }
+        
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
         {
         }
@@ -24,67 +32,76 @@ namespace AssadProcessor.Devices
             configurationState.value = "Норма";
             states.Add(configurationState);
 
-            List<StateTypeCounter> counters = new List<StateTypeCounter>();
-            counters.Add(new StateTypeCounter() { StateType = StateType.Alarm });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Failure });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Info });
+//            List<StateTypeCounter> counters = new List<StateTypeCounter>();
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Alarm });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Failure });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Info });
             //counters.Add(new StateTypeCounter() { StateType = StateType.No });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Norm });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Off });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Service });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Unknown });
-            counters.Add(new StateTypeCounter() { StateType = StateType.Warning });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Norm });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Off });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Service });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Unknown });
+            prevcounters.Add(new StateTypeCounter() { StateType = StateType.Warning });
 
             foreach (DeviceState deviceState in FiresecManager.CurrentStates.DeviceStates)
             {
                 StateType stateType = deviceState.State.StateType;
-                StateTypeCounter stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
+                StateTypeCounter stateTypeCounter = prevcounters.FirstOrDefault(x => x.StateType == stateType);
                 if (stateTypeCounter != null)
                 {
+                    if (stateTypeCounter.StateType == StateType.Norm) continue;
                     stateTypeCounter.Count++;
                 }
             }
 
+           //// отладочная информация
+           // foreach(StateTypeCounter dcount in prevcounters)
+           // {
+           //     string str = "DeviceId="+ DeviceId + " -- " + dcount.StateType.ToString() + "  " + dcount.Count.ToString();
+           //     Trace.WriteLine(str);
+           // }
+
+
             StateTypeCounter counter;
 
             Assad.DeviceTypeState state1 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Alarm);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Alarm);
             state1.state = "Тревога";
             state1.value = (counter.Count > 0) ? "Есть" : "Нет"; 
             states.Add(state1);
 
             Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Warning);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Warning);
             state2.state = "Внимание (предтревожное)";
             state2.value = (counter.Count > 0) ? "Есть" : "Нет"; 
             states.Add(state2);
 
             Assad.DeviceTypeState state3 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Failure);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Failure);
             state3.state = "Неисправность";
             state3.value = (counter.Count > 0) ? "Есть" : "Нет"; 
             states.Add(state3);
 
             Assad.DeviceTypeState state4 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Service);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Service);
             state4.state = "Требуется обслуживание";
             state4.value = (counter.Count > 0) ? "Есть" : "Нет";
             states.Add(state4);
 
             Assad.DeviceTypeState state5 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Off);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Off);
             state5.state = "Обход устройств";
             state5.value = (counter.Count > 0) ? "Есть" : "Нет";
             states.Add(state5);
 
             Assad.DeviceTypeState state6 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Unknown);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Unknown);
             state6.state = "Неопределено";
             state6.value = (counter.Count > 0) ? "Есть" : "Нет";
             states.Add(state6);
 
             Assad.DeviceTypeState state7 = new Assad.DeviceTypeState();
-            counter = counters.FirstOrDefault(x => x.StateType == StateType.Info);
+            counter = prevcounters.FirstOrDefault(x => x.StateType == StateType.Info);
             state7.state = "Норма(*)";
             state7.value = (counter.Count > 0) ? "Есть" : "Нет";
             states.Add(state7);
@@ -109,24 +126,15 @@ namespace AssadProcessor.Devices
             eventType.alertLevel = "0";
 
             List<StateTypeCounter> counters = new List<StateTypeCounter>();
-       //Alarm = 0,
-       // Warning = 1,
-       // Failure = 2,
-       // Service = 3,
-       // Off = 4,
-       // Unknown = 5,
-       // Info = 6,
-       // Norm = 7,
-       // No = 8
-            State state_alarm = new State(0);
-            State state_warning = new State(1);
-            State state_failure = new State(2);
-            State state_service = new State(3);
-            State state_off = new State(4);
-            State state_unknown = new State(5);
-            State state_info = new State(6);
-            State state_norm = new State(7);
-            State state_no = new State(8);
+            State state_alarm   =   new State(0);
+            State state_warning =   new State(1);
+            State state_failure =   new State(2);
+            State state_service =   new State(3);
+            State state_off     =   new State(4);
+            State state_unknown =   new State(5);
+            State state_info    =   new State(6);
+            State state_norm    =   new State(7);
+            State state_no      =   new State(8);
             counters.Add(new StateTypeCounter() { StateType = StateType.Alarm, State = state_alarm });
             counters.Add(new StateTypeCounter() { StateType = StateType.Failure, State = state_failure });
             counters.Add(new StateTypeCounter() { StateType = StateType.Info, State = state_info });
@@ -146,6 +154,28 @@ namespace AssadProcessor.Devices
                     stateTypeCounter.Count++;
                 }
             }
+
+            int diffcount = 0;
+
+            foreach (StateTypeCounter counter in prevcounters)
+            {
+                StateTypeCounter tempcounter = counters.FirstOrDefault(x => x.StateType == counter.StateType);
+                    if(tempcounter != null)
+                    {
+                        if (tempcounter.StateType == StateType.Norm) continue; 
+                        if(tempcounter.Count != counter.Count)
+                        {
+                            //// отладочная информация
+                            //string str = "DeviceId="+ DeviceId + " -- " + tempcounter.StateType.ToString() + "cтарое значение:" + counter.Count.ToString() + "   Новое значение:" + tempcounter.Count.ToString();
+                            //Trace.WriteLine(str);
+                            diffcount++;
+                            counter.Count = tempcounter.Count;
+                        }
+                    }
+            }
+    
+            if(diffcount == 0) return;
+
 
             List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 

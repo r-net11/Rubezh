@@ -15,6 +15,10 @@ namespace DeviveModelManager
             monitor.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "monitor";
             monitor.ModelInfo.model = "1.0";
 
+            List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
+            events.Add(new Assad.modelInfoTypeEvent() { @event = "Изменено состояние монитора" });
+            monitor.ModelInfo.@event = events.ToArray();
+
             List<Assad.modelInfoTypeState> states = new List<Assad.modelInfoTypeState>();
             states.Add(CreateState("Тревога"));
             states.Add(CreateState("Внимание (предтревожное)"));
