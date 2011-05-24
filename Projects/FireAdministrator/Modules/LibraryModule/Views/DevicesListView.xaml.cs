@@ -14,9 +14,9 @@ using System.Windows.Shapes;
 
 namespace LibraryModule.Views
 {
-    public partial class ListView : UserControl
+    public partial class DevicesListView : UserControl
     {
-        public ListView()
+        public DevicesListView()
         {
             InitializeComponent();
         }

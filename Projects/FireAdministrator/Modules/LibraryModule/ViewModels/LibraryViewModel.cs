@@ -103,7 +103,7 @@ namespace LibraryModule.ViewModels
                     foreach (var stateId in SelectedState.ParentDevice.AdditionalStates)
                     {
                         var state = SelectedState.ParentDevice.States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
-                        if (state.Class() == SelectedState.Id)
+                        if (state.Class == SelectedState.Id)
                             tempAstate.Add(state.Id);
                     }
                     deviceControl.AdditionalStates = tempAstate;

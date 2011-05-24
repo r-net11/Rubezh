@@ -8,11 +8,15 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:DevicesListViewModel}">
-        <Views:ListView />
+        <Views:DevicesListView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:StatesListViewModel}">
-        <Views:ListView />
+        <Views:StatesListView />
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type ViewModels:AdditionalStatesListViewModel}">
+        <Views:AdditionalStatesListView />
     </DataTemplate>
 
 </ResourceDictionary>

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Practices.Prism.Modularity;
+﻿using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.UnityExtensions;
-using Microsoft.Practices.Unity;
-
 using System.Windows;
 using Infrastructure.Common;
 using FiresecClient;
 using Infrastructure;
-//using Infrastructure.Events;
+
 
 namespace FireAdministrator
 {

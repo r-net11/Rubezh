@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Windows.Data;
-using System.Windows;
 using System.Globalization;
+using System.Windows.Data;
 
 namespace LibraryModule.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public class Transform : IValueConverter
     {
-        public bool Not { get; set; }
+        public double Factor { get; set; }
 
         #region IValueConverter Members
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var boolValue = (bool)value;
-            return boolValue ^ Not ? Visibility.Visible : Visibility.Collapsed;
+            var intValue = (double) value;
+            var a = parameter.ToString().Replace('.', ',');
+            Factor = System.Convert.ToDouble(a);
+            return intValue * Factor;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

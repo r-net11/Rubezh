@@ -15,6 +15,17 @@ namespace LibraryModule.ViewModels
             Layer = 0;
         }
 
+        public FrameViewModel(string image, int duration, int layer)
+        {
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
+            Parent = StateViewModel.Current;
+
+            Duration = duration;
+            Layer = layer;
+            Image = image;
+        }
+
         public void Initialize(DeviceLibrary.Models.Frame frame)
         {
             Id = frame.Id;
@@ -23,6 +34,7 @@ namespace LibraryModule.ViewModels
             Layer = frame.Layer;
         }
 
+        
         public StateViewModel Parent { get; private set; }
 
         private int _id;

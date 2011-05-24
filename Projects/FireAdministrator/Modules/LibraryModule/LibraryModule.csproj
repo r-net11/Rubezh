@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\Transform.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="LibraryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -75,6 +76,7 @@
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalStatesListViewModel.cs" />
     <Compile Include="ViewModels\StatesListViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
@@ -83,11 +85,17 @@
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListView.xaml.cs">
-      <DependentUpon>ListView.xaml</DependentUpon>
+    <Compile Include="Views\AdditionalStatesListView.xaml.cs">
+      <DependentUpon>AdditionalStatesListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatesListView.xaml.cs">
+      <DependentUpon>StatesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatesView.xaml.cs">
       <DependentUpon>StatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicesListView.xaml.cs">
+      <DependentUpon>DevicesListView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -139,7 +147,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ListView.xaml">
+    <Page Include="Views\AdditionalStatesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,12 +159,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Views\Style\1.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Views\Style\2.PNG" />
+    <Page Include="Views\DevicesListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
