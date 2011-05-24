@@ -18,6 +18,7 @@ namespace LibraryModule.ViewModels
             DeviceControl = new DeviceControl();
             ShowDevicesCommand = new RelayCommand(OnShowDevices);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
+            ShowAdditionalStatesCommand = new RelayCommand(OnShowAdditionalStates);
             ShowStatesCommand = new RelayCommand(OnShowStates);
             AdditionalStates = new List<string>();
             States = new ObservableCollection<StateViewModel>();
@@ -27,22 +28,14 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == this.Id);
-            this.States = new ObservableCollection<StateViewModel>();
-            for (var stateId = 0; stateId < 9; stateId++)
-            {
-                if (stateId < 7)
-                    if (driver.state.FirstOrDefault(x => x.@class == Convert.ToString(stateId)) == null) continue;
-                var stateViewModel = new StateViewModel();
-                stateViewModel.Id = Convert.ToString(stateId);
-                var frameViewModel = new FrameViewModel();
-                frameViewModel.Duration = 300;
-                frameViewModel.Image = Helper.EmptyFrame;
-                stateViewModel.Frames = new ObservableCollection<FrameViewModel>();
-                stateViewModel.Frames.Add(frameViewModel);
-                this.States.Add(stateViewModel);
-                LibraryViewModel.Current.Update();
-            }
+            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == Id);
+            States = new ObservableCollection<StateViewModel>();
+            var stateViewModel = new StateViewModel();
+            stateViewModel.Id = Convert.ToString(8);
+            var frameViewModel = new FrameViewModel(Helper.EmptyFrame, 300, 0);
+            stateViewModel.Frames = new ObservableCollection<FrameViewModel>() { frameViewModel };
+            States = new ObservableCollection<StateViewModel>(){stateViewModel};
+            LibraryViewModel.Current.Update();
         }
 
         private DeviceControl _deviceControl;
@@ -63,7 +56,7 @@ namespace LibraryModule.ViewModels
             {
                 if (!state.IsAdditional) continue;
                 sortedStates.Remove(state);
-                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class()) && (!x.IsAdditional)));
+                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class) && (!x.IsAdditional)));
                 sortedStates.Insert(index+1, state);
             }
             States = sortedStates;
@@ -84,7 +77,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        private string _id;
+        private string  _id;
         public string Id
         {
             get { return _id; }
@@ -145,6 +138,13 @@ namespace LibraryModule.ViewModels
         {
             var statesListViewModel = new StatesListViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(statesListViewModel);
+        }
+
+        public RelayCommand ShowAdditionalStatesCommand { get; private set; }
+        public static void OnShowAdditionalStates()
+        {
+            var additionalStatesListViewModel = new AdditionalStatesListViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(additionalStatesListViewModel);
         }
 
         public RelayCommand RemoveDeviceCommand { get; private set; }

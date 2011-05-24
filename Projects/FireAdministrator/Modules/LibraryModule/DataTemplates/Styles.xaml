@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Converters="clr-namespace:LibraryModule.Converters">
 
-
     <Converters:BoolToVisibilityConverter x:Key="VisibleIfTrue" Not="False" />
     <Converters:BoolToVisibilityConverter x:Key="NotVisibleIfTrue" Not="True" />
+    <Converters:Transform x:Key="Transform" Factor="0.002" />
     <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -142,5 +142,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

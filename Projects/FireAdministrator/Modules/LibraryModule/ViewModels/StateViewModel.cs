@@ -16,8 +16,20 @@ namespace LibraryModule.ViewModels
             Current = this;
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveState);
-            ShowStatesCommand = ParentDevice.ShowStatesCommand;
+            ShowStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
             Frames = new ObservableCollection<FrameViewModel>();
+        }
+
+        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional, ObservableCollection<FrameViewModel> frames)
+        {
+            Current = this;
+            ParentDevice = parentDevice;
+            IsAdditional = isAdditional;
+            Id = id;
+            Frames = frames;
+
+            RemoveStateCommand = new RelayCommand(OnRemoveState);
+            ShowStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
         }
 
         public void Initialize(State state)
@@ -66,7 +78,7 @@ namespace LibraryModule.ViewModels
                 foreach (var stateId in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
                 {
                     var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId)&&(x.IsAdditional));
-                    if (state.Class() == LibraryViewModel.Current.SelectedState.Id)
+                    if (state.Class == LibraryViewModel.Current.SelectedState.Id)
                         tempAstate.Add(state.Id);
                 }
                 LibraryViewModel.Current.SelectedState.ParentDevice.DeviceControl.AdditionalStates = tempAstate;
@@ -75,13 +87,38 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public string Class()
-        {
-            var astate = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == this.Id);
-            return astate.@class;
+        private string _class;
+        public string Class
+        { 
+            get
+            {
+                if (!IsAdditional) return null;
+                _class = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == Id).@class;
+                return _class;
+            }
+            set 
+            {
+                _class = value;
+                OnPropertyChanged("Class");
+            }
         }
 
-        private string _iconPath = Helper.StatesIconPath;
+        private string _className;
+        public string ClassName
+        {
+            get
+            {
+                _className = Helper.BaseStatesList[Convert.ToInt16(Class)];
+                return _className;
+            }
+            set
+            {
+                _className = value;
+                OnPropertyChanged("ClassName");
+            }
+        }
+
+        private string _iconPath;
         public string IconPath
         {
             get { return _iconPath; }
@@ -142,15 +179,31 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         private void OnRemoveState()
         {
-            if (!IsAdditional)
+            if (Name == "Базовый рисунок")
             {
-                MessageBox.Show("Невозможно удалить основное состояние");
+                MessageBox.Show("Невозможно удалить базовый рисунок");
                 return;
+            }
+
+            if ((!_isAdditional)&&(ParentDevice.States.FirstOrDefault(x=>x.Class == Id) != null))
+            {
+                var result = MessageBox.Show("Состояние, которое Вы пытаетесь удалить содержит дополнительные состояния.\nВы уверены что хотите удалить основное состояние вместе с дополнительными?",
+                                          "Окно подтверждения", MessageBoxButton.OKCancel,
+                                          MessageBoxImage.Question);
+                if (result == MessageBoxResult.Cancel) return;
+
+                StateViewModel state;
+                while ((state = ParentDevice.States.FirstOrDefault(x => x.Class == Id)) != null)
+                {
+                    IsChecked = false;
+                    ParentDevice.States.Remove(state);
+                    ParentDevice.AdditionalStates.Remove(state.Id);
+                }
             }
             IsChecked = false;
             ParentDevice.States.Remove(this);
-            if (this._isAdditional)
-                ParentDevice.AdditionalStates.Remove(this.Id);
+            if (_isAdditional)
+                ParentDevice.AdditionalStates.Remove(Id);
             LibraryViewModel.Current.SelectedState = null;
         }
     }
