@@ -6,10 +6,10 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel >
-                    <Expander Margin="-2" FontSize="12" Style="{DynamicResource PlusMinusExpanderStyle}">
+                    <Expander FontSize="13" Style="{DynamicResource PlusMinusExpanderStyle}">
                         <Expander.Header>
-                            <DockPanel VerticalAlignment="Center" Height="25">
-                                <Image Source="{Binding IconPath}" Width="14" Margin="5" />
+                            <DockPanel VerticalAlignment="Center">
+                                <Image Source="{Binding IconPath}" Width="14" Margin="5,0,5,0" />
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                             </DockPanel>
                         </Expander.Header>
@@ -35,8 +35,8 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="HasDropShadow" Value="true">
-                                    <Setter TargetName="Border" Property="CornerRadius" Value="4"/>
-                                    <Setter TargetName="Border" Property="BorderThickness" Value="3"/>
+                                    <Setter TargetName="Border" Property="CornerRadius" Value="2"/>
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

@@ -1,24 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using DeviceLibrary;
 using Firesec.Metadata;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using DeviceLibrary;
 
 namespace LibraryModule.ViewModels
 {
-    internal class AdditionalStatesListViewModel : DialogContent
+    class NewStateViewModel : DialogContent
     {
-        public AdditionalStatesListViewModel()
+        public NewStateViewModel()
         {
-            Title = "Список дополнительных состояний";
+            Title = "Список состояний";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
         }
-
-        private readonly DeviceViewModel _selectedDevice;
-        private readonly drvType _driver;
 
         private bool _isEnabled;
         public bool IsEnabled
@@ -31,6 +30,9 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        private readonly DeviceViewModel _selectedDevice;
+        private readonly drvType _driver;
+
         private StateViewModel _selectedState;
         public StateViewModel SelectedState
         {
@@ -38,8 +40,7 @@ namespace LibraryModule.ViewModels
             set
             {
                 _selectedState = value;
-                if (value == null) {IsEnabled = false; return;}
-                IsEnabled = _selectedDevice.States.FirstOrDefault(x => (x.Id == value.Class) && (!x.IsAdditional)) != null;
+                IsEnabled = true;
                 OnPropertyChanged("SelectedState");
             }
         }
@@ -58,14 +59,14 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             States = new ObservableCollection<StateViewModel>();
-            foreach (var item in _driver.state)
+            for (var stateId = 0; stateId < 9; stateId++)
             {
-                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
+                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == Convert.ToString(stateId)) && (!x.IsAdditional)) != null) continue;
+                if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
-                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true, frames);
+                var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false, frames);
                 States.Add(stateViewModel);
             }
-            States = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Class));
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -73,11 +74,16 @@ namespace LibraryModule.ViewModels
         {
             if (SelectedState == null) return;
             _selectedDevice.States.Add(SelectedState);
-            _selectedDevice.States = new ObservableCollection<StateViewModel>(_selectedDevice.States.OrderByDescending(x=>x.Name));
-            States.Remove(SelectedState);
             _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        private void OnCancel()
+        {
+            Close(false);
         }
     }
 }

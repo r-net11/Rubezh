@@ -129,21 +129,21 @@ namespace LibraryModule.ViewModels
         public RelayCommand ShowDevicesCommand { get; private set; }
         private static void OnShowDevices()
         {
-            var devicesListViewModel = new DevicesListViewModel();
+            var devicesListViewModel = new NewDeviceViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(devicesListViewModel);
         }
 
         public RelayCommand ShowStatesCommand { get; private set; }
         public static void OnShowStates()
         {
-            var statesListViewModel = new StatesListViewModel();
+            var statesListViewModel = new NewStateViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(statesListViewModel);
         }
 
         public RelayCommand ShowAdditionalStatesCommand { get; private set; }
         public static void OnShowAdditionalStates()
         {
-            var additionalStatesListViewModel = new AdditionalStatesListViewModel();
+            var additionalStatesListViewModel = new NewAdditionalStateViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(additionalStatesListViewModel);
         }
 
