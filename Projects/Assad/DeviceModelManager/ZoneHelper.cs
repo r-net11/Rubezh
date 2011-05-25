@@ -34,21 +34,9 @@ namespace DeviveModelManager
 
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
             parameters.Add(new Assad.modelInfoTypeParam() { param = "Номер зоны", type = "edit" });
-            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Наименование", type = "edit" });
-            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Число датчиков для формирования сигнала Пожар", type = "edit" });
-            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Время эвакуации", type = "edit" });
-            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
-
-            //Assad.modelInfoTypeParam zoneTypeParam = new Assad.modelInfoTypeParam() { param = "Назначение зоны", type = "single" };
-            //List<Assad.modelInfoTypeParamValue> zoneTypeValues = new List<Assad.modelInfoTypeParamValue>();
-            //zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Пожарная" });
-            //zoneTypeValues.Add(new Assad.modelInfoTypeParamValue() { value = "Охранная" });
-            //zoneTypeParam.value = zoneTypeValues.ToArray();
-            //parameters.Add(zoneTypeParam);
-
             zoneTreeItem.ModelInfo.param = parameters.ToArray();
 
-            zoneTreeItem.ModelInfo.state = new Assad.modelInfoTypeState[1];
+            zoneTreeItem.ModelInfo.state = new Assad.modelInfoTypeState[6];
             zoneTreeItem.ModelInfo.state[0] = new Assad.modelInfoTypeState();
             zoneTreeItem.ModelInfo.state[0].state = "Состояние";
             List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
@@ -63,7 +51,21 @@ namespace DeviveModelManager
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
             zoneTreeItem.ModelInfo.state[0].value = StateValues.ToArray();
-
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Наименование", type = "edit" });
+            zoneTreeItem.ModelInfo.state[1] = new Assad.modelInfoTypeState();
+            zoneTreeItem.ModelInfo.state[1].state = "Наименование";
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Число датчиков для формирования сигнала Пожар", type = "edit" });
+            zoneTreeItem.ModelInfo.state[2] = new Assad.modelInfoTypeState();
+            zoneTreeItem.ModelInfo.state[2].state = "Число датчиков для формирования сигнала Пожар";
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Время эвакуации", type = "edit" });
+            zoneTreeItem.ModelInfo.state[3] = new Assad.modelInfoTypeState();
+            zoneTreeItem.ModelInfo.state[3].state = "Время эвакуации";
+            //parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+            zoneTreeItem.ModelInfo.state[4] = new Assad.modelInfoTypeState();
+            zoneTreeItem.ModelInfo.state[4].state = "Примечание";
+            //Assad.modelInfoTypeParam zoneTypeParam = new Assad.modelInfoTypeParam() { param = "Назначение зоны", type = "single" };
+            zoneTreeItem.ModelInfo.state[5] = new Assad.modelInfoTypeState();
+            zoneTreeItem.ModelInfo.state[5].state = "Назначение зоны";
             return zoneTreeItem;
         }
     }
