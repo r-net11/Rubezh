@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Firesec.Metadata;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using DeviceLibrary;
@@ -11,13 +12,15 @@ namespace LibraryModule.ViewModels
         {
             Title = "Список дополнительных состояний";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
+            _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
         }
 
         private readonly DeviceViewModel _selectedDevice;
+        private readonly drvType _driver;
 
-        private bool _isEnabled = true;
+        private bool _isEnabled;
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -55,14 +58,14 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             States = new ObservableCollection<StateViewModel>();
-            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
-            foreach (var item in driver.state)
+            foreach (var item in _driver.state)
             {
                 if (_selectedDevice.States.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
                 var stateViewModel = new StateViewModel(item.id, _selectedDevice, true, frames);
                 States.Add(stateViewModel);
             }
+            States = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Class));
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -70,9 +73,11 @@ namespace LibraryModule.ViewModels
         {
             if (SelectedState == null) return;
             _selectedDevice.States.Add(SelectedState);
+            _selectedDevice.States = new ObservableCollection<StateViewModel>(_selectedDevice.States.OrderByDescending(x=>x.Name));
             States.Remove(SelectedState);
             _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
+            IsEnabled = false;
         }
     }
 }

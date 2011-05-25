@@ -51,7 +51,7 @@ namespace LibraryModule.ViewModels
 
         public void SortStates()
         {
-            var sortedStates = new ObservableCollection<StateViewModel>(States);
+            var sortedStates = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Id));
             foreach (var state in States)
             {
                 if (!state.IsAdditional) continue;

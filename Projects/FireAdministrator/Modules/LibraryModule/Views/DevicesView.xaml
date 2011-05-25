@@ -10,7 +10,7 @@
                         <Expander.Header>
                             <DockPanel VerticalAlignment="Center" Height="25">
                                 <Image Source="{Binding IconPath}" Width="14" Margin="5" />
-                                <TextBlock Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                             </DockPanel>
                         </Expander.Header>
                         <DockPanel>

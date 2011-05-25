@@ -16,7 +16,8 @@ namespace LibraryModule.ViewModels
             Current = this;
             ParentDevice = DeviceViewModel.Current;
             RemoveStateCommand = new RelayCommand(OnRemoveState);
-            ShowStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
+            ShowStatesCommand = ParentDevice.ShowStatesCommand;
+            ShowAdditionalStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
             Frames = new ObservableCollection<FrameViewModel>();
         }
 
@@ -29,7 +30,8 @@ namespace LibraryModule.ViewModels
             Frames = frames;
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
-            ShowStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
+            ShowStatesCommand = ParentDevice.ShowStatesCommand;
+            ShowAdditionalStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
         }
 
         public void Initialize(State state)
@@ -175,6 +177,7 @@ namespace LibraryModule.ViewModels
         }
 
         public RelayCommand ShowStatesCommand { get; private set; }
+        public RelayCommand ShowAdditionalStatesCommand { get; private set; }
 
         public RelayCommand RemoveStateCommand { get; private set; }
         private void OnRemoveState()

@@ -12,7 +12,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel VerticalAlignment="Bottom">
-            <Button Content="Добавить состояние" Command="{Binding AddCommand}" />
+            <Button Content="Добавить состояние" Command="{Binding AddCommand}" IsEnabled="{Binding IsEnabled}" />
         </StackPanel>
     </Grid>
 </UserControl>

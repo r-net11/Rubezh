@@ -9,9 +9,9 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                     <DockPanel Height="20" Margin="60,0,0,0">
-                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="20,2,5,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
+                    <CheckBox BorderThickness="2" Height="15" VerticalAlignment="Center" VerticalContentAlignment="Top" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="20,2,3,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
                         <CheckBox.LayoutTransform>
-                            <ScaleTransform ScaleX="0.85" ScaleY="0.85" />
+                            <ScaleTransform ScaleX="1.2" />
                         </CheckBox.LayoutTransform>
                     </CheckBox>
                     <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
@@ -24,6 +24,7 @@
             <ContextMenu BorderThickness="1" BorderBrush="Purple"  x:Key="contextMenu">
                 <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
+                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
                 <ContextMenu.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />

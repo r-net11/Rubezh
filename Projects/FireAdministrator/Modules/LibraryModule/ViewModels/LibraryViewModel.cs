@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Firesec.Metadata;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -37,7 +39,7 @@ namespace LibraryModule.ViewModels
                         stateViewModel.Frames.Add(frameViewModel);
                     }
                 }
-
+                deviceViewModel.States = new ObservableCollection<StateViewModel>(deviceViewModel.States.OrderByDescending(x=>x.Name));
                 deviceViewModel.SortStates();
             }
         }
