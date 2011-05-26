@@ -72,14 +72,14 @@ namespace DevicesModule.ViewModels
             {
                 device.ZoneNo = deviceViewModel.Zone.No;
             }
-            if (deviceViewModel._device.ZoneLogic != null)
+            if (deviceViewModel.Device.ZoneLogic != null)
             {
-                device.ZoneLogic = deviceViewModel._device.ZoneLogic;
+                device.ZoneLogic = deviceViewModel.Device.ZoneLogic;
 
 
                 XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ZoneLogic.expr));
                 MemoryStream memoryStream = new MemoryStream();
-                serializer.Serialize(memoryStream, deviceViewModel._device.ZoneLogic);
+                serializer.Serialize(memoryStream, deviceViewModel.Device.ZoneLogic);
                 byte[] bytes = memoryStream.ToArray();
                 memoryStream.Close();
                 string message = Encoding.GetEncoding("windows-1251").GetString(bytes);

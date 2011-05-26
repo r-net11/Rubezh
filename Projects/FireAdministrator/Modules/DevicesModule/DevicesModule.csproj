@@ -62,6 +62,7 @@
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
+    <Compile Include="Converters\ColorIdToStringConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -83,18 +84,19 @@
     <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\IndicatorDetailsViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
-    <Compile Include="ViewModels\ZoneLogicSectionViewModel.cs" />
+    <Compile Include="ViewModels\ZonesSelectionView.cs" />
     <Compile Include="ViewModels\ZoneLogicViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Views\ClauseView.xaml.cs">
-      <DependentUpon>ClauseView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IndicatorDetailsView.xaml.cs">
+      <DependentUpon>IndicatorDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
@@ -105,8 +107,8 @@
     <Compile Include="Views\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZoneLogicSectionView.xaml.cs">
-      <DependentUpon>ZoneLogicSectionView.xaml</DependentUpon>
+    <Compile Include="Views\ZonesSelectionView.xaml.cs">
+      <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZoneLogicView.xaml.cs">
       <DependentUpon>ZoneLogicView.xaml</DependentUpon>
@@ -137,6 +139,10 @@
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecClient\FiresecServiceApi\FiresecServiceApi.csproj">
+      <Project>{269328F0-5ED8-4DFA-85B3-0EBC826EE573}</Project>
+      <Name>FiresecServiceApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
@@ -160,11 +166,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ClauseView.xaml">
+    <Page Include="Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesView.xaml">
+    <Page Include="Views\IndicatorDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZoneLogicSectionView.xaml">
+    <Page Include="Views\ZonesSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

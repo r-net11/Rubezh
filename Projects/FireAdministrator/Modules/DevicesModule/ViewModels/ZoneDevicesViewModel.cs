@@ -98,9 +98,9 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in Devices)
             {
-                if (device._device.Parent != null)
+                if (device.Device.Parent != null)
                 {
-                    var parent = Devices.FirstOrDefault(x => x._device.Id == device._device.Parent.Id);
+                    var parent = Devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
                     device.Parent = parent;
                 }
             }
@@ -115,9 +115,9 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in AvailableDevices)
             {
-                if (device._device.Parent != null)
+                if (device.Device.Parent != null)
                 {
-                    var parent = AvailableDevices.FirstOrDefault(x => x._device.Id == device._device.Parent.Id);
+                    var parent = AvailableDevices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
                     device.Parent = parent;
                 }
             }
@@ -172,7 +172,7 @@ namespace DevicesModule.ViewModels
         {
             if ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.IsZoneDevice))
             {
-                SelectedAvailableDevice._device.ZoneNo = _zoneNo;
+                SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
                 Initialize(_zoneNo);
             }
         }
@@ -187,7 +187,7 @@ namespace DevicesModule.ViewModels
         {
             if ((SelectedDevice != null) && (SelectedDevice.IsZoneDevice))
             {
-                SelectedDevice._device.ZoneNo = null;
+                SelectedDevice.Device.ZoneNo = null;
                 Initialize(_zoneNo);
             }
         }
@@ -203,8 +203,12 @@ namespace DevicesModule.ViewModels
             if ((SelectedDevice != null) && (SelectedDevice.IsZoneLogicDevice))
             {
                 ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-                zoneLogicViewModel.Initialize(SelectedDevice);
-                ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+                zoneLogicViewModel.Initialize(SelectedDevice.Device.ZoneLogic);
+                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+                if (result)
+                {
+                    SelectedDevice.Device.ZoneLogic = zoneLogicViewModel.Save();
+                }
             }
         }
 

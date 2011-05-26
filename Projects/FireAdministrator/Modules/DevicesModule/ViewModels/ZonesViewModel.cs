@@ -52,7 +52,8 @@ namespace DevicesModule.ViewModels
             {
                 _selectedZone = value;
 
-                ZoneDevices.Initialize(value._zone.No);
+                if (value != null)
+                    ZoneDevices.Initialize(value._zone.No);
 
                 OnPropertyChanged("SelectedZone");
             }

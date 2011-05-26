@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public Device _device;
+        public Device Device;
         public Firesec.Metadata.drvType Driver;
 
         public DeviceViewModel()
@@ -26,13 +26,14 @@ namespace DevicesModule.ViewModels
             AddManyCommand = new RelayCommand(OnAddMany);
             RemoveCommand = new RelayCommand(OnRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
+            ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
         }
 
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;
 
-            _device = device;
+            Device = device;
             Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
             SetProperties();
@@ -100,9 +101,9 @@ namespace DevicesModule.ViewModels
                         b.Path = new PropertyPath("SelectedValue");
                         comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
 
-                        if (_device.Properties.Any(x => x.Name == propertyInfo.name))
+                        if (Device.Properties.Any(x => x.Name == propertyInfo.name))
                         {
-                            enumProperty.SelectedValue = _device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                            enumProperty.SelectedValue = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                             //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
                         }
@@ -132,8 +133,8 @@ namespace DevicesModule.ViewModels
                                 b.Path = new System.Windows.PropertyPath("Text");
                                 textBox.SetBinding(TextBox.TextProperty, b);
 
-                                if (_device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    stringProperty.Text = _device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
+                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    stringProperty.Text = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
                                 else
                                     stringProperty.Text = propertyInfo.@default;
 
@@ -151,8 +152,8 @@ namespace DevicesModule.ViewModels
                                 b2.Path = new PropertyPath("IsChecked");
                                 checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
 
-                                if (_device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    boolProperty.IsChecked = (_device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
+                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
+                                    boolProperty.IsChecked = (Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
                                 else
                                     boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
 
@@ -188,8 +189,8 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (_device != null)
-                    return _device.DriverId;
+                if (Device != null)
+                    return Device.DriverId;
                 return null;
             }
         }
@@ -212,7 +213,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == _device.ZoneNo);
+                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
                 if (zone != null)
                 {
                     ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
@@ -222,7 +223,7 @@ namespace DevicesModule.ViewModels
             }
             set
             {
-                _device.ZoneNo = value.No;
+                Device.ZoneNo = value.No;
                 OnPropertyChanged("Zone");
             }
         }
@@ -232,6 +233,14 @@ namespace DevicesModule.ViewModels
             get
             {
                 return !((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"));
+            }
+        }
+
+        public bool IsIndicatorDevice
+        {
+            get
+            {
+                return (Driver.name == "Индикатор");
             }
         }
 
@@ -383,8 +392,24 @@ namespace DevicesModule.ViewModels
         void OnShowZoneLogic()
         {
             ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-            zoneLogicViewModel.Initialize(this);
-            ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+            zoneLogicViewModel.Initialize(Device.ZoneLogic);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+            if (result)
+            {
+                Device.ZoneLogic = zoneLogicViewModel.Save();
+            }
+        }
+
+        public RelayCommand ShowIndicatorLogicCommand { get; private set; }
+        void OnShowIndicatorLogic()
+        {
+            IndicatorDetailsViewModel indicatorDetailsViewModel = new IndicatorDetailsViewModel();
+            indicatorDetailsViewModel.Initialize(Device);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
+            if (result)
+            {
+                ;
+            }
         }
 
         public RelayCommand AddCommand { get; private set; }

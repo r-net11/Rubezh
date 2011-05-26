@@ -49,11 +49,7 @@
                                             <ContextMenu>
                                                 <MenuItem Header="Добавить" Command="{Binding AddCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                 <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                <MenuItem Header="Удалить" Command="{Binding RemoveCommand}">
-                                                    <MenuItem.Icon>
-                                                        <Image Source="delete_64.png" Height="24"/>
-                                                    </MenuItem.Icon>
-                                                </MenuItem>
+                                                <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
                                         </TextBlock>
@@ -122,6 +118,9 @@
                                     </StackPanel>
                                     <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Button Content="..." Command="{Binding ShowZoneLogicCommand}" Height="19"/>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{Binding IsIndicatorDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Button Content="..." Command="{Binding ShowIndicatorLogicCommand}" Height="19"/>
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>

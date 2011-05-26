@@ -8,9 +8,9 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicSectionViewModel : DialogContent
+    public class ZonesSelectionViewModel : DialogContent
     {
-        public ZoneLogicSectionViewModel()
+        public ZonesSelectionViewModel()
         {
             Title = "Выбор зон";
 
