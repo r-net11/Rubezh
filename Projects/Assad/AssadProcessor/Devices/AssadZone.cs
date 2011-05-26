@@ -9,7 +9,7 @@ namespace AssadProcessor.Devices
     public class AssadZone : AssadBase
     {
         public string ZoneNo { get; set; }
-
+//        private List<string> fillingStates;
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
         {
             if (innerDevice.param != null);
@@ -19,6 +19,7 @@ namespace AssadProcessor.Devices
 
         public override Assad.DeviceType GetStates()
         {
+            
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
@@ -26,12 +27,33 @@ namespace AssadProcessor.Devices
             if (FiresecManager.CurrentStates.ZoneStates.Any(x => x.No == ZoneNo))
             {
                 ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
                 mainState.value = zoneState.State.ToString();
                 states.Add(mainState);
-            }
+                Assad.DeviceTypeState state1 = new Assad.DeviceTypeState();
+                state1.state = "Наименование";
+                state1.value = zone.Name;
+                states.Add(state1);
+                Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
+                state2.state = "Число датчиков для формирования сигнала Пожар";
+                state2.value = zone.DetectorCount;
+                states.Add(state2);
+                Assad.DeviceTypeState state3 = new Assad.DeviceTypeState();
+                state3.state = "Время эвакуации";
+                state3.value = zone.EvacuationTime;
+                states.Add(state3);
+                Assad.DeviceTypeState state4 = new Assad.DeviceTypeState();
+                state4.state = "Примечание";
+                state4.value = zone.Description;
+                states.Add(state4);
+                Assad.DeviceTypeState state5 = new Assad.DeviceTypeState();
+                state5.state = "Назначение зоны";
+                state5.value = "Пожарная";
+                states.Add(state5);
+             }
             else
             {
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();

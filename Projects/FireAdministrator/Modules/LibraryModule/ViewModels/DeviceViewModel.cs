@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using DeviceControls;
@@ -129,27 +130,32 @@ namespace LibraryModule.ViewModels
         public RelayCommand ShowDevicesCommand { get; private set; }
         private static void OnShowDevices()
         {
-            var devicesListViewModel = new DevicesListViewModel();
+            var devicesListViewModel = new NewDeviceViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(devicesListViewModel);
         }
 
         public RelayCommand ShowStatesCommand { get; private set; }
         public static void OnShowStates()
         {
-            var statesListViewModel = new StatesListViewModel();
+            var statesListViewModel = new NewStateViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(statesListViewModel);
         }
 
         public RelayCommand ShowAdditionalStatesCommand { get; private set; }
         public static void OnShowAdditionalStates()
         {
-            var additionalStatesListViewModel = new AdditionalStatesListViewModel();
+            var additionalStatesListViewModel = new NewAdditionalStateViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(additionalStatesListViewModel);
         }
 
         public RelayCommand RemoveDeviceCommand { get; private set; }
         private void OnRemoveDevice()
         {
+            var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
+                                          "Окно подтверждения", MessageBoxButton.OKCancel,
+                                          MessageBoxImage.Question);
+            if (result == MessageBoxResult.Cancel) return;
+
             LibraryViewModel.Current.Devices.Remove(this);
             LibraryViewModel.Current.SelectedState = null;
             LibraryViewModel.Current.Update();

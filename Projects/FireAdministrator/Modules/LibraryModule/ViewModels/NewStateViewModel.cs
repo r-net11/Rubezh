@@ -7,16 +7,16 @@ using System.Collections.ObjectModel;
 
 namespace LibraryModule.ViewModels
 {
-    class StatesListViewModel : DialogContent
+    class NewStateViewModel : DialogContent
     {
-        public StatesListViewModel()
+        public NewStateViewModel()
         {
-            Title = "Список состояний";
+            Title = "Добавить состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
-            AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         private bool _isEnabled;
@@ -74,10 +74,16 @@ namespace LibraryModule.ViewModels
         {
             if (SelectedState == null) return;
             _selectedDevice.States.Add(SelectedState);
-            States.Remove(SelectedState);
             _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        private void OnCancel()
+        {
+            Close(false);
         }
     }
 }

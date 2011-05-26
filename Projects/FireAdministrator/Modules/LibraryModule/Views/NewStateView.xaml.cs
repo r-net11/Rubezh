@@ -3,11 +3,11 @@
 namespace LibraryModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для StatesListView.xaml
+    /// Логика взаимодействия для NewStateView.xaml
     /// </summary>
-    public partial class StatesListView : UserControl
+    public partial class NewStateView : UserControl
     {
-        public StatesListView()
+        public NewStateView()
         {
             InitializeComponent();
         }

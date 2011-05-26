@@ -5,15 +5,16 @@ using DeviceLibrary;
 
 namespace LibraryModule.ViewModels
 {
-    internal class DevicesListViewModel : DialogContent
+    internal class NewDeviceViewModel : DialogContent
     {
         private ObservableCollection<DeviceViewModel> _items;
         private DeviceViewModel _selectedItem;
 
-        public DevicesListViewModel()
+        public NewDeviceViewModel()
         {
-            Title = "Список устройств";
+            Title = "Добавить устройство";
             AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
             Initialize();
         }
 
@@ -45,6 +46,7 @@ namespace LibraryModule.ViewModels
             LibraryViewModel.Current.Devices.Add(deviceViewModel);
             Items.Remove(_selectedItem);
             LibraryViewModel.Current.Update();
+            Close(true);
         }
 
         public void Initialize()
@@ -61,6 +63,12 @@ namespace LibraryModule.ViewModels
                     Items.Add(deviceViewModel);
                 }
                 catch { }
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        private void OnCancel()
+        {
+            Close(false);
         }
     }
 }

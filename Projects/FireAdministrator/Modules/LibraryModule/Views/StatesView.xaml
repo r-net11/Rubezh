@@ -8,8 +8,8 @@
     <ListBox Background="Transparent" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="0" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                    <DockPanel Height="20" Margin="60,0,0,0">
-                    <CheckBox BorderThickness="2" Height="15" VerticalAlignment="Center" VerticalContentAlignment="Top" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="20,2,3,0" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
+                    <DockPanel Height="15" Margin="60,0,0,0">
+                    <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Top" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="20,1,3,1" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource VisibleIfTrue}}">
                         <CheckBox.LayoutTransform>
                             <ScaleTransform ScaleX="1.2" />
                         </CheckBox.LayoutTransform>
@@ -22,9 +22,9 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />
             <ContextMenu BorderThickness="1" BorderBrush="Purple"  x:Key="contextMenu">
-                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
                 <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
+                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                 <ContextMenu.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />

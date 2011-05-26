@@ -72,6 +72,28 @@ namespace AssadProcessor.Devices
                 mainState.state = "Состояние";
                 mainState.value = deviceState.State.ToString();
                 states.Add(mainState);
+                string str = " ";
+                switch (mainState.value)
+                {
+                    case "Тревога":
+                                    str = mainState.value; break;
+                    case "Внимание (предтревожное)": 
+                                    str = mainState.value; break;
+                    case "Неисправность": 
+                                    str = mainState.value; break;
+                    case "Требуется обслуживание": 
+                                    str = mainState.value; break;
+                    case "Норма(*)": 
+                                    str = mainState.value; break;
+                    default: break;
+                }
+
+                if (str != " ")
+                {
+                    FireEvent(str);
+                }
+
+
 
                 foreach (Parameter parameter in deviceState.Parameters)
                 {
