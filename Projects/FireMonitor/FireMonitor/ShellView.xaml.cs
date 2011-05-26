@@ -25,7 +25,7 @@ namespace FireMonitor
         public ShellView()
         {
             InitializeComponent();
-            //DataContext = this;
+            DataContext = this;
         }
 
         protected override Decorator GetWindowButtonsPlaceholder()
