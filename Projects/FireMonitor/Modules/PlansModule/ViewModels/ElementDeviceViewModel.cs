@@ -20,7 +20,6 @@ namespace PlansModule.ViewModels
     {
         public ElementDeviceViewModel()
         {
-            ShowCommand = new RelayCommand(OnShow);
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
@@ -29,7 +28,8 @@ namespace PlansModule.ViewModels
         DeviceControls.DeviceControl _deviceControl;
         Rectangle _mouseOverRectangle;
         Rectangle _selectationRectangle;
-        public ElementDevice _elementDevice;
+        ElementDevice _elementDevice;
+        Canvas _tooltipCanvas;
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
@@ -66,44 +66,62 @@ namespace PlansModule.ViewModels
             _selectationRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(_selectationRectangle);
 
-            innerCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseEnter);
-            innerCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseLeave);
-            innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
-
-            AddContextMenu();
+            AddTooltipCanvas(elementDevice, canvas);
 
             IsSelected = false;
             OnDeviceStateChanged(elementDevice.Id);
         }
 
-        void AddContextMenu()
+        void AddTooltipCanvas(ElementDevice elementDevice, Canvas canvas)
         {
+            _tooltipCanvas = new Canvas();
+            _tooltipCanvas.Width = elementDevice.Width;
+            _tooltipCanvas.Height = elementDevice.Height;
+            Canvas.SetLeft(_tooltipCanvas, elementDevice.Left);
+            Canvas.SetTop(_tooltipCanvas, elementDevice.Top);
+            _tooltipCanvas.Background = Brushes.White;
+            _tooltipCanvas.Opacity = 0.01;
+
             ContextMenu contextMenu = new ContextMenu();
             MenuItem menuItem = new MenuItem();
             menuItem.Header = "Показать в дереве";
-            menuItem.Click +=new System.Windows.RoutedEventHandler(menuItem_Click);
+            menuItem.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
             contextMenu.Items.Add(menuItem);
-            _deviceControl.ContextMenu = contextMenu;
+            _tooltipCanvas.ContextMenu = contextMenu;
+
+            _tooltipCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(OnMouseEnter);
+            _tooltipCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(OnMouseLeave);
+            _tooltipCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseLeftButtonDown);
+
+            canvas.Children.Add(_tooltipCanvas);
         }
 
         void menuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ;
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
         }
 
-        void innerCanvas_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        void OnMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             _mouseOverRectangle.StrokeThickness = 1;
         }
 
-        void innerCanvas_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        void OnMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             _mouseOverRectangle.StrokeThickness = 0;
         }
 
+        public string DeviceId
+        {
+            get
+            {
+                return _elementDevice.Id;
+            }
+        }
+
         public event Action Selected;
 
-        void innerCanvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        void OnPreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Selected != null)
                 Selected();
@@ -119,22 +137,6 @@ namespace PlansModule.ViewModels
                 _selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
             }
-        }
-
-        public RelayCommand ShowCommand { get; private set; }
-        void OnShow()
-        {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
-        }
-
-        public string Name
-        {
-            get { return _driver.shortName; }
-        }
-
-        public string Address
-        {
-            get { return _device.Address; }
         }
 
         void OnDeviceStateChanged(string id)
@@ -173,7 +175,7 @@ namespace PlansModule.ViewModels
                         }
                     }
 
-                _deviceControl.ToolTip = tooltip;
+                _tooltipCanvas.ToolTip = tooltip;
             }
         }
     }

@@ -70,6 +70,9 @@ namespace FiresecClient
                     {
                         stringZoneLogic += zoneNo + ", ";
                     }
+                    if (stringZoneLogic.EndsWith(", "))
+                        stringZoneLogic = stringZoneLogic.Remove(stringZoneLogic.Length - 2);
+
                     stringZoneLogic += "]";
                 }
             }

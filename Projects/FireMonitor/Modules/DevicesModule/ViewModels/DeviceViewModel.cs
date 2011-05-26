@@ -117,11 +117,19 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (string.IsNullOrEmpty(Device.ZoneNo))
-                    return "";
+                if (IsZoneDevice)
+                {
+                    if (string.IsNullOrEmpty(Device.ZoneNo))
+                        return "";
 
-                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                return Device.ZoneNo + "." + zone.Name;
+                    Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+                    return Device.ZoneNo + "." + zone.Name;
+                }
+                if (IsZoneLogicDevice)
+                {
+                    return ZoneLogicToText.Convert(Device.ZoneLogic);
+                }
+                return "";
             }
         }
 

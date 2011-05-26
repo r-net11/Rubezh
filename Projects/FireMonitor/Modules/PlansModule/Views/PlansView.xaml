@@ -29,7 +29,6 @@
 
         <StackPanel Grid.Column="1">
             <Views:PlanTreeView />
-            <Views:SelectionView DataContext="{Binding PlanDetails}" />
         </StackPanel>
     </Grid>
 </UserControl>
