@@ -62,8 +62,9 @@ namespace LibraryModule.ViewModels
             foreach (var item in _driver.state)
             {
                 if (_selectedDevice.States.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
+                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
-                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true, frames);
+                stateViewModel.Frames = frames;
                 States.Add(stateViewModel);
             }
             States = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Class));
