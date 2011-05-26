@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using DeviceLibrary.Models;
 using Frame = DeviceLibrary.Models.Frame;
+using System.Windows.Media;
 
 namespace DeviceControls
 {
@@ -24,6 +25,11 @@ namespace DeviceControls
             foreach (var frame in _frames)
             {
                 var canvas = Helper.Str2Canvas(frame.Image, frame.Layer);
+                if (canvas.Children.Count == 0)
+                {
+                    canvas.Background = Brushes.White;
+                    canvas.Opacity = 0.01;
+                }
                 canvas.Visibility = Visibility.Collapsed;
                 _canvases.Add(canvas);
                 stateCanvases.Add(canvas);

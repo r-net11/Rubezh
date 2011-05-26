@@ -31,6 +31,7 @@ namespace Infrastructure.Common
 #else
                 string path = Assembly.GetExecutingAssembly().Location;
                 path = path.Remove(path.LastIndexOf("\\"));
+                path = path.Remove(path.LastIndexOf("\\"));
                 path = path + "\\Data\\";
                 return(path);
 #endif
