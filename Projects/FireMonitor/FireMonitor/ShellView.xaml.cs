@@ -16,15 +16,35 @@ using AlarmModule.Events;
 using Infrastructure.Events;
 using System.Diagnostics;
 using System.ComponentModel;
+using CustomWindow;
 
 namespace FireMonitor
 {
-    public partial class ShellView : Window, INotifyPropertyChanged
+    public partial class ShellView : EssentialWindow, INotifyPropertyChanged
     {
         public ShellView()
         {
             InitializeComponent();
-            DataContext = this;
+            //DataContext = this;
+        }
+
+        protected override Decorator GetWindowButtonsPlaceholder()
+        {
+            return WindowButtonsPlaceholder;
+        }
+
+        private void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            if (this.Width + e.HorizontalChange > 10)
+                this.Width += e.HorizontalChange;
+            if (this.Height + e.VerticalChange > 10)
+                this.Height += e.VerticalChange;
         }
 
         public IViewPart MainContent
@@ -51,5 +71,6 @@ namespace FireMonitor
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
     }
 }
