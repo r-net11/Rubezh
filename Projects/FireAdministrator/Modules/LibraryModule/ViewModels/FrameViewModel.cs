@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace LibraryModule.ViewModels
 {
@@ -9,21 +10,24 @@ namespace LibraryModule.ViewModels
     {
         public FrameViewModel()
         {
-            AddFrameCommand = new RelayCommand(OnAddFrame);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
             Parent = StateViewModel.Current;
             Layer = 0;
+
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
+            ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
         public FrameViewModel(string image, int duration, int layer)
         {
-            AddFrameCommand = new RelayCommand(OnAddFrame);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
             Parent = StateViewModel.Current;
-
             Duration = duration;
             Layer = layer;
             Image = image;
+
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
+            ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
         public void Initialize(DeviceLibrary.Models.Frame frame)
@@ -114,6 +118,24 @@ namespace LibraryModule.ViewModels
             newFrame.Image = Helper.EmptyFrame;
             Parent.Frames.Add(newFrame);
             LibraryViewModel.Current.Update();
+        }
+
+        public RelayCommand ImportSvgCommand { get; private set; }
+        private void OnImportSvg()
+        {
+            var openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Text Files (.svg)|*.svg|All Files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = false;
+            var userClickedOk = openFileDialog1.ShowDialog();
+
+            if (userClickedOk != true) return;
+            var fileStream = openFileDialog1.OpenFile();
+            using (var reader = new System.IO.StreamReader(fileStream))
+            {
+                Image = SvgConverter.Svg2Xaml(reader.ReadToEnd(),Helper.SFileNameXsl);
+            }
+            fileStream.Close();
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }

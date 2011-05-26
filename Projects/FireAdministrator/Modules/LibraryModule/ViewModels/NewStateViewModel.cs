@@ -62,9 +62,11 @@ namespace LibraryModule.ViewModels
             for (var stateId = 0; stateId < 9; stateId++)
             {
                 if (_selectedDevice.States.FirstOrDefault(x => (x.Id == Convert.ToString(stateId)) && (!x.IsAdditional)) != null) continue;
-                if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
+                if(stateId!=7)
+                    if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
+                var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
-                var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false, frames);
+                stateViewModel.Frames = frames;
                 States.Add(stateViewModel);
             }
         }

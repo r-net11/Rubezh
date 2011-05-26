@@ -21,13 +21,12 @@ namespace LibraryModule.ViewModels
             Frames = new ObservableCollection<FrameViewModel>();
         }
 
-        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional, ObservableCollection<FrameViewModel> frames)
+        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional)
         {
             Current = this;
             ParentDevice = parentDevice;
             IsAdditional = isAdditional;
             Id = id;
-            Frames = frames;
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
             ShowStatesCommand = ParentDevice.ShowStatesCommand;

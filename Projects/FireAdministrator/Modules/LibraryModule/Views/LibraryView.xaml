@@ -73,14 +73,13 @@
                                 </Grid>
                                 <Grid Grid.Row="1">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                                        <Grid>
-                                            <DockPanel Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                <Label Content="Слой: "/>
-                                                <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
-                                                <Label  Content=" Длительность: " />
-                                                <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
-                                            </DockPanel>
-                                        </Grid>
+                                        <DockPanel Margin="5,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                            <Label Content="Слой: "/>
+                                            <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Label  Content=" Длительность: " />
+                                            <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" />
+                                        </DockPanel>
                                     </ScrollViewer>
                                 </Grid>
                             </Grid>
