@@ -22,9 +22,9 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />
             <ContextMenu BorderThickness="1" BorderBrush="Purple"  x:Key="contextMenu">
-                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
                 <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
+                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                 <ContextMenu.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />

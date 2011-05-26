@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using DeviceControls;
@@ -150,6 +151,11 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         private void OnRemoveDevice()
         {
+            var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
+                                          "Окно подтверждения", MessageBoxButton.OKCancel,
+                                          MessageBoxImage.Question);
+            if (result == MessageBoxResult.Cancel) return;
+
             LibraryViewModel.Current.Devices.Remove(this);
             LibraryViewModel.Current.SelectedState = null;
             LibraryViewModel.Current.Update();

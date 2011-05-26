@@ -34,7 +34,6 @@ namespace LibraryModule.ViewModels
             Layer = frame.Layer;
         }
 
-        
         public StateViewModel Parent { get; private set; }
 
         private int _id;
@@ -125,6 +124,12 @@ namespace LibraryModule.ViewModels
                 MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
                 return;
             }
+
+            var result = MessageBox.Show("Удалить выбранный кадр?",
+                "Окно подтверждения", MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+            if (result == MessageBoxResult.Cancel) return;
+
             Parent.Frames.Remove(this);
             LibraryViewModel.Current.Update();
         }

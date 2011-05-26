@@ -203,6 +203,14 @@ namespace LibraryModule.ViewModels
                     ParentDevice.AdditionalStates.Remove(state.Id);
                 }
             }
+            else
+            {
+                var result = MessageBox.Show("Удалить выбранное состояние?",
+                          "Окно подтверждения", MessageBoxButton.OKCancel,
+                          MessageBoxImage.Question);
+                if (result == MessageBoxResult.Cancel) return;
+            }
+
             IsChecked = false;
             ParentDevice.States.Remove(this);
             if (_isAdditional)

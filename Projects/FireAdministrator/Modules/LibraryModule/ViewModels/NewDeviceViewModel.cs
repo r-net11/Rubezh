@@ -12,7 +12,7 @@ namespace LibraryModule.ViewModels
 
         public NewDeviceViewModel()
         {
-            Title = "Список устройств";
+            Title = "Добавить устройство";
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
             Initialize();

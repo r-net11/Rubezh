@@ -48,9 +48,9 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
             <ContextMenu x:Key="contextMenu">
                 <MenuItem Header="Добавить устройство" Command="{Binding ShowDevicesCommand}" />
-                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
                 <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
+                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
                 <ContextMenu.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />

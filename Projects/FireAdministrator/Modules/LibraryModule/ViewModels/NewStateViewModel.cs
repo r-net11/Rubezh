@@ -11,7 +11,7 @@ namespace LibraryModule.ViewModels
     {
         public NewStateViewModel()
         {
-            Title = "Список состояний";
+            Title = "Добавить состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();

@@ -11,7 +11,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ScrollViewer Style="{DynamicResource LeftScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Style="{DynamicResource LeftScrollViewer}" VerticalScrollBarVisibility="Auto">
             <Grid Grid.Column="0">
                 <Views:DevicesView/>
             </Grid>
@@ -26,10 +26,10 @@
                 <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2" DataContext="{Binding SelectedState.SelectedFrame}">
-                <TextBox Background="Transparent" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
+                <TextBox Background="Transparent" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" />
             </Grid>
             <Grid Grid.Row="1" Grid.Column="0">
-                <TabControl TabStripPlacement="Bottom" DataContext="{Binding SelectedState}" ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
+                <TabControl Background="Transparent" TabStripPlacement="Bottom" DataContext="{Binding SelectedState}" ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
@@ -38,6 +38,17 @@
                             </DockPanel>
                         </DataTemplate>
                     </TabControl.ItemTemplate>
+                    <TabControl.Resources>
+                        <ContextMenu x:Key="contextMenu">
+                            <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                            <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+                        </ContextMenu>
+                    </TabControl.Resources>
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="TabItem">
+                            <Setter Property="TabItem.ContextMenu" Value="{StaticResource contextMenu}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
                     <TabControl.ContentTemplate>
                         <DataTemplate>
                             <Grid Name="grid">
@@ -46,7 +57,7 @@
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
-                                    <WrapPanel VerticalAlignment="Bottom">
+                                    <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto">
                                         <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -54,24 +65,22 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.LayoutTransform>
-                                                <ScaleTransform ScaleX="{Binding ElementName=grid, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.002}" 
-                                                            ScaleY="{Binding ElementName=grid, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.002}" />
+                                                <ScaleTransform ScaleX="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" 
+                                                            ScaleY="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" />
                                             </ItemsControl.LayoutTransform>
                                         </ItemsControl>
-                                    </WrapPanel>
+                                    </ScrollViewer>
                                 </Grid>
-                                <Grid Background="White" Grid.Row="1">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Visible"  VerticalScrollBarVisibility="Hidden">
+                                <Grid Grid.Row="1">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                         <Grid>
-                                            <DockPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                            <DockPanel Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                 <Label Content="Слой: "/>
-                                                <TextBox HorizontalContentAlignment="Center" Width="43" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
-                                                <Label  Content=" Длительность: " FontSize="11" />
-                                                <TextBox Name="textBoxDuration" HorizontalContentAlignment="Right" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
+                                                <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
+                                                <Label  Content=" Длительность: " />
+                                                <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
                                             </DockPanel>
                                         </Grid>
-                                        <!--<Button Content="Добавить кадр" BorderThickness="3" Command="{Binding AddFrameCommand}" />
-                                        <Button Content="Удалить кадр" BorderThickness="3" Command="{Binding RemoveFrameCommand}" />-->
                                     </ScrollViewer>
                                 </Grid>
                             </Grid>

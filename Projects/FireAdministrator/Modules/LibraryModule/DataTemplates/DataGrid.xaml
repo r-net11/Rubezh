@@ -225,7 +225,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
                     <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                        <ContentPresenter VerticalAlignment="Top"></ContentPresenter>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

@@ -10,7 +10,7 @@ namespace LibraryModule.ViewModels
     {
         public NewAdditionalStateViewModel()
         {
-            Title = "Список дополнительных состояний";
+            Title = "Добавить дополнительное состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
