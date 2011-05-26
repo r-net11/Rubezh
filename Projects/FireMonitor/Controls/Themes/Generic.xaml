@@ -25,26 +25,20 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="GlowColor" Value="YellowGreen" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="OuterBorderBrush" Value="#4CFFFDFF" />
-        <Setter Property="InnerBorderBrush" Value="#99000000" />
-        <Setter Property="OuterBorderThickness" Value="1" />
-        <Setter Property="InnerBorderThickness" Value="1" />
+        <Setter Property="OuterBorderBrush" Value="White" />
+        <Setter Property="OuterBorderThickness" Value="3" />
         <Setter Property="HighlightMargin" Value="1, 1, 0, 0" />
         <Setter Property="HightlightBrightness" Value="184" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:AlarmButton}">
-                    
-                    <Border Name="OuterBorder" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}"
+                    <Border Name="OuterBorder" CornerRadius="{TemplateBinding CornerRadius}"
                             BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="{TemplateBinding OuterBorderThickness}">
                         
-                        <Border Name="InnerBorder" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
-                                BorderBrush="{TemplateBinding InnerBorderBrush}" BorderThickness="{TemplateBinding InnerBorderThickness}">
-                            
                             <Grid>
-                                
-                                <Border Name="padding" Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <ContentPresenter Name="content" />
+                                <Image Source="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}}" Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                                <Border Name="padding" Margin="{TemplateBinding Padding}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                    <ContentPresenter Name="content" TextBlock.Foreground="White" Margin="5" TextBlock.FontWeight="Bold" />
                                 </Border>
                                 
                                 <Control Name="Highlight">
@@ -82,15 +76,7 @@
 
                                 <Border HorizontalAlignment="Stretch" Margin="0,0,0,0" x:Name="Glow" Width="Auto" Grid.RowSpan="2" CornerRadius="4,4,4,4" Opacity="0.5">
                                     <Border.Background>
-                                        <RadialGradientBrush>
-                                            <RadialGradientBrush.RelativeTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.725" ScaleY="2.013"/>
-                                                    <SkewTransform AngleX="0" AngleY="0" CenterX="0.5" CenterY="0.5"/>
-                                                    <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5"/>
-                                                    <TranslateTransform X="-0.01" Y="0.507"/>
-                                                </TransformGroup>
-                                            </RadialGradientBrush.RelativeTransform>
+                                        <RadialGradientBrush GradientOrigin="0,1" Center="0.5,0.5" RadiusX="1" RadiusY="1">
                                             <GradientStop Offset="0" Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent},
                                                 Converter={StaticResource ColorToAlphaColorConverter}, ConverterParameter=174}" />
                                             <GradientStop Offset="1" Color="{Binding GlowColor, RelativeSource={RelativeSource TemplatedParent},
@@ -100,13 +86,11 @@
                                 </Border>
 
                             </Grid>
-                        </Border>
                     </Border>
                     
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="OuterBorder" Property="Opacity" Value="0.9" />
-                            <Setter TargetName="InnerBorder" Property="Opacity" Value="0.9" />
                             <Setter TargetName="content" Property="Margin" Value="2, 2, 0, 0" />
                             <Setter TargetName="Highlight" Property="Opacity" Value="0.5" />
                         </Trigger>
@@ -119,8 +103,7 @@
                             </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="OuterBorder" Property="Opacity" Value="0.9" />
-                            <Setter TargetName="InnerBorder" Property="Opacity" Value="0.9" />
+                            <Setter TargetName="OuterBorder" Property="Opacity" Value="0.2" />
                             <Setter TargetName="content" Property="Margin" Value="2, 2, 0, 0" />
                             <Setter TargetName="Highlight" Property="Opacity" Value="1.0" />
                             <Setter TargetName="Glow" Property="Opacity" Value="0.0" />

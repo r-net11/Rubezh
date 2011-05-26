@@ -44,6 +44,9 @@ namespace Controls
         public static readonly DependencyProperty IsGlowingProperty =
             DependencyProperty.Register("IsGlowing", typeof(bool), typeof(AlarmButton));
 
+        public static readonly DependencyProperty PathToIconProperty =
+            DependencyProperty.Register("PathToIcon", typeof(string), typeof(AlarmButton));
+
         static AlarmButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(AlarmButton), new FrameworkPropertyMetadata(typeof(AlarmButton)));
@@ -102,6 +105,12 @@ namespace Controls
         {
             get { return (bool)GetValue(IsGlowingProperty); }
             set { SetValue(IsGlowingProperty, value); }
+        }
+
+        public string PathToIcon
+        {
+            get { return (string)GetValue(PathToIconProperty); }
+            set { SetValue(PathToIconProperty, value); }
         }
     }
 }
