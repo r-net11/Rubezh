@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Firesec.Metadata;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -72,7 +70,7 @@ namespace LibraryModule.ViewModels
             get { return _selectedDevice; }
             set
             {
-                Flag = true;
+                _flag = true;
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
