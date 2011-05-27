@@ -83,10 +83,25 @@ namespace PlansModule.ViewModels
             _tooltipCanvas.Opacity = 0.01;
 
             ContextMenu contextMenu = new ContextMenu();
-            MenuItem menuItem = new MenuItem();
-            menuItem.Header = "Показать в дереве";
-            menuItem.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
-            contextMenu.Items.Add(menuItem);
+            
+            MenuItem menuItem1 = new MenuItem();
+            menuItem1.Header = "Показать в дереве";
+            menuItem1.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
+            contextMenu.Items.Add(menuItem1);
+
+            if ((_driver.options != null) && (_driver.options.Contains("Ignorable")))
+            {
+                MenuItem menuItem2 = new MenuItem();
+                menuItem2.Header = "Отключить";
+                menuItem2.Click += new System.Windows.RoutedEventHandler(menuItem2_Click);
+                contextMenu.Items.Add(menuItem2);
+            }
+
+            MenuItem menuItem3 = new MenuItem();
+            menuItem3.Header = "Свойства";
+            menuItem3.Click += new System.Windows.RoutedEventHandler(menuItem3_Click);
+            contextMenu.Items.Add(menuItem3);
+
             _tooltipCanvas.ContextMenu = contextMenu;
 
             _tooltipCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(OnMouseEnter);
@@ -99,6 +114,18 @@ namespace PlansModule.ViewModels
         void menuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
+        }
+
+        void menuItem2_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ;
+        }
+
+        void menuItem3_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel();
+            deviceDetailsViewModel.Initialize(_device);
+            ServiceFactory.UserDialogs.ShowModalWindow(deviceDetailsViewModel);
         }
 
         void OnMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

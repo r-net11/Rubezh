@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace PlansModule.Views
 {
@@ -104,6 +105,9 @@ namespace PlansModule.Views
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
+
+            Trace.WriteLine(centerOfViewport.ToString());
+            Trace.WriteLine(lastCenterPositionOnTarget.ToString());
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -137,8 +141,8 @@ namespace PlansModule.Views
                     double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
                     double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
 
-                    double multiplicatorX = e.ExtentWidth / grid.Width;
-                    double multiplicatorY = e.ExtentHeight / grid.Height;
+                    double multiplicatorX = e.ExtentWidth / grid.ActualWidth;
+                    double multiplicatorY = e.ExtentHeight / grid.ActualHeight;
 
                     double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
                     double newOffsetY = scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
@@ -152,6 +156,24 @@ namespace PlansModule.Views
                     scrollViewer.ScrollToVerticalOffset(newOffsetY);
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine(grid.ActualWidth.ToString());
+            Trace.WriteLine(grid.ActualHeight.ToString());
+
+            Trace.WriteLine(scrollViewer.ActualWidth.ToString());
+            Trace.WriteLine(scrollViewer.ActualHeight.ToString());
+
+            double scaleX = (scrollViewer.ActualWidth - 30) / grid.ActualWidth;
+            double scaleY = (scrollViewer.ActualHeight - 30) / grid.ActualHeight;
+            double scale = Math.Min(scaleX, scaleY);
+
+            scaleTransform.ScaleX = scale;
+            scaleTransform.ScaleY = scale;
+
+            slider.Value = scale;
         }
     }
 }
