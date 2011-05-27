@@ -14,8 +14,18 @@ namespace AssadProcessor.Devices
         public AssadMonitor()
         {
             prevCounters = new List<StateTypeCounter>();
-            for (int i = 0; i < 9; i++ )
-                prevCounters.Add(new StateTypeCounter() { State = new State(i) });
+            for (int i = 0; i < 9; i++)
+            {
+                prevCounters.Add(new StateTypeCounter(i));
+            }
+            //// отладочная информация              
+            //foreach (StateTypeCounter dcount in prevCounters)
+            //{
+            //    string str = "State: " + dcount.State.ToString() + "   StateType: " + dcount.StateType.ToString() + "  " + dcount.Count.ToString();
+            //    Trace.WriteLine(str);
+            //}
+            //Trace.WriteLine(" - выход из конструктора - ");
+        
         }
         
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
@@ -44,11 +54,14 @@ namespace AssadProcessor.Devices
             }
 
            //// отладочная информация
-           // foreach(StateTypeCounter dcount in prevCounters)
-           // {
-           //     string str = "DeviceId="+ DeviceId + " -- " + dcount.StateType.ToString() + "  " + dcount.Count.ToString();
-           //     Trace.WriteLine(str);
-           // }
+            //Trace.WriteLine("--- prevCounter List ---");
+            //foreach (StateTypeCounter dcount in prevCounters)
+            //{
+            //    string str = dcount.State.ToString() + "  " + dcount.Count.ToString();
+            //    Trace.WriteLine(str);
+            //}
+
+
 
             foreach (StateTypeCounter counter in prevCounters)
             {
@@ -75,11 +88,7 @@ namespace AssadProcessor.Devices
             List<StateTypeCounter> counters = new List<StateTypeCounter>();
 
             for (int i = 0; i < 9; i++ )
-                counters.Add(new StateTypeCounter() { State = new State(i) });
-            
-            
-            
-
+                counters.Add(new StateTypeCounter(i));
             foreach (DeviceState deviceState in FiresecManager.CurrentStates.DeviceStates)
             {
                 StateType stateType = deviceState.State.StateType;
@@ -100,7 +109,7 @@ namespace AssadProcessor.Devices
                         if (tempcounter.StateType == StateType.Norm) continue; 
                         if(tempcounter.Count != counter.Count)
                         {
-                            //// отладочная информация
+                            ////// отладочная информация
                             //string str = "DeviceId="+ DeviceId + " -- " + tempcounter.StateType.ToString() + "cтарое значение:" + counter.Count.ToString() + "   Новое значение:" + tempcounter.Count.ToString();
                             //Trace.WriteLine(str);
                             diff = true;
@@ -143,5 +152,15 @@ namespace AssadProcessor.Devices
         public StateType StateType { get; set; }
         public State State{ get; set;}
         public bool Count { get; set; }
+
+        public StateTypeCounter() { }
+        
+        public StateTypeCounter(int i)
+        {
+            State = new State(i);
+            StateType = State.StateType;
+        }
+
+    
     }
 }
