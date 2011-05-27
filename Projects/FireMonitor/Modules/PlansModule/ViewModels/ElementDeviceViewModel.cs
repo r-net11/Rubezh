@@ -20,75 +20,108 @@ namespace PlansModule.ViewModels
     {
         public ElementDeviceViewModel()
         {
-            ShowCommand = new RelayCommand(OnShow);
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        Device device;
-        Firesec.Metadata.drvType Driver;
-        DeviceControls.DeviceControl deviceControl;
-        Rectangle mouseOverRectangle;
-        Rectangle selectationRectangle;
-        public ElementDevice elementDevice;
+        Device _device;
+        Firesec.Metadata.drvType _driver;
+        DeviceControls.DeviceControl _deviceControl;
+        Rectangle _mouseOverRectangle;
+        Rectangle _selectationRectangle;
+        ElementDevice _elementDevice;
+        Canvas _tooltipCanvas;
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
-            this.elementDevice = elementDevice;
+            _elementDevice = elementDevice;
 
-            if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Id == elementDevice.Id))
-            {
-                device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == elementDevice.Id);
-                Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-            }
+            _device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == elementDevice.Id);
+            if (_device == null)
+                return;
+            _driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == _device.DriverId);
 
             Canvas innerCanvas = new Canvas();
             Canvas.SetLeft(innerCanvas, elementDevice.Left);
             Canvas.SetTop(innerCanvas, elementDevice.Top);
             canvas.Children.Add(innerCanvas);
 
-            deviceControl = new DeviceControls.DeviceControl();
-            deviceControl.DriverId = device.DriverId;
+            _deviceControl = new DeviceControls.DeviceControl();
+            _deviceControl.DriverId = _device.DriverId;
 
-            //deviceControl.ToolTip = Name;
-            deviceControl.Width = elementDevice.Width;
-            deviceControl.Height = elementDevice.Height;
-            innerCanvas.Children.Add(deviceControl);
+            _deviceControl.Width = elementDevice.Width;
+            _deviceControl.Height = elementDevice.Height;
+            innerCanvas.Children.Add(_deviceControl);
 
-            mouseOverRectangle = new Rectangle();
-            mouseOverRectangle.Width = elementDevice.Width;
-            mouseOverRectangle.Height = elementDevice.Height;
-            mouseOverRectangle.Stroke = Brushes.Red;
-            mouseOverRectangle.StrokeThickness = 0;
-            innerCanvas.Children.Add(mouseOverRectangle);
+            _mouseOverRectangle = new Rectangle();
+            _mouseOverRectangle.Width = elementDevice.Width;
+            _mouseOverRectangle.Height = elementDevice.Height;
+            _mouseOverRectangle.Stroke = Brushes.Red;
+            _mouseOverRectangle.StrokeThickness = 0;
+            innerCanvas.Children.Add(_mouseOverRectangle);
 
-            selectationRectangle = new Rectangle();
-            selectationRectangle.Width = elementDevice.Width;
-            selectationRectangle.Height = elementDevice.Height;
-            selectationRectangle.Stroke = Brushes.Orange;
-            selectationRectangle.StrokeThickness = 0;
-            innerCanvas.Children.Add(selectationRectangle);
+            _selectationRectangle = new Rectangle();
+            _selectationRectangle.Width = elementDevice.Width;
+            _selectationRectangle.Height = elementDevice.Height;
+            _selectationRectangle.Stroke = Brushes.Orange;
+            _selectationRectangle.StrokeThickness = 0;
+            innerCanvas.Children.Add(_selectationRectangle);
 
-            innerCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseEnter);
-            innerCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(innerCanvas_MouseLeave);
-            innerCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(innerCanvas_PreviewMouseLeftButtonDown);
+            AddTooltipCanvas(elementDevice, canvas);
 
             IsSelected = false;
             OnDeviceStateChanged(elementDevice.Id);
         }
 
-        void innerCanvas_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        void AddTooltipCanvas(ElementDevice elementDevice, Canvas canvas)
         {
-            mouseOverRectangle.StrokeThickness = 1;
+            _tooltipCanvas = new Canvas();
+            _tooltipCanvas.Width = elementDevice.Width;
+            _tooltipCanvas.Height = elementDevice.Height;
+            Canvas.SetLeft(_tooltipCanvas, elementDevice.Left);
+            Canvas.SetTop(_tooltipCanvas, elementDevice.Top);
+            _tooltipCanvas.Background = Brushes.White;
+            _tooltipCanvas.Opacity = 0.01;
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuItem = new MenuItem();
+            menuItem.Header = "Показать в дереве";
+            menuItem.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
+            contextMenu.Items.Add(menuItem);
+            _tooltipCanvas.ContextMenu = contextMenu;
+
+            _tooltipCanvas.MouseEnter += new System.Windows.Input.MouseEventHandler(OnMouseEnter);
+            _tooltipCanvas.MouseLeave += new System.Windows.Input.MouseEventHandler(OnMouseLeave);
+            _tooltipCanvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseLeftButtonDown);
+
+            canvas.Children.Add(_tooltipCanvas);
         }
 
-        void innerCanvas_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        void menuItem_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            mouseOverRectangle.StrokeThickness = 0;
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
+        }
+
+        void OnMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            _mouseOverRectangle.StrokeThickness = 1;
+        }
+
+        void OnMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            _mouseOverRectangle.StrokeThickness = 0;
+        }
+
+        public string DeviceId
+        {
+            get
+            {
+                return _elementDevice.Id;
+            }
         }
 
         public event Action Selected;
 
-        void innerCanvas_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        void OnPreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (Selected != null)
                 Selected();
@@ -101,33 +134,48 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
-                selectationRectangle.StrokeThickness = value ? 1 : 0;
+                _selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
             }
         }
 
-        public RelayCommand ShowCommand { get; private set; }
-        void OnShow()
-        {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(device.Id);
-        }
-
-        public string Name
-        {
-            get { return Driver.shortName; }
-        }
-
-        public string Address
-        {
-            get { return device.Address; }
-        }
-
         void OnDeviceStateChanged(string id)
         {
-            if (id == elementDevice.Id)
+            if (id == _elementDevice.Id)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
-                deviceControl.State = deviceState.State.Id.ToString();
+                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == id);
+                _deviceControl.State = deviceState.State.Id.ToString();
+
+                string tooltip = "";
+                tooltip = device.Address + " - " + _driver.shortName + "\n";
+
+                if (deviceState.ParentStringStates != null)
+                    foreach (string parentState in deviceState.ParentStringStates)
+                    {
+                        tooltip += parentState + "\n";
+                    }
+
+                if (deviceState.SelfStates != null)
+                    foreach (string selfState in deviceState.SelfStates)
+                    {
+                        tooltip += selfState + "\n";
+                    }
+
+                if (deviceState.Parameters != null)
+                    foreach (Parameter parameter in deviceState.Parameters)
+                    {
+                        if (parameter.Visible)
+                        {
+                            if (string.IsNullOrEmpty(parameter.Value))
+                                continue;
+                            if (parameter.Value == "<NULL>")
+                                continue;
+                            tooltip += parameter.Caption + " - " + parameter.Value + "\n";
+                        }
+                    }
+
+                _tooltipCanvas.ToolTip = tooltip;
             }
         }
     }

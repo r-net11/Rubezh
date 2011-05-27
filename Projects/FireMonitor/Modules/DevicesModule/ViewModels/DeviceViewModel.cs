@@ -22,6 +22,7 @@ namespace DevicesModule.ViewModels
         {
             ShowPlanCommand = new RelayCommand(OnShowPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone);
+            DisableCommand = new RelayCommand(OnDisable);
         }
 
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
@@ -73,6 +74,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string Id
+        {
+            get { return Device.Id; }
+        }
+
         public string DriverId
         {
             get
@@ -111,11 +117,19 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (string.IsNullOrEmpty(Device.ZoneNo))
-                    return "";
+                if (IsZoneDevice)
+                {
+                    if (string.IsNullOrEmpty(Device.ZoneNo))
+                        return "";
 
-                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                return Device.ZoneNo + "." + zone.Name;
+                    Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+                    return Device.ZoneNo + "." + zone.Name;
+                }
+                if (IsZoneLogicDevice)
+                {
+                    return ZoneLogicToText.Convert(Device.ZoneLogic);
+                }
+                return "";
             }
         }
 
@@ -220,6 +234,21 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public bool CanIgnore
+        {
+            get
+            {
+                if (Driver.options != null)
+                {
+                    if (Driver.options.Contains("Ignorable"))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
         public ObservableCollection<string> SelfStates
         {
             get
@@ -272,6 +301,90 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public State State
+        {
+            get
+            {
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                return deviceState.State;
+            }
+        }
+
+        string _failureType;
+        public string FailureType
+        {
+            get { return _failureType; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    _failureType = " - ";
+                else
+                    _failureType = value;
+                OnPropertyChanged("FailureType");
+            }
+        }
+
+        string _alarmReason;
+        public string AlarmReason
+        {
+            get { return _alarmReason; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    _alarmReason = " - ";
+                else
+                    _alarmReason = value;
+                OnPropertyChanged("AlarmReason");
+            }
+        }
+
+        string _smokiness;
+        public string Smokiness
+        {
+            get { return _smokiness; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    _smokiness = " - ";
+                else
+                    _smokiness = value;
+                OnPropertyChanged("Smokiness");
+            }
+        }
+
+        string _dustiness;
+        public string Dustiness
+        {
+            get { return _dustiness; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    _dustiness = " - ";
+                else
+                    _dustiness = value;
+                OnPropertyChanged("Dustiness");
+            }
+        }
+
+        string _temperature;
+        public string Temperature
+        {
+            get { return _temperature; }
+            set
+            {
+                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
+                    _temperature = " - ";
+                else
+                    _temperature = value;
+                OnPropertyChanged("Temperature");
+            }
+        }
+
+        public void Update()
+        {
+            OnPropertyChanged("State");
+        }
+
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
@@ -288,93 +401,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public State State
+        public RelayCommand DisableCommand { get; private set; }
+        void OnDisable()
         {
-            get
-            {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                return deviceState.State;
-            }
-        }
-
-        public void Update()
-        {
-            OnPropertyChanged("State");
-        }
-
-        string failureType;
-        public string FailureType
-        {
-            get { return failureType; }
-            set
-            {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    failureType = " - ";
-                else
-                    failureType = value;
-                OnPropertyChanged("FailureType");
-            }
-        }
-
-        string alarmReason;
-        public string AlarmReason
-        {
-            get { return alarmReason; }
-            set
-            {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    alarmReason = " - ";
-                else
-                    alarmReason = value;
-                OnPropertyChanged("AlarmReason");
-            }
-        }
-
-        string smokiness;
-        public string Smokiness
-        {
-            get { return smokiness; }
-            set
-            {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    smokiness = " - ";
-                else
-                    smokiness = value;
-                OnPropertyChanged("Smokiness");
-            }
-        }
-
-        string dustiness;
-        public string Dustiness
-        {
-            get { return dustiness; }
-            set
-            {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    dustiness = " - ";
-                else
-                    dustiness = value;
-                OnPropertyChanged("Dustiness");
-            }
-        }
-
-        string temperature;
-        public string Temperature
-        {
-            get { return temperature; }
-            set
-            {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    temperature = " - ";
-                else
-                    temperature = value;
-                OnPropertyChanged("Temperature");
-            }
-        }
-
-        public string Id
-        {
-            get { return Device.Id; }
+            ;
         }
     }
 }

@@ -44,7 +44,13 @@
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}" />
+                                        <TextBlock Text="{Binding ShortDriverName}">
+                                            <TextBlock.ContextMenu>
+                                                <ContextMenu Visibility="{Binding CanIgnore, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" />
+                                                </ContextMenu>
+                                            </TextBlock.ContextMenu>
+                                        </TextBlock>
                                     </StackPanel>
 
                                 </Grid>
@@ -53,7 +59,7 @@
                     </WpfToolkit:DataGridTemplateColumn>
 
                     <WpfToolkit:DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding PresentationAddress}" />
-                    <WpfToolkit:DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" />
+                    <WpfToolkit:DataGridTextColumn Header="Зона" MinWidth="100" MaxWidth="150" Binding="{Binding PresentationZone}" />
                     <WpfToolkit:DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Description}" />
                     <WpfToolkit:DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
                     <WpfToolkit:DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />
@@ -82,8 +88,18 @@
                     <TextBlock Text="{Binding DriverName}" />
                 </StackPanel>
 
+                <StackPanel Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Зона:" FontWeight="Bold" Foreground="YellowGreen" />
+                    <TextBlock Text="{Binding PresentationZone}" />
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="YellowGreen" />
+                    <TextBlock Text="{Binding PresentationZone}" />
+                </StackPanel>
+
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Состояние" FontWeight="Bold" Margin="0,0,5,0" />
+                    <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
                     <TextBlock Text="{Binding State}" />
                 </StackPanel>
 

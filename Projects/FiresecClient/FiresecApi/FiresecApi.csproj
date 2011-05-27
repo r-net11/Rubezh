@@ -72,6 +72,9 @@
     </Compile>
     <Compile Include="MetadataHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XSD\IndicatorLogic.cs">
+      <DependentUpon>IndicatorLogic.xsd</DependentUpon>
+    </Compile>
     <Compile Include="XSD\ReadEvents.cs">
       <DependentUpon>ReadEvents.xsd</DependentUpon>
     </Compile>
@@ -87,6 +90,9 @@
     <None Include="XSD\GetCoreDeviceParams.xsd" />
     <None Include="XSD\GetCoreState.xsd" />
     <None Include="XSD\GetMetaData.xsd" />
+    <None Include="XSD\IndicatorLogic.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="XSD\ReadEvents.xsd" />
     <None Include="XSD\ZoneLogic.xsd" />
   </ItemGroup>

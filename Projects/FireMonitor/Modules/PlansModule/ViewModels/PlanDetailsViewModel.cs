@@ -91,26 +91,10 @@ namespace PlansModule.ViewModels
                 Devices.ForEach(x => x.IsSelected = false);
                 if (value != null)
                 {
-                    HasSelectedDevice = true;
                     value.IsSelected = true;
-                }
-                else
-                {
-                    HasSelectedDevice = false;
                 }
 
                 OnPropertyChanged("SelectedDevice");
-            }
-        }
-
-        bool _hasSelectedDevice;
-        public bool HasSelectedDevice
-        {
-            get { return _hasSelectedDevice; }
-            set
-            {
-                _hasSelectedDevice = value;
-                OnPropertyChanged("HasSelectedDevice");
             }
         }
 
@@ -125,26 +109,10 @@ namespace PlansModule.ViewModels
                 Zones.ForEach(x => x.IsSelected = false);
                 if (value != null)
                 {
-                    HasSelectedZone = true;
                     value.IsSelected = true;
-                }
-                else
-                {
-                    HasSelectedZone = false;
                 }
 
                 OnPropertyChanged("SelectedZone");
-            }
-        }
-
-        bool _hasSelectedZone;
-        public bool HasSelectedZone
-        {
-            get { return _hasSelectedZone; }
-            set
-            {
-                _hasSelectedZone = value;
-                OnPropertyChanged("HasSelectedZone");
             }
         }
 
@@ -156,12 +124,12 @@ namespace PlansModule.ViewModels
 
         public void SelectDevice(string id)
         {
-            SelectedDevice = Devices.FirstOrDefault(x => x.elementDevice.Id == id);
+            SelectedDevice = Devices.FirstOrDefault(x => x.DeviceId == id);
         }
 
         public void SelectZone(string zoneNo)
         {
-            SelectedZone = Zones.FirstOrDefault(x => x.elementZone.ZoneNo == zoneNo);
+            SelectedZone = Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
         }
 
         void OnPlanStateChanged(string planName)
@@ -202,13 +170,6 @@ namespace PlansModule.ViewModels
             Uri uri = new Uri(source);
             imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
-
-            //ImageBrush imageBrush = new ImageBrush();
-            //string executablePath = Assembly.GetExecutingAssembly().Location;
-            //string relativePath = "../../../Data/" + source;
-            //Uri uri = new Uri(System.IO.Path.Combine(executablePath, relativePath));
-            //imageBrush.ImageSource = new BitmapImage(uri);
-            //return imageBrush;
         }
     }
 }

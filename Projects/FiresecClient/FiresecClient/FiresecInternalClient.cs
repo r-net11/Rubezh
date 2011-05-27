@@ -131,6 +131,23 @@ namespace FiresecClient
             return Serialize<Firesec.ZoneLogic.expr>(zoneLogic);
         }
 
+        public static Firesec.Indicator.LEDProperties GetIndicatorLogic(string indicatorLogicString)
+        {
+            try
+            {
+                return Deserialize<Firesec.Indicator.LEDProperties>(indicatorLogicString);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string SetIndicatorLogic(Firesec.Indicator.LEDProperties indicatorLogic)
+        {
+            return Serialize<Firesec.Indicator.LEDProperties>(indicatorLogic);
+        }
+
         public static void Ping()
         {
             lock (_locker)

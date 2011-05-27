@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace PlansModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для CanvasView.xaml
-    /// </summary>
     public partial class CanvasView : UserControl
     {
         Point? lastCenterPositionOnTarget;
@@ -99,6 +96,9 @@ namespace PlansModule.Views
 
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (e.NewValue == 0)
+                return;
+
             scaleTransform.ScaleX = e.NewValue;
             scaleTransform.ScaleY = e.NewValue;
 

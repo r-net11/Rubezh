@@ -26,8 +26,11 @@ namespace PlansModule.ViewModels
             foreach (var elementDevice in plan.ElementDevices)
             {
                 DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
-                _deviceStates.Add(deviceState);
-                deviceState.StateChanged += new Action(UpdateSelfState);
+                if (deviceState != null)
+                {
+                    _deviceStates.Add(deviceState);
+                    deviceState.StateChanged += new Action(UpdateSelfState);
+                }
             }
 
             UpdateSelfState();

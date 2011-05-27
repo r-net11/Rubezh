@@ -6,92 +6,105 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ScrollViewer Style="{DynamicResource LeftScrollViewer}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Style="{DynamicResource LeftScrollViewer}" VerticalScrollBarVisibility="Auto">
             <Grid Grid.Column="0">
                 <Views:DevicesView/>
             </Grid>
         </ScrollViewer>
         <Grid Grid.Column="1">
-            <TabControl Background="Transparent" TabStripPlacement="Bottom" DataContext="{Binding SelectedState}" ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            <TextBlock Text="Кадр " />
-                            <TextBlock Text="{Binding Id}" />
-                        </DockPanel>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <Grid Margin="-4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="2*"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <TextBox Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" />
-                            </Grid>
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Name="grid" Grid.Column="0">
-                                    <ItemsControl VerticalAlignment="Center" Padding="20,0,100,0" HorizontalAlignment="Center" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <Canvas Width="500" Height="500" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.LayoutTransform>
-                                            <ScaleTransform ScaleX="{Binding ElementName=grid, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0015}" 
-                                                            ScaleY="{Binding ElementName=grid, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0015}" />
-                                        </ItemsControl.LayoutTransform>
-                                    </ItemsControl>                                   
-                                </Grid>
-                                <Grid Grid.Column="1" Height="120" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                                    <StackPanel VerticalAlignment="Bottom">
-                                        <DockPanel HorizontalAlignment="Left">
-                                            <Label Content="Слой:" FontSize="14" />
-                                            <TextBox BorderBrush="Black" HorizontalContentAlignment="Center" Width="43" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
-                                        </DockPanel>
-                                        <Label  Content="Длительность: " FontSize="11"  Height="28" Name="label1" Margin="-2,0,0,-5" />
-                                        <TextBox Name="textBoxDuration" HorizontalContentAlignment="Right" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" AcceptsTab="True" AcceptsReturn="True" IsManipulationEnabled="True" IsTabStop="False" />
-                                        <Button Content="Добавить кадр" BorderThickness="3" Command="{Binding AddFrameCommand}" />
-                                        <Button Content="Удалить кадр" BorderThickness="3" Command="{Binding RemoveFrameCommand}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-            <Grid>
-                <ContentControl Width="90" DataContext="{Binding SelectedState.ParentDevice}" HorizontalAlignment="Right" HorizontalContentAlignment="Center">
-                    <ItemsControl Margin="0,-130,12,0" ItemsSource="{Binding DeviceControl.StateCanvases}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Width="500">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas Width="500" Height="500"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" />
-                        </ItemsControl.LayoutTransform>
-                    </ItemsControl>
-                </ContentControl>
-                <Slider Visibility="{Binding Path=Flag, Converter={StaticResource VisibleIfTrue}}" Cursor="Hand" Name="sliderScale" Width="80" HorizontalAlignment="Right" Orientation="Horizontal" Minimum="0.01" Maximum="0.15"
-                                Value="1.0" VerticalAlignment="Center" Margin="0,-30,10,0"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" DataContext="{Binding SelectedState.SelectedFrame}">
+                <TextBox Background="Transparent" Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Name="textBox2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" />
             </Grid>
-            <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Panel.ZIndex="1">
-                <DockPanel VerticalAlignment="Bottom">
-                    <Button Content="Сохранить" Visibility="{Binding Path=Flag, Converter={StaticResource VisibleIfTrue}}" Width="80" Height="22" Command="{Binding SaveCommand}" />
-                </DockPanel>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <TabControl Background="Transparent" TabStripPlacement="Bottom" DataContext="{Binding SelectedState}" ItemsSource="{Binding Frames}" SelectedItem="{Binding SelectedFrame}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock Text="Кадр " />
+                                <TextBlock Text="{Binding Id}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.Resources>
+                        <ContextMenu x:Key="contextMenu">
+                            <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                            <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+                        </ContextMenu>
+                    </TabControl.Resources>
+                    <TabControl.ItemContainerStyle>
+                        <Style TargetType="TabItem">
+                            <Setter Property="TabItem.ContextMenu" Value="{StaticResource contextMenu}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <Grid Name="grid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <Canvas Width="500" Height="500" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.LayoutTransform>
+                                                <ScaleTransform ScaleX="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" 
+                                                            ScaleY="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" />
+                                            </ItemsControl.LayoutTransform>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                        <DockPanel Margin="5,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                            <Label Content="Слой: "/>
+                                            <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Label  Content=" Длительность: " />
+                                            <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+                                            <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" />
+                                        </DockPanel>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid Height="140" Margin="0,-20,0,0" VerticalAlignment="Top">
+                    <ContentControl DataContext="{Binding SelectedState.ParentDevice}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+                        <ItemsControl ItemsSource="{Binding DeviceControl.StateCanvases}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Width="500">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="500" Height="500"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.LayoutTransform>
+                                <ScaleTransform ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" />
+                            </ItemsControl.LayoutTransform>
+                        </ItemsControl>
+                    </ContentControl>
+                    <Slider Visibility="{Binding Path=Flag, Converter={StaticResource VisibleIfTrue}}" Cursor="Hand" Name="sliderScale" Width="80" Margin="0,0,5,0" HorizontalAlignment="Right" Orientation="Horizontal" Minimum="0.01" Maximum="0.15"
+                                Value="1.0" VerticalAlignment="Bottom" />
+                </Grid>
+                <Button VerticalAlignment="Bottom" Content="Сохранить" Visibility="{Binding Path=Flag, Converter={StaticResource VisibleIfTrue}}" Width="80" Height="22" Margin="0,0,0,5" Command="{Binding SaveCommand}" />
             </Grid>
         </Grid>
     </Grid>

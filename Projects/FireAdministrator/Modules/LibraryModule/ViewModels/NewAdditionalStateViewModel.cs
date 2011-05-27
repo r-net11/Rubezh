@@ -6,15 +6,16 @@ using DeviceLibrary;
 
 namespace LibraryModule.ViewModels
 {
-    internal class AdditionalStatesListViewModel : DialogContent
+    internal class NewAdditionalStateViewModel : DialogContent
     {
-        public AdditionalStatesListViewModel()
+        public NewAdditionalStateViewModel()
         {
-            Title = "Список дополнительных состояний";
+            Title = "Добавить дополнительное состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         private readonly DeviceViewModel _selectedDevice;
@@ -61,8 +62,9 @@ namespace LibraryModule.ViewModels
             foreach (var item in _driver.state)
             {
                 if (_selectedDevice.States.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
+                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
-                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true, frames);
+                stateViewModel.Frames = frames;
                 States.Add(stateViewModel);
             }
             States = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Class));
@@ -78,6 +80,13 @@ namespace LibraryModule.ViewModels
             _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        private void OnCancel()
+        {
+            Close(false);
         }
     }
 }

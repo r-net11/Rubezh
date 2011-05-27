@@ -43,6 +43,7 @@ namespace DevicesModule.ViewModels
                 return _states;
             }
         }
+
         public ObservableCollection<string> Operations
         {
             get
@@ -93,12 +94,22 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        void Update()
+        {
+            OnPropertyChanged("PresenrationZones");
+        }
+
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-            ZoneLogicSectionViewModel zoneLogicSectionViewModel = new ZoneLogicSectionViewModel();
-            zoneLogicSectionViewModel.Initialize(_zones);
-            ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicSectionViewModel);
+            ZonesSelectionViewModel zonesSelectionViewModel = new ZonesSelectionViewModel();
+            zonesSelectionViewModel.Initialize(_zones);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
+            if (result)
+            {
+                _zones = zonesSelectionViewModel.Zones;
+                Update();
+            }
         }
 
         public Firesec.ZoneLogic.clauseType Save()
@@ -106,6 +117,7 @@ namespace DevicesModule.ViewModels
             Firesec.ZoneLogic.clauseType clause = new Firesec.ZoneLogic.clauseType();
             clause.state = SelectedState;
             clause.operation = SelectedOperation;
+            clause.zone = _zones.ToArray();
             return clause;
         }
     }

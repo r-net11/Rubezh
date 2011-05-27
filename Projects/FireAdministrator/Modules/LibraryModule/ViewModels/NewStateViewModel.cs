@@ -7,16 +7,16 @@ using System.Collections.ObjectModel;
 
 namespace LibraryModule.ViewModels
 {
-    class StatesListViewModel : DialogContent
+    class NewStateViewModel : DialogContent
     {
-        public StatesListViewModel()
+        public NewStateViewModel()
         {
-            Title = "Список состояний";
+            Title = "Добавить состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
             _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
-            AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         private bool _isEnabled;
@@ -62,9 +62,11 @@ namespace LibraryModule.ViewModels
             for (var stateId = 0; stateId < 9; stateId++)
             {
                 if (_selectedDevice.States.FirstOrDefault(x => (x.Id == Convert.ToString(stateId)) && (!x.IsAdditional)) != null) continue;
-                if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
+                if(stateId!=7)
+                    if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
+                var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
-                var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false, frames);
+                stateViewModel.Frames = frames;
                 States.Add(stateViewModel);
             }
         }
@@ -74,10 +76,16 @@ namespace LibraryModule.ViewModels
         {
             if (SelectedState == null) return;
             _selectedDevice.States.Add(SelectedState);
-            States.Remove(SelectedState);
             _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        private void OnCancel()
+        {
+            Close(false);
         }
     }
 }
