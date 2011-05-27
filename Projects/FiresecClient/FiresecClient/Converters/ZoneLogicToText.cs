@@ -9,7 +9,7 @@ namespace FiresecClient
     {
         public static string Convert(Firesec.ZoneLogic.expr zoneLogic)
         {
-            string stringZoneLogic = "";
+            string stringZoneLogic = " ";
 
             if (zoneLogic != null)
             {

@@ -77,85 +77,144 @@ namespace DeviveModelManager
         List<Assad.modelInfoTypeParam> AddParameters()
         {
             List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
-            parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
-                parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+//            parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
 
             if (Driver.ar_no_addr == "0")
             {
                 parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
             }
 
-            if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
-            {
-                parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
-            }
-            else
-            {
-                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
-                {
-                    parameters.Add(new Assad.modelInfoTypeParam() { param = "Настройка включения по состоянию зон", type = "edit" });
-                }
-            }
+            //if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
+            //{
+            //    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
+            //}
+            //else
+            //{
+            //    if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
+            //    {
+            //        parameters.Add(new Assad.modelInfoTypeParam() { param = "Настройка включения по состоянию зон", type = "edit" });
+            //    }
+            //}
 
-            if (Driver.propInfo != null)
-            {
-                foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
-                {
-                    Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
-                    if (propInfo.hidden == "0")
-                    {
-                        if (!string.IsNullOrEmpty(propInfo.caption))
-                        {
-                            if (!string.IsNullOrEmpty(propInfo.type))
-                            {
-                                customParam.param = propInfo.caption;
-                                if (propInfo.caption == "Адрес")
-                                {
-                                    customParam.param = "Адрес USB устройства в сети RS-485";
-                                }
-                                if ((propInfo.caption == "Заводской номер") || (propInfo.caption == "Версия микропрограммы"))
-                                {
-                                    continue;
-                                }
+            //if (Driver.propInfo != null)
+            //{
+            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    {
+            //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
+            //        if (propInfo.hidden == "0")
+            //        {
+            //            if (!string.IsNullOrEmpty(propInfo.caption))
+            //            {
+            //                if (!string.IsNullOrEmpty(propInfo.type))
+            //                {
+            //                    customParam.param = propInfo.caption;
+            //                    if (propInfo.caption == "Адрес")
+            //                    {
+            //                        customParam.param = "Адрес USB устройства в сети RS-485";
+            //                    }
+            //                    if ((propInfo.caption == "Заводской номер") || (propInfo.caption == "Версия микропрограммы"))
+            //                    {
+            //                        continue;
+            //                    }
 
-                                if (propInfo.param != null)
-                                {
-                                    if (propInfo.param.Count() > 0)
-                                    {
-                                        customParam.type = "single";
-                                        List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-                                        foreach (Firesec.Metadata.paramType paramType in propInfo.param)
-                                        {
-                                            Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
-                                            modelInfoTypeParamValue.value = paramType.name;
-                                            customParamValues.Add(modelInfoTypeParamValue);
-                                        }
-                                        customParam.value = customParamValues.ToArray();
-                                    }
-                                }
-                                else
-                                {
-                                    if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
-                                    {
-                                        customParam.type = "checkbox";
-                                    }
-                                    else
-                                    {
-                                        customParam.type = "edit";
-                                    }
-                                }
+            //                    if (propInfo.param != null)
+            //                    {
+            //                        if (propInfo.param.Count() > 0)
+            //                        {
+            //                            customParam.type = "single";
+            //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
+            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            {
+            //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
+            //                                modelInfoTypeParamValue.value = paramType.name;
+            //                                customParamValues.Add(modelInfoTypeParamValue);
+            //                            }
+            //                            customParam.value = customParamValues.ToArray();
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
+            //                        {
+            //                            customParam.type = "checkbox";
+            //                        }
+            //                        else
+            //                        {
+            //                            customParam.type = "edit";
+            //                        }
+            //                    }
 
-                                parameters.Add(customParam);
-                            }
-                        }
-                    }
-                }
-            }
+            //                    parameters.Add(customParam);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
             return parameters;
         }
 
         List<Assad.modelInfoTypeState> AddStates()
         {
+// данные для вставки новых состояний ->>>
+
+            //if (Driver.propInfo != null)
+            //{
+            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    {
+            //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
+            //        if (propInfo.hidden == "0")
+            //        {
+            //            if (!string.IsNullOrEmpty(propInfo.caption))
+            //            {
+            //                if (!string.IsNullOrEmpty(propInfo.type))
+            //                {
+            //                    customParam.param = propInfo.caption;
+            //                    if (propInfo.caption == "Адрес")
+            //                    {
+            //                        customParam.param = "Адрес USB устройства в сети RS-485";
+            //                    }
+            //                    if ((propInfo.caption == "Заводской номер") || (propInfo.caption == "Версия микропрограммы"))
+            //                    {
+            //                        continue;
+            //                    }
+
+            //                    if (propInfo.param != null)
+            //                    {
+            //                        if (propInfo.param.Count() > 0)
+            //                        {
+            //                            customParam.type = "single";
+            //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
+            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            {
+            //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
+            //                                modelInfoTypeParamValue.value = paramType.name;
+            //                                customParamValues.Add(modelInfoTypeParamValue);
+            //                            }
+            //                            customParam.value = customParamValues.ToArray();
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
+            //                        {
+            //                            customParam.type = "checkbox";
+            //                        }
+            //                        else
+            //                        {
+            //                            customParam.type = "edit";
+            //                        }
+            //                    }
+
+            //                    parameters.Add(customParam);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            
+            
+//<<--            
+            
             List<Assad.modelInfoTypeState> States = new List<Assad.modelInfoTypeState>();
             Assad.modelInfoTypeState AssadState = new Assad.modelInfoTypeState();
             AssadState.state = "Состояние";
@@ -172,6 +231,141 @@ namespace DeviveModelManager
             StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
             AssadState.value = StateValues.ToArray();
             States.Add(AssadState);
+            //            parameters.Add(new Assad.modelInfoTypeParam() { param = "Примечание", type = "edit" });
+            States.Add(new Assad.modelInfoTypeState() { state = "Примечание" });
+            //if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
+            //{
+            //    parameters.Add(new Assad.modelInfoTypeParam() { param = "Зона", type = "edit" });
+            //}
+            //else
+            //{
+            //    if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
+            //    {
+            //        parameters.Add(new Assad.modelInfoTypeParam() { param = "Настройка включения по состоянию зон", type = "edit" });
+            //    }
+            //}
+
+            if ((Driver.minZoneCardinality == "1") && (Driver.maxZoneCardinality == "1"))
+            {
+                States.Add(new Assad.modelInfoTypeState() { state = "Зона"});
+            }
+            else
+            {
+                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
+                {
+                    States.Add(new Assad.modelInfoTypeState() { state = "Настройка включения по состоянию зон"});
+                }
+            }
+
+            //if (Driver.propInfo != null)
+            //{
+            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    {
+            //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
+            //        if (propInfo.hidden == "0")
+            //        {
+            //            if (!string.IsNullOrEmpty(propInfo.caption))
+            //            {
+            //                if (!string.IsNullOrEmpty(propInfo.type))
+            //                {
+            //                    customParam.param = propInfo.caption;
+            //                    if (propInfo.caption == "Адрес")
+            //                    {
+            //                        customParam.param = "Адрес USB устройства в сети RS-485";
+            //                    }
+            //                    if ((propInfo.caption == "Заводской номер") || (propInfo.caption == "Версия микропрограммы"))
+            //                    {
+            //                        continue;
+            //                    }
+
+            //                    if (propInfo.param != null)
+            //                    {
+            //                        if (propInfo.param.Count() > 0)
+            //                        {
+            //                            customParam.type = "single";
+            //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
+            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            {
+            //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
+            //                                modelInfoTypeParamValue.value = paramType.name;
+            //                                customParamValues.Add(modelInfoTypeParamValue);
+            //                            }
+            //                            customParam.value = customParamValues.ToArray();
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
+            //                        {
+            //                            customParam.type = "checkbox";
+            //                        }
+            //                        else
+            //                        {
+            //                            customParam.type = "edit";
+            //                        }
+            //                    }
+
+            //                    parameters.Add(customParam);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+//***
+            if (Driver.propInfo != null)
+            {
+                foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+                {
+                    Assad.modelInfoTypeState customParam = new Assad.modelInfoTypeState();
+                    if (propInfo.hidden == "0")
+                    {
+                        if (!string.IsNullOrEmpty(propInfo.caption))
+                        {
+                            if (!string.IsNullOrEmpty(propInfo.type))
+                            {
+                                customParam.state = propInfo.caption;
+                                if (propInfo.caption == "Адрес")
+                                {
+                                    customParam.state = "Адрес USB устройства в сети RS-485";
+                                }
+                                if ((propInfo.caption == "Заводской номер") || (propInfo.caption == "Версия микропрограммы"))
+                                {
+                                    continue;
+                                }
+
+                                //if (propInfo.param != null)
+                                //{
+                                //    if (propInfo.param.Count() > 0)
+                                //    {
+                                //        customParam.type = "single";
+                                //        List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
+                                //        foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+                                //        {
+                                //            Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
+                                //            modelInfoTypeParamValue.value = paramType.name;
+                                //            customParamValues.Add(modelInfoTypeParamValue);
+                                //        }
+                                //        customParam.value = customParamValues.ToArray();
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    if ((propInfo.type == "pkBoolean") || (propInfo.type == "Bool"))
+                                //    {
+                                //        customParam.type = "checkbox";
+                                //    }
+                                //    else
+                                //    {
+                                //        customParam.type = "edit";
+                                //    }
+                                //}
+
+                                States.Add(customParam);
+                            }
+                        }
+                    }
+                }
+            }
 
             Assad.modelInfoTypeState AssadConfigurationState = new Assad.modelInfoTypeState();
             AssadConfigurationState.state = "Конфигурация";

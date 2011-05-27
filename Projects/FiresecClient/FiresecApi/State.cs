@@ -25,6 +25,7 @@ namespace Firesec
         public State(int id)
         {
             _id = id;
+     
         }
 
         public StateType StateType
