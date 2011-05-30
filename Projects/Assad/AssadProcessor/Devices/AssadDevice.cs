@@ -118,12 +118,11 @@ namespace AssadProcessor.Devices
                     Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == Id);
                     var driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x=>x.id == device.DriverId);
                     
-                    //отладочная информация 
-                    {
-                        string str0 = "GetState" + " для  " + DriversHelper.GetDriverNameById(device.DriverId) + " ---";
-                        Trace.WriteLine(str0);                    
-                    }
-
+                    ////отладочная информация 
+                    //{
+                    //    string str0 = "GetState" + " для  " + DriversHelper.GetDriverNameById(device.DriverId) + " ---";
+                    //    Trace.WriteLine(str0);                    
+                    //}
                     Assad.DeviceTypeState state0 = new Assad.DeviceTypeState();
                     state0.state = "Примечание";
                     if ((string.IsNullOrEmpty(device.Description)) || (device.Description == "<NULL>"))
@@ -132,11 +131,11 @@ namespace AssadProcessor.Devices
                     }
                     state0.value = device.Description;
                     states.Add(state0);
-                    //отладочная информация 
-                    {
-                        string str1 = "Состояние " + "Примечание:" + " - " + state0.value + " - ";
-                        Trace.WriteLine(str1);
-                    }
+                    ////отладочная информация 
+                    //{
+                    //    string str1 = "Состояние " + "Примечание:" + " - " + state0.value + " - ";
+                    //    Trace.WriteLine(str1);
+                    //}
 
                     if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
                     {
@@ -150,11 +149,11 @@ namespace AssadProcessor.Devices
                         state1.value = device.ZoneNo;
                         states.Add(state1);
 
-                        //отладочная информация 
-                        {
-                            string str2 = "Состояние " + "Зона:" + " - " + state1.value + " - ";
-                            Trace.WriteLine(str2);
-                        }
+                        ////отладочная информация 
+                        //{
+                        //    string str2 = "Состояние " + "Зона:" + " - " + state1.value + " - ";
+                        //    Trace.WriteLine(str2);
+                        //}
                     }
                     else
                     {
@@ -166,60 +165,63 @@ namespace AssadProcessor.Devices
                             string zonelogicstring = ZoneLogicToText.Convert(device.ZoneLogic);
                             state2.value = zonelogicstring;
                             states.Add(state2);
-                            //отладочная информация 
-                            {
-                                string str3 = "Состояния " + "Настройка включения по состоянию зон:" + " - " + state2.value + " - ";
-                                Trace.WriteLine(str3);
-                            }
+                            ////отладочная информация 
+                            //{
+                            //    string str3 = "Состояния " + "Настройка включения по состоянию зон:" + " - " + state2.value + " - ";
+                            //    Trace.WriteLine(str3);
+                            //}
                         }
                         
                     }
-
-                    if (device.Properties != null)
+                    if (driver.propInfo != null)
                     {
-                        foreach (Property property in device.Properties)
+                        foreach (Firesec.Metadata.propInfoType propinfo in driver.propInfo)
                         {
                             Assad.DeviceTypeState loopState = new Assad.DeviceTypeState();
+                            string name = propinfo.name;
+                            string value =  propinfo.@default;                            
+                            loopState.state = propinfo.caption;
 
-                            string name = property.Name;
-                            
-                            Firesec.Metadata.propInfoType propInfo = driver.propInfo.FirstOrDefault( x=>x.name == name);
-                            loopState.state = propInfo.caption;
-                            var val = property.Value;
-
-                            //отладочная информация 
+                            if (propinfo.caption == "Адрес")
                             {
-                                string debstr = "<property.Name>" + property.Name
-                                                + "<propInfo.caption>" + propInfo.caption
-                                                + "<property.Value>" + property.Value;
-                                Trace.WriteLine(debstr);
-                            }
-                            
-                            if (string.IsNullOrEmpty(property.Value))
-                            {
-                                val = propInfo.@default;
+                                loopState.state = "Адрес USB устройства в сети RS-485";
                             }
 
-                            if (propInfo.param != null)
-                            {// выбор значения из массива
-                                if (propInfo.param.Any(x => x.value == property.Value))
+                            if (device.Properties.Any(x => x.Name == name))
+                            { // свойство присутствует
+                                Property property = device.Properties.FirstOrDefault(x => x.Name == name);
+                                value = property.Value;
+
+                                if (string.IsNullOrEmpty(property.Value))
                                 {
-                                    val = propInfo.param.FirstOrDefault(x => x.value == property.Value).name;
+                                    value = propinfo.@default;
                                 }
                             }
 
-                            loopState.value = val;
-                            //отладочная информация 
-                            {
-                                string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
-                                Trace.WriteLine(loopstr);
+
+                            if (propinfo.param != null)
+                            {// выбор значения из массива
+                                if (propinfo.param.Any(x => x.value == value))
+                                {
+                                    value = propinfo.param.FirstOrDefault(x => x.value == value).name;
+                                }
                             }
+                                    
+                            loopState.value = value;
+                            ////отладочная информация 
+                            //{
+                            //    string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
+                            //    Trace.WriteLine(loopstr);
+                            //}
+                            if((propinfo.hidden == "0") && (propinfo.showOnlyInState == "0"))
                             states.Add(loopState);
+                        }    
 
-                        }
-                    }
+                      }
+                    }//
 
-                }            
+
+
 //<<--            
             }
             else
