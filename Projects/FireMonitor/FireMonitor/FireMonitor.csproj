@@ -169,7 +169,14 @@
       <Name>ReportsModule</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Tree_Alarms.png" />
+    <Resource Include="Images\Tree_Equipment.png" />
+    <Resource Include="Images\Tree_Journal.png" />
+    <Resource Include="Images\Tree_Plans.png" />
+    <Resource Include="Images\Tree_Reports.png" />
+    <Resource Include="Images\Tree_Zones.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Ind_C-C.png" />
     <Resource Include="Images\Ind_C-P.png" />
