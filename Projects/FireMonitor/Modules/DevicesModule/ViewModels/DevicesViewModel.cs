@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Id == id);
             if (deviceViewModel != null)
             {
                 deviceViewModel.Update();
@@ -56,7 +56,7 @@ namespace DevicesModule.ViewModels
 
         void CurrentStates_DeviceStateChanged(string id)
         {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Id == id);
             if (deviceViewModel != null)
             {
                 deviceViewModel.UpdateParameters();
@@ -98,7 +98,7 @@ namespace DevicesModule.ViewModels
 
         public void Select(string id)
         {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Id == id);
             if (deviceViewModel != null)
             {
                 deviceViewModel.ExpantToThis();

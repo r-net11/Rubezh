@@ -75,14 +75,14 @@ namespace FiresecClient
 
             deviceState.Parameters = new List<Parameter>();
             if (driver.paramInfo != null)
-            foreach (Firesec.Metadata.paramInfoType parameterInfo in driver.paramInfo)
-            {
-                Parameter parameter = new Parameter();
-                parameter.Name = parameterInfo.name;
-                parameter.Caption = parameterInfo.caption;
-                parameter.Visible = ((parameterInfo.hidden == "0") && (parameterInfo.showOnlyInState == "0"));
-                deviceState.Parameters.Add(parameter);
-            }
+                foreach (Firesec.Metadata.paramInfoType parameterInfo in driver.paramInfo)
+                {
+                    Parameter parameter = new Parameter();
+                    parameter.Name = parameterInfo.name;
+                    parameter.Caption = parameterInfo.caption;
+                    parameter.Visible = ((parameterInfo.hidden == "0") && (parameterInfo.showOnlyInState == "0"));
+                    deviceState.Parameters.Add(parameter);
+                }
 
             return deviceState;
         }
@@ -107,9 +107,10 @@ namespace FiresecClient
 
             if (innerDevice.param != null)
             {
-                if (innerDevice.param.Any(x => x.name == "DB$IDDevices"))
+                var param = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices");
+                if (param != null)
                 {
-                    device.DatabaseId = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices").value;
+                    device.DatabaseId = param.value;
                 }
             }
 
@@ -152,8 +153,9 @@ namespace FiresecClient
                 case "USB преобразователь МС-2":
                     if (innerDevice.prop != null)
                     {
-                        if (innerDevice.prop.Any(x => x.name == "SerialNo"))
-                            device.Address = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo").value;
+                        var serialNoProperty = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo");
+                        if (serialNoProperty != null)
+                            device.Address = serialNoProperty.value;
                     }
                     else
                         device.Address = "0";
@@ -232,10 +234,13 @@ namespace FiresecClient
                     zone.Description = innerZone.desc;
                     if (innerZone.param != null)
                     {
-                        if (innerZone.param.Any(x => x.name == "ExitTime"))
-                            zone.EvacuationTime = innerZone.param.FirstOrDefault(x => x.name == "ExitTime").value;
-                        if (innerZone.param.Any(x => x.name == "FireDeviceCount"))
-                            zone.DetectorCount = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount").value;
+                        var exitTimeParam = innerZone.param.FirstOrDefault(x => x.name == "ExitTime");
+                        if (exitTimeParam != null)
+                            zone.EvacuationTime = exitTimeParam.value;
+
+                        var fireDeviceCountParam = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount");
+                        if (fireDeviceCountParam != null)
+                            zone.DetectorCount = fireDeviceCountParam.value;
                     }
                     FiresecManager.CurrentConfiguration.Zones.Add(zone);
                     FiresecManager.CurrentStates.ZoneStates.Add(CreateZoneState(zone));

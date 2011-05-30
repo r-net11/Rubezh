@@ -123,9 +123,7 @@ namespace PlansModule.ViewModels
 
         void menuItem3_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel();
-            deviceDetailsViewModel.Initialize(_device);
-            ServiceFactory.UserDialogs.ShowModalWindow(deviceDetailsViewModel);
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.Id);
         }
 
         void OnMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

@@ -72,9 +72,9 @@ namespace DevicesModule.ViewModels
 
         void OnZoneStateChanged(string zoneNo)
         {
-            if (FiresecManager.CurrentStates.ZoneStates.Any(x => x.No == zoneNo))
+            ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+            if (zoneState != null)
             {
-                ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
                 ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
                 if (zoneViewModel != null)
                 {
@@ -85,12 +85,12 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == id))
+            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+            if (deviceState != null)
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
                 if (Devices != null)
                 {
-                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Id == id);
                     if (deviceViewModel != null)
                     {
                         deviceViewModel.Update();
@@ -102,7 +102,7 @@ namespace DevicesModule.ViewModels
 
         void CurrentStates_ZoneStateChanged(string zoneNo)
         {
-            ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x=>x.No == zoneNo);
+            ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
             zoneViewModel.State = zoneState.State;
         }

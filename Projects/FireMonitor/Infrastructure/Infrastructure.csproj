@@ -55,9 +55,10 @@
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
     <Compile Include="Events\ShowCallEvent.cs" />
+    <Compile Include="Events\ShowDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowReportsEvent.cs" />
-    <Compile Include="Events\ShowDevicesEvent.cs" />
+    <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
     <Compile Include="Events\ShowZonesEvent.cs" />

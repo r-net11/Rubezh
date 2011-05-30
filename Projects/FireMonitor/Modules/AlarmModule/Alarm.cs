@@ -80,9 +80,9 @@ namespace AlarmModule
             }
 
             string id = null;
-            if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == databaseId))
+            Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
+            if (device != null)
             {
-                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
                 id = device.Id;
             }
 
@@ -93,10 +93,10 @@ namespace AlarmModule
             string panelDatabaseId = journalItem.IDDevicesSource;
             if (string.IsNullOrEmpty(panelDatabaseId) == false)
             {
-                if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == panelDatabaseId))
+                Device devicePanel = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
+                if (devicePanel != null)
                 {
-                    Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
-                    panelId = device.Id;
+                    panelId = devicePanel.Id;
                 }
             }
             alarm.PanelId = panelId;

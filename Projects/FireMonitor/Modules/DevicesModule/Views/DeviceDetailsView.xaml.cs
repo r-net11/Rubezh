@@ -12,11 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PlansModule.Views
+namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для DeviceDetailsView.xaml
-    /// </summary>
     public partial class DeviceDetailsView : UserControl
     {
         public DeviceDetailsView()

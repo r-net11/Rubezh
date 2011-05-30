@@ -15,29 +15,30 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public Device Device;
-        public Firesec.Metadata.drvType Driver;
+        Device _device;
+        Firesec.Metadata.drvType _driver;
 
         public DeviceViewModel()
         {
             ShowPlanCommand = new RelayCommand(OnShowPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone);
             DisableCommand = new RelayCommand(OnDisable);
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;
 
-            this.Device = device;
-            Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+            this._device = device;
+            _driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
             UpdateParameters();
         }
 
         public void UpdateParameters()
         {
-            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
 
             Update();
 
@@ -76,15 +77,15 @@ namespace DevicesModule.ViewModels
 
         public string Id
         {
-            get { return Device.Id; }
+            get { return _device.Id; }
         }
 
         public string DriverId
         {
             get
             {
-                if (Device != null)
-                    return Device.DriverId;
+                if (_device != null)
+                    return _device.DriverId;
                 return null;
             }
         }
@@ -93,7 +94,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if ((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"))
+                if ((_driver.minZoneCardinality == "0") && (_driver.maxZoneCardinality == "0"))
                 {
                     return false;
                 }
@@ -105,7 +106,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
+                if ((_driver.options != null) && (_driver.options.Contains("ExtendedZoneLogic")))
                 {
                     return true;
                 }
@@ -119,15 +120,15 @@ namespace DevicesModule.ViewModels
             {
                 if (IsZoneDevice)
                 {
-                    if (string.IsNullOrEmpty(Device.ZoneNo))
+                    if (string.IsNullOrEmpty(_device.ZoneNo))
                         return "";
 
-                    Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                    return Device.ZoneNo + "." + zone.Name;
+                    Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == _device.ZoneNo);
+                    return _device.ZoneNo + "." + zone.Name;
                 }
                 if (IsZoneLogicDevice)
                 {
-                    return ZoneLogicToText.Convert(Device.ZoneLogic);
+                    return ZoneLogicToText.Convert(_device.ZoneLogic);
                 }
                 return "";
             }
@@ -137,7 +138,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return Driver.shortName;
+                return _driver.shortName;
             }
         }
 
@@ -145,7 +146,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return Driver.name;
+                return _driver.name;
             }
         }
 
@@ -161,7 +162,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return Device.Address;
+                return _device.Address;
             }
         }
 
@@ -169,9 +170,9 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (Device.Address == "0")
+                if (_device.Address == "0")
                     return "";
-                return Device.Address;
+                return _device.Address;
             }
         }
 
@@ -179,7 +180,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return Device.Description;
+                return _device.Description;
             }
         }
 
@@ -192,7 +193,7 @@ namespace DevicesModule.ViewModels
                 else
                 {
                     string parentPart = Parent.ShortDriverName;
-                    if (Parent.Driver.ar_no_addr != "1")
+                    if (Parent._driver.ar_no_addr != "1")
                         parentPart += " - " + Parent.Address;
 
                     if (Parent.ConnectedTo == null)
@@ -219,13 +220,13 @@ namespace DevicesModule.ViewModels
             get
             {
                 string ImageName;
-                if (!string.IsNullOrEmpty(Driver.dev_icon))
+                if (!string.IsNullOrEmpty(_driver.dev_icon))
                 {
-                    ImageName = Driver.dev_icon;
+                    ImageName = _driver.dev_icon;
                 }
                 else
                 {
-                    Firesec.Metadata.classType metadataClass = FiresecManager.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == Driver.clsid);
+                    Firesec.Metadata.classType metadataClass = FiresecManager.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == _driver.clsid);
                     ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
                 }
 
@@ -238,9 +239,9 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (Driver.options != null)
+                if (_driver.options != null)
                 {
-                    if (Driver.options.Contains("Ignorable"))
+                    if (_driver.options.Contains("Ignorable"))
                     {
                         return true;
                     }
@@ -254,7 +255,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.SelfStates != null)
                     foreach (string selfState in deviceState.SelfStates)
                     {
@@ -269,7 +270,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (string parentState in deviceState.ParentStringStates)
                     {
@@ -284,7 +285,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parameters = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.Parameters != null)
                     foreach (Parameter parameter in deviceState.Parameters)
                     {
@@ -305,7 +306,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 return deviceState.State;
             }
         }
@@ -388,13 +389,13 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            string zoneNo = Device.ZoneNo;
+            string zoneNo = _device.ZoneNo;
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
                 ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zoneNo);
@@ -405,6 +406,12 @@ namespace DevicesModule.ViewModels
         void OnDisable()
         {
             ;
+        }
+
+        public RelayCommand ShowPropertiesCommand { get; private set; }
+        void OnShowProperties()
+        {
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.Id);
         }
     }
 }

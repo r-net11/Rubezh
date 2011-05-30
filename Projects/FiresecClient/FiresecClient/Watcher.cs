@@ -106,10 +106,9 @@ namespace FiresecClient
                 {
                     deviceState.ChangeEntities.Reset();
 
-                    if (coreParameters.dev.Any(x => x.name == deviceState.PlaceInTree))
+                    Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
+                    if (innerDevice != null)
                     {
-                        Firesec.DeviceParams.devType innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
-
                         foreach (Parameter parameter in deviceState.Parameters)
                         {
                             if ((innerDevice.dev_param != null) && (innerDevice.dev_param.Any(x => x.name == parameter.Name)))
@@ -342,30 +341,11 @@ namespace FiresecClient
 
         Firesec.CoreState.devType FindDevice(Firesec.CoreState.devType[] innerDevices, string PlaceInTree)
         {
-            Firesec.CoreState.devType innerDevice;
-            if (innerDevices == null)
+            if (innerDevices != null)
             {
-                innerDevice = null;
+                return innerDevices.FirstOrDefault(a => a.name == PlaceInTree);
             }
-            else
-            {
-                try
-                {
-                    if (innerDevices.Any(a => a.name == PlaceInTree))
-                    {
-                        innerDevice = innerDevices.FirstOrDefault(a => a.name == PlaceInTree);
-                    }
-                    else
-                    {
-                        innerDevice = null;
-                    }
-                }
-                catch
-                {
-                    innerDevice = null;
-                }
-            }
-            return innerDevice;
+            return null;
         }
     }
 }

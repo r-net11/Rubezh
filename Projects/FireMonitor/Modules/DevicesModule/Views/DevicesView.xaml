@@ -46,8 +46,9 @@
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding ShortDriverName}">
                                             <TextBlock.ContextMenu>
-                                                <ContextMenu Visibility="{Binding CanIgnore, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" />
+                                                <ContextMenu>
+                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" Visibility="{Binding CanIgnore, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
                                         </TextBlock>
