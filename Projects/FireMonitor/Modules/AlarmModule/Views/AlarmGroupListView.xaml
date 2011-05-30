@@ -26,8 +26,8 @@
                              PathToIcon="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}">
                         <StackPanel Orientation="Horizontal">
                             <!--<Image Visibility="Visible" Source="D:/_xxx2.png" Stretch="None" />-->
-                            <TextBlock Visibility="Collapsed" Text="{Binding Name}" Foreground="Black" TextWrapping="WrapWithOverflow" />
-                            <TextBlock Text="{Binding Count}" Foreground="Black" VerticalAlignment="Center" />
+                            <!--<TextBlock Visibility="Collapsed" Text="{Binding Name}" Foreground="Black" TextWrapping="WrapWithOverflow" />-->
+                            <!--<TextBlock Text="{Binding Count}" Foreground="White" FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center" />-->
                         </StackPanel>
                     </Controls:AlarmButton>
                 </DataTemplate>

@@ -38,7 +38,23 @@
                             <Grid>
                                 <Image Source="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}}" Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" />
                                 <Border Name="padding" Margin="{TemplateBinding Padding}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                    <ContentPresenter Name="content" TextBlock.Foreground="White" Margin="5" TextBlock.FontWeight="Bold" />
+                                <TextBlock Name="alarmcount">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" >
+                                            <Setter Property="Text" Value="{Binding Count}" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontFamily" Value="Arial" />
+                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Count}" Value="0">
+                                                    <Setter Property="Text" Value="" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <!--<ContentPresenter Name="content" TextBlock.Foreground="White" Margin="5" TextBlock.FontWeight="Bold" />-->
                                 </Border>
                                 
                                 <Control Name="Highlight">
@@ -91,7 +107,6 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="OuterBorder" Property="Opacity" Value="0.9" />
-                            <Setter TargetName="content" Property="Margin" Value="2, 2, 0, 0" />
                             <Setter TargetName="Highlight" Property="Opacity" Value="0.5" />
                         </Trigger>
                         <Trigger Property="IsGlowing" Value="True">
@@ -104,7 +119,6 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="OuterBorder" Property="Opacity" Value="0.2" />
-                            <Setter TargetName="content" Property="Margin" Value="2, 2, 0, 0" />
                             <Setter TargetName="Highlight" Property="Opacity" Value="1.0" />
                             <Setter TargetName="Glow" Property="Opacity" Value="0.0" />
                             <Setter Property="Background" Value="DarkGray" />
