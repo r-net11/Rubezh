@@ -14,8 +14,17 @@ namespace FireAdministrator
         {
             base.OnStartup(e);
 
+#if ! DEBUG
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+#endif
+
             Bootsrapper bootstrapper = new Bootsrapper();
             bootstrapper.Run();
+        }
+
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ExceptionObject.ToString());
         }
 
         protected override void OnExit(ExitEventArgs e)

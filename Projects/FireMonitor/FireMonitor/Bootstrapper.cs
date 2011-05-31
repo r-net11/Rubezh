@@ -30,8 +30,7 @@ namespace FireMonitor
 
             StartFiresecClient();
 
-            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
-            plansModule.Initialize();
+            InitializeModules();
 
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
@@ -48,13 +47,36 @@ namespace FireMonitor
         {
             base.ConfigureModuleCatalog();
 
+            return;
+
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(AlarmModule.AlarmModule));
-            //moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
+            moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
             moduleCatalog.AddModule(typeof(ReportsModule.ReportsModule));
             moduleCatalog.AddModule(typeof(CallModule.CallModule));
+        }
+
+        void InitializeModules()
+        {
+            DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
+            devicesModule.Initialize();
+
+            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
+            plansModule.Initialize();
+
+            JournalModule.JournalModule journalModule = new JournalModule.JournalModule();
+            journalModule.Initialize();
+
+            AlarmModule.AlarmModule alarmModule = new AlarmModule.AlarmModule();
+            alarmModule.Initialize();
+
+            ReportsModule.ReportsModule reportsModule = new ReportsModule.ReportsModule();
+            reportsModule.Initialize();
+
+            CallModule.CallModule callModule = new CallModule.CallModule();
+            callModule.Initialize();
         }
 
         void StartFiresecClient()
@@ -63,7 +85,6 @@ namespace FireMonitor
             FiresecManager.CurrentStates.DeviceStateChanged += CurrentStates_DeviceStateChanged;
             FiresecManager.CurrentStates.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
             FiresecManager.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
-            CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void CurrentStates_DeviceStateChanged(string obj)
@@ -79,16 +100,6 @@ namespace FireMonitor
         void CurrentStates_ZoneStateChanged(string obj)
         {
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
-        }
-
-        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
-        {
-            //Alarm alarm = new Alarm();
-            //alarm.AlarmType = AlarmType.Service;
-            //alarm.Name = journalItem.EventDesc;
-            //ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
-
-            //Trace.WriteLine("New Event");
         }
     }
 }

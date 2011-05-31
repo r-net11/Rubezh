@@ -64,6 +64,9 @@ namespace DevicesModule
             DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel();
             deviceDetailsViewModel.Initialize(deviceId);
             ServiceFactory.UserDialogs.ShowModalWindow(deviceDetailsViewModel);
+
+            //List<string> list = new List<string>();
+            //string str = list[0];
         }
     }
 }
