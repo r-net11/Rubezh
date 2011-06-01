@@ -16,6 +16,7 @@ namespace DevicesModule
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
+            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
         }
 
         public void Initialize()
@@ -40,10 +41,14 @@ namespace DevicesModule
 
             zonesViewModel = new ZonesViewModel();
             zonesViewModel.Initialize();
+
+            directionsViewModel = new DirectionsViewModel();
+            directionsViewModel.Initialize();
         }
 
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
+        static DirectionsViewModel directionsViewModel;
 
         static void OnShowDevice(string id)
         {
@@ -53,6 +58,11 @@ namespace DevicesModule
         static void OnShowZone(string zoneNo)
         {
             ServiceFactory.Layout.Show(zonesViewModel);
+        }
+
+        static void OnShowDirections(string zoneNo)
+        {
+            ServiceFactory.Layout.Show(directionsViewModel);
         }
     }
 }

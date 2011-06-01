@@ -32,6 +32,14 @@
                 </TabItem.Header>
             </TabItem>
 
+            <TabItem IsSelected="{Binding IsDerectonsSelected}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Направления пожаротушения" FontWeight="Bold" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
             <TabItem IsSelected="{Binding IsLibrarySelected}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">

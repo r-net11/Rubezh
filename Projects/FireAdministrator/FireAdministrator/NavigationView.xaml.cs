@@ -26,7 +26,8 @@ namespace FireAdministrator
 
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsLibrarySelected"); });
+            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(x => { isDerectonsSelected = true; OnPropertyChanged("IsDerectonsSelected"); });
+            ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { isLibrarySelected = true; OnPropertyChanged("IsLibrarySelected"); });
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(x => { isSecuritySelected = true; OnPropertyChanged("IsSecuritySelected"); });
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
@@ -60,6 +61,21 @@ namespace FireAdministrator
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsZonesSelected");
+            }
+        }
+
+        bool isDerectonsSelected;
+        public bool IsDerectonsSelected
+        {
+            get { return isDerectonsSelected; }
+            set
+            {
+                isDerectonsSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsDerectonsSelected");
             }
         }
 

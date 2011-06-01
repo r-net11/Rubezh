@@ -31,4 +31,8 @@
         <Views:IndicatorDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DirectionsViewModel}">
+        <Views:DirectionsView />
+    </DataTemplate>
+    
 </ResourceDictionary>

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowDeviceEvent.cs" />
+    <Compile Include="Events\ShowDirectionsEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowLibraryEvent.cs" />
     <Compile Include="Events\ShowPlansEvent.cs" />

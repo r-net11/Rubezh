@@ -85,6 +85,8 @@
     <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\DirectionsViewModel.cs" />
+    <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\IndicatorDetailsViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
@@ -95,6 +97,9 @@
     <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DirectionsView.xaml.cs">
+      <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IndicatorDetailsView.xaml.cs">
       <DependentUpon>IndicatorDetailsView.xaml</DependentUpon>
@@ -168,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DirectionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -36,6 +36,7 @@ namespace Firesec
             drivers.Add(new Driver("28A7487A-BA32-486C-9955-E251AF2E9DD4", 0, "Блок индикации"));
             drivers.Add(new Driver("E750EF8F-54C3-4B00-8C72-C7BEC9E59BFC", 0, "Прибор Рубеж-10AM"));
             drivers.Add(new Driver("F3485243-2F60-493B-8A4E-338C61EF6581", 0, "Прибор Рубеж-4A"));
+            drivers.Add(new Driver("96CDBD7E-29F6-45D4-9028-CF10332FAB1A", 1, "Прибор Рубеж-2ОП"));
             drivers.Add(new Driver("4A60242A-572E-41A8-8B87-2FE6B6DC4ACE", 0, "Релейный исполнительный модуль РМ-1"));
             drivers.Add(new Driver("33A85F87-E34C-45D6-B4CE-A4FB71A36C28", 0, "Модуль пожаротушения"));
             drivers.Add(new Driver("1E045AD6-66F9-4F0B-901C-68C46C89E8DA", 0, "Пожарный дымовой извещатель ИП 212-64"));
@@ -45,7 +46,11 @@ namespace Firesec
             drivers.Add(new Driver("CD7FCB14-F808-415C-A8B7-11C512C275B4", 0, "Кнопка останова СПТ"));
             drivers.Add(new Driver("E8C04507-0C9D-429C-9BBE-166C3ECA4B5C", 0, "Кнопка запуска СПТ"));
             drivers.Add(new Driver("1909EBDF-467D-4565-AD5C-CD5D9084E4C3", 0, "Кнопка управления автоматикой"));
+            drivers.Add(new Driver("2F875F0C-54AA-47CE-B639-FE5E3ED9841B", 1, "Кнопка вкл автоматики ШУЗ и насосов в направлении"));
+            drivers.Add(new Driver("032CDF7B-6787-4612-B3D1-03E0D3FD2F53", 1, "Кнопка выкл автоматики ШУЗ и насосов в направлении"));
+            drivers.Add(new Driver("935B0020-889B-4A94-9563-EC0E4127E8E3", 1, "Кнопка разблокировки автоматики ШУЗ в направлении"));
             drivers.Add(new Driver("641FA899-FAA0-455B-B626-646E5FBE785A", 0, "Ручной извещатель ИПР513-11"));
+            drivers.Add(new Driver("EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2", 1, "Охранная адресная метка АМ1-О"));
             drivers.Add(new Driver("44EEDF03-0F4C-4EBA-BD36-28F96BC6B16E", 0, "Модуль Управления Клапанами Дымоудаления"));
             drivers.Add(new Driver("B603CEBA-A3BF-48A0-BFC8-94BF652FB72A", 0, "Модуль Управления Клапанами Огнезащиты"));
             drivers.Add(new Driver("AF05094E-4556-4CEE-A3F3-981149264E89", 0, "Насосная Станция"));
@@ -61,6 +66,9 @@ namespace Firesec
             drivers.Add(new Driver("FD200EDF-94A4-4560-81AA-78C449648D45", 0, "АСПТ"));
             drivers.Add(new Driver("043FBBE0-8733-4C8D-BE0C-E5820DBF7039", 0, "Модуль дымоудаления-1.02//3"));
             drivers.Add(new Driver("05323D14-9070-44B8-B91C-BE024F10E267", 0, "Выход"));
+            drivers.Add(new Driver("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B", 1, "Модуль радиоканала МРК-30"));
+            drivers.Add(new Driver("D57CDEF3-ACBC-4773-955E-22A1F016D025", 1, "Ручной радиоканальный извещатель ИПР513-11"));
+            drivers.Add(new Driver("CFD407D1-5D19-43EC-9650-A86EC4422EC6", 1, "Пожарный дымовой радиоканальный извещатель ИП 212-64Р"));
             drivers.Add(new Driver("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2"));
             drivers.Add(new Driver("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1"));
             drivers.Add(new Driver("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2"));
@@ -70,6 +78,7 @@ namespace Firesec
             drivers.Add(new Driver("B9680002-511D-4505-9EF6-0C322E61135F", 0, "USB Канал"));
             drivers.Add(new Driver("1EDE7282-0003-424E-B76C-BB7B413B4F3B", 1, "USB Рубеж-2AM"));
             drivers.Add(new Driver("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A"));
+            drivers.Add(new Driver("39DBC715-C4B5-4AE6-A809-4F214BBBD6C1", 1, "USB Рубеж-2ОП"));
             drivers.Add(new Driver("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС"));
             drivers.Add(new Driver("zone", 0, "zone"));
             drivers.Add(new Driver("monitor", 0, "monitor"));
@@ -77,7 +86,12 @@ namespace Firesec
 
         public static string GetDriverNameById(string driverId)
         {
-            return drivers.FirstOrDefault(x => (x.DriverId == driverId) && (x.IgnoreLevel < 2)).Name;
+            var driver = drivers.FirstOrDefault(x => (x.DriverId == driverId) && (x.IgnoreLevel < 2));
+            if (driver == null)
+            {
+                return null;
+            }
+            return driver.Name;
         }
 
         public static bool IsIgnore(string driverId)
