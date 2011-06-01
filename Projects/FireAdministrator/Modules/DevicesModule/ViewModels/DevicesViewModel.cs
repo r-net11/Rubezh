@@ -91,28 +91,6 @@ namespace DevicesModule.ViewModels
 
                 message = message.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;").Replace("=", "&#061;");
             }
-            device.Properties = new List<Property>();
-            foreach (StringProperty stringProperty in deviceViewModel.StringProperties)
-            {
-                Property property = new Property();
-                property.Name = stringProperty.PropertyName;
-                property.Value = stringProperty.Text;
-                device.Properties.Add(property);
-            }
-            foreach (BoolProperty boolProperty in deviceViewModel.BoolProperties)
-            {
-                Property property = new Property();
-                property.Name = boolProperty.PropertyName;
-                property.Value = boolProperty.IsChecked ? "1" : "0";
-                device.Properties.Add(property);
-            }
-            foreach (EnumProperty enumProperty in deviceViewModel.EnumProperties)
-            {
-                Property property = new Property();
-                property.Name = enumProperty.PropertyName;
-                property.Value = enumProperty.SelectedValue;
-                device.Properties.Add(property);
-            }
             return device;
         }
 

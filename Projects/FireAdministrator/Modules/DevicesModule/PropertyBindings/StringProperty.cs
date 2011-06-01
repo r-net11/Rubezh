@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.PropertyBindings
 {
-    public class StringProperty : BaseViewModel
+    public class StringProperty : BaseProperty
     {
-        public string PropertyName { get; set; }
+        public StringProperty(Firesec.Metadata.propInfoType propertyInfo, Device device) : base(propertyInfo, device)
+        {
+            var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
+            if (property != null)
+                _text = property.Value;
+            else
+                _text = propertyInfo.@default;
+        }
 
-        string text;
+        string _text;
         public string Text
         {
-            get { return text; }
+            get { return _text; }
             set
             {
-                text = value;
+                _text = value;
                 OnPropertyChanged("Text");
+                Save(value);
             }
         }
     }

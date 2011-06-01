@@ -42,19 +42,6 @@ namespace DevicesModule.ViewModels
             Description = device.Description;
         }
 
-        StackPanel propStackPanel;
-        public StackPanel PropStackPanel
-        {
-            get { return propStackPanel; }
-            set
-            {
-                propStackPanel = value;
-                OnPropertyChanged("PropStackPanel");
-            }
-        }
-
-        StringProperty _textBinding { get; set; }
-
         public List<StringProperty> StringProperties { get; set; }
         public List<BoolProperty> BoolProperties { get; set; }
         public List<EnumProperty> EnumProperties { get; set; }
@@ -65,13 +52,6 @@ namespace DevicesModule.ViewModels
             BoolProperties = new List<BoolProperty>();
             EnumProperties = new List<EnumProperty>();
 
-            Grid grid = new Grid();
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-            StackPanel _PropStackPanel = new StackPanel();
-            _PropStackPanel.Children.Clear();
-
             if (Driver.propInfo != null)
             {
                 foreach (Firesec.Metadata.propInfoType propertyInfo in Driver.propInfo)
@@ -81,40 +61,9 @@ namespace DevicesModule.ViewModels
                     if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
                         continue;
 
-                    UIElement uiElement = null;
-
                     if (propertyInfo.param != null)
                     {
-                        EnumProperty enumProperty = new EnumProperty();
-                        enumProperty.PropertyName = propertyInfo.name;
-                        enumProperty.Values = new List<string>();
-                        ComboBox comboBox = new ComboBox();
-                        foreach (Firesec.Metadata.paramType propertyParameter in propertyInfo.param)
-                        {
-                            enumProperty.Values.Add(propertyParameter.name);
-                            comboBox.Items.Add(propertyParameter.name);
-                        }
-
-                        Binding b = new Binding();
-                        b.Source = enumProperty;
-                        b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                        b.Path = new PropertyPath("SelectedValue");
-                        comboBox.SetBinding(ComboBox.SelectedValueProperty, b);
-
-                        if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-                        {
-                            enumProperty.SelectedValue = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-                            //string selectedValueIndex = device.DeviceProperties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-                            //enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
-                        }
-                        else
-                        {
-                            string selectedValueIndex = propertyInfo.@default;
-                            enumProperty.SelectedValue = propertyInfo.param.FirstOrDefault(x => x.value == selectedValueIndex).name;
-                        }
-
-                        EnumProperties.Add(enumProperty);
-                        uiElement = comboBox;
+                        EnumProperties.Add(new EnumProperty(propertyInfo, Device));
                     }
                     else
                     {
@@ -123,61 +72,17 @@ namespace DevicesModule.ViewModels
                             case "String":
                             case "Int":
                             case "Byte":
-                                TextBox textBox = new TextBox();
-
-                                StringProperty stringProperty = new StringProperty();
-                                stringProperty.PropertyName = propertyInfo.name;
-                                Binding b = new Binding();
-                                b.Source = stringProperty;
-                                b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                                b.Path = new System.Windows.PropertyPath("Text");
-                                textBox.SetBinding(TextBox.TextProperty, b);
-
-                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    stringProperty.Text = Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value;
-                                else
-                                    stringProperty.Text = propertyInfo.@default;
-
-                                StringProperties.Add(stringProperty);
-                                uiElement = textBox;
+                                StringProperties.Add(new StringProperty(propertyInfo, Device));
                                 break;
                             case "Bool":
-                                CheckBox checkBox = new CheckBox();
-
-                                BoolProperty boolProperty = new BoolProperty();
-                                boolProperty.PropertyName = propertyInfo.name;
-                                Binding b2 = new Binding();
-                                b2.Source = boolProperty;
-                                b2.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                                b2.Path = new PropertyPath("IsChecked");
-                                checkBox.SetBinding(CheckBox.IsCheckedProperty, b2);
-
-                                if (Device.Properties.Any(x => x.Name == propertyInfo.name))
-                                    boolProperty.IsChecked = (Device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name).Value == "1") ? true : false;
-                                else
-                                    boolProperty.IsChecked = (propertyInfo.@default == "1") ? true : false;
-
-                                BoolProperties.Add(boolProperty);
-                                uiElement = checkBox;
+                                BoolProperties.Add(new BoolProperty(propertyInfo, Device));
                                 break;
                             default:
                                 throw new Exception("Неизвестный тип свойства");
                         }
                     }
-
-                    grid.RowDefinitions.Add(new RowDefinition());
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = propertyInfo.caption;
-                    grid.Children.Add(uiElement);
-                    grid.Children.Add(textBlock);
-                    Grid.SetColumn(textBlock, 0);
-                    Grid.SetColumn(uiElement, 1);
-                    Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
-                    Grid.SetRow(uiElement, grid.RowDefinitions.Count - 1);
                 }
             }
-            _PropStackPanel.Children.Add(grid);
-            PropStackPanel = _PropStackPanel;
         }
 
         public void Update()

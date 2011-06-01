@@ -190,9 +190,59 @@
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="group1" Width="150"  />
+                        <ColumnDefinition SharedSizeGroup="group2" Width="150" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                
+                <ItemsControl ItemsSource="{Binding StringProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" />
+                                    <ColumnDefinition SharedSizeGroup="group2" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Caption}" />
+                                <TextBox Grid.Column="1" Text="{Binding Text}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                <ContentControl Content="{Binding PropStackPanel}" />
+                <ItemsControl ItemsSource="{Binding BoolProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" />
+                                    <ColumnDefinition SharedSizeGroup="group2" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Caption}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
+                <ItemsControl ItemsSource="{Binding EnumProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" />
+                                    <ColumnDefinition SharedSizeGroup="group2" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Caption}" />
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
             </StackPanel>
         </Grid>
     </Grid>

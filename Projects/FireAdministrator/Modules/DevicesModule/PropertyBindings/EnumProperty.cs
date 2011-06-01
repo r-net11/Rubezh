@@ -3,32 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.PropertyBindings
 {
-    public class EnumProperty : BaseViewModel
+    public class EnumProperty : BaseProperty
     {
-        public string PropertyName { get; set; }
-
-        string selectedValue;
-        public string SelectedValue
+        public EnumProperty(Firesec.Metadata.propInfoType propertyInfo, Device device)
+            : base(propertyInfo, device)
         {
-            get { return selectedValue; }
-            set
+            var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
+            if (property != null)
             {
-                selectedValue = value;
-                OnPropertyChanged("SelectedValue");
+                _selectedValue = propertyInfo.param.FirstOrDefault(x => x.value == property.Value).name;
+            }
+            else
+            {
+                _selectedValue = propertyInfo.param.FirstOrDefault(x => x.value == propertyInfo.@default).name;
             }
         }
 
-        List<string> values;
         public List<string> Values
         {
-            get { return values; }
+            get
+            {
+                List<string> values = new List<string>();
+                foreach (Firesec.Metadata.paramType propertyParameter in _propertyInfo.param)
+                {
+                    values.Add(propertyParameter.name);
+                }
+                return values;
+            }
+        }
+
+        string _selectedValue;
+        public string SelectedValue
+        {
+            get { return _selectedValue; }
             set
             {
-                values = value;
-                OnPropertyChanged("Values");
+                _selectedValue = value;
+                OnPropertyChanged("SelectedValue");
+                Save(value);
             }
         }
     }
