@@ -7,10 +7,10 @@ using FiresecClient;
 using Infrastructure.Common;
 using System.Windows.Controls;
 using System.Windows.Data;
-using DevicesModule.PropertyBindings;
 using System.Windows;
 using DevicesModule.Views;
 using Infrastructure;
+using DevicesModule.DeviceProperties;
 
 namespace DevicesModule.ViewModels
 {
@@ -36,54 +36,13 @@ namespace DevicesModule.ViewModels
             Device = device;
             Driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
 
-            SetProperties();
+            PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
 
             Address = device.Address;
             Description = device.Description;
         }
 
-        public List<StringProperty> StringProperties { get; set; }
-        public List<BoolProperty> BoolProperties { get; set; }
-        public List<EnumProperty> EnumProperties { get; set; }
-
-        void SetProperties()
-        {
-            StringProperties = new List<StringProperty>();
-            BoolProperties = new List<BoolProperty>();
-            EnumProperties = new List<EnumProperty>();
-
-            if (Driver.propInfo != null)
-            {
-                foreach (Firesec.Metadata.propInfoType propertyInfo in Driver.propInfo)
-                {
-                    if (propertyInfo.hidden == "1")
-                        continue;
-                    if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
-                        continue;
-
-                    if (propertyInfo.param != null)
-                    {
-                        EnumProperties.Add(new EnumProperty(propertyInfo, Device));
-                    }
-                    else
-                    {
-                        switch (propertyInfo.type)
-                        {
-                            case "String":
-                            case "Int":
-                            case "Byte":
-                                StringProperties.Add(new StringProperty(propertyInfo, Device));
-                                break;
-                            case "Bool":
-                                BoolProperties.Add(new BoolProperty(propertyInfo, Device));
-                                break;
-                            default:
-                                throw new Exception("Неизвестный тип свойства");
-                        }
-                    }
-                }
-            }
-        }
+        public PropertiesViewModel PropertiesViewModel { get; private set; }
 
         public void Update()
         {

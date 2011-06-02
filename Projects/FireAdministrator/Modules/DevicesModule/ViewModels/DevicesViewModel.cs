@@ -5,7 +5,6 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient;
 using System.Collections.ObjectModel;
-using DevicesModule.PropertyBindings;
 using System.Xml.Serialization;
 using System.IO;
 

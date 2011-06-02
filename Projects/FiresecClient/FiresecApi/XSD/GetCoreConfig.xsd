@@ -101,6 +101,24 @@
     <xs:attribute name="RemidZones" type="xs:integer" />
   </xs:complexType>
 
+  <!-- Parts -->
+
+  <xs:complexType name="partType">
+    <xs:sequence>
+      <xs:element name="PinZ" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="pidz" type="xs:integer" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="no" type="xs:integer" />
+    <xs:attribute name="id" type="xs:integer" />
+    <xs:attribute name="gid" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="desc" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+  </xs:complexType>
+
   <!-- Devices -->
 
   <xs:complexType name="propType">
@@ -142,6 +160,7 @@
         <xs:element name="user" type="userType" maxOccurs="unbounded" />
         <xs:element name="secGUI" type="secGUIType" maxOccurs="unbounded" />
         <xs:element name="zone" type="zoneType" maxOccurs="unbounded" />
+        <xs:element name="part" type="partType" maxOccurs="unbounded" />
         <xs:element name="dev" type="devType" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>

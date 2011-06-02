@@ -79,17 +79,25 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PropertyBindings\BaseProperty.cs" />
-    <Compile Include="PropertyBindings\BoolProperty.cs" />
-    <Compile Include="PropertyBindings\EnumProperty.cs" />
-    <Compile Include="PropertyBindings\StringProperty.cs" />
+    <Compile Include="DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="ViewModels\ClauseViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\IndicatorDetailsViewModel.cs" />
     <Compile Include="ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Views\DirectionDetailsView.xaml.cs">
+      <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="ViewModels\ZonesSelectionView.cs" />
@@ -170,6 +178,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataTemplates\TreeExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DirectionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

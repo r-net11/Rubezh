@@ -5,11 +5,11 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient;
 
-namespace DevicesModule.PropertyBindings
+namespace DevicesModule.DeviceProperties
 {
-    public class BaseProperty : BaseViewModel
+    public class BasePropertyViewModel : BaseViewModel
     {
-        public BaseProperty(Firesec.Metadata.propInfoType propertyInfo, Device device)
+        public BasePropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device)
         {
             _propertyInfo = propertyInfo;
             _device = device;

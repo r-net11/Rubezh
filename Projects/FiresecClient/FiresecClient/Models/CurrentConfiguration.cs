@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using FiresecClient.Models;
 
 namespace FiresecClient
 {
@@ -11,6 +12,7 @@ namespace FiresecClient
         public List<Device> AllDevices { get; set; }
         public Device RootDevice { get; set; }
         public List<Zone> Zones { get; set; }
+        public List<Direction> Directions { get; set; }
         public Firesec.Metadata.config Metadata { get; set; }
 
         public void FillAllDevices()

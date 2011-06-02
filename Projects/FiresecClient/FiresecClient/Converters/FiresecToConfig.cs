@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Firesec;
 using System.Diagnostics;
+using FiresecClient.Models;
 
 namespace FiresecClient
 {
@@ -31,6 +32,8 @@ namespace FiresecClient
             AddDevice(rootInnerDevice, rootDevice);
 
             FiresecManager.CurrentConfiguration.RootDevice = rootDevice;
+
+            AddDirections();
         }
 
         void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
@@ -253,6 +256,33 @@ namespace FiresecClient
             ZoneState zoneState = new ZoneState();
             zoneState.No = zone.No;
             return zoneState;
+        }
+
+        void AddDirections()
+        {
+            FiresecManager.CurrentConfiguration.Directions = new List<Direction>();
+
+            foreach (var part in FiresecManager.CoreConfig.part)
+            {
+                if (part.type == "direction")
+                {
+                    Direction direction = new Direction();
+                    direction.Id = System.Convert.ToInt32(part.id);
+                    direction.Name = part.name;
+                    direction.Description = part.desc;
+
+                    direction.Zones = new List<int>();
+                    if (part.PinZ != null)
+                    {
+                        foreach (var partZone in part.PinZ)
+                        {
+                            direction.Zones.Add(System.Convert.ToInt32(partZone.pidz));
+                        }
+                    }
+
+                    FiresecManager.CurrentConfiguration.Directions.Add(direction);
+                }
+            }
         }
     }
 }

@@ -74,7 +74,6 @@
     <Compile Include="Models\ChangeEntities.cs" />
     <Compile Include="Converters\ConfigToFiresec.cs" />
     <Compile Include="Converters\FiresecToConfig.cs" />
-    <Compile Include="Converters\TextToZoneLogic.cs" />
     <Compile Include="Converters\Validator.cs" />
     <Compile Include="Converters\ZoneLogicToText.cs" />
     <Compile Include="Models\CurrentConfiguration.cs" />
@@ -82,6 +81,7 @@
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceState.cs" />
     <Compile Include="FiresecInternalClient.cs" />
+    <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\InnerState.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Property.cs" />

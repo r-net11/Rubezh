@@ -5,11 +5,11 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient;
 
-namespace DevicesModule.PropertyBindings
+namespace DevicesModule.DeviceProperties
 {
-    public class StringProperty : BaseProperty
+    public class StringPropertyViewModel : BasePropertyViewModel
     {
-        public StringProperty(Firesec.Metadata.propInfoType propertyInfo, Device device) : base(propertyInfo, device)
+        public StringPropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device) : base(propertyInfo, device)
         {
             var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
             if (property != null)

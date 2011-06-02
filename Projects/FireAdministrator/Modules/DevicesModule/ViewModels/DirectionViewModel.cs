@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
+using Firesec.CoreConfig;
+using FiresecClient;
+using System.Collections.ObjectModel;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -12,40 +16,63 @@ namespace DevicesModule.ViewModels
         {
         }
 
-        public void Initialize()
-        {
-        }
+        Direction _direction;
 
-        string _no;
-        public string No
+        public void Initialize(Direction direction)
         {
-            get { return _no; }
-            set
+            _direction = direction;
+
+            Zones = new ObservableCollection<ZoneViewModel>();
+
+            foreach (var directionZone in direction.Zones)
             {
-                _no = value;
-                OnPropertyChanged("No");
+                var zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == directionZone.ToString());
+                ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
+                Zones.Add(zoneViewModel);
             }
         }
 
-        string _name;
+        public void Update()
+        {
+            OnPropertyChanged("Id");
+            OnPropertyChanged("Name");
+            OnPropertyChanged("Description");
+        }
+
+        public int Id
+        {
+            get { return _direction.Id; }
+        }
+
         public string Name
         {
-            get { return _name; }
+            get { return _direction.Name; }
+        }
+
+        public string Description
+        {
+            get { return _direction.Description; }
+        }
+
+        ObservableCollection<ZoneViewModel> _zones;
+        public ObservableCollection<ZoneViewModel> Zones
+        {
+            get { return _zones; }
             set
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                _zones = value;
+                OnPropertyChanged("Zones");
             }
         }
 
-        string _description;
-        public string Description
+        ZoneViewModel _selectedZone;
+        public ZoneViewModel SelectedZone
         {
-            get { return _description; }
+            get { return _selectedZone; }
             set
             {
-                _description = value;
-                OnPropertyChanged("Description");
+                _selectedZone = value;
+                OnPropertyChanged("SelectedZone");
             }
         }
     }

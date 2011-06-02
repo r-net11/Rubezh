@@ -5,11 +5,11 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient;
 
-namespace DevicesModule.PropertyBindings
+namespace DevicesModule.DeviceProperties
 {
-    public class EnumProperty : BaseProperty
+    public class EnumPropertyViewModel : BasePropertyViewModel
     {
-        public EnumProperty(Firesec.Metadata.propInfoType propertyInfo, Device device)
+        public EnumPropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device)
             : base(propertyInfo, device)
         {
             var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
