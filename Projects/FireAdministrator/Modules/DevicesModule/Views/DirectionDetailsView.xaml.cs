@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для DirectionDetailsView.xaml
-    /// </summary>
     public partial class DirectionDetailsView : UserControl
     {
         public DirectionDetailsView()

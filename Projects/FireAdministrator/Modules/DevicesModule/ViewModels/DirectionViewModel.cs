@@ -14,6 +14,8 @@ namespace DevicesModule.ViewModels
     {
         public DirectionViewModel()
         {
+            AddZoneCommand = new RelayCommand(OnAddZone);
+            RemoveZoneCommand = new RelayCommand(OnRemoveZone);
         }
 
         Direction _direction;
@@ -23,12 +25,19 @@ namespace DevicesModule.ViewModels
             _direction = direction;
 
             Zones = new ObservableCollection<ZoneViewModel>();
+            SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (var directionZone in direction.Zones)
+            foreach (var zone in FiresecManager.CurrentConfiguration.Zones)
             {
-                var zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == directionZone.ToString());
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-                Zones.Add(zoneViewModel);
+                if (direction.Zones.Contains(Convert.ToInt32(zone.No)))
+                {
+                    Zones.Add(zoneViewModel);
+                }
+                else
+                {
+                    SourceZones.Add(zoneViewModel);
+                }
             }
         }
 
@@ -73,6 +82,50 @@ namespace DevicesModule.ViewModels
             {
                 _selectedZone = value;
                 OnPropertyChanged("SelectedZone");
+            }
+        }
+
+        ObservableCollection<ZoneViewModel> _sourceZones;
+        public ObservableCollection<ZoneViewModel> SourceZones
+        {
+            get { return _sourceZones; }
+            set
+            {
+                _sourceZones = value;
+                OnPropertyChanged("SourceZones");
+            }
+        }
+
+        ZoneViewModel _selectedSourceZone;
+        public ZoneViewModel SelectedSourceZone
+        {
+            get { return _selectedSourceZone; }
+            set
+            {
+                _selectedSourceZone = value;
+                OnPropertyChanged("SelectedSourceZone");
+            }
+        }
+
+        public RelayCommand AddZoneCommand { get; private set; }
+        void OnAddZone()
+        {
+            if (SelectedSourceZone != null)
+            {
+                _direction.Zones.Add(Convert.ToInt32(SelectedSourceZone.No));
+                Zones.Add(SelectedSourceZone);
+                SourceZones.Remove(SelectedSourceZone);
+            }
+        }
+
+        public RelayCommand RemoveZoneCommand { get; private set; }
+        void OnRemoveZone()
+        {
+            if (SelectedZone != null)
+            {
+                _direction.Zones.Remove(Convert.ToInt32(SelectedZone.No));
+                SourceZones.Add(SelectedZone);
+                Zones.Remove(SelectedZone);
             }
         }
     }

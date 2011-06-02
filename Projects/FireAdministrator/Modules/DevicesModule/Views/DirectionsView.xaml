@@ -44,6 +44,7 @@
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
 
@@ -56,9 +57,30 @@
                             Background="White" BorderBrush="Black" BorderThickness="0"
                             RowHeight="20">
                         <WpfToolkit:DataGrid.Columns>
-                            <WpfToolkit:DataGridTextColumn Header="№" Binding="{Binding No}" />
-                            <WpfToolkit:DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
-                            <WpfToolkit:DataGridTextColumn Header="Примечание" Binding="{Binding Description}" />
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="№" Binding="{Binding No}" />
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
+                        </WpfToolkit:DataGrid.Columns>
+                    </WpfToolkit:DataGrid>
+                </Grid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Content="Добавить" Command="{Binding AddZoneCommand}" Width="100" />
+                    <Button Content="Удалить" Command="{Binding RemoveZoneCommand}" Width="100" />
+                </StackPanel>
+                
+                <Grid Grid.Row="2">
+                    <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
+                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
+                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
+                            Background="White" BorderBrush="Black" BorderThickness="0"
+                            RowHeight="20">
+                        <WpfToolkit:DataGrid.Columns>
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="№" Binding="{Binding No}" />
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
+                            <WpfToolkit:DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
                         </WpfToolkit:DataGrid.Columns>
                     </WpfToolkit:DataGrid>
                 </Grid>

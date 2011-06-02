@@ -23,8 +23,10 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             _isNew = true;
+            Title = "Создать направление";
 
             Direction = new Direction();
+            Direction.Name = "Новое направление";
             Direction.Zones = new List<int>();
 
             int maxId = FiresecManager.CurrentConfiguration.Directions.Max(x => x.Id);
@@ -34,6 +36,8 @@ namespace DevicesModule.ViewModels
         public void Initialize(Direction direction)
         {
             _isNew = false;
+            Title = "Редактировать направление";
+
             Direction = direction;
 
             Id = direction.Id;
@@ -84,12 +88,25 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Save();
             if (_isNew)
             {
+                if (FiresecManager.CurrentConfiguration.Directions.Any(x => x.Id == Id))
+                {
+                    Close(false);
+                    return;
+                }
+                Save();
                 FiresecManager.CurrentConfiguration.Directions.Add(Direction);
             }
-
+            else
+            {
+                if ((Id != Direction.Id) && (FiresecManager.CurrentConfiguration.Directions.Any(x => x.Id == Id)))
+                {
+                    Close(false);
+                    return;
+                }
+                Save();
+            }
             Close(true);
         }
 

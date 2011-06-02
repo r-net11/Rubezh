@@ -163,7 +163,9 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Devices\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\DataGrid.xaml">
       <SubType>Designer</SubType>
