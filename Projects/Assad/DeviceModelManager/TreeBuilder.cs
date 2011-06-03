@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiresecClient;
+using Firesec;
 
-namespace Firesec.Helper
+namespace DeviveModelManager
 {
     public class TreeBuilder
     {
@@ -14,11 +16,11 @@ namespace Firesec.Helper
         {
             Drivers = new List<DriverItem>();
 
-            Firesec.Metadata.classType rootClass = MetadataHelper.Metadata.@class.First(x => x.parent == null);
+            var rootClass = FiresecManager.Configuration.Metadata.@class.First(x => x.parent == null);
 
             ClassItem rootClassItem = new ClassItem();
             rootClassItem.Clsid = rootClass.clsid;
-            rootClassItem.Drivers.Add(MetadataHelper.Metadata.drv.FirstOrDefault(x => x.clsid == rootClass.clsid).id);
+            rootClassItem.Drivers.Add(FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.clsid == rootClass.clsid).id);
 
             AddClass(rootClassItem);
 
@@ -31,7 +33,7 @@ namespace Firesec.Helper
 
         void AddClass(ClassItem parentClassItem)
         {
-            foreach (Firesec.Metadata.classType childClass in MetadataHelper.Metadata.@class)
+            foreach (var childClass in FiresecManager.Configuration.Metadata.@class)
             {
                 if (childClass.parent != null)
                 {
@@ -40,10 +42,10 @@ namespace Firesec.Helper
                         ClassItem childClassItem = new ClassItem();
                         childClassItem.Clsid = childClass.clsid;
 
-                        if (MetadataHelper.Metadata.drv.Any(x => x.clsid == childClassItem.Clsid))
+                        if (FiresecManager.Configuration.Metadata.drv.Any(x => x.clsid == childClassItem.Clsid))
                         {
-                            List<Firesec.Metadata.drvType> drivers = MetadataHelper.Metadata.drv.ToList().FindAll(x => x.clsid == childClassItem.Clsid);
-                            foreach (Firesec.Metadata.drvType driver in drivers)
+                            List<Firesec.Metadata.configDrv> drivers = FiresecManager.Configuration.Metadata.drv.ToList().FindAll(x => x.clsid == childClassItem.Clsid);
+                            foreach (var driver in drivers)
                             {
                                 string driverId = driver.id;
                                 if (!childClassItem.Drivers.Contains(driverId))
@@ -63,7 +65,7 @@ namespace Firesec.Helper
 
         void AddDriver(ClassItem parentClassItem, DriverItem parentDriverItem)
         {
-            foreach (string driverId in parentClassItem.Drivers)
+            foreach (var driverId in parentClassItem.Drivers)
             {
                 DriverItem childDriverItem = new DriverItem();
                 childDriverItem.Parent = parentDriverItem;
@@ -104,7 +106,7 @@ namespace Firesec.Helper
                     parentDriverItem.Children.Add(childDriverItem);
                 }
 
-                foreach (ClassItem childClassItem in parentClassItem.Childern)
+                foreach (var childClassItem in parentClassItem.Childern)
                 {
                     AddDriver(childClassItem, childDriverItem);
                     Drivers.Add(childDriverItem);

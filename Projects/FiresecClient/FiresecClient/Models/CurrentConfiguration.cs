@@ -9,7 +9,7 @@ namespace FiresecClient
 {
     public class CurrentConfiguration
     {
-        public List<Device> AllDevices { get; set; }
+        public List<Device> Devices { get; set; }
         public Device RootDevice { get; set; }
         public List<Zone> Zones { get; set; }
         public List<Direction> Directions { get; set; }
@@ -17,30 +17,30 @@ namespace FiresecClient
 
         public void FillAllDevices()
         {
-            AllDevices = new List<Device>();
+            Devices = new List<Device>();
             RootDevice.Parent = null;
-            AllDevices.Add(RootDevice);
+            Devices.Add(RootDevice);
             AddChild(RootDevice);
         }
 
         void AddChild(Device parentDevice)
         {
-            foreach (Device device in parentDevice.Children)
+            foreach (var device in parentDevice.Children)
             {
                 device.Parent = parentDevice;
-                AllDevices.Add(device);
+                Devices.Add(device);
                 AddChild(device);
             }
         }
 
         public void SetUnderlyingZones()
         {
-            foreach (Device device in AllDevices)
+            foreach (var device in Devices)
             {
                 device.UderlyingZones = new List<string>();
             }
 
-            foreach (Device device in AllDevices)
+            foreach (var device in Devices)
             {
                 if (string.IsNullOrEmpty(device.ZoneNo) == false)
                 {

@@ -51,7 +51,7 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(DeviceViewModel parentDeviceViewModel, Device parentDevice)
         {
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
             {
                 Device device = DeviceViewModelToDevice(deviceViewModel);
                 device.Parent = parentDevice;
@@ -97,7 +97,7 @@ namespace DevicesModule.ViewModels
         {
             Devices = new ObservableCollection<DeviceViewModel>();
 
-            Device device = FiresecManager.CurrentConfiguration.RootDevice;
+            Device device = FiresecManager.Configuration.RootDevice;
 
             DeviceViewModel deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = null;
@@ -110,7 +110,7 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
-            foreach (Device device in parentDevice.Children)
+            foreach (var device in parentDevice.Children)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;
@@ -124,7 +124,7 @@ namespace DevicesModule.ViewModels
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = true;
-            foreach (DeviceViewModel deviceViewModel in parentDeviceViewModel.Children)
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
             {
                 deviceViewModel.IsExpanded = true;
                 CollapseChild(deviceViewModel);

@@ -9,7 +9,7 @@ namespace DevicesModule.DeviceProperties
 {
     public class EnumPropertyViewModel : BasePropertyViewModel
     {
-        public EnumPropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device)
+        public EnumPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
             : base(propertyInfo, device)
         {
             var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
@@ -28,7 +28,7 @@ namespace DevicesModule.DeviceProperties
             get
             {
                 List<string> values = new List<string>();
-                foreach (Firesec.Metadata.paramType propertyParameter in _propertyInfo.param)
+                foreach (var propertyParameter in _propertyInfo.param)
                 {
                     values.Add(propertyParameter.name);
                 }

@@ -65,9 +65,9 @@ namespace AssadProcessor.Devices
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 //            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
             
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
@@ -96,7 +96,7 @@ namespace AssadProcessor.Devices
 
 
 
-                foreach (Parameter parameter in deviceState.Parameters)
+                foreach (var parameter in deviceState.Parameters)
                 {
                     if (parameter.Visible)
                     {
@@ -113,10 +113,10 @@ namespace AssadProcessor.Devices
                     }
                 }
 //-->>            
-                if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.Id == Id))
+                if (FiresecManager.Configuration.Devices.Any(x => x.Id == Id))
                 {
-                    Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == Id);
-                    var driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x=>x.id == device.DriverId);
+                    Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
+                    var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x=>x.id == device.DriverId);
                     
                     ////отладочная информация 
                     //{
@@ -175,7 +175,7 @@ namespace AssadProcessor.Devices
                     }
                     if (driver.propInfo != null)
                     {
-                        foreach (Firesec.Metadata.propInfoType propinfo in driver.propInfo)
+                        foreach (var propinfo in driver.propInfo)
                         {
                             Assad.DeviceTypeState loopState = new Assad.DeviceTypeState();
                             string name = propinfo.name;
@@ -248,9 +248,9 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
                 List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
@@ -263,7 +263,7 @@ namespace AssadProcessor.Devices
                 //eventType.state[0].value = deviceState.State;
 
 
-                foreach (Parameter parameter in deviceState.Parameters)
+                foreach (var parameter in deviceState.Parameters)
                 {
                     if (parameter.Visible)
                     {
@@ -289,11 +289,11 @@ namespace AssadProcessor.Devices
             deviceAbility.deviceId = DeviceId;
             List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
 
-            if (FiresecManager.CurrentStates.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
-                foreach (Parameter parameter in deviceState.Parameters)
+                foreach (var parameter in deviceState.Parameters)
                 {
                     if (!(string.IsNullOrEmpty(parameter.Value)) && (parameter.Value != "<NULL>"))
                     {
@@ -304,7 +304,7 @@ namespace AssadProcessor.Devices
                     }
                 }
 
-                foreach (string state in deviceState.States)
+                foreach (var state in deviceState.States)
                 {
                     Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
                     stateParameter.name = state;

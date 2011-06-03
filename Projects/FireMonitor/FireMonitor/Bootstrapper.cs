@@ -82,9 +82,9 @@ namespace FireMonitor
         void StartFiresecClient()
         {
             FiresecManager.Start();
-            FiresecManager.CurrentStates.DeviceStateChanged += CurrentStates_DeviceStateChanged;
-            FiresecManager.CurrentStates.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
-            FiresecManager.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+            FiresecManager.States.DeviceStateChanged += CurrentStates_DeviceStateChanged;
+            FiresecManager.States.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
+            FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
         }
 
         void CurrentStates_DeviceStateChanged(string obj)

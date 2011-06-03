@@ -9,7 +9,7 @@ namespace DevicesModule.DeviceProperties
 {
     public class BasePropertyViewModel : BaseViewModel
     {
-        public BasePropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device)
+        public BasePropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
         {
             _propertyInfo = propertyInfo;
             _device = device;
@@ -17,7 +17,7 @@ namespace DevicesModule.DeviceProperties
         }
 
         protected Device _device;
-        protected Firesec.Metadata.propInfoType _propertyInfo;
+        protected Firesec.Metadata.configDrvPropInfo _propertyInfo;
 
         public string Caption { get; private set; }
 

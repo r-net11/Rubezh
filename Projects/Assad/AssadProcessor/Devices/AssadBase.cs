@@ -36,7 +36,7 @@ namespace AssadProcessor.Devices
         void FindChildren(AssadBase parent)
         {
             if (parent.Children != null)
-                foreach (AssadBase child in parent.Children)
+                foreach (var child in parent.Children)
                 {
                     allChildren.Add(child);
                     FindChildren(child);

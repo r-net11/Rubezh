@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
         {
             Zones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in FiresecManager.CurrentConfiguration.Zones)
+            foreach (var zone in FiresecManager.Configuration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
                 Zones.Add(zoneViewModel);
@@ -101,7 +101,7 @@ namespace DevicesModule.ViewModels
         {
             CurrentConfiguration currentConfiguration = new CurrentConfiguration();
             currentConfiguration.Zones = new List<Zone>();
-            foreach (ZoneViewModel zoneViewModel in Zones)
+            foreach (var zoneViewModel in Zones)
             {
                 Zone zone = new Zone();
                 zone.No = zoneViewModel.No;

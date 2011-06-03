@@ -26,11 +26,11 @@ namespace FiresecClient
 
         void ClearValidationErrors()
         {
-            foreach (Device device in configuration.AllDevices)
+            foreach (var device in configuration.Devices)
             {
                 device.ValidationErrors = new List<ValidationError>();
             }
-            foreach (Zone zone in configuration.Zones)
+            foreach (var zone in configuration.Zones)
             {
                 zone.ValidationErrors = new List<ValidationError>();
             }
@@ -38,7 +38,7 @@ namespace FiresecClient
 
         void ValidateZones()
         {
-            foreach (Zone zone in configuration.Zones)
+            foreach (var zone in configuration.Zones)
             {
                 if (configuration.Zones.FindAll(x => x.No == zone.No).Count > 1)
                 {
@@ -85,7 +85,7 @@ namespace FiresecClient
                     //zone.EvacuationTime = "32000";
                 }
 
-                if (configuration.AllDevices.Any(x => x.ZoneNo == zone.No) == false)
+                if (configuration.Devices.Any(x => x.ZoneNo == zone.No) == false)
                 {
                     zone.ValidationErrors.Add(new ValidationError("В зоне отсутствуют устройства", Level.Normal));
                 }
@@ -94,9 +94,9 @@ namespace FiresecClient
 
         void ValidateDeviceZones()
         {
-            foreach (Device device in configuration.AllDevices)
+            foreach (var device in configuration.Devices)
             {
-                Firesec.Metadata.drvType driver = GetDriverByDriverId(device.DriverId);
+                var driver = GetDriverByDriverId(device.DriverId);
                 if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
                 {
                     if (device.ZoneLogic != null)
@@ -120,7 +120,7 @@ namespace FiresecClient
 
                     if (driver.options.Contains("ExtendedZoneLogic"))
                     {
-                        foreach (Firesec.ZoneLogic.clauseType clause in device.ZoneLogic.clause)
+                        foreach (var clause in device.ZoneLogic.clause)
                         {
                             if ((clause.state != "0") && (clause.state != "1") && (clause.state != "2") && (clause.state != "5") && (clause.state != "6"))
                                 device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип состояния", Level.Critical));
@@ -128,7 +128,7 @@ namespace FiresecClient
                             if ((clause.operation != "and") && (clause.operation != "or"))
                                 device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип операции", Level.Critical));
 
-                            foreach (string zonNo in clause.zone)
+                            foreach (var zonNo in clause.zone)
                             {
                                 if (configuration.Zones.Any(x=>x.No == zonNo) == false)
                                     device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестную зону", Level.Critical));
@@ -148,9 +148,9 @@ namespace FiresecClient
 
         void ValidateAddresses()
         {
-            foreach (Device device in configuration.AllDevices)
+            foreach (var device in configuration.Devices)
             {
-                Firesec.Metadata.drvType driver = GetDriverByDriverId(device.DriverId);
+                var driver = GetDriverByDriverId(device.DriverId);
                 if (driver.ar_no_addr == "1")
                 {
                     if (string.IsNullOrEmpty(device.Address) == false)
@@ -205,7 +205,7 @@ namespace FiresecClient
                                 if ((intAddress < 1) || (intAddress > 255))
                                     device.ValidationErrors.Add(new ValidationError("Адрес должен быть в диапазоне 1 - 255", Level.Critical));
 
-                                Firesec.Metadata.drvType parentDriver = GetDriverByDriverId(device.Parent.DriverId);
+                                var parentDriver = GetDriverByDriverId(device.Parent.DriverId);
                                 int maxShleifAddress = 2;
                                 if (parentDriver.childAddrMask != null)
                                 {
@@ -280,11 +280,11 @@ namespace FiresecClient
 
         void ValidateAddressUnique()
         {
-            foreach (Device device in configuration.AllDevices)
+            foreach (var device in configuration.Devices)
             {
-                foreach (Device childDevice in device.Children)
+                foreach (var childDevice in device.Children)
                 {
-                    Firesec.Metadata.drvType driver = GetDriverByDriverId(childDevice.DriverId);
+                    var driver = GetDriverByDriverId(childDevice.DriverId);
 
                     if (driver.ar_no_addr == "0")
                     {
@@ -317,9 +317,9 @@ namespace FiresecClient
             }
         }
 
-        public Firesec.Metadata.drvType GetDriverByDriverId(string driverId)
+        public Firesec.Metadata.configDrv GetDriverByDriverId(string driverId)
         {
-            return FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+            return FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
         }
     }
 }

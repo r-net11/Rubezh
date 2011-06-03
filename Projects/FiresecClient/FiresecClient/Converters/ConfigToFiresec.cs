@@ -25,7 +25,7 @@ namespace FiresecClient
         {
             List<Firesec.CoreConfig.devType> childInnerDevices = new List<Firesec.CoreConfig.devType>();
 
-            foreach (Device device in parentDevice.Children)
+            foreach (var device in parentDevice.Children)
             {
                 Firesec.CoreConfig.devType childInnerDevice = DeviceToInnerDevice(device);
                 childInnerDevices.Add(childInnerDevice);
@@ -114,14 +114,13 @@ namespace FiresecClient
                 {
                     if (device.Properties.Count > 0)
                     {
-                        foreach (Property deviceProperty in device.Properties)
+                        foreach (var deviceProperty in device.Properties)
                         {
                             if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
                             {
-                                Firesec.Metadata.drvType metadataDriver = FiresecManager.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
-                                if (metadataDriver.propInfo != null)
+                                if (device.Driver.propInfo != null)
                                 {
-                                    if (metadataDriver.propInfo.Any(x => x.name == deviceProperty.Name))
+                                    if (device.Driver.propInfo.Any(x => x.name == deviceProperty.Name))
                                     {
                                         Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
                                         property.name = deviceProperty.Name;

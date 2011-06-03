@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
             Clauses = new ObservableCollection<ClauseViewModel>();
             if (zoneLogic != null)
             {
-                foreach (Firesec.ZoneLogic.clauseType clause in zoneLogic.clause)
+                foreach (var clause in zoneLogic.clause)
                 {
                     ClauseViewModel clauseViewModel = new ClauseViewModel();
                     clauseViewModel.Initialize(clause);

@@ -14,5 +14,7 @@ namespace FiresecClient
         public bool AffectChildren { get; set; }
         public int Priority { get; set; }
         public bool IsActive { get; set; }
+        public bool IsManualReset { get; set; }
+        public bool IsAutomatic { get; set; }
     }
 }

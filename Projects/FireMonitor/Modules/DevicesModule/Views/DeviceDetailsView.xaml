@@ -31,6 +31,8 @@
                     <StackPanel Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="YellowGreen" />
                         <TextBlock Text="{Binding DeviceCategory}" />
+                        <TextBlock Text=", " />
+                        <TextBlock Text="{Binding DeviceType}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="3">

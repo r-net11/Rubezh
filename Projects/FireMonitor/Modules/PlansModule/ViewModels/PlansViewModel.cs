@@ -50,7 +50,7 @@ namespace PlansModule.ViewModels
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanTreeItem)
         {
             if (parentPlan.Children != null)
-                foreach (Plan plan in parentPlan.Children)
+                foreach (var plan in parentPlan.Children)
                 {
                     PlanViewModel planTreeItemViewModel = new ViewModels.PlanViewModel();
                     planTreeItemViewModel.Parent = parentPlanTreeItem;

@@ -80,7 +80,7 @@ namespace AlarmModule
             }
 
             string id = null;
-            Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
+            Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
             {
                 id = device.Id;
@@ -93,7 +93,7 @@ namespace AlarmModule
             string panelDatabaseId = journalItem.IDDevicesSource;
             if (string.IsNullOrEmpty(panelDatabaseId) == false)
             {
-                Device devicePanel = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
+                Device devicePanel = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
                 if (devicePanel != null)
                 {
                     panelId = devicePanel.Id;

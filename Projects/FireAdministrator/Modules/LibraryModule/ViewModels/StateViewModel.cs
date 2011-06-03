@@ -6,6 +6,7 @@ using System.Windows;
 using DeviceLibrary;
 using System.Collections.ObjectModel;
 using DeviceLibrary.Models;
+using FiresecClient;
 
 namespace LibraryModule.ViewModels
 {
@@ -94,7 +95,7 @@ namespace LibraryModule.ViewModels
             get
             {
                 if (!IsAdditional) return null;
-                _class = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == Id).@class;
+                _class = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == Id).@class;
                 return _class;
             }
             set 
@@ -137,7 +138,7 @@ namespace LibraryModule.ViewModels
             set
             {
                 _id = value;
-                var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == ParentDevice.Id);
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id);
                 Name = IsAdditional ? driver.state.FirstOrDefault(x => x.id == _id).name : Helper.BaseStatesList[Convert.ToInt16(_id)];
             }
         }

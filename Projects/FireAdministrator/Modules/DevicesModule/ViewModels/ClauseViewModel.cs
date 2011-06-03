@@ -60,7 +60,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 string presenrationZones = "";
-                foreach (string zone in _zones)
+                foreach (var zone in _zones)
                 {
                     presenrationZones += zone + ",";
                 }

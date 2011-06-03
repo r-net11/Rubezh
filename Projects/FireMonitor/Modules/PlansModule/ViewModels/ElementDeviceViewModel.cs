@@ -24,7 +24,6 @@ namespace PlansModule.ViewModels
         }
 
         Device _device;
-        Firesec.Metadata.drvType _driver;
         DeviceControls.DeviceControl _deviceControl;
         Rectangle _mouseOverRectangle;
         Rectangle _selectationRectangle;
@@ -35,19 +34,12 @@ namespace PlansModule.ViewModels
         {
             _elementDevice = elementDevice;
 
-            _device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == elementDevice.Id);
-            if (_device == null)
-                return;
-            _driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == _device.DriverId);
-
             Canvas innerCanvas = new Canvas();
             Canvas.SetLeft(innerCanvas, elementDevice.Left);
             Canvas.SetTop(innerCanvas, elementDevice.Top);
             canvas.Children.Add(innerCanvas);
 
             _deviceControl = new DeviceControls.DeviceControl();
-            _deviceControl.DriverId = _device.DriverId;
-
             _deviceControl.Width = elementDevice.Width;
             _deviceControl.Height = elementDevice.Height;
             innerCanvas.Children.Add(_deviceControl);
@@ -66,10 +58,16 @@ namespace PlansModule.ViewModels
             _selectationRectangle.StrokeThickness = 0;
             innerCanvas.Children.Add(_selectationRectangle);
 
-            AddTooltipCanvas(elementDevice, canvas);
-
             IsSelected = false;
-            OnDeviceStateChanged(elementDevice.Id);
+
+            _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == elementDevice.Id);
+            if (_device != null)
+            {
+                _deviceControl.DriverId = _device.DriverId;
+
+                AddTooltipCanvas(elementDevice, canvas);
+                OnDeviceStateChanged(elementDevice.Id);
+            }
         }
 
         void AddTooltipCanvas(ElementDevice elementDevice, Canvas canvas)
@@ -89,7 +87,7 @@ namespace PlansModule.ViewModels
             menuItem1.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
             contextMenu.Items.Add(menuItem1);
 
-            if ((_driver.options != null) && (_driver.options.Contains("Ignorable")))
+            if ((_device.Driver.options != null) && (_device.Driver.options.Contains("Ignorable")))
             {
                 MenuItem menuItem2 = new MenuItem();
                 menuItem2.Header = "Отключить";
@@ -168,27 +166,27 @@ namespace PlansModule.ViewModels
         {
             if (id == _elementDevice.Id)
             {
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == id);
-                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
+                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == id);
                 _deviceControl.State = deviceState.State.Id.ToString();
 
                 string tooltip = "";
-                tooltip = device.Address + " - " + _driver.shortName + "\n";
+                tooltip = device.Address + " - " + _device.Driver.shortName + "\n";
 
                 if (deviceState.ParentStringStates != null)
-                    foreach (string parentState in deviceState.ParentStringStates)
+                    foreach (var parentState in deviceState.ParentStringStates)
                     {
                         tooltip += parentState + "\n";
                     }
 
                 if (deviceState.SelfStates != null)
-                    foreach (string selfState in deviceState.SelfStates)
+                    foreach (var selfState in deviceState.SelfStates)
                     {
                         tooltip += selfState + "\n";
                     }
 
                 if (deviceState.Parameters != null)
-                    foreach (Parameter parameter in deviceState.Parameters)
+                    foreach (var parameter in deviceState.Parameters)
                     {
                         if (parameter.Visible)
                         {

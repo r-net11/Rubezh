@@ -24,10 +24,10 @@ namespace AssadProcessor.Devices
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 
-            if (FiresecManager.CurrentStates.ZoneStates.Any(x => x.No == ZoneNo))
+            if (FiresecManager.States.ZoneStates.Any(x => x.No == ZoneNo))
             {
-                ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-                Zone zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+                ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+                Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
@@ -75,9 +75,9 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.CurrentStates.ZoneStates.Any(x => x.No == ZoneNo))
+            if (FiresecManager.States.ZoneStates.Any(x => x.No == ZoneNo))
             {
-                ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+                ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
 
                 eventType.state = new Assad.CPeventTypeState[1];
                 eventType.state[0] = new Assad.CPeventTypeState();

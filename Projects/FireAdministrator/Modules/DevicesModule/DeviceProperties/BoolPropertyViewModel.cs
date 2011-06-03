@@ -9,7 +9,7 @@ namespace DevicesModule.DeviceProperties
 {
     public class BoolPropertyViewModel : BasePropertyViewModel
     {
-        public BoolPropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device)
+        public BoolPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
             : base(propertyInfo, device)
         {
             var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);

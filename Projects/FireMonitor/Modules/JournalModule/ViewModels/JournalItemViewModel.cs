@@ -37,7 +37,7 @@ namespace JournalModule.ViewModels
             {
                 databaseId = _journalItem.IDDevices;
             }
-            Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == databaseId);
+            Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
             {
                 _deviceId = device.Id;

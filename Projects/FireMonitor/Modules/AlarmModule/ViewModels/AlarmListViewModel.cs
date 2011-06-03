@@ -45,7 +45,7 @@ namespace AlarmModule.ViewModels
         public void Initialize(List<Alarm> alarms)
         {
             Alarms = new ObservableCollection<AlarmViewModel>();
-            foreach (Alarm alarm in alarms)
+            foreach (var alarm in alarms)
             {
                 AlarmViewModel alarmViewModel = new AlarmViewModel();
                 alarmViewModel.Initialize(alarm);

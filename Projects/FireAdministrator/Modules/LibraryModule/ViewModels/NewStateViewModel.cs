@@ -4,6 +4,7 @@ using DeviceLibrary;
 using Firesec.Metadata;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
+using FiresecClient;
 
 namespace LibraryModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
-            _driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == _selectedDevice.Id);
+            _driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
@@ -31,7 +32,7 @@ namespace LibraryModule.ViewModels
         }
 
         private readonly DeviceViewModel _selectedDevice;
-        private readonly drvType _driver;
+        private readonly Firesec.Metadata.configDrv _driver;
 
         private StateViewModel _selectedState;
         public StateViewModel SelectedState

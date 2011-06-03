@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-using Firesec.Helper;
+using FiresecClient;
 
 namespace DeviveModelManager
 {
@@ -28,15 +28,15 @@ namespace DeviveModelManager
         void CreateRootTreeItem()
         {
             RootTreeItem = RootHelper.CreateRoot();
-            Firesec.Metadata.classType rootClass = MetadataHelper.Metadata.@class.First(x => x.parent == null);
-            RootTreeItem.Name = MetadataHelper.Metadata.drv.First(x => x.clsid == rootClass.clsid).name;
+            var rootClass = FiresecManager.Configuration.Metadata.@class.First(x => x.parent == null);
+            RootTreeItem.Name = FiresecManager.Configuration.Metadata.drv.First(x => x.clsid == rootClass.clsid).name;
         }
 
         void AddAssad(DriverItem parentDriverItem, TreeItem parentTreeItem)
         {
-            foreach (DriverItem childDriverItem in parentDriverItem.Children)
+            foreach (var childDriverItem in parentDriverItem.Children)
             {
-                Firesec.Metadata.drvType driver = MetadataHelper.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
                 TreeItem childTree = new TreeItem();
                 childTree.Parent = parentTreeItem;
                 childTree.SetDriver(driver);

@@ -31,7 +31,7 @@ namespace DevicesModule.ViewModels
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in FiresecManager.CurrentConfiguration.Zones)
+            foreach (Zone zone in FiresecManager.Configuration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
 
@@ -122,7 +122,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddAllCommand { get; private set; }
         void OnAddAll()
         {
-            foreach (ZoneViewModel zoneViewModel in SourceZones)
+            foreach (var zoneViewModel in SourceZones)
             {
                 TargetZones.Add(zoneViewModel);
             }
@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveAllCommand { get; private set; }
         void OnRemoveAll()
         {
-            foreach (ZoneViewModel zoneViewModel in TargetZones)
+            foreach (var zoneViewModel in TargetZones)
             {
                 SourceZones.Add(zoneViewModel);
             }
@@ -158,7 +158,7 @@ namespace DevicesModule.ViewModels
         void OnSave()
         {
             Zones = new List<string>();
-            foreach (ZoneViewModel zoneViewModel in TargetZones)
+            foreach (var zoneViewModel in TargetZones)
             {
                 Zones.Add(zoneViewModel.No);
             }

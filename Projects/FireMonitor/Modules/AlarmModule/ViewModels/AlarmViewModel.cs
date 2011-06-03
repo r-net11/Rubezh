@@ -84,12 +84,11 @@ namespace AlarmModule.ViewModels
         {
             if (alarm.PanelId != null)
             {
-                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == alarm.PanelId);
+                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == alarm.PanelId);
 
-                Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-                if (driver.state != null)
+                if (device.Driver.state != null)
                 {
-                    foreach (Firesec.Metadata.stateType state in driver.state)
+                    foreach (var state in device.Driver.state)
                     {
                         if ((state.@class == alarm.ClassId) && (state.manualReset == "1"))
                         {

@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             BuildDeviceTree();
-            FiresecManager.CurrentStates.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
+            FiresecManager.States.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -67,7 +67,7 @@ namespace DevicesModule.ViewModels
         {
             Devices = new ObservableCollection<DeviceViewModel>();
 
-            Device device = FiresecManager.CurrentConfiguration.RootDevice;
+            Device device = FiresecManager.Configuration.RootDevice;
 
             DeviceViewModel deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = null;
@@ -84,7 +84,7 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
-            foreach (Device device in parentDevice.Children)
+            foreach (var device in parentDevice.Children)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Parent = parentDeviceViewModel;

@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
 
             if (FiresecManager.CoreConfig.part != null)
             {
-                foreach (var direction in FiresecManager.CurrentConfiguration.Directions)
+                foreach (var direction in FiresecManager.Configuration.Directions)
                 {
                     DirectionViewModel directionViewModel = new DirectionViewModel();
                     directionViewModel.Initialize(direction);
@@ -77,8 +77,8 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDirection != null)
             {
-                var direction = FiresecManager.CurrentConfiguration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
-                FiresecManager.CurrentConfiguration.Directions.Remove(direction);
+                var direction = FiresecManager.Configuration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
+                FiresecManager.Configuration.Directions.Remove(direction);
                 Directions.Remove(SelectedDirection);
             }
         }
@@ -88,7 +88,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDirection != null)
             {
-                var direction = FiresecManager.CurrentConfiguration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
+                var direction = FiresecManager.Configuration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
                 DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
                 directionDetailsViewModel.Initialize(direction);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);

@@ -39,7 +39,7 @@ namespace JournalModule.ViewModels
                 if (journalItems == null)
                     break;
 
-                foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
+                foreach (var journalItem in journalItems)
                 {
                     JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
                     Dispatcher.Invoke((Action<JournalItemViewModel>)Add, journalItemViewModel);

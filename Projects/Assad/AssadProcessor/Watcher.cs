@@ -12,8 +12,8 @@ namespace AssadProcessor
     {
         internal void Start()
         {
-            FiresecManager.CurrentStates.DeviceStateChanged += new Action<string>(ServiceClient_DeviceChanged);
-            FiresecManager.CurrentStates.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+            FiresecManager.States.DeviceStateChanged += new Action<string>(ServiceClient_DeviceChanged);
+            FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
             CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
@@ -59,10 +59,10 @@ namespace AssadProcessor
 
         void SendEvent(Firesec.ReadEvents.journalType journalItem, string dataBaseId)
         {
-            if (FiresecManager.CurrentConfiguration.AllDevices.Any(x => x.DatabaseId == dataBaseId))
+            if (FiresecManager.Configuration.Devices.Any(x => x.DatabaseId == dataBaseId))
             {
-                Device device = FiresecManager.CurrentConfiguration.AllDevices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
-                DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
 
                 if ((Configuration.Devices != null) && (Configuration.Devices.Any(x => x.Id == device.Id)))
                 {

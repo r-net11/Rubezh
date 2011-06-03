@@ -21,12 +21,12 @@ namespace DeviveModelManager
         public Assad.modelInfoType ModelInfo { get; set; }
         public ObservableCollection<TreeItem> Children { get; set; }
         public TreeItem Parent { get; set; }
-        Firesec.Metadata.drvType Driver { get; set; }
+        Firesec.Metadata.configDrv Driver { get; set; }
 
         // этот метод формирует свойство ModelInfo на основе информации о драйвере устройства,
         // полученной из метаданных
 
-        public void SetDriver(Firesec.Metadata.drvType driver)
+        public void SetDriver(Firesec.Metadata.configDrv driver)
         {
             this.Driver = driver;
             Name = driver.name;
@@ -63,11 +63,11 @@ namespace DeviveModelManager
         List<Assad.modelInfoTypeCommand> AddCommands()
         {
             List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
-            foreach (Firesec.Metadata.stateType comState in Driver.state)
+            foreach (var state in Driver.state)
             {
-                if (comState.manualReset == "1")
+                if (state.manualReset == "1")
                 {
-                    commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + comState.name });
+                    commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + state.name });
                 }
             }
             return commands;
@@ -98,7 +98,7 @@ namespace DeviveModelManager
 
             //if (Driver.propInfo != null)
             //{
-            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    foreach (var propInfo in Driver.propInfo)
             //    {
             //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
             //        if (propInfo.hidden == "0")
@@ -123,7 +123,7 @@ namespace DeviveModelManager
             //                        {
             //                            customParam.type = "single";
             //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            foreach (var paramType in propInfo.param)
             //                            {
             //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
             //                                modelInfoTypeParamValue.value = paramType.name;
@@ -159,7 +159,7 @@ namespace DeviveModelManager
 
             //if (Driver.propInfo != null)
             //{
-            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    foreach (var propInfo in Driver.propInfo)
             //    {
             //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
             //        if (propInfo.hidden == "0")
@@ -184,7 +184,7 @@ namespace DeviveModelManager
             //                        {
             //                            customParam.type = "single";
             //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            foreach (var paramType in propInfo.param)
             //                            {
             //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
             //                                modelInfoTypeParamValue.value = paramType.name;
@@ -259,7 +259,7 @@ namespace DeviveModelManager
 
             //if (Driver.propInfo != null)
             //{
-            //    foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+            //    foreach (var propInfo in Driver.propInfo)
             //    {
             //        Assad.modelInfoTypeParam customParam = new Assad.modelInfoTypeParam();
             //        if (propInfo.hidden == "0")
@@ -284,7 +284,7 @@ namespace DeviveModelManager
             //                        {
             //                            customParam.type = "single";
             //                            List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-            //                            foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+            //                            foreach (var paramType in propInfo.param)
             //                            {
             //                                Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
             //                                modelInfoTypeParamValue.value = paramType.name;
@@ -314,7 +314,7 @@ namespace DeviveModelManager
 //***
             if (Driver.propInfo != null)
             {
-                foreach (Firesec.Metadata.propInfoType propInfo in Driver.propInfo)
+                foreach (var propInfo in Driver.propInfo)
                 {
                     Assad.modelInfoTypeState customParam = new Assad.modelInfoTypeState();
                     if (propInfo.hidden == "0")
@@ -339,7 +339,7 @@ namespace DeviveModelManager
                                 //    {
                                 //        customParam.type = "single";
                                 //        List<Assad.modelInfoTypeParamValue> customParamValues = new List<Assad.modelInfoTypeParamValue>();
-                                //        foreach (Firesec.Metadata.paramType paramType in propInfo.param)
+                                //        foreach (var paramType in propInfo.param)
                                 //        {
                                 //            Assad.modelInfoTypeParamValue modelInfoTypeParamValue = new Assad.modelInfoTypeParamValue();
                                 //            modelInfoTypeParamValue.value = paramType.name;
@@ -376,7 +376,7 @@ namespace DeviveModelManager
             States.Add(AssadConfigurationState);
             if (Driver.paramInfo != null)
             {
-                foreach (Firesec.Metadata.paramInfoType paramInfo in Driver.paramInfo)
+                foreach (var paramInfo in Driver.paramInfo)
                 {
                     if ((paramInfo.hidden == "0") && (paramInfo.showOnlyInState == "0"))
                     {

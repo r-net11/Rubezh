@@ -29,7 +29,7 @@ namespace DevicesModule.ViewModels
             Direction.Name = "Новое направление";
             Direction.Zones = new List<int>();
 
-            int maxId = FiresecManager.CurrentConfiguration.Directions.Max(x => x.Id);
+            int maxId = FiresecManager.Configuration.Directions.Max(x => x.Id);
             Id = maxId + 1;
         }
 
@@ -90,17 +90,17 @@ namespace DevicesModule.ViewModels
         {
             if (_isNew)
             {
-                if (FiresecManager.CurrentConfiguration.Directions.Any(x => x.Id == Id))
+                if (FiresecManager.Configuration.Directions.Any(x => x.Id == Id))
                 {
                     Close(false);
                     return;
                 }
                 Save();
-                FiresecManager.CurrentConfiguration.Directions.Add(Direction);
+                FiresecManager.Configuration.Directions.Add(Direction);
             }
             else
             {
-                if ((Id != Direction.Id) && (FiresecManager.CurrentConfiguration.Directions.Any(x => x.Id == Id)))
+                if ((Id != Direction.Id) && (FiresecManager.Configuration.Directions.Any(x => x.Id == Id)))
                 {
                     Close(false);
                     return;

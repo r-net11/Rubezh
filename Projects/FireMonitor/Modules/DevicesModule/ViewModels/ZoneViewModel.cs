@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
         public void Initialize(Zone zone)
         {
             this.zone = zone;
-            ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+            ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zone.No);
             State = zoneState.State;
         }
 

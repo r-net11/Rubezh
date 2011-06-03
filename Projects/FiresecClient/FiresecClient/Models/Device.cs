@@ -17,6 +17,7 @@ namespace FiresecClient
         public List<Device> Children { get; set; }
         public string DatabaseId { get; set; }
         public string DriverId { get; set; }
+        public Firesec.Metadata.configDrv Driver { get; set; }
         public string PlaceInTree { get; set; }
         public string Id { get; set; }
         public string Address { get; set; }

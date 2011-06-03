@@ -59,11 +59,11 @@ namespace ReportsModule.Reports
         {
             DriverCounters = new List<DriverCounter>();
 
-            foreach (var driver in FiresecManager.CurrentConfiguration.Metadata.drv)
+            foreach (var driver in FiresecManager.Configuration.Metadata.drv)
             {
                 if ((driver.options != null) && (driver.options.Contains("Placeable")) && (driver.shortName != "Компьютер"))
                 {
-                    var devices = FiresecManager.CurrentConfiguration.AllDevices.FindAll(x => x.DriverId == driver.id);
+                    var devices = FiresecManager.Configuration.Devices.FindAll(x => x.DriverId == driver.id);
                     if (devices.Count > 0)
                     {
                         DriverCounter driverCounter = new DriverCounter();

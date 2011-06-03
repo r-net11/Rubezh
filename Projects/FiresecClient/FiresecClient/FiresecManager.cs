@@ -10,8 +10,8 @@ namespace FiresecClient
     {
         static FiresecInternalClient firesecInternalClient;
 
-        public static CurrentConfiguration CurrentConfiguration { get; set; }
-        public static CurrentStates CurrentStates { get; set; }
+        public static CurrentConfiguration Configuration { get; set; }
+        public static CurrentStates States { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
         static FiresecManager()
@@ -29,8 +29,8 @@ namespace FiresecClient
 
             BuildDeviceTree();
 
-            CurrentConfiguration.FillAllDevices();
-            CurrentConfiguration.SetUnderlyingZones();
+            Configuration.FillAllDevices();
+            Configuration.SetUnderlyingZones();
 
             Watcher watcher = new Watcher();
             watcher.Start();
@@ -48,8 +48,8 @@ namespace FiresecClient
             CoreConfig = FiresecInternalClient.GetCoreConfig();
             FiresecToConfig firesecToConfig = new FiresecToConfig();
 
-            CurrentConfiguration = new CurrentConfiguration();
-            CurrentConfiguration.Metadata = FiresecInternalClient.GetMetaData();
+            Configuration = new CurrentConfiguration();
+            Configuration.Metadata = FiresecInternalClient.GetMetaData();
             firesecToConfig.Convert(CoreConfig);
         }
 
@@ -65,14 +65,14 @@ namespace FiresecClient
 
         public static void ResetState(Device device, string stateName)
         {
-            DeviceState deviceState = FiresecManager.CurrentStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
             InnerState state = deviceState.InnerStates.First(x => x.Name == stateName);
             string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
             coreState.dev[0] = new Firesec.CoreState.devType();
-            string placeInTree = CurrentConfiguration.AllDevices.FirstOrDefault(x => x.Id == deviceState.Id).PlaceInTree;
+            string placeInTree = Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id).PlaceInTree;
             coreState.dev[0].name = placeInTree;
             coreState.dev[0].state = new Firesec.CoreState.stateType[1];
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();

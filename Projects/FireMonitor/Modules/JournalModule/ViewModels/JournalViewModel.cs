@@ -15,7 +15,7 @@ namespace JournalModule.ViewModels
         {
             JournalItems = new ObservableCollection<JournalItemViewModel>();
             List<Firesec.ReadEvents.journalType> journalItems = FiresecManager.ReadJournal(0, 100);
-            foreach (Firesec.ReadEvents.journalType journalItem in journalItems)
+            foreach (var journalItem in journalItems)
             {
                 JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
                 JournalItems.Add(journalItemViewModel);

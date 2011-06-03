@@ -32,7 +32,7 @@ namespace AssadProcessor
         void AddChild(Assad.modelInfoType parent)
         {
             if (parent.type != null)
-                foreach (Assad.modelInfoType child in parent.type)
+                foreach (var child in parent.type)
                 {
                     ModelInfos.Add(child);
                     AddChild(child);

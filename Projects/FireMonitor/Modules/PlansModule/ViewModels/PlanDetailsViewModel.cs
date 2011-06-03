@@ -53,14 +53,14 @@ namespace PlansModule.ViewModels
             string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
             _canvas.Background = CreateBrush(backgroundPath);
 
-            foreach (ElementSubPlan elementSubPlan in _plan.ElementSubPlans)
+            foreach (var elementSubPlan in _plan.ElementSubPlans)
             {
                 ElementSubPlanViewModel subPlanViewModel = new ElementSubPlanViewModel();
                 subPlanViewModel.Initialize(elementSubPlan, _canvas);
                 SubPlans.Add(subPlanViewModel);
             }
 
-            foreach (ElementZone elementZone in _plan.ElementZones)
+            foreach (var elementZone in _plan.ElementZones)
             {
                 ElementZoneViewModel zonePlanViewModel = new ElementZoneViewModel();
                 zonePlanViewModel.Initialize(elementZone, _canvas);
@@ -68,7 +68,7 @@ namespace PlansModule.ViewModels
                 Zones.Add(zonePlanViewModel);
             }
 
-            foreach (ElementDevice elementDevice in _plan.ElementDevices)
+            foreach (var elementDevice in _plan.ElementDevices)
             {
                 ElementDeviceViewModel planDeviceViewModel = new ElementDeviceViewModel();
                 planDeviceViewModel.Initialize(elementDevice, _canvas);

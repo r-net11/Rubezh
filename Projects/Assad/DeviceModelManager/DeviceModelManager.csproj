@@ -94,6 +94,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonitorHelper.cs" />
+    <Compile Include="TreeBuilder.cs" />
     <Compile Include="Views\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -142,6 +143,10 @@
     <ProjectReference Include="..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
       <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
       <Name>FiresecApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\AssadApi\AssadApi.csproj">
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>

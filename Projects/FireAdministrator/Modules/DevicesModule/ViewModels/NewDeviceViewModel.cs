@@ -25,9 +25,9 @@ namespace DevicesModule.ViewModels
             _parent = parent;
             Devices = new ObservableCollection<AvailableDevice>();
 
-            foreach (Firesec.Metadata.drvType childDriver in FiresecManager.CurrentConfiguration.Metadata.drv)
+            foreach (var childDriver in FiresecManager.Configuration.Metadata.drv)
             {
-                Firesec.Metadata.classType childClass = FiresecManager.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
+                var childClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
                 if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == parent.Driver.clsid)))
                 {
                     if ((childDriver.lim_parent != null) && (childDriver.lim_parent != parent.Driver.id))
@@ -73,7 +73,7 @@ namespace DevicesModule.ViewModels
                 Device device = new Device();
                 device.Properties = new List<Property>();
                 device.DriverId = driverId;
-                Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
                 if (driver.ar_no_addr == "1")
                 {
                     device.Address = "";
@@ -86,9 +86,9 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Parent = _parent;
                 _parent.Children.Add(deviceViewModel);
 
-                foreach (Firesec.Metadata.drvType childDriver in FiresecManager.CurrentConfiguration.Metadata.drv)
+                foreach (var childDriver in FiresecManager.Configuration.Metadata.drv)
                 {
-                    Firesec.Metadata.classType childClass = FiresecManager.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
+                    var childClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
                     if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == deviceViewModel.Driver.clsid)))
                     {
                         if ((childDriver.lim_parent != null) && (childDriver.lim_parent != deviceViewModel.Driver.id))
@@ -134,7 +134,7 @@ namespace DevicesModule.ViewModels
 
     public class AvailableDevice
     {
-        public void Init(Firesec.Metadata.drvType driver)
+        public void Init(Firesec.Metadata.configDrv driver)
         {
             DriverId = driver.id;
             DriverName = driver.shortName;
@@ -146,7 +146,7 @@ namespace DevicesModule.ViewModels
             }
             else
             {
-                Firesec.Metadata.classType metadataClass = FiresecManager.CurrentConfiguration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
+                var metadataClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
                 ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
             }
 

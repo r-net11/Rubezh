@@ -9,7 +9,7 @@ namespace DevicesModule.DeviceProperties
 {
     public class StringPropertyViewModel : BasePropertyViewModel
     {
-        public StringPropertyViewModel(Firesec.Metadata.propInfoType propertyInfo, Device device) : base(propertyInfo, device)
+        public StringPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device) : base(propertyInfo, device)
         {
             var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
             if (property != null)

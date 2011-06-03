@@ -63,6 +63,9 @@ namespace DeviceControls
             _stateViewModelList = new List<StateViewModel>();
 
             var device = LibraryManager.Devices.FirstOrDefault(x => x.Id == DriverId);
+            if (device == null)
+                return;
+
             StateCanvases = new ObservableCollection<Canvas>();
             var state = device.States.FirstOrDefault(x => (x.Id == State) && (Convert.ToInt32(x.Id) >= 0) && (!x.IsAdditional));
             if (state != null)

@@ -27,9 +27,9 @@ namespace DevicesModule.ViewModels
             List<Device> devices = new List<Device>();
             List<Device> availableDevices = new List<Device>();
 
-            foreach (Device device in FiresecManager.CurrentConfiguration.AllDevices)
+            foreach (var device in FiresecManager.Configuration.Devices)
             {
-                var driver = FiresecManager.CurrentConfiguration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
                 if (!((driver.minZoneCardinality == "0") && (driver.maxZoneCardinality == "0")))
                 {
                     if (string.IsNullOrEmpty(device.ZoneNo))
@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
             }
 
             Devices = new ObservableCollection<DeviceViewModel>();
-            foreach (Device device in devices)
+            foreach (var device in devices)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, Devices);
@@ -106,7 +106,7 @@ namespace DevicesModule.ViewModels
             }
 
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
-            foreach (Device device in availableDevices)
+            foreach (var device in availableDevices)
             {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, AvailableDevices);

@@ -11,21 +11,9 @@ namespace DeviceLibrary
     {
         public static List<Device> Devices { get; set; }
 
-        public static drvType[] Drivers { get; set; }
-
         static LibraryManager()
         {
             Load();
-            LoadMetadata();
-        }
-
-        static void LoadMetadata()
-        {
-            var fileXml = new FileStream(PathHelper.MetadataFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof(config));
-            var metadata = (config)serializer.Deserialize(fileXml);
-            fileXml.Close();
-            Drivers = metadata.drv;
         }
 
         static void Load()

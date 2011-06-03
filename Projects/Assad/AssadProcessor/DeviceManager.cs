@@ -26,7 +26,7 @@ namespace AssadProcessor
         void AddChild(Assad.MHconfigTypeDevice innerDevice, AssadBase parent)
         {
             if (innerDevice.device != null)
-                foreach (Assad.MHconfigTypeDevice innerChild in innerDevice.device)
+                foreach (var innerChild in innerDevice.device)
                 {
                     AssadBase child = Create(innerChild);
                     child.Parent = parent;

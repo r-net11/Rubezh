@@ -19,7 +19,7 @@ namespace AssadProcessor.Devices
                 prevCounters.Add(new StateTypeCounter(i));
             }
             //// отладочная информация              
-            //foreach (StateTypeCounter dcount in prevCounters)
+            //foreach (var dcount in prevCounters)
             //{
             //    string str = "State: " + dcount.State.ToString() + "   StateType: " + dcount.StateType.ToString() + "  " + dcount.Count.ToString();
             //    Trace.WriteLine(str);
@@ -42,7 +42,7 @@ namespace AssadProcessor.Devices
             configurationState.value = "Норма";
             states.Add(configurationState);
 
-            foreach (DeviceState deviceState in FiresecManager.CurrentStates.DeviceStates)
+            foreach (var deviceState in FiresecManager.States.DeviceStates)
             {
                 StateType stateType = deviceState.State.StateType;
                 StateTypeCounter stateTypeCounter = prevCounters.FirstOrDefault(x => x.StateType == stateType);
@@ -55,7 +55,7 @@ namespace AssadProcessor.Devices
 
            //// отладочная информация
             //Trace.WriteLine("--- prevCounter List ---");
-            //foreach (StateTypeCounter dcount in prevCounters)
+            //foreach (var dcount in prevCounters)
             //{
             //    string str = dcount.State.ToString() + "  " + dcount.Count.ToString();
             //    Trace.WriteLine(str);
@@ -63,7 +63,7 @@ namespace AssadProcessor.Devices
 
 
 
-            foreach (StateTypeCounter counter in prevCounters)
+            foreach (var counter in prevCounters)
             {
                 Assad.DeviceTypeState state = new Assad.DeviceTypeState();
                 state.state = counter.State.StateType.ToString();
@@ -89,7 +89,7 @@ namespace AssadProcessor.Devices
 
             for (int i = 0; i < 9; i++ )
                 counters.Add(new StateTypeCounter(i));
-            foreach (DeviceState deviceState in FiresecManager.CurrentStates.DeviceStates)
+            foreach (var deviceState in FiresecManager.States.DeviceStates)
             {
                 StateType stateType = deviceState.State.StateType;
                 StateTypeCounter stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
@@ -101,7 +101,7 @@ namespace AssadProcessor.Devices
 
             bool diff = false;
 
-            foreach (StateTypeCounter counter in prevCounters)
+            foreach (var counter in prevCounters)
             {
                 StateTypeCounter tempcounter = counters.FirstOrDefault(x => x.StateType == counter.StateType);
                     if(tempcounter != null)
@@ -123,7 +123,7 @@ namespace AssadProcessor.Devices
 
             List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
-            foreach (StateTypeCounter stateTypeCounter in counters)
+            foreach (var stateTypeCounter in counters)
             {
                 Assad.CPeventTypeState AlarmState = new Assad.CPeventTypeState();
                 AlarmState.state = stateTypeCounter.State.ToString();

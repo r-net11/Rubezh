@@ -16,10 +16,10 @@ namespace FiresecClient
         {
             this.firesecConfig = firesecConfig;
 
-            FiresecManager.CurrentConfiguration.AllDevices = new List<Device>();
-            FiresecManager.CurrentStates = new CurrentStates();
-            FiresecManager.CurrentStates.DeviceStates = new List<DeviceState>();
-            FiresecManager.CurrentStates.ZoneStates = new List<ZoneState>();
+            FiresecManager.Configuration.Devices = new List<Device>();
+            FiresecManager.States = new CurrentStates();
+            FiresecManager.States.DeviceStates = new List<DeviceState>();
+            FiresecManager.States.ZoneStates = new List<ZoneState>();
 
             AddZones();
 
@@ -27,11 +27,11 @@ namespace FiresecClient
             Device rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
-            FiresecManager.CurrentConfiguration.AllDevices.Add(rootDevice);
-            FiresecManager.CurrentStates.DeviceStates.Add(CreateDeviceState(rootDevice));
+            FiresecManager.Configuration.Devices.Add(rootDevice);
+            FiresecManager.States.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
-            FiresecManager.CurrentConfiguration.RootDevice = rootDevice;
+            FiresecManager.Configuration.RootDevice = rootDevice;
 
             AddDirections();
         }
@@ -41,14 +41,14 @@ namespace FiresecClient
             parentDevice.Children = new List<Device>();
             if (parentInnerDevice.dev != null)
             {
-                foreach (Firesec.CoreConfig.devType innerDevice in parentInnerDevice.dev)
+                foreach (var innerDevice in parentInnerDevice.dev)
                 {
                     Device device = new Device();
                     device.Parent = parentDevice;
                     parentDevice.Children.Add(device);
                     SetInnerDevice(device, innerDevice);
-                    FiresecManager.CurrentConfiguration.AllDevices.Add(device);
-                    FiresecManager.CurrentStates.DeviceStates.Add(CreateDeviceState(device));
+                    FiresecManager.Configuration.Devices.Add(device);
+                    FiresecManager.States.DeviceStates.Add(CreateDeviceState(device));
                     AddDevice(innerDevice, device);
                 }
             }
@@ -56,7 +56,7 @@ namespace FiresecClient
 
         DeviceState CreateDeviceState(Device device)
         {
-            Firesec.Metadata.drvType driver = FiresecManager.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+            var driver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
 
             DeviceState deviceState = new DeviceState();
             deviceState.ChangeEntities = new ChangeEntities();
@@ -64,21 +64,23 @@ namespace FiresecClient
             deviceState.PlaceInTree = device.PlaceInTree;
 
             deviceState.InnerStates = new List<InnerState>();
-            foreach (Firesec.Metadata.stateType innerState in driver.state)
+            foreach (var innerState in driver.state)
             {
                 InnerState state = new InnerState()
                 {
                     Id = innerState.id,
                     Name = innerState.name,
                     Priority = System.Convert.ToInt32(innerState.@class),
-                    AffectChildren = innerState.affectChildren == "1" ? true : false
+                    AffectChildren = innerState.affectChildren == "1" ? true : false,
+                    IsManualReset = innerState.manualReset == "1" ? true : false,
+                    IsAutomatic = innerState.type == "Auto" ? true : false
                 };
                 deviceState.InnerStates.Add(state);
             }
 
             deviceState.Parameters = new List<Parameter>();
             if (driver.paramInfo != null)
-                foreach (Firesec.Metadata.paramInfoType parameterInfo in driver.paramInfo)
+                foreach (var parameterInfo in driver.paramInfo)
                 {
                     Parameter parameter = new Parameter();
                     parameter.Name = parameterInfo.name;
@@ -93,7 +95,8 @@ namespace FiresecClient
         void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             device.DriverId = firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-            Firesec.Metadata.drvType metadataDriver = FiresecManager.CurrentConfiguration.Metadata.drv.First(x => x.id == device.DriverId);
+            var metadataDriver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
+            device.Driver = metadataDriver;
 
             // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
             device.Address = innerDevice.addr;
@@ -120,7 +123,7 @@ namespace FiresecClient
             device.Properties = new List<Property>();
             if (innerDevice.prop != null)
             {
-                foreach (Firesec.CoreConfig.propType innerProperty in innerDevice.prop)
+                foreach (var innerProperty in innerDevice.prop)
                 {
                     Property deviceProperty = new Property();
                     deviceProperty.Name = innerProperty.name;
@@ -225,11 +228,11 @@ namespace FiresecClient
 
         void AddZones()
         {
-            FiresecManager.CurrentConfiguration.Zones = new List<Zone>();
+            FiresecManager.Configuration.Zones = new List<Zone>();
 
             if (firesecConfig.zone != null)
             {
-                foreach (Firesec.CoreConfig.zoneType innerZone in firesecConfig.zone)
+                foreach (var innerZone in firesecConfig.zone)
                 {
                     Zone zone = new Zone();
                     zone.Name = innerZone.name;
@@ -245,8 +248,8 @@ namespace FiresecClient
                         if (fireDeviceCountParam != null)
                             zone.DetectorCount = fireDeviceCountParam.value;
                     }
-                    FiresecManager.CurrentConfiguration.Zones.Add(zone);
-                    FiresecManager.CurrentStates.ZoneStates.Add(CreateZoneState(zone));
+                    FiresecManager.Configuration.Zones.Add(zone);
+                    FiresecManager.States.ZoneStates.Add(CreateZoneState(zone));
                 }
             }
         }
@@ -260,7 +263,7 @@ namespace FiresecClient
 
         void AddDirections()
         {
-            FiresecManager.CurrentConfiguration.Directions = new List<Direction>();
+            FiresecManager.Configuration.Directions = new List<Direction>();
 
             foreach (var part in FiresecManager.CoreConfig.part)
             {
@@ -280,7 +283,7 @@ namespace FiresecClient
                         }
                     }
 
-                    FiresecManager.CurrentConfiguration.Directions.Add(direction);
+                    FiresecManager.Configuration.Directions.Add(direction);
                 }
             }
         }

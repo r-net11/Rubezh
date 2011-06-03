@@ -8,6 +8,7 @@ using DeviceControls;
 using DeviceLibrary;
 using Firesec;
 using Infrastructure;
+using FiresecClient;
 
 namespace LibraryModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            var driver = LibraryManager.Drivers.FirstOrDefault(x => x.id == Id);
+            var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == Id);
             States = new ObservableCollection<StateViewModel>();
             var stateViewModel = new StateViewModel();
             stateViewModel.Id = Convert.ToString(8);
@@ -69,7 +70,7 @@ namespace LibraryModule.ViewModels
             {
                 try
                 {
-                    return Helper.DevicesIconsPath + LibraryManager.Drivers.FirstOrDefault(x => x.id == Id).dev_icon + ".ico";
+                    return Helper.DevicesIconsPath + FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == Id).dev_icon + ".ico";
                 }
                 catch (Exception)
                 {

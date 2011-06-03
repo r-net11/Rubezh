@@ -30,10 +30,10 @@ namespace PlansModule.ViewModels
         public void Initialize(ElementZone elementZone, Canvas canvas)
         {
             _elementZone = elementZone;
-            _zone = FiresecManager.CurrentConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
+            _zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
 
             _zonePolygon = new Polygon();
-            foreach (PolygonPoint polygonPoint in elementZone.PolygonPoints)
+            foreach (var polygonPoint in elementZone.PolygonPoints)
             {
                 _zonePolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
@@ -112,7 +112,7 @@ namespace PlansModule.ViewModels
         {
             if (_elementZone.ZoneNo == zoneNo)
             {
-                ZoneState zoneState = FiresecManager.CurrentStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+                ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
 
                 switch (zoneState.State.StateType)
                 {

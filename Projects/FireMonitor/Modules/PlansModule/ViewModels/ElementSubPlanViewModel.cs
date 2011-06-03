@@ -31,7 +31,7 @@ namespace PlansModule.ViewModels
             _subPlanPolygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
             _subPlanPolygon.MouseEnter += new MouseEventHandler(subPlanPolygon_MouseEnter);
             _subPlanPolygon.MouseLeave += new MouseEventHandler(subPlanPolygon_MouseLeave);
-            foreach (PolygonPoint polygonPoint in elementSubPlan.PolygonPoints)
+            foreach (var polygonPoint in elementSubPlan.PolygonPoints)
             {
                 _subPlanPolygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }

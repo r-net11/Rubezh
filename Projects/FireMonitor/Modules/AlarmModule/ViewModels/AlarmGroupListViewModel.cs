@@ -28,6 +28,8 @@ namespace AlarmModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Subscribe(OnShowAllAlarms);
 
             CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+
+            FiresecManager.States.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
         }
 
         void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
@@ -40,7 +42,7 @@ namespace AlarmModule.ViewModels
         void OnShowAllAlarms(object obj)
         {
             List<Alarm> alarms = new List<Alarm>();
-            foreach (AlarmGroupViewModel alarmGroupViewModel in AlarmGroups)
+            foreach (var alarmGroupViewModel in AlarmGroups)
             {
                 alarms.AddRange(alarmGroupViewModel.Alarms);
             }
@@ -48,6 +50,26 @@ namespace AlarmModule.ViewModels
             AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
             alarmListViewModel.Initialize(alarms);
             ServiceFactory.Layout.Show(alarmListViewModel);
+        }
+
+        void CurrentStates_DeviceStateChanged(string obj)
+        {
+            List<string> deviceIds = new List<string>();
+
+            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            {
+                foreach (var state in deviceState.InnerStates)
+                {
+                    if ((state.IsAutomatic) && (state.IsManualReset))
+                    {
+                        deviceIds.Add(deviceState.Id);
+                        Alarm alarm = new Alarm();
+                        alarm.AlarmType = AlarmType.Auto;
+                        alarm.DeviceId = deviceState.Id;
+                        ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
+                    }
+                }
+            }
         }
 
         public override void Dispose()

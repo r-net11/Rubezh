@@ -13,7 +13,7 @@ namespace FiresecClient
 
             if (zoneLogic != null)
             {
-                foreach (Firesec.ZoneLogic.clauseType clause in zoneLogic.clause)
+                foreach (var clause in zoneLogic.clause)
                 {
                     if (clause.joinOperator != null)
                     {
@@ -66,7 +66,7 @@ namespace FiresecClient
 
                     stringZoneLogic += "состояние " + stringState + " " + stringOperation + " [";
 
-                    foreach (string zoneNo in clause.zone)
+                    foreach (var zoneNo in clause.zone)
                     {
                         stringZoneLogic += zoneNo + ", ";
                     }

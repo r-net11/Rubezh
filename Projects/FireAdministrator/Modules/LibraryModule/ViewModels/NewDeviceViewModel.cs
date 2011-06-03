@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using DeviceLibrary;
+using FiresecClient;
 
 namespace LibraryModule.ViewModels
 {
@@ -52,13 +53,13 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             Items = new ObservableCollection<DeviceViewModel>();
-            foreach (var item in LibraryManager.Drivers)
+            foreach (var driver in FiresecManager.Configuration.Metadata.drv)
                 try
                 {
-                    if (!item.options.Contains("Placeable") ||
-                        (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == item.id) != null)) continue;
+                    if (!driver.options.Contains("Placeable") ||
+                        (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == driver.id) != null)) continue;
                     var deviceViewModel = new DeviceViewModel();
-                    deviceViewModel.Id = item.id;
+                    deviceViewModel.Id = driver.id;
                     deviceViewModel.Initialize();
                     Items.Add(deviceViewModel);
                 }
