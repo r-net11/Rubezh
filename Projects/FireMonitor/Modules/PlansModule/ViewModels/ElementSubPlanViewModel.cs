@@ -71,7 +71,7 @@ namespace PlansModule.ViewModels
         {
             switch (state.StateType)
             {
-                case StateType.Alarm:
+                case StateType.Fire:
                     _subPlanPolygon.Fill = Brushes.Red;
                     break;
 
@@ -103,7 +103,7 @@ namespace PlansModule.ViewModels
                     _subPlanPolygon.Fill = Brushes.Gray;
                     break;
 
-                case StateType.Warning:
+                case StateType.Attention:
                     _subPlanPolygon.Fill = Brushes.Yellow;
                     break;
             }

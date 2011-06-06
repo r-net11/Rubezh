@@ -88,46 +88,17 @@ namespace DevicesModule.ViewModels
 
         public bool IsZoneDevice
         {
-            get
-            {
-                if ((_device.Driver.minZoneCardinality == "0") && (_device.Driver.maxZoneCardinality == "0"))
-                {
-                    return false;
-                }
-                return true;
-            }
+            get { return _device.IsZoneDevice; }
         }
 
         public bool IsZoneLogicDevice
         {
-            get
-            {
-                if ((_device.Driver.options != null) && (_device.Driver.options.Contains("ExtendedZoneLogic")))
-                {
-                    return true;
-                }
-                return false;
-            }
+            get { return _device.IsZoneLogicDevice; }
         }
 
         public string PresentationZone
         {
-            get
-            {
-                if (IsZoneDevice)
-                {
-                    if (string.IsNullOrEmpty(_device.ZoneNo))
-                        return "";
-
-                    Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == _device.ZoneNo);
-                    return _device.ZoneNo + "." + zone.Name;
-                }
-                if (IsZoneLogicDevice)
-                {
-                    return ZoneLogicToText.Convert(_device.ZoneLogic);
-                }
-                return "";
-            }
+            get { return _device.PresentationZone; }
         }
 
         public string ShortDriverName

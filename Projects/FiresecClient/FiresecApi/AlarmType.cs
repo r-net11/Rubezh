@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AlarmModule
+namespace Firesec
 {
     public enum AlarmType
     {
-        Alarm,
+        Fire,
         Attention,
         Failure,
         Off,

@@ -89,16 +89,6 @@
                     <TextBlock Text="{Binding DriverName}" />
                 </StackPanel>
 
-                <StackPanel Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Зона:" FontWeight="Bold" Foreground="YellowGreen" />
-                    <TextBlock Text="{Binding PresentationZone}" />
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="YellowGreen" />
-                    <TextBlock Text="{Binding PresentationZone}" />
-                </StackPanel>
-
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
                     <TextBlock Text="{Binding State}" />

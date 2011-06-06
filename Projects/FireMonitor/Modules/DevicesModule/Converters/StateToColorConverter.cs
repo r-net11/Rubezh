@@ -15,10 +15,10 @@ namespace DevicesModule.Converters
             State state = (State)value;
             switch (state.StateType)
             {
-                case StateType.Alarm:
+                case StateType.Fire:
                     return Brushes.Red;
 
-                case StateType.Warning:
+                case StateType.Attention:
                     return Brushes.Yellow;
 
                 case StateType.Failure:

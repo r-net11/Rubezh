@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using Firesec;
 
 namespace AlarmModule.Converters
 {
@@ -13,7 +14,7 @@ namespace AlarmModule.Converters
             AlarmType alarmType = (AlarmType)value;
             switch (alarmType)
             {
-                case AlarmType.Alarm:
+                case AlarmType.Fire:
                     return "Red";
 
                 case AlarmType.Attention:

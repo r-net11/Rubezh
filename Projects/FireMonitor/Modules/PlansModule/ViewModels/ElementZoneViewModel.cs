@@ -116,7 +116,7 @@ namespace PlansModule.ViewModels
 
                 switch (zoneState.State.StateType)
                 {
-                    case StateType.Alarm:
+                    case StateType.Fire:
                         _zonePolygon.Fill = Brushes.Red;
                         break;
 
@@ -148,7 +148,7 @@ namespace PlansModule.ViewModels
                         _zonePolygon.Fill = Brushes.Gray;
                         break;
 
-                    case StateType.Warning:
+                    case StateType.Attention:
                         _zonePolygon.Fill = Brushes.Yellow;
                         break;
                 }

@@ -20,7 +20,7 @@ namespace AlarmModule.ViewModels
 
         void OnResetAlarm(Alarm alarm)
         {
-            AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm == alarm);
+            AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm.DeviceId == alarm.DeviceId);
             Alarms.Remove(alarmViewModel);
             if (Alarms.Count == 0)
             {

@@ -63,7 +63,6 @@
     <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Events\AlarmAddedEvent.cs" />
-    <Compile Include="AlarmType.cs" />
     <Compile Include="Events\MoveAlarmToEndEvent.cs" />
     <Compile Include="Events\ShowAllAlarmsEvent.cs" />
     <Compile Include="Imitator\AlarmImitatorView.xaml.cs">

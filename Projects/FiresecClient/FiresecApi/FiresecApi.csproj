@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmType.cs" />
     <Compile Include="DriversHelper.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
       <DependentUpon>GetCoreConfig.xsd</DependentUpon>

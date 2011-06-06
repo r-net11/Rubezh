@@ -32,10 +32,10 @@ namespace DevicesModule.Converters
         {
             switch (state.StateType)
             {
-                case StateType.Alarm:
+                case StateType.Fire:
                     return "DS_Critical";
 
-                case StateType.Warning:
+                case StateType.Attention:
                     return "DS_Warning";
 
                 case StateType.Failure:

@@ -7,8 +7,8 @@ namespace Firesec
 {
     public enum StateType
     {
-        Alarm = 0,
-        Warning = 1,
+        Fire = 0,
+        Attention = 1,
         Failure = 2,
         Service = 3,
         Off = 4,

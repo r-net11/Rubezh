@@ -154,6 +154,7 @@ namespace FiresecClient
                 PropogateStates();
                 CalculateStates();
                 CalculateZones();
+                CalculateAutomatic();
 
                 foreach (var device in FiresecManager.States.DeviceStates)
                 {
@@ -300,6 +301,20 @@ namespace FiresecClient
                 {
                     deviceState.SourceState = "";
                 }
+            }
+        }
+
+        void CalculateAutomatic()
+        {
+            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            {
+                deviceState.IsFire = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Fire)));
+                deviceState.IsAttention = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Attention)));
+                deviceState.IsFailure = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Failure)));
+                deviceState.IsOff = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Off)));
+                deviceState.IsInfo = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Info)));
+                deviceState.IsService = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Service) && (x.IsAutomatic) == false));
+                deviceState.IsAutomaticOff = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.IsAutomatic)));
             }
         }
 

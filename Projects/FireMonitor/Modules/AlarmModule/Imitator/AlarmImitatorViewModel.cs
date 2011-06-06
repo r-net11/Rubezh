@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure;
 using Infrastructure.Common;
 using AlarmModule.Events;
+using Firesec;
 
 namespace AlarmModule.Imitator
 {
@@ -62,11 +63,11 @@ namespace AlarmModule.Imitator
 
         void AddTestAlarms()
         {
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Alarm, Name = "ИП 212-64", Description = "Сработал дымовой датчик" });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Alarm, Name = "ИПР", Description = "Сработал ручной извещатель" });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Alarm, Name = "ИП 101-29", Description = "Сработал тепловой извещатель" });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Failure, Name = "Вскрытие", Description = "Всрытие прибора Рубеж-2АМ" });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Info, Name = "Вход", Description = "Вход пользователя в систему" });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИП 212-64", Description = "Сработал дымовой датчик", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИПР", Description = "Сработал ручной извещатель", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИП 101-29", Description = "Сработал тепловой извещатель", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Failure, Name = "Вскрытие", Description = "Всрытие прибора Рубеж-2АМ", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Info, Name = "Вход", Description = "Вход пользователя в систему", Time = DateTime.Now.ToString() });
         }
 
         void AddTestAlarm(Alarm alarm)

@@ -66,15 +66,7 @@ namespace FiresecClient
             deviceState.InnerStates = new List<InnerState>();
             foreach (var innerState in driver.state)
             {
-                InnerState state = new InnerState()
-                {
-                    Id = innerState.id,
-                    Name = innerState.name,
-                    Priority = System.Convert.ToInt32(innerState.@class),
-                    AffectChildren = innerState.affectChildren == "1" ? true : false,
-                    IsManualReset = innerState.manualReset == "1" ? true : false,
-                    IsAutomatic = innerState.type == "Auto" ? true : false
-                };
+                InnerState state = new InnerState(innerState);
                 deviceState.InnerStates.Add(state);
             }
 

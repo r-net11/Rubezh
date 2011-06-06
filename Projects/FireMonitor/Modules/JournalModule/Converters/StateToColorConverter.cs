@@ -18,7 +18,7 @@ namespace JournalModule.Converters
 
             switch (stateType)
             {
-                case StateType.Alarm:
+                case StateType.Fire:
                     brush = Brushes.Red;
                     break;
 
@@ -50,7 +50,7 @@ namespace JournalModule.Converters
                     brush = Brushes.Gray;
                     break;
 
-                case StateType.Warning:
+                case StateType.Attention:
                     brush = Brushes.Yellow;
                     break;
 

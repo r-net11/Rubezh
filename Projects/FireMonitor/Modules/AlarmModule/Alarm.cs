@@ -5,6 +5,7 @@ using System.Text;
 using FiresecClient;
 using Infrastructure;
 using AlarmModule.Events;
+using Firesec;
 
 namespace AlarmModule
 {
@@ -26,7 +27,7 @@ namespace AlarmModule
             switch (journalItem.IDTypeEvents)
             {
                 case "0":
-                    alarmType = AlarmType.Alarm;
+                    alarmType = AlarmType.Fire;
                     break;
 
                 case "1":

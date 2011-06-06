@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Common;
+using Firesec;
 
 namespace AlarmModule.ViewModels
 {
@@ -36,7 +37,8 @@ namespace AlarmModule.ViewModels
         {
             if (alarm.AlarmType == this.AlarmType)
             {
-                Alarms.Remove(alarm);
+                var removingAlarm = Alarms.FirstOrDefault(x => x.DeviceId == alarm.DeviceId);
+                Alarms.Remove(removingAlarm);
             }
             Update();
         }

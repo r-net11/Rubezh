@@ -7,6 +7,7 @@ using AlarmModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using FiresecClient;
+using Firesec;
 
 namespace AlarmModule.ViewModels
 {
@@ -16,6 +17,7 @@ namespace AlarmModule.ViewModels
         {
             ResetCommand = new RelayCommand(OnReset);
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+            ShowDeviceCommand = new RelayCommand(OnShowDevice);
             CloseCommand = new RelayCommand(OnClose);
             LeaveCommand = new RelayCommand(OnLeave);
             ConfirmCommand = new RelayCommand(OnConfirm);
@@ -59,6 +61,12 @@ namespace AlarmModule.ViewModels
         void OnShowOnPlan()
         {
             ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+        }
+
+        public RelayCommand ShowDeviceCommand { get; private set; }
+        void OnShowDevice()
+        {
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
         }
 
         public RelayCommand CloseCommand { get; private set; }
