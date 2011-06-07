@@ -15,10 +15,7 @@ namespace AlarmModule
         public string Name { get; set; }
         public string Description { get; set; }
         public string Time { get; set; }
-
         public string DeviceId { get; set; }
-        public string PanelId { get; set; }
-        public string ZoneNo { get; set; }
         public string ClassId { get; set; }
 
         public static void CreateFromJournalEvent(Firesec.ReadEvents.journalType journalItem)
@@ -67,10 +64,9 @@ namespace AlarmModule
             alarm.AlarmType = alarmType;
             alarm.Name = journalItem.EventDesc;
             alarm.Time = journalItem.SysDt;
-            alarm.ZoneNo = journalItem.ZoneName;
+            alarm.ClassId = journalItem.IDTypeEvents;
 
             string databaseId = null;
-
             if (string.IsNullOrEmpty(journalItem.IDDevicesSource))
             {
                 databaseId = journalItem.IDDevicesSource;
@@ -80,29 +76,11 @@ namespace AlarmModule
                 databaseId = journalItem.IDDevices;
             }
 
-            string id = null;
-            Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
+            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
             {
-                id = device.Id;
+                alarm.DeviceId = device.Id;
             }
-
-            alarm.DeviceId = id;
-
-
-            string panelId = null;
-            string panelDatabaseId = journalItem.IDDevicesSource;
-            if (string.IsNullOrEmpty(panelDatabaseId) == false)
-            {
-                Device devicePanel = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == panelDatabaseId);
-                if (devicePanel != null)
-                {
-                    panelId = devicePanel.Id;
-                }
-            }
-            alarm.PanelId = panelId;
-
-            alarm.ClassId = journalItem.IDTypeEvents;
 
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
         }

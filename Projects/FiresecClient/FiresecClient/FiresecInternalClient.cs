@@ -7,6 +7,7 @@ using System.IO;
 using System.ServiceModel;
 using System.Threading;
 using FiresecServiceApi;
+using System.Windows;
 
 namespace FiresecClient
 {
@@ -110,7 +111,9 @@ namespace FiresecClient
         {
             lock (_locker)
             {
-                FiresecService.ResetStates(Serialize<Firesec.CoreState.config>(coreState));
+                string stringCoreState = Serialize<Firesec.CoreState.config>(coreState);
+                MessageBox.Show(stringCoreState);
+                FiresecService.ResetStates(stringCoreState);
             }
         }
 

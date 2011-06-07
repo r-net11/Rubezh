@@ -43,7 +43,7 @@ namespace AlarmModule.ViewModels
             alarm.AlarmType = alarmType;
             alarm.DeviceId = id;
             alarm.Name = AlarmToString(alarmType);
-            alarm.Description = "Устройство " + device.Driver.name;
+            alarm.Description = "Устройство " + device.Driver.name + " - " + device.Address;
             alarm.Time = DateTime.Now.ToString();
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
         }
@@ -106,7 +106,7 @@ namespace AlarmModule.ViewModels
             }
 
             AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
-            alarmListViewModel.Initialize(alarms);
+            alarmListViewModel.Initialize(alarms, null);
             ServiceFactory.Layout.Show(alarmListViewModel);
         }
 

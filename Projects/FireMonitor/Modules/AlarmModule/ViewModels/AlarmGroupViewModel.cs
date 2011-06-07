@@ -47,7 +47,7 @@ namespace AlarmModule.ViewModels
         void OnShow()
         {
             AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
-            alarmListViewModel.Initialize(Alarms);
+            alarmListViewModel.Initialize(Alarms, AlarmType);
             ServiceFactory.Layout.Show(alarmListViewModel);
         }
 

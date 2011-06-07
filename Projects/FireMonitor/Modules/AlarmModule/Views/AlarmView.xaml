@@ -19,10 +19,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <Button Content="Подтвердить событие" Command="{Binding ConfirmCommand}" Height="30" />
-                <Button Content="Сбросить событие" Command="{Binding ResetCommand}" Height="30" />
-                <Button Content="Закрыть событие" Command="{Binding CloseCommand}" Height="30" />
-                <Button Content="Отложить событие" Command="{Binding LeaveCommand}" Height="30" />
+                <Button Content="Сбросить" Command="{Binding ResetCommand}" Height="30" />
+                <Button Content="Закрыть" Command="{Binding CloseCommand}" Height="30" />
+                <Button Content="Отложить" Command="{Binding LeaveCommand}" Height="30" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

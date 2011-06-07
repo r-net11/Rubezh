@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ServiceModel;
+using FiresecClient.Models;
 
 namespace FiresecClient
 {
@@ -63,20 +64,46 @@ namespace FiresecClient
             FiresecInternalClient.SetNewConfig(config);
         }
 
-        public static void ResetState(Device device, string stateName)
+        public static void ResetState(string deviceId, string stateName)
         {
-            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
             InnerState state = deviceState.InnerStates.First(x => x.Name == stateName);
-            string id = state.Id;
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = new Firesec.CoreState.devType[1];
             coreState.dev[0] = new Firesec.CoreState.devType();
-            string placeInTree = Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id).PlaceInTree;
-            coreState.dev[0].name = placeInTree;
+            coreState.dev[0].name = deviceState.PlaceInTree;
             coreState.dev[0].state = new Firesec.CoreState.stateType[1];
             coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
-            coreState.dev[0].state[0].id = id;
+            coreState.dev[0].state[0].id = state.Id;
+
+            FiresecInternalClient.ResetStates(coreState);
+        }
+
+        public static void Reset(List<ResetItem> resetItems)
+        {
+            List<Firesec.CoreState.devType> innerDevices = new List<Firesec.CoreState.devType>();
+
+            foreach (var resetItem in resetItems)
+            {
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == resetItem.DeviceId);
+
+                Firesec.CoreState.devType innerDevice = new Firesec.CoreState.devType();
+                innerDevice.name = deviceState.PlaceInTree;
+
+                List<Firesec.CoreState.stateType> innerStates = new List<Firesec.CoreState.stateType>();
+
+                foreach (var state in resetItem.States)
+                {
+                    var innerState = deviceState.InnerStates.First(x => x.Name == state);
+                    innerStates.Add(new Firesec.CoreState.stateType() { id = innerState.Id });
+                }
+                innerDevice.state = innerStates.ToArray();
+                innerDevices.Add(innerDevice);
+            }
+
+            Firesec.CoreState.config coreState = new Firesec.CoreState.config();
+            coreState.dev = innerDevices.ToArray();
 
             FiresecInternalClient.ResetStates(coreState);
         }

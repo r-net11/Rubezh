@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace AlarmModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для AlarmDetailsView.xaml
-    /// </summary>
     public partial class AlarmView : UserControl
     {
         public AlarmView()

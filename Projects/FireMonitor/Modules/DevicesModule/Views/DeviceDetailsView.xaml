@@ -90,16 +90,27 @@
 
             <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
-                    <Grid Margin="3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Закрыть" Command="{Binding CloseCommand}" Width="100" />
-                        <Button Grid.Column="1" Content="Стоп" Command="{Binding StopCommand}" Width="100" />
-                        <Button Grid.Column="2" Content="Открыть" Command="{Binding OpenCommand}" Width="100" />
-                    </Grid>
+                    <TabControl>
+                        <TabItem Header="Положение">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Закрыть" Command="{Binding CloseCommand}" />
+                                <Button Content="Стоп" Command="{Binding StopCommand}" />
+                                <Button Content="Открыть" Command="{Binding OpenCommand}" />
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Автоматика">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Включение автоматики" Command="{Binding AutomaticOnCommand}" />
+                                <Button Content="Отключение автоматики" Command="{Binding AutomaticOffCommand}" />
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Задержка пуска">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Пуск" Command="{Binding StartCommand}" />
+                                <Button Content="Стоп" Command="{Binding StopCommand}" />
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
                     <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Width="100" Margin="3" />
                 </StackPanel>
             </TabItem>

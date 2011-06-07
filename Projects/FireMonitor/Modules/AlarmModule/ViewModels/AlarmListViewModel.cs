@@ -6,6 +6,9 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
 using AlarmModule.Events;
+using Firesec;
+using FiresecClient;
+using FiresecClient.Models;
 
 namespace AlarmModule.ViewModels
 {
@@ -13,37 +16,17 @@ namespace AlarmModule.ViewModels
     {
         public AlarmListViewModel()
         {
+            ResetAllCommand = new RelayCommand(OnResetAll);
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
             ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Subscribe(OnMoveAlarmToEnd);
         }
 
-        void OnResetAlarm(Alarm alarm)
-        {
-            AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm.DeviceId == alarm.DeviceId);
-            Alarms.Remove(alarmViewModel);
-            if (Alarms.Count == 0)
-            {
-                ServiceFactory.Layout.Close();
-            }
-        }
+        AlarmType? _alarmType;
 
-        void OnAlarmAdded(Alarm alarm)
+        public void Initialize(List<Alarm> alarms, AlarmType? alarmType)
         {
-            AlarmViewModel alarmViewModel = new AlarmViewModel();
-            alarmViewModel.Initialize(alarm);
-            Alarms.Insert(0, alarmViewModel);
-        }
-
-        void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
-        {
-            int oldIndex = Alarms.IndexOf(alarmViewModel);
-            int newIndex = Alarms.Count;
-            Alarms.Move(oldIndex, newIndex - 1);
-        }
-
-        public void Initialize(List<Alarm> alarms)
-        {
+            _alarmType = alarmType;
             Alarms = new ObservableCollection<AlarmViewModel>();
             foreach (var alarm in alarms)
             {
@@ -53,27 +36,87 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        ObservableCollection<AlarmViewModel> alarms;
+        ObservableCollection<AlarmViewModel> _alarms;
         public ObservableCollection<AlarmViewModel> Alarms
         {
-            get { return alarms; }
+            get { return _alarms; }
             set
             {
-                alarms = value;
+                _alarms = value;
                 OnPropertyChanged("Alarms");
             }
         }
 
-        AlarmViewModel selectedAlarm;
+        AlarmViewModel _selectedAlarm;
         public AlarmViewModel SelectedAlarm
         {
-            get { return selectedAlarm; }
+            get { return _selectedAlarm; }
             set
             {
-                selectedAlarm = value;
+                _selectedAlarm = value;
                 ServiceFactory.Layout.ShowAlarm(value);
                 OnPropertyChanged("SelectedAlarm");
             }
+        }
+
+        public RelayCommand ResetAllCommand { get; private set; }
+        void OnResetAll()
+        {
+            List<ResetItem> resetItems = new List<ResetItem>();
+
+            foreach (var alarmViewModel in Alarms)
+            {
+                var resetItem = alarmViewModel.GetResetItem();
+                if (resetItem != null)
+                {
+                    if (resetItems.Any(x => x.DeviceId == resetItem.DeviceId))
+                    {
+                        foreach (string state in resetItem.States)
+                        {
+                            if (resetItem.States.Contains(state) == false)
+                            {
+                                resetItem.States.Add(state);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        resetItems.Add(resetItem);
+                    }
+                }
+            }
+
+            FiresecManager.Reset(resetItems);
+        }
+
+        void OnAlarmAdded(Alarm alarm)
+        {
+            if (alarm.AlarmType == _alarmType)
+            {
+                AlarmViewModel alarmViewModel = new AlarmViewModel();
+                alarmViewModel.Initialize(alarm);
+                Alarms.Insert(0, alarmViewModel);
+            }
+        }
+
+        void OnResetAlarm(Alarm alarm)
+        {
+            if (alarm.AlarmType == _alarmType)
+            {
+                AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm.DeviceId == alarm.DeviceId);
+                Alarms.Remove(alarmViewModel);
+                if (Alarms.Count == 0)
+                {
+                    ServiceFactory.Layout.Close();
+                }
+            }
+        }
+
+        void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
+        {
+            int oldIndex = Alarms.IndexOf(alarmViewModel);
+            int newIndex = Alarms.Count;
+            Alarms.Move(oldIndex, newIndex - 1);
         }
 
         public override void Dispose()

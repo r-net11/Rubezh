@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using FiresecClient;
 using Firesec;
+using FiresecClient.Models;
 
 namespace AlarmModule.ViewModels
 {
@@ -20,7 +21,6 @@ namespace AlarmModule.ViewModels
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
             CloseCommand = new RelayCommand(OnClose);
             LeaveCommand = new RelayCommand(OnLeave);
-            ConfirmCommand = new RelayCommand(OnConfirm);
         }
 
         public Alarm alarm;
@@ -60,13 +60,13 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(alarm.DeviceId);
         }
 
         public RelayCommand ShowDeviceCommand { get; private set; }
         void OnShowDevice()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(alarm.DeviceId);
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -82,31 +82,84 @@ namespace AlarmModule.ViewModels
             Close();
         }
 
-        public RelayCommand ConfirmCommand { get; private set; }
-        void OnConfirm()
-        {
-            Close();
-        }
-
         void Reset()
         {
-            if (alarm.PanelId != null)
-            {
-                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == alarm.PanelId);
+            List<ResetItem> resetItems = new List<ResetItem>();
+            resetItems.Add(GetResetItem());
+            FiresecManager.Reset(resetItems);
+        }
 
-                if (device.Driver.state != null)
+        public ResetItem GetResetItem()
+        {
+            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == alarm.DeviceId);
+            var parentDevice = device.Parent;
+            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+            var parentDeviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
+
+            ResetItem resetItem = new ResetItem();
+            resetItem.States = new List<string>();
+
+            if ((alarm.AlarmType == Firesec.AlarmType.Fire) || (alarm.AlarmType == Firesec.AlarmType.Attention) || (alarm.AlarmType == Firesec.AlarmType.Info))
+            {
+                resetItem.DeviceId = parentDeviceState.Id;
+
+
+                foreach (var state in deviceState.InnerStates)
                 {
-                    foreach (var state in device.Driver.state)
+                    if ((state.IsActive) && (state.Priority == AlarmTypeToClass(alarm.AlarmType)) && (state.IsManualReset))
                     {
-                        if ((state.@class == alarm.ClassId) && (state.manualReset == "1"))
-                        {
-                            FiresecManager.ResetState(device, state.name);
-                        }
+                        resetItem.States.Add(state.Name);
+                    }
+                }
+
+                //foreach (var state in parentDevice.Driver.state)
+                //{
+                //    if ((state.@class == AlarmTypeToString(alarm.AlarmType)) && (state.manualReset == "1"))
+                //    {
+                //        if (parentDeviceState.InnerStates.Any(x => (x.IsActive) && (x.Name == state.name)))
+                //        {
+                //            resetItem.States.Add(state.name);
+                //        }
+                //    }
+                //}
+            }
+            if (alarm.AlarmType == Firesec.AlarmType.Auto)
+            {
+                resetItem.DeviceId = device.Id;
+
+                foreach (var state in deviceState.InnerStates)
+                {
+                    if ((state.IsActive) && (state.IsAutomatic) && (state.IsManualReset))
+                    {
+                        resetItem.States.Add(state.Name);
                     }
                 }
             }
+            if (alarm.AlarmType == Firesec.AlarmType.Off)
+            {
+            }
 
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
+            if (resetItem.States.Count > 0)
+                return resetItem;
+            return null;
+        }
+
+        int AlarmTypeToClass(AlarmType alarmType)
+        {
+            switch (alarmType)
+            {
+                case Firesec.AlarmType.Fire:
+                    return 0;
+
+                case Firesec.AlarmType.Attention:
+                    return 1;
+
+                case Firesec.AlarmType.Info:
+                    return 6;
+
+                default:
+                    return 8;
+            }
         }
 
         void Close()
