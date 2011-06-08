@@ -21,10 +21,14 @@ namespace SecurityModule.ViewModels
             Groups = new ObservableCollection<GroupViewModel>();
             foreach(var group in FiresecManager.CoreConfig.userGroup)
             {
-                Groups.Add(new GroupViewModel(group));
+				Groups.Add(new GroupViewModel(group));
             }
+			SecuritySubjects = new ObservableCollection<string> { Const.Users, Const.Groups };
+			SelectedSecuritySubject = Const.Users;
+			IsUsersVisible = true;
         }
 
+		//Users
         ObservableCollection<UserViewModel> _users;
         public ObservableCollection<UserViewModel> Users
         {
@@ -36,6 +40,19 @@ namespace SecurityModule.ViewModels
             }
         }
 
+		bool _isUsersVisible;
+		public bool IsUsersVisible
+		{
+			get
+			{
+				return _isUsersVisible;
+			}
+			set
+			{
+				_isUsersVisible = value;
+				OnPropertyChanged("IsUsersVisible");
+			}
+		}
         UserViewModel _selectedUser;
         public UserViewModel SelectedUser
         {
@@ -46,7 +63,7 @@ namespace SecurityModule.ViewModels
                 OnPropertyChanged("SelectedUser");
             }
         }
-
+		//Groups
         ObservableCollection<GroupViewModel> _groups;
         public ObservableCollection<GroupViewModel> Groups
         {
@@ -57,9 +74,9 @@ namespace SecurityModule.ViewModels
                 OnPropertyChanged("Groups");
             }
         }
-
+		
         GroupViewModel _selecteGroup;
-        public GroupViewModel SelecteGroup
+        public GroupViewModel SelectedGroup
         {
             get { return _selecteGroup; }
             set
@@ -69,6 +86,39 @@ namespace SecurityModule.ViewModels
             }
         }
 
+		ObservableCollection<string> _securitySubjects;
+
+		public ObservableCollection<string> SecuritySubjects
+		{
+			get
+			{
+				return _securitySubjects;
+			}
+			set
+			{
+				_securitySubjects = value;
+				OnPropertyChanged("SecuritySubjects");
+			}
+		}
+		string _selectedSecuritySubject;
+		public string SelectedSecuritySubject
+		{
+			get
+			{
+				return _selectedSecuritySubject;
+			}
+			set
+			{
+				_selectedSecuritySubject = value;
+				OnPropertyChanged("SelectedSecuritySubject");
+				TuneViews();
+			}
+		}
+
+		private void TuneViews()
+		{
+			IsUsersVisible = !IsUsersVisible;
+		}
         public override void Dispose()
         {
         }

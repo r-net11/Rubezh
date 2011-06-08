@@ -95,7 +95,7 @@ namespace LibraryModule.ViewModels
             get
             {
                 if (!IsAdditional) return null;
-                _class = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == Id).@class;
+                _class = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id).state.Where(x => x.id == Id).Select(x => x.@class).FirstOrDefault();
                 return _class;
             }
             set 
@@ -139,7 +139,8 @@ namespace LibraryModule.ViewModels
             {
                 _id = value;
                 var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id);
-                Name = IsAdditional ? driver.state.FirstOrDefault(x => x.id == _id).name : Helper.BaseStatesList[Convert.ToInt16(_id)];
+				var state = driver.state.FirstOrDefault(x => x.id == _id);
+				Name = IsAdditional ? (state != null ? state.name : string.Empty) : Helper.BaseStatesList[Convert.ToInt16(_id)];
             }
         }
 
