@@ -40,7 +40,7 @@ namespace FireAdministrator
 
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
-            moduleCatalog.AddModule(typeof(LibraryModule.LibraryModule));
+            //moduleCatalog.AddModule(typeof(LibraryModule.LibraryModule));
             moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
             moduleCatalog.AddModule(typeof(SecurityModule.SequrityModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));

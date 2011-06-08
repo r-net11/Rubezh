@@ -35,11 +35,6 @@ namespace AlarmModule.ViewModels
             get { return alarm.Name; }
         }
 
-        public string Description
-        {
-            get { return alarm.Description; }
-        }
-
         public string Time
         {
             get { return alarm.Time; }
@@ -104,24 +99,13 @@ namespace AlarmModule.ViewModels
                 resetItem.DeviceId = parentDeviceState.Id;
 
 
-                foreach (var state in deviceState.InnerStates)
+                foreach (var state in parentDeviceState.InnerStates)
                 {
                     if ((state.IsActive) && (state.Priority == AlarmTypeToClass(alarm.AlarmType)) && (state.IsManualReset))
                     {
                         resetItem.States.Add(state.Name);
                     }
                 }
-
-                //foreach (var state in parentDevice.Driver.state)
-                //{
-                //    if ((state.@class == AlarmTypeToString(alarm.AlarmType)) && (state.manualReset == "1"))
-                //    {
-                //        if (parentDeviceState.InnerStates.Any(x => (x.IsActive) && (x.Name == state.name)))
-                //        {
-                //            resetItem.States.Add(state.name);
-                //        }
-                //    }
-                //}
             }
             if (alarm.AlarmType == Firesec.AlarmType.Auto)
             {

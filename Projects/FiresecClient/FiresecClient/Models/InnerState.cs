@@ -15,7 +15,8 @@ namespace FiresecClient
         public bool AffectChildren { get; private set; }
         public int Priority { get; private set; }
         public State State { get; private set; }
-        public bool IsManualReset { get; private set; }
+        public bool IsManualReset { get; private set;}
+        public bool CanResetOnPanel { get; private set; }
         public bool IsAutomatic { get; private set; }
         public bool IsActive { get; set; }
 
@@ -27,6 +28,7 @@ namespace FiresecClient
             State = new Firesec.State(Priority);
             AffectChildren = innerState.affectChildren == "1" ? true : false;
             IsManualReset = innerState.manualReset == "1" ? true : false;
+            CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
             IsAutomatic = innerState.type == "Auto" ? true : false;
         }
     }

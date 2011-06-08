@@ -12,6 +12,8 @@ namespace AlarmModule
 {
     public class AlarmModule : IModule
     {
+        AlarmWatcher _alarmWatcher;
+
         public void Initialize()
         {
             RegisterResources();
@@ -20,6 +22,8 @@ namespace AlarmModule
             ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
 
             ShowImitatorView();
+
+            _alarmWatcher = new AlarmWatcher();
         }
 
         void RegisterResources()

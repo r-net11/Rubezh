@@ -47,7 +47,9 @@
                                         <TextBlock Text="{Binding ShortDriverName}">
                                             <TextBlock.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" Visibility="{Binding CanIgnore, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                    <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                                    <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
+                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
@@ -74,12 +76,8 @@
         </Grid>
 
         <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0">
+            <StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -120,12 +118,7 @@
                     </ItemsControl>
                 </StackPanel>
 
-                <TextBox Text="{Binding Id, Mode=OneWay}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" Width="150" Height="25" />
-                <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" Width="150" Height="25" />
+                <TextBox Text="{Binding Id, Mode=OneWay}" Visibility="Collapsed" />
             </StackPanel>
 
         </Grid>

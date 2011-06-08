@@ -23,7 +23,6 @@ namespace AlarmModule.Imitator
             Alarm alarm = new Alarm();
             alarm.AlarmType = AlarmType;
             alarm.Name = Name;
-            alarm.Description = Description;
 
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
         }
@@ -63,11 +62,11 @@ namespace AlarmModule.Imitator
 
         void AddTestAlarms()
         {
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИП 212-64", Description = "Сработал дымовой датчик", Time = DateTime.Now.ToString() });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИПР", Description = "Сработал ручной извещатель", Time = DateTime.Now.ToString() });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "ИП 101-29", Description = "Сработал тепловой извещатель", Time = DateTime.Now.ToString() });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Failure, Name = "Вскрытие", Description = "Всрытие прибора Рубеж-2АМ", Time = DateTime.Now.ToString() });
-            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Info, Name = "Вход", Description = "Вход пользователя в систему", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = " Сработал дымовой датчик ИП 212-64", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "Сработал ручной извещатель ИПР", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = " Сработал тепловой извещательИП 101-29", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Failure, Name = "Всрытие прибора Рубеж-2АМ", Time = DateTime.Now.ToString() });
+            AddTestAlarm(new Alarm() { AlarmType = AlarmType.Info, Name = "Вход пользователя в систему", Time = DateTime.Now.ToString() });
         }
 
         void AddTestAlarm(Alarm alarm)

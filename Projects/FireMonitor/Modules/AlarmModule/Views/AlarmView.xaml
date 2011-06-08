@@ -15,7 +15,6 @@
         <StackPanel HorizontalAlignment="Left" Width="Auto">
             <StackPanel>
                 <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="12" Margin="2" />
-                <TextBlock Text="{Binding Description}" Foreground="Black" Margin="2" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">

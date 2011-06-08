@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarm.cs" />
+    <Compile Include="AlarmWatcher.cs" />
     <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Events\AlarmAddedEvent.cs" />

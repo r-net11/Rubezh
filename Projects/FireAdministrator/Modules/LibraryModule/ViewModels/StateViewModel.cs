@@ -137,10 +137,16 @@ namespace LibraryModule.ViewModels
             get { return _id; }
             set
             {
-                _id = value;
-                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id);
-				var state = driver.state.FirstOrDefault(x => x.id == _id);
-				Name = IsAdditional ? (state != null ? state.name : string.Empty) : Helper.BaseStatesList[Convert.ToInt16(_id)];
+                try
+                {
+                    _id = value;
+                    var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id);
+                    Name = IsAdditional ? driver.state.FirstOrDefault(x => x.id == _id).name : Helper.BaseStatesList[Convert.ToInt16(_id)];
+                }
+                catch
+                {
+                    ;
+                }
             }
         }
 

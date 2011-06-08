@@ -13,7 +13,6 @@ namespace AlarmModule
     {
         public AlarmType AlarmType { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public string Time { get; set; }
         public string DeviceId { get; set; }
         public string ClassId { get; set; }

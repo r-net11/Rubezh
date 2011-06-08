@@ -91,7 +91,7 @@ namespace AlarmModule.ViewModels
 
         void OnAlarmAdded(Alarm alarm)
         {
-            if (alarm.AlarmType == _alarmType)
+            if ((_alarmType == null) || (alarm.AlarmType == _alarmType))
             {
                 AlarmViewModel alarmViewModel = new AlarmViewModel();
                 alarmViewModel.Initialize(alarm);
@@ -101,7 +101,7 @@ namespace AlarmModule.ViewModels
 
         void OnResetAlarm(Alarm alarm)
         {
-            if (alarm.AlarmType == _alarmType)
+            if ((_alarmType == null) || (alarm.AlarmType == _alarmType))
             {
                 AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm.DeviceId == alarm.DeviceId);
                 Alarms.Remove(alarmViewModel);

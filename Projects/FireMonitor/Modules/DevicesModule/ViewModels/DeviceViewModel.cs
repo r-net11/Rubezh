@@ -19,9 +19,9 @@ namespace DevicesModule.ViewModels
 
         public DeviceViewModel()
         {
-            ShowPlanCommand = new RelayCommand(OnShowPlan);
-            ShowZoneCommand = new RelayCommand(OnShowZone);
-            DisableCommand = new RelayCommand(OnDisable);
+            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
+            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+            DisableCommand = new RelayCommand(OnDisable, CanDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
@@ -202,21 +202,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanIgnore
-        {
-            get
-            {
-                if (_device.Driver.options != null)
-                {
-                    if (_device.Driver.options.Contains("Ignorable"))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-
         public ObservableCollection<string> SelfStates
         {
             get
@@ -353,20 +338,38 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("State");
         }
 
+        public bool CanShowOnPlan(object obj)
+        {
+            return true;
+        }
+
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
         }
 
+        public bool CanShowZone(object obj)
+        {
+            return ((IsZoneDevice) && (string.IsNullOrEmpty(this._device.ZoneNo) == false));
+        }
+
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            string zoneNo = _device.ZoneNo;
-            if (string.IsNullOrEmpty(zoneNo) == false)
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_device.ZoneNo);
+        }
+
+        public bool CanDisable(object obj)
+        {
+            if (_device.Driver.options != null)
             {
-                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zoneNo);
+                if (_device.Driver.options.Contains("Ignorable"))
+                {
+                    return true;
+                }
             }
+            return false;
         }
 
         public RelayCommand DisableCommand { get; private set; }

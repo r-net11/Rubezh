@@ -25,7 +25,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="50" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
@@ -34,7 +33,6 @@
 
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource AvailableAlarms}}" SelectedIndex="{Binding AlarmType}" Margin="2" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
-        <Button Grid.Row="3" Grid.Column="1" Content="Ok" Command="{Binding CreateCommand}" />
+        <Button Grid.Row="2" Grid.Column="1" Content="Ok" Command="{Binding CreateCommand}" />
     </Grid>
 </Window>
