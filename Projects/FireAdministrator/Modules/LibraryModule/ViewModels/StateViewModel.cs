@@ -37,7 +37,7 @@ namespace LibraryModule.ViewModels
         public void Initialize(State state)
         {
             IsAdditional = state.IsAdditional;
-            Id = state.Id;            
+            Id = state.Id;
         }
 
         public static StateViewModel Current { get; private set; }
@@ -79,7 +79,7 @@ namespace LibraryModule.ViewModels
                 var tempAstate = new List<string>();
                 foreach (var stateId in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
                 {
-                    var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId)&&(x.IsAdditional));
+                    var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
                     if (state.Class == LibraryViewModel.Current.SelectedState.Id)
                         tempAstate.Add(state.Id);
                 }
@@ -91,14 +91,28 @@ namespace LibraryModule.ViewModels
 
         private string _class;
         public string Class
-        { 
+        {
             get
             {
-                if (!IsAdditional) return null;
-                _class = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id).state.Where(x => x.id == Id).Select(x => x.@class).FirstOrDefault();
-                return _class;
+                try
+                {
+                    if (!IsAdditional) return null;
+                    var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id);
+                    var state = driver.state.FirstOrDefault(x => x.id == Id);
+                    if (state == null)
+                    {
+                        return "";
+                    }
+                    return state.@class;
+                    //_class = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == ParentDevice.Id).state.FirstOrDefault(x => x.id == Id).@class;
+                    //return _class;
+                }
+                catch
+                {
+                    return null;
+                }
             }
-            set 
+            set
             {
                 _class = value;
                 OnPropertyChanged("Class");
@@ -195,7 +209,7 @@ namespace LibraryModule.ViewModels
                 return;
             }
 
-            if ((!_isAdditional)&&(ParentDevice.States.FirstOrDefault(x=>x.Class == Id) != null))
+            if ((!_isAdditional) && (ParentDevice.States.FirstOrDefault(x => x.Class == Id) != null))
             {
                 var result = MessageBox.Show("Состояние, которое Вы пытаетесь удалить содержит дополнительные состояния.\nВы уверены что хотите удалить основное состояние вместе с дополнительными?",
                                           "Окно подтверждения", MessageBoxButton.OKCancel,

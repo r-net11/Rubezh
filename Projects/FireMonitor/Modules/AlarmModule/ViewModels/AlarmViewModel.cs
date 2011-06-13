@@ -21,47 +21,50 @@ namespace AlarmModule.ViewModels
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
             CloseCommand = new RelayCommand(OnClose);
             LeaveCommand = new RelayCommand(OnLeave);
+            ShowInstructionCommand = new RelayCommand(OnShowInstruction);
+            ShowVideoCommand = new RelayCommand(OnShowVideo);
         }
 
-        public Alarm alarm;
+        public Alarm _alarm;
 
         public AlarmType AlarmType
         {
-            get { return alarm.AlarmType; }
+            get { return _alarm.AlarmType; }
         }
 
         public string Name
         {
-            get { return alarm.Name; }
+            get { return _alarm.Name; }
         }
 
         public string Time
         {
-            get { return alarm.Time; }
+            get { return _alarm.Time; }
         }
 
         public void Initialize(Alarm alarm)
         {
-            this.alarm = alarm;
+            _alarm = alarm;
         }
 
         public RelayCommand ResetCommand { get; private set; }
         void OnReset()
         {
-            Reset();
+            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(_alarm);
+            //Reset();
             Close();
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(alarm.DeviceId);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_alarm.DeviceId);
         }
 
         public RelayCommand ShowDeviceCommand { get; private set; }
         void OnShowDevice()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(alarm.DeviceId);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_alarm.DeviceId);
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -77,6 +80,20 @@ namespace AlarmModule.ViewModels
             Close();
         }
 
+        public RelayCommand ShowInstructionCommand { get; private set; }
+        void OnShowInstruction()
+        {
+            InstructionViewModel instructionViewModel = new InstructionViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
+        }
+
+        public RelayCommand ShowVideoCommand { get; private set; }
+        void OnShowVideo()
+        {
+            VideoViewModel videoViewModel = new VideoViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
+        }
+
         void Reset()
         {
             List<ResetItem> resetItems = new List<ResetItem>();
@@ -86,7 +103,7 @@ namespace AlarmModule.ViewModels
 
         public ResetItem GetResetItem()
         {
-            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == alarm.DeviceId);
+            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
             var parentDevice = device.Parent;
             var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
             var parentDeviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
@@ -94,20 +111,20 @@ namespace AlarmModule.ViewModels
             ResetItem resetItem = new ResetItem();
             resetItem.States = new List<string>();
 
-            if ((alarm.AlarmType == Firesec.AlarmType.Fire) || (alarm.AlarmType == Firesec.AlarmType.Attention) || (alarm.AlarmType == Firesec.AlarmType.Info))
+            if ((_alarm.AlarmType == Firesec.AlarmType.Fire) || (_alarm.AlarmType == Firesec.AlarmType.Attention) || (_alarm.AlarmType == Firesec.AlarmType.Info))
             {
                 resetItem.DeviceId = parentDeviceState.Id;
 
 
                 foreach (var state in parentDeviceState.InnerStates)
                 {
-                    if ((state.IsActive) && (state.Priority == AlarmTypeToClass(alarm.AlarmType)) && (state.IsManualReset))
+                    if ((state.IsActive) && (state.Priority == AlarmTypeToClass(_alarm.AlarmType)) && (state.IsManualReset))
                     {
                         resetItem.States.Add(state.Name);
                     }
                 }
             }
-            if (alarm.AlarmType == Firesec.AlarmType.Auto)
+            if (_alarm.AlarmType == Firesec.AlarmType.Auto)
             {
                 resetItem.DeviceId = device.Id;
 
@@ -119,7 +136,7 @@ namespace AlarmModule.ViewModels
                     }
                 }
             }
-            if (alarm.AlarmType == Firesec.AlarmType.Off)
+            if (_alarm.AlarmType == Firesec.AlarmType.Off)
             {
             }
 

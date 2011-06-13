@@ -22,7 +22,7 @@ namespace DevicesModule.Converters
                     return Brushes.Yellow;
 
                 case StateType.Failure:
-                    return Brushes.Red;
+                    return Brushes.Pink;
 
                 case StateType.Service:
                     return Brushes.Yellow;

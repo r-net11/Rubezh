@@ -26,12 +26,12 @@
             <WpfToolkit:DataGridTemplateColumn Header="Название">
                 <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" VerticalAlignment="Center">
                             <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                             </StackPanel>
-                            <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
-                            <TextBlock Text="{Binding Caption}" />
+                            <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Caption}" Margin="2, 0, 0, 0" />
                         </StackPanel>
                     </DataTemplate>
                 </WpfToolkit:DataGridTemplateColumn.CellTemplate>

@@ -118,7 +118,7 @@
                     </ItemsControl>
                 </StackPanel>
 
-                <TextBox Text="{Binding Id, Mode=OneWay}" Visibility="Collapsed" />
+                <TextBox Text="{Binding Id, Mode=OneWay}" Visibility="Visible" />
             </StackPanel>
 
         </Grid>

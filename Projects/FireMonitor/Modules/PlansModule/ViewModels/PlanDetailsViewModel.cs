@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using PlansModule.Events;
 using Infrastructure.Common;
+using System.Windows.Shapes;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -76,8 +78,109 @@ namespace PlansModule.ViewModels
                 Devices.Add(planDeviceViewModel);
             }
 
+            if (_plan.Caption == "Строение 2 - Этаж 2")
+            {
+                AddVideo();
+            }
+            if (_plan.Caption == "Строение 1 - Этаж 4")
+            {
+                AddPhone();
+            }
+            if (_plan.Caption == "Строение 1 - Этаж 5")
+            {
+                AddDoor();
+            }
+
             SelectedDevice = null;
             SelectedZone = null;
+        }
+
+        void AddVideo()
+        {
+            Canvas cameraCanvas = new Canvas();
+            Rectangle rectangle = new Rectangle();
+            rectangle.Width = 60;
+            rectangle.Height = 30;
+            rectangle.Fill = Brushes.DarkGray;
+            rectangle.Stroke = Brushes.Black;
+            rectangle.StrokeThickness = 3;
+            rectangle.ToolTip = "Камера 1";
+            rectangle.MouseDown += new System.Windows.Input.MouseButtonEventHandler(camera_MouseDown);
+
+            Polygon polygon = new Polygon();
+            polygon.Fill = Brushes.DarkGray;
+            polygon.Stroke = Brushes.Black;
+            polygon.StrokeThickness = 3;
+            polygon.Points = new PointCollection();
+            polygon.Points.Add(new System.Windows.Point(60, 15));
+            polygon.Points.Add(new System.Windows.Point(75, 0));
+            polygon.Points.Add(new System.Windows.Point(75, 30));
+
+            cameraCanvas.Children.Add(rectangle);
+            cameraCanvas.Children.Add(polygon);
+            ScaleTransform scaleTransform = new ScaleTransform();
+            scaleTransform.ScaleX = 0.5;
+            scaleTransform.ScaleY = 0.5;
+            cameraCanvas.RenderTransform = scaleTransform;
+
+            Canvas.SetLeft(cameraCanvas, 170);
+            Canvas.SetTop(cameraCanvas, 223);
+            _canvas.Children.Add(cameraCanvas);
+            
+        }
+
+        void camera_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            VideoViewModel videoViewModel = new VideoViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
+        }
+
+        void AddPhone()
+        {
+            Image image = new Image();
+            image.Width = 30;
+            image.Height = 30;
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri("D:/phone.png");
+            bitmapImage.EndInit();
+            image.Source = bitmapImage;
+            image.MouseDown += new System.Windows.Input.MouseButtonEventHandler(phone_MouseDown);
+
+            Canvas.SetLeft(image, 128);
+            Canvas.SetTop(image, 75);
+            _canvas.Children.Add(image);
+            image.ToolTip = "Телефон 123";
+        }
+
+        void phone_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PhoneViewModel phoneViewModel = new PhoneViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(phoneViewModel);
+        }
+
+        void AddDoor()
+        {
+            Image image = new Image();
+            image.Width = 50;
+            image.Height = 52;
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri("D:/door.png");
+            bitmapImage.EndInit();
+            image.Source = bitmapImage;
+            image.ToolTip = "Дверь 1";
+            image.MouseDown +=new System.Windows.Input.MouseButtonEventHandler(door_MouseDown);
+
+            Canvas.SetLeft(image, 54);
+            Canvas.SetTop(image, 424);
+            _canvas.Children.Add(image);
+        }
+
+        void door_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DoorViewModel doorViewModel = new DoorViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(doorViewModel);
         }
 
         ElementDeviceViewModel _selectedDevice;

@@ -112,7 +112,6 @@ namespace FiresecClient
             lock (_locker)
             {
                 string stringCoreState = Serialize<Firesec.CoreState.config>(coreState);
-                MessageBox.Show(stringCoreState);
                 FiresecService.ResetStates(stringCoreState);
             }
         }

@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using AlarmModule.Events;
 using Firesec;
+using FiresecClient;
 
 namespace AlarmModule.Imitator
 {
@@ -14,7 +15,40 @@ namespace AlarmModule.Imitator
         public AlarmImitatorViewModel()
         {
             CreateCommand = new RelayCommand(OnCreate);
-            AddTestAlarms();
+            //AddTestAlarms();
+        }
+
+        AlarmType _alarmType;
+        public AlarmType AlarmType
+        {
+            get { return _alarmType; }
+            set
+            {
+                _alarmType = value;
+                OnPropertyChanged("AlarmType");
+            }
+        }
+
+        string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
+            }
         }
 
         public RelayCommand CreateCommand { get; private set; }
@@ -25,39 +59,6 @@ namespace AlarmModule.Imitator
             alarm.Name = Name;
 
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
-        }
-
-        AlarmType alarmType;
-        public AlarmType AlarmType
-        {
-            get { return alarmType; }
-            set
-            {
-                alarmType = value;
-                OnPropertyChanged("AlarmType");
-            }
-        }
-
-        string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        string description;
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                description = value;
-                OnPropertyChanged("Description");
-            }
         }
 
         void AddTestAlarms()

@@ -86,6 +86,9 @@ namespace FiresecClient
 
             foreach (var resetItem in resetItems)
             {
+                if (resetItem == null)
+                    continue;
+
                 var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == resetItem.DeviceId);
 
                 Firesec.CoreState.devType innerDevice = new Firesec.CoreState.devType();

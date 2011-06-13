@@ -257,25 +257,28 @@ namespace FiresecClient
         {
             FiresecManager.Configuration.Directions = new List<Direction>();
 
-            foreach (var part in FiresecManager.CoreConfig.part)
+            if (FiresecManager.CoreConfig.part != null)
             {
-                if (part.type == "direction")
+                foreach (var part in FiresecManager.CoreConfig.part)
                 {
-                    Direction direction = new Direction();
-                    direction.Id = System.Convert.ToInt32(part.id);
-                    direction.Name = part.name;
-                    direction.Description = part.desc;
-
-                    direction.Zones = new List<int>();
-                    if (part.PinZ != null)
+                    if (part.type == "direction")
                     {
-                        foreach (var partZone in part.PinZ)
-                        {
-                            direction.Zones.Add(System.Convert.ToInt32(partZone.pidz));
-                        }
-                    }
+                        Direction direction = new Direction();
+                        direction.Id = System.Convert.ToInt32(part.id);
+                        direction.Name = part.name;
+                        direction.Description = part.desc;
 
-                    FiresecManager.Configuration.Directions.Add(direction);
+                        direction.Zones = new List<int>();
+                        if (part.PinZ != null)
+                        {
+                            foreach (var partZone in part.PinZ)
+                            {
+                                direction.Zones.Add(System.Convert.ToInt32(partZone.pidz));
+                            }
+                        }
+
+                        FiresecManager.Configuration.Directions.Add(direction);
+                    }
                 }
             }
         }

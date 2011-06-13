@@ -14,5 +14,13 @@
     <DataTemplate DataType="{x:Type ViewModels:AlarmViewModel}">
         <Views:AlarmView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:InstructionViewModel}">
+        <Views:InstructionView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:VideoViewModel}">
+        <Views:VideoView />
+    </DataTemplate>
     
 </ResourceDictionary>

@@ -103,7 +103,7 @@ namespace AlarmModule.ViewModels
         {
             if ((_alarmType == null) || (alarm.AlarmType == _alarmType))
             {
-                AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x.alarm.DeviceId == alarm.DeviceId);
+                AlarmViewModel alarmViewModel = Alarms.FirstOrDefault(x => x._alarm.DeviceId == alarm.DeviceId);
                 Alarms.Remove(alarmViewModel);
                 if (Alarms.Count == 0)
                 {
@@ -114,7 +114,8 @@ namespace AlarmModule.ViewModels
 
         void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
         {
-            int oldIndex = Alarms.IndexOf(alarmViewModel);
+            //int oldIndex = Alarms.IndexOf(alarmViewModel);
+            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x=>x.Name == alarmViewModel.Name));
             int newIndex = Alarms.Count;
             Alarms.Move(oldIndex, newIndex - 1);
         }

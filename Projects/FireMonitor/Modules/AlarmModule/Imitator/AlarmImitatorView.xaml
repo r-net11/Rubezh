@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Firesec;assembly=FiresecApi"
-        Title="Имитатор тревог" Height="300" Width="300">
+        Title="Имитатор тревог" Height="400" Width="400">
     <Window.Resources>
         <ObjectDataProvider x:Key="AvailableAlarms" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -26,6 +26,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Название" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
@@ -34,5 +35,18 @@
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource AvailableAlarms}}" SelectedIndex="{Binding AlarmType}" Margin="2" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
         <Button Grid.Row="2" Grid.Column="1" Content="Ok" Command="{Binding CreateCommand}" />
+        <StackPanel Grid.Row="3">
+            <Button Content="пожар" Click="Button_Click" />
+            <Button Content="пожар" Click="Button_Click_1" />
+            <Button Content="пожар" Click="Button_Click_2" />
+            <Button Content="внимание" Click="Button_Click_3" />
+            <Button Content="информация" Click="Button_Click_7" />
+            <Button Content="информация" Click="Button_Click_8" />
+            <Button Content="автоматика" Click="Button_Click_9" />
+
+            <Button Content="отключено" Click="Button_Click_6" />
+            <Button Content="неисправность" Click="Button_Click_4" />
+            <Button Content="требуется обслуживание" Click="Button_Click_5" />
+        </StackPanel>
     </Grid>
 </Window>

@@ -65,8 +65,8 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.LayoutTransform>
-                                                <ScaleTransform ScaleX="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" 
-                                                            ScaleY="{Binding ElementName=scrollViewer, Path=ActualWidth, Converter={StaticResource Transform}, ConverterParameter=0.0018}" />
+                                                <ScaleTransform ScaleX="0.5" 
+                                                            ScaleY="0.5" />
                                             </ItemsControl.LayoutTransform>
                                         </ItemsControl>
                                     </ScrollViewer>
