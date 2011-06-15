@@ -6,6 +6,7 @@ using FiresecClient;
 using Firesec;
 using Infrastructure;
 using AlarmModule.Events;
+using Infrastructure.Events;
 
 namespace AlarmModule
 {
@@ -51,6 +52,11 @@ namespace AlarmModule
             alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.name + " - " + device.Address;
             alarm.Time = DateTime.Now.ToString();
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
+
+            if (alarmType == AlarmType.Fire)
+            {
+                ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(id);
+            }
         }
 
         void DeviceState_AlarmRemoved(AlarmType alarmType, string id)

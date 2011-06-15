@@ -25,12 +25,16 @@ namespace PlansModule.Views
 
         public void Reset()
         {
+            FullSize();
             slider.Value = 1;
+            //FullSize();
         }
 
         public CanvasView()
         {
             Current = this;
+
+            SizeChanged += new SizeChangedEventHandler(CanvasView_SizeChanged);
 
             InitializeComponent();
 
@@ -43,6 +47,12 @@ namespace PlansModule.Views
             scrollViewer.MouseMove += OnMouseMove;
 
             slider.ValueChanged += OnSliderValueChanged;
+        }
+
+        static int counter = 0;
+        void CanvasView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Trace.WriteLine("SizeChanged " + counter++.ToString());
         }
 
         void OnMouseMove(object sender, MouseEventArgs e)
@@ -100,8 +110,8 @@ namespace PlansModule.Views
             if (e.NewValue == 0)
                 return;
 
-            scaleTransform.ScaleX = e.NewValue;
-            scaleTransform.ScaleY = e.NewValue;
+            scaleTransform.ScaleX = e.NewValue * initialScale;
+            scaleTransform.ScaleY = e.NewValue * initialScale;
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
@@ -160,20 +170,23 @@ namespace PlansModule.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine(grid.ActualWidth.ToString());
-            Trace.WriteLine(grid.ActualHeight.ToString());
+            FullSize();
+        }
 
-            Trace.WriteLine(scrollViewer.ActualWidth.ToString());
-            Trace.WriteLine(scrollViewer.ActualHeight.ToString());
+        double initialScale = 1;
 
-            double scaleX = (scrollViewer.ActualWidth - 30) / grid.ActualWidth;
-            double scaleY = (scrollViewer.ActualHeight - 30) / grid.ActualHeight;
+        void FullSize()
+        {
+            var contentWidth = (_contentControl.Content as Canvas).Width;
+            var contentHeight = (_contentControl.Content as Canvas).Height;
+
+            double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
+            double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
             double scale = Math.Min(scaleX, scaleY);
+            initialScale = scale;
 
             scaleTransform.ScaleX = scale;
             scaleTransform.ScaleY = scale;
-
-            slider.Value = scale;
         }
     }
 }

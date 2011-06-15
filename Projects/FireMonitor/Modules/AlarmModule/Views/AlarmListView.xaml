@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+             xmlns:Converters="clr-namespace:AlarmModule.Converters"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
+        <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -25,9 +30,32 @@
                             SelectionMode="Single" SelectionUnit="FullRow"
                             HeadersVisibility="Column" RowHeaderWidth="0" RowHeight="20">
             <WpfToolkit:DataGrid.Columns>
-                <WpfToolkit:DataGridTextColumn Header="Время" Binding="{Binding Time}" />
-                <WpfToolkit:DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" />
+                <WpfToolkit:DataGridTemplateColumn>
+                    <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+                        </DataTemplate>
+                    </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                </WpfToolkit:DataGridTemplateColumn>
+                <WpfToolkit:DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="100" />
+                <WpfToolkit:DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="100" />
+                <WpfToolkit:DataGridTextColumn Header="Зона" Binding="{Binding Zone}" Width="100" />
+                <WpfToolkit:DataGridTemplateColumn Header="Действия">
+                    <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" />
+                                <Button Content="Сбросить" Command="{Binding ResetCommand}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                </WpfToolkit:DataGridTemplateColumn>
             </WpfToolkit:DataGrid.Columns>
+            <WpfToolkit:DataGrid.RowStyle>
+                <Style TargetType="{x:Type WpfToolkit:DataGridRow}">
+                    <Setter Property="Background" Value="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}" />
+                </Style>
+            </WpfToolkit:DataGrid.RowStyle>
         </WpfToolkit:DataGrid>
     </Grid>
 </UserControl>
