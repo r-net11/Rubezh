@@ -47,6 +47,13 @@ namespace PlansModule.Views
             scrollViewer.MouseMove += OnMouseMove;
 
             slider.ValueChanged += OnSliderValueChanged;
+
+            this.Loaded += new RoutedEventHandler(CanvasView_Loaded);
+        }
+
+        void CanvasView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Reset();
         }
 
         static int counter = 0;

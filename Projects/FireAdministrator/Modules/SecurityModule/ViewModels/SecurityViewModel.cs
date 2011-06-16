@@ -26,6 +26,10 @@ namespace SecurityModule.ViewModels
 			SecuritySubjects = new ObservableCollection<string> { Const.Users, Const.Groups };
 			SelectedSecuritySubject = Const.Users;
 			IsUsersVisible = true;
+
+            var users = FiresecManager.Configuration.Users;
+            var groups = FiresecManager.Configuration.UserGroups;
+            var permissions = FiresecManager.Configuration.Perimissions;
         }
 
 		//Users
