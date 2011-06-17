@@ -32,6 +32,102 @@ namespace DevicesModule.ViewModels
             UpdateParameters();
         }
 
+        public string Id
+        {
+            get { return _device.Id; }
+        }
+
+        public string DriverId
+        {
+            get { return _device.DriverId; }
+        }
+
+        public bool IsZoneDevice
+        {
+            get { return _device.Driver.IsZoneDevice(); }
+        }
+
+        public bool IsZoneLogicDevice
+        {
+            get { return _device.Driver.IsZoneLogicDevice(); }
+        }
+
+        public string PresentationZone
+        {
+            get { return _device.PresentationZone; }
+        }
+
+        public string ShortDriverName
+        {
+            get { return _device.Driver.shortName; }
+        }
+
+        public string DriverName
+        {
+            get { return _device.Driver.name; }
+        }
+
+        public bool HasAddress
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(Address));
+            }
+        }
+
+        public string Address
+        {
+            get { return _device.Address; }
+        }
+
+        public string PresentationAddress
+        {
+            get
+            {
+                if (_device.Address == "0")
+                    return "";
+                return _device.Address;
+            }
+        }
+
+        public string Description
+        {
+            get { return _device.Description; }
+        }
+
+        public bool HasImage
+        {
+            get { return _device.Driver.HasImage(); }
+        }
+
+        public string ImageSource
+        {
+            get { return _device.Driver.ImageSource(); }
+        }
+
+        public string ConnectedTo
+        {
+            get
+            {
+                if (Parent == null)
+                    return null;
+                else
+                {
+                    string parentPart = Parent.ShortDriverName;
+                    if (Parent._device.Driver.ar_no_addr != "1")
+                        parentPart += " - " + Parent.Address;
+
+                    if (Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    if (Parent.Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    return parentPart + @"\" + Parent.ConnectedTo;
+                }
+            }
+        }
+
         public void UpdateParameters()
         {
             DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
@@ -68,137 +164,6 @@ namespace DevicesModule.ViewModels
                             break;
                     }
                 }
-            }
-        }
-
-        public string Id
-        {
-            get { return _device.Id; }
-        }
-
-        public string DriverId
-        {
-            get
-            {
-                if (_device != null)
-                    return _device.DriverId;
-                return null;
-            }
-        }
-
-        public bool IsZoneDevice
-        {
-            get { return _device.IsZoneDevice; }
-        }
-
-        public bool IsZoneLogicDevice
-        {
-            get { return _device.IsZoneLogicDevice; }
-        }
-
-        public string PresentationZone
-        {
-            get { return _device.PresentationZone; }
-        }
-
-        public string ShortDriverName
-        {
-            get
-            {
-                return _device.Driver.shortName;
-            }
-        }
-
-        public string DriverName
-        {
-            get
-            {
-                return _device.Driver.name;
-            }
-        }
-
-        public bool HasAddress
-        {
-            get
-            {
-                return (!string.IsNullOrEmpty(Address));
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                return _device.Address;
-            }
-        }
-
-        public string PresentationAddress
-        {
-            get
-            {
-                if (_device.Address == "0")
-                    return "";
-                return _device.Address;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return _device.Description;
-            }
-        }
-
-        public string ConnectedTo
-        {
-            get
-            {
-                if (Parent == null)
-                    return null;
-                else
-                {
-                    string parentPart = Parent.ShortDriverName;
-                    if (Parent._device.Driver.ar_no_addr != "1")
-                        parentPart += " - " + Parent.Address;
-
-                    if (Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    if (Parent.Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    return parentPart + @"\" + Parent.ConnectedTo;
-                }
-            }
-        }
-
-        public bool HasImage
-        {
-            get
-            {
-                return (ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico");
-            }
-        }
-
-        public string ImageSource
-        {
-            get
-            {
-                string ImageName;
-                if (!string.IsNullOrEmpty(_device.Driver.dev_icon))
-                {
-                    ImageName = _device.Driver.dev_icon;
-                }
-                else
-                {
-                    var metadataClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == _device.Driver.clsid);
-                    ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-                }
-
-                return @"C:/Program Files/Firesec/Icons/" + ImageName + ".ico";
-                //return @"pack://application:,,,/Icons/" + ImageName + ".ico";
             }
         }
 
@@ -375,7 +340,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            ;
+            if (CanDisable(null))
+            {
+                ;
+            }
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }

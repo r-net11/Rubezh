@@ -120,21 +120,24 @@ namespace FiresecClient
 
                     if (driver.options.Contains("ExtendedZoneLogic"))
                     {
-                        foreach (var clause in device.ZoneLogic.clause)
+                        if (device.ZoneLogic != null)
                         {
-                            if ((clause.state != "0") && (clause.state != "1") && (clause.state != "2") && (clause.state != "5") && (clause.state != "6"))
-                                device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип состояния", Level.Critical));
-
-                            if ((clause.operation != "and") && (clause.operation != "or"))
-                                device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип операции", Level.Critical));
-
-                            foreach (var zonNo in clause.zone)
+                            foreach (var clause in device.ZoneLogic.clause)
                             {
-                                if (configuration.Zones.Any(x=>x.No == zonNo) == false)
-                                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестную зону", Level.Critical));
-                            }
+                                if ((clause.state != "0") && (clause.state != "1") && (clause.state != "2") && (clause.state != "5") && (clause.state != "6"))
+                                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип состояния", Level.Critical));
 
-                            // ПРОВЕРКА ОДНОРОДНОСТИ ОПЕРАТОРОВ ОБЪЕДИНЕНИЯ
+                                if ((clause.operation != "and") && (clause.operation != "or"))
+                                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип операции", Level.Critical));
+
+                                foreach (var zonNo in clause.zone)
+                                {
+                                    if (configuration.Zones.Any(x => x.No == zonNo) == false)
+                                        device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестную зону", Level.Critical));
+                                }
+
+                                // ПРОВЕРКА ОДНОРОДНОСТИ ОПЕРАТОРОВ ОБЪЕДИНЕНИЯ
+                            }
                         }
                     }
                     else
@@ -295,7 +298,7 @@ namespace FiresecClient
                     }
                     else
                     {
-                        string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                        string driverName = device.Driver.DriverName();
                         //if ((childDriver.ar_enabled == "1") && (childDriver.ar_from == "0") && (childDriver.ar_to == "0"))
                         if ((driverName == "Насосная Станция") ||
                             (driverName == "Жокей-насос") ||

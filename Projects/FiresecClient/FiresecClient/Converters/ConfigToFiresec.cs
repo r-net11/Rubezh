@@ -107,8 +107,7 @@ namespace FiresecClient
         {
             List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
 
-            string driverName = DriversHelper.GetDriverNameById(device.DriverId);
-            if (driverName != "Компьютер")
+            if (device.Driver.DriverName() != "Компьютер")
             {
                 if (device.Properties != null)
                 {

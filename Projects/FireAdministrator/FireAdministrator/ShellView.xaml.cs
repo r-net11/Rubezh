@@ -14,6 +14,7 @@ using System.ComponentModel;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrastructure;
+using FiresecClient;
 
 namespace FireAdministrator
 {
@@ -42,6 +43,11 @@ namespace FireAdministrator
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FiresecManager.SetNewConfig(FiresecManager.Configuration);
         }
     }
 }

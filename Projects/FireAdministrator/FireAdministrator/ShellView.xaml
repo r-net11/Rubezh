@@ -10,11 +10,12 @@
         <DockPanel>
 
             <StackPanel DockPanel.Dock="Top"  Margin="2">
+                <Button Content="Сохранить" Click="Button_Click" />
                 <ContentControl Name="_mainMenu" />
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="Состояние" />
+                <TextBlock Text="" />
             </StackPanel>
 
             <Grid>

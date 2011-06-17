@@ -135,9 +135,7 @@ namespace FiresecClient
 
         void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
         {
-            string DriverName = DriversHelper.GetDriverNameById(device.DriverId);
-
-            switch (DriverName)
+            switch (device.Driver.DriverName())
             {
                 case "Компьютер":
                 case "Насосная Станция":
@@ -296,7 +294,7 @@ namespace FiresecClient
                 user.Id = firesecUser.param.value;
                 user.Name = firesecUser.name;
                 user.FullName = firesecUser.fullName;
-                user.Password = firesecUser.password;
+                user.PasswordHash = firesecUser.password;
                 user.IsBuiltIn = (firesecUser.builtin != "0");
 
                 if (firesecUser.grp != null)
@@ -343,15 +341,21 @@ namespace FiresecClient
                 {
                     string userId = firesecUser.param.value;
                     var user = FiresecManager.Configuration.Users.FirstOrDefault(x => x.Id == userId);
-                    if (user != null)
-                    user.Permissions.Add(permissionId);
+
+                    if (secRight.deleteflag != "1")
+                    {
+                        user.Permissions.Add(permissionId);
+                    }
+                    else
+                    {
+                        user.RemovedPermissions.Add(permissionId);
+                    }
                 }
 
                 if (firesecGroup != null)
                 {
                     string groupId = firesecGroup.param.value;
                     var group = FiresecManager.Configuration.UserGroups.FirstOrDefault(x => x.Id == groupId);
-                    if (group != null)
                     group.Permissions.Add(permissionId);
                 }
             }

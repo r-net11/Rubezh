@@ -7,7 +7,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+        <ListBox Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

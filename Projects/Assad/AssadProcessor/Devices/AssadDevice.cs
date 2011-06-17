@@ -24,7 +24,7 @@ namespace AssadProcessor.Devices
             else
                 Address = null;
 
-            string driverName = DriversHelper.GetDriverNameById(DriverId);
+            string driverName = Extentions.GetDriverNameById(DriverId);
             switch (driverName)
             {
                 case "Компьютер":

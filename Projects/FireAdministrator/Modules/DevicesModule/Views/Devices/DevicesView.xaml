@@ -64,7 +64,7 @@
                     <WpfToolkit:DataGridTemplateColumn Header="Адрес" Width="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel>
+                                <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBlock Text="{Binding Address}" />
                                 </StackPanel>
                             </DataTemplate>

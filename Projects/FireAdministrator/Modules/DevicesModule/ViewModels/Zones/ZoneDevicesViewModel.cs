@@ -170,7 +170,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.IsZoneDevice))
+            if (CanAdd(null))
             {
                 SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
                 Initialize(_zoneNo);
@@ -179,13 +179,13 @@ namespace DevicesModule.ViewModels
 
         public bool CanAdd(object obj)
         {
-            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.IsZoneDevice));
+            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Device.Driver.IsZoneDevice()));
         }
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            if ((SelectedDevice != null) && (SelectedDevice.IsZoneDevice))
+            if (CanRemove(null))
             {
                 SelectedDevice.Device.ZoneNo = null;
                 Initialize(_zoneNo);
@@ -194,13 +194,13 @@ namespace DevicesModule.ViewModels
 
         public bool CanRemove(object obj)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.IsZoneDevice));
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneDevice()));
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogic()
         {
-            if ((SelectedDevice != null) && (SelectedDevice.IsZoneLogicDevice))
+            if (CanShowZoneLogic(null))
             {
                 ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
                 zoneLogicViewModel.Initialize(SelectedDevice.Device.ZoneLogic);
@@ -214,7 +214,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowZoneLogic(object obj)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.IsZoneLogicDevice));
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneLogicDevice()));
         }
     }
 }
