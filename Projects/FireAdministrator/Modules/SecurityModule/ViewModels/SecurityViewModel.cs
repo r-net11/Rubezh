@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using System.Windows;
 
 namespace SecurityModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace SecurityModule.ViewModels
             Users = new ObservableCollection<UserViewModel>();
             foreach (var user in FiresecManager.CoreConfig.user)
             {
-                Users.Add(new UserViewModel(user));
+				Users.Add(new UserViewModel(user));
             }
 
             Groups = new ObservableCollection<GroupViewModel>();
@@ -23,9 +24,13 @@ namespace SecurityModule.ViewModels
             {
 				Groups.Add(new GroupViewModel(group));
             }
-			SecuritySubjects = new ObservableCollection<string> { Const.Users, Const.Groups };
-			SelectedSecuritySubject = Const.Users;
-			IsUsersVisible = true;
+
+			AddUserCommand = new RelayCommand(OnAddUser);
+			EditUserCommand = new RelayCommand(OnEditUser, CanEditUser);
+			DeleteUserCommand = new RelayCommand(OnDeleteUser, CanEditUser);
+			AddGroupCommand = new RelayCommand(OnAddGroup);
+			EditGroupCommand = new RelayCommand(OnEditGroup, CanGroupEdit);
+			DeleteGroupCommand = new RelayCommand(OnDeleteGroup, CanGroupEdit);
         }
 
 		//Users
@@ -40,19 +45,6 @@ namespace SecurityModule.ViewModels
             }
         }
 
-		bool _isUsersVisible;
-		public bool IsUsersVisible
-		{
-			get
-			{
-				return _isUsersVisible;
-			}
-			set
-			{
-				_isUsersVisible = value;
-				OnPropertyChanged("IsUsersVisible");
-			}
-		}
         UserViewModel _selectedUser;
         public UserViewModel SelectedUser
         {
@@ -85,39 +77,49 @@ namespace SecurityModule.ViewModels
                 OnPropertyChanged("SelecteGroup");
             }
         }
-
-		ObservableCollection<string> _securitySubjects;
-
-		public ObservableCollection<string> SecuritySubjects
+		//Commands
+		public RelayCommand AddUserCommand { get; private set; }
+		void OnAddUser()
 		{
-			get
-			{
-				return _securitySubjects;
-			}
-			set
-			{
-				_securitySubjects = value;
-				OnPropertyChanged("SecuritySubjects");
-			}
 		}
-		string _selectedSecuritySubject;
-		public string SelectedSecuritySubject
+		
+		public RelayCommand EditUserCommand { get; private set; }
+		void OnEditUser()
 		{
-			get
-			{
-				return _selectedSecuritySubject;
-			}
-			set
-			{
-				_selectedSecuritySubject = value;
-				OnPropertyChanged("SelectedSecuritySubject");
-				TuneViews();
-			}
+			MessageBox.Show("Hello!");
 		}
-
-		private void TuneViews()
+		bool CanEditUser(Object obj)
 		{
-			IsUsersVisible = !IsUsersVisible;
+			return Users.Count > 0 && SelectedUser != null;
+		}
+		public RelayCommand DeleteUserCommand { get; private set; }
+		void OnDeleteUser()
+		{
+			var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить пользователя " + SelectedUser.FullName, "Подтверждение", MessageBoxButton.YesNo);
+			if (dialogResult == MessageBoxResult.Yes)
+				Users.Remove(SelectedUser);
+
+		}
+		public RelayCommand AddGroupCommand { get; private set; }
+		void OnAddGroup()
+		{
+		}
+		public RelayCommand EditGroupCommand { get; private set; }
+		void OnEditGroup()
+		{
+
+		}
+		bool CanGroupEdit(Object obj)
+		{
+			return Groups.Count > 0 && SelectedGroup != null;
+		}
+		public RelayCommand DeleteGroupCommand { get; private set; }
+		void OnDeleteGroup()
+		{
+			var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить группу " + SelectedGroup.Name, "Подтверждение", MessageBoxButton.YesNo);
+			if (dialogResult == MessageBoxResult.Yes)
+				Groups.Remove(SelectedGroup);
+
 		}
         public override void Dispose()
         {

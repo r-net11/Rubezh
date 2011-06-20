@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="SequrityModule.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\SecurityViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -92,9 +93,6 @@
     </Compile>
     <Compile Include="Views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UsersGroupsSelector.xaml.cs">
-      <DependentUpon>UsersGroupsSelector.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,10 +141,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Users.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UsersGroupsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

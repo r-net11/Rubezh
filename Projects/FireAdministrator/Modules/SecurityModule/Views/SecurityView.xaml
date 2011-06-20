@@ -46,23 +46,23 @@
             </WpfToolkit:DataGrid>
         </Grid>
     </Grid>-->
-	<UserControl.Resources>
-		<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-		<Converters:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter" />
-	</UserControl.Resources>
 	<Grid Margin="10" x:Name="OuterGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="100"  />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Views:UsersGroupsSelector Grid.Row="0" Grid.Column="0" x:Name="UsersGroupsSelector"/>
 		<Border Grid.Row="0" Grid.Column="1" Background="AntiqueWhite" BorderThickness="2">
 		<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" >
-			<Views:Users  Visibility="{Binding IsUsersVisible, Converter={StaticResource BoolToVisibilityConverter }}"/>
-			<Views:Groups Visibility="{Binding IsUsersVisible, Converter={StaticResource BoolToVisibilityRevertConverter }}"/>
+				<TabControl>
+					<TabItem Header="Пользователи">
+						<Views:Users/>
+					</TabItem>
+					<TabItem Header="Группы">
+						<Views:Groups/>
+					</TabItem>
+				</TabControl>
 		</StackPanel>
 		</Border>
 	</Grid>

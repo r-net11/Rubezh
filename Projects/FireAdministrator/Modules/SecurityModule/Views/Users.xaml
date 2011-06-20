@@ -12,11 +12,11 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
-			<Button Content="Добавить" Command="{Binding AddCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Удалить" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Редактировать" Command="{Binding EditCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
+			<Button Content="Добавить" Command="{Binding AddUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+			<Button Content="Удалить" Command="{Binding DeleteUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+			<Button Content="Редактировать" Command="{Binding EditUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
 		</StackPanel>
-		<WpfToolkit:DataGrid Margin="5,5,12,5" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}"
+		<WpfToolkit:DataGrid Margin="5,5,12,5" ItemsSource="{Binding Users}"  
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridSelectionStyle}" 
                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
                             IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
@@ -27,6 +27,9 @@
 				<WpfToolkit:DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
 				<WpfToolkit:DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding FullName}" />
 			</WpfToolkit:DataGrid.Columns>
+			<WpfToolkit:DataGrid.SelectedItem>
+					<Binding Path="SelectedUser"/>
+			</WpfToolkit:DataGrid.SelectedItem>
 		</WpfToolkit:DataGrid>
 	</Grid>
 </UserControl>

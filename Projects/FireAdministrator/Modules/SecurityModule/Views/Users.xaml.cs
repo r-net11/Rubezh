@@ -23,5 +23,6 @@ namespace SecurityModule.Views
 		{
 			InitializeComponent();
 		}
+
 	}
 }

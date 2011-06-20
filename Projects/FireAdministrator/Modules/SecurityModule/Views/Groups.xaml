@@ -11,9 +11,9 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
-			<Button Content="Добавить" Command="{Binding AddCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Удалить" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Редактировать" Command="{Binding EditCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
+			<Button Content="Добавить" Command="{Binding AddGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+			<Button Content="Удалить" Command="{Binding DeleteGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+			<Button Content="Редактировать" Command="{Binding EditGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
 		</StackPanel>
 		<WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridSelectionStyle}" 
