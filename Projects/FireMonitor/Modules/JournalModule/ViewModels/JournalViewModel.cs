@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using FiresecClient.Models;
 
 namespace JournalModule.ViewModels
 {

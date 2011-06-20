@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using Firesec;
 
-namespace FiresecClient
+namespace FiresecClient.Models
 {
     public class CurrentStates
     {

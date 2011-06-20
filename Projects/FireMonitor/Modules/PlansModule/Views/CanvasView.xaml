@@ -15,7 +15,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Width="20" Height="20" Click="Button_Click" />
             <Slider Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
         </Grid>
 

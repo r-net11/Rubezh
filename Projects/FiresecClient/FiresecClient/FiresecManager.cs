@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using FiresecClient.Models;
+using FiresecClient.Converters;
 
 namespace FiresecClient
 {
@@ -47,11 +48,14 @@ namespace FiresecClient
         static void BuildDeviceTree()
         {
             CoreConfig = FiresecInternalClient.GetCoreConfig();
-            FiresecToConfig firesecToConfig = new FiresecToConfig();
-
             Configuration = new CurrentConfiguration();
             Configuration.Metadata = FiresecInternalClient.GetMetaData();
-            firesecToConfig.Convert(CoreConfig);
+
+            FiresecManager.States = new CurrentStates();
+            ZoneConverter.Convert(CoreConfig);
+            DirectionConverter.Convert(CoreConfig);
+            SecurityConverter.Convert(CoreConfig);
+            DeviceConverter.Convert(CoreConfig);
         }
 
         public static void SetNewConfig(CurrentConfiguration configuration)
@@ -59,9 +63,12 @@ namespace FiresecClient
             Validator validator = new Validator();
             validator.Validate(configuration);
 
-            ConfigToFiresec configToFiresec = new ConfigToFiresec();
-            Firesec.CoreConfig.config config = configToFiresec.Convert(configuration);
-            FiresecInternalClient.SetNewConfig(config);
+            ZoneConverter.ConvertBack(configuration);
+            DeviceConverter.ConvertBack(configuration);
+            DirectionConverter.ConvertBack(configuration);
+            SecurityConverter.ConvertBack(configuration);
+
+            FiresecInternalClient.SetNewConfig(CoreConfig);
         }
 
         public static void ResetState(string deviceId, string stateName)

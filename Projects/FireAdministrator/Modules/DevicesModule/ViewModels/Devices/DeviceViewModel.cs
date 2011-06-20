@@ -11,6 +11,7 @@ using System.Windows;
 using DevicesModule.Views;
 using Infrastructure;
 using DevicesModule.DeviceProperties;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {

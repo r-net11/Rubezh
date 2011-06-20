@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Firesec;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {

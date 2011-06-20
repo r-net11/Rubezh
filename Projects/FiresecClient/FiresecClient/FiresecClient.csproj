@@ -72,10 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extentions.cs" />
+    <Compile Include="Converters\DeviceConverter.cs" />
+    <Compile Include="Converters\DirectionConverter.cs" />
+    <Compile Include="Converters\SecurityConverter.cs" />
+    <Compile Include="Converters\ZoneConverter.cs" />
+    <Compile Include="DriverExtentions.cs" />
     <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Converters\ConfigToFiresec.cs" />
-    <Compile Include="Converters\FiresecToConfig.cs" />
     <Compile Include="Converters\Validator.cs" />
     <Compile Include="Converters\ZoneLogicToText.cs" />
     <Compile Include="Models\CurrentConfiguration.cs" />

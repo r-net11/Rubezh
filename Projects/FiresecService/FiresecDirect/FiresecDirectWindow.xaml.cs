@@ -24,7 +24,7 @@ namespace FiresecDirect
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
             StreamReader reader = new StreamReader("SetNewConfig.xml");
             string message = reader.ReadToEnd();
@@ -42,27 +42,27 @@ namespace FiresecDirect
             textBox1.Text = message;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void OnGetCoreConfig(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void OnGetCoreState(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetCoreState();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void OnGetMetaData(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetMetaData();
         }
 
-        private void Button_Click_4(object sender, RoutedEventArgs e)
+        private void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams();
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        private void OnReadEvents(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100);
         }
@@ -73,6 +73,47 @@ namespace FiresecDirect
             //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
             //FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
             //serializer.Serialize(fileStream, metadataConfig);
+        }
+
+        private void OnBoltOpen(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBoltClose(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBoltStop(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBoltAutoOn(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnBoltAutoOff(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnAddToIgnoreList(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnAddCustomMessage(object sender, RoutedEventArgs e)
+        {
+            //Firesec.NativeFiresecClient.AddUserMessage("Это произвольное пользовательское сообщение");
+            Firesec.NativeFiresecClient.AddUserMessage("message");
         }
     }
 }

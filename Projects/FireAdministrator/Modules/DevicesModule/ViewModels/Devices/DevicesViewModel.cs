@@ -7,6 +7,7 @@ using FiresecClient;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.IO;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {

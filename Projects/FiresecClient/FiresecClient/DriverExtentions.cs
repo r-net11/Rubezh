@@ -5,9 +5,9 @@ using System.Text;
 
 namespace FiresecClient
 {
-    public static class Extentions
+    public static class DriverExtentions
     {
-        public class DriverData
+        class DriverData
         {
             public DriverData(string DriverId, int IgnoreLevel, string Name)
             {
@@ -22,7 +22,7 @@ namespace FiresecClient
         }
 
         static List<DriverData> driverDataList;
-        static Extentions()
+        static DriverExtentions()
         {
             driverDataList = new List<DriverData>();
             driverDataList.Add(new DriverData("80A37AF1-B1AD-45D5-A34C-6FA2960F9706", 2, "Виртуальная панель"));

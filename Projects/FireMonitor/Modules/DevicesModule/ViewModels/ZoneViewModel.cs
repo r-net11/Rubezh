@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using DevicesModule.Events;
 using FiresecClient;
 using Firesec;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {

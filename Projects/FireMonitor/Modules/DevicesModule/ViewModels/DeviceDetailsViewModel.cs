@@ -8,6 +8,7 @@ using Firesec;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Media;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace DevicesModule.ViewModels
             Title = "Свойства устройства";
         }
 
-        FiresecClient.Device _device;
+        Device _device;
         DeviceControls.DeviceControl _deviceControl;
 
         public void Initialize(string deviceId)

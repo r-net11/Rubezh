@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Firesec;
-using System.Diagnostics;
 using FiresecClient.Models;
 
-namespace FiresecClient
+namespace FiresecClient.Converters
 {
-    public class FiresecToConfig
+    public static class DeviceConverter
     {
-        Firesec.CoreConfig.config firesecConfig;
+        static Firesec.CoreConfig.config _firesecConfig;
 
-        public void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(Firesec.CoreConfig.config firesecConfig)
         {
-            this.firesecConfig = firesecConfig;
+            _firesecConfig = firesecConfig;
 
             FiresecManager.Configuration.Devices = new List<Device>();
-            FiresecManager.States = new CurrentStates();
             FiresecManager.States.DeviceStates = new List<DeviceState>();
-            FiresecManager.States.ZoneStates = new List<ZoneState>();
-
-            AddZones();
 
             Firesec.CoreConfig.devType rootInnerDevice = FiresecManager.CoreConfig.dev[0];
             Device rootDevice = new Device();
@@ -32,12 +26,9 @@ namespace FiresecClient
             AddDevice(rootInnerDevice, rootDevice);
 
             FiresecManager.Configuration.RootDevice = rootDevice;
-
-            AddDirections();
-            AddSecurity();
         }
 
-        void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
+        static void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
         {
             parentDevice.Children = new List<Device>();
             if (parentInnerDevice.dev != null)
@@ -55,7 +46,7 @@ namespace FiresecClient
             }
         }
 
-        DeviceState CreateDeviceState(Device device)
+        static DeviceState CreateDeviceState(Device device)
         {
             var driver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
 
@@ -85,9 +76,9 @@ namespace FiresecClient
             return deviceState;
         }
 
-        void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
+        static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
-            device.DriverId = firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
+            device.DriverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             var metadataDriver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
             device.Driver = metadataDriver;
 
@@ -133,7 +124,7 @@ namespace FiresecClient
             SetZone(device, innerDevice);
         }
 
-        void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
+        static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             switch (device.Driver.DriverName())
             {
@@ -160,7 +151,7 @@ namespace FiresecClient
             }
         }
 
-        void SetId(Device device)
+        static void SetId(Device device)
         {
             string currentId = device.DriverId + ":" + device.Address;
             if (device.Parent != null)
@@ -173,7 +164,7 @@ namespace FiresecClient
             }
         }
 
-        void SetPlaceInTree(Device device)
+        static void SetPlaceInTree(Device device)
         {
             if (device.Parent == null)
             {
@@ -193,12 +184,12 @@ namespace FiresecClient
             }
         }
 
-        void SetZone(Device device, Firesec.CoreConfig.devType innerDevice)
+        static void SetZone(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             if (innerDevice.inZ != null)
             {
                 string zoneIdx = innerDevice.inZ[0].idz;
-                string zoneNo = firesecConfig.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
+                string zoneNo = _firesecConfig.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
                 device.ZoneNo = zoneNo;
             }
             if (innerDevice.prop != null)
@@ -209,156 +200,111 @@ namespace FiresecClient
                     string zoneLogicstring = property.value;
                     if (string.IsNullOrEmpty(zoneLogicstring) == false)
                     {
-                        Trace.WriteLine(device.Address);
-                        Trace.WriteLine(zoneLogicstring);
                         device.ZoneLogic = FiresecInternalClient.GetZoneLogic(zoneLogicstring);
                     }
                 }
             }
         }
 
-        void AddZones()
+        public static void ConvertBack(CurrentConfiguration currentConfiguration)
         {
-            FiresecManager.Configuration.Zones = new List<Zone>();
+            Device rootDevice = currentConfiguration.RootDevice;
+            Firesec.CoreConfig.devType rootInnerDevice = DeviceToInnerDevice(rootDevice);
+            AddInnerDevice(rootDevice, rootInnerDevice);
 
-            if (firesecConfig.zone != null)
+            FiresecManager.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
+            FiresecManager.CoreConfig.dev[0] = rootInnerDevice;
+        }
+
+        static void AddInnerDevice(Device parentDevice, Firesec.CoreConfig.devType parentInnerDevice)
+        {
+            List<Firesec.CoreConfig.devType> childInnerDevices = new List<Firesec.CoreConfig.devType>();
+
+            foreach (var device in parentDevice.Children)
             {
-                foreach (var innerZone in firesecConfig.zone)
-                {
-                    Zone zone = new Zone();
-                    zone.Name = innerZone.name;
-                    zone.No = innerZone.no;
-                    zone.Description = innerZone.desc;
-                    if (innerZone.param != null)
-                    {
-                        var exitTimeParam = innerZone.param.FirstOrDefault(x => x.name == "ExitTime");
-                        if (exitTimeParam != null)
-                            zone.EvacuationTime = exitTimeParam.value;
-
-                        var fireDeviceCountParam = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount");
-                        if (fireDeviceCountParam != null)
-                            zone.DetectorCount = fireDeviceCountParam.value;
-                    }
-                    FiresecManager.Configuration.Zones.Add(zone);
-                    FiresecManager.States.ZoneStates.Add(CreateZoneState(zone));
-                }
+                Firesec.CoreConfig.devType childInnerDevice = DeviceToInnerDevice(device);
+                childInnerDevices.Add(childInnerDevice);
+                AddInnerDevice(device, childInnerDevice);
             }
+            parentInnerDevice.dev = childInnerDevices.ToArray();
         }
 
-        ZoneState CreateZoneState(Zone zone)
+        static Firesec.CoreConfig.devType DeviceToInnerDevice(Device device)
         {
-            ZoneState zoneState = new ZoneState();
-            zoneState.No = zone.No;
-            return zoneState;
-        }
+            Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
+            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.DriverId).idx;
+            innerDevice.addr = ConvertAddress(device);
 
-        void AddDirections()
-        {
-            FiresecManager.Configuration.Directions = new List<Direction>();
-
-            if (FiresecManager.CoreConfig.part != null)
+            if (device.ZoneNo != null)
             {
-                foreach (var part in FiresecManager.CoreConfig.part)
-                {
-                    if (part.type == "direction")
-                    {
-                        Direction direction = new Direction();
-                        direction.Id = System.Convert.ToInt32(part.id);
-                        direction.Name = part.name;
-                        direction.Description = part.desc;
+                List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
+                zones.Add(new Firesec.CoreConfig.inZType() { idz = device.ZoneNo });
+                innerDevice.inZ = zones.ToArray();
+            }
 
-                        direction.Zones = new List<int>();
-                        if (part.PinZ != null)
+            innerDevice.prop = AddProperties(device).ToArray();
+
+            return innerDevice;
+        }
+
+        static string ConvertAddress(Device device)
+        {
+            if (string.IsNullOrEmpty(device.Address))
+                return "0";
+
+            if (device.Address.Contains("."))
+            {
+                List<string> addresses = device.Address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
+
+                int intShleifAddress = System.Convert.ToInt32(addresses[0]);
+                int intAddress = System.Convert.ToInt32(addresses[1]);
+                return (intShleifAddress * 256 + intAddress).ToString();
+            }
+
+            return device.Address;
+        }
+
+        static List<Firesec.CoreConfig.propType> AddProperties(Device device)
+        {
+            List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
+
+            if (device.Driver.DriverName() != "Компьютер")
+            {
+                if (device.Properties != null)
+                {
+                    if (device.Properties.Count > 0)
+                    {
+                        foreach (var deviceProperty in device.Properties)
                         {
-                            foreach (var partZone in part.PinZ)
+                            if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
                             {
-                                direction.Zones.Add(System.Convert.ToInt32(partZone.pidz));
+                                if (device.Driver.propInfo != null)
+                                {
+                                    if (device.Driver.propInfo.Any(x => x.name == deviceProperty.Name))
+                                    {
+                                        Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
+                                        property.name = deviceProperty.Name;
+                                        property.value = deviceProperty.Value;
+                                        propertyList.Add(property);
+                                    }
+                                }
                             }
                         }
-
-                        FiresecManager.Configuration.Directions.Add(direction);
                     }
                 }
             }
-        }
 
-        void AddSecurity()
-        {
-            FiresecManager.Configuration.Users = new List<User>();
-            FiresecManager.Configuration.UserGroups = new List<UserGroup>();
-            FiresecManager.Configuration.Perimissions = new List<Perimission>();
-
-            foreach (var firesecUser in FiresecManager.CoreConfig.user)
+            if (device.ZoneLogic != null)
             {
-                User user = new User();
-                user.Id = firesecUser.param.value;
-                user.Name = firesecUser.name;
-                user.FullName = firesecUser.fullName;
-                user.PasswordHash = firesecUser.password;
-                user.IsBuiltIn = (firesecUser.builtin != "0");
-
-                if (firesecUser.grp != null)
-                {
-                    //foreach (var groupIdx in firesecUser.grp)
-                    var groupIdx = firesecUser.grp;
-                    {
-                        var firesecGroup = FiresecManager.CoreConfig.userGroup.FirstOrDefault(x => x.idx == groupIdx.idx);
-                        user.Groups.Add(firesecGroup.param.value);
-                    }
-                }
-
-                FiresecManager.Configuration.Users.Add(user);
+                string zoneLogic = FiresecInternalClient.SetZoneLogic(device.ZoneLogic);
+                Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
+                property.name = "ExtendedZoneLogic";
+                property.value = zoneLogic;
+                property.value = "&lt;?xml version&#061;&quot;1.0&quot; encoding&#061;&quot;windows-1251&quot;?&gt;&#010;&lt;expr&gt;&lt;clause operation&#061;&quot;or&quot; state&#061;&quot;2&quot;&gt;&lt;zone&gt;0&lt;&#047;zone&gt;&lt;zone&gt;2&lt;&#047;zone&gt;&lt;zone&gt;3&lt;&#047;zone&gt;&lt;zone&gt;4&lt;&#047;zone&gt;&lt;zone&gt;5&lt;&#047;zone&gt;&lt;&#047;clause&gt;&lt;&#047;expr&gt;&#010;";
+                propertyList.Add(property);
             }
 
-            foreach (var firesecUserGroup in FiresecManager.CoreConfig.userGroup)
-            {
-                UserGroup userGroup = new UserGroup();
-                userGroup.Id = firesecUserGroup.param.value;
-                userGroup.Name = firesecUserGroup.name;
-                FiresecManager.Configuration.UserGroups.Add(userGroup);
-            }
-
-            var secObj = FiresecManager.CoreConfig.secObjType.FirstOrDefault(x => x.name == "Функции программы");
-            foreach (var firesecPerimission in secObj.secAction)
-            {
-                Perimission perimission = new Perimission();
-                perimission.Id = firesecPerimission.num;
-                perimission.Name = firesecPerimission.name;
-                FiresecManager.Configuration.Perimissions.Add(perimission);
-            }
-
-            foreach (var secRight in FiresecManager.CoreConfig.secGUI.FirstOrDefault(x => x.name == "Функции программы").secRight)
-            {
-                var permissionIdx = secRight.act;
-                var permission = secObj.secAction.FirstOrDefault(x => x.idx == permissionIdx);
-                var permissionId = permission.param.value;
-
-                var idx = secRight.subj;
-                var firesecUser = FiresecManager.CoreConfig.user.FirstOrDefault(x=>x.idx == idx);
-                var firesecGroup = FiresecManager.CoreConfig.userGroup.FirstOrDefault(x => x.idx == idx);
-
-                if (firesecUser != null)
-                {
-                    string userId = firesecUser.param.value;
-                    var user = FiresecManager.Configuration.Users.FirstOrDefault(x => x.Id == userId);
-
-                    if (secRight.deleteflag != "1")
-                    {
-                        user.Permissions.Add(permissionId);
-                    }
-                    else
-                    {
-                        user.RemovedPermissions.Add(permissionId);
-                    }
-                }
-
-                if (firesecGroup != null)
-                {
-                    string groupId = firesecGroup.param.value;
-                    var group = FiresecManager.Configuration.UserGroups.FirstOrDefault(x => x.Id == groupId);
-                    group.Permissions.Add(permissionId);
-                }
-            }
+            return propertyList;
         }
     }
 }

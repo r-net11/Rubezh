@@ -27,8 +27,6 @@ namespace DevicesModule.ViewModels
 
             Direction = new Direction();
             Direction.Name = "Новое направление";
-            Direction.Zones = new List<int>();
-
             int maxId = FiresecManager.Configuration.Directions.Max(x => x.Id);
             Id = maxId + 1;
         }

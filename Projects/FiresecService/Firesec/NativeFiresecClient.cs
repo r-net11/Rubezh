@@ -66,6 +66,42 @@ namespace Firesec
             Connectoin.ResetStates(states);
         }
 
+        public static void ExacuteCommand(string devicePath, string methodName)
+        {
+            Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
+        }
+
+        static string ConvertDeviceList(List<string> devicePaths)
+        {
+            string separator = "\r\n";
+            string devices = "";
+            foreach (string device in devicePaths)
+            {
+                devices += device + separator;
+            }
+            if (devices.EndsWith(separator))
+                devices = devices.Remove(devices.LastIndexOf(separator));
+
+            return devices;
+        }
+
+        public static void AddToIgnoreList(List<string> devicePaths)
+        {
+            string devices = ConvertDeviceList(devicePaths);
+            Connectoin.IgoreListOperation(devices, true);
+        }
+
+        public static void RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            string devices = ConvertDeviceList(devicePaths);
+            Connectoin.IgoreListOperation(devices, false);
+        }
+
+        public static void AddUserMessage(string message)
+        {
+            Connectoin.StoreUserMessage(message);
+        }
+
         static FS_Types.IFSC_Connection GetConnection()
         {
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");

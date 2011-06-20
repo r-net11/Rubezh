@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Firesec;
 using System.IO;
 using System.Xml.Serialization;
+using FiresecClient.Models;
 
 namespace FiresecClient
 {
