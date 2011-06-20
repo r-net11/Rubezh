@@ -50,8 +50,8 @@ namespace PlansModule
 
         static void OnShowDeviceOnPlan(string id)
         {
-            plansViewModel.ShowDevice(id);
             ServiceFactory.Layout.Show(plansViewModel);
+            plansViewModel.ShowDevice(id);
         }
     }
 }

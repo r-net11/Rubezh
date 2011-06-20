@@ -13,6 +13,9 @@ namespace FiresecClient
         public Device RootDevice { get; set; }
         public List<Zone> Zones { get; set; }
         public List<Direction> Directions { get; set; }
+        public List<User> Users { get; set; }
+        public List<UserGroup> UserGroups { get; set; }
+        public List<Perimission> Perimissions { get; set; }
         public Firesec.Metadata.config Metadata { get; set; }
 
         public void FillAllDevices()

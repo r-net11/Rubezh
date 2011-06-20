@@ -24,13 +24,10 @@ namespace DevicesModule.ViewModels
 
         public void Initialize()
         {
-            Zones = new ObservableCollection<ZoneViewModel>();
-
-            foreach (var zone in FiresecManager.Configuration.Zones)
-            {
-                ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-                Zones.Add(zoneViewModel);
-            }
+            Zones = new ObservableCollection<ZoneViewModel>(
+                from zone in FiresecManager.Configuration.Zones
+                orderby (Convert.ToInt32(zone.No))
+                select new ZoneViewModel(zone));
         }
 
         ObservableCollection<ZoneViewModel> _zones;
@@ -53,7 +50,9 @@ namespace DevicesModule.ViewModels
                 _selectedZone = value;
 
                 if (value != null)
-                    ZoneDevices.Initialize(value._zone.No);
+                {
+                    ZoneDevices.Initialize(value.No);
+                }
 
                 OnPropertyChanged("SelectedZone");
             }
@@ -62,16 +61,19 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            Zone zone = new Zone();
-            zone.No = "0";
-            zone.Name = "Новая зона";
+            Zone newZone = new Zone();
+            newZone.Name = "Новая зона";
+            var maxNo = (from zone in FiresecManager.Configuration.Zones select Convert.ToInt32(zone.No)).Max();
+            newZone.No = (maxNo + 1).ToString();
 
-            ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel();
-            zoneDetailsViewModel.Initialize(zone);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-
-            ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-            Zones.Add(zoneViewModel);
+            ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(newZone);
+            var result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
+            if (result)
+            {
+                FiresecManager.Configuration.Zones.Add(newZone);
+                ZoneViewModel zoneViewModel = new ZoneViewModel(newZone);
+                Zones.Add(zoneViewModel);
+            }
         }
 
         public RelayCommand DeleteCommand { get; private set; }
@@ -81,7 +83,10 @@ namespace DevicesModule.ViewModels
             {
                 var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
                 if (dialogResult == MessageBoxResult.Yes)
+                {
+                    FiresecManager.Configuration.Zones.Remove(SelectedZone.Zone);
                     Zones.Remove(SelectedZone);
+                }
             }
         }
 
@@ -90,26 +95,9 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedZone != null)
             {
-                ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel();
-                zoneDetailsViewModel.Initialize(SelectedZone._zone);
+                ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
                 SelectedZone.Update();
-            }
-        }
-
-        public void Save()
-        {
-            CurrentConfiguration currentConfiguration = new CurrentConfiguration();
-            currentConfiguration.Zones = new List<Zone>();
-            foreach (var zoneViewModel in Zones)
-            {
-                Zone zone = new Zone();
-                zone.No = zoneViewModel.No;
-                zone.Name = zoneViewModel.Name;
-                zone.Description = zoneViewModel.Description;
-                zone.DetectorCount = zoneViewModel.DetectorCount;
-                zone.EvacuationTime = zoneViewModel.EvacuationTime;
-                currentConfiguration.Zones.Add(zone);
             }
         }
 

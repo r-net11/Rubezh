@@ -10,7 +10,9 @@ namespace FiresecClient
     {
         public Device()
         {
+            Properties = new List<Property>();
             UderlyingZones = new List<string>();
+            Children = new List<Device>();
         }
 
         public Device Parent { get; set; }
@@ -52,35 +54,35 @@ namespace FiresecClient
             }
         }
 
-        public bool IsZoneDevice
-        {
-            get
-            {
-                if ((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"))
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
+        //public bool IsZoneDevice
+        //{
+        //    get
+        //    {
+        //        if ((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"))
+        //        {
+        //            return false;
+        //        }
+        //        return true;
+        //    }
+        //}
 
-        public bool IsZoneLogicDevice
-        {
-            get
-            {
-                if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        //public bool IsZoneLogicDevice
+        //{
+        //    get
+        //    {
+        //        if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
+        //        {
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //}
 
         public string PresentationZone
         {
             get
             {
-                if (IsZoneDevice)
+                if (Driver.IsZoneDevice())
                 {
                     if (string.IsNullOrEmpty(ZoneNo))
                         return "";
@@ -88,7 +90,7 @@ namespace FiresecClient
                     Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
                     return ZoneNo + "." + zone.Name;
                 }
-                if (IsZoneLogicDevice)
+                if (Driver.IsZoneLogicDevice())
                 {
                     return ZoneLogicToText.Convert(ZoneLogic);
                 }

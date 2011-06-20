@@ -6,6 +6,7 @@ using FiresecClient;
 using Firesec;
 using Infrastructure;
 using AlarmModule.Events;
+using Infrastructure.Events;
 
 namespace AlarmModule
 {
@@ -27,7 +28,7 @@ namespace AlarmModule
                 var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
                 if (device.Driver.cat == "2")
                 {
-                    bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
+                    //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
 
                     deviceState.IsFire = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Fire)));
                     deviceState.IsAttention = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Attention)));
@@ -51,6 +52,11 @@ namespace AlarmModule
             alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.name + " - " + device.Address;
             alarm.Time = DateTime.Now.ToString();
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
+
+            if (alarmType == AlarmType.Fire)
+            {
+                ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(id);
+            }
         }
 
         void DeviceState_AlarmRemoved(AlarmType alarmType, string id)

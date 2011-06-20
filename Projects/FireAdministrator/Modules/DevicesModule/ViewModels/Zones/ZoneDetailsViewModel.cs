@@ -7,24 +7,23 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneViewModel : BaseViewModel
+    public class ZoneDetailsViewModel : DialogContent
     {
-        public readonly Zone _zone;
-
-        public ZoneViewModel(Zone zone)
+        public ZoneDetailsViewModel(Zone zone)
         {
+            Title = "Свойства зоны";
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
+
             _zone = zone;
-            Update();
+            Name = zone.Name;
+            No = zone.No;
+            Description = zone.Description;
+            DetectorCount = zone.DetectorCount;
+            EvacuationTime = zone.EvacuationTime;
         }
 
-        public void Update()
-        {
-            Name = _zone.Name;
-            No = _zone.No;
-            Description = _zone.Description;
-            DetectorCount = _zone.DetectorCount;
-            EvacuationTime = _zone.EvacuationTime;
-        }
+        Zone _zone;
 
         string _name;
         public string Name
@@ -81,9 +80,21 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string PresentationName
+        public RelayCommand SaveCommand { get; private set; }
+        void OnSave()
         {
-            get { return No + "." + Name; }
+            _zone.Name = Name;
+            _zone.No = No;
+            _zone.Description = Description;
+            _zone.DetectorCount = DetectorCount;
+            _zone.EvacuationTime = EvacuationTime;
+            Close(true);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        void OnCancel()
+        {
+            Close(false);
         }
     }
 }

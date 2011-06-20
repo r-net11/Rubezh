@@ -111,38 +111,17 @@ namespace DevicesModule.ViewModels
 
         public bool HasImage
         {
-            get
-            {
-                return (ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico");
-            }
+            get { return _device.Driver.HasImage(); }
         }
 
         public string ImageSource
         {
-            get
-            {
-                string ImageName;
-                if (!string.IsNullOrEmpty(_device.Driver.dev_icon))
-                {
-                    ImageName = _device.Driver.dev_icon;
-                }
-                else
-                {
-                    var metadataClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == _device.Driver.clsid);
-                    ImageName = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-                }
-
-                return @"C:/Program Files/Firesec/Icons/" + ImageName + ".ico";
-                //return @"pack://application:,,,/Icons/" + ImageName + ".ico";
-            }
+            get { return _device.Driver.ImageSource(); }
         }
 
         public string DriverName
         {
-            get
-            {
-                return _device.Driver.name;
-            }
+            get { return _device.Driver.name; }
         }
 
         public string ConnectedTo
@@ -159,17 +138,22 @@ namespace DevicesModule.ViewModels
 
         public bool IsZoneDevice
         {
-            get { return _device.IsZoneDevice; }
+            get { return _device.Driver.IsZoneDevice(); }
         }
 
         public bool IsZoneLogicDevice
         {
-            get { return _device.IsZoneLogicDevice; }
+            get { return _device.Driver.IsZoneLogicDevice(); }
         }
 
         public string PresentationZone
         {
             get { return _device.PresentationZone; }
+        }
+
+        public bool CanControl
+        {
+            get { return (_device.Driver.DriverName() == "Задвижка"); }
         }
 
         public ObservableCollection<string> SelfStates
@@ -230,15 +214,6 @@ namespace DevicesModule.ViewModels
             {
                 DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 return deviceState.State;
-            }
-        }
-
-        public bool CanControl
-        {
-            get
-            {
-                var driverName = DriversHelper.GetDriverNameById(_device.Driver.id);
-                return (driverName == "Задвижка");
             }
         }
     }

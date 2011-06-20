@@ -16,6 +16,7 @@ namespace AlarmModule.ViewModels
     {
         public AlarmViewModel()
         {
+            ConfirmCommand = new RelayCommand(OnClose);
             ResetCommand = new RelayCommand(OnReset);
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
@@ -26,6 +27,11 @@ namespace AlarmModule.ViewModels
         }
 
         public Alarm _alarm;
+
+        public void Initialize(Alarm alarm)
+        {
+            _alarm = alarm;
+        }
 
         public AlarmType AlarmType
         {
@@ -42,16 +48,36 @@ namespace AlarmModule.ViewModels
             get { return _alarm.Time; }
         }
 
-        public void Initialize(Alarm alarm)
+        public string DeviceName
         {
-            _alarm = alarm;
+            get
+            {
+                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                return device.Driver.shortName + " - " + device.Address;
+            }
+        }
+
+        public string Zone
+        {
+            get
+            {
+                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                return zone.No + "." + zone.Name;
+            }
+        }
+
+        public RelayCommand ConfirmCommand { get; private set; }
+        void OnConfirm()
+        {
         }
 
         public RelayCommand ResetCommand { get; private set; }
         void OnReset()
         {
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(_alarm);
-            //Reset();
+            //ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(_alarm);
+            Reset();
             Close();
         }
 

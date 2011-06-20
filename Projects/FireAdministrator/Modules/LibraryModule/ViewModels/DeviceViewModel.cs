@@ -86,11 +86,12 @@ namespace LibraryModule.ViewModels
             set
             {
                 _id = value;
-                Name = _name = DriversHelper.GetDriverNameById(_id);
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == value);
+                Name = driver.DriverName();
             }
         }
 
-        private string _name;
+        string _name;
         public string Name
         {
             get { return _name; }

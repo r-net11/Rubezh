@@ -37,8 +37,8 @@ namespace PlansModule.ViewModels
         {
             this._plan = plan;
             DrawPlan();
-            ResetView();
             UpdateSubPlans();
+            ResetView();
         }
 
         public void DrawPlan()

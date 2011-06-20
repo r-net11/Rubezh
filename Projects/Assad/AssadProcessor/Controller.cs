@@ -86,7 +86,7 @@ namespace AssadProcessor
                     {
                         commandName = commandName.Replace("Сброс ", "");
 
-                        string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                        string driverName = Extentions.GetDriverNameById(device.DriverId);
                         if (driverName == "Компьютер")
                         {
                             foreach (var resetDevice in FiresecManager.Configuration.Devices)
@@ -95,14 +95,14 @@ namespace AssadProcessor
                                 {
                                     if (resetDevice.Driver.state.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
                                     {
-                                        FiresecManager.ResetState(resetDevice, commandName);
+                                        FiresecManager.ResetState(resetDevice.Id, commandName);
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            FiresecManager.ResetState(device, commandName);
+                            FiresecManager.ResetState(device.Id, commandName);
                         }
                     }
                 }
@@ -115,14 +115,14 @@ namespace AssadProcessor
             Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == assadDevice.Id);
             if (device != null)
             {
-                string driverName = DriversHelper.GetDriverNameById(device.DriverId);
+                string driverName = Extentions.GetDriverNameById(device.DriverId);
                 if (device.Driver.state != null)
                 {
                     foreach (var state in device.Driver.state)
                     {
                         if (state.manualReset == "1")
                         {
-                            FiresecManager.ResetState(device, state.name);
+                            FiresecManager.ResetState(device.Id, state.name);
                         }
                     }
                 }

@@ -96,7 +96,8 @@ namespace DeviveModelManager
                 {
                     canAdd = false;
                 }
-                if (DriversHelper.IsIgnore(driverId))
+                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
+                if (Extentions.IsIgnore(driver))
                 {
                     canAdd = false;
                 }

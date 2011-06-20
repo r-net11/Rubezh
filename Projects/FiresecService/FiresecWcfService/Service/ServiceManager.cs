@@ -22,6 +22,7 @@ namespace FiresecWcfService.Service
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReceiveTimeout = TimeSpan.MaxValue;
             binding.MaxConnections = 1000;
+            binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("FiresecServiceApi.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
 

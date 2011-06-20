@@ -95,7 +95,8 @@ namespace FiresecClient
         {
             lock (_locker)
             {
-                FiresecService.SetNewConfig(Serialize<Firesec.CoreConfig.config>(coreConfig));
+                var stringConfig = Serialize<Firesec.CoreConfig.config>(coreConfig);
+                FiresecService.SetNewConfig(stringConfig);
             }
         }
 
