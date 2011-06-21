@@ -66,7 +66,7 @@ namespace Firesec
             Connectoin.ResetStates(states);
         }
 
-        public static void ExacuteCommand(string devicePath, string methodName)
+        public static void ExecuteCommand(string devicePath, string methodName)
         {
             Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
         }

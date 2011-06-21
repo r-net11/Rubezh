@@ -20,6 +20,7 @@ namespace FiresecClient.Converters
                     {
                         Direction direction = new Direction();
                         direction.Id = System.Convert.ToInt32(innerDirection.id);
+                        direction.Gid = innerDirection.gid;
                         direction.Name = innerDirection.name;
                         direction.Description = innerDirection.desc;
 
@@ -39,8 +40,6 @@ namespace FiresecClient.Converters
 
         public static void ConvertBack(CurrentConfiguration currentConfiguration)
         {
-            return;
-
             List<Firesec.CoreConfig.partType> innerDirections = new List<Firesec.CoreConfig.partType>();
             int no = 0;
 
@@ -51,6 +50,7 @@ namespace FiresecClient.Converters
                 innerDirection.no = no.ToString();
                 no++;
                 innerDirection.id = direction.Id.ToString();
+                innerDirection.gid = direction.Gid;
                 innerDirection.name = direction.Name;
 
                 List<Firesec.CoreConfig.partTypePinZ> zones = new List<Firesec.CoreConfig.partTypePinZ>();
@@ -59,6 +59,8 @@ namespace FiresecClient.Converters
                     zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone.ToString() });
                 }
                 innerDirection.PinZ = zones.ToArray();
+
+                innerDirections.Add(innerDirection);
             }
 
             FiresecManager.CoreConfig.part = innerDirections.ToArray();

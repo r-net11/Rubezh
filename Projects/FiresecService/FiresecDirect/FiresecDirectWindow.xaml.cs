@@ -77,7 +77,7 @@ namespace FiresecDirect
 
         private void OnBoltOpen(object sender, RoutedEventArgs e)
         {
-
+            Firesec.NativeFiresecClient.ExecuteCommand("0\\0\\6\\13", "BoltOpen");
         }
 
         private void OnBoltClose(object sender, RoutedEventArgs e)
@@ -102,7 +102,7 @@ namespace FiresecDirect
 
         private void OnAddToIgnoreList(object sender, RoutedEventArgs e)
         {
-
+            Firesec.NativeFiresecClient.AddToIgnoreList(new List<string>() { "0\\0\\0\\0" });
         }
 
         private void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)

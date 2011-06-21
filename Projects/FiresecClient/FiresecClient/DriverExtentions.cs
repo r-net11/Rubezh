@@ -116,7 +116,7 @@ namespace FiresecClient
 
         public static string DriverName(this Firesec.Metadata.configDrv driver)
         {
-                var driverData = driverDataList.FirstOrDefault(x => (x.DriverId == driver.id) && (x.IgnoreLevel < 2));
+            var driverData = driverDataList.FirstOrDefault(x => (x.DriverId == driver.id) && (x.IgnoreLevel < 2));
             if (driverData == null)
             {
                 return null;
@@ -287,7 +287,7 @@ namespace FiresecClient
                     return "охранно-пожарный";
 
                 default:
-                return "";
+                    return "";
             }
         }
     }

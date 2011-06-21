@@ -38,5 +38,17 @@ namespace FiresecServiceApi
 
         [OperationContract]
         void ResetStates(string config);
+
+        [OperationContract]
+        void ExecuteCommand(string devicePath, string methodName);
+
+        [OperationContract]
+        void AddToIgnoreList(List<string> devicePaths);
+
+        [OperationContract]
+        void RemoveFromIgnoreList(List<string> devicePaths);
+
+        [OperationContract]
+        void AddUserMessage(string message);
     }
 }

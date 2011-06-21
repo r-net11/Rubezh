@@ -131,7 +131,7 @@ namespace DevicesModule.ViewModels
 
         public void UpdateParameters()
         {
-            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
 
             Update();
 
@@ -139,26 +139,30 @@ namespace DevicesModule.ViewModels
             {
                 foreach (var parameter in deviceState.Parameters)
                 {
+                    string parameterValue = parameter.Value;
+                    if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
+                        parameterValue = " - ";
+
                     switch (parameter.Name)
                     {
                         case "FailureType":
-                            FailureType = parameter.Value;
+                            FailureType = parameterValue;
                             break;
 
                         case "AlarmReason":
-                            AlarmReason = parameter.Value;
+                            AlarmReason = parameterValue;
                             break;
 
                         case "Smokiness":
-                            Smokiness = parameter.Value;
+                            Smokiness = parameterValue;
                             break;
 
                         case "Dustiness":
-                            Dustiness = parameter.Value;
+                            Dustiness = parameterValue;
                             break;
 
                         case "Temperature":
-                            Temperature = parameter.Value;
+                            Temperature = parameterValue;
                             break;
 
                         default:
@@ -188,7 +192,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
                     {
@@ -203,7 +207,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parameters = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)
                     {
@@ -235,10 +239,7 @@ namespace DevicesModule.ViewModels
             get { return _failureType; }
             set
             {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    _failureType = " - ";
-                else
-                    _failureType = value;
+                _failureType = value;
                 OnPropertyChanged("FailureType");
             }
         }
@@ -249,10 +250,7 @@ namespace DevicesModule.ViewModels
             get { return _alarmReason; }
             set
             {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    _alarmReason = " - ";
-                else
-                    _alarmReason = value;
+                _alarmReason = value;
                 OnPropertyChanged("AlarmReason");
             }
         }
@@ -263,10 +261,7 @@ namespace DevicesModule.ViewModels
             get { return _smokiness; }
             set
             {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    _smokiness = " - ";
-                else
-                    _smokiness = value;
+                _smokiness = value;
                 OnPropertyChanged("Smokiness");
             }
         }
@@ -277,10 +272,7 @@ namespace DevicesModule.ViewModels
             get { return _dustiness; }
             set
             {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    _dustiness = " - ";
-                else
-                    _dustiness = value;
+                _dustiness = value;
                 OnPropertyChanged("Dustiness");
             }
         }
@@ -291,10 +283,7 @@ namespace DevicesModule.ViewModels
             get { return _temperature; }
             set
             {
-                if ((string.IsNullOrEmpty(value)) || (value == "<NULL>"))
-                    _temperature = " - ";
-                else
-                    _temperature = value;
+                _temperature = value;
                 OnPropertyChanged("Temperature");
             }
         }
@@ -343,7 +332,17 @@ namespace DevicesModule.ViewModels
         {
             if (CanDisable(null))
             {
-                ;
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                bool isOff = deviceState.InnerStates.Any(x=>((x.IsActive) && (x.State.StateType == StateType.Off)));
+
+                if (isOff)
+                {
+                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { _device.PlaceInTree });
+                }
+                else
+                {
+                    FiresecInternalClient.AddToIgnoreList(new List<string>() { _device.PlaceInTree });
+                }
             }
         }
 

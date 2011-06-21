@@ -117,6 +117,26 @@ namespace FiresecClient
             }
         }
 
+        public static void ExecuteCommand(string devicePath, string methodName)
+        {
+            FiresecService.ExecuteCommand(devicePath, methodName);
+        }
+
+        public static void AddToIgnoreList(List<string> devicePaths)
+        {
+            FiresecService.AddToIgnoreList(devicePaths);
+        }
+
+        public static void RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            FiresecService.RemoveFromIgnoreList(devicePaths);
+        }
+
+        public static void AddUserMessage(string message)
+        {
+            FiresecService.AddUserMessage(message);
+        }
+
         public static Firesec.ZoneLogic.expr GetZoneLogic(string zoneLogicString)
         {
             try

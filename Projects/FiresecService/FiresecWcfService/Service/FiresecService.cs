@@ -89,5 +89,25 @@ namespace FiresecWcfService.Service
         {
             NativeFiresecClient.ResetStates(config);
         }
+
+        public void ExecuteCommand(string devicePath, string methodName)
+        {
+            NativeFiresecClient.ExecuteCommand(devicePath, methodName);
+        }
+
+        public void AddToIgnoreList(List<string> devicePaths)
+        {
+            NativeFiresecClient.AddToIgnoreList(devicePaths);
+        }
+
+        public void RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
+        }
+
+        public void AddUserMessage(string message)
+        {
+            NativeFiresecClient.AddUserMessage(message);
+        }
     }
 }

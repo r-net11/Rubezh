@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecClient.Models;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -21,12 +22,14 @@ namespace DevicesModule.ViewModels
 
         Device _device;
         DeviceControls.DeviceControl _deviceControl;
+        public DeviceControlViewModel DeviceControlViewModel { get; set; }
 
         public void Initialize(string deviceId)
         {
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceId);
             DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
+            DeviceControlViewModel = new DeviceControlViewModel(_device);
         }
 
         void deviceState_StateChanged()
