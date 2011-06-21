@@ -94,7 +94,6 @@ namespace DevicesModule.ViewModels
                     return;
                 }
                 Save();
-                FiresecManager.Configuration.Directions.Add(Direction);
             }
             else
             {

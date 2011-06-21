@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmType.cs" />
+    <Compile Include="DeviceCategory.cs" />
+    <Compile Include="DeviceType.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
       <DependentUpon>GetCoreConfig.xsd</DependentUpon>
     </Compile>

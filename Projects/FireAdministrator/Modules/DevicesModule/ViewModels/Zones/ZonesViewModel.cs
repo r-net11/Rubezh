@@ -29,6 +29,9 @@ namespace DevicesModule.ViewModels
                 from zone in FiresecManager.Configuration.Zones
                 orderby (Convert.ToInt32(zone.No))
                 select new ZoneViewModel(zone));
+
+            if (Zones.Count > 0)
+                SelectedZone = Zones[0];
         }
 
         ObservableCollection<ZoneViewModel> _zones;

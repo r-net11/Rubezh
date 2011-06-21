@@ -133,11 +133,6 @@ namespace DevicesModule.ViewModels
             {
                 List<ZoneViewModel> zones = new List<ZoneViewModel>();
                 FiresecManager.Configuration.Zones.ForEach(x => { zones.Add(new ZoneViewModel(x)); });
-                //foreach (var zone in FiresecManager.Configuration.Zones)
-                //{
-                //    ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-                //    ZoneViewModels.Add(zoneViewModel);
-                //}
                 return zones;
             }
         }

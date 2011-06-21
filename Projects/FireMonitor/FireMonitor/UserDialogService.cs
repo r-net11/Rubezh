@@ -40,7 +40,7 @@ namespace FireMonitor
 
                 return (bool)result;
             }
-            catch (Exception ex)
+            catch
             {
                 //Logger.Error("Could not open modal dialog", ex);
                 throw;

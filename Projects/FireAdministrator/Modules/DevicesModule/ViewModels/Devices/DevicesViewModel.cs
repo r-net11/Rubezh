@@ -7,7 +7,7 @@ using FiresecClient;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.IO;
-using FiresecClient.Models;
+using FiresecApi;
 
 namespace DevicesModule.ViewModels
 {
@@ -16,7 +16,12 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             BuildTree();
-            CollapseChild(Devices[0]);
+            if (Devices.Count > 0)
+            {
+                CollapseChild(Devices[0]);
+                ExpandChild(Devices[0]);
+                SelectedDevice = Devices[0];
+            }
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -45,7 +50,7 @@ namespace DevicesModule.ViewModels
         {
             Devices = new ObservableCollection<DeviceViewModel>();
 
-            Device device = FiresecManager.Configuration.RootDevice;
+            var device = FiresecManager.Configuration.RootDevice;
 
             DeviceViewModel deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = null;
@@ -69,11 +74,23 @@ namespace DevicesModule.ViewModels
 
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
-            parentDeviceViewModel.IsExpanded = true;
+            parentDeviceViewModel.IsExpanded = false;
+
             foreach (var deviceViewModel in parentDeviceViewModel.Children)
             {
-                deviceViewModel.IsExpanded = true;
                 CollapseChild(deviceViewModel);
+            }
+        }
+
+        void ExpandChild(DeviceViewModel parentDeviceViewModel)
+        {
+            if (parentDeviceViewModel.Device.Driver.Category() != DeviceCategory.Device)
+            {
+                parentDeviceViewModel.IsExpanded = true;
+                foreach (var deviceViewModel in parentDeviceViewModel.Children)
+                {
+                    ExpandChild(deviceViewModel);
+                }
             }
         }
 

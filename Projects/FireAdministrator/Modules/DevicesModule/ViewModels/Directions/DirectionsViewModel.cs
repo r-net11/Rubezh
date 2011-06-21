@@ -20,17 +20,7 @@ namespace DevicesModule.ViewModels
 
         public void Initialize()
         {
-            Directions = new ObservableCollection<DirectionViewModel>();
-
-            if (FiresecManager.CoreConfig.part != null)
-            {
-                foreach (var direction in FiresecManager.Configuration.Directions)
-                {
-                    DirectionViewModel directionViewModel = new DirectionViewModel();
-                    directionViewModel.Initialize(direction);
-                    Directions.Add(directionViewModel);
-                }
-            }
+            Directions = new ObservableCollection<DirectionViewModel>(from direction in FiresecManager.Configuration.Directions select new DirectionViewModel(direction));
 
             if (Directions.Count > 0)
                 SelectedDirection = Directions[0];
@@ -58,28 +48,27 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
-            directionDetailsViewModel.Initialize();
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
-            if (result)
-            {
-                DirectionViewModel directionViewModel = new DirectionViewModel();
-                directionViewModel.Initialize(directionDetailsViewModel.Direction);
-                Directions.Add(directionViewModel);
-            }
-        }
-
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
             if (SelectedDirection != null)
             {
-                var direction = FiresecManager.Configuration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
-                FiresecManager.Configuration.Directions.Remove(direction);
+                FiresecManager.Configuration.Directions.Remove(SelectedDirection.Direction);
                 Directions.Remove(SelectedDirection);
+            }
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
+            directionDetailsViewModel.Initialize();
+            var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
+            if (result)
+            {
+                FiresecManager.Configuration.Directions.Add(directionDetailsViewModel.Direction);
+                DirectionViewModel directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
+                Directions.Add(directionViewModel);
             }
         }
 
@@ -88,10 +77,9 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDirection != null)
             {
-                var direction = FiresecManager.Configuration.Directions.FirstOrDefault(x => x.Id == SelectedDirection.Id);
                 DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
-                directionDetailsViewModel.Initialize(direction);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
+                directionDetailsViewModel.Initialize(SelectedDirection.Direction);
+                var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
                 if (result)
                 {
                     SelectedDirection.Update();

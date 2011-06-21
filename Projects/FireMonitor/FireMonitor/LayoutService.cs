@@ -35,7 +35,7 @@ namespace FireMonitor
                     {
                         //temp.Dispose();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                     }
             }

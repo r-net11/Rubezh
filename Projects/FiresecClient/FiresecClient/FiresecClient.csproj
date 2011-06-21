@@ -72,7 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\DeviceConverter.cs" />
+    <Compile Include="DriverExtentions.cs" />
     <Compile Include="Converters\DirectionConverter.cs" />
     <Compile Include="Converters\SecurityConverter.cs" />
     <Compile Include="Converters\ZoneConverter.cs" />
