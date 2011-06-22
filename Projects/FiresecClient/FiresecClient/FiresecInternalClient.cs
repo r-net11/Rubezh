@@ -25,7 +25,7 @@ namespace FiresecClient
         static object _locker = new object();
         static Thread _pingThread;
 
-        public void Start()
+        public void Start(string login, string password)
         {
             NetTcpBinding binding = new NetTcpBinding();
             binding.MaxBufferSize = Int32.MaxValue;
@@ -35,6 +35,8 @@ namespace FiresecClient
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             FiresecService = _duplexChannelFactory.CreateChannel();
+
+            FiresecService.Connect(login, password);
 
             _pingThread = new Thread(DoPing);
             _pingThread.Start();
@@ -53,68 +55,65 @@ namespace FiresecClient
 
         public static Firesec.CoreConfig.config GetCoreConfig()
         {
-            lock (_locker)
-            {
-                return Deserialize<Firesec.CoreConfig.config>(FiresecService.GetCoreConfig());
-            }
+            return Deserialize<Firesec.CoreConfig.config>(FiresecService.GetCoreConfig());
         }
 
         public static Firesec.CoreState.config GetCoreState()
         {
-            lock (_locker)
-            {
-                return Deserialize<Firesec.CoreState.config>(FiresecService.GetCoreState());
-            }
+            return Deserialize<Firesec.CoreState.config>(FiresecService.GetCoreState());
         }
 
         public static Firesec.Metadata.config GetMetaData()
         {
-            lock (_locker)
-            {
-                return Deserialize<Firesec.Metadata.config>(FiresecService.GetMetaData());
-            }
+            return Deserialize<Firesec.Metadata.config>(FiresecService.GetMetaData());
         }
 
         public static Firesec.DeviceParams.config GetDeviceParams()
         {
-            lock (_locker)
-            {
-                return Deserialize<Firesec.DeviceParams.config>(FiresecService.GetCoreDeviceParams());
-            }
+            return Deserialize<Firesec.DeviceParams.config>(FiresecService.GetCoreDeviceParams());
         }
 
         public static Firesec.ReadEvents.document ReadEvents(int fromId, int limit)
         {
-            lock (_locker)
-            {
-                return Deserialize<Firesec.ReadEvents.document>(FiresecService.ReadEvents(fromId, limit));
-            }
+            return Deserialize<Firesec.ReadEvents.document>(FiresecService.ReadEvents(fromId, limit));
         }
 
         public static void SetNewConfig(Firesec.CoreConfig.config coreConfig)
         {
-            lock (_locker)
-            {
-                var stringConfig = Serialize<Firesec.CoreConfig.config>(coreConfig);
-                FiresecService.SetNewConfig(stringConfig);
-            }
+            var stringConfig = Serialize<Firesec.CoreConfig.config>(coreConfig);
+            FiresecService.SetNewConfig(stringConfig);
+        }
+
+        public static void SaveConfigToFile(Firesec.CoreConfig.config coreConfig, string fileName)
+        {
+            var stringConfig = Serialize<Firesec.CoreConfig.config>(coreConfig);
+
+            FileStream fileStream = new FileStream(fileName, FileMode.Create);
+            StreamWriter streamWriter = new StreamWriter(fileStream);
+            streamWriter.Write(stringConfig);
+            fileStream.Close();
+        }
+
+        public static Firesec.CoreConfig.config LoadConfigFromFile(string fileName)
+        {
+            FileStream fileStream = new FileStream(fileName, FileMode.Open);
+            StreamReader streamReader = new StreamReader(fileStream);
+            var stringConfig = streamReader.ReadToEnd();
+            fileStream.Close();
+
+            Firesec.CoreConfig.config coreConfig = Deserialize<Firesec.CoreConfig.config>(stringConfig);
+            return coreConfig;
         }
 
         public static void DeviceWriteConfig(Firesec.CoreConfig.config coreConfig, string DevicePath)
         {
-            lock (_locker)
-            {
-                FiresecService.DeviceWriteConfig(Serialize<Firesec.CoreConfig.config>(coreConfig), DevicePath);
-            }
+            FiresecService.DeviceWriteConfig(Serialize<Firesec.CoreConfig.config>(coreConfig), DevicePath);
         }
 
         public static void ResetStates(Firesec.CoreState.config coreState)
         {
-            lock (_locker)
-            {
-                string stringCoreState = Serialize<Firesec.CoreState.config>(coreState);
-                FiresecService.ResetStates(stringCoreState);
-            }
+            string stringCoreState = Serialize<Firesec.CoreState.config>(coreState);
+            FiresecService.ResetStates(stringCoreState);
         }
 
         public static void ExecuteCommand(string devicePath, string methodName)
@@ -173,10 +172,7 @@ namespace FiresecClient
 
         public static void Ping()
         {
-            lock (_locker)
-            {
-                FiresecService.Ping();
-            }
+            FiresecService.Ping();
         }
 
         public void NewEventsAvailable(int eventMask, string obj)

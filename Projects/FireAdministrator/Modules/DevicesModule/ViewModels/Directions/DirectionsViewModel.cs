@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using FiresecClient;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using DevicesModule.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,9 +14,9 @@ namespace DevicesModule.ViewModels
     {
         public DirectionsViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete);
-            EditCommand = new RelayCommand(OnEdit);
+            ServiceFactory.Events.GetEvent<RemoveDirectionEvent>().Subscribe(OnDelete);
+            ServiceFactory.Events.GetEvent<AddDirectionEvent>().Subscribe(OnAdd);
+            ServiceFactory.Events.GetEvent<EditDirectionEvent>().Subscribe(OnEdit);
         }
 
         public void Initialize()
@@ -48,8 +49,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand DeleteCommand { get; private set; }
-        void OnDelete()
+        void OnDelete(string obj)
         {
             if (SelectedDirection != null)
             {
@@ -58,8 +58,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
+        void OnAdd(string obj)
         {
             DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
             directionDetailsViewModel.Initialize();
@@ -72,8 +71,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
+        void OnEdit(string obj)
         {
             if (SelectedDirection != null)
             {
@@ -89,6 +87,7 @@ namespace DevicesModule.ViewModels
 
         public override void Dispose()
         {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

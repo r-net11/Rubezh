@@ -39,6 +39,11 @@ namespace FiresecWcfService.Service
             }
         }
 
+        public void Connect(string login, string password)
+        {
+            NativeFiresecClient.Connect(login, password);
+        }
+
         public void Initialize()
         {
             IFiresecCallback callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();

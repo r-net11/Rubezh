@@ -8,13 +8,9 @@
     <Grid Background="Gray">
 
         <DockPanel>
-
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
-                <Button Content="Создать новый" Click="Button_Click_1" Width="100" Margin="1" />
-                <Button Content="Считать из файла" Click="Button_Click_2" Width="100" Margin="1" />
-                <Button Content="Сохранить в файл" Click="Button_Click_3" Width="100" Margin="1" />
-                <Button Content="Ok" Click="Button_Click" Width="100" Margin="1" />
-                <ContentControl Name="_mainMenu" />
+                <local:MenuView />
+                <ContentControl Name="_menu" />
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom">

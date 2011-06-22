@@ -74,6 +74,12 @@
     </Compile>
     <Compile Include="Bootsrapper.cs" />
     <Compile Include="LayoutService.cs" />
+    <Compile Include="LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
@@ -109,6 +115,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="LoginScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

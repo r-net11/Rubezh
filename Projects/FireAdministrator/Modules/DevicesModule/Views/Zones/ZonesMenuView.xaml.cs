@@ -14,9 +14,9 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    public partial class ZoneDevicesView : UserControl
+    public partial class ZonesMenuView : UserControl
     {
-        public ZoneDevicesView()
+        public ZonesMenuView()
         {
             InitializeComponent();
         }

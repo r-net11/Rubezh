@@ -33,7 +33,7 @@ namespace FireAdministrator
                 IViewPart temp = ActiveViewModel;
                 try
                 {
-                    //temp.Dispose();
+                    temp.Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -49,6 +49,11 @@ namespace FireAdministrator
             {
                 Shell.MainContent = value;
             }
+        }
+
+        public void ShowMenu(object model)
+        {
+            Shell.Menu = model;
         }
     }
 }

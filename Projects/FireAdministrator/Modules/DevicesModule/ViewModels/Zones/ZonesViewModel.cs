@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using System.Windows;
 using FiresecClient.Models;
+using DevicesModule.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -17,9 +18,9 @@ namespace DevicesModule.ViewModels
 
         public ZonesViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete);
-            EditCommand = new RelayCommand(OnEdit);
+            ServiceFactory.Events.GetEvent<AddZoneEvent>().Subscribe(OnAdd);
+            ServiceFactory.Events.GetEvent<RemoveZoneEvent>().Subscribe(OnDelete);
+            ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEdit);
             ZoneDevices = new ZoneDevicesViewModel();
         }
 
@@ -62,8 +63,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
+        void OnAdd(string obj)
         {
             Zone newZone = new Zone();
             newZone.Name = "Новая зона";
@@ -80,8 +80,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand DeleteCommand { get; private set; }
-        void OnDelete()
+        void OnDelete(string obj)
         {
             if (SelectedZone != null)
             {
@@ -94,8 +93,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
+        void OnEdit(string obj)
         {
             if (SelectedZone != null)
             {
@@ -107,6 +105,7 @@ namespace DevicesModule.ViewModels
 
         public override void Dispose()
         {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

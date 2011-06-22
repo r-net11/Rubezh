@@ -18,13 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Добавить" Command="{Binding AddCommand}" HorizontalAlignment="Left" Width="100" />
-            <Button Content="Удалить" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Width="100" />
-            <Button Content="Редактировать" Command="{Binding EditCommand}" HorizontalAlignment="Left" Width="100" />
-        </StackPanel>
-
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />

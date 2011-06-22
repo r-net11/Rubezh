@@ -26,6 +26,7 @@ namespace FireMonitor
 
             DataContext = this;
 
+            ServiceFactory.Events.GetEvent<ShowNothingEvent>().Subscribe(x => { DeselectAll(); });
             ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
@@ -34,6 +35,11 @@ namespace FireMonitor
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(x => { isCallSelected = true; OnPropertyChanged("IsCallSelected"); });
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
+        }
+
+        void DeselectAll()
+        {
+            IsAlarmSelected = IsPlanSelected = IsDevicesSelected = IsZonesSelected = IsJournalSelected = IsReportSelected = IsCallSelected = IsArchiveSelected = false;
         }
 
         bool isAlarmSelected;

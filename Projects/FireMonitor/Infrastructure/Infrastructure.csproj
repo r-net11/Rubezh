@@ -57,6 +57,7 @@
     <Compile Include="Events\ShowCallEvent.cs" />
     <Compile Include="Events\ShowDeviceDetailsEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
+    <Compile Include="Events\ShowNothingEvent.cs" />
     <Compile Include="Events\ShowReportsEvent.cs" />
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />

@@ -16,11 +16,15 @@ namespace Firesec
             {
                 if (connectoin == null)
                 {
-                    connectoin = GetConnection();
-                    Trace.WriteLine("GetConnection");
+                    connectoin = GetConnection("adm", "");
                 }
                 return connectoin;
             }
+        }
+
+        public static void Connect(string login, string password)
+        {
+            connectoin = GetConnection(login, password);
         }
 
         public static string GetCoreConfig()
@@ -102,7 +106,7 @@ namespace Firesec
             Connectoin.StoreUserMessage(message);
         }
 
-        static FS_Types.IFSC_Connection GetConnection()
+        static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
             //FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
@@ -113,7 +117,7 @@ namespace Firesec
 
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
-            FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
+            FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
 
             return connectoin;
         }

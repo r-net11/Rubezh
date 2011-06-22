@@ -7,6 +7,7 @@ using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Common;
 using Firesec;
+using Infrastructure.Events;
 
 namespace AlarmModule.ViewModels
 {
@@ -49,6 +50,7 @@ namespace AlarmModule.ViewModels
             AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
             alarmListViewModel.Initialize(Alarms, AlarmType);
             ServiceFactory.Layout.Show(alarmListViewModel);
+            ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
         }
 
         public void Update()

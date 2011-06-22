@@ -68,9 +68,22 @@ namespace AlarmModule.ViewModels
             }
         }
 
+        bool _isConfirmed;
+        public bool IsConfirmed
+        {
+            get { return _isConfirmed; }
+            set
+            {
+                _isConfirmed = value;
+                OnPropertyChanged("IsConfirmed");
+            }
+        }
+
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
+            IsConfirmed = true;
+            FiresecInternalClient.AddUserMessage("Подтверждение " + _alarm.Name);
         }
 
         public RelayCommand ResetCommand { get; private set; }

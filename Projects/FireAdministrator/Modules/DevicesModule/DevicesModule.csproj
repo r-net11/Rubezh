@@ -66,6 +66,12 @@
     <Compile Include="Converters\ColorIdToStringConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="DevicesModule.cs" />
+    <Compile Include="Events\AddDirectionEvent.cs" />
+    <Compile Include="Events\AddZoneEvent.cs" />
+    <Compile Include="Events\EditDirectionEvent.cs" />
+    <Compile Include="Events\EditZoneEvent.cs" />
+    <Compile Include="Events\RemoveDirectionEvent.cs" />
+    <Compile Include="Events\RemoveZoneEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +90,7 @@
     <Compile Include="DeviceProperties\EnumPropertyViewModel.cs" />
     <Compile Include="DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
     <Compile Include="ViewModels\Zones\ClauseViewModel.cs" />
     <Compile Include="ViewModels\Devices\DevicesViewModel.cs" />
     <Compile Include="ViewModels\Devices\DeviceViewModel.cs" />
@@ -92,6 +99,7 @@
     <Compile Include="ViewModels\Directions\DirectionViewModel.cs" />
     <Compile Include="ViewModels\IndicatorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Devices\NewDeviceViewModel.cs" />
+    <Compile Include="ViewModels\Zones\ZonesMenuViewModel.cs" />
     <Compile Include="Views\Directions\DirectionDetailsView.xaml.cs">
       <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
     </Compile>
@@ -107,6 +115,9 @@
     <Compile Include="Views\Devices\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Directions\DirectionsMenuView.xaml.cs">
+      <DependentUpon>DirectionsMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Directions\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
@@ -121,6 +132,9 @@
     </Compile>
     <Compile Include="Views\Zones\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Zones\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Zones\ZonesSelectionView.xaml.cs">
       <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
@@ -193,6 +207,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Directions\DirectionsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Directions\DirectionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +228,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Zones\ZoneDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Zones\ZonesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
