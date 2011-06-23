@@ -123,8 +123,5 @@ namespace SecurityModule.ViewModels
 		{
 			IsUsersVisible = !IsUsersVisible;
 		}
-        public override void Dispose()
-        {
-        }
     }
 }

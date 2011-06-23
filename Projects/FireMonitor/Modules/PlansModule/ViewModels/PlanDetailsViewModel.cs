@@ -255,10 +255,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public override void Dispose()
-        {
-        }
-
         void ResetView()
         {
             if (CanvasView.Current != null)

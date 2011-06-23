@@ -103,9 +103,5 @@ namespace JournalModule.ViewModels
                 OnPropertyChanged("IsFiltered");
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

@@ -24,9 +24,5 @@ namespace JournalModule.ViewModels
             NewJournalViewModel newJournalViewModel = new NewJournalViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(newJournalViewModel);
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

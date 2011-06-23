@@ -58,9 +58,5 @@ namespace JournalModule.ViewModels
                 OnPropertyChanged("SelectedItem");
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

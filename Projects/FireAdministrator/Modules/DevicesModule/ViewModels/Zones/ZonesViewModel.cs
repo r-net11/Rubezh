@@ -126,9 +126,5 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Layout.ShowMenu(null);
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

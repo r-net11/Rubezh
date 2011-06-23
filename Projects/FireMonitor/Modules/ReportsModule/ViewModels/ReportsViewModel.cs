@@ -52,9 +52,5 @@ namespace ReportsModule.ViewModels
                 OnPropertyChanged("ReportContent");
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

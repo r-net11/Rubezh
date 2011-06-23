@@ -43,9 +43,5 @@ namespace AlarmModule.ViewModels
             alarmListViewModel.Initialize(alarms, null);
             ServiceFactory.Layout.Show(alarmListViewModel);
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

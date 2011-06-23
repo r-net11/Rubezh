@@ -19,11 +19,6 @@ namespace DevicesModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
         }
 
-        public string Name
-        {
-            get { return "Hello"; }
-        }
-
         public void Initialize()
         {
             Directions = new ObservableCollection<DirectionViewModel>(from direction in FiresecManager.Configuration.Directions select new DirectionViewModel(direction));
@@ -112,11 +107,6 @@ namespace DevicesModule.ViewModels
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
-        }
-
-        public override void Dispose()
-        {
-            
         }
     }
 }

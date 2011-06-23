@@ -38,10 +38,9 @@
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
                                     <ContextMenu>
-                                        <!--<MenuItem Header="Добавить" Command="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.AddCommand}" />
-                                        <MenuItem Header="Удалить" />-->
-                                        <!--<MenuItem Header="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2},Path=DataContext.Name}" />-->
-                                        <MenuItem Header="Удалить" Command="{Binding AddCommand}" />
+                                        <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
+                                        <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                                        <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
                                     </ContextMenu>
                                 </Setter.Value>
                             </Setter>
@@ -49,11 +48,6 @@
                     </WpfToolkit:DataGrid.RowStyle>
                 </WpfToolkit:DataGrid>
             </Grid>
-
-            <StackPanel Grid.Column="1">
-                <TextBlock x:Name="xxx_TextBlock" />
-                <Button Content="Test" Command="{Binding ElementName=xxx_TextBlock, Path=DataContext.AddCommand}" Width="20" Height="20" />
-            </StackPanel>
             
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
                 <Grid.RowDefinitions>

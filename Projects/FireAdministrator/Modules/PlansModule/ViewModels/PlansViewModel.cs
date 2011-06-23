@@ -11,9 +11,5 @@ namespace PlansModule.ViewModels
         public void Initialize()
         {
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

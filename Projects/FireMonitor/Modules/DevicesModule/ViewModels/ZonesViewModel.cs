@@ -147,9 +147,5 @@ namespace DevicesModule.ViewModels
                 AddDevice(device, deviceViewModel);
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

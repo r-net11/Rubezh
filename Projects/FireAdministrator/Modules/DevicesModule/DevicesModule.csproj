@@ -90,6 +90,7 @@
     <Compile Include="DeviceProperties\EnumPropertyViewModel.cs" />
     <Compile Include="DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="ViewModels\Devices\DevicesMenuViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
     <Compile Include="ViewModels\Zones\ClauseViewModel.cs" />
     <Compile Include="ViewModels\Devices\DevicesViewModel.cs" />
@@ -100,6 +101,9 @@
     <Compile Include="ViewModels\IndicatorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Devices\NewDeviceViewModel.cs" />
     <Compile Include="ViewModels\Zones\ZonesMenuViewModel.cs" />
+    <Compile Include="Views\Devices\DevicesMenuView.xaml.cs">
+      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Directions\DirectionDetailsView.xaml.cs">
       <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
     </Compile>
@@ -192,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataTemplates\TreeExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Devices\DevicesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

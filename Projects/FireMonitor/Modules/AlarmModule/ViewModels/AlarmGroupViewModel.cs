@@ -75,11 +75,5 @@ namespace AlarmModule.ViewModels
                 return (Count > 0);
             }
         }
-
-        public override void Dispose()
-        {
-            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Unsubscribe(OnAlarmAdded);
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Unsubscribe(OnResetAlarm);
-        }
     }
 }

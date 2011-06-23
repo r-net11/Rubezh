@@ -119,11 +119,5 @@ namespace AlarmModule.ViewModels
             int newIndex = Alarms.Count;
             Alarms.Move(oldIndex, newIndex - 1);
         }
-
-        public override void Dispose()
-        {
-            //ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Unsubscribe(OnResetAlarm);
-            //ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Unsubscribe(OnAlarmAdded);
-        }
     }
 }

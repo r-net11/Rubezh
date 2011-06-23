@@ -50,9 +50,5 @@ namespace SoundsModule.ViewModels
                 OnPropertyChanged("SelectedState");
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

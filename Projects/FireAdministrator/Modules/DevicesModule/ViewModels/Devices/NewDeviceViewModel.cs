@@ -119,8 +119,6 @@ namespace DevicesModule.ViewModels
                 }
 
                 _parent.Update();
-                _parent.IsExpanded = false;
-                _parent.IsExpanded = true;
             }
 
             Close(true);

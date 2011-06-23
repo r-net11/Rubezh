@@ -35,7 +35,6 @@ namespace FireAdministrator
                 try
                 {
                     temp.OnHide();
-                    temp.Dispose();
                 }
                 catch (Exception ex)
                 {

@@ -106,9 +106,5 @@ namespace DevicesModule.ViewModels
                 SelectedDevice = deviceViewModel;
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

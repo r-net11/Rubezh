@@ -9,11 +9,19 @@ using System.Xml.Serialization;
 using System.IO;
 using FiresecApi;
 using FiresecClient.Models;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
     public class DevicesViewModel : RegionViewModel
     {
+        public DevicesViewModel()
+        {
+            CopyCommand = new RelayCommand(OnCopy, CanCopy);
+            CutCommand = new RelayCommand(OnCut, CanCut);
+            PasteCommand = new RelayCommand(OnPaste, CanPaste);
+        }
+
         public void Initialize()
         {
             BuildTree();
@@ -95,8 +103,74 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public override void Dispose()
+        bool CanCopy(object obj)
         {
+            return true;
+        }
+
+        public RelayCommand CopyCommand { get; private set; }
+        void OnCopy()
+        {
+            copyDeviceViewModel = new DeviceViewModel();
+            copyDeviceViewModel.Device = new Device();
+            copyDeviceViewModel.Device.Driver = SelectedDevice.Device.Driver;
+            copyDeviceViewModel.Device.DriverId = SelectedDevice.Device.DriverId;
+            copyDeviceViewModel.Device.Address = SelectedDevice.Device.Address;
+        }
+
+        DeviceViewModel copyDeviceViewModel;
+
+        bool CanCut(object obj)
+        {
+            return true;
+        }
+
+        public RelayCommand CutCommand { get; private set; }
+        void OnCut()
+        {
+            _bufferDeviceViewModel = SelectedDevice;
+        }
+
+        DeviceViewModel _bufferDeviceViewModel;
+
+        bool CanPaste(object obj)
+        {
+            return true;
+        }
+
+        public RelayCommand PasteCommand { get; private set; }
+        void OnPaste()
+        {
+            copyDeviceViewModel.Device.Parent = SelectedDevice.Device;
+            copyDeviceViewModel.Parent = SelectedDevice;
+            SelectedDevice.Children.Add(copyDeviceViewModel);
+            SelectedDevice.Device.Children.Add(copyDeviceViewModel.Device);
+
+            SelectedDevice.Update();
+
+            return;
+
+            _bufferDeviceViewModel.Parent.Children.Remove(_bufferDeviceViewModel);
+            _bufferDeviceViewModel.Parent.Device.Children.Remove(_bufferDeviceViewModel.Device);
+
+            _bufferDeviceViewModel.Device.Parent = SelectedDevice.Device;
+            _bufferDeviceViewModel.Parent = SelectedDevice;
+            SelectedDevice.Children.Add(_bufferDeviceViewModel);
+            SelectedDevice.Device.Children.Add(_bufferDeviceViewModel.Device);
+
+            _bufferDeviceViewModel.Parent.Update();
+            SelectedDevice.Update();
+        }
+
+        public override void OnShow()
+        {
+            DevicesMenuViewModel devicesMenuViewModel = new DevicesMenuViewModel(CopyCommand, CutCommand, PasteCommand);
+            ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
+        }
+
+        public override void OnHide()
+        {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

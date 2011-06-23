@@ -42,6 +42,8 @@ namespace DevicesModule.ViewModels
 
         public void Update()
         {
+            IsExpanded = false;
+            IsExpanded = true;
             OnPropertyChanged("HasChildren");
         }
 

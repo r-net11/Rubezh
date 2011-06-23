@@ -13,7 +13,7 @@ namespace Infrastructure.Common
         {
         }
 
-        public abstract void Dispose();
+        //public abstract void Dispose();
         public virtual void OnShow()
         {
         }

@@ -214,9 +214,5 @@ namespace AlarmModule.ViewModels
         {
             ServiceFactory.Layout.ShowAlarm(null);
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }
