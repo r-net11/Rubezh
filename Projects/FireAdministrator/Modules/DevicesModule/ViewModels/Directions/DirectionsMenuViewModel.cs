@@ -10,29 +10,15 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionsMenuViewModel
     {
-        public DirectionsMenuViewModel()
+        public DirectionsMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
         {
-            AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete);
-            EditCommand = new RelayCommand(OnEdit);
-        }
-
-        public RelayCommand DeleteCommand { get; private set; }
-        void OnDelete()
-        {
-            ServiceFactory.Events.GetEvent<RemoveDirectionEvent>().Publish(null);
+            AddCommand = addCommand;
+            DeleteCommand = deleteCommand;
+            EditCommand = editCommand;
         }
 
         public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            ServiceFactory.Events.GetEvent<AddDirectionEvent>().Publish(null);
-        }
-
+        public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            ServiceFactory.Events.GetEvent<EditDirectionEvent>().Publish(null);
-        }
     }
 }

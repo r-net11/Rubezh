@@ -14,9 +14,14 @@ namespace DevicesModule.ViewModels
     {
         public DirectionsViewModel()
         {
-            ServiceFactory.Events.GetEvent<RemoveDirectionEvent>().Subscribe(OnDelete);
-            ServiceFactory.Events.GetEvent<AddDirectionEvent>().Subscribe(OnAdd);
-            ServiceFactory.Events.GetEvent<EditDirectionEvent>().Subscribe(OnEdit);
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEdit);
+            AddCommand = new RelayCommand(OnAdd);
+        }
+
+        public string Name
+        {
+            get { return "Hello"; }
         }
 
         public void Initialize()
@@ -49,16 +54,43 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnDelete(string obj)
+        bool CanDelete(object obj)
         {
-            if (SelectedDirection != null)
+            return (SelectedDirection != null);
+        }
+
+        public RelayCommand DeleteCommand { get; private set; }
+        void OnDelete()
+        {
+            if (CanDelete(null))
             {
                 FiresecManager.Configuration.Directions.Remove(SelectedDirection.Direction);
                 Directions.Remove(SelectedDirection);
             }
         }
 
-        void OnAdd(string obj)
+        bool CanEdit(object obj)
+        {
+            return (SelectedDirection != null);
+        }
+
+        public RelayCommand EditCommand { get; private set; }
+        void OnEdit()
+        {
+            if (CanEdit(null))
+            {
+                DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
+                directionDetailsViewModel.Initialize(SelectedDirection.Direction);
+                var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
+                if (result)
+                {
+                    SelectedDirection.Update();
+                }
+            }
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
         {
             DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
             directionDetailsViewModel.Initialize();
@@ -71,23 +103,20 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnEdit(string obj)
+        public override void OnShow()
         {
-            if (SelectedDirection != null)
-            {
-                DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
-                directionDetailsViewModel.Initialize(SelectedDirection.Direction);
-                var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
-                if (result)
-                {
-                    SelectedDirection.Update();
-                }
-            }
+            DirectionsMenuViewModel directionsMenuViewModel = new DirectionsMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            ServiceFactory.Layout.ShowMenu(directionsMenuViewModel);
+        }
+
+        public override void OnHide()
+        {
+            ServiceFactory.Layout.ShowMenu(null);
         }
 
         public override void Dispose()
         {
-            ServiceFactory.Layout.ShowMenu(null);
+            
         }
     }
 }

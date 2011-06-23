@@ -10,6 +10,7 @@ namespace Infrastructure.Common
         INotifyPropertyChanged,
         IDisposable
     {
-        string Title { get; }
+        void OnShow();
+        void OnHide();
     }
 }

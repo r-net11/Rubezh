@@ -22,6 +22,7 @@ namespace FiresecDirect
         public FiresecDirectWindow()
         {
             InitializeComponent();
+            Firesec.NativeFiresecClient.Connect("adm", "");
         }
 
         private void OnSetNewConfig(object sender, RoutedEventArgs e)

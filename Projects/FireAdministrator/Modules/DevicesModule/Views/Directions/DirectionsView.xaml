@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}"
+                <WpfToolkit:DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" x:Name="_dataGrid_xxx"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
                             IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
@@ -32,9 +32,29 @@
                         <WpfToolkit:DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />
                         <WpfToolkit:DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Description}" />
                     </WpfToolkit:DataGrid.Columns>
+                    <WpfToolkit:DataGrid.RowStyle>
+                        <Style TargetType="{x:Type WpfToolkit:DataGridRow}">
+                            <Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <!--<MenuItem Header="Добавить" Command="{Binding RelativeSource={RelativeSource Self}, Path=DataContext.AddCommand}" />
+                                        <MenuItem Header="Удалить" />-->
+                                        <!--<MenuItem Header="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2},Path=DataContext.Name}" />-->
+                                        <MenuItem Header="Удалить" Command="{Binding AddCommand}" />
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </WpfToolkit:DataGrid.RowStyle>
                 </WpfToolkit:DataGrid>
             </Grid>
 
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="xxx_TextBlock" />
+                <Button Content="Test" Command="{Binding ElementName=xxx_TextBlock, Path=DataContext.AddCommand}" Width="20" Height="20" />
+            </StackPanel>
+            
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />

@@ -44,16 +44,11 @@ namespace DevicesModule
 
             directionsViewModel = new DirectionsViewModel();
             directionsViewModel.Initialize();
-
-            directionMenuViewModel = new DirectionsMenuViewModel();
-            zonesMenuViewModel = new ZonesMenuViewModel();
         }
 
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
         static DirectionsViewModel directionsViewModel;
-        static DirectionsMenuViewModel directionMenuViewModel;
-        static ZonesMenuViewModel zonesMenuViewModel;
 
         static void OnShowDevice(string id)
         {
@@ -63,13 +58,11 @@ namespace DevicesModule
         static void OnShowZone(string zoneNo)
         {
             ServiceFactory.Layout.Show(zonesViewModel);
-            ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
         }
 
         static void OnShowDirections(string zoneNo)
         {
             ServiceFactory.Layout.Show(directionsViewModel);
-            ServiceFactory.Layout.ShowMenu(directionMenuViewModel);
         }
     }
 }

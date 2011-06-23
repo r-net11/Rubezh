@@ -24,7 +24,7 @@ namespace Firesec
 
         public static void Connect(string login, string password)
         {
-            connectoin = GetConnection(login, password);
+            //connectoin = GetConnection(login, password);
         }
 
         public static string GetCoreConfig()
@@ -117,7 +117,8 @@ namespace Firesec
 
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
-            FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
+            //FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
+            FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
 
             return connectoin;
         }

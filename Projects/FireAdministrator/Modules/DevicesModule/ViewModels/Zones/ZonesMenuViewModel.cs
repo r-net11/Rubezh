@@ -10,29 +10,15 @@ namespace DevicesModule.ViewModels
 {
     public class ZonesMenuViewModel
     {
-        public ZonesMenuViewModel()
+        public ZonesMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
         {
-            AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete);
-            EditCommand = new RelayCommand(OnEdit);
-        }
-
-        public RelayCommand DeleteCommand { get; private set; }
-        void OnDelete()
-        {
-            ServiceFactory.Events.GetEvent<RemoveZoneEvent>().Publish(null);
+            AddCommand = addCommand;
+            DeleteCommand = deleteCommand;
+            EditCommand = editCommand;
         }
 
         public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            ServiceFactory.Events.GetEvent<AddZoneEvent>().Publish(null);
-        }
-
+        public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(null);
-        }
     }
 }

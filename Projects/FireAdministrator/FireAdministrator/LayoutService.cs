@@ -19,6 +19,7 @@ namespace FireAdministrator
         public void Show(IViewPart model)
         {
             Replace(model);
+            model.OnShow();
         }
 
         public void Close()
@@ -33,6 +34,7 @@ namespace FireAdministrator
                 IViewPart temp = ActiveViewModel;
                 try
                 {
+                    temp.OnHide();
                     temp.Dispose();
                 }
                 catch (Exception ex)
