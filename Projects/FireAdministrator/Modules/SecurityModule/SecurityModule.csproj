@@ -66,6 +66,7 @@
     <Compile Include="Const.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,14 +86,17 @@
     <Compile Include="ViewModels\SecurityViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Views\Groups.xaml.cs">
-      <DependentUpon>Groups.xaml</DependentUpon>
+    <Compile Include="Views\GroupsView.xaml.cs">
+      <DependentUpon>GroupsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewUserView.xaml.cs">
+      <DependentUpon>NewUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SecurityView.xaml.cs">
       <DependentUpon>SecurityView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Users.xaml.cs">
-      <DependentUpon>Users.xaml</DependentUpon>
+    <Compile Include="Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -132,7 +136,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Groups.xaml">
+    <Page Include="Views\GroupsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Users.xaml">
+    <Page Include="Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

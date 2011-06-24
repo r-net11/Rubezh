@@ -57,7 +57,7 @@
 		<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" >
 				<TabControl>
 					<TabItem Header="Пользователи">
-						<Views:Users/>
+						<Views:UsersView/>
 					</TabItem>
 					<TabItem Header="Группы">
 						<Views:Groups/>

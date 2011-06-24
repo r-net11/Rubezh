@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using Firesec.CoreConfig;
+using FiresecClient.Models;
 
 namespace SecurityModule.ViewModels
 {
     public class UserViewModel : BaseViewModel
     {
-        public UserViewModel(userType user)
+        public UserViewModel(User user)
         {
-            Name = user.name;
-            FullName = user.fullName;
+            Name = user.Name;
+            FullName = user.FullName;
         }
 
         string _name;

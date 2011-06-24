@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using Firesec.CoreConfig;
+using FiresecClient.Models;
 
 namespace SecurityModule.ViewModels
 {
     public class GroupViewModel : BaseViewModel
     {
-        public GroupViewModel(userGroupType group)
+        public GroupViewModel(UserGroup group)
         {
-            Name = group.name;
+            Name = group.Name;
         }
 
         string _name;

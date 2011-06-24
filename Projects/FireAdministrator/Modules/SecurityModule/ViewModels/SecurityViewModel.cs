@@ -6,38 +6,48 @@ using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using System.Windows;
+using FiresecClient.Models;
+using Infrastructure;
 
 namespace SecurityModule.ViewModels
 {
     public class SecurityViewModel : RegionViewModel
     {
-        public void Initialize()
-        {
-            Users = new ObservableCollection<UserViewModel>();
-            foreach (var user in FiresecManager.CoreConfig.user)
-            {
-				Users.Add(new UserViewModel(user));
-            }
-
-            Groups = new ObservableCollection<GroupViewModel>();
-            foreach(var group in FiresecManager.CoreConfig.userGroup)
-            {
-				Groups.Add(new GroupViewModel(group));
-            }
-
+		public SecurityViewModel()
+		{
 			AddUserCommand = new RelayCommand(OnAddUser);
 			EditUserCommand = new RelayCommand(OnEditUser, CanEditUser);
 			DeleteUserCommand = new RelayCommand(OnDeleteUser, CanEditUser);
 			AddGroupCommand = new RelayCommand(OnAddGroup);
 			EditGroupCommand = new RelayCommand(OnEditGroup, CanGroupEdit);
 			DeleteGroupCommand = new RelayCommand(OnDeleteGroup, CanGroupEdit);
+		}
+		List<User> _usersList;
+		public void Initialize()
+        {
+			var _usersList = FiresecManager.Configuration.Users;
+			var groups = FiresecManager.Configuration.UserGroups;
+			//var permissions = FiresecManager.Configuration.Perimissions;
+
+			Users = new ObservableCollection<UserViewModel>();
+			foreach (var user in _usersList)
+            {
+				Users.Add(new UserViewModel(user));
+            }
+
+            Groups = new ObservableCollection<GroupViewModel>();
+			foreach (var group in groups)
+            {
+				Groups.Add(new GroupViewModel(group));
+            }
+
         }
 
 		//Users
         ObservableCollection<UserViewModel> _users;
         public ObservableCollection<UserViewModel> Users
         {
-            get { return _users; }
+			get { return _users; }
             set
             {
                 _users = value;
@@ -81,6 +91,15 @@ namespace SecurityModule.ViewModels
 		public RelayCommand AddUserCommand { get; private set; }
 		void OnAddUser()
 		{
+			User newUser = new User();
+			NewUserViewModel newUserViewModel = new NewUserViewModel(newUser);
+			var result = ServiceFactory.UserDialogs.ShowModalWindow(newUserViewModel);
+			if (result)
+			{
+				_usersList.Add(newUser);
+				UserViewModel userViewModel = new UserViewModel(newUser);
+				Users.Add(userViewModel);
+			}
 		}
 		
 		public RelayCommand EditUserCommand { get; private set; }

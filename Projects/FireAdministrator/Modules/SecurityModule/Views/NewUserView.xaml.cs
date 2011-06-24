@@ -15,14 +15,13 @@ using System.Windows.Shapes;
 namespace SecurityModule.Views
 {
 	/// <summary>
-	/// Interaction logic for Users.xaml
+	/// Interaction logic for NewUserView.xaml
 	/// </summary>
-	public partial class Users : UserControl
+	public partial class NewUserView : UserControl
 	{
-		public Users()
+		public NewUserView()
 		{
 			InitializeComponent();
 		}
-
 	}
 }
