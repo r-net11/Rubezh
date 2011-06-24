@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
 using System.Windows;
+using FiresecClient.Models;
+using DevicesModule.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -17,8 +19,8 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete);
-            EditCommand = new RelayCommand(OnEdit);
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEdit);
             ZoneDevices = new ZoneDevicesViewModel();
         }
 
@@ -28,6 +30,9 @@ namespace DevicesModule.ViewModels
                 from zone in FiresecManager.Configuration.Zones
                 orderby (Convert.ToInt32(zone.No))
                 select new ZoneViewModel(zone));
+
+            if (Zones.Count > 0)
+                SelectedZone = Zones[0];
         }
 
         ObservableCollection<ZoneViewModel> _zones;
@@ -76,10 +81,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        bool CanDelete(object obj)
+        {
+            return SelectedZone != null;
+        }
+
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            if (SelectedZone != null)
+            if (CanDelete(null))
             {
                 var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
                 if (dialogResult == MessageBoxResult.Yes)
@@ -90,10 +100,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        bool CanEdit(object obj)
+        {
+            return SelectedZone != null;
+        }
+
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            if (SelectedZone != null)
+            if (CanEdit(null))
             {
                 ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
@@ -101,8 +116,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public override void Dispose()
+        public override void OnShow()
         {
+            ZonesMenuViewModel zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
+        }
+
+        public override void OnHide()
+        {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

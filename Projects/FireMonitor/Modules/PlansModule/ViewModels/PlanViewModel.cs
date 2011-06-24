@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using Firesec;
 using FiresecClient;
 using PlansModule.Events;
+using FiresecClient.Models;
 
 namespace PlansModule.ViewModels
 {

@@ -39,6 +39,11 @@ namespace FiresecWcfService.Service
             }
         }
 
+        public void Connect(string login, string password)
+        {
+            NativeFiresecClient.Connect(login, password);
+        }
+
         public void Initialize()
         {
             IFiresecCallback callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
@@ -88,6 +93,26 @@ namespace FiresecWcfService.Service
         public void ResetStates(string config)
         {
             NativeFiresecClient.ResetStates(config);
+        }
+
+        public void ExecuteCommand(string devicePath, string methodName)
+        {
+            NativeFiresecClient.ExecuteCommand(devicePath, methodName);
+        }
+
+        public void AddToIgnoreList(List<string> devicePaths)
+        {
+            NativeFiresecClient.AddToIgnoreList(devicePaths);
+        }
+
+        public void RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
+        }
+
+        public void AddUserMessage(string message)
+        {
+            NativeFiresecClient.AddUserMessage(message);
         }
     }
 }

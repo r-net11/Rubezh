@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient;
 using System.Collections.ObjectModel;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {

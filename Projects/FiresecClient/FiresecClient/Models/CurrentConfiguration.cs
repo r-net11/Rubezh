@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using FiresecClient.Models;
 
-namespace FiresecClient
+namespace FiresecClient.Models
 {
     public class CurrentConfiguration
     {

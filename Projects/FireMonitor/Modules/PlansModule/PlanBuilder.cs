@@ -21,7 +21,7 @@ namespace PlansModule
                 reader.Close();
                 return plan;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }

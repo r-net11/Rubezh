@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using Firesec;
 
-namespace FiresecClient
+namespace FiresecClient.Models
 {
     public class InnerState
     {

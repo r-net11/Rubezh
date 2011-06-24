@@ -102,9 +102,5 @@ namespace PlansModule.ViewModels
                 }
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

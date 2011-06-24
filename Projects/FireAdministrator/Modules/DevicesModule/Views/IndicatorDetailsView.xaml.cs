@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для IndicatorDetailsView.xaml
-    /// </summary>
     public partial class IndicatorDetailsView : UserControl
     {
         public IndicatorDetailsView()

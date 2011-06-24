@@ -8,6 +8,8 @@ using Firesec;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Media;
+using FiresecClient.Models;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,14 +20,16 @@ namespace DevicesModule.ViewModels
             Title = "Свойства устройства";
         }
 
-        FiresecClient.Device _device;
+        Device _device;
         DeviceControls.DeviceControl _deviceControl;
+        public DeviceControlViewModel DeviceControlViewModel { get; set; }
 
         public void Initialize(string deviceId)
         {
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceId);
             DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
+            DeviceControlViewModel = new DeviceControlViewModel(_device);
         }
 
         void deviceState_StateChanged()
@@ -59,54 +63,12 @@ namespace DevicesModule.ViewModels
 
         public string DeviceCategory
         {
-            get
-            {
-                switch (_device.Driver.cat)
-                {
-                    case "0":
-                        return "Прочие устройства";
-
-                    case "1":
-                        return "Приборы";
-
-                    case "2":
-                        return "Датчики";
-
-                    case "3":
-                        return "ИУ";
-
-                    case "4":
-                        return "Сеть передачи данных";
-
-                    case "5":
-                        return "Не указано";
-
-                    case "6":
-                        return "Удаленный сервер";
-                }
-
-                return "";
-            }
+            get { return _device.Driver.CategoryName(); }
         }
 
         public string DeviceType
         {
-            get
-            {
-                if (_device.Driver.options != null)
-                {
-                    if (_device.Driver.options.Contains("FireOnly"))
-                        return "пожарный";
-
-                    if (_device.Driver.options.Contains("SecOnly"))
-                        return "охранный";
-
-                    if (_device.Driver.options.Contains("TechOnly"))
-                        return "технологический";
-                }
-                
-                return "охранно-пожарный";
-            }
+            get { return _device.Driver.DeviceTypeName(); }
         }
 
         public bool HasImage

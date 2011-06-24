@@ -16,7 +16,7 @@ namespace AlarmModule.ViewModels
     {
         public AlarmViewModel()
         {
-            ConfirmCommand = new RelayCommand(OnClose);
+            ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
             ResetCommand = new RelayCommand(OnReset);
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
@@ -68,9 +68,30 @@ namespace AlarmModule.ViewModels
             }
         }
 
+        bool _isConfirmed;
+        public bool IsConfirmed
+        {
+            get { return _isConfirmed; }
+            set
+            {
+                _isConfirmed = value;
+                OnPropertyChanged("IsConfirmed");
+            }
+        }
+
+        bool CanConfirm(object obj)
+        {
+            return !IsConfirmed;
+        }
+
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
+            if (CanConfirm(null))
+            {
+                IsConfirmed = true;
+                FiresecInternalClient.AddUserMessage("Подтверждение " + _alarm.Name);
+            }
         }
 
         public RelayCommand ResetCommand { get; private set; }
@@ -192,10 +213,6 @@ namespace AlarmModule.ViewModels
         void Close()
         {
             ServiceFactory.Layout.ShowAlarm(null);
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

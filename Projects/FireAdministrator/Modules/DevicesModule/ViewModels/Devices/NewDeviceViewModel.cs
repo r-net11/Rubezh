@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using System.Windows;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -118,8 +119,6 @@ namespace DevicesModule.ViewModels
                 }
 
                 _parent.Update();
-                _parent.IsExpanded = false;
-                _parent.IsExpanded = true;
             }
 
             Close(true);

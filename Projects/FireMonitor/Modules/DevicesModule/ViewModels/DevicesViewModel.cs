@@ -7,6 +7,7 @@ using Infrastructure;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Events;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -104,10 +105,6 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.ExpantToThis();
                 SelectedDevice = deviceViewModel;
             }
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

@@ -8,10 +8,9 @@
     <Grid Background="Gray">
 
         <DockPanel>
-
-            <StackPanel DockPanel.Dock="Top"  Margin="2">
-                <Button Content="Сохранить" Click="Button_Click" />
-                <ContentControl Name="_mainMenu" />
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
+                <local:MenuView />
+                <ContentControl Name="_menu" />
             </StackPanel>
 
             <StackPanel DockPanel.Dock="Bottom">

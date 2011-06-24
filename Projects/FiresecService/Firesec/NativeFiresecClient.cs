@@ -16,11 +16,15 @@ namespace Firesec
             {
                 if (connectoin == null)
                 {
-                    connectoin = GetConnection();
-                    Trace.WriteLine("GetConnection");
+                    connectoin = GetConnection("adm", "");
                 }
                 return connectoin;
             }
+        }
+
+        public static void Connect(string login, string password)
+        {
+            //connectoin = GetConnection(login, password);
         }
 
         public static string GetCoreConfig()
@@ -66,7 +70,43 @@ namespace Firesec
             Connectoin.ResetStates(states);
         }
 
-        static FS_Types.IFSC_Connection GetConnection()
+        public static void ExecuteCommand(string devicePath, string methodName)
+        {
+            Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
+        }
+
+        static string ConvertDeviceList(List<string> devicePaths)
+        {
+            string separator = "\r\n";
+            string devices = "";
+            foreach (string device in devicePaths)
+            {
+                devices += device + separator;
+            }
+            if (devices.EndsWith(separator))
+                devices = devices.Remove(devices.LastIndexOf(separator));
+
+            return devices;
+        }
+
+        public static void AddToIgnoreList(List<string> devicePaths)
+        {
+            string devices = ConvertDeviceList(devicePaths);
+            Connectoin.IgoreListOperation(devices, true);
+        }
+
+        public static void RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            string devices = ConvertDeviceList(devicePaths);
+            Connectoin.IgoreListOperation(devices, false);
+        }
+
+        public static void AddUserMessage(string message)
+        {
+            Connectoin.StoreUserMessage(message);
+        }
+
+        static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
             //FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
@@ -77,6 +117,7 @@ namespace Firesec
 
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
+            //FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
             FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
 
             return connectoin;

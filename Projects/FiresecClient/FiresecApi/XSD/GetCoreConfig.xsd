@@ -62,7 +62,7 @@
     <xs:sequence>
       <xs:element name="param" type="paramType" />
       <xs:element name="extSecurity" type="extSecurityType" />
-      <xs:element name="grp" type="grpType" />
+      <xs:element name="grp" type="grpType" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="idx" type="xs:integer" />
     <xs:attribute name="name" type="xs:string" />

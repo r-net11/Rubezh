@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using FiresecClient;
 using DevicesModule.Events;
 using Infrastructure.Events;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -145,10 +146,6 @@ namespace DevicesModule.ViewModels
                 Devices.Add(deviceViewModel);
                 AddDevice(device, deviceViewModel);
             }
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

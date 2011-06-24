@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiresecApi;
 
 namespace FiresecClient
 {
-    public static class Extentions
+    public static class DriverExtentions
     {
-        public class DriverData
+        class DriverData
         {
             public DriverData(string DriverId, int IgnoreLevel, string Name)
             {
@@ -22,7 +23,7 @@ namespace FiresecClient
         }
 
         static List<DriverData> driverDataList;
-        static Extentions()
+        static DriverExtentions()
         {
             driverDataList = new List<DriverData>();
             driverDataList.Add(new DriverData("80A37AF1-B1AD-45D5-A34C-6FA2960F9706", 2, "Виртуальная панель"));
@@ -115,7 +116,7 @@ namespace FiresecClient
 
         public static string DriverName(this Firesec.Metadata.configDrv driver)
         {
-                var driverData = driverDataList.FirstOrDefault(x => (x.DriverId == driver.id) && (x.IgnoreLevel < 2));
+            var driverData = driverDataList.FirstOrDefault(x => (x.DriverId == driver.id) && (x.IgnoreLevel < 2));
             if (driverData == null)
             {
                 return null;
@@ -190,6 +191,104 @@ namespace FiresecClient
         public static bool IsIndicatorDevice(this Firesec.Metadata.configDrv driver)
         {
             return (driver.name == "Индикатор");
+        }
+
+        public static DeviceCategory Category(this Firesec.Metadata.configDrv driver)
+        {
+            switch (driver.cat)
+            {
+                case "0":
+                    return DeviceCategory.Other;
+
+                case "1":
+                    return DeviceCategory.Device;
+
+                case "2":
+                    return DeviceCategory.Sensor;
+
+                case "3":
+                    return DeviceCategory.Effector;
+
+                case "4":
+                    return DeviceCategory.Communication;
+
+                case "5":
+                    return DeviceCategory.None;
+
+                case "6":
+                    return DeviceCategory.RemoteServer;
+
+                default:
+                    return DeviceCategory.None;
+            }
+        }
+
+        public static string CategoryName(this Firesec.Metadata.configDrv driver)
+        {
+            switch (driver.Category())
+            {
+                case DeviceCategory.Other:
+                    return "Прочие устройства";
+
+                case DeviceCategory.Device:
+                    return "Приборы";
+
+                case DeviceCategory.Sensor:
+                    return "Датчики";
+
+                case DeviceCategory.Effector:
+                    return "ИУ";
+
+                case DeviceCategory.Communication:
+                    return "Сеть передачи данных";
+
+                case DeviceCategory.None:
+                    return "Не указано";
+
+                case DeviceCategory.RemoteServer:
+                    return "Удаленный сервер";
+
+                default:
+                    return "";
+            }
+        }
+
+        public static DeviceType DeviceType(this Firesec.Metadata.configDrv driver)
+        {
+            if (driver.options != null)
+            {
+                if (driver.options.Contains("FireOnly"))
+                    return FiresecApi.DeviceType.Fire;
+
+                if (driver.options.Contains("SecOnly"))
+                    return FiresecApi.DeviceType.Sequrity;
+
+                if (driver.options.Contains("TechOnly"))
+                    return FiresecApi.DeviceType.Technoligical;
+            }
+
+            return FiresecApi.DeviceType.FireSecurity;
+        }
+
+        public static string DeviceTypeName(this Firesec.Metadata.configDrv driver)
+        {
+            switch (driver.DeviceType())
+            {
+                case FiresecApi.DeviceType.Fire:
+                    return "пожарный";
+
+                case FiresecApi.DeviceType.Sequrity:
+                    return "охранный";
+
+                case FiresecApi.DeviceType.Technoligical:
+                    return "технологический";
+
+                case FiresecApi.DeviceType.FireSecurity:
+                    return "охранно-пожарный";
+
+                default:
+                    return "";
+            }
         }
     }
 }

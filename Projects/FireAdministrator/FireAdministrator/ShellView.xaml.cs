@@ -32,10 +32,10 @@ namespace FireAdministrator
             set { _mainRegionHost.DataContext = _mainRegionHost.Content = value; }
         }
 
-        public IViewPart MainMenu
+        public object Menu
         {
-            get { return _mainMenu.Content as IViewPart; }
-            set { _mainMenu.DataContext = _mainMenu.Content = value; }
+            get { return _menu.Content; }
+            set { _menu.DataContext = _menu.Content = value; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,11 +43,6 @@ namespace FireAdministrator
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            FiresecManager.SetNewConfig(FiresecManager.Configuration);
         }
     }
 }

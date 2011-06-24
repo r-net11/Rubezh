@@ -12,9 +12,5 @@ namespace CallModule.ViewModels
         public void Initialize()
         {
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

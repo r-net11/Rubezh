@@ -27,7 +27,6 @@ namespace PlansModule.Views
         {
             FullSize();
             slider.Value = 1;
-            //FullSize();
         }
 
         public CanvasView()
@@ -173,11 +172,6 @@ namespace PlansModule.Views
                     scrollViewer.ScrollToVerticalOffset(newOffsetY);
                 }
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            FullSize();
         }
 
         double initialScale = 1;

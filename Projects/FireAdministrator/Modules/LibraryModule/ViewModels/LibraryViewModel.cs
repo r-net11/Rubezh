@@ -164,9 +164,5 @@ namespace LibraryModule.ViewModels
                 SelectedState.ParentDevice.DeviceControl.State = SelectedState.Id;
             }
         }
-
-        public override void Dispose()
-        {
-        }
     }
 }

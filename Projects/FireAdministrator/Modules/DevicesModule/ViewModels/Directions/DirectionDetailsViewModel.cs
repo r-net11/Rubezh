@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Firesec.CoreConfig;
 using FiresecClient;
 using FiresecClient.Models;
+using Infrastructure;
+using DevicesModule.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -27,10 +29,15 @@ namespace DevicesModule.ViewModels
 
             Direction = new Direction();
             Direction.Name = "Новое направление";
-            Direction.Zones = new List<int>();
-
-            int maxId = FiresecManager.Configuration.Directions.Max(x => x.Id);
-            Id = maxId + 1;
+            if (FiresecManager.Configuration.Directions.Count > 0)
+            {
+                int maxId = FiresecManager.Configuration.Directions.Max(x => x.Id);
+                Id = maxId + 1;
+            }
+            else
+            {
+                Id = 0;
+            }
         }
 
         public void Initialize(Direction direction)
@@ -96,7 +103,6 @@ namespace DevicesModule.ViewModels
                     return;
                 }
                 Save();
-                FiresecManager.Configuration.Directions.Add(Direction);
             }
             else
             {

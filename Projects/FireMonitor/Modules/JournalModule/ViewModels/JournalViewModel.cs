@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using FiresecClient.Models;
 
 namespace JournalModule.ViewModels
 {
@@ -56,10 +57,6 @@ namespace JournalModule.ViewModels
                 _selectedItem = value;
                 OnPropertyChanged("SelectedItem");
             }
-        }
-
-        public override void Dispose()
-        {
         }
     }
 }

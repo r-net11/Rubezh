@@ -19,9 +19,14 @@ namespace FireAdministrator
 
         protected override void InitializeShell()
         {
-            RegisterServices();
+            //LoginScreen loginScreen = new LoginScreen();
+            //loginScreen.ShowDialog();
+            //if (loginScreen.UserName == null)
+            //    return;
 
-            FiresecManager.Start();
+            FiresecManager.Start("adm", "");
+
+            RegisterServices();
 
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();

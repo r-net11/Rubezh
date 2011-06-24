@@ -783,7 +783,7 @@ namespace Firesec.CoreConfig {
         
         private extSecurityType extSecurityField;
         
-        private grpType grpField;
+        private grpType[] grpField;
         
         private string idxField;
         
@@ -819,7 +819,7 @@ namespace Firesec.CoreConfig {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public grpType grp {
+        public grpType[] grp {
             get {
                 return this.grpField;
             }

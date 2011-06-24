@@ -7,6 +7,7 @@ using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Common;
 using Firesec;
+using Infrastructure.Events;
 
 namespace AlarmModule.ViewModels
 {
@@ -49,6 +50,7 @@ namespace AlarmModule.ViewModels
             AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
             alarmListViewModel.Initialize(Alarms, AlarmType);
             ServiceFactory.Layout.Show(alarmListViewModel);
+            ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
         }
 
         public void Update()
@@ -72,12 +74,6 @@ namespace AlarmModule.ViewModels
             {
                 return (Count > 0);
             }
-        }
-
-        public override void Dispose()
-        {
-            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Unsubscribe(OnAlarmAdded);
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Unsubscribe(OnResetAlarm);
         }
     }
 }

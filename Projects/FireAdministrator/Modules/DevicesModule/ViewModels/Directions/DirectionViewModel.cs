@@ -12,17 +12,18 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionViewModel : BaseViewModel
     {
-        public DirectionViewModel()
+        public DirectionViewModel(Direction direction)
         {
             AddZoneCommand = new RelayCommand(OnAddZone);
             RemoveZoneCommand = new RelayCommand(OnRemoveZone);
+            Initialize(direction);
         }
 
-        Direction _direction;
+        public Direction Direction { get; private set; }
 
-        public void Initialize(Direction direction)
+        void Initialize(Direction direction)
         {
-            _direction = direction;
+            Direction = direction;
 
             Zones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
@@ -50,17 +51,17 @@ namespace DevicesModule.ViewModels
 
         public int Id
         {
-            get { return _direction.Id; }
+            get { return Direction.Id; }
         }
 
         public string Name
         {
-            get { return _direction.Name; }
+            get { return Direction.Name; }
         }
 
         public string Description
         {
-            get { return _direction.Description; }
+            get { return Direction.Description; }
         }
 
         ObservableCollection<ZoneViewModel> _zones;
@@ -112,7 +113,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedSourceZone != null)
             {
-                _direction.Zones.Add(Convert.ToInt32(SelectedSourceZone.No));
+                Direction.Zones.Add(Convert.ToInt32(SelectedSourceZone.No));
                 Zones.Add(SelectedSourceZone);
                 SourceZones.Remove(SelectedSourceZone);
             }
@@ -123,7 +124,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedZone != null)
             {
-                _direction.Zones.Remove(Convert.ToInt32(SelectedZone.No));
+                Direction.Zones.Remove(Convert.ToInt32(SelectedZone.No));
                 SourceZones.Add(SelectedZone);
                 Zones.Remove(SelectedZone);
             }

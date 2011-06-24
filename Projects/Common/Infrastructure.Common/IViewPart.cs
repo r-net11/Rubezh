@@ -7,9 +7,9 @@ using System.ComponentModel;
 namespace Infrastructure.Common
 {
     public interface IViewPart :
-        INotifyPropertyChanged,
-        IDisposable
+        INotifyPropertyChanged
     {
-        string Title { get; }
+        void OnShow();
+        void OnHide();
     }
 }

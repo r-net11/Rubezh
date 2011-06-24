@@ -140,8 +140,5 @@ namespace SecurityModule.ViewModels
 				Groups.Remove(SelectedGroup);
 
 		}
-        public override void Dispose()
-        {
-        }
     }
 }
