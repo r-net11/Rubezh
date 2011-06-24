@@ -118,6 +118,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
+            SelectedZone = SelectedZone;
             ZonesMenuViewModel zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand);
             ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
         }

@@ -121,6 +121,7 @@ namespace DevicesModule.ViewModels
                 _parent.Update();
             }
 
+            FiresecManager.Configuration.FillAllDevices();
             Close(true);
         }
 

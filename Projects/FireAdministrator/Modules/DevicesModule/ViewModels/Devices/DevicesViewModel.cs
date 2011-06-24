@@ -10,6 +10,7 @@ using System.IO;
 using FiresecApi;
 using FiresecClient.Models;
 using Infrastructure;
+using Firesec.ZoneLogic;
 
 namespace DevicesModule.ViewModels
 {
@@ -58,27 +59,26 @@ namespace DevicesModule.ViewModels
         void BuildTree()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-
             var device = FiresecManager.Configuration.RootDevice;
-
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Parent = null;
-            deviceViewModel.Initialize(device, Devices);
-            Devices.Add(deviceViewModel);
-            AddDevice(device, deviceViewModel);
+            AddDevice(device, null);
         }
 
-        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
+        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            foreach (var device in parentDevice.Children)
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = parentDeviceViewModel;
+            deviceViewModel.Initialize(device, Devices);
+
+            var indexOf = Devices.IndexOf(parentDeviceViewModel);
+            Devices.Insert(indexOf + 1, deviceViewModel);
+
+            foreach (var childDevice in device.Children)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device, Devices);
-                parentDeviceViewModel.Children.Add(deviceViewModel);
-                Devices.Add(deviceViewModel);
-                AddDevice(device, deviceViewModel);
+                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+                deviceViewModel.Children.Add(childDeviceViewModel);
             }
+
+            return deviceViewModel;
         }
 
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
@@ -111,14 +111,62 @@ namespace DevicesModule.ViewModels
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
-            copyDeviceViewModel = new DeviceViewModel();
-            copyDeviceViewModel.Device = new Device();
-            copyDeviceViewModel.Device.Driver = SelectedDevice.Device.Driver;
-            copyDeviceViewModel.Device.DriverId = SelectedDevice.Device.DriverId;
-            copyDeviceViewModel.Device.Address = SelectedDevice.Device.Address;
+            deviceToCopy = CopyDevice(SelectedDevice.Device);
         }
 
-        DeviceViewModel copyDeviceViewModel;
+        Device deviceToCopy;
+
+        Device CopyDevice(Device originDevice)
+        {
+            Device newDevice = new Device();
+            newDevice.Driver = originDevice.Driver;
+            newDevice.DriverId = originDevice.DriverId;
+            newDevice.Address = originDevice.Address;
+            newDevice.Description = originDevice.Description;
+            newDevice.ZoneNo = originDevice.ZoneNo;
+
+            if (true)
+            {
+                newDevice.DatabaseId = originDevice.DatabaseId;
+            }
+
+            newDevice.ZoneLogic = new Firesec.ZoneLogic.expr();
+            List<clauseType> clauses = new List<clauseType>();
+            if ((originDevice.ZoneLogic != null) && (originDevice.ZoneLogic.clause != null))
+            {
+                foreach (var clause in originDevice.ZoneLogic.clause)
+                {
+                    clauseType copyClause = new clauseType();
+                    copyClause.joinOperator = clause.joinOperator;
+                    copyClause.operation = clause.operation;
+                    copyClause.state = clause.state;
+                    copyClause.zone = (string[])clause.zone.Clone();
+                    clauses.Add(copyClause);
+                }
+
+                newDevice.ZoneLogic.clause = clauses.ToArray();
+            }
+
+            List<Property> copyProperties = new List<Property>();
+            foreach (var property in originDevice.Properties)
+            {
+                Property copyProperty = new Property();
+                copyProperty.Name = property.Name;
+                copyProperty.Value = property.Value;
+                copyProperties.Add(copyProperty);
+            }
+            newDevice.Properties = copyProperties;
+
+            newDevice.Children = new List<Device>();
+            foreach (var childDevice in originDevice.Children)
+            {
+                Device newChildDevice = CopyDevice(childDevice);
+                newChildDevice.Parent = newDevice;
+                newDevice.Children.Add(newChildDevice);
+            }
+
+            return newDevice;
+        }
 
         bool CanCut(object obj)
         {
@@ -128,10 +176,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand CutCommand { get; private set; }
         void OnCut()
         {
-            _bufferDeviceViewModel = SelectedDevice;
-        }
+            deviceToCopy = CopyDevice(SelectedDevice.Device);
+            SelectedDevice.RemoveCommand.Execute();
 
-        DeviceViewModel _bufferDeviceViewModel;
+            FiresecManager.Configuration.FillAllDevices();
+        }
 
         bool CanPaste(object obj)
         {
@@ -141,25 +190,13 @@ namespace DevicesModule.ViewModels
         public RelayCommand PasteCommand { get; private set; }
         void OnPaste()
         {
-            copyDeviceViewModel.Device.Parent = SelectedDevice.Device;
-            copyDeviceViewModel.Parent = SelectedDevice;
-            SelectedDevice.Children.Add(copyDeviceViewModel);
-            SelectedDevice.Device.Children.Add(copyDeviceViewModel.Device);
+            var pasteDevice = CopyDevice(deviceToCopy);
+            SelectedDevice.Device.Children.Add(pasteDevice);
+            pasteDevice.Parent = SelectedDevice.Device;
+            var newDevice = AddDevice(pasteDevice, SelectedDevice);
+            CollapseChild(newDevice);
 
-            SelectedDevice.Update();
-
-            return;
-
-            _bufferDeviceViewModel.Parent.Children.Remove(_bufferDeviceViewModel);
-            _bufferDeviceViewModel.Parent.Device.Children.Remove(_bufferDeviceViewModel.Device);
-
-            _bufferDeviceViewModel.Device.Parent = SelectedDevice.Device;
-            _bufferDeviceViewModel.Parent = SelectedDevice;
-            SelectedDevice.Children.Add(_bufferDeviceViewModel);
-            SelectedDevice.Device.Children.Add(_bufferDeviceViewModel.Device);
-
-            _bufferDeviceViewModel.Parent.Update();
-            SelectedDevice.Update();
+            FiresecManager.Configuration.FillAllDevices();
         }
 
         public override void OnShow()

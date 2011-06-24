@@ -164,6 +164,8 @@
                     <TextBlock Text="{Binding DriverName}" />
                 </StackPanel>
 
+                <TextBox Text="{Binding Id, Mode=OneWay}" />
+                
                 <StackPanel>
                     <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" />
                     <TextBlock Text="{Binding ConnectedTo}" />

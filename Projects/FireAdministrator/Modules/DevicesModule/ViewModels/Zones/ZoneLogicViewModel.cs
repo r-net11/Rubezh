@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
         public void Initialize(Firesec.ZoneLogic.expr zoneLogic)
         {
             Clauses = new ObservableCollection<ClauseViewModel>();
-            if (zoneLogic != null)
+            if ((zoneLogic != null) && (zoneLogic.clause != null))
             {
                 foreach (var clause in zoneLogic.clause)
                 {

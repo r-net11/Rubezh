@@ -121,7 +121,7 @@ namespace FiresecClient
 
                     if (driver.options.Contains("ExtendedZoneLogic"))
                     {
-                        if (device.ZoneLogic != null)
+                        if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
                         {
                             foreach (var clause in device.ZoneLogic.clause)
                             {

@@ -47,6 +47,11 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("HasChildren");
         }
 
+        public string Id
+        {
+            get { return Device.Id; }
+        }
+
         public string DriverId
         {
             get { return Device.DriverId; }
@@ -225,10 +230,12 @@ namespace DevicesModule.ViewModels
             if (Parent != null)
             {
                 Parent.IsExpanded = false;
-                Parent.Device.Children.Remove(Parent.Device.Children.FirstOrDefault(x => x.Id == Device.Id));
+                Parent.Device.Children.Remove(Device);
                 Parent.Children.Remove(this);
                 Parent.Update();
                 Parent.IsExpanded = true;
+
+                FiresecManager.Configuration.FillAllDevices();
             }
         }
     }

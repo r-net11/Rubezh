@@ -21,13 +21,29 @@ namespace FiresecClient.Models
         public string DriverId { get; set; }
         public Firesec.Metadata.configDrv Driver { get; set; }
         public string PlaceInTree { get; set; }
-        public string Id { get; set; }
+        //public string Id { get; set; }
         public string Address { get; set; }
         public string ZoneNo { get; set; }
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<Property> Properties { get; set; }
         public string Description { get; set; }
         public List<ValidationError> ValidationErrors { get; set; }
+
+        public string Id
+        {
+            get
+            {
+                string currentId = DriverId + ":" + Address;
+                if (Parent != null)
+                {
+                    return Parent.Id + @"/" + currentId;
+                }
+                return currentId;
+            }
+            set
+            {
+            }
+        }
 
         public List<Device> AllParents
         {
@@ -53,30 +69,6 @@ namespace FiresecClient.Models
                 Parent.AddUnderlyingZone(zoneNo);
             }
         }
-
-        //public bool IsZoneDevice
-        //{
-        //    get
-        //    {
-        //        if ((Driver.minZoneCardinality == "0") && (Driver.maxZoneCardinality == "0"))
-        //        {
-        //            return false;
-        //        }
-        //        return true;
-        //    }
-        //}
-
-        //public bool IsZoneLogicDevice
-        //{
-        //    get
-        //    {
-        //        if ((Driver.options != null) && (Driver.options.Contains("ExtendedZoneLogic")))
-        //        {
-        //            return true;
-        //        }
-        //        return false;
-        //    }
-        //}
 
         public string PresentationZone
         {

@@ -30,8 +30,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.Configuration.Devices)
             {
-                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-                if (!((driver.minZoneCardinality == "0") && (driver.maxZoneCardinality == "0")))
+                if (device.Driver.IsZoneDevice())
                 {
                     if (string.IsNullOrEmpty(device.ZoneNo))
                     {
@@ -60,7 +59,7 @@ namespace DevicesModule.ViewModels
                     }
                 }
 
-                if ((driver.options != null) && (driver.options.Contains("ExtendedZoneLogic")))
+                if (device.Driver.IsZoneLogicDevice())
                 {
                     if (device.ZoneLogic != null)
                     {
