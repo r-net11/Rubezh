@@ -16,11 +16,6 @@ namespace FiresecClient
         public static CurrentStates States { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
-        //static FiresecManager()
-        //{
-        //    Start();
-        //}
-
         public static void Start(string login, string password)
         {
             if (firesecInternalClient != null)
@@ -50,6 +45,7 @@ namespace FiresecClient
             CoreConfig = FiresecInternalClient.GetCoreConfig();
             Configuration = new CurrentConfiguration();
             Configuration.Metadata = FiresecInternalClient.GetMetaData();
+            Configuration.FillDrivrs(Configuration.Metadata);
             Convert();
         }
 

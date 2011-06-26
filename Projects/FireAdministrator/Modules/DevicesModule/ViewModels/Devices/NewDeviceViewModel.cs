@@ -27,19 +27,11 @@ namespace DevicesModule.ViewModels
             get
             {
                 List<DriverViewModel> drivers = new List<DriverViewModel>();
-
-                foreach (var driver in FiresecManager.Configuration.Metadata.drv)
+                foreach (var driverId in _parent.Device.Driver.AvaliableChildren)
                 {
-                    var childClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == driver.clsid);
-                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == _parent.Device.Driver.clsid)))
-                    {
-                        if ((driver.lim_parent != null) && (driver.lim_parent != _parent.Device.Driver.id))
-                            continue;
-                        if (driver.acr_enabled == "1")
-                            continue;
-                        var availableDevice = new DriverViewModel(driver);
-                        drivers.Add(availableDevice);
-                    }
+                    var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.Id == driverId);
+                    var availableDriver = new DriverViewModel(driver);
+                    drivers.Add(availableDriver);
                 }
 
                 return drivers;
@@ -68,9 +60,8 @@ namespace DevicesModule.ViewModels
             if (SelectedDriver != null)
             {
                 Device device = new Device();
-                device.DriverId = SelectedDriver.DriverId;
-                device.Driver = SelectedDriver.Driver;
-                if (SelectedDriver.Driver.ar_no_addr == "1")
+                device.Driver = SelectedDriver.NewDriver;
+                if (SelectedDriver.NewDriver.HasNoAddress)
                 {
                     device.Address = "";
                 }
@@ -85,37 +76,27 @@ namespace DevicesModule.ViewModels
                 deviceViewModel.Parent = _parent;
                 _parent.Children.Add(deviceViewModel);
 
-                foreach (var childDriver in FiresecManager.Configuration.Metadata.drv)
+                foreach (var autoCreateDriverId in deviceViewModel.Device.Driver.AutoCreateChildren)
                 {
-                    var childClass = FiresecManager.Configuration.Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-                    if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == deviceViewModel.Device.Driver.clsid)))
+                    var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
+
+                    if ((autoCreateDriver.ShortName == "МПТ") || (autoCreateDriver.ShortName == "Выход"))
+                        continue;
+
+                    for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                     {
-                        if ((childDriver.lim_parent != null) && (childDriver.lim_parent != deviceViewModel.Device.Driver.id))
-                            continue;
-                        if (childDriver.acr_enabled == "1")
-                        {
-                            if ((childDriver.shortName == "МПТ") || (childDriver.shortName == "Выход"))
-                                continue;
+                        Device childDevice = new Device();
+                        childDevice.Driver = autoCreateDriver;
+                        childDevice.Address = i.ToString();
+                        device.Children.Add(childDevice);
 
-                            int minAddress = Convert.ToInt32(childDriver.acr_from);
-                            int maxAddress = Convert.ToInt32(childDriver.acr_to);
-                            for (int i = minAddress; i <= maxAddress; i++)
-                            {
-                                Device childDevice = new Device();
-                                childDevice.DriverId = childDriver.id;
-                                childDevice.Driver = childDriver;
-                                childDevice.Address = i.ToString();
-                                device.Children.Add(childDevice);
-
-                                DeviceViewModel childDeviceViewModel = new DeviceViewModel();
-                                childDeviceViewModel.Initialize(childDevice, _parent.Source);
-                                childDeviceViewModel.Parent = deviceViewModel;
-                                deviceViewModel.Children.Add(childDeviceViewModel);
-                            }
-
-                            deviceViewModel.IsExpanded = true;
-                        }
+                        DeviceViewModel childDeviceViewModel = new DeviceViewModel();
+                        childDeviceViewModel.Initialize(childDevice, _parent.Source);
+                        childDeviceViewModel.Parent = deviceViewModel;
+                        deviceViewModel.Children.Add(childDeviceViewModel);
                     }
+
+                    deviceViewModel.IsExpanded = true;
                 }
 
                 _parent.Update();
@@ -134,24 +115,24 @@ namespace DevicesModule.ViewModels
 
     public class DriverViewModel
     {
-        public Firesec.Metadata.configDrv Driver { get; private set; }
+        public Driver NewDriver { get; private set; }
 
-        public DriverViewModel(Firesec.Metadata.configDrv driver)
+        public DriverViewModel(Driver driver)
         {
-            Driver = driver;
+            NewDriver = driver;
         }
 
         public string DriverId
         {
-            get { return Driver.id; }
+            get { return NewDriver.Id; }
         }
         public string DriverName
         {
-            get { return Driver.shortName; }
+            get { return NewDriver.ShortName; }
         }
         public string ImageSource
         {
-            get { return Driver.ImageSource(); }
+            get { return NewDriver.ImageSource; }
         }
     }
 }

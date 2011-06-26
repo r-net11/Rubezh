@@ -245,9 +245,8 @@ namespace FiresecClient
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 chilDevice.ParentInnerStates.Add(state);
-                                string driverId = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id).DriverId;
-                                string driverName = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId).shortName;
-                                chilDevice.ParentStringStates.Add(driverName + " - " + state.Name);
+                                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                                chilDevice.ParentStringStates.Add(device.Driver.ShortName + " - " + state.Name);
                                 chilDevice.ChangeEntities.StatesChanged = true;
                             }
                         }

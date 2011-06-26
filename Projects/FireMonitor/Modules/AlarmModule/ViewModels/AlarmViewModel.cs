@@ -54,7 +54,7 @@ namespace AlarmModule.ViewModels
             {
                 var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
                 var zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-                return device.Driver.shortName + " - " + device.Address;
+                return device.Driver.ShortName + " - " + device.Address;
             }
         }
 

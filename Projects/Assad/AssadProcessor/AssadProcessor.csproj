@@ -87,7 +87,6 @@
     <Compile Include="Devices\AssadDevice.cs" />
     <Compile Include="Devices\AssadMonitor.cs" />
     <Compile Include="Devices\AssadZone.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="NetManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

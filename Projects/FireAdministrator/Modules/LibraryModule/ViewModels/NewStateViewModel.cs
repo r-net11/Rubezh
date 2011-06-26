@@ -14,7 +14,6 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
-            _driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
@@ -32,7 +31,6 @@ namespace LibraryModule.ViewModels
         }
 
         private readonly DeviceViewModel _selectedDevice;
-        private readonly Firesec.Metadata.configDrv _driver;
 
         private StateViewModel _selectedState;
         public StateViewModel SelectedState
@@ -62,9 +60,13 @@ namespace LibraryModule.ViewModels
             States = new ObservableCollection<StateViewModel>();
             for (var stateId = 0; stateId < 9; stateId++)
             {
-                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == Convert.ToString(stateId)) && (!x.IsAdditional)) != null) continue;
-                if(stateId!=7)
-                    if (_driver.state.FirstOrDefault(x=>x.@class == Convert.ToString(stateId)) == null) continue;
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == _selectedDevice.Id);
+
+                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == Convert.ToString(stateId)) && (!x.IsAdditional)) != null)
+                    continue;
+                if (stateId != 7)
+                    if (driver.States.FirstOrDefault(x => x.@class == Convert.ToString(stateId)) == null)
+                        continue;
                 var stateViewModel = new StateViewModel(Convert.ToString(stateId), _selectedDevice, false);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
                 stateViewModel.Frames = frames;

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using AssadProcessor.Devices;
 using Firesec;
 using FiresecClient;
+using FiresecClient.Models;
 
 namespace AssadProcessor
 {
@@ -41,7 +42,7 @@ namespace AssadProcessor
         {
             AssadBase assadBase;
             string driverId = ParceDriverId(innerDevice);
-            string driverName = Extentions.GetDriverNameById(driverId);
+            string driverName = Driver.GetDriverNameById(driverId);
             switch (driverName)
             {
                 case "zone":

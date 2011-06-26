@@ -97,8 +97,7 @@ namespace FiresecClient
         {
             foreach (var device in configuration.Devices)
             {
-                var driver = GetDriverByDriverId(device.DriverId);
-                if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
+                if (device.Driver.IsZoneDevice)
                 {
                     if (device.ZoneLogic != null)
                         device.ValidationErrors.Add(new ValidationError("Устройство не может иметь логику срабатывания", Level.Critical));
@@ -119,7 +118,7 @@ namespace FiresecClient
                     if (string.IsNullOrEmpty(device.ZoneNo))
                         device.ValidationErrors.Add(new ValidationError("Устройство не может принадлежать к зоне", Level.Critical));
 
-                    if (driver.options.Contains("ExtendedZoneLogic"))
+                    if (device.Driver.IsZoneLogicDevice)
                     {
                         if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
                         {
@@ -154,15 +153,14 @@ namespace FiresecClient
         {
             foreach (var device in configuration.Devices)
             {
-                var driver = GetDriverByDriverId(device.DriverId);
-                if (driver.ar_no_addr == "1")
+                if (device.Driver.HasNoAddress)
                 {
                     if (string.IsNullOrEmpty(device.Address) == false)
                         device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес", Level.Critical));
 
-                    if (driver.addrMask != null)
+                    if (device.Driver.FiresecDriver.addrMask != null)
                     {
-                        switch (driver.addrMask)
+                        switch (device.Driver.FiresecDriver.addrMask)
                         {
                             case "[0(1)-8(8)]":
                                 int intAddress = 0;
@@ -209,24 +207,10 @@ namespace FiresecClient
                                 if ((intAddress < 1) || (intAddress > 255))
                                     device.ValidationErrors.Add(new ValidationError("Адрес должен быть в диапазоне 1 - 255", Level.Critical));
 
-                                var parentDriver = GetDriverByDriverId(device.Parent.DriverId);
-                                int maxShleifAddress = 2;
-                                if (parentDriver.childAddrMask != null)
+                                int maxShleifAddress = device.Parent.Driver.ShleifCount;
+                                if (maxShleifAddress == 0)
                                 {
-                                    switch (parentDriver.childAddrMask)
-                                    {
-                                        case "[8(1)-15(2)];[0(1)-7(255)]":
-                                            maxShleifAddress = 2;
-                                            break;
-
-                                        case "[8(1)-15(4)];[0(1)-7(255)]":
-                                            maxShleifAddress = 4;
-                                            break;
-
-                                        case "[8(1)-15(10)];[0(1)-7(255)]":
-                                            maxShleifAddress = 10;
-                                            break;
-                                    }
+                                    maxShleifAddress = 2;
                                 }
 
                                 if ((intShleif < 1) || (intShleif > maxShleifAddress))
@@ -256,24 +240,20 @@ namespace FiresecClient
                             device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
                         }
 
-                        if (driver.acr_enabled == "1")
+                        if (device.Driver.IsAutoCreate)
                         {
-                            int minAddress = System.Convert.ToInt32(driver.acr_from);
-                            int maxAddress = System.Convert.ToInt32(driver.acr_to);
-                            if ((intAddress < minAddress) || (intAddress > maxAddress))
+                            if ((intAddress < device.Driver.MinAutoCreateAddress) || (intAddress > device.Driver.MaxAutoCreateAddress))
                             {
-                                device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + driver.acr_from + " - " + driver.acr_to, Level.Critical));
+                                device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAutoCreateAddress + " - " + device.Driver.MaxAutoCreateAddress, Level.Critical));
                             }
                         }
                         else
                         {
-                            if (driver.ar_enabled == "1")
+                            if (device.Driver.IsRangeEnabled)
                             {
-                                int minAddress = System.Convert.ToInt32(driver.ar_from);
-                                int maxAddress = System.Convert.ToInt32(driver.ar_to);
-                                if ((intAddress < minAddress) || (intAddress > maxAddress))
+                                if ((intAddress < device.Driver.MinAddress) || (intAddress > device.Driver.MaxAddress))
                                 {
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + driver.ar_from + " - " + driver.ar_to, Level.Critical));
+                                    device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAddress + " - " + device.Driver.MaxAddress, Level.Critical));
                                 }
                             }
                         }
@@ -288,9 +268,7 @@ namespace FiresecClient
             {
                 foreach (var childDevice in device.Children)
                 {
-                    var driver = GetDriverByDriverId(childDevice.DriverId);
-
-                    if (driver.ar_no_addr == "0")
+                    if (childDevice.Driver.HasNoAddress == false)
                     {
                         if (device.Children.FindAll(x => x.Address == childDevice.Address).Count > 1)
                         {
@@ -299,7 +277,7 @@ namespace FiresecClient
                     }
                     else
                     {
-                        string driverName = device.Driver.DriverName();
+                        string driverName = device.Driver.DriverName;
                         //if ((childDriver.ar_enabled == "1") && (childDriver.ar_from == "0") && (childDriver.ar_to == "0"))
                         if ((driverName == "Насосная Станция") ||
                             (driverName == "Жокей-насос") ||
@@ -307,23 +285,18 @@ namespace FiresecClient
                             (driverName == "Дренажный насос") ||
                             (driverName == "Насос компенсации утечек"))
                         {
-                            if (device.Children.FindAll(x => x.DriverId == childDevice.DriverId).Count > 1)
+                            if (device.Children.FindAll(x => x.Driver.Id == childDevice.Driver.Id).Count > 1)
                             {
                                 childDevice.ValidationErrors.Add(new ValidationError("Устройство должно присутствовать в единственном экзэмпляре", Level.Critical));
                             }
                         }
-                        if ((driver.name == "USB преобразователь МС-1") || (driver.name == "USB преобразователь МС-2"))
+                        if ((childDevice.Driver.Name == "USB преобразователь МС-1") || (childDevice.Driver.Name == "USB преобразователь МС-2"))
                         {
                             // СЕРИЙНЫЙ НЕМЕР, ЕСЛИ ДВА ОДИНАКОВЫХ УСТРОЙСТВА
                         }
                     }
                 }
             }
-        }
-
-        public Firesec.Metadata.configDrv GetDriverByDriverId(string driverId)
-        {
-            return FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
         }
     }
 }

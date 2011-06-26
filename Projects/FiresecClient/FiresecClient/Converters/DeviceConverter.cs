@@ -17,7 +17,7 @@ namespace FiresecClient.Converters
             FiresecManager.Configuration.Devices = new List<Device>();
             FiresecManager.States.DeviceStates = new List<DeviceState>();
 
-            Firesec.CoreConfig.devType rootInnerDevice = FiresecManager.CoreConfig.dev[0];
+            var rootInnerDevice = FiresecManager.CoreConfig.dev[0];
             Device rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
@@ -48,43 +48,36 @@ namespace FiresecClient.Converters
 
         static DeviceState CreateDeviceState(Device device)
         {
-            var driver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
-
             DeviceState deviceState = new DeviceState();
             deviceState.ChangeEntities = new ChangeEntities();
             deviceState.Id = device.Id;
             deviceState.PlaceInTree = device.PlaceInTree;
 
             deviceState.InnerStates = new List<InnerState>();
-            foreach (var innerState in driver.state)
+            foreach (var innerState in device.Driver.States)
             {
                 InnerState state = new InnerState(innerState);
                 deviceState.InnerStates.Add(state);
             }
 
             deviceState.Parameters = new List<Parameter>();
-            if (driver.paramInfo != null)
-                foreach (var parameterInfo in driver.paramInfo)
-                {
-                    Parameter parameter = new Parameter();
-                    parameter.Name = parameterInfo.name;
-                    parameter.Caption = parameterInfo.caption;
-                    parameter.Visible = ((parameterInfo.hidden == "0") && (parameterInfo.showOnlyInState == "0"));
-                    deviceState.Parameters.Add(parameter);
-                }
+            foreach (var innerParameter in device.Driver.Parameters)
+            {
+                Parameter parameter = new Parameter(innerParameter);
+                deviceState.Parameters.Add(parameter);
+            }
 
             return deviceState;
         }
 
         static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
-            device.DriverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-            var metadataDriver = FiresecManager.Configuration.Metadata.drv.First(x => x.id == device.DriverId);
-            device.Driver = metadataDriver;
+            var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
+            device.Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
 
             // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
             device.Address = innerDevice.addr;
-            if (metadataDriver.addrMask != null)
+            if (device.Driver.HasAddressMask)
             {
                 int intAddress = System.Convert.ToInt32(device.Address);
                 if (intAddress > 255)
@@ -126,7 +119,7 @@ namespace FiresecClient.Converters
 
         static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
         {
-            switch (device.Driver.DriverName())
+            switch (device.Driver.DriverName)
             {
                 case "Компьютер":
                 case "Насосная Станция":
@@ -153,7 +146,7 @@ namespace FiresecClient.Converters
 
         static void SetId(Device device)
         {
-            string currentId = device.DriverId + ":" + device.Address;
+            string currentId = device.Driver.Id + ":" + device.Address;
             if (device.Parent != null)
             {
                 device.Id = device.Parent.Id + @"/" + currentId;
@@ -232,7 +225,7 @@ namespace FiresecClient.Converters
         static Firesec.CoreConfig.devType DeviceToInnerDevice(Device device)
         {
             Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
-            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.DriverId).idx;
+            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.Id).idx;
             innerDevice.addr = ConvertAddress(device);
 
             if (device.ZoneNo != null)
@@ -268,26 +261,20 @@ namespace FiresecClient.Converters
         {
             List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
 
-            if (device.Driver.DriverName() != "Компьютер")
+            if (device.Driver.DriverName != "Компьютер")
             {
-                if (device.Properties != null)
+                if ((device.Properties != null) && (device.Properties.Count > 0))
                 {
-                    if (device.Properties.Count > 0)
+                    foreach (var deviceProperty in device.Properties)
                     {
-                        foreach (var deviceProperty in device.Properties)
+                        if ((string.IsNullOrEmpty(deviceProperty.Name) == false) && (string.IsNullOrEmpty(deviceProperty.Value)) == false)
                         {
-                            if ((!string.IsNullOrEmpty(deviceProperty.Name)) && (!string.IsNullOrEmpty(deviceProperty.Value)))
+                            //if ((device.Driver.propInfo != null) && (device.Driver.propInfo.Any(x => x.name == deviceProperty.Name)))
                             {
-                                if (device.Driver.propInfo != null)
-                                {
-                                    if (device.Driver.propInfo.Any(x => x.name == deviceProperty.Name))
-                                    {
-                                        Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
-                                        property.name = deviceProperty.Name;
-                                        property.value = deviceProperty.Value;
-                                        propertyList.Add(property);
-                                    }
-                                }
+                                Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
+                                property.name = deviceProperty.Name;
+                                property.value = deviceProperty.Value;
+                                propertyList.Add(property);
                             }
                         }
                     }

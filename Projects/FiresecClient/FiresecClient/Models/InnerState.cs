@@ -10,26 +10,53 @@ namespace FiresecClient.Models
 {
     public class InnerState
     {
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public bool AffectChildren { get; private set; }
-        public int Priority { get; private set; }
-        public State State { get; private set; }
-        public bool IsManualReset { get; private set;}
-        public bool CanResetOnPanel { get; private set; }
-        public bool IsAutomatic { get; private set; }
-        public bool IsActive { get; set; }
+        Firesec.Metadata.configDrvState _innerState;
 
         public InnerState(Firesec.Metadata.configDrvState innerState)
         {
-            Id = innerState.id;
-            Name = innerState.name;
-            Priority = System.Convert.ToInt32(innerState.@class);
-            State = new Firesec.State(Priority);
-            AffectChildren = innerState.affectChildren == "1" ? true : false;
-            IsManualReset = innerState.manualReset == "1" ? true : false;
-            CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
-            IsAutomatic = innerState.type == "Auto" ? true : false;
+            _innerState = innerState;
+        }
+
+        public bool IsActive { get; set; }
+
+        public string Id
+        {
+            get { return _innerState.id; }
+        }
+
+        public string Name
+        {
+            get { return _innerState.name; }
+        }
+
+        public bool AffectChildren
+        {
+            get { return _innerState.affectChildren == "1" ? true : false; }
+        }
+
+        public int Priority
+        {
+            get { return System.Convert.ToInt32(_innerState.@class); }
+        }
+
+        public State State
+        {
+            get { return new Firesec.State(Priority); }
+        }
+
+        public bool IsManualReset
+        {
+            get { return _innerState.manualReset == "1" ? true : false; }
+        }
+
+        public bool CanResetOnPanel
+        {
+            get { return _innerState.CanResetOnPanel == "1" ? true : false; }
+        }
+
+        public bool IsAutomatic
+        {
+            get { return _innerState.type == "Auto" ? true : false; }
         }
     }
 }

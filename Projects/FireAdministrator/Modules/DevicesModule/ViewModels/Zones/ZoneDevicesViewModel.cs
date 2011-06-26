@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.Configuration.Devices)
             {
-                if (device.Driver.IsZoneDevice())
+                if (device.Driver.IsZoneDevice)
                 {
                     if (string.IsNullOrEmpty(device.ZoneNo))
                     {
@@ -59,7 +59,7 @@ namespace DevicesModule.ViewModels
                     }
                 }
 
-                if (device.Driver.IsZoneLogicDevice())
+                if (device.Driver.IsZoneLogicDevice)
                 {
                     if (device.ZoneLogic != null)
                     {
@@ -179,7 +179,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanAdd(object obj)
         {
-            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Device.Driver.IsZoneDevice()));
+            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Device.Driver.IsZoneDevice));
         }
 
         public RelayCommand RemoveCommand { get; private set; }
@@ -194,7 +194,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanRemove(object obj)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneDevice()));
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneDevice));
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }
@@ -214,7 +214,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowZoneLogic(object obj)
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneLogicDevice()));
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneLogicDevice));
         }
     }
 }

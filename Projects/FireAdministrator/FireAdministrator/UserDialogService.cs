@@ -41,7 +41,7 @@ namespace FireAdministrator
 
                 return (bool)result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Logger.Error("Could not open modal dialog", ex);
                 throw;

@@ -13,14 +13,12 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить дополнительное состояние";
             _selectedDevice = LibraryViewModel.Current.SelectedDevice;
-            _driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == _selectedDevice.Id);
             Initialize();
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
         private readonly DeviceViewModel _selectedDevice;
-        private readonly Firesec.Metadata.configDrv _driver;
 
         private bool _isEnabled;
         public bool IsEnabled
@@ -60,10 +58,12 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             States = new ObservableCollection<StateViewModel>();
-            foreach (var item in _driver.state)
+
+            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == _selectedDevice.Id);
+            foreach (var innerState in driver.States)
             {
-                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == item.id) && (x.IsAdditional)) != null) continue;
-                var stateViewModel = new StateViewModel(item.id, _selectedDevice, true);
+                if (_selectedDevice.States.FirstOrDefault(x => (x.Id == innerState.id) && (x.IsAdditional)) != null) continue;
+                var stateViewModel = new StateViewModel(innerState.id, _selectedDevice, true);
                 var frames = new ObservableCollection<FrameViewModel> { new FrameViewModel(Helper.EmptyFrame, 300, 0) };
                 stateViewModel.Frames = frames;
                 States.Add(stateViewModel);

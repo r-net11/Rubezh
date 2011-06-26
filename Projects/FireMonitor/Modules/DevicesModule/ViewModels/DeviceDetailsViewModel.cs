@@ -49,7 +49,6 @@ namespace DevicesModule.ViewModels
             get
             {
                 _deviceControl = new DeviceControls.DeviceControl();
-                _deviceControl.DriverId = _device.DriverId;
 
                 DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 _deviceControl.State = deviceState.State.Id.ToString();
@@ -63,27 +62,27 @@ namespace DevicesModule.ViewModels
 
         public string DeviceCategory
         {
-            get { return _device.Driver.CategoryName(); }
+            get { return _device.Driver.CategoryName; }
         }
 
         public string DeviceType
         {
-            get { return _device.Driver.DeviceTypeName(); }
+            get { return _device.Driver.DeviceTypeName; }
         }
 
         public bool HasImage
         {
-            get { return _device.Driver.HasImage(); }
+            get { return _device.Driver.HasImage; }
         }
 
         public string ImageSource
         {
-            get { return _device.Driver.ImageSource(); }
+            get { return _device.Driver.ImageSource; }
         }
 
         public string DriverName
         {
-            get { return _device.Driver.name; }
+            get { return _device.Driver.Name; }
         }
 
         public string ConnectedTo
@@ -92,7 +91,7 @@ namespace DevicesModule.ViewModels
             {
                 if (_device.Parent != null)
                 {
-                    return _device.Parent.Driver.name;
+                    return _device.Parent.Driver.Name;
                 }
                 return null;
             }
@@ -100,12 +99,12 @@ namespace DevicesModule.ViewModels
 
         public bool IsZoneDevice
         {
-            get { return _device.Driver.IsZoneDevice(); }
+            get { return _device.Driver.IsZoneDevice; }
         }
 
         public bool IsZoneLogicDevice
         {
-            get { return _device.Driver.IsZoneLogicDevice(); }
+            get { return _device.Driver.IsZoneLogicDevice; }
         }
 
         public string PresentationZone
@@ -115,7 +114,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanControl
         {
-            get { return (_device.Driver.DriverName() == "Задвижка"); }
+            get { return (_device.Driver.DriverName == "Задвижка"); }
         }
 
         public ObservableCollection<string> SelfStates

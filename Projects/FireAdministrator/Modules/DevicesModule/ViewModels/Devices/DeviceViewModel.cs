@@ -54,37 +54,37 @@ namespace DevicesModule.ViewModels
 
         public string DriverId
         {
-            get { return Device.DriverId; }
+            get { return Device.Driver.Id; }
         }
 
         public bool IsZoneDevice
         {
-            get { return Device.Driver.IsZoneDevice(); }
+            get { return Device.Driver.IsZoneDevice; }
         }
 
         public bool IsIndicatorDevice
         {
-            get { return Device.Driver.IsIndicatorDevice(); }
+            get { return Device.Driver.IsIndicatorDevice; }
         }
 
         public bool IsZoneLogicDevice
         {
-            get { return Device.Driver.IsZoneLogicDevice(); }
+            get { return Device.Driver.IsZoneLogicDevice; }
         }
 
         public bool CanAddChildren
         {
-            get { return Device.Driver.CanAddChildren(); }
+            get { return Device.Driver.CanAddChildren; }
         }
 
         public string ShortDriverName
         {
-            get { return Device.Driver.shortName; }
+            get { return Device.Driver.ShortName; }
         }
 
         public string DriverName
         {
-            get { return Device.Driver.name; }
+            get { return Device.Driver.Name; }
         }
 
         public bool HasAddress
@@ -94,24 +94,24 @@ namespace DevicesModule.ViewModels
 
         public bool CanEditAddress
         {
-            get { return Device.Driver.CanEditAddress(); }
+            get { return Device.Driver.CanEditAddress; }
         }
 
         public bool HasImage
         {
-            get { return Device.Driver.HasImage(); }
+            get { return Device.Driver.HasImage; }
         }
 
         public string ImageSource
         {
-            get { return Device.Driver.ImageSource(); }
+            get { return Device.Driver.ImageSource; }
         }
 
         public string Address
         {
             get
             {
-                if (Device.Driver.CanEditAddress())
+                if (Device.Driver.CanEditAddress)
                 {
                     return Device.Address;
                 }
@@ -171,8 +171,8 @@ namespace DevicesModule.ViewModels
                     return null;
                 else
                 {
-                    string parentPart = Parent.Device.Driver.shortName;
-                    if (Parent.Device.Driver.ar_no_addr != "1")
+                    string parentPart = Parent.Device.Driver.ShortName;
+                    if (Parent.Device.Driver.HasNoAddress)
                         parentPart += " - " + Parent.Address;
 
                     if (Parent.ConnectedTo == null)

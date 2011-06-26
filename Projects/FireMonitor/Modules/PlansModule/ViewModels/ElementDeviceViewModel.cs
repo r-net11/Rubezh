@@ -64,8 +64,6 @@ namespace PlansModule.ViewModels
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == elementDevice.Id);
             if (_device != null)
             {
-                _deviceControl.DriverId = _device.DriverId;
-
                 AddTooltipCanvas(elementDevice, canvas);
                 OnDeviceStateChanged(elementDevice.Id);
             }
@@ -88,7 +86,7 @@ namespace PlansModule.ViewModels
             menuItem1.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
             contextMenu.Items.Add(menuItem1);
 
-            if ((_device.Driver.options != null) && (_device.Driver.options.Contains("Ignorable")))
+            if (_device.Driver.CanDisable)
             {
                 MenuItem menuItem2 = new MenuItem();
                 menuItem2.Header = "Отключить";
@@ -172,7 +170,7 @@ namespace PlansModule.ViewModels
                 _deviceControl.State = deviceState.State.Id.ToString();
 
                 string tooltip = "";
-                tooltip = device.Address + " - " + _device.Driver.shortName + "\n";
+                tooltip = device.Address + " - " + _device.Driver.ShortName + "\n";
 
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)

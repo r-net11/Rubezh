@@ -30,7 +30,6 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == Id);
             States = new ObservableCollection<StateViewModel>();
             var stateViewModel = new StateViewModel();
             stateViewModel.Id = Convert.ToString(8);
@@ -68,14 +67,8 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                try
-                {
-                    return Helper.DevicesIconsPath + FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == Id).dev_icon + ".ico";
-                }
-                catch (Exception)
-                {
-                }
-                return null;
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.Id == Id);
+                return Helper.DevicesIconsPath + driver.ImageSource;
             }
         }
 
@@ -86,19 +79,15 @@ namespace LibraryModule.ViewModels
             set
             {
                 _id = value;
-                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == value);
-                Name = driver.DriverName();
             }
         }
 
-        string _name;
         public string Name
         {
-            get { return _name; }
-            set
+            get
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
+                return driver.DriverName;
             }
         }
 

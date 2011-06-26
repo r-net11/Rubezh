@@ -8,6 +8,7 @@ using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Events;
 using FiresecClient.Models;
+using FiresecApi;
 
 namespace AlarmModule
 {
@@ -27,7 +28,7 @@ namespace AlarmModule
             foreach (var deviceState in FiresecManager.States.DeviceStates)
             {
                 var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
-                if (device.Driver.cat == "2")
+                if (device.Driver.Category == DeviceCategory.Sensor)
                 {
                     //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
 
@@ -50,7 +51,7 @@ namespace AlarmModule
             Alarm alarm = new Alarm();
             alarm.AlarmType = alarmType;
             alarm.DeviceId = id;
-            alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.name + " - " + device.Address;
+            alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.Name + " - " + device.Address;
             alarm.Time = DateTime.Now.ToString();
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
 

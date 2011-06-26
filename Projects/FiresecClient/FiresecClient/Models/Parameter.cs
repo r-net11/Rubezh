@@ -2,14 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Firesec.Metadata;
 
 namespace FiresecClient.Models
 {
     public class Parameter
     {
-        public string Name { get; set; }
-        public string Caption { get; set; }
+        configDrvParamInfo _parameter;
+
+        public Parameter(configDrvParamInfo parameter)
+        {
+            _parameter = parameter;
+        }
+
         public string Value { get; set; }
-        public bool Visible { get; set; }
+
+        public string Name
+        {
+            get { return _parameter.name; }
+        }
+
+        public string Caption
+        {
+            get { return _parameter.caption; }
+        }
+
+        public bool Visible
+        {
+            get { return ((_parameter.hidden == "0") && (_parameter.showOnlyInState == "0")); }
+        }
     }
 }

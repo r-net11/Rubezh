@@ -5,6 +5,7 @@ using System.Text;
 using Firesec;
 using FiresecClient;
 using System.Diagnostics;
+using FiresecClient.Models;
 
 namespace AssadProcessor.Devices
 {
@@ -24,7 +25,7 @@ namespace AssadProcessor.Devices
             else
                 Address = null;
 
-            string driverName = Extentions.GetDriverNameById(DriverId);
+            string driverName = Driver.GetDriverNameById(DriverId);
             switch (driverName)
             {
                 case "Компьютер":
@@ -64,10 +65,10 @@ namespace AssadProcessor.Devices
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 //            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
-            
+
             if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
@@ -77,15 +78,15 @@ namespace AssadProcessor.Devices
                 switch (mainState.value)
                 {
                     case "Тревога":
-                                    str = mainState.value; break;
-                    case "Внимание (предтревожное)": 
-                                    str = mainState.value; break;
-                    case "Неисправность": 
-                                    str = mainState.value; break;
-                    case "Требуется обслуживание": 
-                                    str = mainState.value; break;
-                    case "Норма(*)": 
-                                    str = mainState.value; break;
+                        str = mainState.value; break;
+                    case "Внимание (предтревожное)":
+                        str = mainState.value; break;
+                    case "Неисправность":
+                        str = mainState.value; break;
+                    case "Требуется обслуживание":
+                        str = mainState.value; break;
+                    case "Норма(*)":
+                        str = mainState.value; break;
                     default: break;
                 }
 
@@ -112,12 +113,11 @@ namespace AssadProcessor.Devices
                         states.Add(parameterState);
                     }
                 }
-//-->>            
+                //-->>            
                 if (FiresecManager.Configuration.Devices.Any(x => x.Id == Id))
                 {
-                    Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
-                    var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x=>x.id == device.DriverId);
-                    
+                    var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
+
                     ////отладочная информация 
                     //{
                     //    string str0 = "GetState" + " для  " + DriversHelper.GetDriverNameById(device.DriverId) + " ---";
@@ -137,7 +137,7 @@ namespace AssadProcessor.Devices
                     //    Trace.WriteLine(str1);
                     //}
 
-                    if ((driver.minZoneCardinality == "1") && (driver.maxZoneCardinality == "1"))
+                    if (device.Driver.IsZoneDevice)
                     {
                         Assad.DeviceTypeState state1 = new Assad.DeviceTypeState();
                         state1.state = "Зона";
@@ -158,7 +158,7 @@ namespace AssadProcessor.Devices
                     else
                     {
 
-                        if ((driver.options != null) && (driver.options.Contains("ExtendedZoneLogic")))
+                        if (device.Driver.IsZoneLogicDevice)
                         {
                             Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
                             state2.state = "Настройка включения по состоянию зон";
@@ -171,58 +171,51 @@ namespace AssadProcessor.Devices
                             //    Trace.WriteLine(str3);
                             //}
                         }
-                        
+
                     }
-                    if (driver.propInfo != null)
+                    foreach (var propinfo in device.Driver.Properties)
                     {
-                        foreach (var propinfo in driver.propInfo)
+                        Assad.DeviceTypeState loopState = new Assad.DeviceTypeState();
+                        string name = propinfo.name;
+                        string value = propinfo.@default;
+                        loopState.state = propinfo.caption;
+
+                        if (propinfo.caption == "Адрес")
                         {
-                            Assad.DeviceTypeState loopState = new Assad.DeviceTypeState();
-                            string name = propinfo.name;
-                            string value =  propinfo.@default;                            
-                            loopState.state = propinfo.caption;
+                            loopState.state = "Адрес USB устройства в сети RS-485";
+                        }
 
-                            if (propinfo.caption == "Адрес")
+                        if (device.Properties.Any(x => x.Name == name))
+                        { // свойство присутствует
+                            Property property = device.Properties.FirstOrDefault(x => x.Name == name);
+                            value = property.Value;
+
+                            if (string.IsNullOrEmpty(property.Value))
                             {
-                                loopState.state = "Адрес USB устройства в сети RS-485";
+                                value = propinfo.@default;
                             }
+                        }
 
-                            if (device.Properties.Any(x => x.Name == name))
-                            { // свойство присутствует
-                                Property property = device.Properties.FirstOrDefault(x => x.Name == name);
-                                value = property.Value;
 
-                                if (string.IsNullOrEmpty(property.Value))
-                                {
-                                    value = propinfo.@default;
-                                }
+                        if (propinfo.param != null)
+                        {// выбор значения из массива
+                            if (propinfo.param.Any(x => x.value == value))
+                            {
+                                value = propinfo.param.FirstOrDefault(x => x.value == value).name;
                             }
+                        }
 
-
-                            if (propinfo.param != null)
-                            {// выбор значения из массива
-                                if (propinfo.param.Any(x => x.value == value))
-                                {
-                                    value = propinfo.param.FirstOrDefault(x => x.value == value).name;
-                                }
-                            }
-                                    
-                            loopState.value = value;
-                            ////отладочная информация 
-                            //{
-                            //    string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
-                            //    Trace.WriteLine(loopstr);
-                            //}
-                            if((propinfo.hidden == "0") && (propinfo.showOnlyInState == "0"))
+                        loopState.value = value;
+                        ////отладочная информация 
+                        //{
+                        //    string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
+                        //    Trace.WriteLine(loopstr);
+                        //}
+                        if ((propinfo.hidden == "0") && (propinfo.showOnlyInState == "0"))
                             states.Add(loopState);
-                        }    
+                    }
 
-                      }
-                    }//
-
-
-
-//<<--            
+                }
             }
             else
             {
@@ -250,7 +243,7 @@ namespace AssadProcessor.Devices
 
             if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
                 List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
@@ -291,7 +284,7 @@ namespace AssadProcessor.Devices
 
             if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 foreach (var parameter in deviceState.Parameters)
                 {

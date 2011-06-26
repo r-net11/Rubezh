@@ -40,17 +40,17 @@ namespace DevicesModule.ViewModels
 
         public string DriverId
         {
-            get { return _device.DriverId; }
+            get { return _device.Driver.Id; }
         }
 
         public bool IsZoneDevice
         {
-            get { return _device.Driver.IsZoneDevice(); }
+            get { return _device.Driver.IsZoneDevice; }
         }
 
         public bool IsZoneLogicDevice
         {
-            get { return _device.Driver.IsZoneLogicDevice(); }
+            get { return _device.Driver.IsZoneLogicDevice; }
         }
 
         public string PresentationZone
@@ -60,12 +60,12 @@ namespace DevicesModule.ViewModels
 
         public string ShortDriverName
         {
-            get { return _device.Driver.shortName; }
+            get { return _device.Driver.ShortName; }
         }
 
         public string DriverName
         {
-            get { return _device.Driver.name; }
+            get { return _device.Driver.Name; }
         }
 
         public bool HasAddress
@@ -98,12 +98,12 @@ namespace DevicesModule.ViewModels
 
         public bool HasImage
         {
-            get { return _device.Driver.HasImage(); }
+            get { return _device.Driver.HasImage; }
         }
 
         public string ImageSource
         {
-            get { return _device.Driver.ImageSource(); }
+            get { return _device.Driver.ImageSource; }
         }
 
         public string ConnectedTo
@@ -115,7 +115,7 @@ namespace DevicesModule.ViewModels
                 else
                 {
                     string parentPart = Parent.ShortDriverName;
-                    if (Parent._device.Driver.ar_no_addr != "1")
+                    if (Parent._device.Driver.HasNoAddress)
                         parentPart += " - " + Parent.Address;
 
                     if (Parent.ConnectedTo == null)
@@ -317,14 +317,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanDisable(object obj)
         {
-            if (_device.Driver.options != null)
-            {
-                if (_device.Driver.options.Contains("Ignorable"))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return _device.Driver.CanDisable;
         }
 
         public RelayCommand DisableCommand { get; private set; }

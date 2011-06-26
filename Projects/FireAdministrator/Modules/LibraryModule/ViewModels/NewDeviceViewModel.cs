@@ -53,13 +53,13 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             Items = new ObservableCollection<DeviceViewModel>();
-            foreach (var driver in FiresecManager.Configuration.Metadata.drv)
+            foreach (var driver in FiresecManager.Configuration.Drivers)
                 try
                 {
-                    if (!driver.options.Contains("Placeable") ||
-                        (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == driver.id) != null)) continue;
+                    if (!driver.IsPlaceable || (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == driver.Id) != null))
+                        continue;
                     var deviceViewModel = new DeviceViewModel();
-                    deviceViewModel.Id = driver.id;
+                    deviceViewModel.Id = driver.Id;
                     deviceViewModel.Initialize();
                     Items.Add(deviceViewModel);
                 }

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Firesec;
 using AssadProcessor.Devices;
 using System.Diagnostics;
+using FiresecClient.Models;
 
 namespace AssadProcessor
 {
@@ -31,7 +32,7 @@ namespace AssadProcessor
 
         public void Start()
         {
-            FiresecManager.Start();
+            FiresecManager.Start("adm", "");
             StartAssad();
         }
 
@@ -63,14 +64,14 @@ namespace AssadProcessor
 
         public Assad.DeviceType QueryAbility(Assad.MHqueryAbilityType content)
         {
-            AssadBase device = Configuration.BaseDevices.First(a => a.DeviceId == content.deviceId);
+            var device = Configuration.BaseDevices.First(a => a.DeviceId == content.deviceId);
             Assad.DeviceType ability = device.QueryAbility();
             return ability;
         }
 
         public void AssadExecuteCommand(Assad.MHdeviceControlType controlType)
         {
-            AssadDevice assadDevice = Configuration.Devices.First(x => x.DeviceId == controlType.deviceId);
+            var assadDevice = Configuration.Devices.First(x => x.DeviceId == controlType.deviceId);
             string commandName = controlType.cmdId;
             if (commandName == "Обновить")
             {
@@ -79,24 +80,20 @@ namespace AssadProcessor
             }
             else
             {
-                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == assadDevice.Id);
+                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == assadDevice.Id);
                 if (device != null)
                 {
                     if (commandName.StartsWith("Сброс "))
                     {
                         commandName = commandName.Replace("Сброс ", "");
 
-                        string driverName = Extentions.GetDriverNameById(device.DriverId);
-                        if (driverName == "Компьютер")
+                        if (device.Driver.DriverName == "Компьютер")
                         {
                             foreach (var resetDevice in FiresecManager.Configuration.Devices)
                             {
-                                if (resetDevice.Driver.state != null)
+                                if (resetDevice.Driver.States.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
                                 {
-                                    if (resetDevice.Driver.state.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
-                                    {
-                                        FiresecManager.ResetState(resetDevice.Id, commandName);
-                                    }
+                                    FiresecManager.ResetState(resetDevice.Id, commandName);
                                 }
                             }
                         }
@@ -111,19 +108,15 @@ namespace AssadProcessor
 
         public void ResetAllStates(string deviceId)
         {
-            AssadDevice assadDevice = Configuration.Devices.First(x => x.DeviceId == deviceId);
-            Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == assadDevice.Id);
+            var assadDevice = Configuration.Devices.First(x => x.DeviceId == deviceId);
+            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == assadDevice.Id);
             if (device != null)
             {
-                string driverName = Extentions.GetDriverNameById(device.DriverId);
-                if (device.Driver.state != null)
+                foreach (var state in device.Driver.States)
                 {
-                    foreach (var state in device.Driver.state)
+                    if (state.manualReset == "1")
                     {
-                        if (state.manualReset == "1")
-                        {
-                            FiresecManager.ResetState(device.Id, state.name);
-                        }
+                        FiresecManager.ResetState(device.Id, state.name);
                     }
                 }
             }

@@ -20,36 +20,31 @@ namespace DevicesModule.DeviceProperties
             BoolProperties = new List<BoolPropertyViewModel>();
             EnumProperties = new List<EnumPropertyViewModel>();
 
-            var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == device.DriverId);
-
-            if (driver.propInfo != null)
+            foreach (var propertyInfo in device.Driver.Properties)
             {
-                foreach (var propertyInfo in driver.propInfo)
-                {
-                    if (propertyInfo.hidden == "1")
-                        continue;
-                    if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
-                        continue;
+                if (propertyInfo.hidden == "1")
+                    continue;
+                if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
+                    continue;
 
-                    if (propertyInfo.param != null)
+                if (propertyInfo.param != null)
+                {
+                    EnumProperties.Add(new EnumPropertyViewModel(propertyInfo, device));
+                }
+                else
+                {
+                    switch (propertyInfo.type)
                     {
-                        EnumProperties.Add(new EnumPropertyViewModel(propertyInfo, device));
-                    }
-                    else
-                    {
-                        switch (propertyInfo.type)
-                        {
-                            case "String":
-                            case "Int":
-                            case "Byte":
-                                StringProperties.Add(new StringPropertyViewModel(propertyInfo, device));
-                                break;
-                            case "Bool":
-                                BoolProperties.Add(new BoolPropertyViewModel(propertyInfo, device));
-                                break;
-                            default:
-                                throw new Exception("Неизвестный тип свойства");
-                        }
+                        case "String":
+                        case "Int":
+                        case "Byte":
+                            StringProperties.Add(new StringPropertyViewModel(propertyInfo, device));
+                            break;
+                        case "Bool":
+                            BoolProperties.Add(new BoolPropertyViewModel(propertyInfo, device));
+                            break;
+                        default:
+                            throw new Exception("Неизвестный тип свойства");
                     }
                 }
             }

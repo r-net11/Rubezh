@@ -9,6 +9,7 @@ namespace FiresecClient.Models
 {
     public class CurrentConfiguration
     {
+        public List<Driver> Drivers { get; set; }
         public List<Device> Devices { get; set; }
         public Device RootDevice { get; set; }
         public List<Zone> Zones { get; set; }
@@ -49,6 +50,17 @@ namespace FiresecClient.Models
                 {
                     device.AddUnderlyingZone(device.ZoneNo);
                 }
+            }
+        }
+
+        public void FillDrivrs(Firesec.Metadata.config metadata)
+        {
+            Driver.Metadata = metadata;
+            Drivers = new List<Driver>();
+            foreach (var firesecDriver in metadata.drv)
+            {
+                Driver driver = new Driver(firesecDriver);
+                Drivers.Add(driver);
             }
         }
     }

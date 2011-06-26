@@ -93,7 +93,7 @@ namespace DevicesModule.ViewModels
 
         void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
-            if (parentDeviceViewModel.Device.Driver.Category() != DeviceCategory.Device)
+            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategory.Device)
             {
                 parentDeviceViewModel.IsExpanded = true;
                 foreach (var deviceViewModel in parentDeviceViewModel.Children)
@@ -120,7 +120,6 @@ namespace DevicesModule.ViewModels
         {
             Device newDevice = new Device();
             newDevice.Driver = originDevice.Driver;
-            newDevice.DriverId = originDevice.DriverId;
             newDevice.Address = originDevice.Address;
             newDevice.Description = originDevice.Description;
             newDevice.ZoneNo = originDevice.ZoneNo;

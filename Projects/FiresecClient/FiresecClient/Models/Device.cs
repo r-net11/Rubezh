@@ -14,14 +14,12 @@ namespace FiresecClient.Models
             UderlyingZones = new List<string>();
             Children = new List<Device>();
         }
-
         public Device Parent { get; set; }
         public List<Device> Children { get; set; }
         public string DatabaseId { get; set; }
-        public string DriverId { get; set; }
-        public Firesec.Metadata.configDrv Driver { get; set; }
+
+        public Driver Driver { get; set; }
         public string PlaceInTree { get; set; }
-        //public string Id { get; set; }
         public string Address { get; set; }
         public string ZoneNo { get; set; }
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
@@ -33,7 +31,7 @@ namespace FiresecClient.Models
         {
             get
             {
-                string currentId = DriverId + ":" + Address;
+                string currentId = Driver.Id + ":" + Address;
                 if (Parent != null)
                 {
                     return Parent.Id + @"/" + currentId;
@@ -74,7 +72,7 @@ namespace FiresecClient.Models
         {
             get
             {
-                if (Driver.IsZoneDevice())
+                if (Driver.IsZoneDevice)
                 {
                     if (string.IsNullOrEmpty(ZoneNo))
                         return "";
@@ -82,7 +80,7 @@ namespace FiresecClient.Models
                     Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
                     return ZoneNo + "." + zone.Name;
                 }
-                if (Driver.IsZoneLogicDevice())
+                if (Driver.IsZoneLogicDevice)
                 {
                     return ZoneLogicToText.Convert(ZoneLogic);
                 }

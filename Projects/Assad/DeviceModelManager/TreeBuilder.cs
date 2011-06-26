@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecClient;
 using Firesec;
+using FiresecClient.Models;
 
 namespace DeviveModelManager
 {
@@ -96,8 +97,8 @@ namespace DeviveModelManager
                 {
                     canAdd = false;
                 }
-                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == driverId);
-                if (Extentions.IsIgnore(driver))
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
+                if (driver.IsIgnore)
                 {
                     canAdd = false;
                 }
