@@ -10,15 +10,15 @@ namespace DevicesModule.DeviceProperties
 {
     public class BasePropertyViewModel : BaseViewModel
     {
-        public BasePropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
+        public BasePropertyViewModel(DriverProperty driverProperty, Device device)
         {
-            _propertyInfo = propertyInfo;
+            _driverProperty = driverProperty;
             _device = device;
-            Caption = propertyInfo.caption;
+            Caption = driverProperty.Caption;
         }
 
         protected Device _device;
-        protected Firesec.Metadata.configDrvPropInfo _propertyInfo;
+        protected DriverProperty _driverProperty;
 
         public string Caption { get; private set; }
 
@@ -26,9 +26,9 @@ namespace DevicesModule.DeviceProperties
         {
             if (_device.Properties == null)
                 _device.Properties = new List<Property>();
-            var property = _device.Properties.FirstOrDefault(x => x.Name == _propertyInfo.name);
+            var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);
 
-            if (Value == _propertyInfo.@default)
+            if (Value == _driverProperty.Default)
             {
                 if (property != null)
                 {
@@ -39,13 +39,13 @@ namespace DevicesModule.DeviceProperties
 
             if (property != null)
             {
-                property.Name = _propertyInfo.name;
+                property.Name = _driverProperty.Name;
                 property.Value = Value;
             }
             else
             {
                 Property newProperty = new Property();
-                newProperty.Name = _propertyInfo.name;
+                newProperty.Name = _driverProperty.Name;
                 newProperty.Value = Value;
                 _device.Properties.Add(newProperty);
             }

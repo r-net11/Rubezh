@@ -20,32 +20,21 @@ namespace DevicesModule.DeviceProperties
             BoolProperties = new List<BoolPropertyViewModel>();
             EnumProperties = new List<EnumPropertyViewModel>();
 
-            foreach (var propertyInfo in device.Driver.Properties)
+            foreach (var driverProperty in device.Driver.Properties)
             {
-                if (propertyInfo.hidden == "1")
-                    continue;
-                if ((propertyInfo.caption == "Заводской номер") || (propertyInfo.caption == "Версия микропрограммы"))
-                    continue;
-
-                if (propertyInfo.param != null)
+                switch (driverProperty.DriverPropertyType)
                 {
-                    EnumProperties.Add(new EnumPropertyViewModel(propertyInfo, device));
-                }
-                else
-                {
-                    switch (propertyInfo.type)
-                    {
-                        case "String":
-                        case "Int":
-                        case "Byte":
-                            StringProperties.Add(new StringPropertyViewModel(propertyInfo, device));
-                            break;
-                        case "Bool":
-                            BoolProperties.Add(new BoolPropertyViewModel(propertyInfo, device));
-                            break;
-                        default:
-                            throw new Exception("Неизвестный тип свойства");
-                    }
+                    case DriverProperty.DriverPropertyTypeEnum.EnumType:
+                        EnumProperties.Add(new EnumPropertyViewModel(driverProperty, device));
+                        break;
+                    case DriverProperty.DriverPropertyTypeEnum.StringType:
+                    case DriverProperty.DriverPropertyTypeEnum.IntType:
+                    case DriverProperty.DriverPropertyTypeEnum.ByteType:
+                        StringProperties.Add(new StringPropertyViewModel(driverProperty, device));
+                        break;
+                    case DriverProperty.DriverPropertyTypeEnum.BoolType:
+                        BoolProperties.Add(new BoolPropertyViewModel(driverProperty, device));
+                        break;
                 }
             }
         }

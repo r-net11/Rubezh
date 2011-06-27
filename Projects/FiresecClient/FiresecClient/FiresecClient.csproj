@@ -86,6 +86,7 @@
     <Compile Include="FiresecInternalClient.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\DriverProperty.cs" />
     <Compile Include="Models\InnerState.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Premission.cs" />

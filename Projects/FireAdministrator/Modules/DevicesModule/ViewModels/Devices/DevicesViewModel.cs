@@ -18,8 +18,8 @@ namespace DevicesModule.ViewModels
     {
         public DevicesViewModel()
         {
-            CopyCommand = new RelayCommand(OnCopy, CanCopy);
-            CutCommand = new RelayCommand(OnCut, CanCut);
+            CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
+            CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
         }
 
@@ -103,93 +103,57 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanCopy(object obj)
+        Device _deviceToCopy;
+        bool _isFullCopy;
+
+        bool CanCutCopy(object obj)
         {
+            if (SelectedDevice == null)
+                return false;
+
+            if (SelectedDevice.Driver.IsAutoCreate)
+                return false;
+
+            if (SelectedDevice.Driver.DriverName == "Компьютер")
+                return false;
+
             return true;
         }
 
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
-            deviceToCopy = CopyDevice(SelectedDevice.Device);
-        }
-
-        Device deviceToCopy;
-
-        Device CopyDevice(Device originDevice)
-        {
-            Device newDevice = new Device();
-            newDevice.Driver = originDevice.Driver;
-            newDevice.Address = originDevice.Address;
-            newDevice.Description = originDevice.Description;
-            newDevice.ZoneNo = originDevice.ZoneNo;
-
-            if (true)
-            {
-                newDevice.DatabaseId = originDevice.DatabaseId;
-            }
-
-            newDevice.ZoneLogic = new Firesec.ZoneLogic.expr();
-            List<clauseType> clauses = new List<clauseType>();
-            if ((originDevice.ZoneLogic != null) && (originDevice.ZoneLogic.clause != null))
-            {
-                foreach (var clause in originDevice.ZoneLogic.clause)
-                {
-                    clauseType copyClause = new clauseType();
-                    copyClause.joinOperator = clause.joinOperator;
-                    copyClause.operation = clause.operation;
-                    copyClause.state = clause.state;
-                    copyClause.zone = (string[])clause.zone.Clone();
-                    clauses.Add(copyClause);
-                }
-
-                newDevice.ZoneLogic.clause = clauses.ToArray();
-            }
-
-            List<Property> copyProperties = new List<Property>();
-            foreach (var property in originDevice.Properties)
-            {
-                Property copyProperty = new Property();
-                copyProperty.Name = property.Name;
-                copyProperty.Value = property.Value;
-                copyProperties.Add(copyProperty);
-            }
-            newDevice.Properties = copyProperties;
-
-            newDevice.Children = new List<Device>();
-            foreach (var childDevice in originDevice.Children)
-            {
-                Device newChildDevice = CopyDevice(childDevice);
-                newChildDevice.Parent = newDevice;
-                newDevice.Children.Add(newChildDevice);
-            }
-
-            return newDevice;
-        }
-
-        bool CanCut(object obj)
-        {
-            return true;
+            _deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = false);
         }
 
         public RelayCommand CutCommand { get; private set; }
         void OnCut()
         {
-            deviceToCopy = CopyDevice(SelectedDevice.Device);
+            _deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
             SelectedDevice.RemoveCommand.Execute();
-
             FiresecManager.Configuration.Update();
         }
 
         bool CanPaste(object obj)
         {
-            return true;
+            if (SelectedDevice == null)
+                return false;
+
+            if (_deviceToCopy != null)
+            {
+                if (SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.Id))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public RelayCommand PasteCommand { get; private set; }
         void OnPaste()
         {
-            var pasteDevice = CopyDevice(deviceToCopy);
+            var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
             SelectedDevice.Device.Children.Add(pasteDevice);
             pasteDevice.Parent = SelectedDevice.Device;
             var newDevice = AddDevice(pasteDevice, SelectedDevice);

@@ -10,17 +10,17 @@ namespace DevicesModule.DeviceProperties
 {
     public class EnumPropertyViewModel : BasePropertyViewModel
     {
-        public EnumPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
-            : base(propertyInfo, device)
+        public EnumPropertyViewModel(DriverProperty driverProperty, Device device)
+            : base(driverProperty, device)
         {
-            var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
+            var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
             if (property != null)
             {
-                _selectedValue = propertyInfo.param.FirstOrDefault(x => x.value == property.Value).name;
+                _selectedValue = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
             }
             else
             {
-                _selectedValue = propertyInfo.param.FirstOrDefault(x => x.value == propertyInfo.@default).name;
+                _selectedValue = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default).Name;
             }
         }
 
@@ -29,9 +29,9 @@ namespace DevicesModule.DeviceProperties
             get
             {
                 List<string> values = new List<string>();
-                foreach (var propertyParameter in _propertyInfo.param)
+                foreach (var propertyParameter in _driverProperty.Parameters)
                 {
-                    values.Add(propertyParameter.name);
+                    values.Add(propertyParameter.Name);
                 }
                 return values;
             }

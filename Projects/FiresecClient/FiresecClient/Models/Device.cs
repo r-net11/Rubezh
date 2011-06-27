@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using Firesec.ZoneLogic;
 
 namespace FiresecClient.Models
 {
@@ -107,6 +108,57 @@ namespace FiresecClient.Models
                 }
                 return "";
             }
+        }
+
+        public Device Copy(bool fullCopy)
+        {
+            Device newDevice = new Device();
+            newDevice.Driver = Driver;
+            newDevice.Address = Address;
+            newDevice.Description = Description;
+            newDevice.ZoneNo = ZoneNo;
+
+            if (fullCopy)
+            {
+                newDevice.DatabaseId = DatabaseId;
+            }
+
+            newDevice.ZoneLogic = new Firesec.ZoneLogic.expr();
+            List<clauseType> clauses = new List<clauseType>();
+            if ((ZoneLogic != null) && (ZoneLogic.clause != null))
+            {
+                foreach (var clause in ZoneLogic.clause)
+                {
+                    clauseType copyClause = new clauseType();
+                    copyClause.joinOperator = clause.joinOperator;
+                    copyClause.operation = clause.operation;
+                    copyClause.state = clause.state;
+                    copyClause.zone = (string[])clause.zone.Clone();
+                    clauses.Add(copyClause);
+                }
+
+                newDevice.ZoneLogic.clause = clauses.ToArray();
+            }
+
+            List<Property> copyProperties = new List<Property>();
+            foreach (var property in Properties)
+            {
+                Property copyProperty = new Property();
+                copyProperty.Name = property.Name;
+                copyProperty.Value = property.Value;
+                copyProperties.Add(copyProperty);
+            }
+            newDevice.Properties = copyProperties;
+
+            newDevice.Children = new List<Device>();
+            foreach (var childDevice in Children)
+            {
+                Device newChildDevice = childDevice.Copy(fullCopy);
+                newChildDevice.Parent = newDevice;
+                newDevice.Children.Add(newChildDevice);
+            }
+
+            return newDevice;
         }
     }
 }

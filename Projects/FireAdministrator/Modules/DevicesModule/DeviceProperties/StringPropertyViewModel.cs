@@ -10,13 +10,14 @@ namespace DevicesModule.DeviceProperties
 {
     public class StringPropertyViewModel : BasePropertyViewModel
     {
-        public StringPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device) : base(propertyInfo, device)
+        public StringPropertyViewModel(DriverProperty driverProperty, Device device)
+            : base(driverProperty, device)
         {
-            var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
+            var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
             if (property != null)
                 _text = property.Value;
             else
-                _text = propertyInfo.@default;
+                _text = driverProperty.Default;
         }
 
         string _text;

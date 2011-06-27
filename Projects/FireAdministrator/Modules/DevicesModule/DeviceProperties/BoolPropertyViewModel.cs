@@ -10,14 +10,14 @@ namespace DevicesModule.DeviceProperties
 {
     public class BoolPropertyViewModel : BasePropertyViewModel
     {
-        public BoolPropertyViewModel(Firesec.Metadata.configDrvPropInfo propertyInfo, Device device)
-            : base(propertyInfo, device)
+        public BoolPropertyViewModel(DriverProperty driverProperty, Device device)
+            : base(driverProperty, device)
         {
-            var property = device.Properties.FirstOrDefault(x => x.Name == propertyInfo.name);
+            var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
             if (property != null)
                 _isChecked = property.Value == "1" ? true : false;
             else
-                _isChecked = (propertyInfo.@default == "1") ? true : false;
+                _isChecked = (driverProperty.Default == "1") ? true : false;
         }
 
         bool _isChecked;

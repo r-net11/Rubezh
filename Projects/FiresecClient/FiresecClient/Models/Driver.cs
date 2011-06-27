@@ -10,22 +10,32 @@ namespace FiresecClient.Models
     public class Driver
     {
         public static Firesec.Metadata.config Metadata;
-        configDrv _driver;
+        public configDrv _driver;
 
         public Driver(configDrv driver)
         {
             _driver = driver;
         }
 
-        public List<configDrvPropInfo> Properties
+        public List<DriverProperty> Properties
         {
             get
             {
+                List<DriverProperty> Properties = new List<DriverProperty>();
                 if (_driver.propInfo != null)
                 {
-                    return new List<configDrvPropInfo>(_driver.propInfo);
+                    foreach (var firesecProperty in _driver.propInfo)
+                    {
+                        if (firesecProperty.hidden == "1")
+                            continue;
+                        if ((firesecProperty.caption == "Заводской номер") || (firesecProperty.caption == "Версия микропрограммы"))
+                            continue;
+
+                        DriverProperty driverProperty = new DriverProperty(firesecProperty);
+                        Properties.Add(driverProperty);
+                    }
                 }
-                return new List<configDrvPropInfo>();
+                return Properties;
             }
         }
 
@@ -52,7 +62,6 @@ namespace FiresecClient.Models
                 return new List<configDrvState>();
             }
         }
-
 
         public string Id
         {
@@ -93,6 +102,11 @@ namespace FiresecClient.Models
         public string AddressMask
         {
             get { return _driver.addrMask; }
+        }
+
+        public string ChildAddressMask
+        {
+            get { return _driver.childAddrMask; }
         }
 
         public int ShleifCount

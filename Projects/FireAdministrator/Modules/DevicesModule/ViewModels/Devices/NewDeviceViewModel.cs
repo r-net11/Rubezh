@@ -45,6 +45,22 @@ namespace DevicesModule.ViewModels
 
         string GetNewAddress()
         {
+            string mask = _parentDeviceViewModel.Device.Driver.ChildAddressMask;
+
+            List<int> items = new List<int>();
+
+            while (true)
+            {
+                int indexOf = mask.IndexOf("(");
+                if (indexOf == -1)
+                    continue;
+
+                mask = mask.Remove(0, indexOf + 1);
+                string item = mask.Substring(0, mask.IndexOf(")"));
+                int intItem = Convert.ToInt32(item);
+                items.Add(intItem);
+            }
+
             return "0.0";
         }
 
