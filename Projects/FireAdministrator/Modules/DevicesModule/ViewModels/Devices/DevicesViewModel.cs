@@ -178,7 +178,7 @@ namespace DevicesModule.ViewModels
             deviceToCopy = CopyDevice(SelectedDevice.Device);
             SelectedDevice.RemoveCommand.Execute();
 
-            FiresecManager.Configuration.FillAllDevices();
+            FiresecManager.Configuration.Update();
         }
 
         bool CanPaste(object obj)
@@ -195,7 +195,7 @@ namespace DevicesModule.ViewModels
             var newDevice = AddDevice(pasteDevice, SelectedDevice);
             CollapseChild(newDevice);
 
-            FiresecManager.Configuration.FillAllDevices();
+            FiresecManager.Configuration.Update();
         }
 
         public override void OnShow()

@@ -17,11 +17,6 @@ namespace FiresecClient.Models
             _driver = driver;
         }
 
-        public configDrv FiresecDriver
-        {
-            get { return _driver; }
-        }
-
         public List<configDrvPropInfo> Properties
         {
             get
@@ -74,9 +69,30 @@ namespace FiresecClient.Models
             get { return _driver.shortName; }
         }
 
-        public bool HasNoAddress
+        public bool HasAddress
         {
-            get { return _driver.ar_no_addr == "1"; }
+            get { return _driver.ar_no_addr != "1"; }
+        }
+
+        public bool CanEditAddress
+        {
+            get
+            {
+                if (_driver.ar_no_addr != null)
+                {
+                    if (_driver.ar_no_addr == "1")
+                        return false;
+
+                    if (_driver.acr_enabled == "1")
+                        return false;
+                }
+                return true;
+            }
+        }
+
+        public string AddressMask
+        {
+            get { return _driver.addrMask; }
         }
 
         public int ShleifCount
@@ -183,16 +199,6 @@ namespace FiresecClient.Models
             get { return _driver.addrMask != null; }
         }
 
-        public bool CanDisable
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("Ignorable")); }
-        }
-
-        public bool IsPlaceable
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("Placeable")); }
-        }
-
         public string ImageSource
         {
             get
@@ -215,22 +221,6 @@ namespace FiresecClient.Models
         public bool HasImage
         {
             get { return ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico"; }
-        }
-
-        public bool CanEditAddress
-        {
-            get
-            {
-                if (_driver.ar_no_addr != null)
-                {
-                    if (_driver.ar_no_addr == "1")
-                        return false;
-
-                    if (_driver.acr_enabled == "1")
-                        return false;
-                }
-                return true;
-            }
         }
 
         public bool CanAddChildren
@@ -266,9 +256,24 @@ namespace FiresecClient.Models
             get { return ((_driver.options != null) && (_driver.options.Contains("ExtendedZoneLogic"))); }
         }
 
+        public bool CanDisable
+        {
+            get { return (_driver.options != null) && (_driver.options.Contains("Ignorable")); }
+        }
+
+        public bool IsPlaceable
+        {
+            get { return (_driver.options != null) && (_driver.options.Contains("Placeable")); }
+        }
+
         public bool IsIndicatorDevice
         {
             get { return (_driver.name == "Индикатор"); }
+        }
+
+        public bool CanControl
+        {
+            get { return (DriverName == "Задвижка"); }
         }
 
         public DeviceCategory Category
@@ -484,10 +489,7 @@ namespace FiresecClient.Models
 
         public bool IsIgnore
         {
-            get
-            {
-                return (driverDataList.FirstOrDefault(x => (x.DriverId == _driver.id)).IgnoreLevel > 0);
-            }
+            get { return (driverDataList.FirstOrDefault(x => (x.DriverId == _driver.id)).IgnoreLevel > 0); }
         }
 
         public string DriverName

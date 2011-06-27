@@ -16,8 +16,6 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        Device _device;
-
         public DeviceViewModel()
         {
             ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
@@ -29,109 +27,20 @@ namespace DevicesModule.ViewModels
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;
-            _device = device;
+            Device = device;
             UpdateParameters();
         }
 
-        public string Id
+        public Device Device { get; private set; }
+
+        public Driver Driver
         {
-            get { return _device.Id; }
-        }
-
-        public string DriverId
-        {
-            get { return _device.Driver.Id; }
-        }
-
-        public bool IsZoneDevice
-        {
-            get { return _device.Driver.IsZoneDevice; }
-        }
-
-        public bool IsZoneLogicDevice
-        {
-            get { return _device.Driver.IsZoneLogicDevice; }
-        }
-
-        public string PresentationZone
-        {
-            get { return _device.PresentationZone; }
-        }
-
-        public string ShortDriverName
-        {
-            get { return _device.Driver.ShortName; }
-        }
-
-        public string DriverName
-        {
-            get { return _device.Driver.Name; }
-        }
-
-        public bool HasAddress
-        {
-            get
-            {
-                return (!string.IsNullOrEmpty(Address));
-            }
-        }
-
-        public string Address
-        {
-            get { return _device.Address; }
-        }
-
-        public string PresentationAddress
-        {
-            get
-            {
-                if (_device.Address == "0")
-                    return "";
-                return _device.Address;
-            }
-        }
-
-        public string Description
-        {
-            get { return _device.Description; }
-        }
-
-        public bool HasImage
-        {
-            get { return _device.Driver.HasImage; }
-        }
-
-        public string ImageSource
-        {
-            get { return _device.Driver.ImageSource; }
-        }
-
-        public string ConnectedTo
-        {
-            get
-            {
-                if (Parent == null)
-                    return null;
-                else
-                {
-                    string parentPart = Parent.ShortDriverName;
-                    if (Parent._device.Driver.HasNoAddress)
-                        parentPart += " - " + Parent.Address;
-
-                    if (Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    if (Parent.Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    return parentPart + @"\" + Parent.ConnectedTo;
-                }
-            }
+            get { return Device.Driver; }
         }
 
         public void UpdateParameters()
         {
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
 
             Update();
 
@@ -177,7 +86,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.SelfStates != null)
                     foreach (var selfState in deviceState.SelfStates)
                     {
@@ -192,7 +101,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
                     {
@@ -207,7 +116,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parameters = new ObservableCollection<string>();
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)
                     {
@@ -228,7 +137,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 return deviceState.State;
             }
         }
@@ -301,23 +210,23 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Id);
         }
 
         public bool CanShowZone(object obj)
         {
-            return ((IsZoneDevice) && (string.IsNullOrEmpty(this._device.ZoneNo) == false));
+            return ((Device.Driver.IsZoneDevice) && (string.IsNullOrEmpty(this.Device.ZoneNo) == false));
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_device.ZoneNo);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
         }
 
         public bool CanDisable(object obj)
         {
-            return _device.Driver.CanDisable;
+            return Device.Driver.CanDisable;
         }
 
         public RelayCommand DisableCommand { get; private set; }
@@ -325,16 +234,16 @@ namespace DevicesModule.ViewModels
         {
             if (CanDisable(null))
             {
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
                 bool isOff = deviceState.InnerStates.Any(x=>((x.IsActive) && (x.State.StateType == StateType.Off)));
 
                 if (isOff)
                 {
-                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { _device.PlaceInTree });
+                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
                 }
                 else
                 {
-                    FiresecInternalClient.AddToIgnoreList(new List<string>() { _device.PlaceInTree });
+                    FiresecInternalClient.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
                 }
             }
         }
@@ -342,7 +251,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.Id);
         }
     }
 }

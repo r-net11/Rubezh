@@ -42,13 +42,13 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
-                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}" />
+                                        <TextBlock Text="{Binding Driver.ShortName}" />
                                     </StackPanel>
 
                                 </Grid>
@@ -93,13 +93,13 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
-                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}" />
+                                        <TextBlock Text="{Binding Driver.ShortName}" />
                                     </StackPanel>
 
                                 </Grid>

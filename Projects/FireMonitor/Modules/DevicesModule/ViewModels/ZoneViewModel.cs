@@ -13,54 +13,26 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
-        public ZoneViewModel()
+        public ZoneViewModel(Zone zone)
         {
             SelectCommand = new RelayCommand(OnSelect);
-        }
 
-        Zone zone;
-
-        public void Initialize(Zone zone)
-        {
-            this.zone = zone;
+            Zone = zone;
             ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zone.No);
             State = zoneState.State;
         }
 
+        public Zone Zone { get; private set; }
+
         public RelayCommand SelectCommand { get; private set; }
         void OnSelect()
         {
-            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(zone.No);
-        }
-
-        public string Name
-        {
-            get { return zone.Name; }
-        }
-
-        public string No
-        {
-            get { return zone.No; }
-        }
-
-        public string Description
-        {
-            get { return zone.Description; }
-        }
-
-        public string DetectorCount
-        {
-            get { return zone.DetectorCount; }
-        }
-
-        public string EvacuationTime
-        {
-            get { return zone.EvacuationTime; }
+            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.No);
         }
 
         public string PresentationName
         {
-            get { return zone.No + "." + zone.Name; }
+            get { return Zone.No + "." + Zone.Name; }
         }
 
         State state;

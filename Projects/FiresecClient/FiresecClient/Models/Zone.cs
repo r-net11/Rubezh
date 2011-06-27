@@ -13,6 +13,10 @@ namespace FiresecClient.Models
         public string DetectorCount { get; set; }
         public string EvacuationTime { get; set; }
         public string Description { get; set; }
+        public string PresentationName
+        {
+            get { return No + "." + Name; }
+        }
         public List<ValidationError> ValidationErrors { get; set; }
     }
 }

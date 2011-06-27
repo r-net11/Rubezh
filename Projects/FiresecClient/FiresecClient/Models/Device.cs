@@ -38,9 +38,6 @@ namespace FiresecClient.Models
                 }
                 return currentId;
             }
-            set
-            {
-            }
         }
 
         public List<Device> AllParents
@@ -68,17 +65,41 @@ namespace FiresecClient.Models
             }
         }
 
+        public string ConnectedTo
+        {
+            get
+            {
+                if (Parent == null)
+                    return null;
+                else
+                {
+                    string parentPart = Parent.Driver.ShortName;
+                    if (Parent.Driver.HasAddress)
+                        parentPart += " - " + Parent.Address;
+
+                    if (Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    if (Parent.Parent.ConnectedTo == null)
+                        return parentPart;
+
+                    return parentPart + @"\" + Parent.ConnectedTo;
+                }
+            }
+        }
+
         public string PresentationZone
         {
             get
             {
                 if (Driver.IsZoneDevice)
                 {
-                    if (string.IsNullOrEmpty(ZoneNo))
-                        return "";
-
                     Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
-                    return ZoneNo + "." + zone.Name;
+                    if (zone != null)
+                    {
+                        return zone.PresentationName;
+                    }
+                    return "";
                 }
                 if (Driver.IsZoneLogicDevice)
                 {

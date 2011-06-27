@@ -17,8 +17,6 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public Device Device { get; set; }
-
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
@@ -37,6 +35,7 @@ namespace DevicesModule.ViewModels
             Address = device.Address;
             Description = device.Description;
         }
+        public Device Device { get; private set; }
 
         public PropertiesViewModel PropertiesViewModel { get; private set; }
 
@@ -52,71 +51,14 @@ namespace DevicesModule.ViewModels
             get { return Device.Id; }
         }
 
-        public string DriverId
+        public Driver Driver
         {
-            get { return Device.Driver.Id; }
-        }
-
-        public bool IsZoneDevice
-        {
-            get { return Device.Driver.IsZoneDevice; }
-        }
-
-        public bool IsIndicatorDevice
-        {
-            get { return Device.Driver.IsIndicatorDevice; }
-        }
-
-        public bool IsZoneLogicDevice
-        {
-            get { return Device.Driver.IsZoneLogicDevice; }
-        }
-
-        public bool CanAddChildren
-        {
-            get { return Device.Driver.CanAddChildren; }
-        }
-
-        public string ShortDriverName
-        {
-            get { return Device.Driver.ShortName; }
-        }
-
-        public string DriverName
-        {
-            get { return Device.Driver.Name; }
-        }
-
-        public bool HasAddress
-        {
-            get { return (!string.IsNullOrEmpty(Address)); }
-        }
-
-        public bool CanEditAddress
-        {
-            get { return Device.Driver.CanEditAddress; }
-        }
-
-        public bool HasImage
-        {
-            get { return Device.Driver.HasImage; }
-        }
-
-        public string ImageSource
-        {
-            get { return Device.Driver.ImageSource; }
+            get { return Device.Driver; }
         }
 
         public string Address
         {
-            get
-            {
-                if (Device.Driver.CanEditAddress)
-                {
-                    return Device.Address;
-                }
-                return "";
-            }
+            get { return Device.Driver.HasAddress ? Device.Address : ""; }
             set
             {
                 Device.Address = value;
@@ -134,27 +76,21 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public List<ZoneViewModel> Zones
+        public IEnumerable<Zone> Zones
         {
             get
             {
-                List<ZoneViewModel> zones = new List<ZoneViewModel>();
-                FiresecManager.Configuration.Zones.ForEach(x => { zones.Add(new ZoneViewModel(x)); });
-                return zones;
+                return from Zone zone in FiresecManager.Configuration.Zones
+                       orderby Convert.ToInt32(zone.No)
+                       select zone;
             }
         }
 
-        public ZoneViewModel Zone
+        public Zone Zone
         {
             get
             {
-                Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                if (zone != null)
-                {
-                    ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-                    return zoneViewModel;
-                }
-                return null;
+                return FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
             }
             set
             {
@@ -165,25 +101,7 @@ namespace DevicesModule.ViewModels
 
         public string ConnectedTo
         {
-            get
-            {
-                if (Parent == null)
-                    return null;
-                else
-                {
-                    string parentPart = Parent.Device.Driver.ShortName;
-                    if (Parent.Device.Driver.HasNoAddress)
-                        parentPart += " - " + Parent.Address;
-
-                    if (Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    if (Parent.Parent.ConnectedTo == null)
-                        return parentPart;
-
-                    return parentPart + @"\" + Parent.ConnectedTo;
-                }
-            }
+            get { return Device.ConnectedTo; }
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }
@@ -235,7 +153,7 @@ namespace DevicesModule.ViewModels
                 Parent.Update();
                 Parent.IsExpanded = true;
 
-                FiresecManager.Configuration.FillAllDevices();
+                FiresecManager.Configuration.Update();
             }
         }
     }

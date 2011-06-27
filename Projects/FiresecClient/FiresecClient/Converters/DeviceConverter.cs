@@ -112,7 +112,6 @@ namespace FiresecClient.Converters
             device.Description = innerDevice.name;
 
             SetAddress(device, innerDevice);
-            SetId(device);
             SetPlaceInTree(device);
             SetZone(device, innerDevice);
         }
@@ -141,19 +140,6 @@ namespace FiresecClient.Converters
                     else
                         device.Address = "0";
                     break;
-            }
-        }
-
-        static void SetId(Device device)
-        {
-            string currentId = device.Driver.Id + ":" + device.Address;
-            if (device.Parent != null)
-            {
-                device.Id = device.Parent.Id + @"/" + currentId;
-            }
-            else
-            {
-                device.Id = currentId;
             }
         }
 

@@ -23,17 +23,17 @@
                 <StackPanel>
 
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                         </StackPanel>
-                        <TextBlock Text="{Binding DriverName}" />
+                        <TextBlock Text="{Binding Driver.Name}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="YellowGreen" />
-                        <TextBlock Text="{Binding DeviceCategory}" />
+                        <TextBlock Text="{Binding Driver.DeviceCategory}" />
                         <TextBlock Text=", " />
-                        <TextBlock Text="{Binding DeviceType}" />
+                        <TextBlock Text="{Binding Driver.DeviceType}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="3">
@@ -41,12 +41,12 @@
                         <TextBlock Text="{Binding ConnectedTo}" />
                     </StackPanel>
 
-                    <StackPanel Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
+                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
                         <TextBlock Text="Зона:" FontWeight="Bold" Foreground="YellowGreen" />
                         <TextBlock Text="{Binding PresentationZone}" />
                     </StackPanel>
 
-                    <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
+                    <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
                         <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="YellowGreen" />
                         <TextBlock Text="{Binding PresentationZone}" />
                     </StackPanel>
@@ -89,7 +89,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
             </TabItem>
             

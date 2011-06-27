@@ -19,7 +19,7 @@ namespace FiresecClient.Models
         public List<Perimission> Perimissions { get; set; }
         public Firesec.Metadata.config Metadata { get; set; }
 
-        public void FillAllDevices()
+        public void Update()
         {
             Devices = new List<Device>();
             RootDevice.Parent = null;

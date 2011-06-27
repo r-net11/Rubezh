@@ -39,17 +39,17 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
-                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}">
+                                        <TextBlock Text="{Binding Driver.ShortName}">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="Добавить" Command="{Binding AddCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" Visibility="{Binding CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <MenuItem Header="Добавить" Command="{Binding AddCommand}" Visibility="{Binding Driver.CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" Visibility="{Binding Driver.CanAddChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                 <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
@@ -64,7 +64,7 @@
                     <WpfToolkit:DataGridTemplateColumn Header="Адрес" Width="100">
                         <WpfToolkit:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <StackPanel Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBlock Text="{Binding Address}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -72,10 +72,10 @@
                         <WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <StackPanel Visibility="{Binding Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBox Text="{Binding Address}" BorderThickness="0" Name="addressTextBox" />
                                     </StackPanel>
-                                    <StackPanel Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                    <StackPanel Visibility="{Binding Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                                         <TextBlock Text="{Binding Address}" />
                                     </StackPanel>
                                 </StackPanel>
@@ -108,7 +108,7 @@
                         <WpfToolkit:DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <StackPanel Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch">
+                                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Stretch">
                                         <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
@@ -117,10 +117,10 @@
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
                                     </StackPanel>
-                                    <StackPanel Visibility="{Binding IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Button Content="..." Command="{Binding ShowZoneLogicCommand}" Height="19"/>
                                     </StackPanel>
-                                    <StackPanel Visibility="{Binding IsIndicatorDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <StackPanel Visibility="{Binding Driver.IsIndicatorDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Button Content="..." Command="{Binding ShowIndicatorLogicCommand}" Height="19"/>
                                     </StackPanel>
                                 </StackPanel>
@@ -160,11 +160,11 @@
 
                 <TextBlock Text="Устройство" FontWeight="Bold" Foreground="DarkOrange" />
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding ImageSource}" Width="16" />
-                    <TextBlock Text="{Binding DriverName}" />
+                    <Image Source="{Binding Driver.ImageSource}" Width="16" />
+                    <TextBlock Text="{Binding Driver.Name}" />
                 </StackPanel>
 
-                <TextBox Text="{Binding Id, Mode=OneWay}" />
+                <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
                 
                 <StackPanel>
                     <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" />

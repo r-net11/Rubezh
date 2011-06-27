@@ -12,7 +12,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="0, 0, 5, 0" />
-                        <TextBlock Text="{Binding DriverName}" />
+                        <TextBlock Text="{Binding ShortName}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -14,7 +14,7 @@ namespace FiresecClient
         public void Validate(CurrentConfiguration currentConfiguration)
         {
             this.configuration = currentConfiguration;
-            configuration.FillAllDevices();
+            configuration.Update();
             ClearValidationErrors();
             ValidateZones();
             ValidateDeviceZones();
@@ -153,14 +153,14 @@ namespace FiresecClient
         {
             foreach (var device in configuration.Devices)
             {
-                if (device.Driver.HasNoAddress)
+                if (device.Driver.HasAddress == false)
                 {
                     if (string.IsNullOrEmpty(device.Address) == false)
                         device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес", Level.Critical));
 
-                    if (device.Driver.FiresecDriver.addrMask != null)
+                    if (device.Driver.AddressMask != null)
                     {
-                        switch (device.Driver.FiresecDriver.addrMask)
+                        switch (device.Driver.AddressMask)
                         {
                             case "[0(1)-8(8)]":
                                 int intAddress = 0;
@@ -268,7 +268,7 @@ namespace FiresecClient
             {
                 foreach (var childDevice in device.Children)
                 {
-                    if (childDevice.Driver.HasNoAddress == false)
+                    if (childDevice.Driver.HasAddress)
                     {
                         if (device.Children.FindAll(x => x.Address == childDevice.Address).Count > 1)
                         {

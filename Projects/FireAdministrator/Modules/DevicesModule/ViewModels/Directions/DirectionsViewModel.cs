@@ -21,7 +21,9 @@ namespace DevicesModule.ViewModels
 
         public void Initialize()
         {
-            Directions = new ObservableCollection<DirectionViewModel>(from direction in FiresecManager.Configuration.Directions select new DirectionViewModel(direction));
+            Directions = new ObservableCollection<DirectionViewModel>(
+                from direction in FiresecManager.Configuration.Directions
+                select new DirectionViewModel(direction));
 
             if (Directions.Count > 0)
                 SelectedDirection = Directions[0];

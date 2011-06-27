@@ -26,25 +26,13 @@ namespace DevicesModule.ViewModels
             FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
         }
 
-        public ObservableCollection<ZoneViewModel> Zones
+        public IEnumerable<ZoneViewModel> Zones
         {
             get
             {
-                List<ZoneViewModel> zones = new List<ZoneViewModel>();
-
-                foreach (var zone in FiresecManager.Configuration.Zones)
-                {
-                    ZoneViewModel zoneViewModel = new ZoneViewModel();
-                    zoneViewModel.Initialize(zone);
-                    zones.Add(zoneViewModel);
-                }
-
-                zones.Sort(delegate(ZoneViewModel zone1, ZoneViewModel zone2)
-                {
-                    return System.Convert.ToInt32(zone1.No) - System.Convert.ToInt32(zone2.No);
-                });
-
-                return new ObservableCollection<ZoneViewModel>(zones);
+                return from Zone zone in FiresecManager.Configuration.Zones
+                       orderby Convert.ToInt32(zone.No)
+                       select new ZoneViewModel(zone);
             }
         }
 
@@ -76,7 +64,7 @@ namespace DevicesModule.ViewModels
             ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             if (zoneState != null)
             {
-                ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
+                ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
                 if (zoneViewModel != null)
                 {
                     zoneViewModel.State = zoneState.State;
@@ -91,7 +79,7 @@ namespace DevicesModule.ViewModels
             {
                 if (Devices != null)
                 {
-                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Id == id);
+                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
                     if (deviceViewModel != null)
                     {
                         deviceViewModel.Update();
@@ -104,16 +92,13 @@ namespace DevicesModule.ViewModels
         void CurrentStates_ZoneStateChanged(string zoneNo)
         {
             ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-            ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.No == zoneNo);
+            ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
             zoneViewModel.State = zoneState.State;
         }
 
         public void Select(string zoneNo)
         {
-            if (string.IsNullOrEmpty(zoneNo) == false)
-            {
-                SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
-            }
+            SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
         }
 
         void InitializeDevices()
@@ -132,10 +117,13 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
+            if (SelectedZone == null)
+                return;
+
             foreach (var device in parentDevice.Children)
             {
-                if ((device.UderlyingZones.Contains(SelectedZone.No) == false) &&
-                    (device.ZoneNo != SelectedZone.No))
+                if ((device.UderlyingZones.Contains(SelectedZone.Zone.No) == false) &&
+                    (device.ZoneNo != SelectedZone.Zone.No))
                     continue;
 
                 DeviceViewModel deviceViewModel = new DeviceViewModel();

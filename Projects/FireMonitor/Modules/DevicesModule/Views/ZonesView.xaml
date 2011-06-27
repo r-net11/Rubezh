@@ -43,9 +43,9 @@
                     <DataTemplate>
                         <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
                                 Background="{Binding State, Converter={StaticResource StateToColorConverter}}"
-                                ToolTip="{Binding Name}"
+                                ToolTip="{Binding Zone.Name}"
                                 Command="{Binding SelectCommand}">
-                            <TextBlock Text="{Binding No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Button>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -85,13 +85,13 @@
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
                                         <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
-                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}" />
+                                        <TextBlock Text="{Binding Driver.ShortName}" />
                                     </StackPanel>
 
                                 </Grid>
@@ -99,9 +99,9 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
-                    <WpfToolkit:DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
-                    <WpfToolkit:DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.Address}" />
+                    <WpfToolkit:DataGridTextColumn Header="Зона" Width="100" Binding="{Binding Device.PresentationZone}" />
+                    <WpfToolkit:DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
                 </WpfToolkit:DataGrid.Columns>
 

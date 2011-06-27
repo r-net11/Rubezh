@@ -8,6 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     <Grid>
@@ -38,13 +39,13 @@
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
                                         </StackPanel>
                                         <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
-                                        <StackPanel Visibility="{Binding HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding ShortDriverName}">
+                                        <TextBlock Text="{Binding Driver.ShortName}">
                                             <TextBlock.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
@@ -61,9 +62,15 @@
                         </WpfToolkit:DataGridTemplateColumn.CellTemplate>
                     </WpfToolkit:DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding PresentationAddress}" />
-                    <WpfToolkit:DataGridTextColumn Header="Зона" MinWidth="100" MaxWidth="150" Binding="{Binding PresentationZone}" />
-                    <WpfToolkit:DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Description}" />
+                    <WpfToolkit:DataGridTemplateColumn Header="Адрес" MinWidth="50">
+                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Device.Address}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </DataTemplate>
+                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                    </WpfToolkit:DataGridTemplateColumn>
+                    <WpfToolkit:DataGridTextColumn Header="Зона" MinWidth="100" MaxWidth="150" Binding="{Binding Device.PresentationZone}" />
+                    <WpfToolkit:DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" />
                     <WpfToolkit:DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
                     <WpfToolkit:DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />
                     <WpfToolkit:DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
@@ -81,10 +88,10 @@
 
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="{Binding Address}" />
+                        <TextBlock Text="{Binding Device.Address}" />
                         <TextBlock Text=" - " />
                     </StackPanel>
-                    <TextBlock Text="{Binding DriverName}" />
+                    <TextBlock Text="{Binding Driver.Name}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
@@ -118,7 +125,7 @@
                     </ItemsControl>
                 </StackPanel>
 
-                <TextBox Text="{Binding Id, Mode=OneWay}" Visibility="Visible" />
+                <TextBox Text="{Binding Device.Id, Mode=OneWay}" Visibility="Visible" />
             </StackPanel>
 
         </Grid>

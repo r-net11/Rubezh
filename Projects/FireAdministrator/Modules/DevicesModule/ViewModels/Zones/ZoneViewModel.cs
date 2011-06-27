@@ -44,7 +44,7 @@ namespace DevicesModule.ViewModels
 
         public string PresentationName
         {
-            get { return No + "." + Name; }
+            get { return Zone.PresentationName; }
         }
 
         public void Update()

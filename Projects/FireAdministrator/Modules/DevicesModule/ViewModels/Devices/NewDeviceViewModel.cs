@@ -17,29 +17,23 @@ namespace DevicesModule.ViewModels
             Title = "Новое устройство";
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
-            _parent = parent;
+            _parentDeviceViewModel = parent;
         }
 
-        DeviceViewModel _parent;
+        DeviceViewModel _parentDeviceViewModel;
 
-        public List<DriverViewModel> Drivers
+        public IEnumerable<Driver> Drivers
         {
             get
             {
-                List<DriverViewModel> drivers = new List<DriverViewModel>();
-                foreach (var driverId in _parent.Device.Driver.AvaliableChildren)
-                {
-                    var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.Id == driverId);
-                    var availableDriver = new DriverViewModel(driver);
-                    drivers.Add(availableDriver);
-                }
-
-                return drivers;
+                return from Driver driver in FiresecManager.Configuration.Drivers
+                       where _parentDeviceViewModel.Device.Driver.AvaliableChildren.Contains(driver.Id)
+                       select driver;
             }
         }
 
-        DriverViewModel _selectedDriver;
-        public DriverViewModel SelectedDriver
+        Driver _selectedDriver;
+        public Driver SelectedDriver
         {
             get { return _selectedDriver; }
             set
@@ -60,21 +54,20 @@ namespace DevicesModule.ViewModels
             if (SelectedDriver != null)
             {
                 Device device = new Device();
-                device.Driver = SelectedDriver.NewDriver;
-                if (SelectedDriver.NewDriver.HasNoAddress)
-                {
-                    device.Address = "";
-                }
-                else
+                device.Driver = SelectedDriver;
+
+                device.Address = "";
+                if (SelectedDriver.HasAddress)
                 {
                     device.Address = GetNewAddress();
                 }
-                _parent.Device.Children.Add(device);
+
+                _parentDeviceViewModel.Device.Children.Add(device);
 
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, _parent.Source);
-                deviceViewModel.Parent = _parent;
-                _parent.Children.Add(deviceViewModel);
+                deviceViewModel.Initialize(device, _parentDeviceViewModel.Source);
+                deviceViewModel.Parent = _parentDeviceViewModel;
+                _parentDeviceViewModel.Children.Add(deviceViewModel);
 
                 foreach (var autoCreateDriverId in deviceViewModel.Device.Driver.AutoCreateChildren)
                 {
@@ -91,7 +84,7 @@ namespace DevicesModule.ViewModels
                         device.Children.Add(childDevice);
 
                         DeviceViewModel childDeviceViewModel = new DeviceViewModel();
-                        childDeviceViewModel.Initialize(childDevice, _parent.Source);
+                        childDeviceViewModel.Initialize(childDevice, _parentDeviceViewModel.Source);
                         childDeviceViewModel.Parent = deviceViewModel;
                         deviceViewModel.Children.Add(childDeviceViewModel);
                     }
@@ -99,10 +92,10 @@ namespace DevicesModule.ViewModels
                     deviceViewModel.IsExpanded = true;
                 }
 
-                _parent.Update();
+                _parentDeviceViewModel.Update();
             }
 
-            FiresecManager.Configuration.FillAllDevices();
+            FiresecManager.Configuration.Update();
             Close(true);
         }
 
@@ -110,29 +103,6 @@ namespace DevicesModule.ViewModels
         void OnCancel()
         {
             Close(false);
-        }
-    }
-
-    public class DriverViewModel
-    {
-        public Driver NewDriver { get; private set; }
-
-        public DriverViewModel(Driver driver)
-        {
-            NewDriver = driver;
-        }
-
-        public string DriverId
-        {
-            get { return NewDriver.Id; }
-        }
-        public string DriverName
-        {
-            get { return NewDriver.ShortName; }
-        }
-        public string ImageSource
-        {
-            get { return NewDriver.ImageSource; }
         }
     }
 }
