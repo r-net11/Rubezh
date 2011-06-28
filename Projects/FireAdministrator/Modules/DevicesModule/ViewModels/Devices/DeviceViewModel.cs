@@ -20,9 +20,9 @@ namespace DevicesModule.ViewModels
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
-            AddCommand = new RelayCommand(OnAdd);
-            AddManyCommand = new RelayCommand(OnAddMany);
-            RemoveCommand = new RelayCommand(OnRemove);
+            AddCommand = new RelayCommand(OnAdd, CanAdd);
+            AddManyCommand = new RelayCommand(OnAddMany, CanAdd);
+            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
             ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
         }
@@ -128,24 +128,46 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public bool CanAdd(object obj)
+        {
+            return Driver.CanAddChildren;
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
-            ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+            if (CanAdd(null))
+            {
+                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this, false);
+                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+            }
         }
 
         public RelayCommand AddManyCommand { get; private set; }
         void OnAddMany()
         {
-            NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
-            ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+            if (CanAdd(null))
+            {
+                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this, true);
+                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+            }
+        }
+
+        bool CanRemove(object obj)
+        {
+            if (Parent == null)
+                return false;
+
+            if (Driver.IsAutoCreate)
+                return false;
+
+            return true;
         }
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            if (Parent != null)
+            if (CanRemove(null))
             {
                 Parent.IsExpanded = false;
                 Parent.Device.Children.Remove(Device);

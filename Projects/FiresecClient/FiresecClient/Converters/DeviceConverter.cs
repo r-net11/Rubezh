@@ -75,6 +75,9 @@ namespace FiresecClient.Converters
             var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             device.Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
 
+
+            device.IntAddress = System.Convert.ToInt32(innerDevice.addr);
+
             // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
             device.Address = innerDevice.addr;
             if (device.Driver.HasAddressMask)

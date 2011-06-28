@@ -17,11 +17,12 @@ namespace FiresecClient.Models
         }
         public Device Parent { get; set; }
         public List<Device> Children { get; set; }
-        public string DatabaseId { get; set; }
 
+        public string DatabaseId { get; set; }
         public Driver Driver { get; set; }
         public string PlaceInTree { get; set; }
         public string Address { get; set; }
+        public int IntAddress { get; set; }
         public string ZoneNo { get; set; }
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<Property> Properties { get; set; }

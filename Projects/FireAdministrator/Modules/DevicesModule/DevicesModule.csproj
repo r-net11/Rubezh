@@ -91,6 +91,9 @@
     <Compile Include="DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="ViewModels\Devices\DevicesMenuViewModel.cs" />
+    <Compile Include="ViewModels\Devices\DriversView.xaml.cs">
+      <DependentUpon>DriversView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
     <Compile Include="ViewModels\Zones\ClauseViewModel.cs" />
     <Compile Include="ViewModels\Devices\DevicesViewModel.cs" />
@@ -196,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataTemplates\TreeExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\Devices\DriversView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
