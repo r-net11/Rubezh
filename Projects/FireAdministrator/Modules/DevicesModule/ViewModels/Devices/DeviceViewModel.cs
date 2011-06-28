@@ -32,8 +32,6 @@ namespace DevicesModule.ViewModels
             Source = sourceDevices;
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
-            Address = device.Address;
-            Description = device.Description;
         }
         public Device Device { get; private set; }
 
@@ -61,7 +59,7 @@ namespace DevicesModule.ViewModels
             get { return Device.Driver.HasAddress ? Device.Address : ""; }
             set
             {
-                Device.Address = value;
+                Device.SetAddress(value);
                 OnPropertyChanged("Address");
             }
         }

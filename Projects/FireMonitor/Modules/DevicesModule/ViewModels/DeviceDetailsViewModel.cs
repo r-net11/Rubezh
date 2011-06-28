@@ -54,6 +54,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 _deviceControl = new DeviceControls.DeviceControl();
+                _deviceControl.DriverId = _device.Driver.Id;
 
                 DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 _deviceControl.State = deviceState.State.Id.ToString();

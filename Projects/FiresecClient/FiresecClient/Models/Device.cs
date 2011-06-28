@@ -21,13 +21,53 @@ namespace FiresecClient.Models
         public string DatabaseId { get; set; }
         public Driver Driver { get; set; }
         public string PlaceInTree { get; set; }
-        public string Address { get; set; }
         public int IntAddress { get; set; }
         public string ZoneNo { get; set; }
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<Property> Properties { get; set; }
         public string Description { get; set; }
         public List<ValidationError> ValidationErrors { get; set; }
+
+        public string Address
+        {
+            get
+            {
+                string address = IntAddress.ToString();
+
+                var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
+                if (serialNoProperty != null)
+                    address = serialNoProperty.Value;
+
+                if (Driver.IsDeviceOnShleif)
+                {
+                    int intShleifAddress = IntAddress / 255;
+                    int intSelfAddress = IntAddress % 256;
+                    address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
+                }
+
+                return address;
+            }
+        }
+
+        public void SetAddress(string address)
+        {
+            if (Driver.HasAddress == false)
+            {
+                IntAddress = 0;
+            }
+            if (Driver.IsDeviceOnShleif)
+            {
+                var addresses = address.Split('.');
+
+                int intShleifAddress = System.Convert.ToInt32(addresses[0]);
+                int intAddress = System.Convert.ToInt32(addresses[1]);
+                IntAddress = intShleifAddress * 256 + intAddress;
+            }
+            else
+            {
+                IntAddress = Convert.ToInt32(address);
+            }
+        }
 
         public string Id
         {
@@ -115,7 +155,7 @@ namespace FiresecClient.Models
         {
             Device newDevice = new Device();
             newDevice.Driver = Driver;
-            newDevice.Address = Address;
+            newDevice.IntAddress = IntAddress;
             newDevice.Description = Description;
             newDevice.ZoneNo = ZoneNo;
 

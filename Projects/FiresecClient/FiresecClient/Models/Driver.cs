@@ -132,6 +132,14 @@ namespace FiresecClient.Models
             }
         }
 
+        public bool IsDeviceOnShleif
+        {
+            get
+            {
+                return ((_driver.addrMask != null) && (_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]"));
+            }
+        }
+
         public bool HasShleif
         {
             get { return ShleifCount == 0 ? false : true; }

@@ -78,18 +78,17 @@ namespace FiresecClient.Converters
 
             device.IntAddress = System.Convert.ToInt32(innerDevice.addr);
 
-            // addrMask="[8(1)-15(2)];[0(1)-7(255)]"
-            device.Address = innerDevice.addr;
-            if (device.Driver.HasAddressMask)
-            {
-                int intAddress = System.Convert.ToInt32(device.Address);
-                if (intAddress > 255)
-                {
-                    int intShleifAddress = intAddress / 255;
-                    int intSelfAddress = intAddress % 256;
-                    device.Address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
-                }
-            }
+            //device.Address = innerDevice.addr;
+            //if (device.Driver.HasAddressMask)
+            //{
+            //    int intAddress = System.Convert.ToInt32(device.Address);
+            //    if (intAddress > 255)
+            //    {
+            //        int intShleifAddress = intAddress / 255;
+            //        int intSelfAddress = intAddress % 256;
+            //        device.Address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
+            //    }
+            //}
 
             if (innerDevice.param != null)
             {
@@ -114,37 +113,37 @@ namespace FiresecClient.Converters
 
             device.Description = innerDevice.name;
 
-            SetAddress(device, innerDevice);
+            //SetAddress(device, innerDevice);
             SetPlaceInTree(device);
             SetZone(device, innerDevice);
         }
 
-        static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
-        {
-            switch (device.Driver.DriverName)
-            {
-                case "Компьютер":
-                case "Насосная Станция":
-                case "Жокей-насос":
-                case "Компрессор":
-                case "Дренажный насос":
-                case "Насос компенсации утечек":
-                    device.Address = "0";
-                    break;
+        //static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
+        //{
+        //    switch (device.Driver.DriverName)
+        //    {
+        //        case "Компьютер":
+        //        case "Насосная Станция":
+        //        case "Жокей-насос":
+        //        case "Компрессор":
+        //        case "Дренажный насос":
+        //        case "Насос компенсации утечек":
+        //            device.Address = "0";
+        //            break;
 
-                case "USB преобразователь МС-1":
-                case "USB преобразователь МС-2":
-                    if (innerDevice.prop != null)
-                    {
-                        var serialNoProperty = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo");
-                        if (serialNoProperty != null)
-                            device.Address = serialNoProperty.value;
-                    }
-                    else
-                        device.Address = "0";
-                    break;
-            }
-        }
+        //        case "USB преобразователь МС-1":
+        //        case "USB преобразователь МС-2":
+        //            if (innerDevice.prop != null)
+        //            {
+        //                var serialNoProperty = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo");
+        //                if (serialNoProperty != null)
+        //                    device.Address = serialNoProperty.value;
+        //            }
+        //            else
+        //                device.Address = "0";
+        //            break;
+        //    }
+        //}
 
         static void SetPlaceInTree(Device device)
         {
@@ -215,7 +214,7 @@ namespace FiresecClient.Converters
         {
             Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
             innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.Id).idx;
-            innerDevice.addr = ConvertAddress(device);
+            innerDevice.addr = device.IntAddress.ToString();
 
             if (device.ZoneNo != null)
             {
@@ -227,23 +226,6 @@ namespace FiresecClient.Converters
             innerDevice.prop = AddProperties(device).ToArray();
 
             return innerDevice;
-        }
-
-        static string ConvertAddress(Device device)
-        {
-            if (string.IsNullOrEmpty(device.Address))
-                return "0";
-
-            if (device.Address.Contains("."))
-            {
-                List<string> addresses = device.Address.Split(new char[] { '.' }, StringSplitOptions.None).ToList();
-
-                int intShleifAddress = System.Convert.ToInt32(addresses[0]);
-                int intAddress = System.Convert.ToInt32(addresses[1]);
-                return (intShleifAddress * 256 + intAddress).ToString();
-            }
-
-            return device.Address;
         }
 
         static List<Firesec.CoreConfig.propType> AddProperties(Device device)

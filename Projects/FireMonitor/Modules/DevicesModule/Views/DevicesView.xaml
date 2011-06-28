@@ -87,7 +87,7 @@
             <StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{Binding Device.Address}" />
                         <TextBlock Text=" - " />
                     </StackPanel>

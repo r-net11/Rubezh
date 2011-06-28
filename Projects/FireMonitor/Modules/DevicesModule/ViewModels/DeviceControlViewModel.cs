@@ -23,6 +23,7 @@ namespace DevicesModule.ViewModels
             AutomaticOffCommand = new RelayCommand(OnAutomaticOff);
             StartCommand = new RelayCommand(OnStart);
             CancelStartCommand = new RelayCommand(OnCancelStart);
+            ConfirmCommand = new RelayCommand(OnConfirm);
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -62,6 +63,11 @@ namespace DevicesModule.ViewModels
 
         public RelayCommand CancelStartCommand { get; private set; }
         void OnCancelStart()
+        {
+        }
+
+        public RelayCommand ConfirmCommand { get; private set; }
+        void OnConfirm()
         {
         }
     }

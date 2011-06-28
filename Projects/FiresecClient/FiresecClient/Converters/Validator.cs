@@ -151,115 +151,115 @@ namespace FiresecClient
 
         void ValidateAddresses()
         {
-            foreach (var device in configuration.Devices)
-            {
-                if (device.Driver.HasAddress == false)
-                {
-                    if (string.IsNullOrEmpty(device.Address) == false)
-                        device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес", Level.Critical));
+            //foreach (var device in configuration.Devices)
+            //{
+            //    if (device.Driver.HasAddress == false)
+            //    {
+            //        if (string.IsNullOrEmpty(device.Address) == false)
+            //            device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес", Level.Critical));
 
-                    if (device.Driver.AddressMask != null)
-                    {
-                        switch (device.Driver.AddressMask)
-                        {
-                            case "[0(1)-8(8)]":
-                                int intAddress = 0;
-                                try
-                                {
-                                    intAddress = System.Convert.ToInt32(device.Address);
-                                }
-                                catch
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
-                                    continue;
-                                }
-                                if ((intAddress < 1) || (intAddress > 8))
-                                    device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес в диапазоне 1 - 8", Level.Critical));
-                                break;
+            //        if (device.Driver.AddressMask != null)
+            //        {
+            //            switch (device.Driver.AddressMask)
+            //            {
+            //                case "[0(1)-8(8)]":
+            //                    int intAddress = 0;
+            //                    try
+            //                    {
+            //                        intAddress = System.Convert.ToInt32(device.Address);
+            //                    }
+            //                    catch
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+            //                        continue;
+            //                    }
+            //                    if ((intAddress < 1) || (intAddress > 8))
+            //                        device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес в диапазоне 1 - 8", Level.Critical));
+            //                    break;
 
-                            case "[8(1)-15(2)];[0(1)-7(255)]":
-                                string[] addresses = device.Address.Split('.');
-                                if (addresses.Count() != 2)
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес, разделенный одной точкой", Level.Critical));
-                                    continue;
-                                }
+            //                case "[8(1)-15(2)];[0(1)-7(255)]":
+            //                    string[] addresses = device.Address.Split('.');
+            //                    if (addresses.Count() != 2)
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Устройство не может иметь адрес, разделенный одной точкой", Level.Critical));
+            //                        continue;
+            //                    }
 
-                                int intShleif;
-                                try
-                                {
-                                    intShleif = System.Convert.ToInt32(addresses[0]);
-                                }
-                                catch
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
-                                    continue;
-                                }
-                                try
-                                {
-                                    intAddress = System.Convert.ToInt32(addresses[1]);
-                                }
-                                catch
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
-                                    continue;
-                                }
-                                if ((intAddress < 1) || (intAddress > 255))
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен быть в диапазоне 1 - 255", Level.Critical));
+            //                    int intShleif;
+            //                    try
+            //                    {
+            //                        intShleif = System.Convert.ToInt32(addresses[0]);
+            //                    }
+            //                    catch
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+            //                        continue;
+            //                    }
+            //                    try
+            //                    {
+            //                        intAddress = System.Convert.ToInt32(addresses[1]);
+            //                    }
+            //                    catch
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+            //                        continue;
+            //                    }
+            //                    if ((intAddress < 1) || (intAddress > 255))
+            //                        device.ValidationErrors.Add(new ValidationError("Адрес должен быть в диапазоне 1 - 255", Level.Critical));
 
-                                int maxShleifAddress = device.Parent.Driver.ShleifCount;
-                                if (maxShleifAddress == 0)
-                                {
-                                    maxShleifAddress = 2;
-                                }
+            //                    int maxShleifAddress = device.Parent.Driver.ShleifCount;
+            //                    if (maxShleifAddress == 0)
+            //                    {
+            //                        maxShleifAddress = 2;
+            //                    }
 
-                                if ((intShleif < 1) || (intShleif > maxShleifAddress))
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Номер шлейфа должен быть в диапазоне 1 - " + maxShleifAddress.ToString(), Level.Critical));
-                                    continue;
-                                }
+            //                    if ((intShleif < 1) || (intShleif > maxShleifAddress))
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Номер шлейфа должен быть в диапазоне 1 - " + maxShleifAddress.ToString(), Level.Critical));
+            //                        continue;
+            //                    }
 
-                                break;
+            //                    break;
 
-                            case "[8(1)-15(4)];[0(1)-7(255)]":
-                                // АСПТ
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        int intAddress = 0;
-                        try
-                        {
-                            intAddress = System.Convert.ToInt32(device.Address);
-                        }
-                        catch
-                        {
-                            device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
-                        }
+            //                case "[8(1)-15(4)];[0(1)-7(255)]":
+            //                    // АСПТ
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            int intAddress = 0;
+            //            try
+            //            {
+            //                intAddress = System.Convert.ToInt32(device.Address);
+            //            }
+            //            catch
+            //            {
+            //                device.ValidationErrors.Add(new ValidationError("Адрес должен быть числом", Level.Critical));
+            //            }
 
-                        if (device.Driver.IsAutoCreate)
-                        {
-                            if ((intAddress < device.Driver.MinAutoCreateAddress) || (intAddress > device.Driver.MaxAutoCreateAddress))
-                            {
-                                device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAutoCreateAddress + " - " + device.Driver.MaxAutoCreateAddress, Level.Critical));
-                            }
-                        }
-                        else
-                        {
-                            if (device.Driver.IsRangeEnabled)
-                            {
-                                if ((intAddress < device.Driver.MinAddress) || (intAddress > device.Driver.MaxAddress))
-                                {
-                                    device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAddress + " - " + device.Driver.MaxAddress, Level.Critical));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            //            if (device.Driver.IsAutoCreate)
+            //            {
+            //                if ((intAddress < device.Driver.MinAutoCreateAddress) || (intAddress > device.Driver.MaxAutoCreateAddress))
+            //                {
+            //                    device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAutoCreateAddress + " - " + device.Driver.MaxAutoCreateAddress, Level.Critical));
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (device.Driver.IsRangeEnabled)
+            //                {
+            //                    if ((intAddress < device.Driver.MinAddress) || (intAddress > device.Driver.MaxAddress))
+            //                    {
+            //                        device.ValidationErrors.Add(new ValidationError("Адрес должен лежать в диапазоне " + device.Driver.MinAddress + " - " + device.Driver.MaxAddress, Level.Critical));
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         void ValidateAddressUnique()
@@ -270,7 +270,7 @@ namespace FiresecClient
                 {
                     if (childDevice.Driver.HasAddress)
                     {
-                        if (device.Children.FindAll(x => x.Address == childDevice.Address).Count > 1)
+                        if (device.Children.FindAll(x => x.IntAddress == childDevice.IntAddress).Count > 1)
                         {
                             childDevice.ValidationErrors.Add(new ValidationError("Устройство с таким адресом уже существует", Level.Normal));
                         }

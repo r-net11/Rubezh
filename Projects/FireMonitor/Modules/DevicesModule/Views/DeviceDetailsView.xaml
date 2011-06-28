@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0" HorizontalAlignment="Left">
-            <ContentControl Content="{Binding DeviceControlContent}" Margin="0, 0, 0, 5" />
+            <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
         </Grid>
         
         <TabControl Grid.Row="1">
@@ -31,9 +31,9 @@
 
                     <StackPanel Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="YellowGreen" />
-                        <TextBlock Text="{Binding Driver.DeviceCategory}" />
+                        <TextBlock Text="{Binding Driver.CategoryName}" />
                         <TextBlock Text=", " />
-                        <TextBlock Text="{Binding Driver.DeviceType}" />
+                        <TextBlock Text="{Binding Driver.DeviceTypeName}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="3">

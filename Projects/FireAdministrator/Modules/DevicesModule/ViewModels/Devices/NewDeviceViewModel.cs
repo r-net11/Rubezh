@@ -83,7 +83,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string GetNewAddress()
+        int GetNewAddress()
         {
             if (SelectedDriver.IsRangeEnabled)
             {
@@ -92,9 +92,9 @@ namespace DevicesModule.ViewModels
                            select (int?)device.IntAddress).Max();
 
                 if (maxRangeAddress.HasValue)
-                    return maxRangeAddress.Value.ToString();
+                    return maxRangeAddress.Value + 1;
                 else
-                    return SelectedDriver.MinAddress.ToString();
+                    return SelectedDriver.MinAddress;
             }
 
             string addressMask = _parent.Driver.AddressMask;
@@ -129,11 +129,11 @@ namespace DevicesModule.ViewModels
                                    select (int?)device.IntAddress).Max();
 
             if (maxAddress_2.HasValue)
-                return IntToAddress(maxAddress_2.Value + 1);
+                return maxAddress_2.Value + 1;
             else
-                return "1.1";
+                return 257;
 
-            return "";
+            //return "";
 
             string mask = _parentDeviceViewModel.Device.Driver.ChildAddressMask;
 
@@ -163,7 +163,7 @@ namespace DevicesModule.ViewModels
                 {
                     int fullIntAddress = shleif * 256 + addr;
 
-                    if (_parentDeviceViewModel.Device.Children.Any(x => AddressToInt(x.Address) == fullIntAddress) == false)
+                    if (_parentDeviceViewModel.Device.Children.Any(x => x.IntAddress == fullIntAddress) == false)
                     {
                         minAvailableAddress = fullIntAddress;
                         shleif = maxShleif + 1;
@@ -173,7 +173,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            return IntToAddress(minAvailableAddress);
+            //return IntToAddress(minAvailableAddress);
         }
 
         int AddressToInt(string address)
@@ -200,10 +200,10 @@ namespace DevicesModule.ViewModels
                 Device device = new Device();
                 device.Driver = SelectedDriver;
 
-                device.Address = "";
+                device.IntAddress = 0;
                 if (SelectedDriver.HasAddress)
                 {
-                    device.Address = GetNewAddress();
+                    device.IntAddress = GetNewAddress();
                 }
 
                 _parentDeviceViewModel.Device.Children.Add(device);
@@ -224,7 +224,7 @@ namespace DevicesModule.ViewModels
                     {
                         Device childDevice = new Device();
                         childDevice.Driver = autoCreateDriver;
-                        childDevice.Address = i.ToString();
+                        childDevice.IntAddress = i;
                         device.Children.Add(childDevice);
 
                         DeviceViewModel childDeviceViewModel = new DeviceViewModel();
