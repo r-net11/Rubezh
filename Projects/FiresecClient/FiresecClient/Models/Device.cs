@@ -34,13 +34,18 @@ namespace FiresecClient.Models
             {
                 string address = IntAddress.ToString();
 
+                if (Driver.HasAddress == false)
+                {
+                    address = "";
+                }
+
                 var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
                 if (serialNoProperty != null)
                     address = serialNoProperty.Value;
 
                 if (Driver.IsDeviceOnShleif)
                 {
-                    int intShleifAddress = IntAddress / 255;
+                    int intShleifAddress = IntAddress / 256;
                     int intSelfAddress = IntAddress % 256;
                     address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
                 }
@@ -200,6 +205,39 @@ namespace FiresecClient.Models
             }
 
             return newDevice;
+        }
+
+        public Device AddChild(Driver newDriver, int newAddress)
+        {
+            Device device = new Device();
+            device.Driver = newDriver;
+            device.IntAddress = newAddress;
+            Children.Add(device);
+            device.Parent = this;
+            AddAutoCreateChildren(device);
+
+            return device;
+        }
+
+        void AddAutoCreateChildren(Device device)
+        {
+            foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
+            {
+                var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
+
+                if ((autoCreateDriver.ShortName == "АСПТ") && (device.Driver.DriverName == "Прибор Рубеж-2AM"))
+                    continue;
+
+                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+                {
+                    Device childDevice = new Device();
+                    childDevice.Driver = autoCreateDriver;
+                    childDevice.IntAddress = i;
+                    device.Children.Add(childDevice);
+
+                    AddAutoCreateChildren(childDevice);
+                }
+            }
         }
     }
 }

@@ -3,21 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using FiresecClient;
-using System.Windows;
 using FiresecClient.Models;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public class NewDeviceViewModel : DialogContent
+    public class NewDeviceRangeViewModel : DialogContent
     {
-        public NewDeviceViewModel(DeviceViewModel parent, bool addMany)
+        public NewDeviceRangeViewModel(DeviceViewModel parent, bool addMany)
         {
-            //ViewModels.Devices.DriversView driversView = new ViewModels.Devices.DriversView();
-            //driversView.ShowDialog();
-
-            Title = "Новое устройство";
+            Title = "Новоые устройства";
             AddMany = addMany;
             AddCommand = new RelayCommand(OnAdd);
             CancelCommand = new RelayCommand(OnCancel);
@@ -199,7 +194,7 @@ namespace DevicesModule.ViewModels
                 {
                     if (i > maxRangeAddress.Value)
                     {
-                       if ((isOnShleif) && ((i % 256 == 0) || ((i + 1) % 256 == 0)))
+                        if ((isOnShleif) && ((i % 256 == 0) || ((i + 1) % 256 == 0)))
                             continue;
 
                         if ((_parent.Children.Any(x => x.IntAddress != i)) && (_parent.Children.Any(x => x.IntAddress != i + 1)))

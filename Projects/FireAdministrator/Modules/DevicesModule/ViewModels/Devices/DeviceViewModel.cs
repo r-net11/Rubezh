@@ -146,8 +146,8 @@ namespace DevicesModule.ViewModels
         {
             if (CanAdd(null))
             {
-                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this, true);
-                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+                NewDeviceRangeViewModel newDeviceRangeViewModel = new NewDeviceRangeViewModel(this, true);
+                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
             }
         }
 

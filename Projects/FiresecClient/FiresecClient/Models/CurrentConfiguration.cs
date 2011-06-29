@@ -60,7 +60,10 @@ namespace FiresecClient.Models
             foreach (var firesecDriver in metadata.drv)
             {
                 Driver driver = new Driver(firesecDriver);
-                Drivers.Add(driver);
+                if (driver.IsIgnore == false)
+                {
+                    Drivers.Add(driver);
+                }
             }
         }
     }

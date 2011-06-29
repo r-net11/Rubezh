@@ -495,6 +495,11 @@ namespace FiresecClient.Models
             get { return (driverDataList.FirstOrDefault(x => (x.DriverId == _driver.id)).IgnoreLevel > 1); }
         }
 
+        public bool IsAssadIgnore
+        {
+            get { return (driverDataList.FirstOrDefault(x => (x.DriverId == _driver.id)).IgnoreLevel > 0); }
+        }
+
         public string DriverName
         {
             get

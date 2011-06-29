@@ -214,7 +214,15 @@ namespace FiresecClient.Converters
         {
             Firesec.CoreConfig.devType innerDevice = new Firesec.CoreConfig.devType();
             innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.Id).idx;
-            innerDevice.addr = device.IntAddress.ToString();
+
+            if (device.Driver.HasAddress)
+            {
+                innerDevice.addr = device.IntAddress.ToString();
+            }
+            else
+            {
+                innerDevice.addr = "0";
+            }
 
             if (device.ZoneNo != null)
             {
