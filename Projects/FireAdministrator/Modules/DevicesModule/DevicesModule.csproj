@@ -91,6 +91,7 @@
     <Compile Include="ViewModels\Devices\DriversView.xaml.cs">
       <DependentUpon>DriversView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Devices\NewDeviceHelper.cs" />
     <Compile Include="ViewModels\Devices\NewDeviceRangeViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
     <Compile Include="ViewModels\Zones\ClauseViewModel.cs" />

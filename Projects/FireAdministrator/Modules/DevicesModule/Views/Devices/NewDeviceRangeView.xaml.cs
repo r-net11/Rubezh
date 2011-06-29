@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для NewDeviceRangeView.xaml
-    /// </summary>
     public partial class NewDeviceRangeView : UserControl
     {
         public NewDeviceRangeView()

@@ -136,7 +136,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanAdd(null))
             {
-                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this, false);
+                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
                 ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
             }
         }
@@ -146,7 +146,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanAdd(null))
             {
-                NewDeviceRangeViewModel newDeviceRangeViewModel = new NewDeviceRangeViewModel(this, true);
+                NewDeviceRangeViewModel newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
                 ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
             }
         }
