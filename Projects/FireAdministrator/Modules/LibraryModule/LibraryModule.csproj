@@ -59,12 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\Transform.cs" />
-    <Page Include="DataTemplates\DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Compile Include="Helper.cs" />
     <Compile Include="LibraryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

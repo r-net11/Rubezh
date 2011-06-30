@@ -5,14 +5,28 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace DevicesModule.Converters
+namespace Infrastructure.Common.Converters
 {
-    class BoolToVisibilityRevertConverter : IValueConverter
+    public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            bool isRevert = false;
+            if (parameter != null)
+            {
+                isRevert = System.Convert.ToBoolean(parameter);
+            }
+
             bool boolValue = (bool)value;
-            return boolValue ? Visibility.Collapsed : Visibility.Visible;
+
+            if (isRevert)
+            {
+                return boolValue ? Visibility.Collapsed : Visibility.Visible;
+            }
+            else
+            {
+                return boolValue ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

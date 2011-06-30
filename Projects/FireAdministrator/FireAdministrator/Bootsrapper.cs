@@ -28,6 +28,12 @@ namespace FireAdministrator
 
             RegisterServices();
 
+            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            Application.Current.Resources.MergedDictionaries.Add(rd);
+        
+
+            InitializeModules();
+
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
         }
@@ -43,6 +49,8 @@ namespace FireAdministrator
         {
             base.ConfigureModuleCatalog();
 
+            return;
+
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
             moduleCatalog.AddModule(typeof(LibraryModule.LibraryModule));
@@ -50,6 +58,27 @@ namespace FireAdministrator
             moduleCatalog.AddModule(typeof(SecurityModule.SequrityModule));
             moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
             moduleCatalog.AddModule(typeof(SoundsModule.SoundsModule));
+        }
+
+        void InitializeModules()
+        {
+            DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
+            devicesModule.Initialize();
+
+            LibraryModule.LibraryModule libraryModule = new LibraryModule.LibraryModule();
+            libraryModule.Initialize();
+
+            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
+            plansModule.Initialize();
+
+            SecurityModule.SequrityModule sequrityModule = new SecurityModule.SequrityModule();
+            sequrityModule.Initialize();
+
+            JournalModule.JournalModule journalModule = new JournalModule.JournalModule();
+            journalModule.Initialize();
+
+            SoundsModule.SoundsModule soundsModule = new SoundsModule.SoundsModule();
+            soundsModule.Initialize();
         }
     }
 }

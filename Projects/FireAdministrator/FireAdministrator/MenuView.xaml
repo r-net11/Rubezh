@@ -5,10 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Orientation="Horizontal">
-        <Button Content="Создать новый" Click="OnCreateNew" Width="100" Margin="1" />
-        <Button Content="Считать из файла" Click="OnLoadFromFile" Width="100" Margin="1" />
-        <Button Content="Сохранить в файл" Click="OnSaveToFile" Width="100" Margin="1" />
-        <Button Content="Ok" Click="OnSetNewConfig" Width="100" Margin="1" />
-    </StackPanel>
+
+
+    <ToolBar Background="Transparent">
+        <Button Click="OnCreateNew" ToolTip="Создать новый">
+            <Image Source="/FireAdministrator;component/Images/New.png" Height="32" />
+        </Button>
+
+        <Button Click="OnLoadFromFile" ToolTip="Считать из файла">
+            <Image Source="/FireAdministrator;component/Images/Open.png" Height="32" />
+        </Button>
+
+        <Button Click="OnSaveToFile" ToolTip="Сохранить в файл">
+            <Image Source="/FireAdministrator;component/Images/Save.png" Height="32" />
+        </Button>
+
+        <Button Click="OnSetNewConfig" ToolTip="Ok">
+            <Image Source="/FireAdministrator;component/Images/SaveToServer.png" Height="32" />
+        </Button>
+
+        <Button Click="OnValidate"  ToolTip="Проверить">
+            <Image Source="/FireAdministrator;component/Images/Validate.png" Height="32" />
+        </Button>
+    </ToolBar>
 </UserControl>

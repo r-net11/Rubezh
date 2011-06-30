@@ -41,5 +41,10 @@ namespace FireAdministrator
         {
             FiresecManager.SaveToFile("D:/config.fsc");
         }
+
+        private void OnValidate(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

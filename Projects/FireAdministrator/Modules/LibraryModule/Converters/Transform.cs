@@ -8,8 +8,6 @@ namespace LibraryModule.Converters
     {
         public double Factor { get; set; }
 
-        #region IValueConverter Members
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var intValue = (double) value;
@@ -22,7 +20,5 @@ namespace LibraryModule.Converters
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

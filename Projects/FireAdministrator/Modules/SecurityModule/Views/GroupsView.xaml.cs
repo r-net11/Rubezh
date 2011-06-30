@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace SecurityModule.Views
 {
-	/// <summary>
-	/// Interaction logic for Groups.xaml
-	/// </summary>
 	public partial class Groups : UserControl
 	{
 		public Groups()

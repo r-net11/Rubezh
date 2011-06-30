@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Converters="clr-namespace:LibraryModule.Converters">
+                    xmlns:Converters="clr-namespace:LibraryModule.Converters"
+                    xmlns:CommonConverters="clr-namespace:Infrastructure.Common.Converters;assembly=Infrastructure.Common">
 
-    <Converters:BoolToVisibilityConverter x:Key="VisibleIfTrue" Not="False" />
-    <Converters:BoolToVisibilityConverter x:Key="NotVisibleIfTrue" Not="True" />
+    <CommonConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <Converters:Transform x:Key="Transform" Factor="0.002" />
+    
     <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>

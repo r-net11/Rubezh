@@ -5,14 +5,14 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace DevicesModule.Converters
+namespace Infrastructure.Common.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public class LevelToMarginConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool boolValue = (bool)value;
-            return boolValue ? Visibility.Visible : Visibility.Collapsed;
+            int level = (int)value;
+            return new Thickness(level * 20, 0, 0, 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

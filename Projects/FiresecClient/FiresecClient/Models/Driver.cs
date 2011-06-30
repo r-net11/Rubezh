@@ -134,15 +134,27 @@ namespace FiresecClient.Models
 
         public bool IsDeviceOnShleif
         {
-            get
-            {
-                return ((_driver.addrMask != null) && (_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]"));
-            }
+            get { return ((_driver.addrMask != null) && (_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]")); }
         }
 
         public bool HasShleif
         {
             get { return ShleifCount == 0 ? false : true; }
+        }
+
+        public bool UseParentAddressSystem
+        {
+            get { return (_driver.options != null) && (_driver.options.Contains("UseParentAddressSystem")); }
+        }
+
+        public bool IsChildAddressRange
+        {
+            get { return (_driver.res_addr != null); }
+        }
+
+        public int ChildAddressRange
+        {
+            get { return IsChildAddressRange ? Convert.ToInt32(_driver.res_addr) : 0; }
         }
 
         IEnumerable AllChildren
