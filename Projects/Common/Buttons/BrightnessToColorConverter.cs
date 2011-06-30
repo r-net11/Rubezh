@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Windows;
+using System.Windows.Media;
 
-namespace DevicesModule.Converters
+namespace Buttons
 {
-    public class BoolToVisibilityConverter : IValueConverter
+    public class BrightnessToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool boolValue = (bool)value;
-            return boolValue ? Visibility.Visible : Visibility.Collapsed;
+            byte brightness = (byte)value;
+
+            return Color.FromArgb(brightness, 255, 255, 255);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

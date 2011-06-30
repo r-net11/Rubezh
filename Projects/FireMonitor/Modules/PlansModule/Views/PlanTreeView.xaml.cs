@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace PlansModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для PlanTreeView.xaml
-    /// </summary>
     public partial class PlanTreeView : UserControl
     {
         public PlanTreeView()

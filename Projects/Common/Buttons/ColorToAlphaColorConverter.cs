@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Windows;
+using System.Windows.Media;
 
-namespace DevicesModule.Converters
+namespace Buttons
 {
-    class BoolToVisibilityRevertConverter : IValueConverter
+    public class ColorToAlphaColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool boolValue = (bool)value;
-            return boolValue ? Visibility.Collapsed : Visibility.Visible;
+            SolidColorBrush brush = (SolidColorBrush)value;
+
+            if (brush != null)
+            {
+                Color color = brush.Color;
+                color.A = byte.Parse(parameter.ToString());
+
+                return color;
+            }
+            return Colors.Black;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

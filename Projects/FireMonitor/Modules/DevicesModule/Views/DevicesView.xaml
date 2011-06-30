@@ -2,13 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
-             xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     <Grid>

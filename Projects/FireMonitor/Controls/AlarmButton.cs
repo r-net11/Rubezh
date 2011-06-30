@@ -38,8 +38,8 @@ namespace Controls
         public static readonly DependencyProperty HighlightMarginProperty =
             DependencyProperty.Register("HighlightMargin", typeof(Thickness), typeof(AlarmButton));
 
-        public static readonly DependencyProperty HightlightBrightnessProperty =
-            DependencyProperty.Register("HightlightBrightness", typeof(byte), typeof(AlarmButton));
+        public static readonly DependencyProperty HighlightBrightnessProperty =
+            DependencyProperty.Register("HighlightBrightness", typeof(byte), typeof(AlarmButton));
 
         public static readonly DependencyProperty IsGlowingProperty =
             DependencyProperty.Register("IsGlowing", typeof(bool), typeof(AlarmButton));
@@ -95,10 +95,10 @@ namespace Controls
             set { SetValue(HighlightMarginProperty, value); }
         }
 
-        public byte HightlightBrightness
+        public byte HighlightBrightness
         {
-            get { return (byte)GetValue(HightlightBrightnessProperty); }
-            set { SetValue(HightlightBrightnessProperty, value); }
+            get { return (byte)GetValue(HighlightBrightnessProperty); }
+            set { SetValue(HighlightBrightnessProperty, value); }
         }
 
         public bool IsGlowing

@@ -34,10 +34,10 @@ namespace FiresecClient.Models
             {
                 string address = IntAddress.ToString();
 
-                if (Driver.HasAddress == false)
-                {
-                    address = "";
-                }
+                //if (Driver.HasAddress == false)
+                //{
+                //    address = "";
+                //}
 
                 var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
                 if (serialNoProperty != null)

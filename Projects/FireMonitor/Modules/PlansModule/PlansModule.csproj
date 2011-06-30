@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
-    <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
@@ -156,17 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\DataGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DataTemplates\TreeExpanderStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CanvasView.xaml">
       <SubType>Designer</SubType>

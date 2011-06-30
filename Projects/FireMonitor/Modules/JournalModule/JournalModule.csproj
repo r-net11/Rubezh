@@ -118,10 +118,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="DataTemplates\DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

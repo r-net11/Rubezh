@@ -28,7 +28,7 @@
         <Setter Property="OuterBorderBrush" Value="White" />
         <Setter Property="OuterBorderThickness" Value="3" />
         <Setter Property="HighlightMargin" Value="1, 1, 0, 0" />
-        <Setter Property="HightlightBrightness" Value="184" />
+        <Setter Property="HighlightBrightness" Value="184" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:AlarmButton}">
@@ -78,7 +78,7 @@
                                                         AncestorLevel=1, AncestorType={x:Type Border}}, Converter={StaticResource HighlightCornerRadiusConverter}}" >
                                                     <Border.Background>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" >
-                                                            <GradientStop Offset="0" Color="{Binding HighlightBrightness,
+                                                        <GradientStop Offset="0" Color="{Binding HighlightBrightness,
                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AlarmButton}},
                                                                     Converter={StaticResource BrightnessToColorConverter}}" />
                                                             <GradientStop Color="#22FFFFFF" Offset="1"/>

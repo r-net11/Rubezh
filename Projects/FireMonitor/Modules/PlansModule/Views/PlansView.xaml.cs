@@ -14,17 +14,11 @@ using System.Windows.Shapes;
 
 namespace PlansModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для PlanView.xaml
-    /// </summary>
     public partial class PlansView : UserControl
     {
         public PlansView()
         {
             InitializeComponent();
-            //_MainCanvas = MainCanvas;
         }
-
-        //public static Canvas _MainCanvas { get; set; }
     }
 }

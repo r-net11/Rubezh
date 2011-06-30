@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ZonesMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons">
 
     <ToolBar Background="Transparent">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить">
@@ -14,5 +15,6 @@
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать">
             <Image Source="/DevicesModule;component/Images/Edit.png" Height="32" />
         </Button>
+
     </ToolBar>
 </UserControl>

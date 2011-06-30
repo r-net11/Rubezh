@@ -59,9 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\BoolToVisibilityRevertConverter.cs" />
-    <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="DevicesModule.cs" />
@@ -111,15 +108,7 @@
     <Resource Include="Icons\DS_Unknown.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\DataGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DataTemplates\TreeExpanderStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

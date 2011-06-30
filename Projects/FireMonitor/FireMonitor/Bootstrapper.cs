@@ -28,6 +28,9 @@ namespace FireMonitor
         {
             RegisterServices();
 
+            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            Application.Current.Resources.MergedDictionaries.Add(rd);
+
             StartFiresecClient();
 
             InitializeModules();
@@ -41,21 +44,6 @@ namespace FireMonitor
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
-        }
-
-        protected override void ConfigureModuleCatalog()
-        {
-            base.ConfigureModuleCatalog();
-
-            return;
-
-            ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
-            moduleCatalog.AddModule(typeof(AlarmModule.AlarmModule));
-            moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
-            moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
-            moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
-            moduleCatalog.AddModule(typeof(ReportsModule.ReportsModule));
-            moduleCatalog.AddModule(typeof(CallModule.CallModule));
         }
 
         void InitializeModules()

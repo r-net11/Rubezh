@@ -136,6 +136,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Buttons\Buttons.csproj">
+      <Project>{D8D17C88-CFA0-485A-95BA-A966C02562C1}</Project>
+      <Name>Buttons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure.Common</Name>

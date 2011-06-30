@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace JournalModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для ArchiveView.xaml
-    /// </summary>
     public partial class ArchiveView : UserControl
     {
         public ArchiveView()

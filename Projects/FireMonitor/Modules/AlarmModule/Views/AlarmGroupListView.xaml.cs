@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 
 namespace AlarmModule.Views
 {
-
     public partial class AlarmGroupListView : UserControl
     {
         public AlarmGroupListView()

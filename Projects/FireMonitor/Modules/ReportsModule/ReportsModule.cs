@@ -27,7 +27,6 @@ namespace ReportsModule
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            //resourceService.AddResource(new ResourceDescription(GetType().Assembly, "ReportTemplates/TypesCountReport.xaml"));
         }
 
         void CreateViewModels()

@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace CallModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для CallView.xaml
-    /// </summary>
     public partial class CallView : UserControl
     {
         public CallView()

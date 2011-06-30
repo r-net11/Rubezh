@@ -39,7 +39,7 @@ namespace DevicesModule.ViewModels
             set
             {
                 _selectedDriver = value;
-                SetNewAddressRange();
+                UpdateAddressRange();
                 OnPropertyChanged("SelectedDriver");
             }
         }
@@ -66,16 +66,57 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void SetNewAddressRange()
+        Device ParentAddressSystemDevice
         {
-            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, _parent);
+            get
+            {
+                Device parentAddressSystemDevice = _parent;
+                while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
+                {
+                    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+                }
+                return parentAddressSystemDevice;
+            }
+        }
+
+        void AddChildAddressSystemDevice(List<Device> childAddressSystemDevices, Device parentDevice)
+        {
+            foreach (var childDevice in parentDevice.Children)
+            {
+                if (childDevice.Driver.UseParentAddressSystem)
+                {
+                    childAddressSystemDevices.Add(childDevice);
+                    AddChildAddressSystemDevice(childAddressSystemDevices, childDevice);
+                }
+            }
+        }
+
+        List<Device> ChildAddressSystemDevices
+        {
+            get
+            {
+                List<Device> childAddressSystemDevices = new List<Device>();
+                AddChildAddressSystemDevice(childAddressSystemDevices, ParentAddressSystemDevice);
+                return childAddressSystemDevices;
+            }
+        }
+
+        List<int> AvaliableAddresses
+        {
+            get { return NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice); }
+        }
+
+        void UpdateAddressRange()
+        {
+            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = 0;
-
             for (int i = 0; i < avaliableAddresses.Count; i++)
             {
-                int address = avaliableAddresses[i];
-                if (_parent.Children.Any(x => x.IntAddress == address))
+                if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
+                    maxIndex = i;
+
+                if (ChildAddressSystemDevices.Any(x => x.IntAddress == avaliableAddresses[i]))
                     maxIndex = i;
             }
 
@@ -100,7 +141,7 @@ namespace DevicesModule.ViewModels
             EndAddress = tempDevice.Address;
         }
 
-        void CreateAddressRange()
+        void CreateDevices()
         {
             Device tempDevice = new Device();
             tempDevice.Driver = SelectedDriver;
@@ -109,31 +150,45 @@ namespace DevicesModule.ViewModels
             tempDevice.SetAddress(EndAddress);
             int endAddress = tempDevice.IntAddress;
 
+            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
+
+
             if (startAddress < endAddress)
             {
                 ;
             }
-            if (startAddress < SelectedDriver.MinAddress)
+            if (startAddress < avaliableAddresses[0])
             {
                 ;
             }
-            if (endAddress < SelectedDriver.MaxAddress)
-            {
-                ;
-            }
-
-            if (_parent.Children.Any(x => ((x.IntAddress >= startAddress) || (x.IntAddress <= endAddress))))
+            if (endAddress > avaliableAddresses[avaliableAddresses.Count() - 1])
             {
                 ;
             }
 
-            for (int i = startAddress; i <= endAddress; i++)
+            for (int i = 0; i < avaliableAddresses.Count(); i++)
             {
-                if ((SelectedDriver.IsDeviceOnShleif) && (i % 256 == 0))
-                    continue;
+                int address = avaliableAddresses[i];
 
-                Device device = _parent.AddChild(SelectedDriver, i);
-                AddDevice(device, _parentDeviceViewModel);
+                if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == address))
+                {
+                    ;
+                }
+
+                if (ChildAddressSystemDevices.Any(x => x.IntAddress == address))
+                {
+                    ;
+                }
+            }
+
+            for (int i = 0; i < avaliableAddresses.Count(); i++)
+            {
+                int address = avaliableAddresses[i];
+                if ((address >= startAddress) && (address <= endAddress))
+                {
+                    Device device = _parent.AddChild(SelectedDriver, address);
+                    AddDevice(device, _parentDeviceViewModel);
+                }
             }
         }
 
@@ -155,7 +210,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDriver != null)
             {
-                CreateAddressRange();
+                CreateDevices();
             }
 
             _parentDeviceViewModel.Update();

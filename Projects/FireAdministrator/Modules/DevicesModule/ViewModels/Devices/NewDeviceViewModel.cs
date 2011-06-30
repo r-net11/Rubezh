@@ -48,15 +48,57 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        Device ParentAddressSystemDevice
+        {
+            get
+            {
+                Device parentAddressSystemDevice = _parent;
+                while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
+                {
+                    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+                }
+                return parentAddressSystemDevice;
+            }
+        }
+
+        void AddChildAddressSystemDevice(List<Device> childAddressSystemDevices, Device parentDevice)
+        {
+            foreach (var childDevice in parentDevice.Children)
+            {
+                if (childDevice.Driver.UseParentAddressSystem)
+                {
+                    childAddressSystemDevices.Add(childDevice);
+                    AddChildAddressSystemDevice(childAddressSystemDevices, childDevice);
+                }
+            }
+        }
+
+        List<Device> ChildAddressSystemDevices
+        {
+            get
+            {
+                List<Device> childAddressSystemDevices = new List<Device>();
+                AddChildAddressSystemDevice(childAddressSystemDevices, ParentAddressSystemDevice);
+                return childAddressSystemDevices;
+            }
+        }
+
+        List<int> AvaliableAddresses
+        {
+            get { return NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice); }
+        }
+
         int GetNewAddress()
         {
-            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, _parent);
+            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = 0;
-
             for (int i = 0; i < avaliableAddresses.Count; i++)
             {
-                if (_parent.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
+                if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
+                    maxIndex = i;
+
+                if (ChildAddressSystemDevices.Any(x => x.IntAddress == avaliableAddresses[i]))
                     maxIndex = i;
             }
 

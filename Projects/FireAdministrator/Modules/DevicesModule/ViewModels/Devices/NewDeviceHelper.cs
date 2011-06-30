@@ -12,6 +12,21 @@ namespace DevicesModule.ViewModels
         {
             List<int> avaliableAddresses = new List<int>();
 
+            if (device.Driver.IsChildAddressRange)
+            {
+                int range = device.Driver.ChildAddressRange;
+                for (int i = device.IntAddress; i < device.IntAddress + range; i++)
+                {
+                    if (i % 256 == 0)
+                    {
+                        i = device.IntAddress + range;
+                        break;
+                    }
+                    avaliableAddresses.Add(i);
+                }
+                return avaliableAddresses;
+            }
+
             if (driver.IsRangeEnabled)
             {
                 for (int i = driver.MinAddress; i <= driver.MaxAddress; i++)

@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace JournalModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для JournalView.xaml
-    /// </summary>
     public partial class JournalView : UserControl
     {
         public JournalView()

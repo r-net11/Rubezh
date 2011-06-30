@@ -3,14 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:PlansModule.Converters"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:Converters="clr-namespace:PlansModule.Converters">
     <UserControl.Resources>
-        <Controls:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <Controls:LevelToMarginConverter x:Key="LevelToMarginConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     <WpfToolkit:DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"

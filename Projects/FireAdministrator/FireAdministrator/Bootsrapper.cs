@@ -45,21 +45,6 @@ namespace FireAdministrator
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
         }
 
-        protected override void ConfigureModuleCatalog()
-        {
-            base.ConfigureModuleCatalog();
-
-            return;
-
-            ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
-            moduleCatalog.AddModule(typeof(DevicesModule.DevicesModule));
-            moduleCatalog.AddModule(typeof(LibraryModule.LibraryModule));
-            moduleCatalog.AddModule(typeof(PlansModule.PlansModule));
-            moduleCatalog.AddModule(typeof(SecurityModule.SequrityModule));
-            moduleCatalog.AddModule(typeof(JournalModule.JournalModule));
-            moduleCatalog.AddModule(typeof(SoundsModule.SoundsModule));
-        }
-
         void InitializeModules()
         {
             DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();

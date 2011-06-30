@@ -64,6 +64,7 @@ namespace PlansModule.ViewModels
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == elementDevice.Id);
             if (_device != null)
             {
+                _deviceControl.DriverId = _device.Driver.Id;
                 AddTooltipCanvas(elementDevice, canvas);
                 OnDeviceStateChanged(elementDevice.Id);
             }
