@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using Firesec.ZoneLogic;
+using FiresecClient.Converters;
 
 namespace FiresecClient.Models
 {
@@ -12,7 +13,6 @@ namespace FiresecClient.Models
         public Device()
         {
             Properties = new List<Property>();
-            UderlyingZones = new List<string>();
             Children = new List<Device>();
         }
         public Device Parent { get; set; }
@@ -32,12 +32,9 @@ namespace FiresecClient.Models
         {
             get
             {
-                string address = IntAddress.ToString();
+                return PresentationAddress;
 
-                //if (Driver.HasAddress == false)
-                //{
-                //    address = "";
-                //}
+                string address = IntAddress.ToString();
 
                 var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
                 if (serialNoProperty != null)
@@ -45,9 +42,30 @@ namespace FiresecClient.Models
 
                 if (Driver.IsDeviceOnShleif)
                 {
-                    int intShleifAddress = IntAddress / 256;
-                    int intSelfAddress = IntAddress % 256;
-                    address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
+                    address = AddressConverter.IntToStringAddress(Driver, IntAddress);
+                }
+
+                return address;
+            }
+        }
+
+        public string PresentationAddress
+        {
+            get
+            {
+                if (Driver.HasAddress == false)
+                {
+                    return "";
+                }
+
+                string address = AddressConverter.IntToStringAddress(Driver, IntAddress);
+
+                if (Driver.IsChildAddressReservedRange)
+                {
+                    int endAddress = IntAddress + Driver.ChildAddressReserveRangeCount;
+                    if (endAddress / 256 != IntAddress / 256)
+                        endAddress = (IntAddress / 256) * 256 + 255;
+                    address += " - " + AddressConverter.IntToStringAddress(Driver, endAddress);
                 }
 
                 return address;
@@ -56,22 +74,7 @@ namespace FiresecClient.Models
 
         public void SetAddress(string address)
         {
-            if (Driver.HasAddress == false)
-            {
-                IntAddress = 0;
-            }
-            if (Driver.IsDeviceOnShleif)
-            {
-                var addresses = address.Split('.');
-
-                int intShleifAddress = System.Convert.ToInt32(addresses[0]);
-                int intAddress = System.Convert.ToInt32(addresses[1]);
-                IntAddress = intShleifAddress * 256 + intAddress;
-            }
-            else
-            {
-                IntAddress = Convert.ToInt32(address);
-            }
+            IntAddress = AddressConverter.StringToIntAddress(Driver, address);
         }
 
         public string Id
@@ -97,18 +100,6 @@ namespace FiresecClient.Models
                 List<Device> allParents = Parent.AllParents;
                 allParents.Add(Parent);
                 return allParents;
-            }
-        }
-
-        public List<string> UderlyingZones { get; set; }
-
-        public void AddUnderlyingZone(string zoneNo)
-        {
-            if (Parent != null)
-            {
-                if (Parent.UderlyingZones.Contains(zoneNo) == false)
-                    Parent.UderlyingZones.Add(zoneNo);
-                Parent.AddUnderlyingZone(zoneNo);
             }
         }
 
@@ -224,9 +215,6 @@ namespace FiresecClient.Models
             foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
             {
                 var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
-
-                if ((autoCreateDriver.ShortName == "АСПТ") && (device.Driver.DriverName == "Прибор Рубеж-2AM"))
-                    continue;
 
                 for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                 {

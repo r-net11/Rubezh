@@ -134,7 +134,7 @@ namespace FiresecClient.Models
 
         public bool IsDeviceOnShleif
         {
-            get { return ((_driver.addrMask != null) && (_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]")); }
+            get { return ((_driver.addrMask != null) && ((_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]") || (_driver.addrMask == "[0(1)-8(30)]"))); }
         }
 
         public bool HasShleif
@@ -144,17 +144,27 @@ namespace FiresecClient.Models
 
         public bool UseParentAddressSystem
         {
-            get { return (_driver.options != null) && (_driver.options.Contains("UseParentAddressSystem")); }
+            get
+            {
+                if (_driver.name == "Насосная Станция")
+                    return false;
+                return (_driver.options != null) && (_driver.options.Contains("UseParentAddressSystem"));
+            }
         }
 
-        public bool IsChildAddressRange
+        public bool IsChildAddressReservedRange
         {
             get { return (_driver.res_addr != null); }
         }
 
-        public int ChildAddressRange
+        public int ChildAddressReserveRangeCount
         {
-            get { return IsChildAddressRange ? Convert.ToInt32(_driver.res_addr) : 0; }
+            get { return IsChildAddressReservedRange ? Convert.ToInt32(_driver.res_addr) : 0; }
+        }
+
+        public bool DisableAutoCreateChildren
+        {
+            get { return (_driver.options != null) && (_driver.options.Contains("DisableAutoCreateChildren")); }
         }
 
         IEnumerable AllChildren
@@ -195,6 +205,9 @@ namespace FiresecClient.Models
         {
             get
             {
+                if (DisableAutoCreateChildren)
+                    return new List<string>();
+
                 return new List<string>(
                 from configDrv driver in AllChildren
                 where driver.acr_enabled == "1"
@@ -204,17 +217,32 @@ namespace FiresecClient.Models
 
         public bool IsRangeEnabled
         {
-            get { return _driver.ar_enabled == "1"; }
+            get
+            {
+                if (_driver.addrMask == "[0(1)-8(8)]")
+                    return true;
+                return _driver.ar_enabled == "1";
+            }
         }
 
         public int MinAddress
         {
-            get { return Convert.ToInt32(_driver.ar_from); }
+            get
+            {
+                if (_driver.addrMask == "[0(1)-8(8)]")
+                    return 1;
+                return Convert.ToInt32(_driver.ar_from);
+            }
         }
 
         public int MaxAddress
         {
-            get { return Convert.ToInt32(_driver.ar_to); }
+            get
+            {
+                if (_driver.addrMask == "[0(1)-8(8)]")
+                    return 8;
+                return Convert.ToInt32(_driver.ar_to);
+            }
         }
 
         public bool IsAutoCreate

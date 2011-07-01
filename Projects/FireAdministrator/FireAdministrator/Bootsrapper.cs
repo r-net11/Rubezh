@@ -32,7 +32,7 @@ namespace FireAdministrator
             Application.Current.Resources.MergedDictionaries.Add(rd);
         
 
-            InitializeModules();
+            InitializeKnownModules();
 
             App.Current.MainWindow = (Window)this.Shell;
             App.Current.MainWindow.Show();
@@ -45,7 +45,7 @@ namespace FireAdministrator
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
         }
 
-        void InitializeModules()
+        void InitializeKnownModules()
         {
             DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();

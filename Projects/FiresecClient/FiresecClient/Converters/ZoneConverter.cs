@@ -39,36 +39,41 @@ namespace FiresecClient.Converters
 
         public static void ConvertBack(CurrentConfiguration currentConfiguration)
         {
-            FiresecManager.CoreConfig.zone = new Firesec.CoreConfig.zoneType[currentConfiguration.Zones.Count];
-            for (int i = 0; i < currentConfiguration.Zones.Count; i++)
+            List<Firesec.CoreConfig.zoneType> zones = new List<Firesec.CoreConfig.zoneType>();
+            //FiresecManager.CoreConfig.zone = new Firesec.CoreConfig.zoneType[currentConfiguration.Zones.Count];
+            foreach (var zone in currentConfiguration.Zones)
+            //for (int i = 0; i < currentConfiguration.Zones.Count; i++)
             {
-                FiresecManager.CoreConfig.zone[i] = new Firesec.CoreConfig.zoneType();
-                FiresecManager.CoreConfig.zone[i].name = currentConfiguration.Zones[i].Name;
-                FiresecManager.CoreConfig.zone[i].idx = currentConfiguration.Zones[i].No;
-                FiresecManager.CoreConfig.zone[i].no = currentConfiguration.Zones[i].No;
-                if (!string.IsNullOrEmpty(currentConfiguration.Zones[i].Description))
-                    FiresecManager.CoreConfig.zone[i].desc = currentConfiguration.Zones[i].Description;
+                Firesec.CoreConfig.zoneType firesecZone = new Firesec.CoreConfig.zoneType();
+                firesecZone.name = zone.Name;
+                firesecZone.idx = zone.No;
+                firesecZone.no = zone.No;
+                if (!string.IsNullOrEmpty(zone.Description))
+                    firesecZone.desc = zone.Description;
 
                 List<Firesec.CoreConfig.paramType> zoneParams = new List<Firesec.CoreConfig.paramType>();
-                if (!string.IsNullOrEmpty(currentConfiguration.Zones[i].DetectorCount))
+                if (!string.IsNullOrEmpty(zone.DetectorCount))
                 {
                     Firesec.CoreConfig.paramType DetectorCountZoneParam = new Firesec.CoreConfig.paramType();
                     DetectorCountZoneParam.name = "FireDeviceCount";
                     DetectorCountZoneParam.type = "Int";
-                    DetectorCountZoneParam.value = currentConfiguration.Zones[i].DetectorCount;
+                    DetectorCountZoneParam.value = zone.DetectorCount;
                     zoneParams.Add(DetectorCountZoneParam);
                 }
-                if (!string.IsNullOrEmpty(currentConfiguration.Zones[i].EvacuationTime))
+                if (!string.IsNullOrEmpty(zone.EvacuationTime))
                 {
                     Firesec.CoreConfig.paramType EvacuationTimeZoneParam = new Firesec.CoreConfig.paramType();
                     EvacuationTimeZoneParam.name = "ExitTime";
                     EvacuationTimeZoneParam.type = "SmallInt";
-                    EvacuationTimeZoneParam.value = currentConfiguration.Zones[i].EvacuationTime;
+                    EvacuationTimeZoneParam.value = zone.EvacuationTime;
                     zoneParams.Add(EvacuationTimeZoneParam);
                 }
                 if (zoneParams.Count > 0)
-                    FiresecManager.CoreConfig.zone[i].param = zoneParams.ToArray();
+                    firesecZone.param = zoneParams.ToArray();
             }
+
+            if (zones.Count > 0)
+                FiresecManager.CoreConfig.zone = zones.ToArray();
         }
     }
 }

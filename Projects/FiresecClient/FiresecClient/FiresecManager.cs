@@ -27,7 +27,6 @@ namespace FiresecClient
             BuildDeviceTree();
 
             Configuration.Update();
-            Configuration.SetUnderlyingZones();
 
             Watcher watcher = new Watcher();
             watcher.Start();

@@ -19,8 +19,8 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            EditCommand = new RelayCommand(OnEdit, CanEdit);
+            DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
         }
 
@@ -81,7 +81,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanDelete(object obj)
+        bool CanEditDelete(object obj)
         {
             return SelectedZone != null;
         }
@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            if (CanDelete(null))
+            if (CanEditDelete(null))
             {
                 var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
                 if (dialogResult == MessageBoxResult.Yes)
@@ -100,15 +100,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanEdit(object obj)
-        {
-            return SelectedZone != null;
-        }
-
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            if (CanEdit(null))
+            if (CanEditDelete(null))
             {
                 ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);

@@ -84,6 +84,21 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
+            if ((_zone.No != No) && (FiresecManager.Configuration.Zones.Any(x=>x.No == No)))
+            {
+                System.Windows.MessageBox.Show("Зона с таким номером уже существует");
+                return;
+            }
+
+            if (_zone.No != No)
+            {
+                foreach(var device in FiresecManager.Configuration.Devices)
+                {
+                    if(device.ZoneNo == _zone.No)
+                        device.ZoneNo = No;
+                }
+            }
+
             _zone.Name = Name;
             _zone.No = No;
             _zone.Description = Description;

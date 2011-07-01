@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecClient.Models;
 using FiresecClient;
+using FiresecClient.Converters;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace DevicesModule.ViewModels
         public NewDeviceRangeViewModel(DeviceViewModel parent)
         {
             Title = "Новоые устройства";
-            AddCommand = new RelayCommand(OnAdd);
+            AddCommand = new RelayCommand(OnAdd, CanAdd);
             CancelCommand = new RelayCommand(OnCancel);
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
@@ -110,7 +111,7 @@ namespace DevicesModule.ViewModels
         {
             List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
-            int maxIndex = 0;
+            int maxIndex = -1;
             for (int i = 0; i < avaliableAddresses.Count; i++)
             {
                 if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
@@ -120,38 +121,39 @@ namespace DevicesModule.ViewModels
                     maxIndex = i;
             }
 
-            int startAddress = avaliableAddresses[maxIndex];
-            int endAddress = avaliableAddresses[maxIndex];
+            int startAddress;
+            int endAddress;
 
-            if (avaliableAddresses.Count() > maxIndex + 1)
+            if (maxIndex == -1)
             {
-                startAddress = avaliableAddresses[maxIndex + 1];
-                endAddress = avaliableAddresses[maxIndex + 1];
+                startAddress = endAddress = avaliableAddresses[0];
+                if (avaliableAddresses.Count > 1)
+                    endAddress = avaliableAddresses[1];
             }
-            if (avaliableAddresses.Count() > maxIndex + 2)
+            else
             {
-                endAddress = avaliableAddresses[maxIndex + 2];
+                startAddress = endAddress = avaliableAddresses[maxIndex];
+
+                if (avaliableAddresses.Count() > maxIndex + 1)
+                {
+                    startAddress = endAddress = avaliableAddresses[maxIndex + 1];
+                }
+                if (avaliableAddresses.Count() > maxIndex + 2)
+                {
+                    endAddress = avaliableAddresses[maxIndex + 2];
+                }
             }
 
-            Device tempDevice = new Device();
-            tempDevice.Driver = SelectedDriver;
-            tempDevice.IntAddress = startAddress;
-            StartAddress = tempDevice.Address;
-            tempDevice.IntAddress = endAddress;
-            EndAddress = tempDevice.Address;
+            StartAddress = AddressConverter.IntToStringAddress(SelectedDriver, startAddress);
+            EndAddress = AddressConverter.IntToStringAddress(SelectedDriver, endAddress);
         }
 
         void CreateDevices()
         {
-            Device tempDevice = new Device();
-            tempDevice.Driver = SelectedDriver;
-            tempDevice.SetAddress(StartAddress);
-            int startAddress = tempDevice.IntAddress;
-            tempDevice.SetAddress(EndAddress);
-            int endAddress = tempDevice.IntAddress;
+            int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
+            int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
 
             List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
-
 
             if (startAddress < endAddress)
             {
@@ -188,6 +190,9 @@ namespace DevicesModule.ViewModels
                 {
                     Device device = _parent.AddChild(SelectedDriver, address);
                     AddDevice(device, _parentDeviceViewModel);
+
+                    if (SelectedDriver.IsChildAddressReservedRange)
+                        i += SelectedDriver.ChildAddressReserveRangeCount - 1;
                 }
             }
         }
@@ -205,10 +210,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public bool CanAdd(object obj)
+        {
+            return (SelectedDriver != null);
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (SelectedDriver != null)
+            if (CanAdd(null))
             {
                 CreateDevices();
             }

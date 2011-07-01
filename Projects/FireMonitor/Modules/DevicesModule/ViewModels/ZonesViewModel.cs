@@ -101,38 +101,58 @@ namespace DevicesModule.ViewModels
             SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
         }
 
+
         void InitializeDevices()
-        {
-            Devices = new ObservableCollection<DeviceViewModel>();
-
-            Device rooDevice = FiresecManager.Configuration.RootDevice;
-
-            DeviceViewModel rootDeviceViewModel = new DeviceViewModel();
-            rootDeviceViewModel.Parent = null;
-            rootDeviceViewModel.Initialize(rooDevice, Devices);
-            rootDeviceViewModel.IsExpanded = true;
-            Devices.Add(rootDeviceViewModel);
-            AddDevice(rooDevice, rootDeviceViewModel);
-        }
-
-        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
         {
             if (SelectedZone == null)
                 return;
 
-            foreach (var device in parentDevice.Children)
-            {
-                if ((device.UderlyingZones.Contains(SelectedZone.Zone.No) == false) &&
-                    (device.ZoneNo != SelectedZone.Zone.No))
-                    continue;
+            HashSet<Device> devices = new HashSet<Device>();
 
+            foreach (var device in FiresecManager.Configuration.Devices)
+            {
+                if (device.Driver.IsZoneDevice)
+                {
+                    if (device.ZoneNo == SelectedZone.Zone.No)
+                    {
+                        device.AllParents.ForEach(x => { devices.Add(x); });
+                        devices.Add(device);
+                    }
+                }
+
+                if (device.Driver.IsZoneLogicDevice)
+                {
+                    if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
+                    {
+                        foreach (var clause in device.ZoneLogic.clause)
+                        {
+                            if ((clause.zone != null) && (clause.zone.Contains(SelectedZone.Zone.No)))
+                            {
+                                device.AllParents.ForEach(x => { devices.Add(x); });
+                                devices.Add(device);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Devices = new ObservableCollection<DeviceViewModel>();
+            foreach (var device in devices)
+            {
                 DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Parent = parentDeviceViewModel;
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
-                parentDeviceViewModel.Children.Add(deviceViewModel);
                 Devices.Add(deviceViewModel);
-                AddDevice(device, deviceViewModel);
+            }
+
+            foreach (var device in Devices)
+            {
+                if (device.Device.Parent != null)
+                {
+                    var parent = Devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    device.Parent = parent;
+                    parent.Children.Add(device);
+                }
             }
         }
     }

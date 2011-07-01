@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
             //driversView.ShowDialog();
 
             Title = "Новое устройство";
-            AddCommand = new RelayCommand(OnAdd);
+            AddCommand = new RelayCommand(OnAdd, CanAdd);
             CancelCommand = new RelayCommand(OnCancel);
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
         {
             List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
-            int maxIndex = 0;
+            int maxIndex = -1;
             for (int i = 0; i < avaliableAddresses.Count; i++)
             {
                 if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
@@ -101,6 +101,9 @@ namespace DevicesModule.ViewModels
                 if (ChildAddressSystemDevices.Any(x => x.IntAddress == avaliableAddresses[i]))
                     maxIndex = i;
             }
+
+            if (maxIndex == -1)
+                return avaliableAddresses[0];
 
             int address = avaliableAddresses[maxIndex];
             if (avaliableAddresses.Count() > maxIndex + 1)
@@ -124,10 +127,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public bool CanAdd(object obj)
+        {
+            return (SelectedDriver != null);
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (SelectedDriver != null)
+            if (CanAdd(null))
             {
                 int address = GetNewAddress();
                 Device device = _parent.AddChild(SelectedDriver, address);

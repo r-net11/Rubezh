@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\DeviceConverter.cs" />
     <Compile Include="Converters\DirectionConverter.cs" />
     <Compile Include="Converters\SecurityConverter.cs" />

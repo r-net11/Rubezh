@@ -37,22 +37,6 @@ namespace FiresecClient.Models
             }
         }
 
-        public void SetUnderlyingZones()
-        {
-            foreach (var device in Devices)
-            {
-                device.UderlyingZones = new List<string>();
-            }
-
-            foreach (var device in Devices)
-            {
-                if (string.IsNullOrEmpty(device.ZoneNo) == false)
-                {
-                    device.AddUnderlyingZone(device.ZoneNo);
-                }
-            }
-        }
-
         public void FillDrivrs(Firesec.Metadata.config metadata)
         {
             Driver.Metadata = metadata;

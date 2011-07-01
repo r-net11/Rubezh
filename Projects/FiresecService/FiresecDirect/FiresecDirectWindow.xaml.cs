@@ -113,7 +113,6 @@ namespace FiresecDirect
 
         private void OnAddCustomMessage(object sender, RoutedEventArgs e)
         {
-            //Firesec.NativeFiresecClient.AddUserMessage("Это произвольное пользовательское сообщение");
             Firesec.NativeFiresecClient.AddUserMessage("message");
         }
     }
