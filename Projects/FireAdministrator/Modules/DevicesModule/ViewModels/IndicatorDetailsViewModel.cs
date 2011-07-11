@@ -48,6 +48,64 @@ namespace DevicesModule.ViewModels
                 OffColor = indicatorDevice.state2;
                 FailureColor = indicatorDevice.state3;
                 ConnectionColor = indicatorDevice.state4;
+
+                InitializeDevices();
+                SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == DeviceId);
+            }
+        }
+
+        void InitializeDevices()
+        {
+            HashSet<Device> devices = new HashSet<Device>();
+
+            foreach (var device in FiresecManager.Configuration.Devices)
+            {
+                if (device.Driver.IsZoneLogicDevice)
+                {
+                    device.AllParents.ForEach(x => { devices.Add(x); });
+                    devices.Add(device);
+                }
+            }
+
+            Devices = new ObservableCollection<DeviceViewModel>();
+            foreach (var device in devices)
+            {
+                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Initialize(device, Devices);
+                deviceViewModel.IsExpanded = true;
+                Devices.Add(deviceViewModel);
+            }
+
+            foreach (var device in Devices)
+            {
+                if (device.Device.Parent != null)
+                {
+                    var parent = Devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    device.Parent = parent;
+                    parent.Children.Add(device);
+                }
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> _devices;
+        public ObservableCollection<DeviceViewModel> Devices
+        {
+            get { return _devices; }
+            set
+            {
+                _devices = value;
+                OnPropertyChanged("Devices");
+            }
+        }
+
+        DeviceViewModel _selectedDevice;
+        public DeviceViewModel SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+                OnPropertyChanged("SelectedDevice");
             }
         }
 

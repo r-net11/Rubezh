@@ -26,6 +26,7 @@ namespace FiresecClient.Models
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
         public List<Property> Properties { get; set; }
         public string Description { get; set; }
+        public string UID { get; set; }
         public List<ValidationError> ValidationErrors { get; set; }
 
         public string Address

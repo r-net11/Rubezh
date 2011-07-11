@@ -78,24 +78,17 @@ namespace FiresecClient.Converters
 
             device.IntAddress = System.Convert.ToInt32(innerDevice.addr);
 
-            //device.Address = innerDevice.addr;
-            //if (device.Driver.HasAddressMask)
-            //{
-            //    int intAddress = System.Convert.ToInt32(device.Address);
-            //    if (intAddress > 255)
-            //    {
-            //        int intShleifAddress = intAddress / 255;
-            //        int intSelfAddress = intAddress % 256;
-            //        device.Address = intShleifAddress.ToString() + "." + intSelfAddress.ToString();
-            //    }
-            //}
-
             if (innerDevice.param != null)
             {
-                var param = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices");
-                if (param != null)
+                var DatabaseIdParam = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices");
+                if (DatabaseIdParam != null)
                 {
-                    device.DatabaseId = param.value;
+                    device.DatabaseId = DatabaseIdParam.value;
+                }
+                var UIDParam = innerDevice.param.FirstOrDefault(x => x.name == "INT$DEV_GUID");
+                if (UIDParam != null)
+                {
+                    device.UID = UIDParam.value;
                 }
             }
 
@@ -113,37 +106,9 @@ namespace FiresecClient.Converters
 
             device.Description = innerDevice.name;
 
-            //SetAddress(device, innerDevice);
             SetPlaceInTree(device);
             SetZone(device, innerDevice);
         }
-
-        //static void SetAddress(Device device, Firesec.CoreConfig.devType innerDevice)
-        //{
-        //    switch (device.Driver.DriverName)
-        //    {
-        //        case "Компьютер":
-        //        case "Насосная Станция":
-        //        case "Жокей-насос":
-        //        case "Компрессор":
-        //        case "Дренажный насос":
-        //        case "Насос компенсации утечек":
-        //            device.Address = "0";
-        //            break;
-
-        //        case "USB преобразователь МС-1":
-        //        case "USB преобразователь МС-2":
-        //            if (innerDevice.prop != null)
-        //            {
-        //                var serialNoProperty = innerDevice.prop.FirstOrDefault(x => x.name == "SerialNo");
-        //                if (serialNoProperty != null)
-        //                    device.Address = serialNoProperty.value;
-        //            }
-        //            else
-        //                device.Address = "0";
-        //            break;
-        //    }
-        //}
 
         static void SetPlaceInTree(Device device)
         {
