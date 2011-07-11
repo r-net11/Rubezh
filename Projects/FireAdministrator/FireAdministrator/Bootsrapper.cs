@@ -21,7 +21,7 @@ namespace FireAdministrator
         {
             LoginScreen loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
-            if (loginScreen.UserName == null)
+            if (loginScreen.IsLoggedIn == false)
                 return;
 
             FiresecManager.Start("adm", "");

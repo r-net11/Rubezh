@@ -41,7 +41,14 @@ namespace FiresecWcfService.Service
 
         public bool Connect(string login, string password)
         {
-            NativeFiresecClient.Connect(login, password);
+            try
+            {
+                NativeFiresecClient.Connect(login, password);
+            }
+            catch
+            {
+                return false;
+            }
             return true;
         }
 

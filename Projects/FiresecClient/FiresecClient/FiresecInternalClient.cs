@@ -47,7 +47,8 @@ namespace FiresecClient
 
         public void Stop()
         {
-            _pingThread.Abort();
+            if (_pingThread != null)
+                _pingThread.Abort();
             //duplexChannelFactory.Close();
         }
 

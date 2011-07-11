@@ -55,7 +55,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmButton.cs" />
+    <Compile Include="XButton.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />
     <Compile Include="HighlightCornerRadiusConverter.cs" />

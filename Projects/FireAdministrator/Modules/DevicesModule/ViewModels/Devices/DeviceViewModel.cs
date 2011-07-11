@@ -25,6 +25,7 @@ namespace DevicesModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
             ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
         }
 
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
@@ -119,11 +120,7 @@ namespace DevicesModule.ViewModels
         {
             IndicatorDetailsViewModel indicatorDetailsViewModel = new IndicatorDetailsViewModel();
             indicatorDetailsViewModel.Initialize(Device);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
-            if (result)
-            {
-                ;
-            }
+            ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
         }
 
         public bool CanAdd(object obj)
@@ -174,6 +171,45 @@ namespace DevicesModule.ViewModels
                 Parent.IsExpanded = true;
 
                 FiresecManager.Configuration.Update();
+            }
+        }
+
+        bool CanShowProperties(object obj)
+        {
+            switch (Device.Driver.DriverName)
+            {
+                case "Индикатор":
+                case "Задвижка":
+                case "Насос":
+                case "Жокей-насос":
+                case "Компрессор":
+                case "Насос компенсации утечек":
+                    return true;
+            }
+            return false;
+        }
+
+        public RelayCommand ShowPropertiesCommand { get; private set; }
+        void OnShowProperties()
+        {
+            switch (Device.Driver.DriverName)
+            {
+                case "Индикатор":
+                    OnShowIndicatorLogic();
+                    break;
+
+                case "Задвижка":
+                    ValveDetailsViewModel valveDetailsViewModel = new ValveDetailsViewModel(Device);
+                    ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
+                    break;
+
+                case "Насос":
+                case "Жокей-насос":
+                case "Компрессор":
+                case "Насос компенсации утечек":
+                    PumpDetailsViewModel pumpDetailsViewModel = new PumpDetailsViewModel(Device);
+                    ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
+                    break;
             }
         }
     }

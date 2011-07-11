@@ -176,11 +176,11 @@ namespace AssadProcessor.Devices
                     foreach (var propinfo in device.Driver.Properties)
                     {
                         Assad.DeviceTypeState loopState = new Assad.DeviceTypeState();
-                        string name = propinfo.name;
-                        string value = propinfo.@default;
-                        loopState.state = propinfo.caption;
+                        string name = propinfo.Name;
+                        string value = propinfo.Default;
+                        loopState.state = propinfo.Caption;
 
-                        if (propinfo.caption == "Адрес")
+                        if (propinfo.Caption == "Адрес")
                         {
                             loopState.state = "Адрес USB устройства в сети RS-485";
                         }
@@ -192,17 +192,15 @@ namespace AssadProcessor.Devices
 
                             if (string.IsNullOrEmpty(property.Value))
                             {
-                                value = propinfo.@default;
+                                value = propinfo.Default;
                             }
                         }
 
 
-                        if (propinfo.param != null)
-                        {// выбор значения из массива
-                            if (propinfo.param.Any(x => x.value == value))
-                            {
-                                value = propinfo.param.FirstOrDefault(x => x.value == value).name;
-                            }
+                        var parameter = propinfo.Parameters.FirstOrDefault(x => x.Value == value);
+                        if (parameter != null)
+                        {
+                            value = parameter.Name;
                         }
 
                         loopState.value = value;
@@ -211,7 +209,7 @@ namespace AssadProcessor.Devices
                         //    string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
                         //    Trace.WriteLine(loopstr);
                         //}
-                        if ((propinfo.hidden == "0") && (propinfo.showOnlyInState == "0"))
+                        if (propinfo.Visible)
                             states.Add(loopState);
                     }
 

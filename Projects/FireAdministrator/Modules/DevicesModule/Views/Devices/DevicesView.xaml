@@ -42,6 +42,7 @@
                                                 <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
                                                 <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
                                                 <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
+                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
                                         </TextBlock>

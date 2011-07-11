@@ -19,28 +19,37 @@ namespace FireAdministrator
         public LoginScreen()
         {
             InitializeComponent();
-            UserName = null;
+            IsLoggedIn = false;
         }
 
-        public string UserName { get; private set; }
+        public bool IsLoggedIn { get; private set; }
 
-        private void OnOk(object sender, RoutedEventArgs e)
+        private void OnConnect(object sender, RoutedEventArgs e)
         {
+            _info.Text = "Соединение с сервером";
+
             string name = _login.Text;
             string password = _pass.Text;
 
             bool result = FiresecManager.Start(name, password);
 
-            if (true)
+            if (result)
             {
-                UserName = name;
+                IsLoggedIn = true;
+                _info.Text = "Соединение с сервером установлено";
+            }
+            else
+            {
+                _info.Text = "Не удается установить связь с сервером";
+                FiresecManager.Stop();
+                return;
             }
             Close();
         }
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {
-            UserName = null;
+            IsLoggedIn = false;
             Close();
         }
     }

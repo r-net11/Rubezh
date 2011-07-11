@@ -21,6 +21,40 @@ namespace DeviveModelManager
             Version = "5";
         }
 
+        ObservableCollection<TreeItem> _devices;
+        public ObservableCollection<TreeItem> Devices
+        {
+            get { return _devices; }
+            set
+            {
+                _devices = value;
+                OnPropertyChanged("Devices");
+            }
+        }
+
+        TreeItem _selectedDevice;
+        public TreeItem SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                _selectedDevice = value;
+                OnPropertyChanged("SelectedDevice");
+            }
+        }
+
+        string _version;
+        public string Version
+        {
+            get { return _version; }
+            set
+            {
+                _version = value;
+                StaticVersion = _version;
+                OnPropertyChanged("Version");
+            }
+        }
+
         public RelayCommand GenarateCommand { get; private set; }
         void OnGenarateCommand()
         {
@@ -30,40 +64,6 @@ namespace DeviveModelManager
             Devices = new ObservableCollection<TreeItem>();
             Devices.Add(RootTreeItem);
             return;
-        }
-
-        ObservableCollection<TreeItem> devices;
-        public ObservableCollection<TreeItem> Devices
-        {
-            get { return devices; }
-            set
-            {
-                devices = value;
-                OnPropertyChanged("Devices");
-            }
-        }
-
-        TreeItem selectedDevice;
-        public TreeItem SelectedDevice
-        {
-            get { return selectedDevice; }
-            set
-            {
-                selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
-
-        string version;
-        public string Version
-        {
-            get { return version; }
-            set
-            {
-                version = value;
-                StaticVersion = version;
-                OnPropertyChanged("Version");
-            }
         }
     }
 }

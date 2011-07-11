@@ -117,8 +117,8 @@ namespace Firesec
 
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
-            //FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
-            FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
+            FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
+            //FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
 
             return connectoin;
         }

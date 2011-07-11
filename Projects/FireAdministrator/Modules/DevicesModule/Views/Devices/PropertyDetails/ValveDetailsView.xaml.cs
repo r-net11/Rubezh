@@ -11,22 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml.Serialization;
-using System.IO;
 
-namespace DeviveModelManager
+namespace DevicesModule.Views
 {
-    public partial class View : Window
+    public partial class ValveDetailsView : UserControl
     {
-        public View()
+        public ValveDetailsView()
         {
             InitializeComponent();
-        }
-
-        private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            TreeItem device = e.NewValue as TreeItem;
-            (DataContext as ViewModel).SelectedDevice = device;
         }
     }
 }

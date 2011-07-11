@@ -29,7 +29,6 @@ namespace DevicesModule
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/MenuStyle.xaml"));
         }
 
         static void CreateViewModels()

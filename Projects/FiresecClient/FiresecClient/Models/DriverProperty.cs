@@ -30,6 +30,11 @@ namespace FiresecClient.Models
             get { return _property.@default; }
         }
 
+        public bool Visible
+        {
+            get { return ((_property.hidden == "0") && (_property.showOnlyInState == "0")); }
+        }
+
         public List<DriverPropertyParameter> Parameters
         {
             get

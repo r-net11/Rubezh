@@ -319,6 +319,11 @@ namespace FiresecClient.Models
             get { return (DriverName == "Задвижка"); }
         }
 
+        public bool IsOutDevice
+        {
+            get { return (_driver.options != null) && (_driver.options.Contains("OutDevice")); }
+        }
+
         public DeviceCategory Category
         {
             get
