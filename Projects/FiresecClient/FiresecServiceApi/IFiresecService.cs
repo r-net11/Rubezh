@@ -10,7 +10,7 @@ namespace FiresecServiceApi
     public interface IFiresecService
     {
         [OperationContract]
-        void Connect(string login, string password);
+        bool Connect(string login, string password);
 
         [OperationContract]
         void Initialize();

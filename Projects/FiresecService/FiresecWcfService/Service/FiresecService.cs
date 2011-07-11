@@ -39,9 +39,10 @@ namespace FiresecWcfService.Service
             }
         }
 
-        public void Connect(string login, string password)
+        public bool Connect(string login, string password)
         {
             NativeFiresecClient.Connect(login, password);
+            return true;
         }
 
         public void Initialize()

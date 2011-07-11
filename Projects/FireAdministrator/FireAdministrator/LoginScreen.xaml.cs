@@ -29,7 +29,7 @@ namespace FireAdministrator
             string name = _login.Text;
             string password = _pass.Text;
 
-            FiresecManager.Start(name, password);
+            bool result = FiresecManager.Start(name, password);
 
             if (true)
             {

@@ -16,13 +16,15 @@ namespace FiresecClient
         public static CurrentStates States { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
-        public static void Start(string login, string password)
+        public static bool Start(string login, string password)
         {
             if (firesecInternalClient != null)
-                return;
+                return false;
 
             firesecInternalClient = new FiresecInternalClient();
-            firesecInternalClient.Start(login, password);
+            bool result = firesecInternalClient.Start(login, password);
+            if (result == false)
+                return false;
 
             BuildDeviceTree();
 
@@ -32,6 +34,7 @@ namespace FiresecClient
             watcher.Start();
 
             firesecInternalClient.Subscribe();
+            return true;
         }
 
         public static void Stop()

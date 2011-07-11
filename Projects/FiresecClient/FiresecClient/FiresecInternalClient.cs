@@ -25,7 +25,7 @@ namespace FiresecClient
         static object _locker = new object();
         static Thread _pingThread;
 
-        public void Start(string login, string password)
+        public bool Start(string login, string password)
         {
             NetTcpBinding binding = new NetTcpBinding();
             binding.MaxBufferSize = Int32.MaxValue;
@@ -36,10 +36,13 @@ namespace FiresecClient
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             FiresecService = _duplexChannelFactory.CreateChannel();
 
-            FiresecService.Connect(login, password);
+            bool result = FiresecService.Connect(login, password);
+            if (result == false)
+                return false;
 
             _pingThread = new Thread(DoPing);
             _pingThread.Start();
+            return true;
         }
 
         public void Stop()
