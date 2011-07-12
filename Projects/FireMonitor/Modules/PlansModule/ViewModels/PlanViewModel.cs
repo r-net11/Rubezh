@@ -69,7 +69,7 @@ namespace PlansModule.ViewModels
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            _selfState = new Firesec.State(minPriority);
+            _selfState = new State(minPriority);
 
             UpdateState();
         }

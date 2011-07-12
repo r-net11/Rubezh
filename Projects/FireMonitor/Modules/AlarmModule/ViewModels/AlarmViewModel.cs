@@ -158,7 +158,7 @@ namespace AlarmModule.ViewModels
             ResetItem resetItem = new ResetItem();
             resetItem.States = new List<string>();
 
-            if ((_alarm.AlarmType == Firesec.AlarmType.Fire) || (_alarm.AlarmType == Firesec.AlarmType.Attention) || (_alarm.AlarmType == Firesec.AlarmType.Info))
+            if ((_alarm.AlarmType == AlarmType.Fire) || (_alarm.AlarmType == AlarmType.Attention) || (_alarm.AlarmType == AlarmType.Info))
             {
                 resetItem.DeviceId = parentDeviceState.Id;
 
@@ -171,7 +171,7 @@ namespace AlarmModule.ViewModels
                     }
                 }
             }
-            if (_alarm.AlarmType == Firesec.AlarmType.Auto)
+            if (_alarm.AlarmType == AlarmType.Auto)
             {
                 resetItem.DeviceId = device.Id;
 
@@ -183,7 +183,7 @@ namespace AlarmModule.ViewModels
                     }
                 }
             }
-            if (_alarm.AlarmType == Firesec.AlarmType.Off)
+            if (_alarm.AlarmType == AlarmType.Off)
             {
             }
 
@@ -196,13 +196,13 @@ namespace AlarmModule.ViewModels
         {
             switch (alarmType)
             {
-                case Firesec.AlarmType.Fire:
+                case AlarmType.Fire:
                     return 0;
 
-                case Firesec.AlarmType.Attention:
+                case AlarmType.Attention:
                     return 1;
 
-                case Firesec.AlarmType.Info:
+                case AlarmType.Info:
                     return 6;
 
                 default:

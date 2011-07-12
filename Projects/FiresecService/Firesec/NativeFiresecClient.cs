@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Firesec
 {
-    public class NativeFiresecClient
+    public static class NativeFiresecClient
     {
         static FS_Types.IFSC_Connection connectoin;
         static FS_Types.IFSC_Connection Connectoin
@@ -24,7 +24,7 @@ namespace Firesec
 
         public static void Connect(string login, string password)
         {
-            //connectoin = GetConnection(login, password);
+            connectoin = GetConnection(login, password);
         }
 
         public static string GetCoreConfig()
@@ -109,8 +109,8 @@ namespace Firesec
         static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
-            //FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
-            FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
+            FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
+            //FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
             FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo();
             serverInfo.Port = 211;
             serverInfo.ServerName = "localhost";
@@ -118,7 +118,6 @@ namespace Firesec
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
             FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
-            //FS_Types.IFSC_Connection connectoin = library.Connect2("adm", "", serverInfo, notificationCallBack);
 
             return connectoin;
         }

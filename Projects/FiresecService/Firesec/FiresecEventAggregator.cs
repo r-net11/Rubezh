@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Firesec
 {
-    public class FiresecEventAggregator
+    public static class FiresecEventAggregator
     {
-        public static event Action<int, string> NewEventAvaliable;
-        public static void OnNewEventAvaliable(int eventMask, string obj)
+        public static event Action<int> NewEventAvaliable;
+        public static void OnNewEventAvaliable(int eventMask)
         {
             if (NewEventAvaliable != null)
-                NewEventAvaliable(eventMask, obj);
+                NewEventAvaliable(eventMask);
         }
     }
 }

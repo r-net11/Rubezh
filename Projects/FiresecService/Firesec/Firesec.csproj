@@ -77,6 +77,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DispatcherFiresecClient.cs" />
     <Compile Include="FiresecEventAggregator.cs" />
     <Compile Include="NativeFiresecClient.cs" />
     <Compile Include="NotificationCallBack.cs" />

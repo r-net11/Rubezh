@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
 
             Logic = indicatorProperty.Value;
 
-            var indicatorLogic = FiresecInternalClient.GetIndicatorLogic(Logic);
+            var indicatorLogic = SerializerHelper.GetIndicatorLogic(Logic);
             if (indicatorLogic == null)
                 return;
 
@@ -405,7 +405,7 @@ namespace DevicesModule.ViewModels
                 indicatorLogic.device[0].UID = uid;
             }
 
-            string indicatorLogicValue = FiresecInternalClient.SetIndicatorLogic(indicatorLogic);
+            string indicatorLogicValue = SerializerHelper.SetIndicatorLogic(indicatorLogic);
             _device.Properties = new List<Property>();
             _device.Properties.Add(new Property() { Name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24", Value = indicatorLogicValue });
             Close(true);

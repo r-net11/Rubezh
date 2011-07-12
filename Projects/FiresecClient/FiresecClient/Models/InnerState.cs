@@ -41,7 +41,7 @@ namespace FiresecClient.Models
 
         public State State
         {
-            get { return new Firesec.State(Priority); }
+            get { return new State(Priority); }
         }
 
         public bool IsManualReset

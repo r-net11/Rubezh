@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Firesec.Metadata;
-using FiresecApi;
 using System.Collections;
 
 namespace FiresecClient.Models
@@ -397,16 +396,16 @@ namespace FiresecClient.Models
                 if (_driver.options != null)
                 {
                     if (_driver.options.Contains("FireOnly"))
-                        return FiresecApi.DeviceType.Fire;
+                        return DeviceType.Fire;
 
                     if (_driver.options.Contains("SecOnly"))
-                        return FiresecApi.DeviceType.Sequrity;
+                        return DeviceType.Sequrity;
 
                     if (_driver.options.Contains("TechOnly"))
-                        return FiresecApi.DeviceType.Technoligical;
+                        return DeviceType.Technoligical;
                 }
 
-                return FiresecApi.DeviceType.FireSecurity;
+                return DeviceType.FireSecurity;
             }
         }
 
@@ -416,16 +415,16 @@ namespace FiresecClient.Models
             {
                 switch (DeviceType)
                 {
-                    case FiresecApi.DeviceType.Fire:
+                    case DeviceType.Fire:
                         return "пожарный";
 
-                    case FiresecApi.DeviceType.Sequrity:
+                    case DeviceType.Sequrity:
                         return "охранный";
 
-                    case FiresecApi.DeviceType.Technoligical:
+                    case DeviceType.Technoligical:
                         return "технологический";
 
-                    case FiresecApi.DeviceType.FireSecurity:
+                    case DeviceType.FireSecurity:
                         return "охранно-пожарный";
 
                     default:

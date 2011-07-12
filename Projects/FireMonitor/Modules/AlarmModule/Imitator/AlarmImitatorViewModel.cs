@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using AlarmModule.Events;
 using Firesec;
 using FiresecClient;
+using FiresecClient.Models;
 
 namespace AlarmModule.Imitator
 {

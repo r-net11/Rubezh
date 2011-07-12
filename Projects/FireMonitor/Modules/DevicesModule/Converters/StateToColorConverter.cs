@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
 using Firesec;
+using FiresecClient.Models;
 
 namespace DevicesModule.Converters
 {

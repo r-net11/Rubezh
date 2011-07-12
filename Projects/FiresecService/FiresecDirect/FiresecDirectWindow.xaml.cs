@@ -31,11 +31,11 @@ namespace FiresecDirect
             string message = reader.ReadToEnd();
             reader.Close();
 
-            byte[] bytes = Encoding.UTF8.GetBytes(message);
-            MemoryStream memoryStream = new MemoryStream(bytes);
-            XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
-            Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
-            memoryStream.Close();
+            //byte[] bytes = Encoding.UTF8.GetBytes(message);
+            //MemoryStream memoryStream = new MemoryStream(bytes);
+            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
+            //Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
+            //memoryStream.Close();
 
             //Firesec.FiresecClient.SetNewConfig(config);
             //Firesec.FiresecClient.DeviceWriteConfig(config, "0");
@@ -76,10 +76,6 @@ namespace FiresecDirect
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            //Firesec.Metadata.config metadataConfig = Firesec.FiresecClient.GetMetaData();
-            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.Metadata.config));
-            //FileStream fileStream = new FileStream("..\\..\\metadata.xml", FileMode.Create);
-            //serializer.Serialize(fileStream, metadataConfig);
         }
 
         private void OnBoltOpen(object sender, RoutedEventArgs e)

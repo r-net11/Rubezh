@@ -17,6 +17,7 @@ namespace DeviveModelManager
         {
             Drivers = new List<DriverItem>();
 
+            FiresecManager.Connect("adm", "");
             var rootClass = FiresecManager.Configuration.Metadata.@class.First(x => x.parent == null);
 
             ClassItem rootClassItem = new ClassItem();
@@ -98,7 +99,7 @@ namespace DeviveModelManager
                     canAdd = false;
                 }
                 var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
-                if (driver.IsIgnore)
+                if ((driver == null) || (driver.IsIgnore))
                 {
                     canAdd = false;
                 }

@@ -135,10 +135,6 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
-      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
-      <Name>FiresecApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>

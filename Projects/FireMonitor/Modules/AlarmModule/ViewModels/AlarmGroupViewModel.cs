@@ -8,6 +8,7 @@ using AlarmModule.Events;
 using Infrastructure.Common;
 using Firesec;
 using Infrastructure.Events;
+using FiresecClient.Models;
 
 namespace AlarmModule.ViewModels
 {

@@ -10,19 +10,13 @@ namespace FiresecClient
 {
     public class FiresecManager
     {
-        static FiresecInternalClient firesecInternalClient;
-
         public static CurrentConfiguration Configuration { get; set; }
         public static CurrentStates States { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
-        public static bool Start(string login, string password)
+        public static bool Connect(string login, string password)
         {
-            if (firesecInternalClient != null)
-                return false;
-
-            firesecInternalClient = new FiresecInternalClient();
-            bool result = firesecInternalClient.Start(login, password);
+            bool result = FiresecInternalClient.Connect(login, password);
             if (result == false)
                 return false;
 
@@ -33,13 +27,11 @@ namespace FiresecClient
             Watcher watcher = new Watcher();
             watcher.Start();
 
-            firesecInternalClient.Subscribe();
             return true;
         }
 
         public static void Stop()
         {
-            firesecInternalClient.Stop();
         }
 
         static void BuildDeviceTree()

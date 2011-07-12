@@ -146,7 +146,7 @@ namespace FiresecClient.Converters
                     string zoneLogicstring = property.value;
                     if (string.IsNullOrEmpty(zoneLogicstring) == false)
                     {
-                        device.ZoneLogic = FiresecInternalClient.GetZoneLogic(zoneLogicstring);
+                        device.ZoneLogic = SerializerHelper.GetZoneLogic(zoneLogicstring);
                     }
                 }
             }
@@ -227,11 +227,10 @@ namespace FiresecClient.Converters
 
             if (device.ZoneLogic != null)
             {
-                string zoneLogic = FiresecInternalClient.SetZoneLogic(device.ZoneLogic);
+                string zoneLogic = SerializerHelper.SetZoneLogic(device.ZoneLogic);
                 Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
                 property.name = "ExtendedZoneLogic";
                 property.value = zoneLogic;
-                property.value = "&lt;?xml version&#061;&quot;1.0&quot; encoding&#061;&quot;windows-1251&quot;?&gt;&#010;&lt;expr&gt;&lt;clause operation&#061;&quot;or&quot; state&#061;&quot;2&quot;&gt;&lt;zone&gt;0&lt;&#047;zone&gt;&lt;zone&gt;2&lt;&#047;zone&gt;&lt;zone&gt;3&lt;&#047;zone&gt;&lt;zone&gt;4&lt;&#047;zone&gt;&lt;zone&gt;5&lt;&#047;zone&gt;&lt;&#047;clause&gt;&lt;&#047;expr&gt;&#010;";
                 propertyList.Add(property);
             }
 

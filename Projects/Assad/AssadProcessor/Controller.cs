@@ -32,7 +32,7 @@ namespace AssadProcessor
 
         public void Start()
         {
-            FiresecManager.Start("adm", "");
+            FiresecManager.Connect("adm", "");
             StartAssad();
         }
 

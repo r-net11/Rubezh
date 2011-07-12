@@ -7,7 +7,6 @@ using FiresecClient;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.IO;
-using FiresecApi;
 using FiresecClient.Models;
 using Infrastructure;
 using Firesec.ZoneLogic;

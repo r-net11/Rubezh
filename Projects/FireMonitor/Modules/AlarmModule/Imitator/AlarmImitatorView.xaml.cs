@@ -14,6 +14,7 @@ using FiresecClient;
 using Firesec;
 using Infrastructure;
 using AlarmModule.Events;
+using FiresecClient.Models;
 
 namespace AlarmModule.Imitator
 {

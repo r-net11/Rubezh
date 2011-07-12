@@ -92,10 +92,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecClient\FiresecApi\FiresecApi.csproj">
-      <Project>{79A8E678-0682-44E6-AEF6-9A7D9B55E1D5}</Project>
-      <Name>FiresecApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviceLibrary\DeviceLibrary.csproj">
       <Project>{CA6164BD-CFB8-419E-982B-28D52DB86C81}</Project>
       <Name>DeviceLibrary</Name>

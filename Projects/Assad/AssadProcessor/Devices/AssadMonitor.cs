@@ -5,6 +5,7 @@ using System.Text;
 using Firesec;
 using FiresecClient;
 using System.Diagnostics;
+using FiresecClient.Models;
 
 namespace AssadProcessor.Devices
 {

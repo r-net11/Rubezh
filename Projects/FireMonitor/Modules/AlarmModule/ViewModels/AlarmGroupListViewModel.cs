@@ -9,6 +9,7 @@ using AlarmModule.Events;
 using System.Diagnostics;
 using FiresecClient;
 using Firesec;
+using FiresecClient.Models;
 
 
 namespace AlarmModule.ViewModels
