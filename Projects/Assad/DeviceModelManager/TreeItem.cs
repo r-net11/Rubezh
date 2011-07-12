@@ -23,12 +23,9 @@ namespace DeviveModelManager
         public TreeItem Parent { get; set; }
         Firesec.Metadata.configDrv Driver { get; set; }
 
-        // этот метод формирует свойство ModelInfo на основе информации о драйвере устройства,
-        // полученной из метаданных
-
         public void SetDriver(Firesec.Metadata.configDrv driver)
         {
-            this.Driver = driver;
+            Driver = driver;
             Name = driver.name;
 
             ModelInfo = new Assad.modelInfoType();

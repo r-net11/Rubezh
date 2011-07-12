@@ -184,6 +184,17 @@ namespace FiresecClient.Models
             }
         }
 
+        public List<string> Children
+        {
+            get
+            {
+                return new List<string>(
+                from configDrv driver in AllChildren
+                where (driverDataList.FirstOrDefault(x => (x.DriverId == driver.id)).IgnoreLevel == 0)
+                select driver.id);
+            }
+        }
+
         public List<string> AvaliableChildren
         {
             get

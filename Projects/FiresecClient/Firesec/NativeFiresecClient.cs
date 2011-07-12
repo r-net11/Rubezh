@@ -9,22 +9,22 @@ namespace Firesec
 {
     public static class NativeFiresecClient
     {
-        static FS_Types.IFSC_Connection connectoin;
+        static FS_Types.IFSC_Connection _connectoin;
         static FS_Types.IFSC_Connection Connectoin
         {
             get
             {
-                if (connectoin == null)
+                if (_connectoin == null)
                 {
-                    connectoin = GetConnection("adm", "");
+                    _connectoin = GetConnection("adm", "");
                 }
-                return connectoin;
+                return _connectoin;
             }
         }
 
         public static void Connect(string login, string password)
         {
-            connectoin = GetConnection(login, password);
+            _connectoin = GetConnection(login, password);
         }
 
         public static string GetCoreConfig()

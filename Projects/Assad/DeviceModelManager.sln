@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FiresecClient", "FiresecCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\FiresecClient\FiresecClient\FiresecClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firesec", "..\FiresecService\Firesec\Firesec.csproj", "{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firesec", "..\FiresecClient\Firesec\Firesec.csproj", "{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
