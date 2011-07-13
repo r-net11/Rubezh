@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="DevicesModule.cs" />

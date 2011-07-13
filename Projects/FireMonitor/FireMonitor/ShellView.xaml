@@ -6,7 +6,10 @@
         WindowStartupLocation="CenterScreen"
         Title="Станция пожарного мониторинга" Height="750" Width="1200"
         MinWidth="750" MinHeight="480"
-        AllowsTransparency="True" Background="Transparent">
+        AllowsTransparency="True" Background="Transparent"
+        Closing="EssentialWindow_Closing"
+        Closed="EssentialWindow_Closed">
+    
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="10">
             <DockPanel>

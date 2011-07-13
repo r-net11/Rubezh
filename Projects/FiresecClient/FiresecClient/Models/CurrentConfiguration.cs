@@ -17,7 +17,6 @@ namespace FiresecClient.Models
         public List<User> Users { get; set; }
         public List<UserGroup> UserGroups { get; set; }
         public List<Perimission> Perimissions { get; set; }
-        public string CurrentUser { get; set; }
         public Firesec.Metadata.config Metadata { get; set; }
 
         public void Update()

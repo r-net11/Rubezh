@@ -30,7 +30,7 @@ namespace FireMonitor
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            FiresecManager.Stop();
+            FiresecManager.Disconnect();
         }
     }
 }

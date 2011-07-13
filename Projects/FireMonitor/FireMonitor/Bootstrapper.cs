@@ -26,12 +26,26 @@ namespace FireMonitor
 
         protected override void InitializeShell()
         {
+            LoginScreen loginScreen = new LoginScreen();
+            loginScreen.ShowDialog();
+            if (loginScreen.IsLoggedIn == false)
+            {
+                return;
+            }
+
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_Login) == false)
+            {
+                MessageBox.Show("Нет прав на работу с программой");
+                FiresecManager.Disconnect();
+                return;
+            }
+
             RegisterServices();
 
             ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
             Application.Current.Resources.MergedDictionaries.Add(rd);
 
-            StartFiresecClient();
+            InitializeFiresecClient();
 
             InitializeKnownModules();
 
@@ -67,9 +81,8 @@ namespace FireMonitor
             callModule.Initialize();
         }
 
-        void StartFiresecClient()
+        void InitializeFiresecClient()
         {
-            FiresecManager.Connect("adm", "");
             FiresecManager.States.DeviceStateChanged += CurrentStates_DeviceStateChanged;
             FiresecManager.States.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
             FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);

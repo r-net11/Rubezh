@@ -22,9 +22,22 @@ namespace Firesec
             }
         }
 
-        public static void Connect(string login, string password)
+        public static bool Connect(string login, string password)
         {
-            _connectoin = GetConnection(login, password);
+            try
+            {
+                _connectoin = GetConnection(login, password);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static void Disconnect()
+        {
+            _connectoin = null;
         }
 
         public static string GetCoreConfig()
@@ -117,8 +130,15 @@ namespace Firesec
 
             NotificationCallBack notificationCallBack = new NotificationCallBack();
 
-            FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
-
+            FS_Types.IFSC_Connection connectoin;
+            try
+            {
+                connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
+            }
+            catch
+            {
+                throw new Exception();
+            }
             return connectoin;
         }
 

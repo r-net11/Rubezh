@@ -15,11 +15,17 @@ namespace FiresecClient
     {
         public static bool Connect(string login, string password)
         {
-            DispatcherFiresecClient.Connect("adm", "");
+            bool result = DispatcherFiresecClient.Connect(login, password);
+            if (result)
+            {
+                FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
+            }
+            return result;
+        }
 
-            FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-
-            return true;
+        public static void Disconnect()
+        {
+            DispatcherFiresecClient.Disconnect();
         }
 
         public static Firesec.CoreConfig.config GetCoreConfig()

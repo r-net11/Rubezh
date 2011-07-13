@@ -17,6 +17,7 @@ using Infrastructure.Events;
 using System.Diagnostics;
 using System.ComponentModel;
 using CustomWindow;
+using FiresecClient;
 
 namespace FireMonitor
 {
@@ -72,5 +73,32 @@ namespace FireMonitor
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
+        private void EssentialWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (FiresecManager.CurrentPermissions.Any(x=>x.PermissionType == FiresecClient.Models.PermissionType.Oper_Logout) == false)
+            {
+                MessageBox.Show("Нет прав для выхода из программы");
+                e.Cancel = true;
+                return;
+            }
+
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_LogoutNoPassword))
+            {
+                return;
+            }
+
+            LoginScreen loginScreen = new LoginScreen();
+            loginScreen.ShowDialog();
+            if (loginScreen.IsLoggedIn == false)
+            {
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        private void EssentialWindow_Closed(object sender, EventArgs e)
+        {
+            FiresecManager.Disconnect();
+        }
     }
 }

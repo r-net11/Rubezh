@@ -5,6 +5,7 @@
              xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,7 +46,7 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                     <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
-                                                    <MenuItem Header="Отключить" Command="{Binding DisableCommand}" />
+                                                    <MenuItem Header="{Binding IsOff, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>

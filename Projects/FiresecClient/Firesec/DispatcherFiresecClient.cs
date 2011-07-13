@@ -14,15 +14,22 @@ namespace Firesec
 
         delegate string StringDelegate();
         delegate string StringDelegateIntInt(int arg1, int arg2);
+        delegate bool BoolDelegateStringString(string arg1, string arg2);
 
         static DispatcherFiresecClient()
         {
             control = new Control();
         }
 
-        public static void Connect(string login, string password)
+        public static bool Connect(string login, string password)
         {
-            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.Connect), login, password);
+            var result = (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
+            return result;
+        }
+
+        public static void Disconnect()
+        {
+            control.Dispatcher.Invoke(new Action(NativeFiresecClient.Disconnect));
         }
 
         public static string GetCoreConfig()

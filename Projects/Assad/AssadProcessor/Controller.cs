@@ -125,7 +125,7 @@ namespace AssadProcessor
         public void Stop()
         {
             Services.LogEngine.Save();
-            FiresecManager.Stop();
+            FiresecManager.Disconnect();
             Services.NetManager.Stop();
         }
 

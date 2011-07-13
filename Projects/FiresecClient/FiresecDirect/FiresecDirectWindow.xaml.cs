@@ -22,6 +22,11 @@ namespace FiresecDirect
         public FiresecDirectWindow()
         {
             InitializeComponent();
+            //Firesec.NativeFiresecClient.Connect("adm", "");
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             Firesec.NativeFiresecClient.Connect("adm", "");
         }
 

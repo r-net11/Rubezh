@@ -28,10 +28,12 @@ namespace DevicesModule.ViewModels
         {
             Source = sourceDevices;
             Device = device;
+            _deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
             UpdateParameters();
         }
 
         public Device Device { get; private set; }
+        DeviceState _deviceState;
 
         public Driver Driver
         {
@@ -40,13 +42,11 @@ namespace DevicesModule.ViewModels
 
         public void UpdateParameters()
         {
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-
             Update();
 
-            if (deviceState.Parameters != null)
+            if (_deviceState.Parameters != null)
             {
-                foreach (var parameter in deviceState.Parameters)
+                foreach (var parameter in _deviceState.Parameters)
                 {
                     string parameterValue = parameter.Value;
                     if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
@@ -86,9 +86,8 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                if (deviceState.SelfStates != null)
-                    foreach (var selfState in deviceState.SelfStates)
+                if (_deviceState.SelfStates != null)
+                    foreach (var selfState in _deviceState.SelfStates)
                     {
                         selfStates.Add(selfState);
                     }
@@ -101,9 +100,8 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parentStates = new ObservableCollection<string>();
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                if (deviceState.ParentStringStates != null)
-                    foreach (var parentState in deviceState.ParentStringStates)
+                if (_deviceState.ParentStringStates != null)
+                    foreach (var parentState in _deviceState.ParentStringStates)
                     {
                         parentStates.Add(parentState);
                     }
@@ -116,9 +114,8 @@ namespace DevicesModule.ViewModels
             get
             {
                 ObservableCollection<string> parameters = new ObservableCollection<string>();
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                if (deviceState.Parameters != null)
-                    foreach (var parameter in deviceState.Parameters)
+                if (_deviceState.Parameters != null)
+                    foreach (var parameter in _deviceState.Parameters)
                     {
                         if (parameter.Visible)
                         {
@@ -137,8 +134,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                return deviceState.State;
+                return _deviceState.State;
             }
         }
 
@@ -197,6 +193,14 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public bool IsOff
+        {
+            get
+            {
+                return _deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
+            }
+        }
+
         public void Update()
         {
             OnPropertyChanged("State");
@@ -226,7 +230,18 @@ namespace DevicesModule.ViewModels
 
         public bool CanDisable(object obj)
         {
-            return Device.Driver.CanDisable;
+            if (Device.Driver.CanDisable)
+            {
+                if (IsOff)
+                {
+                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
+                }
+                else
+                {
+                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
+                }
+            }
+            return false;
         }
 
         public RelayCommand DisableCommand { get; private set; }
@@ -234,10 +249,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanDisable(null))
             {
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
-                bool isOff = deviceState.InnerStates.Any(x=>((x.IsActive) && (x.State.StateType == StateType.Off)));
-
-                if (isOff)
+                if (IsOff)
                 {
                     FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
                 }

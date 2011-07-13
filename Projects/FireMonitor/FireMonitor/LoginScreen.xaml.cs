@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FiresecClient;
 
-namespace FireAdministrator
+namespace FireMonitor
 {
     public partial class LoginScreen : Window
     {
@@ -28,10 +28,10 @@ namespace FireAdministrator
         {
             _info.Text = "Соединение с сервером";
 
-            string name = _login.Text;
+            string login = _login.Text;
             string password = _pass.Text;
 
-            bool result = FiresecManager.Connect(name, password);
+            bool result = FiresecManager.Connect(login, password);
 
             if (result)
             {

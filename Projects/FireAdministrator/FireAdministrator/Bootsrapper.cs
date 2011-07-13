@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.UnityExtensions;
 using System.Windows;
+using System.Linq;
 using Infrastructure.Common;
 using FiresecClient;
 using Infrastructure;
@@ -22,7 +23,16 @@ namespace FireAdministrator
             LoginScreen loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false)
+            {
                 return;
+            }
+
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Adm_ViewConfig) == false)
+            {
+                MessageBox.Show("Нет прав на работу с программой");
+                FiresecManager.Disconnect();
+                return;
+            }
 
             RegisterServices();
 

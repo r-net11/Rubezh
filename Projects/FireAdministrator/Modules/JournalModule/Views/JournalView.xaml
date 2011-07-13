@@ -33,11 +33,6 @@
                     <Button Content="Изменить" />
                     <Button Content="Удалить" />
                 </StackPanel>
-
-                <StackPanel Grid.Row="2">
-                    <Button Content="Применить" />
-                    <Button Content="Отменить" />
-                </StackPanel>
             </Grid>
                   
         </Grid>
