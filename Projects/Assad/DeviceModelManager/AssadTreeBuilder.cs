@@ -36,7 +36,7 @@ namespace DeviveModelManager
         {
             foreach (var childDriverItem in parentDriverItem.Children)
             {
-                var driver = FiresecManager.Configuration.Metadata.drv.FirstOrDefault(x => x.id == childDriverItem.DriverId);
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == childDriverItem.DriverId);
                 TreeItem childTree = new TreeItem();
                 childTree.Parent = parentTreeItem;
                 childTree.SetDriver(driver);
