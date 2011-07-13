@@ -7,11 +7,6 @@ using System.IO;
 
 namespace AssadProcessor
 {
-    // в этом классе хранится модель устройств ассада
-    // рутовый элемент доступен через свойство RootModelInfo
-    // все модели для каждого устройства доступны через свойство ModelInfos
-    // класс доступен для всех через клас AssadServices
-
     public class DeviceModelManager
     {
         public List<Assad.modelInfoType> ModelInfos { get; private set; }

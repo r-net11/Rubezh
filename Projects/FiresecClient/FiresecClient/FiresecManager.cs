@@ -72,8 +72,8 @@ namespace FiresecClient
         {
             CoreConfig = FiresecInternalClient.GetCoreConfig();
             Configuration = new CurrentConfiguration();
-            Configuration.Metadata = FiresecInternalClient.GetMetaData();
-            Configuration.FillDrivrs(Configuration.Metadata);
+            var metadata = FiresecInternalClient.GetMetaData();
+            Configuration.FillDrivrs(metadata);
             Convert();
         }
 

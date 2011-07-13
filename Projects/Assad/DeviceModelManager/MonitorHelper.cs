@@ -10,6 +10,7 @@ namespace DeviveModelManager
         public static TreeItem CreateMonitor()
         {
             TreeItem monitor = new TreeItem();
+            monitor.Name = "Monitor";
             monitor.ModelInfo = new Assad.modelInfoType();
             monitor.ModelInfo.name = "Монитор." + ViewModel.StaticVersion;
             monitor.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "monitor";

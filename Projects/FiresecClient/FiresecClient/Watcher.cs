@@ -65,14 +65,6 @@ namespace FiresecClient
 
         void OnNewEvent(Firesec.ReadEvents.document journal)
         {
-            //byte[] bytes = Encoding.Default.GetBytes(obj);
-            //MemoryStream memoryStream = new MemoryStream(bytes);
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.ReadEvents.document));
-            //Firesec.ReadEvents.document journal = (Firesec.ReadEvents.document)serializer.Deserialize(memoryStream);
-            //memoryStream.Close();
-            ////Firesec.ReadEvents.document journal = FiresecClient.ReadEvents(0, 100);
-
             if ((journal != null) && (journal.Journal.Count() > 0))
             {
                 foreach (var journalItem in journal.Journal)
@@ -88,15 +80,6 @@ namespace FiresecClient
 
         void OnParametersChanged(Firesec.DeviceParams.config coreParameters)
         {
-            //byte[] bytes = Encoding.Default.GetBytes(obj);
-            //MemoryStream memoryStream = new MemoryStream(bytes);
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.DeviceParams.config));
-            //Firesec.DeviceParams.config coreParameters = (Firesec.DeviceParams.config)serializer.Deserialize(memoryStream);
-            //memoryStream.Close();
-            ////Firesec.DeviceParams.config coreParameters = FiresecClient.GetDeviceParams();
-
-
             try
             {
                 Trace.WriteLine("OnParametersChanged");
@@ -138,15 +121,6 @@ namespace FiresecClient
 
         public void OnStateChanged(Firesec.CoreState.config coreState)
         {
-            //byte[] bytes = Encoding.Default.GetBytes(obj);
-            //MemoryStream memoryStream = new MemoryStream(bytes);
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreState.config));
-            //Firesec.CoreState.config coreState = (Firesec.CoreState.config)serializer.Deserialize(memoryStream);
-            //memoryStream.Close();
-            ////Firesec.CoreState.config coreState = FiresecClient.GetCoreState();
-
-
             try
             {
                 SetStates(coreState);
@@ -347,17 +321,3 @@ namespace FiresecClient
         }
     }
 }
-
-
-//evmNewEvents           = $0001;
-//evmStateChanged        = $0002;
-//evmConfigChanged       = $0004;
-//evmDeviceParamsUpdated = $0008;
-//evmPong                = $0010;
-//evmDatabaseChanged     = $0020;
-//evmReportsChanged      = $0040;
-//evmSoundsChanged       = $0080;
-//evmLibraryChanged      = $0100;
-//evmPing                = $0200;
-//evmIgnoreListChanged   = $0400;
-//evmEventViewChanged    = $0800;

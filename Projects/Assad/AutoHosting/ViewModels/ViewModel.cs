@@ -11,38 +11,60 @@ namespace AutoHosting
 {
     public class ViewModel : BaseViewModel
     {
-        Controller controller;
+        Controller _controller;
 
         public ViewModel()
         {
             StartCommand = new RelayCommand(OnStart);
             StopCommand = new RelayCommand(OnStop);
             TestCommand = new RelayCommand(OnTest);
-            Status = "None";
+        }
+
+        int _commandCount = 0;
+        void MessageProcessor_NewMessage(string message)
+        {
+            LastCommand = (_commandCount++).ToString() + " - " + message;
+        }
+
+
+        string _status = "None";
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
+        string _lastCommand;
+        public string LastCommand
+        {
+            get { return _lastCommand; }
+            set
+            {
+                _lastCommand = value;
+                OnPropertyChanged("LastCommand");
+            }
         }
 
         public RelayCommand StartCommand { get; private set; }
         void OnStart()
         {
-            controller = new Controller();
-            controller.Start();
+            _controller = new Controller();
+            _controller.Start();
             Status = "Running";
             MessageProcessor.NewMessage += new Action<string>(MessageProcessor_NewMessage);
-        }
-
-        int commandCount = 0;
-        void MessageProcessor_NewMessage(string message)
-        {
-            LastCommand = (commandCount++).ToString() + " - " + message;
         }
 
         public RelayCommand StopCommand { get; private set; }
         void OnStop()
         {
-            if (controller != null)
+            if (_controller != null)
             {
-                controller.Stop();
-                controller = null;
+                _controller.Stop();
+                _controller = null;
             }
             Status = "Stopped";
         }
@@ -50,28 +72,6 @@ namespace AutoHosting
         public RelayCommand TestCommand { get; private set; }
         void OnTest()
         {
-        }
-
-        string status;
-        public string Status
-        {
-            get { return status; }
-            set
-            {
-                status = value;
-                OnPropertyChanged("Status");
-            }
-        }
-
-        string lastCommand;
-        public string LastCommand
-        {
-            get { return lastCommand; }
-            set
-            {
-                lastCommand = value;
-                OnPropertyChanged("LastCommand");
-            }
         }
     }
 }

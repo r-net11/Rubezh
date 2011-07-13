@@ -10,22 +10,17 @@ namespace DeviveModelManager
         public static TreeItem CreateZone()
         {
             TreeItem zoneTreeItem = new TreeItem();
+            zoneTreeItem.Name = "Zone";
             zoneTreeItem.ModelInfo = new Assad.modelInfoType();
             zoneTreeItem.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "zone";
             zoneTreeItem.ModelInfo.model = "1.0";
             zoneTreeItem.ModelInfo.name = "Зона";
 
             List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Тревога" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Внимание (предтревожное)" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неисправность" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Требуется обслуживание" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Обход устройств" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Неопределено" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма(*)" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Норма" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Отсутствует в конфигурации сервера оборудования" });
-            events.Add(new Assad.modelInfoTypeEvent() { @event = "Нет связи с сервером оборудования" });
+            foreach (var state in CommonStatesHelper.States)
+            {
+                events.Add(new Assad.modelInfoTypeEvent() { @event = state });
+            }
             zoneTreeItem.ModelInfo.@event = events.ToArray();
 
             List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
@@ -40,16 +35,10 @@ namespace DeviveModelManager
             zoneTreeItem.ModelInfo.state[0] = new Assad.modelInfoTypeState();
             zoneTreeItem.ModelInfo.state[0].state = "Состояние";
             List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Тревога" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Внимание (предтревожное)" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неисправность" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Требуется обслуживание" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Обход устройств" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неопределено" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма(*)" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
+            foreach (var state in CommonStatesHelper.States)
+            {
+                StateValues.Add(new Assad.modelInfoTypeStateValue() { value = state });
+            }
             zoneTreeItem.ModelInfo.state[0].value = StateValues.ToArray();
             zoneTreeItem.ModelInfo.state[1] = new Assad.modelInfoTypeState();
             zoneTreeItem.ModelInfo.state[1].state = "Наименование";

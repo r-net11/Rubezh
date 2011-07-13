@@ -20,8 +20,9 @@ namespace AssadProcessor.Devices
             if (innerDevice.param == null)
                 return;
 
-            if (innerDevice.param.Any(x => x.param == "Адрес"))
-                Address = innerDevice.param.FirstOrDefault(x => x.param == "Адрес").value;
+            var addressParameter = innerDevice.param.FirstOrDefault(x => x.param == "Адрес");
+            if (addressParameter != null)
+                Address = addressParameter.value;
             else
                 Address = null;
 
@@ -78,24 +79,18 @@ namespace AssadProcessor.Devices
                 switch (mainState.value)
                 {
                     case "Тревога":
-                        str = mainState.value; break;
                     case "Внимание (предтревожное)":
-                        str = mainState.value; break;
                     case "Неисправность":
-                        str = mainState.value; break;
                     case "Требуется обслуживание":
-                        str = mainState.value; break;
                     case "Норма(*)":
-                        str = mainState.value; break;
-                    default: break;
+                        str = mainState.value;
+                        break;
                 }
 
                 if (str != " ")
                 {
                     FireEvent(str);
                 }
-
-
 
                 foreach (var parameter in deviceState.Parameters)
                 {
@@ -113,16 +108,11 @@ namespace AssadProcessor.Devices
                         states.Add(parameterState);
                     }
                 }
-                //-->>            
+ 
                 if (FiresecManager.Configuration.Devices.Any(x => x.Id == Id))
                 {
                     var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
 
-                    ////отладочная информация 
-                    //{
-                    //    string str0 = "GetState" + " для  " + DriversHelper.GetDriverNameById(device.DriverId) + " ---";
-                    //    Trace.WriteLine(str0);                    
-                    //}
                     Assad.DeviceTypeState state0 = new Assad.DeviceTypeState();
                     state0.state = "Примечание";
                     if ((string.IsNullOrEmpty(device.Description)) || (device.Description == "<NULL>"))
@@ -131,11 +121,6 @@ namespace AssadProcessor.Devices
                     }
                     state0.value = device.Description;
                     states.Add(state0);
-                    ////отладочная информация 
-                    //{
-                    //    string str1 = "Состояние " + "Примечание:" + " - " + state0.value + " - ";
-                    //    Trace.WriteLine(str1);
-                    //}
 
                     if (device.Driver.IsZoneDevice)
                     {
@@ -148,12 +133,6 @@ namespace AssadProcessor.Devices
                         }
                         state1.value = device.ZoneNo;
                         states.Add(state1);
-
-                        ////отладочная информация 
-                        //{
-                        //    string str2 = "Состояние " + "Зона:" + " - " + state1.value + " - ";
-                        //    Trace.WriteLine(str2);
-                        //}
                     }
                     else
                     {
@@ -165,11 +144,6 @@ namespace AssadProcessor.Devices
                             string zonelogicstring = ZoneLogicToText.Convert(device.ZoneLogic);
                             state2.value = zonelogicstring;
                             states.Add(state2);
-                            ////отладочная информация 
-                            //{
-                            //    string str3 = "Состояния " + "Настройка включения по состоянию зон:" + " - " + state2.value + " - ";
-                            //    Trace.WriteLine(str3);
-                            //}
                         }
 
                     }
@@ -186,7 +160,7 @@ namespace AssadProcessor.Devices
                         }
 
                         if (device.Properties.Any(x => x.Name == name))
-                        { // свойство присутствует
+                        {
                             Property property = device.Properties.FirstOrDefault(x => x.Name == name);
                             value = property.Value;
 
@@ -196,7 +170,6 @@ namespace AssadProcessor.Devices
                             }
                         }
 
-
                         var parameter = propinfo.Parameters.FirstOrDefault(x => x.Value == value);
                         if (parameter != null)
                         {
@@ -204,15 +177,10 @@ namespace AssadProcessor.Devices
                         }
 
                         loopState.value = value;
-                        ////отладочная информация 
-                        //{
-                        //    string loopstr = "Property " + " - " + loopState.state + " - " + " значение:" + loopState.value;
-                        //    Trace.WriteLine(loopstr);
-                        //}
+
                         if (propinfo.Visible)
                             states.Add(loopState);
                     }
-
                 }
             }
             else
@@ -222,9 +190,6 @@ namespace AssadProcessor.Devices
                 mainState.value = "Отсутствует в конфигурации сервера оборудования";
                 states.Add(mainState);
             }
-
-
-
 
             deviceType.state = states.ToArray();
             return deviceType;
@@ -248,11 +213,6 @@ namespace AssadProcessor.Devices
                 mainState.state = "Состояние";
                 mainState.value = deviceState.State.ToString();
                 states.Add(mainState);
-
-                //eventType.state[0] = new Assad.CPeventTypeState();
-                //eventType.state[0].state = "Состояние"; 
-                //eventType.state[0].value = deviceState.State;
-
 
                 foreach (var parameter in deviceState.Parameters)
                 {

@@ -24,13 +24,13 @@ namespace AssadProcessor.Devices
         public abstract void FireEvent(string eventName);
         public abstract Assad.DeviceType QueryAbility();
 
-        List<AssadBase> allChildren;
+        List<AssadBase> _allChildren;
         public List<AssadBase> FindAllChildren()
         {
-            allChildren = new List<AssadBase>();
-            allChildren.Add(this);
+            _allChildren = new List<AssadBase>();
+            _allChildren.Add(this);
             FindChildren(this);
-            return allChildren;
+            return _allChildren;
         }
 
         void FindChildren(AssadBase parent)
@@ -38,7 +38,7 @@ namespace AssadProcessor.Devices
             if (parent.Children != null)
                 foreach (var child in parent.Children)
                 {
-                    allChildren.Add(child);
+                    _allChildren.Add(child);
                     FindChildren(child);
                 }
         }

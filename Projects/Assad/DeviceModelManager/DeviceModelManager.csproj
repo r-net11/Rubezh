@@ -93,8 +93,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CommonStatesHelper.cs" />
     <Compile Include="MonitorHelper.cs" />
-    <Compile Include="TreeBuilder.cs" />
     <Compile Include="Views\View.xaml.cs">
       <DependentUpon>View.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,7 +114,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="AssadTreeBuilder.cs" />
+    <Compile Include="TreeBuilder.cs" />
     <Compile Include="TreeItem.cs" />
     <Compile Include="RootHelper.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />

@@ -15,10 +15,6 @@ namespace AssadProcessor
     {
         public void Config(Assad.MHconfigTypeDevice innerDevice)
         {
-            Configuration.BaseDevices = new List<AssadBase>();
-            Configuration.Devices = new List<AssadDevice>();
-            Configuration.Zones = new List<AssadZone>();
-
             AssadBase device = Create(innerDevice);
             device.Parent = null;
             device.SetInnerDevice(innerDevice);
@@ -41,7 +37,7 @@ namespace AssadProcessor
         AssadBase Create(Assad.MHconfigTypeDevice innerDevice)
         {
             AssadBase assadBase;
-            string driverId = ParceDriverId(innerDevice);
+            string driverId = GetDriverId(innerDevice);
             string driverName = Driver.GetDriverNameById(driverId);
             switch (driverName)
             {
@@ -67,11 +63,9 @@ namespace AssadProcessor
             return assadBase;
         }
 
-        string ParceDriverId(Assad.MHconfigTypeDevice innerDevice)
+        string GetDriverId(Assad.MHconfigTypeDevice innerDevice)
         {
-            string[] separators = new string[1];
-            separators[0] = ".";
-            string[] separatedTypes = innerDevice.type.Split(separators, StringSplitOptions.None);
+            string[] separatedTypes = innerDevice.type.Split('.');
             string driverId = separatedTypes[2];
             return driverId;
         }

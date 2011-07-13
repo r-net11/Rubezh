@@ -20,7 +20,7 @@ namespace AssadProcessor
 
         void ServiceClient_DeviceChanged(string id)
         {
-            AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == id);
+            var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == id);
             if (assadDevice != null)
             {
                 assadDevice.FireEvent(null);
@@ -28,21 +28,16 @@ namespace AssadProcessor
 
             if (Configuration.Monitor != null)
             {
-                // отладочное событие
-                // Configuration.Monitor.FireEvent("Изменено состояние монитора");
                 Configuration.Monitor.FireEvent(null);
             }
         }
 
         void CurrentStates_ZoneStateChanged(string zoneNo)
         {
-            if (Configuration.Zones != null)
+            var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
+            if (assadZone != null)
             {
-                AssadZone assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
-                if (assadZone != null)
-                {
-                    assadZone.FireEvent(null);
-                }
+                assadZone.FireEvent(null);
             }
         }
 
@@ -60,15 +55,12 @@ namespace AssadProcessor
 
         void SendEvent(Firesec.ReadEvents.journalType journalItem, string dataBaseId)
         {
-            if (FiresecManager.Configuration.Devices.Any(x => x.DatabaseId == dataBaseId))
+            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+            if (device != null)
             {
-                Device device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
-
-                if ((Configuration.Devices != null) && (Configuration.Devices.Any(x => x.Id == device.Id)))
+                var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
+                if (assadDevice != null)
                 {
-                    AssadDevice assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
-
                     string eventName = new State(Convert.ToInt32(journalItem.IDTypeEvents)).ToString();
                     assadDevice.FireEvent(eventName);
                 }

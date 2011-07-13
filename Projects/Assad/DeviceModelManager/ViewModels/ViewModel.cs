@@ -58,12 +58,10 @@ namespace DeviveModelManager
         public RelayCommand GenarateCommand { get; private set; }
         void OnGenarateCommand()
         {
-            AssadTreeBuilder assadTreeBuilder = new AssadTreeBuilder();
+            TreeBuilder assadTreeBuilder = new TreeBuilder();
             assadTreeBuilder.Build();
-            TreeItem RootTreeItem = assadTreeBuilder.RootTreeItem;
             Devices = new ObservableCollection<TreeItem>();
-            Devices.Add(RootTreeItem);
-            return;
+            Devices.Add(assadTreeBuilder.RootTreeItem);
         }
     }
 }

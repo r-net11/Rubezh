@@ -49,16 +49,10 @@ namespace DeviveModelManager
             rootTreeItem.ModelInfo.state[0] = new Assad.modelInfoTypeState();
             rootTreeItem.ModelInfo.state[0].state = "Состояние";
             List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Тревога" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Внимание (предтревожное)" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неисправность" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Требуется обслуживание" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Обход устройств" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Неопределено" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма(*)" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Отсутствует в конфигурации сервера оборудования" });
-            StateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет связи с сервером оборудования" });
+            foreach (var state in CommonStatesHelper.States)
+            {
+                StateValues.Add(new Assad.modelInfoTypeStateValue() { value = state });
+            }
             rootTreeItem.ModelInfo.state[0].value = StateValues.ToArray();
 
             return rootTreeItem;

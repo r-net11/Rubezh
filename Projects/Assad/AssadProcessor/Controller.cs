@@ -15,25 +15,20 @@ namespace AssadProcessor
     public class Controller
     {
         internal static Controller Current { get; private set; }
-        Watcher Wather { get; set; }
+        Watcher _watcher;
 
         public Controller()
         {
             Current = this;
         }
 
-        void StartAssad()
-        {
-            Services.NetManager.Start();
-
-            Wather = new Watcher();
-            Wather.Start();
-        }
-
         public void Start()
         {
             FiresecManager.Connect("adm", "");
-            StartAssad();
+
+            Services.NetManager.Start();
+            _watcher = new Watcher();
+            _watcher.Start();
         }
 
         internal void AssadConfig(Assad.MHconfigTypeDevice innerDevice, bool all)
@@ -46,16 +41,15 @@ namespace AssadProcessor
 
         public Assad.DeviceType[] QueryState(Assad.MHqueryStateType content)
         {
-            AssadBase device = Configuration.BaseDevices.FirstOrDefault(a => a.DeviceId == content.deviceId);
-
-            if (device != null)
+            var assadBase = Configuration.BaseDevices.FirstOrDefault(a => a.DeviceId == content.deviceId);
+            if (assadBase != null)
             {
-                List<AssadBase> devices = device.FindAllChildren();
+                List<AssadBase> devices = assadBase.FindAllChildren();
 
                 List<Assad.DeviceType> deviceItems = new List<Assad.DeviceType>();
-                foreach (var assadBase in devices)
+                foreach (var childAssadBase in devices)
                 {
-                    deviceItems.Add(assadBase.GetStates());
+                    deviceItems.Add(childAssadBase.GetStates());
                 }
                 return deviceItems.ToArray();
             }

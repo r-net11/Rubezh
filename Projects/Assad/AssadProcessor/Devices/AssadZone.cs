@@ -9,17 +9,19 @@ namespace AssadProcessor.Devices
     public class AssadZone : AssadBase
     {
         public string ZoneNo { get; set; }
-//        private List<string> fillingStates;
+
         public override void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice)
         {
-            if (innerDevice.param != null);
-            if (innerDevice.param.Any(x => x.param == "Номер зоны"))
-                ZoneNo = innerDevice.param.FirstOrDefault(x => x.param == "Номер зоны").value;
+            if (innerDevice.param != null)
+            {
+                var zoneParameter = innerDevice.param.FirstOrDefault(x => x.param == "Номер зоны");
+                if (zoneParameter != null)
+                    ZoneNo = zoneParameter.value;
+            }
         }
 
         public override Assad.DeviceType GetStates()
         {
-            
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();

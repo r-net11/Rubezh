@@ -2,29 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
+using System.IO;
 using FiresecClient;
-using Firesec;
 using FiresecClient.Models;
 
 namespace DeviveModelManager
 {
     public class TreeBuilder
     {
-        public DriverItem RootDriver { get; set; }
+        public TreeItem RootTreeItem { get; private set; }
 
-        public void Buid()
+        public void Build()
         {
             FiresecManager.Connect("adm", "");
-            var rootClass = FiresecManager.Configuration.Metadata.@class.First(x => x.parent == null);
 
-            RootDriver = new DriverItem();
-            var rootDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.DriverName == "Компьютер");
-            RootDriver.Parent = null;
-            RootDriver.DriverId = rootDriver.Id;
-            AddDriver(rootDriver.Id, RootDriver);
+            RootTreeItem = RootHelper.CreateRoot();
+            RootTreeItem.Name = "Компьютер";
+
+            var rootDriverId = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер").Id;
+            AddDriver(rootDriverId, RootTreeItem);
+            RootTreeItem.Children.Add(MonitorHelper.CreateMonitor());
+            RootTreeItem.Children.Add(ZoneHelper.CreateZone());
+            InitializeModelInfo(RootTreeItem);
+            SaveToFile();
         }
 
-        void AddDriver(string parentDriverId, DriverItem parentDriverItem)
+        void AddDriver(string parentDriverId, TreeItem parentTreeItem)
         {
             Driver parentDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == parentDriverId);
 
@@ -35,24 +39,35 @@ namespace DeviveModelManager
 
                 foreach (var driver in parentDriver.Children)
                 {
-                    DriverItem driverItem = new DriverItem();
-                    driverItem.DriverId = driver;
-                    driverItem.Parent = parentDriverItem;
-                    parentDriverItem.Children.Add(driverItem);
-                    AddDriver(driver, driverItem);
+                    var _driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driver);
+                    TreeItem childTree = new TreeItem();
+                    childTree.SetDriver(_driver);
+                    parentTreeItem.Children.Add(childTree);
+
+                    AddDriver(driver, childTree);
                 }
             }
         }
-    }
 
-    public class DriverItem
-    {
-        public DriverItem()
+        void InitializeModelInfo(TreeItem parentTreeItem)
         {
-            Children = new List<DriverItem>();
+            if (parentTreeItem.Children.Count > 0)
+            {
+                parentTreeItem.ModelInfo.type = new Assad.modelInfoType[parentTreeItem.Children.Count];
+                for (int i = 0; i < parentTreeItem.Children.Count; i++)
+                {
+                    parentTreeItem.ModelInfo.type[i] = parentTreeItem.Children[i].ModelInfo;
+                    InitializeModelInfo(parentTreeItem.Children[i]);
+                }
+            }
         }
-        public string DriverId { get; set; }
-        public List<DriverItem> Children { get; set; }
-        public DriverItem Parent { get; set; }
+
+        void SaveToFile()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
+            StreamWriter fileStream = File.CreateText("DeviceModel.xml");
+            serializer.Serialize(fileStream, RootTreeItem.ModelInfo);
+            fileStream.Close();
+        }
     }
 }
