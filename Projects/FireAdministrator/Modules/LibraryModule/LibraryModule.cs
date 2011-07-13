@@ -1,8 +1,8 @@
-﻿using Microsoft.Practices.Prism.Modularity;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
-using Infrastructure;
+using Microsoft.Practices.Prism.Modularity;
 
 namespace LibraryModule
 {
@@ -24,6 +24,7 @@ namespace LibraryModule
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Styles.xaml"));
+            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Views/Themes/ContextMenuTemplate.xaml"));
         }
 
         static void CreateViewModels()

@@ -61,8 +61,7 @@
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.LayoutTransform>
-                                                <ScaleTransform ScaleX="0.5" 
-                                                            ScaleY="0.5" />
+                                                <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                                             </ItemsControl.LayoutTransform>
                                         </ItemsControl>
                                     </ScrollViewer>
