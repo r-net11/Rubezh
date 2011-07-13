@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.ServiceLocation;
+﻿using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 
 namespace Infrastructure
 {
     public class ServiceFactory
     {
         private static IUnityContainer _container;
-
         private static IUnityContainer Container
         {
             get

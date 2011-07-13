@@ -53,7 +53,7 @@
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
-                                    <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto">
+                                    <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Auto" Background="WhiteSmoke" >
                                         <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -73,7 +73,7 @@
                                             <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
                                             <Label  Content=" Длительность: " />
                                             <TextBox HorizontalContentAlignment="Right" MinWidth="30" Height="20" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
-                                            <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" />
+                                            <Button Background="WhiteSmoke" Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,0,10,0" HorizontalAlignment="Right" />
                                         </DockPanel>
                                     </ScrollViewer>
                                 </Grid>
@@ -99,7 +99,7 @@
                     <Slider Visibility="{Binding Path=Flag, Converter={StaticResource BoolToVisibilityConverter}}" Cursor="Hand" Name="sliderScale" Width="80" Margin="0,0,5,0" HorizontalAlignment="Right" Orientation="Horizontal" Minimum="0.01" Maximum="0.15"
                                 Value="1.0" VerticalAlignment="Bottom" />
                 </Grid>
-                <Button VerticalAlignment="Bottom" Content="Сохранить" Visibility="{Binding Path=Flag, Converter={StaticResource BoolToVisibilityConverter}}" Width="80" Height="22" Margin="0,0,0,5" Command="{Binding SaveCommand}" />
+                <Button VerticalAlignment="Bottom" Background="WhiteSmoke" Content="Сохранить" Visibility="{Binding Path=Flag, Converter={StaticResource BoolToVisibilityConverter}}" Width="80" Height="22" Margin="0,0,0,5" Command="{Binding SaveCommand}" />
             </Grid>
         </Grid>
     </Grid>

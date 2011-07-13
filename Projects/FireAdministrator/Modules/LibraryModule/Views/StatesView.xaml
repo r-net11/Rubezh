@@ -10,7 +10,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <ListBox Background="Transparent" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="1" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
+    <ListBox Background="WhiteSmoke" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="1" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                  <DockPanel Height="15" Margin="60,0,0,0">

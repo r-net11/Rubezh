@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace DeviceLibrary.Models
@@ -9,6 +9,7 @@ namespace DeviceLibrary.Models
     {
         [XmlAttribute]
         public string Id { get; set; }
+
         public List<State> States { get; set; }
     }
 }

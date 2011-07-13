@@ -1,10 +1,9 @@
-﻿using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.UnityExtensions;
-using System.Windows;
+﻿using System.Windows;
 using System.Linq;
-using Infrastructure.Common;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Microsoft.Practices.Prism.UnityExtensions;
 
 
 namespace FireAdministrator

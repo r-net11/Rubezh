@@ -1,45 +1,51 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using DeviceLibrary;
 using DeviceLibrary.Models;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
     public class LibraryViewModel : RegionViewModel
     {
+        public static LibraryViewModel Current { get; private set; }
+
         public LibraryViewModel()
         {
             Current = this;
             SaveCommand = new RelayCommand(OnSave);
         }
 
-        public static LibraryViewModel Current { get; private set; }
         public void Initialize()
         {
-            Devices = new ObservableCollection<DeviceViewModel>();
+            List<DeviceViewModel> devicesList = new List<DeviceViewModel>();
             foreach (var device in LibraryManager.Devices)
             {
                 var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Id = device.Id;
-                Devices.Add(deviceViewModel);
                 foreach (var state in device.States)
                 {
                     var stateViewModel = new StateViewModel();
                     stateViewModel.Initialize(state);
-                    deviceViewModel.States.Add(stateViewModel);
                     foreach (var frame in state.Frames)
                     {
                         var frameViewModel = new FrameViewModel();
                         frameViewModel.Initialize(frame);
+
                         stateViewModel.Frames.Add(frameViewModel);
                     }
+
+                    deviceViewModel.States.Add(stateViewModel);
                 }
                 deviceViewModel.States = new ObservableCollection<StateViewModel>(deviceViewModel.States.OrderByDescending(x=>x.Name));
                 deviceViewModel.SortStates();
+
+                devicesList.Add(deviceViewModel);
             }
+            devicesList.Sort(CompareDevicesByName);
+            Devices = new ObservableCollection<DeviceViewModel>(devicesList);
         }
 
         private bool _flag;
@@ -164,5 +170,42 @@ namespace LibraryModule.ViewModels
                 SelectedState.ParentDevice.DeviceControl.State = SelectedState.Id;
             }
         }
+
+        #region DevicesComparer
+        static int CompareDevicesByName(DeviceViewModel x, DeviceViewModel y)
+        {
+            if (x == null)
+            {
+                if (y == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                if (y == null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    int retval = x.Name.CompareTo(y.Name);
+
+                    if (retval != 0)
+                    {
+                        return retval;
+                    }
+                    else
+                    {
+                        return x.Name.CompareTo(y.Name);
+                    }
+                }
+            }
+        }
+        #endregion // DevicesComparer
     }
 }

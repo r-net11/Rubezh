@@ -8,8 +8,10 @@ namespace DeviceLibrary.Models
     {
         [XmlAttribute]
         public int Id { get; set; }
+
         [XmlAttribute]
         public int Duration { get; set; }
+
         [XmlAttribute]
         public int Layer { get; set;}
 

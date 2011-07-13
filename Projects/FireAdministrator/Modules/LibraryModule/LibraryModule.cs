@@ -8,6 +8,8 @@ namespace LibraryModule
 {
     public class LibraryModule : IModule
     {
+        static LibraryViewModel libraryViewModel;
+
         public LibraryModule()
         {
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(OnShowLibrary);
@@ -32,9 +34,7 @@ namespace LibraryModule
             libraryViewModel = new LibraryViewModel();
             libraryViewModel.Initialize();
         }
-
-        static LibraryViewModel libraryViewModel;
-
+        
         static void OnShowLibrary(string obj)
         {
             ServiceFactory.Layout.Show(libraryViewModel);
