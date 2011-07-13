@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Infrastructure.Common;
-using System.Windows;
-using DeviceLibrary;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using DeviceLibrary.Models;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
+        public static StateViewModel Current { get; private set; }
+
         public StateViewModel()
         {
             Current = this;
@@ -39,8 +40,6 @@ namespace LibraryModule.ViewModels
             IsAdditional = state.IsAdditional;
             Id = state.Id;
         }
-
-        public static StateViewModel Current { get; private set; }
 
         public DeviceViewModel ParentDevice { get; set; }
 

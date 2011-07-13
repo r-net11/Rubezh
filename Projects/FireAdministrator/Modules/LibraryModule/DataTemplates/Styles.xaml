@@ -79,8 +79,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="PlusMinusExpanderStyle" TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Foreground" Value="Blue" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -105,16 +106,18 @@
                             <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderUpHeaderStyle}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground" Value="DarkRed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="StackPandelStyle" TargetType="{x:Type StackPanel}">
         <Setter Property="Background" Value="Silver" />
     </Style>
+    
     <!-- Левый ScrollViewer -->
     <Style x:Key="LeftScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -130,7 +133,7 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Border Grid.Column="1" BorderThickness="1,1,1,1">
+                        <Border Grid.Column="1" BorderThickness="1">
                             <Border.BorderBrush>
                                 <SolidColorBrush Color="#800000" />
                             </Border.BorderBrush>

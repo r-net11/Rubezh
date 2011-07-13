@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
 using DeviceControls;
-using DeviceLibrary;
-using Firesec;
-using Infrastructure;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
@@ -50,25 +48,12 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public void SortStates()
-        {
-            var sortedStates = new ObservableCollection<StateViewModel>(States.OrderBy(x => x.Id));
-            foreach (var state in States)
-            {
-                if (!state.IsAdditional) continue;
-                sortedStates.Remove(state);
-                var index = sortedStates.IndexOf(sortedStates.FirstOrDefault(x => (x.Id == state.Class) && (!x.IsAdditional)));
-                sortedStates.Insert(index+1, state);
-            }
-            States = sortedStates;
-        }
-
         public string IconPath
         {
             get
             {
                 var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.Id == Id);
-                return Helper.DevicesIconsPath + driver.ImageSource;
+                return driver.ImageSource;
             }
         }
 

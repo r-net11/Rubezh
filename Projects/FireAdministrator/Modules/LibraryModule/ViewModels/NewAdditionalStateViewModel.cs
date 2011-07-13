@@ -78,7 +78,6 @@ namespace LibraryModule.ViewModels
             _selectedDevice.States.Add(SelectedState);
             _selectedDevice.States = new ObservableCollection<StateViewModel>(_selectedDevice.States.OrderByDescending(x=>x.Name));
             States.Remove(SelectedState);
-            _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
             Close(true);

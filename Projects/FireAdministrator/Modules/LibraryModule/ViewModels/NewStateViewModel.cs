@@ -19,42 +19,6 @@ namespace LibraryModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
-            }
-        }
-
-        private readonly DeviceViewModel _selectedDevice;
-
-        private StateViewModel _selectedState;
-        public StateViewModel SelectedState
-        {
-            get { return _selectedState; }
-            set
-            {
-                _selectedState = value;
-                IsEnabled = true;
-                OnPropertyChanged("SelectedState");
-            }
-        }
-
-        private ObservableCollection<StateViewModel> _states;
-        public ObservableCollection<StateViewModel> States
-        {
-            get { return _states; }
-            set
-            {
-                _states = value;
-                OnPropertyChanged("States");
-            }
-        }
-
         public void Initialize()
         {
             States = new ObservableCollection<StateViewModel>();
@@ -74,12 +38,47 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
+
+        private readonly DeviceViewModel _selectedDevice;
+
+        private ObservableCollection<StateViewModel> _states;
+        public ObservableCollection<StateViewModel> States
+        {
+            get { return _states; }
+            set
+            {
+                _states = value;
+                OnPropertyChanged("States");
+            }
+        }
+
+        private StateViewModel _selectedState;
+        public StateViewModel SelectedState
+        {
+            get { return _selectedState; }
+            set
+            {
+                _selectedState = value;
+                IsEnabled = true;
+                OnPropertyChanged("SelectedState");
+            }
+        }
+
         public RelayCommand AddCommand { get; private set; }
         private void OnAdd()
         {
             if (SelectedState == null) return;
             _selectedDevice.States.Add(SelectedState);
-            _selectedDevice.SortStates();
             LibraryViewModel.Current.Update();
             IsEnabled = false;
             Close(true);

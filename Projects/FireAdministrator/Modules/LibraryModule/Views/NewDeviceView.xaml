@@ -18,18 +18,13 @@
                             </DockPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                    <ListBox.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#0080FF" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#00FFFFFF" />
-                    </ListBox.Resources>
                 </ListBox>
             </Grid>
         </ScrollViewer>
         <Grid Grid.Row="1">
             <DockPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Button Content="ОК" HorizontalAlignment="Right" Width="100" Command="{Binding AddCommand}" />
-                <Button Content="Отмена" HorizontalAlignment="Right" Width="100" Command="{Binding CanselCommand}" />
+                <Button Content="Отмена" HorizontalAlignment="Right" Width="100" Command="{Binding CancelCommand}" />
             </DockPanel>
         </Grid>
     </Grid>

@@ -11,7 +11,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <ListBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"  HorizontalContentAlignment="Stretch" Background="Transparent" BorderThickness="0">
+    <ListBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"  HorizontalContentAlignment="Stretch" Background="Transparent" 
+             BorderThickness="0">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <DockPanel >
@@ -30,10 +31,6 @@
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.Resources>
-            <SolidColorBrush x:Key="SolidBorderBrush" Color="Blue"/>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Silver" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="WhiteSmoke" />
             <ContextMenu x:Key="contextMenu" Template="{StaticResource ContextMenuTemplate}">
                 <MenuItem Header="Добавить устройство" Command="{Binding ShowDevicesCommand}" />
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />

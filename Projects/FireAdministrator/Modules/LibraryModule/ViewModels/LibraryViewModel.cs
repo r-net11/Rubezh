@@ -39,13 +39,19 @@ namespace LibraryModule.ViewModels
 
                     deviceViewModel.States.Add(stateViewModel);
                 }
-                deviceViewModel.States = new ObservableCollection<StateViewModel>(deviceViewModel.States.OrderByDescending(x=>x.Name));
-                deviceViewModel.SortStates();
+                deviceViewModel.States = new ObservableCollection<StateViewModel>(
+                    from state in deviceViewModel.States
+                    orderby state.Id
+                    orderby state.IsAdditional
+                    select state);
 
                 devicesList.Add(deviceViewModel);
             }
-            devicesList.Sort(CompareDevicesByName);
-            Devices = new ObservableCollection<DeviceViewModel>(devicesList);
+
+            Devices = new ObservableCollection<DeviceViewModel>(
+                from device in devicesList
+                orderby device.Name
+                select device);
         }
 
         private bool _flag;
@@ -170,42 +176,5 @@ namespace LibraryModule.ViewModels
                 SelectedState.ParentDevice.DeviceControl.State = SelectedState.Id;
             }
         }
-
-        #region DevicesComparer
-        static int CompareDevicesByName(DeviceViewModel x, DeviceViewModel y)
-        {
-            if (x == null)
-            {
-                if (y == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else
-            {
-                if (y == null)
-                {
-                    return 1;
-                }
-                else
-                {
-                    int retval = x.Name.CompareTo(y.Name);
-
-                    if (retval != 0)
-                    {
-                        return retval;
-                    }
-                    else
-                    {
-                        return x.Name.CompareTo(y.Name);
-                    }
-                }
-            }
-        }
-        #endregion // DevicesComparer
     }
 }

@@ -10,22 +10,19 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <ListBox Background="WhiteSmoke" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" BorderThickness="1" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer}}">
+    <ListBox Background="WhiteSmoke" GotFocus="ListBoxGotFocus" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" 
+             BorderThickness="1" Width="Auto">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                 <DockPanel Height="15" Margin="60,0,0,0">
-                    <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Top" IsChecked="{Binding IsChecked}" Panel.ZIndex="1" Margin="20,1,3,1" Name="checkBox" Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <CheckBox.LayoutTransform>
-                            <ScaleTransform ScaleX="1.2" />
-                        </CheckBox.LayoutTransform>
+                 <StackPanel Orientation="Horizontal" Height="15" Margin="50,0,0,0">
+                    <CheckBox Name="checkBox"  IsChecked="{Binding IsChecked}" Panel.ZIndex="1"
+                              IsEnabled="{Binding IsAdditional}">
                     </CheckBox>
-                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                 </DockPanel>
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
         <ListBox.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF8040" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#818181" />
             <ContextMenu BorderThickness="1" BorderBrush="Purple"  x:Key="contextMenu" Template="{StaticResource ContextMenuTemplate}">
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
                 <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
