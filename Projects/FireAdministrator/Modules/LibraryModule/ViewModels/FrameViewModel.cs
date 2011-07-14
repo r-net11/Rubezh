@@ -133,7 +133,7 @@ namespace LibraryModule.ViewModels
             var fileStream = openFileDialog1.OpenFile();
             using (var reader = new System.IO.StreamReader(fileStream))
             {
-                Image = SvgConverter.Svg2Xaml(reader.ReadToEnd(),Helper.SFileNameXsl);
+                Image = SvgConverter.Svg2Xaml(reader.ReadToEnd(), Helper.SFileNameXsl);
             }
             fileStream.Close();
         }

@@ -23,8 +23,7 @@ namespace LibraryModule.ViewModels
             List<DeviceViewModel> devicesList = new List<DeviceViewModel>();
             foreach (var device in LibraryManager.Devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Id = device.Id;
+                var deviceViewModel = new DeviceViewModel(device.Id);
                 foreach (var state in device.States)
                 {
                     var stateViewModel = new StateViewModel();
@@ -39,6 +38,7 @@ namespace LibraryModule.ViewModels
 
                     deviceViewModel.States.Add(stateViewModel);
                 }
+
                 deviceViewModel.States = new ObservableCollection<StateViewModel>(
                     from state in deviceViewModel.States
                     orderby state.Id
@@ -57,7 +57,11 @@ namespace LibraryModule.ViewModels
         private bool _flag;
         public bool Flag
         {
-            get { return _flag; }
+            get
+            {
+                return _flag;
+            }
+
             set
             {
                 _flag = value;
@@ -68,7 +72,11 @@ namespace LibraryModule.ViewModels
         private ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
-            get { return _devices; }
+            get
+            {
+                return _devices;
+            }
+
             set
             {
                 _devices = value;
@@ -79,7 +87,11 @@ namespace LibraryModule.ViewModels
         private DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
         {
-            get { return _selectedDevice; }
+            get
+            {
+                return _selectedDevice;
+            }
+
             set
             {
                 _flag = true;
@@ -91,15 +103,24 @@ namespace LibraryModule.ViewModels
         private StateViewModel _selectedState;
         public StateViewModel SelectedState
         {
-            get { return _selectedState; }
+            get
+            {
+                return _selectedState;
+            }
+
             set
             {
-                Flag = true;
+                _flag = true;
                 _selectedState = value;
-                if (value == null) return;
-                var deviceControl = SelectedState.ParentDevice.DeviceControl;
+                if (value == null)
+                {
+                    return;
+                }
+
                 SelectedDevice = value.ParentDevice;
                 SelectedState.SelectedFrame = value.Frames[0];
+
+                var deviceControl = SelectedState.ParentDevice.DeviceControl;
                 deviceControl.DriverId = value.ParentDevice.Id;
 
                 if (value.IsAdditional)
@@ -131,14 +152,18 @@ namespace LibraryModule.ViewModels
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                                       "Окно подтверждения", MessageBoxButton.OKCancel,
                                                       MessageBoxImage.Question);
-            if (result == MessageBoxResult.Cancel) return;
-            Update();
-            LibraryManager.Save();
+            if (result != MessageBoxResult.Cancel)
+            {
+                Update();
+                LibraryManager.Save();
+            }
         }
 
         public void Update()
         {
-            if (!_flag) return;
+            if (!_flag)
+                return;
+
             LibraryManager.Devices = new List<Device>();
             foreach (var deviceViewModel in Devices)
             {

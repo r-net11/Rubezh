@@ -24,9 +24,8 @@ namespace LibraryModule.ViewModels
                 if (!driver.IsPlaceable || (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == driver.Id) != null))
                     continue;
 
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Id = driver.Id;
-                deviceViewModel.Initialize();
+                var deviceViewModel = new DeviceViewModel(driver.Id);
+                deviceViewModel.SetDefaultState();
                 Items.Add(deviceViewModel);
             }
         }

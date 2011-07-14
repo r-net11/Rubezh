@@ -72,20 +72,15 @@ namespace DeviceControls
             if (state != null)
             {
                 _stateViewModelList.Add(new StateViewModel(state, StateCanvases));
-                if (AdditionalStates == null) return;
-                foreach (var additionalStateId in AdditionalStates)
-                {
-                    var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
-                    _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
-                }
             }
-            else
+
+            if (AdditionalStates == null) return;
             {
-                foreach (var additionalStateId in AdditionalStates)
-                {
-                    var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
-                    _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
-                }
+            foreach (var additionalStateId in AdditionalStates)
+            {
+                var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
+                _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
+            }
             }
         }
 
