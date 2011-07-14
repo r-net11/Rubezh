@@ -15,7 +15,6 @@ namespace AlarmModule
     {
         public AlarmWatcher()
         {
-            CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
             FiresecManager.States.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
             DeviceState.AlarmAdded += new Action<AlarmType, string>(DeviceState_AlarmAdded);
             DeviceState.AlarmRemoved += new Action<AlarmType, string>(DeviceState_AlarmRemoved);
@@ -71,11 +70,6 @@ namespace AlarmModule
         void CurrentStates_DeviceStateChanged(string obj)
         {
             Update();
-        }
-
-        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
-        {
-            //Alarm.CreateFromJournalEvent(journalItem);
         }
 
         public string AlarmToString(AlarmType alarmType)

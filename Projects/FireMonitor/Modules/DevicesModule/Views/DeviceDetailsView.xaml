@@ -10,7 +10,12 @@
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0" HorizontalAlignment="Left">
-            <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ContentControl Grid.Column="0" Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
+            <TextBlock Grid.Column="1" Text="{Binding State}" Margin="5" />
         </Grid>
         
         <TabControl Grid.Row="1">
@@ -37,7 +42,7 @@
                         <TextBlock Text="{Binding ConnectedTo}" />
                     </StackPanel>
 
-                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
+                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Зона:" FontWeight="Bold" Foreground="YellowGreen" />
                         <TextBlock Text="{Binding PresentationZone}" />
                     </StackPanel>
@@ -52,10 +57,6 @@
             
             <TabItem Header="Состояние">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
-                        <TextBlock Text="{Binding State}" />
-                    </StackPanel>
 
                     <ItemsControl ItemsSource="{Binding ParentStates}">
                         <ItemsControl.ItemTemplate>
@@ -82,6 +83,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
+                    
                 </StackPanel>
             </TabItem>
 

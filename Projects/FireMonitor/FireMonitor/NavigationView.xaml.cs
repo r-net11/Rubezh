@@ -27,14 +27,14 @@ namespace FireMonitor
             DataContext = this;
 
             ServiceFactory.Events.GetEvent<ShowNothingEvent>().Subscribe(x => { DeselectAll(); });
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
-            ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
-            ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(x => { isCallSelected = true; OnPropertyChanged("IsCallSelected"); });
-            ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
+            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { _isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { _isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { _isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
+            ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { _isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
+            ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(x => { _isCallSelected = true; OnPropertyChanged("IsCallSelected"); });
+            ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { _isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
         }
 
         void DeselectAll()
@@ -42,13 +42,13 @@ namespace FireMonitor
             IsAlarmSelected = IsPlanSelected = IsDevicesSelected = IsZonesSelected = IsJournalSelected = IsReportSelected = IsCallSelected = IsArchiveSelected = false;
         }
 
-        bool isAlarmSelected;
+        bool _isAlarmSelected;
         public bool IsAlarmSelected
         {
-            get { return isAlarmSelected; }
+            get { return _isAlarmSelected; }
             set
             {
-                isAlarmSelected = value;
+                _isAlarmSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Publish(null);
@@ -57,13 +57,13 @@ namespace FireMonitor
             }
         }
 
-        bool isPlanSelected;
+        bool _isPlanSelected;
         public bool IsPlanSelected
         {
-            get { return isPlanSelected; }
+            get { return _isPlanSelected; }
             set
             {
-                isPlanSelected = value;
+                _isPlanSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
@@ -72,13 +72,13 @@ namespace FireMonitor
             }
         }
 
-        bool isJournalSelected;
+        bool _isJournalSelected;
         public bool IsJournalSelected
         {
-            get { return isJournalSelected; }
+            get { return _isJournalSelected; }
             set
             {
-                isJournalSelected = value;
+                _isJournalSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
@@ -87,13 +87,13 @@ namespace FireMonitor
             }
         }
 
-        bool isDevicesSelected;
+        bool _isDevicesSelected;
         public bool IsDevicesSelected
         {
-            get { return isDevicesSelected; }
+            get { return _isDevicesSelected; }
             set
             {
-                isDevicesSelected = value;
+                _isDevicesSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
@@ -102,13 +102,13 @@ namespace FireMonitor
             }
         }
 
-        bool isZonesSelected;
+        bool _isZonesSelected;
         public bool IsZonesSelected
         {
-            get { return isZonesSelected; }
+            get { return _isZonesSelected; }
             set
             {
-                isZonesSelected = value;
+                _isZonesSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
@@ -117,13 +117,13 @@ namespace FireMonitor
             }
         }
 
-        bool isReportSelected;
+        bool _isReportSelected;
         public bool IsReportSelected
         {
-            get { return isReportSelected; }
+            get { return _isReportSelected; }
             set
             {
-                isReportSelected = value;
+                _isReportSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);
@@ -132,13 +132,13 @@ namespace FireMonitor
             }
         }
 
-        bool isArchiveSelected;
+        bool _isArchiveSelected;
         public bool IsArchiveSelected
         {
-            get { return isArchiveSelected; }
+            get { return _isArchiveSelected; }
             set
             {
-                isArchiveSelected = value;
+                _isArchiveSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
@@ -147,13 +147,13 @@ namespace FireMonitor
             }
         }
 
-        bool isCallSelected;
+        bool _isCallSelected;
         public bool IsCallSelected
         {
-            get { return isCallSelected; }
+            get { return _isCallSelected; }
             set
             {
-                isCallSelected = value;
+                _isCallSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowCallEvent>().Publish(null);

@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using FiresecClient.Models;
 
 namespace JournalModule
 {
@@ -21,6 +22,7 @@ namespace JournalModule
         public void Initialize()
         {
             RegisterResources();
+            CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void RegisterResources()
@@ -31,6 +33,7 @@ namespace JournalModule
 
         static void OnShowJournal(object obj)
         {
+            UnreadCount = 0;
             JournalViewModel journalViewModel = new JournalViewModel();
             journalViewModel.Initialize();
             ServiceFactory.Layout.Show(journalViewModel);
@@ -41,6 +44,13 @@ namespace JournalModule
             ArchiveViewModel archiveViewModel = new ArchiveViewModel();
             archiveViewModel.Initialize();
             ServiceFactory.Layout.Show(archiveViewModel);
+        }
+
+        static int UnreadCount = 0;
+
+        static void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            UnreadCount++;
         }
     }
 }

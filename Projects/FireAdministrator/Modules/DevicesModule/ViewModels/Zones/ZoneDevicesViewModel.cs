@@ -98,8 +98,6 @@ namespace DevicesModule.ViewModels
                     parent.Children.Add(device);
                 }
             }
-
-            SelectedDevice = Devices[4];
         }
 
         ObservableCollection<DeviceViewModel> _devices;

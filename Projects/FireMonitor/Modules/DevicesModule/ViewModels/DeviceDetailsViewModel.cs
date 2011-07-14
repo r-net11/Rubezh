@@ -15,26 +15,46 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceDetailsViewModel : DialogContent
     {
-        public DeviceDetailsViewModel()
-        {
-            Title = "Свойства устройства";
-        }
-
-        Device _device;
-        DeviceControls.DeviceControl _deviceControl;
-        public DeviceControlViewModel DeviceControlViewModel { get; set; }
-
-        public void Initialize(string deviceId)
+        public DeviceDetailsViewModel(string deviceId)
         {
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceId);
             DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
-            DeviceControlViewModel = new DeviceControlViewModel(_device);
+            _deviceControlViewModel = new DeviceControlViewModel(_device);
+
+            Title = Address;
         }
+
+        Device _device;
+        DeviceControls.DeviceControl _deviceControl;
+        DeviceControlViewModel _deviceControlViewModel;
 
         public Driver Driver
         {
             get { return _device.Driver; }
+        }
+
+        public string Address
+        {
+            get
+            {
+                string address = _device.Driver.ShortName + " ";
+                foreach(var device in _device.AllParents)
+                {
+                    if (device.Driver.HasAddress)
+                    {
+                        address += device.PresentationAddress + ".";
+                    }
+                }
+                if (_device.Driver.HasAddress)
+                {
+                    address += _device.PresentationAddress + ".";
+                }
+                if (address.EndsWith("."))
+                    address = address.Remove(address.Length - 1);
+
+                return address;
+            }
         }
 
         void deviceState_StateChanged()

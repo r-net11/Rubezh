@@ -8,14 +8,18 @@
     <Grid Background="Gray">
 
         <DockPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
-                <local:MenuView />
-                <ContentControl Name="_menu" />
-            </StackPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <StackPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="" />
-            </StackPanel>
+                <local:MenuView Grid.Column="0" />
+                <ContentControl Grid.Column="1" Name="_menu" />
+            </Grid>
+            
+            <Grid DockPanel.Dock="Bottom" >
+            </Grid>
 
             <Grid>
                 <Grid.ColumnDefinitions>

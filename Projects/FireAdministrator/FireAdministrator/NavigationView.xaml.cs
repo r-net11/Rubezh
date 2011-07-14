@@ -24,23 +24,23 @@ namespace FireAdministrator
             InitializeComponent();
             DataContext = this;
 
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
-            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(x => { isDerectonsSelected = true; OnPropertyChanged("IsDerectonsSelected"); });
-            ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { isLibrarySelected = true; OnPropertyChanged("IsLibrarySelected"); });
-            ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
-            ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(x => { isSecuritySelected = true; OnPropertyChanged("IsSecuritySelected"); });
-            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
-            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(x => { isSoundsSelected = true; OnPropertyChanged("IsSoundsSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { _isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { _isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
+            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(x => { _isDerectonsSelected = true; OnPropertyChanged("IsDerectonsSelected"); });
+            ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { _isLibrarySelected = true; OnPropertyChanged("IsLibrarySelected"); });
+            ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(x => { _isSecuritySelected = true; OnPropertyChanged("IsSecuritySelected"); });
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { _isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
+            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(x => { _isSoundsSelected = true; OnPropertyChanged("IsSoundsSelected"); });
         }
 
-        bool isDevicesSelected;
+        bool _isDevicesSelected;
         public bool IsDevicesSelected
         {
-            get { return isDevicesSelected; }
+            get { return _isDevicesSelected; }
             set
             {
-                isDevicesSelected = value;
+                _isDevicesSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
@@ -49,13 +49,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isZonesSelected;
+        bool _isZonesSelected;
         public bool IsZonesSelected
         {
-            get { return isZonesSelected; }
+            get { return _isZonesSelected; }
             set
             {
-                isZonesSelected = value;
+                _isZonesSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
@@ -64,13 +64,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isDerectonsSelected;
+        bool _isDerectonsSelected;
         public bool IsDerectonsSelected
         {
-            get { return isDerectonsSelected; }
+            get { return _isDerectonsSelected; }
             set
             {
-                isDerectonsSelected = value;
+                _isDerectonsSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Publish(null);
@@ -79,13 +79,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isLibrarySelected;
+        bool _isLibrarySelected;
         public bool IsLibrarySelected
         {
-            get { return isLibrarySelected; }
+            get { return _isLibrarySelected; }
             set
             {
-                isLibrarySelected = value;
+                _isLibrarySelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Publish(null);
@@ -94,13 +94,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isPlanSelected;
+        bool _isPlanSelected;
         public bool IsPlanSelected
         {
-            get { return isPlanSelected; }
+            get { return _isPlanSelected; }
             set
             {
-                isPlanSelected = value;
+                _isPlanSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
@@ -109,13 +109,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isSecuritySelected;
+        bool _isSecuritySelected;
         public bool IsSecuritySelected
         {
-            get { return isSecuritySelected; }
+            get { return _isSecuritySelected; }
             set
             {
-                isSecuritySelected = value;
+                _isSecuritySelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Publish(null);
@@ -124,13 +124,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isJournalSelected;
+        bool _isJournalSelected;
         public bool IsJournalSelected
         {
-            get { return isJournalSelected; }
+            get { return _isJournalSelected; }
             set
             {
-                isJournalSelected = value;
+                _isJournalSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
@@ -139,13 +139,13 @@ namespace FireAdministrator
             }
         }
 
-        bool isSoundsSelected;
+        bool _isSoundsSelected;
         public bool IsSoundsSelected
         {
-            get { return isSoundsSelected; }
+            get { return _isSoundsSelected; }
             set
             {
-                isSoundsSelected = value;
+                _isSoundsSelected = value;
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Publish(null);

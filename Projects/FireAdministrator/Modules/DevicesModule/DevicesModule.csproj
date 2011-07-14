@@ -62,7 +62,9 @@
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Converters\ColorIdToStringConverter.cs" />
+    <Compile Include="Converters\GuardZoneTypeToStringConverter.cs" />
     <Compile Include="Converters\ValveActionConverter.cs" />
+    <Compile Include="Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Events\AddDirectionEvent.cs" />
     <Compile Include="Events\AddZoneEvent.cs" />

@@ -17,6 +17,7 @@ namespace DeviceControls
             InitializeComponent();
             DataContext = this;
             StateCanvases = new ObservableCollection<Canvas>();
+            AdditionalStates = new List<string>();
         }
         
         public string DriverId { get; set; }
@@ -79,11 +80,13 @@ namespace DeviceControls
                 }
             }
             else
+            {
                 foreach (var additionalStateId in AdditionalStates)
                 {
                     var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
                     _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
                 }
+            }
         }
 
         private void UserControlSizeChanged(object sender, SizeChangedEventArgs e)
