@@ -12,8 +12,8 @@ namespace FiresecClient.Models
         public List<DeviceState> DeviceStates { get; set; }
         public List<ZoneState> ZoneStates { get; set; }
 
-        public static event Action<Firesec.ReadEvents.journalType> NewJournalEvent;
-        public static void OnNewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        public event Action<Firesec.ReadEvents.journalType> NewJournalEvent;
+        public void OnNewJournalEvent(Firesec.ReadEvents.journalType journalItem)
         {
             if (NewJournalEvent != null)
             {

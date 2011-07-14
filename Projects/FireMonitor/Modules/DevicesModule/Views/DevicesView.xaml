@@ -46,7 +46,7 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                     <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
-                                                    <MenuItem Header="{Binding IsOff, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                                    <MenuItem Header="{Binding IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>

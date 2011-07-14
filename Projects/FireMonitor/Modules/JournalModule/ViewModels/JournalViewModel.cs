@@ -22,7 +22,7 @@ namespace JournalModule.ViewModels
                 JournalItems.Add(journalItemViewModel);
             }
 
-            CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+            FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)

@@ -17,6 +17,12 @@ namespace FireMonitor
 {
     public class Bootstrapper : UnityBootstrapper
     {
+        public Bootstrapper()
+        {
+            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            Application.Current.Resources.MergedDictionaries.Add(rd);
+        }
+
         protected override System.Windows.DependencyObject CreateShell()
         {
             ShellView shellView = new ShellView();
@@ -24,26 +30,34 @@ namespace FireMonitor
             return shellView;
         }
 
-        protected override void InitializeShell()
+        public static bool Connect()
         {
             LoginScreen loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false)
             {
-                return;
+                return false;
             }
 
             if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_Login) == false)
             {
                 MessageBox.Show("Нет прав на работу с программой");
                 FiresecManager.Disconnect();
+                return false;
+            }
+
+            return true;
+        }
+
+        protected override void InitializeShell()
+        {
+            bool result = Connect();
+            if (result == false)
+            {
                 return;
             }
 
             RegisterServices();
-
-            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            Application.Current.Resources.MergedDictionaries.Add(rd);
 
             InitializeFiresecClient();
 

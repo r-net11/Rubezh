@@ -25,6 +25,7 @@ namespace PlansModule.ViewModels
         }
 
         Device _device;
+        DeviceState _deviceState;
         DeviceControls.DeviceControl _deviceControl;
         Rectangle _mouseOverRectangle;
         Rectangle _selectationRectangle;
@@ -62,6 +63,7 @@ namespace PlansModule.ViewModels
             IsSelected = false;
 
             _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == elementDevice.Id);
+            _deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
             if (_device != null)
             {
                 _deviceControl.DriverId = _device.Driver.Id;
@@ -84,20 +86,20 @@ namespace PlansModule.ViewModels
             
             MenuItem menuItem1 = new MenuItem();
             menuItem1.Header = "Показать в дереве";
-            menuItem1.Click += new System.Windows.RoutedEventHandler(menuItem_Click);
+            menuItem1.Click += new System.Windows.RoutedEventHandler(OnShowInTree);
             contextMenu.Items.Add(menuItem1);
 
             if (_device.Driver.CanDisable)
             {
                 MenuItem menuItem2 = new MenuItem();
                 menuItem2.Header = "Отключить";
-                menuItem2.Click += new System.Windows.RoutedEventHandler(menuItem2_Click);
+                menuItem2.Click += new System.Windows.RoutedEventHandler(OnDisable);
                 contextMenu.Items.Add(menuItem2);
             }
 
             MenuItem menuItem3 = new MenuItem();
             menuItem3.Header = "Свойства";
-            menuItem3.Click += new System.Windows.RoutedEventHandler(menuItem3_Click);
+            menuItem3.Click += new System.Windows.RoutedEventHandler(OnShowProperties);
             contextMenu.Items.Add(menuItem3);
 
             _tooltipCanvas.ContextMenu = contextMenu;
@@ -109,17 +111,17 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(_tooltipCanvas);
         }
 
-        void menuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        void OnShowInTree(object sender, System.Windows.RoutedEventArgs e)
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
         }
 
-        void menuItem2_Click(object sender, System.Windows.RoutedEventArgs e)
+        void OnDisable(object sender, System.Windows.RoutedEventArgs e)
         {
-            ;
+            _deviceState.ChangeDisabled();
         }
 
-        void menuItem3_Click(object sender, System.Windows.RoutedEventArgs e)
+        void OnShowProperties(object sender, System.Windows.RoutedEventArgs e)
         {
             ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.Id);
         }

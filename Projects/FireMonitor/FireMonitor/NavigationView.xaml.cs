@@ -15,6 +15,9 @@ using Infrastructure;
 using Infrastructure.Events;
 using AlarmModule.Events;
 using System.ComponentModel;
+using FiresecClient.Models;
+using System.Diagnostics;
+using FiresecClient;
 
 namespace FireMonitor
 {
@@ -37,9 +40,47 @@ namespace FireMonitor
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { _isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+        }
+
         void DeselectAll()
         {
             IsAlarmSelected = IsPlanSelected = IsDevicesSelected = IsZonesSelected = IsJournalSelected = IsReportSelected = IsCallSelected = IsArchiveSelected = false;
+        }
+
+        int _unreadJournalCount = 0;
+        public int UnreadJournalCount
+        {
+            get { return _unreadJournalCount; }
+            set
+            {
+                _unreadJournalCount = value;
+                HasUnreadJournal = (value > 0);
+                OnPropertyChanged("UnreadJournalCount");
+            }
+        }
+
+        bool _hasUnreadJournal = false;
+        public bool HasUnreadJournal
+        {
+            get { return _hasUnreadJournal; }
+            set
+            {
+                _hasUnreadJournal = value;
+                OnPropertyChanged("HasUnreadJournal");
+            }
+        }
+
+        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        {
+            Trace.WriteLine(journalItem.EventDesc + " - " + journalItem.IDEvents);
+
+            if (IsJournalSelected == false)
+            {
+                UnreadJournalCount++;
+            }
         }
 
         bool _isAlarmSelected;
@@ -81,6 +122,7 @@ namespace FireMonitor
                 _isJournalSelected = value;
                 if (value)
                 {
+                    UnreadJournalCount = 0;
                     ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsJournalSelected");

@@ -15,7 +15,7 @@ namespace AssadProcessor
         {
             FiresecManager.States.DeviceStateChanged += new Action<string>(ServiceClient_DeviceChanged);
             FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
-            CurrentStates.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+            FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void ServiceClient_DeviceChanged(string id)

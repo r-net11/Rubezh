@@ -73,7 +73,7 @@ namespace FiresecClient
                 {
                     if (Convert.ToInt32(journalItem.IDEvents) > LastEventId)
                     {
-                        CurrentStates.OnNewJournalEvent(journalItem);
+                        FiresecManager.States.OnNewJournalEvent(journalItem);
                     }
                 }
                 LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);

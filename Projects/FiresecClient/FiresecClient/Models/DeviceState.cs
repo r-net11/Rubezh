@@ -27,6 +27,56 @@ namespace FiresecClient.Models
             State = new State(8);
         }
 
+        Device Device
+        {
+            get
+            {
+                return FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
+            }
+        }
+
+        public bool IsDisabled
+        {
+            get
+            {
+                return InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
+            }
+        }
+
+        public bool CanDisable
+        {
+            get
+            {
+                if (Device.Driver.CanDisable)
+                {
+                    if (IsDisabled)
+                    {
+                        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
+                    }
+                    else
+                    {
+                        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
+                    }
+                }
+                return false;
+            }
+        }
+
+        public void ChangeDisabled()
+        {
+            if (CanDisable)
+            {
+                if (IsDisabled)
+                {
+                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
+                }
+                else
+                {
+                    FiresecInternalClient.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
+                }
+            }
+        }
+
         bool _isAutomaticOff = false;
         public bool IsAutomaticOff
         {

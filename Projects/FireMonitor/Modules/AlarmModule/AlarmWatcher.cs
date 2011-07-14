@@ -44,8 +44,8 @@ namespace AlarmModule
 
         void DeviceState_AlarmAdded(AlarmType alarmType, string id)
         {
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
             var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == id);
+            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
             Alarm alarm = new Alarm();
             alarm.AlarmType = alarmType;
             alarm.DeviceId = id;

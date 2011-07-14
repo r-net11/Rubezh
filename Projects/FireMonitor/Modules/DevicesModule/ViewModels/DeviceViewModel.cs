@@ -193,11 +193,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool IsOff
+        public bool IsDisabled
         {
             get
             {
-                return _deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
+                return _deviceState.IsDisabled;
             }
         }
 
@@ -230,34 +230,13 @@ namespace DevicesModule.ViewModels
 
         public bool CanDisable(object obj)
         {
-            if (Device.Driver.CanDisable)
-            {
-                if (IsOff)
-                {
-                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
-                }
-                else
-                {
-                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
-                }
-            }
-            return false;
+            return _deviceState.CanDisable;
         }
 
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            if (CanDisable(null))
-            {
-                if (IsOff)
-                {
-                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
-                }
-                else
-                {
-                    FiresecInternalClient.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
-                }
-            }
+            _deviceState.ChangeDisabled();
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
