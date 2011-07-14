@@ -61,15 +61,11 @@ namespace LibraryModule.ViewModels
             set
             {
                 _isChecked = value;
-                if (LibraryViewModel.Current.SelectedState == null)
-                    LibraryViewModel.Current.SelectedState = this;
-                if (this.ParentDevice != LibraryViewModel.Current.SelectedState.ParentDevice)
-                    LibraryViewModel.Current.SelectedState = this;
                 if (_isChecked)
                 {
                     LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates.Add(Id);
                 }
-                if (!_isChecked)
+                else
                 {
                     LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates.Remove(Id);
                 }

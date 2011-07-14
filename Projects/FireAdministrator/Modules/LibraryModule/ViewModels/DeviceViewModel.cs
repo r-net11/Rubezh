@@ -37,6 +37,8 @@ namespace LibraryModule.ViewModels
             LibraryViewModel.Current.Update();
         }
 
+        public List<string> AdditionalStates;
+
         private DeviceControl _deviceControl;
         public DeviceControl DeviceControl
         {
@@ -48,31 +50,47 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public string IconPath
-        {
-            get
-            {
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x=>x.Id == Id);
-                return driver.ImageSource;
-            }
-        }
-
-        private string  _id;
+        private string _id;
         public string Id
         {
             get { return _id; }
             set
             {
                 _id = value;
+                UpdateName();
+                UpdateIconPath();
             }
         }
 
+        private string _iconPath;
+        public string IconPath
+        {
+            get
+            {
+                return _iconPath;
+            }
+            set
+            {
+                if (value is string && value != null)
+                {
+                    _iconPath = value;
+                }
+            }
+        }
+
+        private string _name;
         public string Name
         {
             get
             {
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
-                return driver.DriverName;
+                return _name;
+            }
+            set
+            {
+                if (value is string && value != null)
+                {
+                    _name = value;
+                }
             }
         }
 
@@ -101,8 +119,18 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public List<string> AdditionalStates;
+        private void UpdateName()
+        {
+            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
+            Name = driver.DriverName;
+        }
 
+        private void UpdateIconPath()
+        {
+            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
+            IconPath = driver.ImageSource;
+        }
+        
         public RelayCommand ShowDevicesCommand { get; private set; }
         private static void OnShowDevices()
         {
