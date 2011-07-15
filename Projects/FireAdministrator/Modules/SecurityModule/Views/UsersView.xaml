@@ -11,13 +11,8 @@
 			<Button Content="Удалить" Command="{Binding DeleteUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
 			<Button Content="Редактировать" Command="{Binding EditUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
 		</StackPanel>
-		<DataGrid Margin="5,5,12,5" ItemsSource="{Binding Users}"  
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20" Grid.Row="1">
+		<DataGrid Grid.Row="1" Margin="5,5,12,5" ItemsSource="{Binding Users}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
 				<DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding FullName}" />

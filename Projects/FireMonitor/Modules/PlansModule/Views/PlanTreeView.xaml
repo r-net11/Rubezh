@@ -7,21 +7,14 @@
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                            AutoGenerateColumns="False" 
-                            IsReadOnly="True"
-                            CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
-                            Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
-                            SelectionMode="Single" SelectionUnit="FullRow"
-                            HeadersVisibility="Column" RowHeaderWidth="0" RowHeight="20">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" VerticalAlignment="Center">
                             <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay}"/>
+                                <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding Caption}" Margin="2, 0, 0, 0" />

@@ -14,13 +14,8 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" x:Name="_dataGrid_xxx"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20">
+                <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}"
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Id}" />
                         <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />
@@ -52,12 +47,7 @@
 
                 <Grid Grid.Row="0">
                     <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="1*" Header="№" Binding="{Binding No}" />
                             <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
@@ -73,12 +63,7 @@
                 
                 <Grid Grid.Row="2">
                     <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column"
-                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Width="1*" Header="№" Binding="{Binding No}" />
                             <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />

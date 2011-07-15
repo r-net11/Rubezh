@@ -17,13 +17,7 @@
 
             <Grid Grid.Column="0">
                 <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                         AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
-                         AutoGenerateColumns="False" SelectionMode="Single"
-                         CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                         IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
-                         Background="White" BorderBrush="Black" BorderThickness="1"
-                         RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
+                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
@@ -41,13 +35,7 @@
 
             <Grid Grid.Column="2">
                 <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                         AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
-                         AutoGenerateColumns="False" SelectionMode="Single"
-                         CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
-                         IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
-                         Background="White" BorderBrush="Black" BorderThickness="1"
-                         RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
+                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />

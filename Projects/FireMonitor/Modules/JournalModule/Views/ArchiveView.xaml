@@ -22,12 +22,7 @@
 
         <Grid Grid.Row="1">
             <DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                            AutoGenerateColumns="False" SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column" RowHeaderWidth="0"
-                            IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="True"
-                            HorizontalGridLinesBrush="WhiteSmoke" VerticalGridLinesBrush="WhiteSmoke"
-                            Background="White" BorderBrush="Black" BorderThickness="0"
-                            RowHeight="20">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />

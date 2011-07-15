@@ -39,7 +39,6 @@
         <GradientStop Color="DarkRed" Offset="0"/>
     </LinearGradientBrush>
 
-    <!-- DataGridColumnHeader Right Gripper Style -->
     <Style x:Key="ColumnHeaderRightGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -54,7 +53,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- DataGridColumnHeader Left Gripper Style -->
+    
     <Style x:Key="ColumnHeaderLeftGripperStyle" 
 		   BasedOn="{StaticResource ColumnHeaderRightGripperStyle}" 
 		   TargetType="{x:Type Thumb}">
@@ -73,7 +72,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- DataGridColumnHeader Style -->
+    
     <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}"/>
@@ -133,9 +132,25 @@
     </Style>
 
 
-    <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
+    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
 
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="CanUserSortColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="HorizontalGridLinesBrush" Value="WhiteSmoke" />
+        <Setter Property="VerticalGridLinesBrush" Value="WhiteSmoke" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RowHeight" Value="20" />
+
         <!-- This is needed to force DG to have a non-default value.  Otherwise the DGR.DetailsVisibility cannot have a value of VisibleWhenSelected by default. -->
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
@@ -234,15 +249,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
-        <Setter Property="HorizontalGridLinesBrush" Value="WhiteSmoke" />
-        <Setter Property="VerticalGridLinesBrush" Value="WhiteSmoke" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="BorderBrush" Value="Black" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="RowHeight" Value="20" />
     </Style>
     
     <Style x:Key="TreeExpanderStyle" TargetType="CheckBox">
