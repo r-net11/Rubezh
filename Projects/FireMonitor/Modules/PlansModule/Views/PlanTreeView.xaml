@@ -1,13 +1,12 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlanTreeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:PlansModule.Converters">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
-    <WpfToolkit:DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"
+    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" 
                             IsReadOnly="True"
@@ -16,9 +15,9 @@
                             Background="White" BorderBrush="Black" BorderThickness="0" FrozenColumnCount="2"
                             SelectionMode="Single" SelectionUnit="FullRow"
                             HeadersVisibility="Column" RowHeaderWidth="0" RowHeight="20">
-        <WpfToolkit:DataGrid.Columns>
-            <WpfToolkit:DataGridTemplateColumn Header="Название">
-                <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Название">
+                <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" VerticalAlignment="Center">
                             <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -28,9 +27,9 @@
                             <TextBlock Text="{Binding Caption}" Margin="2, 0, 0, 0" />
                         </StackPanel>
                     </DataTemplate>
-                </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-            </WpfToolkit:DataGridTemplateColumn>
-            <WpfToolkit:DataGridTextColumn Header="Состояние" Binding="{Binding State}" Width="*" />
-        </WpfToolkit:DataGrid.Columns>
-    </WpfToolkit:DataGrid>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="Состояние" Binding="{Binding State}" Width="*" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

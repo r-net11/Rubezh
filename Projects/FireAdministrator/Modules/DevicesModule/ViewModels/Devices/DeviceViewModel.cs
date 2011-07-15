@@ -28,6 +28,17 @@ namespace DevicesModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
         }
 
+        bool isExpanded;
+        public bool IsExpanded2
+        {
+            get { return isExpanded; }
+            set
+            {
+                isExpanded = value;
+                OnPropertyChanged("IsExpanded2");
+            }
+        }
+
         public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;

@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:WpfToolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
-                    xmlns:Primitives="clr-namespace:Microsoft.Windows.Controls.Primitives;assembly=WPFToolkit"
-                    xmlns:Converters="clr-namespace:Infrastructure.Common.Converters">
+                    xmlns:Converters="clr-namespace:Infrastructure.Common.Converters"
+                    xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     
     <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -75,7 +74,7 @@
         </Setter>
     </Style>
     <!-- DataGridColumnHeader Style -->
-    <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type WpfToolkit:DataGridColumnHeader}">
+    <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}"/>
         <Setter Property="Foreground" Value="White" />
@@ -83,9 +82,9 @@
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridColumnHeader}">
+                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                     <Grid>
-                        <WpfToolkit:DataGridHeaderBorder
+                        <dg:DataGridHeaderBorder
                             Height="30"
 							x:Name="headerBorder"
 							SortDirection="{TemplateBinding SortDirection}"
@@ -109,7 +108,7 @@
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                             </Border>
-                        </WpfToolkit:DataGridHeaderBorder>
+                        </dg:DataGridHeaderBorder>
 
                         <Thumb x:Name="PART_LeftHeaderGripper"
 							   HorizontalAlignment="Left"
@@ -134,7 +133,7 @@
     </Style>
 
 
-    <Style x:Key="{x:Type WpfToolkit:DataGrid}" TargetType="{x:Type WpfToolkit:DataGrid}">
+    <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
 
         <Setter Property="BorderThickness" Value="1" />
         <!-- This is needed to force DG to have a non-default value.  Otherwise the DGR.DetailsVisibility cannot have a value of VisibleWhenSelected by default. -->
@@ -142,7 +141,7 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGrid}">
+                <ControlTemplate TargetType="{x:Type DataGrid}">
                     <Border
 						Background="{TemplateBinding Background}"
 						BorderBrush="{TemplateBinding BorderBrush}"
@@ -167,15 +166,15 @@
 
                                         <!--Left Column Header Corner -->
                                         <Button 
-											Command="{x:Static WpfToolkit:DataGrid.SelectAllCommand}"
-											Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=CellsPanelHorizontalOffset}"
+											Command="{x:Static DataGrid.SelectAllCommand}"
+											Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=CellsPanelHorizontalOffset}"
 											Focusable="false"
-											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.All}}" />
+											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
                                         <!--Column Headers-->
-                                        <Primitives:DataGridColumnHeadersPresenter 
+                                        <DataGridColumnHeadersPresenter 
 											Grid.Column="1" 
 											Name="PART_ColumnHeadersPresenter"
-											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.Column}}"/>
+											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
 
                                         <!--DataGrid content-->
                                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
@@ -190,7 +189,7 @@
 
                                         <Grid Grid.Row="2" Grid.Column="1">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
+                                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <ScrollBar 
@@ -219,7 +218,7 @@
     </Style>
 
 
-    <Style x:Key="DataGridCellStyle" TargetType="{x:Type WpfToolkit:DataGridCell}">
+    <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
@@ -228,7 +227,7 @@
         </Style.Triggers>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridCell}">
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border Background="{TemplateBinding Background}" BorderThickness="0">
                         <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
                     </Border>
@@ -237,6 +236,14 @@
         </Setter>
     </Style>
 
+    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="HorizontalGridLinesBrush" Value="WhiteSmoke" />
+        <Setter Property="VerticalGridLinesBrush" Value="WhiteSmoke" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RowHeight" Value="20" />
+    </Style>
     
     <Style x:Key="TreeExpanderStyle" TargetType="CheckBox">
         <Setter Property="Background" Value="#FF448DCA"/>

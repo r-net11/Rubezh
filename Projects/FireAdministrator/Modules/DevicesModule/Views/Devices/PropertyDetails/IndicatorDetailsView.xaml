@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              MinHeight="500" MinWidth="500">
     <UserControl.Resources>
         <Converters:ColorIdToStringConverter x:Key="ColorIdToStringConverter" />
@@ -37,7 +36,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0">
-                        <WpfToolkit:DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
+                        <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
                          ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                          AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
                          AutoGenerateColumns="False" SelectionMode="Single"
@@ -45,12 +44,12 @@
                          IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
                          Background="White" BorderBrush="Black" BorderThickness="1"
                          RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
-                            <WpfToolkit:DataGrid.Columns>
-                                <WpfToolkit:DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                                <WpfToolkit:DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                                <WpfToolkit:DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                            </WpfToolkit:DataGrid.Columns>
-                        </WpfToolkit:DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
 
                     <StackPanel Grid.Column="1">
@@ -61,7 +60,7 @@
                     </StackPanel>
 
                     <Grid Grid.Column="2">
-                        <WpfToolkit:DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
+                        <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
                          ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                          AlternatingRowBackground="{StaticResource AlternateRowBackgroundBrush}"
                          AutoGenerateColumns="False" SelectionMode="Single"
@@ -69,12 +68,12 @@
                          IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Black" VerticalGridLinesBrush="Black"
                          Background="White" BorderBrush="Black" BorderThickness="1"
                          RowHeaderWidth="0" RowHeight="25" HorizontalAlignment="Stretch">
-                            <WpfToolkit:DataGrid.Columns>
-                                <WpfToolkit:DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                                <WpfToolkit:DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                                <WpfToolkit:DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                            </WpfToolkit:DataGrid.Columns>
-                        </WpfToolkit:DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+                                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                                <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
                 </Grid>
                 
@@ -91,16 +90,16 @@
             <TextBox Grid.Row="0" Text="{Binding DeviceId}" />
 
             <Grid Grid.Row="1">
-                <WpfToolkit:DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+                <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
                             Background="White" BorderBrush="Black" BorderThickness="0"
                             RowHeight="20">
-                    <WpfToolkit:DataGrid.Columns>
-                        <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
-                            <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                            <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -140,14 +139,14 @@
 
                                     </Grid>
                                 </DataTemplate>
-                            </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                        </WpfToolkit:DataGridTemplateColumn>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <WpfToolkit:DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
-                        <WpfToolkit:DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                        <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
 
-                    </WpfToolkit:DataGrid.Columns>
-                </WpfToolkit:DataGrid>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
 
             <Grid Grid.Row="2">

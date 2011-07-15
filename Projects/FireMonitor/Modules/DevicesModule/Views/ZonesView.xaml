@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ZonesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:WpfToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
              xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
@@ -59,16 +58,16 @@
         </StackPanel>
 
         <Grid Grid.Row="2">
-            <WpfToolkit:DataGrid ItemsSource="{Binding Devices}"
+            <DataGrid ItemsSource="{Binding Devices}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
                             AutoGenerateColumns="False" SelectionMode="Single" HeadersVisibility="Column"
                             CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False"
                             IsReadOnly="True" SelectionUnit="FullRow" HorizontalGridLinesBrush="Beige" VerticalGridLinesBrush="Beige"
                             Background="White" BorderBrush="Black" BorderThickness="0"
                             RowHeight="20">
-                <WpfToolkit:DataGrid.Columns>
-                    <WpfToolkit:DataGridTemplateColumn Header="Тип Устройства" Width="250">
-                        <WpfToolkit:DataGridTemplateColumn.CellTemplate>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                        <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -109,16 +108,16 @@
 
                                 </Grid>
                             </DataTemplate>
-                        </WpfToolkit:DataGridTemplateColumn.CellTemplate>
-                    </WpfToolkit:DataGridTemplateColumn>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                    <WpfToolkit:DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.Address}" />
-                    <WpfToolkit:DataGridTextColumn Header="Зона" Width="100" Binding="{Binding Device.PresentationZone}" />
-                    <WpfToolkit:DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
+                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.Address}" />
+                    <DataGridTextColumn Header="Зона" Width="100" Binding="{Binding Device.PresentationZone}" />
+                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
-                </WpfToolkit:DataGrid.Columns>
+                </DataGrid.Columns>
 
-            </WpfToolkit:DataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>
