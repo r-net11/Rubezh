@@ -26,8 +26,7 @@ namespace LibraryModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device.Id);
                 foreach (var state in device.States)
                 {
-                    var stateViewModel = new StateViewModel();
-                    stateViewModel.Initialize(state);
+                    var stateViewModel = new StateViewModel(state.Id, deviceViewModel, state.IsAdditional);
                     foreach (var frame in state.Frames)
                     {
                         var frameViewModel = new FrameViewModel();

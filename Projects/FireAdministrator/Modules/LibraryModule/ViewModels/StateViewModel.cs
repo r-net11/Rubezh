@@ -13,39 +13,27 @@ namespace LibraryModule.ViewModels
     public class StateViewModel : BaseViewModel
     {
         public static StateViewModel Current { get; private set; }
-
-        public StateViewModel()
+                
+        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional)
         {
-            ParentDevice = DeviceViewModel.Current;
+            ParentDevice = parentDevice;
+            IsAdditional = isAdditional;
+            Id = id;
+
+            Initialize();
+        }
+
+        void Initialize()
+        {
+            Current = this;
             Frames = new ObservableCollection<FrameViewModel>();
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
             ShowStatesCommand = ParentDevice.ShowStatesCommand;
             ShowAdditionalStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
-
-            Current = this;
         }
-        
+
         public DeviceViewModel ParentDevice { get; set; }
-
-        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional)
-        {
-            Id = id;
-            ParentDevice = parentDevice;
-            IsAdditional = isAdditional;
-
-            RemoveStateCommand = new RelayCommand(OnRemoveState);
-            ShowStatesCommand = ParentDevice.ShowStatesCommand;
-            ShowAdditionalStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
-
-            Current = this;
-        }
-
-        public void Initialize(State state)
-        {
-            IsAdditional = state.IsAdditional;
-            Id = state.Id;
-        }
 
         private FrameViewModel _selectedFrame;
         public FrameViewModel SelectedFrame
@@ -202,7 +190,6 @@ namespace LibraryModule.ViewModels
 
         void Update()
         {
-            if (ParentDevice == null) return;
             var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == ParentDevice.Id);
             if (driver != null)
             {

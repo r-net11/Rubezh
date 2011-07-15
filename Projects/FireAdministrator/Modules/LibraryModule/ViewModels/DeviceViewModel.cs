@@ -17,7 +17,11 @@ namespace LibraryModule.ViewModels
         public DeviceViewModel(string id)
         {
             Id = id;
+            Initialize();
+        }
 
+        void Initialize()
+        {
             DeviceControl = new DeviceControl();
             AdditionalStates = new List<string>();
             States = new ObservableCollection<StateViewModel>();
@@ -32,8 +36,7 @@ namespace LibraryModule.ViewModels
         
         public void SetDefaultState()
         {
-            var stateViewModel = new StateViewModel();
-            stateViewModel.Id = "8";
+            var stateViewModel = new StateViewModel("8", this, false);
             var frameViewModel = new FrameViewModel(Helper.EmptyFrame, 300, 0);
             stateViewModel.Frames = new ObservableCollection<FrameViewModel>() { frameViewModel };
 

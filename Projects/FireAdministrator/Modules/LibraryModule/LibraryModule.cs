@@ -25,8 +25,7 @@ namespace LibraryModule
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Styles.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Views/Themes/ContextMenuTemplate.xaml"));
+            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Themes/ListBoxStyle.xaml"));
         }
 
         static void CreateViewModels()

@@ -6,28 +6,30 @@ using FiresecClient;
 
 namespace LibraryModule.ViewModels
 {
-    internal class NewDeviceViewModel : DialogContent
+    public class NewDeviceViewModel : DialogContent
     {
         public NewDeviceViewModel()
         {
-            Title = "Добавить устройство";
-            AddCommand = new RelayCommand(OnAdd);
-            CancelCommand = new RelayCommand(OnCancel);
             Initialize();
         }
 
-        public void Initialize()
+        void Initialize()
         {
+            Title = "Добавить устройство";
+
             Items = new ObservableCollection<DeviceViewModel>();
             foreach (var driver in FiresecManager.Configuration.Drivers)
             {
-                if (!driver.IsPlaceable || (LibraryViewModel.Current.Devices.FirstOrDefault(x => x.Id == driver.Id) != null))
-                    continue;
-
-                var deviceViewModel = new DeviceViewModel(driver.Id);
-                deviceViewModel.SetDefaultState();
-                Items.Add(deviceViewModel);
+                if (driver.IsPlaceable && LibraryViewModel.Current.Devices.Any(x => x.Id == driver.Id) == false)
+                {
+                    var deviceViewModel = new DeviceViewModel(driver.Id);
+                    deviceViewModel.SetDefaultState();
+                    Items.Add(deviceViewModel);
+                }
             }
+
+            AddCommand = new RelayCommand(OnAdd);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         private ObservableCollection<DeviceViewModel> _items;
@@ -56,9 +58,8 @@ namespace LibraryModule.ViewModels
         private void OnAdd()
         {
             if (SelectedItem == null) return;
-            var deviceViewModel = Items.FirstOrDefault(x => x.Id == SelectedItem.Id);
-            LibraryViewModel.Current.Devices.Add(deviceViewModel);
-            Items.Remove(_selectedItem);
+            LibraryViewModel.Current.Devices.Add(SelectedItem);
+            Items.Remove(SelectedItem);
             LibraryViewModel.Current.Update();
             Close(true);
         }

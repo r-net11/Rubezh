@@ -38,8 +38,13 @@ namespace LibraryModule.ViewModels
             set
             {
                 _selectedState = value;
-                if (value == null) {IsEnabled = false; return;}
-                IsEnabled = _selectedDevice.States.FirstOrDefault(x => (x.Id == value.Class) && (!x.IsAdditional)) != null;
+                if (value == null)
+                {
+                    IsEnabled = false;
+                    return;
+                }
+
+                IsEnabled = _selectedDevice.States.Any(x => (x.Id == value.Class) && (!x.IsAdditional));
                 OnPropertyChanged("SelectedState");
             }
         }
