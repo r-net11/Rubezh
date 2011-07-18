@@ -14,14 +14,21 @@ using System.Windows.Shapes;
 
 namespace PlansModule.ViewModels
 {
-    /// <summary>
-    /// Логика взаимодействия для XDeviceView.xaml
-    /// </summary>
-    public partial class XDeviceView : UserControl
+    public partial class ElementDeviceView : UserControl
     {
-        public XDeviceView()
+        public ElementDeviceView()
         {
             InitializeComponent();
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            _mouseOverRectangle.StrokeThickness = 1;
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _mouseOverRectangle.StrokeThickness = 0;
         }
     }
 }

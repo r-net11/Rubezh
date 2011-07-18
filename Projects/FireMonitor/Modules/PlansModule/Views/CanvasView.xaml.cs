@@ -178,16 +178,20 @@ namespace PlansModule.Views
 
         void FullSize()
         {
-            var contentWidth = (_contentControl.Content as Canvas).Width;
-            var contentHeight = (_contentControl.Content as Canvas).Height;
+            var canvas = _contentControl.Content as Canvas;
+            if (canvas != null)
+            {
+                var contentWidth = canvas.Width;
+                var contentHeight = canvas.Height;
 
-            double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
-            double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
-            double scale = Math.Min(scaleX, scaleY);
-            initialScale = scale;
+                double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
+                double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
+                double scale = Math.Min(scaleX, scaleY);
+                initialScale = scale;
 
-            scaleTransform.ScaleX = scale;
-            scaleTransform.ScaleY = scale;
+                scaleTransform.ScaleX = scale;
+                scaleTransform.ScaleY = scale;
+            }
         }
     }
 }

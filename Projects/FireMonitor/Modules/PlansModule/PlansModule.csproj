@@ -88,8 +88,8 @@
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="ViewModels\FakePresentation\VideoViewModel.cs" />
-    <Compile Include="ViewModels\XDeviceView.xaml.cs">
-      <DependentUpon>XDeviceView.xaml</DependentUpon>
+    <Compile Include="ViewModels\ElementDeviceView.xaml.cs">
+      <DependentUpon>ElementDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
@@ -153,7 +153,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\XDeviceView.xaml">
+    <Page Include="ViewModels\ElementDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
