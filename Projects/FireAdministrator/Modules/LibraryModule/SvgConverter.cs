@@ -7,25 +7,25 @@ using System.Xml.Xsl;
 namespace LibraryModule
 {
     public static class SvgConverter
-    {      
-        public static string Svg2Xaml(string input, string sFileNameXsl)
+    {
+        public static string Svg2Xaml(string svgFileName, string xslFileName)
         {
-            try
+            if (File.Exists(svgFileName) == false ||
+                File.Exists(xslFileName) == false) return null;
+
+            var xslt = new XslCompiledTransform();
+            XsltSettings settings = new XsltSettings(true, true);
+            xslt.Load(xslFileName, settings, new XmlUrlResolver());
+
+            var xamlFromSvgString = new StringBuilder();
+            var xmlReaderSettings = new XmlReaderSettings();
+            xmlReaderSettings.ConformanceLevel = ConformanceLevel.Document;
+            xmlReaderSettings.DtdProcessing = DtdProcessing.Ignore;
+            using (var xmlReader = XmlReader.Create(svgFileName, xmlReaderSettings))
+            using (var xmlWriter = XmlWriter.Create(xamlFromSvgString))
             {
-                var settings = new XsltSettings(true, true);
-                var xslt = new XslCompiledTransform();
-                xslt.Load(sFileNameXsl, settings, new XmlUrlResolver());
-                var stringReader = new StringReader(input);
-                var xmlReader = XmlReader.Create(stringReader);
-                var stringBuilder = new StringBuilder();
-                var xmlWriter = XmlWriter.Create(stringBuilder);
                 xslt.Transform(xmlReader, xmlWriter);
-                var output = stringBuilder.ToString();
-                return output;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
+                return xamlFromSvgString.ToString();
             }
         }    
     }

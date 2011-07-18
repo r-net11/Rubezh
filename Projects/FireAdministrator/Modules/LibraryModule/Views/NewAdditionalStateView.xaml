@@ -24,7 +24,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="Ok" Command="{Binding AddCommand}" IsEnabled="{Binding IsEnabled}" Width="100" Margin="2" />
+            <Button Content="Ok" Command="{Binding AddCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
         </StackPanel>
     </Grid>

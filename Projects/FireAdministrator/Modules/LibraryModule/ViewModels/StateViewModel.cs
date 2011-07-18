@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using DeviceLibrary.Models;
+using Firesec.Metadata;
 using FiresecClient;
 using Infrastructure.Common;
-using Firesec.Metadata;
 
 namespace LibraryModule.ViewModels
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
@@ -38,18 +37,7 @@ namespace LibraryModule.ViewModels
         }
 
         private readonly DeviceViewModel _selectedDevice;
-
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
-            }
-        }
-        
+                
         private ObservableCollection<StateViewModel> _states;
         public ObservableCollection<StateViewModel> States
         {
@@ -68,7 +56,6 @@ namespace LibraryModule.ViewModels
             set
             {
                 _selectedState = value;
-                IsEnabled = true;
                 OnPropertyChanged("SelectedState");
             }
         }
@@ -80,7 +67,6 @@ namespace LibraryModule.ViewModels
             _selectedDevice.States.Add(SelectedState);
             //States.Remove(SelectedState);
             LibraryViewModel.Current.Update();
-            IsEnabled = false;
             Close(true);
         }
 

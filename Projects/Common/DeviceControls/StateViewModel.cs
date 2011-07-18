@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using DeviceLibrary.Models;
 using Frame = DeviceLibrary.Models.Frame;
-using System.Windows.Media;
 
 namespace DeviceControls
 {
-    public class StateViewModel:IDisposable
+    public class StateViewModel : IDisposable
     {
         #region Private Fields
         private readonly List<Frame> _frames;
@@ -63,6 +63,11 @@ namespace DeviceControls
         public void Dispose()
         {
             Timer.Tick -= OnTick;
+        }
+
+        void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

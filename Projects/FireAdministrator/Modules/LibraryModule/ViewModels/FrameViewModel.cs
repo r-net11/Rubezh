@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-using System.Collections.ObjectModel;
-using Infrastructure.Common;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
+using Infrastructure.Common;
 using Microsoft.Win32;
 
 namespace LibraryModule.ViewModels
@@ -124,18 +124,12 @@ namespace LibraryModule.ViewModels
         private void OnImportSvg()
         {
             var openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.svg)|*.svg|All Files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.Multiselect = false;
-            var userClickedOk = openFileDialog1.ShowDialog();
+            openFileDialog1.Filter = "Text Files (.svg)|*.svg";
 
-            if (userClickedOk != true) return;
-            var fileStream = openFileDialog1.OpenFile();
-            using (var reader = new System.IO.StreamReader(fileStream))
+            if (openFileDialog1.ShowDialog() == true)
             {
-                Image = SvgConverter.Svg2Xaml(reader.ReadToEnd(), Helper.SFileNameXsl);
+                Image = SvgConverter.Svg2Xaml(openFileDialog1.FileName, Helper.Svg2XamlFileName);
             }
-            fileStream.Close();
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }

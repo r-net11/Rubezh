@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using DeviceLibrary;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
@@ -59,7 +58,7 @@ namespace LibraryModule.ViewModels
         {
             if (SelectedItem == null) return;
             LibraryViewModel.Current.Devices.Add(SelectedItem);
-            Items.Remove(SelectedItem);
+            //Items.Remove(SelectedItem);
             LibraryViewModel.Current.Update();
             Close(true);
         }
