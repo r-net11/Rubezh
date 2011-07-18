@@ -236,6 +236,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
+            SoundService.Play("Sound1.wav");
+            SoundService.Beep();
+            bool result = PasswordService.Check("", FiresecManager.CurrentUser.PasswordHash);
+
             _deviceState.ChangeDisabled();
         }
 
