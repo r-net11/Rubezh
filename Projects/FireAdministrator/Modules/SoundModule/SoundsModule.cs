@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
-using Infrastructure;
-using Infrastructure.Events;
+﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
+using Microsoft.Practices.Prism.Modularity;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule

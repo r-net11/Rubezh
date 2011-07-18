@@ -91,7 +91,8 @@ namespace LibraryModule.ViewModels
             {
                 if (!IsAdditional)
                     return "";
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == ParentDevice.Id);
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
+                    x => x.Id == ParentDevice.Id);
                 if (driver == null) return "";
                 var state = driver.States.FirstOrDefault(x => x.id == Id);
                 if (state == null)
@@ -188,7 +189,8 @@ namespace LibraryModule.ViewModels
 
         void Update()
         {
-            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == ParentDevice.Id);
+            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
+                x => x.Id == ParentDevice.Id);
             if (driver != null)
             {
                 if (IsAdditional)
@@ -211,7 +213,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand ShowAdditionalStatesCommand { get; private set; }
 
         public RelayCommand RemoveStateCommand { get; private set; }
-        private void OnRemoveState()
+        void OnRemoveState()
         {
             if (Name == "Базовый рисунок")
             {
@@ -219,9 +221,12 @@ namespace LibraryModule.ViewModels
                 return;
             }
 
-            if ((!_isAdditional) && (ParentDevice.States.FirstOrDefault(x => x.Class == Id) != null))
+            if ((_isAdditional == false) && 
+                (ParentDevice.States.Any(x => x.Class == Id)))
             {
-                var result = MessageBox.Show("Состояние, которое Вы пытаетесь удалить содержит дополнительные состояния.\nВы уверены что хотите удалить основное состояние вместе с дополнительными?",
+                var result = MessageBox.Show(
+                    @"Состояние, которое Вы пытаетесь удалить содержит дополнительные состояния.
+                      Вы уверены что хотите удалить основное состояние вместе с дополнительными?",
                                           "Окно подтверждения", MessageBoxButton.OKCancel,
                                           MessageBoxImage.Question);
                 if (result == MessageBoxResult.Cancel) return;

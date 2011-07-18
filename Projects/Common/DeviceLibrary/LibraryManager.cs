@@ -2,7 +2,6 @@
 using System.IO;
 using System.Xml.Serialization;
 using DeviceLibrary.Models;
-using Firesec.Metadata;
 using Infrastructure.Common;
 
 namespace DeviceLibrary

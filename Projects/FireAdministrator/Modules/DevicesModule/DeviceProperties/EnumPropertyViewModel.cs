@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecClient;
 using FiresecClient.Models;
 
 namespace DevicesModule.DeviceProperties

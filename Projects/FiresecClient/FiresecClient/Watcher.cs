@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
-using Firesec;
-using System.IO;
-using System.Xml.Serialization;
+using System.Linq;
 using FiresecClient.Models;
 
 namespace FiresecClient

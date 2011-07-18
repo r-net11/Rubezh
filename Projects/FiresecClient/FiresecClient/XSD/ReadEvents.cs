@@ -13,7 +13,6 @@
 // 
 namespace Firesec.ReadEvents
 {
-    using System.Xml.Serialization;
 
 
     /// <remarks/>

@@ -1,12 +1,14 @@
 ﻿<UserControl x:Class="LibraryModule.Views.StatesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">    
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
     <ListBox ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                  <StackPanel Orientation="Horizontal" Height="15" Margin="50,0,0,0">
-                    <CheckBox Name="checkBox"  IsChecked="{Binding IsChecked}" Panel.ZIndex="1"
-                              IsEnabled="{Binding IsAdditional}">
+                    <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1"
+                              Visibility="{Binding IsAdditional, 
+                                           Converter={StaticResource BoolToVisibilityConverter}}">
                     </CheckBox>
                     <TextBlock Text="{Binding Name}" />
                 </StackPanel>
@@ -15,8 +17,9 @@
         <ListBox.Resources>
             <ContextMenu x:Key="contextMenu">
                 <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
-                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
-                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
+                <MenuItem Header="Добавить дополнительное состояние" 
+                          Command="{Binding ShowAdditionalStatesCommand}" />
+                <MenuItem Header="Удалить состояние" Command="{ Binding RemoveStateCommand}" />
             </ContextMenu>
         </ListBox.Resources>
         <ListBox.ItemContainerStyle>

@@ -40,8 +40,7 @@ namespace LibraryModule.ViewModels
 
                 deviceViewModel.States = new ObservableCollection<StateViewModel>(
                     from state in deviceViewModel.States
-                    orderby state.Id
-                    orderby state.IsAdditional
+                    orderby state.Name
                     select state);
 
                 devicesList.Add(deviceViewModel);

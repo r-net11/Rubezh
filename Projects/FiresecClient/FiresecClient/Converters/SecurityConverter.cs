@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecClient.Models;
 using Firesec.CoreConfig;
+using FiresecClient.Models;
 
 namespace FiresecClient.Converters
 {

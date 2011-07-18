@@ -13,9 +13,8 @@
 // 
 namespace Firesec.DeviceParams
 {
-    using System.Xml.Serialization;
-    
-    
+
+
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
     [System.SerializableAttribute()]

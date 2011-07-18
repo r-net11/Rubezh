@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Infrastructure.Common
 {
     public abstract class RegionViewModel :

@@ -21,8 +21,7 @@ namespace LibraryModule.ViewModels
             var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == _selectedDevice.Id);
             foreach (var innerState in driver.States)
             {
-                if (_selectedDevice.States.Any(x => x.Id == innerState.id && x.IsAdditional) == false &&
-                    _selectedDevice.States.Any(x => x.IsAdditional == false && x.Id.Equals(innerState.@class)) == true)
+                if (_selectedDevice.States.Any(x => x.Id == innerState.id && x.IsAdditional) == false)
                 {
                     var stateViewModel = new StateViewModel(innerState.id, _selectedDevice, true);
                     var defaultFrameViewModel = new FrameViewModel(Helper.EmptyFrame, 300, 0);
@@ -32,6 +31,7 @@ namespace LibraryModule.ViewModels
             }
             States = new ObservableCollection<StateViewModel>(
                  from state in States
+                 orderby state.Name
                  orderby state.ClassName
                  select state);
 
