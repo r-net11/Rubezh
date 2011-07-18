@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using FiresecClient;
+using Microsoft.Win32;
 
 namespace FireAdministrator
 {
@@ -23,17 +24,28 @@ namespace FireAdministrator
 
         private void OnLoadFromFile(object sender, RoutedEventArgs e)
         {
-            FiresecManager.LoadFromFile("D:/Projects/3rdParty/Firesec/Bisc.fsc");
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "firesec files|*.fsc";
+            if (openDialog.ShowDialog().Value)
+            {
+                FiresecManager.LoadFromFile(openDialog.FileName);
+            }
         }
 
         private void OnSaveToFile(object sender, RoutedEventArgs e)
         {
-            FiresecManager.SaveToFile("D:/config.fsc");
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "firesec files|*.fsc";
+            if (saveDialog.ShowDialog().Value)
+            {
+                FiresecManager.SaveToFile(saveDialog.FileName);
+            }
         }
 
         private void OnValidate(object sender, RoutedEventArgs e)
         {
-
+            DevicesModule.DevicesModule.Validate();
+            JournalModule.JournalModule.Validate();
         }
     }
 }

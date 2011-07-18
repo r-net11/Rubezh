@@ -32,7 +32,7 @@ namespace FireMonitor
 
         public static bool Connect()
         {
-            LoginScreen loginScreen = new LoginScreen();
+            LoginView loginScreen = new LoginView();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false)
             {
@@ -72,6 +72,7 @@ namespace FireMonitor
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
+            ServiceFactory.RegisterType<ISecurityService, SecurityService>();
         }
 
         void InitializeKnownModules()

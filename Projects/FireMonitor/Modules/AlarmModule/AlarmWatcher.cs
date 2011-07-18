@@ -49,7 +49,7 @@ namespace AlarmModule
             Alarm alarm = new Alarm();
             alarm.AlarmType = alarmType;
             alarm.DeviceId = id;
-            alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.Name + " - " + device.Address;
+            alarm.Name = AlarmToString(alarmType) + ". Устройство " + device.Driver.Name + " - " + device.PresentationAddress;
             alarm.Time = DateTime.Now.ToString();
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
 

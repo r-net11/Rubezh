@@ -9,6 +9,15 @@ namespace FireMonitor
 {
     public class UserDialogService : IUserDialogService
     {
+        public bool ShowWindow(IDialogContent model)
+        {
+            DialogWindow dialog = new DialogWindow();
+            dialog.SetContent(model);
+
+            dialog.Show();
+            return true;
+        }
+
         public bool ShowModalWindow(IDialogContent model)
         {
             return ShowModalWindow(model, Application.Current.MainWindow);

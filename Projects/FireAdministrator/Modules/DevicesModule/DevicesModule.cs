@@ -57,5 +57,9 @@ namespace DevicesModule
         {
             ServiceFactory.Layout.Show(directionsViewModel);
         }
+
+        public static void Validate()
+        {
+        }
     }
 }

@@ -238,9 +238,12 @@ namespace DevicesModule.ViewModels
         {
             SoundService.Play("Sound1.wav");
             SoundService.Beep();
-            bool result = PasswordService.Check("", FiresecManager.CurrentUser.PasswordHash);
 
-            _deviceState.ChangeDisabled();
+            bool result = ServiceFactory.Get<ISecurityService>().Check();
+            if (result)
+            {
+                _deviceState.ChangeDisabled();
+            }
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }

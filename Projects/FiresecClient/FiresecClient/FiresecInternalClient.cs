@@ -60,6 +60,7 @@ namespace FiresecClient
             FileStream fileStream = new FileStream(fileName, FileMode.Create);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.Write(stringConfig);
+            streamWriter.Close();
             fileStream.Close();
         }
 

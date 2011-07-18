@@ -87,9 +87,8 @@ namespace FireMonitor
                 return;
             }
 
-            LoginScreen loginScreen = new LoginScreen();
-            loginScreen.ShowDialog();
-            if (loginScreen.IsLoggedIn == false)
+            bool result = ServiceFactory.Get<ISecurityService>().Check();
+            if (result == false)
             {
                 e.Cancel = true;
                 return;

@@ -26,12 +26,10 @@ namespace FiresecClient.Models
         public string UID { get; set; }
         public List<ValidationError> ValidationErrors { get; set; }
 
-        public string Address
+        public string AddressFullPath
         {
             get
             {
-                return PresentationAddress;
-
                 string address = IntAddress.ToString();
 
                 var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
@@ -44,6 +42,14 @@ namespace FiresecClient.Models
                 }
 
                 return address;
+            }
+        }
+
+        public string Address
+        {
+            get
+            {
+                return PresentationAddress;
             }
         }
 
@@ -79,7 +85,7 @@ namespace FiresecClient.Models
         {
             get
             {
-                string currentId = Driver.Id + ":" + Address;
+                string currentId = Driver.Id + ":" + AddressFullPath;
                 if (Parent != null)
                 {
                     return Parent.Id + @"/" + currentId;
@@ -111,7 +117,7 @@ namespace FiresecClient.Models
                 {
                     string parentPart = Parent.Driver.ShortName;
                     if (Parent.Driver.HasAddress)
-                        parentPart += " - " + Parent.Address;
+                        parentPart += " - " + Parent.PresentationAddress;
 
                     if (Parent.ConnectedTo == null)
                         return parentPart;

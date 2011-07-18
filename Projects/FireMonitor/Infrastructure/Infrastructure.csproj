@@ -65,6 +65,7 @@
     <Compile Include="Events\ShowZonesEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="ILayoutService.cs" />
+    <Compile Include="ISecurityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory.cs" />
   </ItemGroup>

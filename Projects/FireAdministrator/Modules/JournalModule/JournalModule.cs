@@ -37,5 +37,9 @@ namespace JournalModule
         {
             ServiceFactory.Layout.Show(journalViewModel);
         }
+
+        public static void Validate()
+        {
+        }
     }
 }

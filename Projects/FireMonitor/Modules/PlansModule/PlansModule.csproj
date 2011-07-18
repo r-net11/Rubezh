@@ -88,6 +88,9 @@
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\ElementZoneViewModel.cs" />
     <Compile Include="ViewModels\FakePresentation\VideoViewModel.cs" />
+    <Compile Include="ViewModels\XDeviceView.xaml.cs">
+      <DependentUpon>XDeviceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
     </Compile>
@@ -147,6 +150,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\XDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

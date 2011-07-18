@@ -14,9 +14,9 @@ using FiresecClient;
 
 namespace FireMonitor
 {
-    public partial class LoginScreen : Window
+    public partial class LoginView : Window
     {
-        public LoginScreen()
+        public LoginView()
         {
             InitializeComponent();
             IsLoggedIn = false;

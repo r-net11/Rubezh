@@ -70,6 +70,22 @@ namespace PlansModule.ViewModels
                 AddTooltipCanvas(elementDevice, canvas);
                 OnDeviceStateChanged(elementDevice.Id);
             }
+
+            XDeviceView xDeviceView = new XDeviceView();
+            xDeviceView.DataContext = this;
+            XText = "_";
+            innerCanvas.Children.Add(xDeviceView);
+        }
+
+        string _xText;
+        public string XText
+        {
+            get { return _xText; }
+            set
+            {
+                _xText = value;
+                OnPropertyChanged("XText");
+            }
         }
 
         void AddTooltipCanvas(ElementDevice elementDevice, Canvas canvas)
@@ -173,7 +189,7 @@ namespace PlansModule.ViewModels
                 _deviceControl.State = deviceState.State.Id.ToString();
 
                 string tooltip = "";
-                tooltip = device.Address + " - " + _device.Driver.ShortName + "\n";
+                tooltip = device.PresentationAddress + " - " + _device.Driver.ShortName + "\n";
 
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)

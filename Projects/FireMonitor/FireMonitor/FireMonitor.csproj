@@ -89,13 +89,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LayoutService.cs" />
-    <Compile Include="LoginScreen.xaml.cs">
-      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    <Compile Include="LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ResourceService.cs" />
+    <Compile Include="Services\SecurityService.cs" />
+    <Compile Include="Services\PasswordView.xaml.cs">
+      <DependentUpon>PasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -127,11 +131,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="LoginScreen.xaml">
+    <Page Include="LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\PasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 
         public string Address
         {
-            get { return Device.Driver.HasAddress ? Device.Address : ""; }
+            get { return Device.Driver.HasAddress ? Device.PresentationAddress : ""; }
             set
             {
                 Device.SetAddress(value);
