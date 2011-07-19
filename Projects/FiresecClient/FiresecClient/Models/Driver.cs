@@ -478,6 +478,7 @@ namespace FiresecClient.Models
             driverDataList.Add(new DriverData("ABDE5AF2-2B77-4421-879C-2A14E7F056B2", 2, "COM порт (V2)"));
             driverDataList.Add(new DriverData("6298807D-850B-4C65-8792-A4EAB2A4A72A", 0, "Страница"));
             driverDataList.Add(new DriverData("E486745F-6130-4027-9C01-465DE5415BBF", 0, "Индикатор"));
+            driverDataList.Add(new DriverData("7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2", 0, "Группа"));
             driverDataList.Add(new DriverData("B476541B-5298-4B3E-A9BA-605B839B1011", 0, "Прибор Рубеж-2AM"));
             driverDataList.Add(new DriverData("02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C", 0, "БУНС"));
             driverDataList.Add(new DriverData("F966D47B-468D-40A5-ACA7-9BE30D0A3847", 0, "Модуль сопряжения МС-3"));
@@ -487,6 +488,7 @@ namespace FiresecClient.Models
             driverDataList.Add(new DriverData("E750EF8F-54C3-4B00-8C72-C7BEC9E59BFC", 0, "Прибор Рубеж-10AM"));
             driverDataList.Add(new DriverData("F3485243-2F60-493B-8A4E-338C61EF6581", 0, "Прибор Рубеж-4A"));
             driverDataList.Add(new DriverData("96CDBD7E-29F6-45D4-9028-CF10332FAB1A", 0, "Прибор Рубеж-2ОП"));
+            driverDataList.Add(new DriverData("B1DF571E-8786-4987-94B2-EC91F7578D20", 0, "Пульт дистанционного управления"));
             driverDataList.Add(new DriverData("4A60242A-572E-41A8-8B87-2FE6B6DC4ACE", 0, "Релейный исполнительный модуль РМ-1"));
             driverDataList.Add(new DriverData("33A85F87-E34C-45D6-B4CE-A4FB71A36C28", 0, "Модуль пожаротушения"));
             driverDataList.Add(new DriverData("1E045AD6-66F9-4F0B-901C-68C46C89E8DA", 0, "Пожарный дымовой извещатель ИП 212-64"));
