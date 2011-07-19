@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 using FiresecClient;
 using Microsoft.Win32;
 
@@ -10,6 +11,7 @@ namespace FireAdministrator
         public MenuView()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void OnSetNewConfig(object sender, RoutedEventArgs e)
@@ -20,6 +22,14 @@ namespace FireAdministrator
         private void OnCreateNew(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public bool CanChangeConfig
+        {
+            get
+            {
+                return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Adm_ChangeConfigDevices));
+            }
         }
 
         private void OnLoadFromFile(object sender, RoutedEventArgs e)

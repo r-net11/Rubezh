@@ -87,13 +87,13 @@ namespace AssadProcessor
                             {
                                 if (resetDevice.Driver.States.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
                                 {
-                                    FiresecManager.ResetState(resetDevice.Id, commandName);
+                                    FiresecResetHelper.ResetOne(resetDevice.Id, commandName);
                                 }
                             }
                         }
                         else
                         {
-                            FiresecManager.ResetState(device.Id, commandName);
+                            FiresecResetHelper.ResetOne(device.Id, commandName);
                         }
                     }
                 }
@@ -110,7 +110,7 @@ namespace AssadProcessor
                 {
                     if (state.manualReset == "1")
                     {
-                        FiresecManager.ResetState(device.Id, state.name);
+                        FiresecResetHelper.ResetOne(device.Id, state.name);
                     }
                 }
             }

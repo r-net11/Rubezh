@@ -250,7 +250,7 @@ namespace PlansModule.ViewModels
                 var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.Name == subPlan.Name);
                 if (planViewModel != null)
                 {
-                    subPlan.Update(planViewModel.State);
+                    subPlan.State = planViewModel.State;
                 }
             }
         }

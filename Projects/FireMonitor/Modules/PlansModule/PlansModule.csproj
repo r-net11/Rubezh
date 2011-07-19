@@ -56,16 +56,24 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IsOffToStringConverter.cs" />
+    <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
+    <Compile Include="Views\Elements\ElementSubPlanView.xaml.cs">
+      <DependentUpon>ElementSubPlanView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
     <Compile Include="Models\ElementDevice.cs" />
     <Compile Include="Models\ElementSubPlan.cs" />
     <Compile Include="Models\ElementZone.cs" />
     <Compile Include="Models\PolygonPoint.cs" />
+    <Compile Include="Views\Elements\ElementZoneView.xaml.cs">
+      <DependentUpon>ElementZoneView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\FakePresentation\DoorViewModel.cs" />
-    <Compile Include="ViewModels\ElementDeviceViewModel.cs" />
-    <Compile Include="ViewModels\ElementSubPlanViewModel.cs" />
+    <Compile Include="ViewModels\Elements\ElementDeviceViewModel.cs" />
+    <Compile Include="ViewModels\Elements\ElementSubPlanViewModel.cs" />
     <Compile Include="Models\Plan.cs" />
     <Compile Include="PlanBuilder.cs" />
     <Compile Include="PlansModule.cs" />
@@ -86,9 +94,9 @@
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
-    <Compile Include="ViewModels\ElementZoneViewModel.cs" />
+    <Compile Include="ViewModels\Elements\ElementZoneViewModel.cs" />
     <Compile Include="ViewModels\FakePresentation\VideoViewModel.cs" />
-    <Compile Include="ViewModels\ElementDeviceView.xaml.cs">
+    <Compile Include="Views\Elements\ElementDeviceView.xaml.cs">
       <DependentUpon>ElementDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CanvasView.xaml.cs">
@@ -153,7 +161,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\ElementDeviceView.xaml">
+    <Page Include="Views\Elements\ElementSubPlanView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Elements\ElementDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Elements\ElementZoneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="IDialogContent.cs" />
     <Compile Include="IResourceService.cs" />
+    <Compile Include="IStandartDialogService.cs" />
     <Compile Include="IUserDialogService.cs" />
     <Compile Include="IViewPart.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
