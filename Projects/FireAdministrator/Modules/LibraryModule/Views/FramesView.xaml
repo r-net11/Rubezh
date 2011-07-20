@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="LibraryModule.Views.FramesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TabControl TabStripPlacement="Bottom"
+                DataContext="{Binding SelectedState}"
+                ItemsSource="{Binding Frames}" 
+                SelectedItem="{Binding SelectedFrame}">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Кадр " />
+                    <TextBlock Text="{Binding Id}" />
+                </StackPanel>
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.Resources>
+            <ContextMenu x:Key="contextMenu">
+                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+            </ContextMenu>
+        </TabControl.Resources>
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="TabItem">
+                <Setter Property="TabItem.ContextMenu" Value="{StaticResource contextMenu}" />
+            </Style>
+        </TabControl.ItemContainerStyle>
+        <TabControl.ContentTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <ItemsControl Grid.Row="0" HorizontalAlignment="Center" 
+                                  ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Width="500" Height="500" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.LayoutTransform>
+                            <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
+                        </ItemsControl.LayoutTransform>
+                    </ItemsControl>
+                    <WrapPanel Grid.Row="1" Orientation="Horizontal">
+                        <Label Content="Слой: " />
+                        <TextBox Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label  Content=" Длительность: " />
+                        <TextBox Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
+                    </WrapPanel>
+                </Grid>
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+    </TabControl>
+</UserControl>

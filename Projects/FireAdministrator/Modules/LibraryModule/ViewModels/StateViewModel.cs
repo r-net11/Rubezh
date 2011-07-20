@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Firesec.Metadata;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -10,12 +8,40 @@ namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public static StateViewModel Current { get; private set; }
-                
-        public StateViewModel(string id, DeviceViewModel parentDevice, bool isAdditional)
+        public StateViewModel(DeviceLibrary.Models.State state, DeviceViewModel parent)
         {
-            ParentDevice = parentDevice;
-            IsAdditional = isAdditional;
+            SetFrames(state);
+            Parent = parent;
+            IsAdditional = state.IsAdditional;
+            ConfigDrvState = Parent.Driver.States.FirstOrDefault(x => x.name == state.Name);
+            if (IsAdditional)
+            {
+                Id = ConfigDrvState.id;
+            }
+            else
+            {
+                Id = state.Id;
+            }
+
+            Initialize();
+        }
+
+        public StateViewModel(Firesec.Metadata.configDrvState configDrvState, DeviceViewModel parent)
+        {
+            SetDefaultFrame();
+            Parent = parent;
+            IsAdditional = true;
+            ConfigDrvState = configDrvState;
+            Id = configDrvState.id;
+
+            Initialize();
+        }
+
+        public StateViewModel(string id, DeviceViewModel parent)
+        {
+            SetDefaultFrame();
+            Parent = parent;
+            IsAdditional = false;
             Id = id;
 
             Initialize();
@@ -23,17 +49,129 @@ namespace LibraryModule.ViewModels
 
         void Initialize()
         {
-            Current = this;
-            Frames = new ObservableCollection<FrameViewModel>();
-
             RemoveStateCommand = new RelayCommand(OnRemoveState);
-            ShowStatesCommand = ParentDevice.ShowStatesCommand;
-            ShowAdditionalStatesCommand = ParentDevice.ShowAdditionalStatesCommand;
         }
 
-        public DeviceViewModel ParentDevice { get; set; }
+        public Firesec.Metadata.configDrvState ConfigDrvState { get; private set; }
+        public DeviceViewModel Parent { get; private set; }
 
-        private FrameViewModel _selectedFrame;
+        string _id;
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+
+            private set
+            {
+                _id = value;
+            }
+        }
+
+        bool _isAdditional;
+        public bool IsAdditional
+        {
+            get
+            {
+                return _isAdditional;
+            }
+
+            private set
+            {
+                _isAdditional = value;
+            }
+        }
+
+        bool _isChecked;
+        public bool IsChecked
+        {
+            get
+            {
+                return _isChecked;
+            }
+
+            set
+            {
+                _isChecked = value;
+                if (_isChecked)
+                {
+                    Parent.AdditionalStates.Add(Id);
+                }
+                else
+                {
+                    Parent.AdditionalStates.Remove(Id);
+                }
+
+                OnPropertyChanged("IsChecked");
+            }
+        }
+
+        public string Class
+        {
+            get
+            {
+                if (Parent == null) return "";
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
+                    x => x.Id == Parent.Id);
+                if (driver == null) return "";
+
+                var state = driver.States.FirstOrDefault(x => x.id == Id);
+                if (state == null) return "";
+                return state.@class;
+            }
+        }
+
+        public string ClassName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(Class))
+                {
+                    return Helper.BaseStatesList[int.Parse(Class)];
+                }
+                return "";
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (Parent == null) return "";
+                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
+                    x => x.Id == Parent.Id);
+                if (driver == null) return "";
+
+                if (IsAdditional)
+                {
+                    var state = driver.States.FirstOrDefault(x => x.id == Id);
+                    if (state == null) return "";
+                    return state.name;
+                }
+                else
+                {
+                    return Helper.BaseStatesList[int.Parse(Id)];
+                }
+            }
+        }
+
+        ObservableCollection<FrameViewModel> _frames;
+        public ObservableCollection<FrameViewModel> Frames
+        {
+            get
+            {
+                return _frames;
+            }
+
+            set
+            {
+                _frames = value;
+                OnPropertyChanged("Frames");
+            }
+        }
+
+        FrameViewModel _selectedFrame;
         public FrameViewModel SelectedFrame
         {
             get
@@ -48,169 +186,21 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        private bool _isChecked;
-        public bool IsChecked
+        void SetDefaultFrame()
         {
-            get
-            {
-                return _isChecked;
-            }
-
-            set
-            {
-                _isChecked = value;
-                if (_isChecked)
-                {
-                    ParentDevice.AdditionalStates.Add(Id);
-                }
-                else
-                {
-                    ParentDevice.AdditionalStates.Remove(Id);
-                }
-
-                //if (LibraryViewModel.Current.SelectedState.IsAdditional == false)
-                //{
-                //    var tempAstate = new List<string>();
-                //    foreach (var stateId in LibraryViewModel.Current.SelectedState.ParentDevice.AdditionalStates)
-                //    {
-                //        var state = ParentDevice.States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
-                //        if (state.Class == LibraryViewModel.Current.SelectedState.Id)
-                //            tempAstate.Add(state.Id);
-                //    }
-                //    LibraryViewModel.Current.SelectedState.ParentDevice.DeviceControl.AdditionalStates = tempAstate;
-                //}
-
-                OnPropertyChanged("IsChecked");
-            }
+            Frames = new ObservableCollection<FrameViewModel>();
+            Frames.Add(new FrameViewModel(this));
         }
 
-        private string _class;
-        public string Class
+        void SetFrames(DeviceLibrary.Models.State state)
         {
-            get
+            Frames = new ObservableCollection<FrameViewModel>();
+            foreach (var frame in state.Frames)
             {
-                if (!IsAdditional)
-                    return "";
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
-                    x => x.Id == ParentDevice.Id);
-                if (driver == null) return "";
-                var state = driver.States.FirstOrDefault(x => x.id == Id);
-                if (state == null)
-                {
-                    return "";
-                }
-                return state.@class;
+                Frames.Add(new FrameViewModel(this, frame));
             }
 
-            set
-            {
-                _class = value;
-                OnPropertyChanged("Class");
-            }
         }
-
-        private string _className;
-        public string ClassName
-        {
-            get
-            {
-                _className = "";
-                if (string.IsNullOrWhiteSpace(Class) == false)
-                {
-                    _className = Helper.BaseStatesList[Convert.ToInt16(Class)];
-                }
-                return _className;
-            }
-            set
-            {
-                _className = value;
-                OnPropertyChanged("ClassName");
-            }
-        }
-
-        private string _iconPath;
-        public string IconPath
-        {
-            get { return _iconPath; }
-            set
-            {
-                _iconPath = value;
-                OnPropertyChanged("IconPath");
-            }
-        }
-
-        private string _id;
-        public string Id
-        {
-            get
-            {
-                return _id;
-            }
-
-            set
-            {
-                _id = value;
-                Update();
-            }
-        }
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        private ObservableCollection<FrameViewModel> _frames;
-        public ObservableCollection<FrameViewModel> Frames
-        {
-            get { return _frames; }
-            set
-            {
-                _frames = value;
-                OnPropertyChanged("Frames");
-            }
-        }
-
-        private bool _isAdditional;
-        public bool IsAdditional
-        {
-            get { return _isAdditional; }
-            set
-            {
-                _isAdditional = value;
-                OnPropertyChanged("IsAdditional");
-            }
-        }
-
-        void Update()
-        {
-            var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(
-                x => x.Id == ParentDevice.Id);
-            if (driver != null)
-            {
-                if (IsAdditional)
-                {
-                    Name = "Имени с id=" + Id + "не существует";
-                    configDrvState tmp = driver.States.FirstOrDefault(x => x.id == Id);
-                    if (tmp != null)
-                    {
-                        Name = tmp.name;
-                    }
-                }
-                else
-                {
-                    Name = Helper.BaseStatesList[Convert.ToInt16(Id)];
-                }                        
-            }
-        }
-
-        public RelayCommand ShowStatesCommand { get; private set; }
-        public RelayCommand ShowAdditionalStatesCommand { get; private set; }
 
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
@@ -220,38 +210,11 @@ namespace LibraryModule.ViewModels
                 MessageBox.Show("Невозможно удалить базовый рисунок");
                 return;
             }
-
-            if ((_isAdditional == false) && 
-                (ParentDevice.States.Any(x => x.Class == Id)))
-            {
-                var result = MessageBox.Show(
-                    @"Состояние, которое Вы пытаетесь удалить содержит дополнительные состояния.
-                      Вы уверены что хотите удалить основное состояние вместе с дополнительными?",
-                                          "Окно подтверждения", MessageBoxButton.OKCancel,
-                                          MessageBoxImage.Question);
-                if (result == MessageBoxResult.Cancel) return;
-
-                StateViewModel state;
-                while ((state = ParentDevice.States.FirstOrDefault(x => x.Class == Id)) != null)
-                {
-                    IsChecked = false;
-                    ParentDevice.States.Remove(state);
-                    ParentDevice.AdditionalStates.Remove(state.Id);
-                }
-            }
-            else
-            {
-                var result = MessageBox.Show("Удалить выбранное состояние?",
-                          "Окно подтверждения", MessageBoxButton.OKCancel,
-                          MessageBoxImage.Question);
-                if (result == MessageBoxResult.Cancel) return;
-            }
-
-            IsChecked = false;
-            ParentDevice.States.Remove(this);
-            if (_isAdditional)
-                ParentDevice.AdditionalStates.Remove(Id);
-            LibraryViewModel.Current.SelectedState = null;
+            var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
+                      "Окно подтверждения", MessageBoxButton.OKCancel,
+                      MessageBoxImage.Question);
+            if (dialogResult == MessageBoxResult.Cancel) return;
+            Parent.States.Remove(this);
         }
     }
 }

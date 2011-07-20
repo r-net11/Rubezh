@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LibraryModule.Views.NewStateView"
+﻿<UserControl x:Class="LibraryModule.Views.AddStateView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="400" MinHeight="500">    
@@ -8,7 +8,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Style="{StaticResource ListBoxStyle}">
+        <ListBox Grid.Row="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" 
+                 Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" Margin="5, 5, 0, 0" />
@@ -17,8 +18,8 @@
         </ListBox>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="Ok" Command="{Binding AddCommand}" Width="100" Margin="2" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
+            <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
+            <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
         </StackPanel>
     </Grid>
 </UserControl>

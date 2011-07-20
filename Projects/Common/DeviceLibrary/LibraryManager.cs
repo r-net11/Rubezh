@@ -17,12 +17,14 @@ namespace DeviceLibrary
 
         static void Load()
         {
-            var fileStream = new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var serializer = new XmlSerializer(typeof(DeviceManager));
-            var deviceManager = (DeviceManager)serializer.Deserialize(fileStream);
-            fileStream.Close();
+            using (var fileStream =
+                new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                var serializer = new XmlSerializer(typeof(DeviceManager));
+                var deviceManager = (DeviceManager) serializer.Deserialize(fileStream);
+                Devices = deviceManager.Devices;
+            }
 
-            Devices = deviceManager.Devices;
         }
 
         public static void Save()
@@ -30,10 +32,12 @@ namespace DeviceLibrary
             var deviceManager = new DeviceManager();
             deviceManager.Devices = Devices;
 
-            var fileStream = new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Create, FileAccess.Write, FileShare.Write);
-            var serializer = new XmlSerializer(typeof(DeviceManager));
-            serializer.Serialize(fileStream, deviceManager);
-            fileStream.Close();
+            using (var fileStream =
+                new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            {
+                var serializer = new XmlSerializer(typeof(DeviceManager));
+                serializer.Serialize(fileStream, deviceManager);
+            }
         }
     }
 }

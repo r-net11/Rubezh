@@ -64,10 +64,5 @@ namespace DeviceControls
         {
             Timer.Tick -= OnTick;
         }
-
-        void IDisposable.Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

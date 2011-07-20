@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="LibraryModule.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:LibraryModule.Views">        
+             xmlns:Views="clr-namespace:LibraryModule.Views">
     <ListBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"  HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel >
+                <DockPanel>
                     <Expander>
                         <Expander.Header>
                             <DockPanel VerticalAlignment="Center">
@@ -22,9 +22,9 @@
         </ListBox.ItemTemplate>        
         <ListBox.Resources>
             <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Добавить устройство" Command="{Binding ShowDevicesCommand}" />
-                <MenuItem Header="Добавить состояние" Command="{Binding ShowStatesCommand}" />
-                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding ShowAdditionalStatesCommand}" />
+                <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
+                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}" />
+                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding AddAdditionalStateCommand}" />
                 <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
             </ContextMenu>
         </ListBox.Resources>        

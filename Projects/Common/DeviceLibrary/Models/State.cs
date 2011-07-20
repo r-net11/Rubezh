@@ -11,8 +11,11 @@ namespace DeviceLibrary.Models
         public string Id { get; set; }
 
         [XmlAttribute]
+        public string Name { get; set; }
+
+        [XmlAttribute]
         public bool IsAdditional { get; set; }
 
-        public List <Frame> Frames { get; set; }
+        public List<Frame> Frames { get; set; }
     }
 }

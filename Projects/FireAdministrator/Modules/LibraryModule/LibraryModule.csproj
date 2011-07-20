@@ -72,30 +72,33 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SvgConverter.cs" />
-    <Compile Include="ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="ViewModels\AddDeviceViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
-    <Compile Include="ViewModels\NewAdditionalStateViewModel.cs" />
-    <Compile Include="ViewModels\NewStateViewModel.cs" />
+    <Compile Include="ViewModels\AddAdditionalStateViewModel.cs" />
+    <Compile Include="ViewModels\AddStateViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FramesView.xaml.cs">
+      <DependentUpon>FramesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewAdditionalStateView.xaml.cs">
-      <DependentUpon>NewAdditionalStateView.xaml</DependentUpon>
+    <Compile Include="Views\AddAdditionalStateView.xaml.cs">
+      <DependentUpon>AddAdditionalStateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewStateView.xaml.cs">
-      <DependentUpon>NewStateView.xaml</DependentUpon>
+    <Compile Include="Views\AddStateView.xaml.cs">
+      <DependentUpon>AddStateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatesView.xaml.cs">
       <DependentUpon>StatesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewDeviceView.xaml.cs">
-      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    <Compile Include="Views\AddDeviceView.xaml.cs">
+      <DependentUpon>AddDeviceView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,15 +146,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FramesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LibraryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewAdditionalStateView.xaml">
+    <Page Include="Views\AddAdditionalStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewStateView.xaml">
+    <Page Include="Views\AddStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,7 +166,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewDeviceView.xaml">
+    <Page Include="Views\AddDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -5,10 +5,11 @@ using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
-    public class NewDeviceViewModel : DialogContent
+    public class AddDeviceViewModel : DialogContent
     {
-        public NewDeviceViewModel()
+        public AddDeviceViewModel(LibraryViewModel parentLibrary)
         {
+            ParentLibrary = parentLibrary;
             Initialize();
         }
 
@@ -19,22 +20,31 @@ namespace LibraryModule.ViewModels
             Items = new ObservableCollection<DeviceViewModel>();
             foreach (var driver in FiresecManager.Configuration.Drivers)
             {
-                if (driver.IsPlaceable && LibraryViewModel.Current.Devices.Any(x => x.Id == driver.Id) == false)
+                if (driver.IsPlaceable && !ParentLibrary.Devices.Any(x => x.Id == driver.Id))
                 {
-                    var deviceViewModel = new DeviceViewModel(driver.Id);
-                    deviceViewModel.SetDefaultState();
+                    var deviceViewModel = new DeviceViewModel(ParentLibrary, driver);
                     Items.Add(deviceViewModel);
                 }
             }
+            Items = new ObservableCollection<DeviceViewModel>(
+                 from item in Items
+                 orderby item.Name
+                 select item);
 
-            AddCommand = new RelayCommand(OnAdd);
+            OkCommand = new RelayCommand(OnOk);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        private ObservableCollection<DeviceViewModel> _items;
+        LibraryViewModel ParentLibrary { get; set; }
+
+        ObservableCollection<DeviceViewModel> _items;
         public ObservableCollection<DeviceViewModel> Items
         {
-            get { return _items; }
+            get
+            {
+                return _items;
+            }
+
             set
             {
                 _items = value;
@@ -42,10 +52,14 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        private DeviceViewModel _selectedItem;
+        DeviceViewModel _selectedItem;
         public DeviceViewModel SelectedItem
         {
-            get { return _selectedItem; }
+            get
+            {
+                return _selectedItem;
+            }
+
             set
             {
                 _selectedItem = value;
@@ -53,18 +67,14 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        private void OnAdd()
+        public RelayCommand OkCommand { get; private set; }
+        void OnOk()
         {
-            if (SelectedItem == null) return;
-            LibraryViewModel.Current.Devices.Add(SelectedItem);
-            //Items.Remove(SelectedItem);
-            LibraryViewModel.Current.Update();
             Close(true);
         }
 
         public RelayCommand CancelCommand { get; private set; }
-        private void OnCancel()
+        void OnCancel()
         {
             Close(false);
         }

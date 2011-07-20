@@ -33,7 +33,7 @@ namespace LibraryModule
             libraryViewModel = new LibraryViewModel();
             libraryViewModel.Initialize();
         }
-        
+
         static void OnShowLibrary(string obj)
         {
             ServiceFactory.Layout.Show(libraryViewModel);

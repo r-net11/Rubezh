@@ -7,16 +7,16 @@
         <Views:LibraryView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
-        <Views:NewDeviceView />
+    <DataTemplate DataType="{x:Type ViewModels:AddDeviceViewModel}">
+        <Views:AddDeviceView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NewStateViewModel}">
-        <Views:NewStateView />
+    <DataTemplate DataType="{x:Type ViewModels:AddStateViewModel}">
+        <Views:AddStateView />
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type ViewModels:NewAdditionalStateViewModel}">
-        <Views:NewAdditionalStateView />
+    <DataTemplate DataType="{x:Type ViewModels:AddAdditionalStateViewModel}">
+        <Views:AddAdditionalStateView />
     </DataTemplate>
 
 </ResourceDictionary>

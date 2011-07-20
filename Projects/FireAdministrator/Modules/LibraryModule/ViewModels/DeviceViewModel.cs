@@ -11,11 +11,19 @@ namespace LibraryModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
-        public static DeviceViewModel Current { get; private set; }
-
-        public DeviceViewModel(string id)
+        public DeviceViewModel(LibraryViewModel parent, DeviceLibrary.Models.Device device)
         {
-            Id = id;
+            Parent = parent;
+            Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == device.Id);
+            SetStates(device);
+            Initialize();
+        }
+
+        public DeviceViewModel(LibraryViewModel parent, FiresecClient.Models.Driver driver)
+        {
+            Parent = parent;
+            Driver = driver;
+            SetDefaultState();
             Initialize();
         }
 
@@ -23,39 +31,22 @@ namespace LibraryModule.ViewModels
         {
             DeviceControl = new DeviceControl();
             AdditionalStates = new List<string>();
-            States = new ObservableCollection<StateViewModel>();
 
-            ShowStatesCommand = new RelayCommand(OnShowStates);
-            ShowDevicesCommand = new RelayCommand(OnShowDevices);
+            AddStateCommand = new RelayCommand(OnAddState);
+            AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
+            AddDeviceCommand = new RelayCommand(OnAddDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
-            ShowAdditionalStatesCommand = new RelayCommand(OnShowAdditionalStates);
-
-            Current = this;
-        }
-        
-        public void SetDefaultState()
-        {
-            var stateViewModel = new StateViewModel("8", this, false);
-            var frameViewModel = new FrameViewModel(Helper.EmptyFrame, 300, 0);
-            stateViewModel.Frames = new ObservableCollection<FrameViewModel>() { frameViewModel };
-
-            States.Add(stateViewModel);
-            LibraryViewModel.Current.Update();
         }
 
+        public FiresecClient.Models.Driver Driver { get; private set; }
+        public LibraryViewModel Parent { get; private set; }
         public List<string> AdditionalStates;
-        
-        private string _id;
+
         public string Id
         {
             get
             {
-                return _id;
-            }
-
-            set
-            {
-                _id = value;
+                return Driver.Id;
             }
         }
 
@@ -63,10 +54,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
-                if (driver != null)
-                    return driver.ImageSource;
-                return "";
+                return Driver.ImageSource;
             }
         }
 
@@ -74,14 +62,11 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                var driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == Id);
-                if (driver != null)
-                    return driver.DriverName;
-                return "";
+                return Driver.DriverName;
             }
         }
 
-        private DeviceControl _deviceControl;
+        DeviceControl _deviceControl;
         public DeviceControl DeviceControl
         {
             get
@@ -89,30 +74,14 @@ namespace LibraryModule.ViewModels
                 return _deviceControl;
             }
 
-            set
+            private set
             {
                 _deviceControl = value;
                 OnPropertyChanged("DeviceControl");
             }
         }
 
-        private StateViewModel _selectedState;
-        public StateViewModel SelectedState
-        {
-            get
-            {
-                return _selectedState;
-            }
-
-            set
-            {
-                _selectedState = value;
-                LibraryViewModel.Current.SelectedState = _selectedState;
-                OnPropertyChanged("SelectedState");
-            }
-        }
-
-        private ObservableCollection<StateViewModel> _states;
+        ObservableCollection<StateViewModel> _states;
         public ObservableCollection<StateViewModel> States
         {
             get
@@ -126,39 +95,86 @@ namespace LibraryModule.ViewModels
                 OnPropertyChanged("States");
             }
         }
-                
-        public RelayCommand ShowDevicesCommand { get; private set; }
-        private static void OnShowDevices()
+
+        StateViewModel _selectedState;
+        public StateViewModel SelectedState
         {
-            var devicesListViewModel = new NewDeviceViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(devicesListViewModel);
+            get
+            {
+                return _selectedState;
+            }
+
+            set
+            {
+                _selectedState = value;
+                if (_selectedState.Frames != null && _selectedState.Frames.Count > 0)
+                {
+                    _selectedState.SelectedFrame = _selectedState.Frames[0];
+                }
+                Parent.SelectedDevice = this;
+
+                OnPropertyChanged("SelectedState");
+            }
         }
 
-        public RelayCommand ShowStatesCommand { get; private set; }
-        public static void OnShowStates()
+        void SetDefaultState()
         {
-            var statesListViewModel = new NewStateViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(statesListViewModel);
+            States = new ObservableCollection<StateViewModel>();
+            States.Add(new StateViewModel("8", this));
         }
 
-        public RelayCommand ShowAdditionalStatesCommand { get; private set; }
-        public static void OnShowAdditionalStates()
+        void SetStates(DeviceLibrary.Models.Device device)
         {
-            var additionalStatesListViewModel = new NewAdditionalStateViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(additionalStatesListViewModel);
+            States = new ObservableCollection<StateViewModel>();
+            foreach (var state in device.States)
+            {
+                States.Add(new StateViewModel(state, this));
+            }
+            States = new ObservableCollection<StateViewModel>(
+                     from state in States
+                     orderby state.Name
+                     select state);
+        }
+
+        public RelayCommand AddStateCommand { get; private set; }
+        void OnAddState()
+        {
+            var addStateViewModel = new AddStateViewModel(this);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
+            {
+                States.Add(addStateViewModel.SelectedState);
+            }
+        }
+
+        public RelayCommand AddAdditionalStateCommand { get; private set; }
+        void OnShowAdditionalStates()
+        {
+            var addAdditionalStateViewModel = new AddAdditionalStateViewModel(this);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
+            {
+                States.Add(addAdditionalStateViewModel.SelectedState);
+            }
+        }
+
+        public RelayCommand AddDeviceCommand { get; private set; }
+        void OnAddDevice()
+        {
+            var newDeviceViewModel = new AddDeviceViewModel(Parent);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel))
+            {
+                Parent.Devices.Add(newDeviceViewModel.SelectedItem);
+            }
         }
 
         public RelayCommand RemoveDeviceCommand { get; private set; }
-        private void OnRemoveDevice()
+        void OnRemoveDevice()
         {
             var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
                                           "Окно подтверждения", MessageBoxButton.OKCancel,
                                           MessageBoxImage.Question);
-            if (result != MessageBoxResult.Cancel)
+            if (result == MessageBoxResult.OK)
             {
-                LibraryViewModel.Current.Devices.Remove(this);
-                LibraryViewModel.Current.SelectedState = null;
-                LibraryViewModel.Current.Update();
+                Parent.Devices.Remove(this);
             }
         }
     }
