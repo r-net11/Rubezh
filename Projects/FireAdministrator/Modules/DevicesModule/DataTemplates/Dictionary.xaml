@@ -62,5 +62,9 @@
     <DataTemplate DataType="{x:Type ViewModels:PumpDetailsViewModel}">
         <Views:PumpDetailsView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:GroupDetailsViewModel}">
+        <Views:GroupDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

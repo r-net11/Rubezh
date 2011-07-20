@@ -19,8 +19,7 @@ namespace JournalModule.ViewModels
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
 
-            StartDate = DateTime.Now;
-            EndDate = DateTime.Now;
+            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
         }
 
         public void Initialize(ObservableCollection<JournalItemViewModel> journalItems)
@@ -76,9 +75,32 @@ namespace JournalModule.ViewModels
             }
         }
 
+        DateTime _startTime;
+        public DateTime StartTime
+        {
+            get { return _startTime; }
+            set
+            {
+                _startTime = value;
+                OnPropertyChanged("StartTime");
+            }
+        }
+
+        DateTime _endTime;
+        public DateTime EndTime
+        {
+            get { return _endTime; }
+            set
+            {
+                _endTime = value;
+                OnPropertyChanged("EndTime");
+            }
+        }
+
         public RelayCommand ClearCommand { get; private set; }
         void OnClear()
         {
+            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
             UseSystemDate = false;
 
             JournalTypes.ForEach(x => x.IsEnabled = false);
@@ -88,6 +110,8 @@ namespace JournalModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
+            var startDateTime = StartDate.Date + StartTime.TimeOfDay;
+            var endDateTime = EndDate.Date + EndTime.TimeOfDay;
             Close(true);
         }
 

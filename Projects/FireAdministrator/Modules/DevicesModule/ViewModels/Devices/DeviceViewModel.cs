@@ -179,6 +179,7 @@ namespace DevicesModule.ViewModels
                 case "Жокей-насос":
                 case "Компрессор":
                 case "Насос компенсации утечек":
+                case "Группа":
                     return true;
             }
             return false;
@@ -204,6 +205,11 @@ namespace DevicesModule.ViewModels
                 case "Насос компенсации утечек":
                     PumpDetailsViewModel pumpDetailsViewModel = new PumpDetailsViewModel(Device);
                     ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
+                    break;
+
+                case "Группа":
+                    GroupDetailsViewModel groupDetailsViewModel = new GroupDetailsViewModel(Device);
+                    ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
                     break;
             }
         }

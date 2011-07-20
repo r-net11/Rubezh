@@ -13,7 +13,6 @@
         <StackPanel Grid.Row="0">
 
             <extToolkit:IntegerUpDown />
-            <extToolkit:TimePicker />
 
             <TextBlock Text="Временной диапазон" Margin="2" />
             <Grid>
@@ -30,9 +29,9 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="С" Margin="2" />
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="По" Margin="2" />
                 <DatePicker SelectedDate="{Binding StartDate}" Grid.Row="1" Grid.Column="0" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="2" />
+                <extToolkit:TimePicker Value="{Binding StartTime}" Grid.Row="1" Grid.Column="1" Margin="2" />
                 <DatePicker SelectedDate="{Binding EndDate}" Grid.Row="1" Grid.Column="2" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="3" Margin="2" />
+                <extToolkit:TimePicker Value="{Binding EndTime}" Grid.Row="1" Grid.Column="3" Margin="2" />
             </Grid>
 
             <CheckBox Content="Использовать дату регистрации события в системе(иначе дату возникновения)" IsChecked="{Binding UseSystemDate}" Margin="2" />

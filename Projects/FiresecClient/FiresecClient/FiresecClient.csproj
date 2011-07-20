@@ -120,6 +120,9 @@
     <Compile Include="XSD\GetMetaData.cs">
       <DependentUpon>GetMetaData.xsd</DependentUpon>
     </Compile>
+    <Compile Include="XSD\Group.cs">
+      <DependentUpon>Group.xsd</DependentUpon>
+    </Compile>
     <Compile Include="XSD\IndicatorLogic.cs">
       <DependentUpon>IndicatorLogic.xsd</DependentUpon>
     </Compile>
@@ -159,6 +162,11 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="XSD\GetMetaData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\Group.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Group.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="XSD\IndicatorLogic.xsd">

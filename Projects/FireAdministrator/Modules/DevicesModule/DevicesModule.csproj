@@ -54,6 +54,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
@@ -69,6 +72,9 @@
     <Compile Include="Events\EditZoneEvent.cs" />
     <Compile Include="Events\RemoveDirectionEvent.cs" />
     <Compile Include="Events\RemoveZoneEvent.cs" />
+    <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
+      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +99,7 @@
     </Compile>
     <Compile Include="ViewModels\Devices\NewDeviceHelper.cs" />
     <Compile Include="ViewModels\Devices\NewDeviceRangeViewModel.cs" />
+    <Compile Include="ViewModels\Devices\PropertyDetails\GroupDetailsViewModel.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
@@ -197,6 +204,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -57,8 +57,8 @@ namespace FireAdministrator
             DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();
 
-            LibraryModule.LibraryModule libraryModule = new LibraryModule.LibraryModule();
-            libraryModule.Initialize();
+            //LibraryModule.LibraryModule libraryModule = new LibraryModule.LibraryModule();
+            //libraryModule.Initialize();
 
             PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
             plansModule.Initialize();

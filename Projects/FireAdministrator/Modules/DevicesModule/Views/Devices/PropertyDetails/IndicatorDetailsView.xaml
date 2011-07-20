@@ -104,12 +104,7 @@
                                             <TextBlock.Style>
                                                 <Style>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneLogicDevice}" Value="True">
+                                                        <DataTrigger Binding="{Binding HasChildren}" Value="False">
                                                             <DataTrigger.Setters>
                                                                 <Setter Property="TextBlock.FontWeight" Value="Bold" />
                                                             </DataTrigger.Setters>
