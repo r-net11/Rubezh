@@ -72,6 +72,7 @@
     <Compile Include="Events\EditZoneEvent.cs" />
     <Compile Include="Events\RemoveDirectionEvent.cs" />
     <Compile Include="Events\RemoveZoneEvent.cs" />
+    <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
     </Compile>

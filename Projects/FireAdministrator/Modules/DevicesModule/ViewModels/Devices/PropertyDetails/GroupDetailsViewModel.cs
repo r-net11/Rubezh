@@ -23,9 +23,22 @@ namespace DevicesModule.ViewModels
 
             _device = device;
 
-            Devices = new ObservableCollection<DeviceViewModel>();
+            
 
             Initialize();
+
+            Devices = new ObservableCollection<DeviceViewModel>();
+
+            var stringGroupProperty = device.Properties.FirstOrDefault(x=>x.Name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+            if (stringGroupProperty != null)
+            {
+                var GroupProperty = SerializerHelper.GetGroupProperties(stringGroupProperty.Value);
+                foreach (var groupDevice in GroupProperty.device)
+                {
+                    var xDevice = FiresecManager.Configuration.Devices.FindLastIndex(x => x.UID == groupDevice.UID);
+
+                }
+            }
         }
 
         void Initialize()

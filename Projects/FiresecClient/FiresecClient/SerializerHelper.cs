@@ -40,6 +40,23 @@ namespace FiresecClient
             return Serialize<Firesec.Indicator.LEDProperties>(indicatorLogic);
         }
 
+        public static Firesec.Groups.RCGroupProperties GetGroupProperties(string groupPropertyString)
+        {
+            try
+            {
+                return Deserialize<Firesec.Groups.RCGroupProperties>(groupPropertyString);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string SetIndicatorLogic(Firesec.Groups.RCGroupProperties groupProperty)
+        {
+            return Serialize<Firesec.Groups.RCGroupProperties>(groupProperty);
+        }
+
         public static T Deserialize<T>(string input)
         {
             byte[] bytes = Encoding.Default.GetBytes(input);
