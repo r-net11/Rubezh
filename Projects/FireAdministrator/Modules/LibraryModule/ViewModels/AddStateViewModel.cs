@@ -22,11 +22,7 @@ namespace LibraryModule.ViewModels
                 string id = stateId.ToString();
                 if (ParentDevice.States.Any(x => x.Id == id && !x.IsAdditional) == false)
                 {
-                    var stateViewModel = new StateViewModel(id, ParentDevice);
-                    var defaultFrameViewModel = new FrameViewModel(stateViewModel);
-                    stateViewModel.Frames = new ObservableCollection<FrameViewModel> { defaultFrameViewModel };
-
-                    States.Add(stateViewModel);
+                    States.Add(new StateViewModel(id, ParentDevice));
                 }
             }
             States = new ObservableCollection<StateViewModel>(

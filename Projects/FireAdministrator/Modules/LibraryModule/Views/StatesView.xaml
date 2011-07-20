@@ -6,8 +6,7 @@
             <DataTemplate>
                  <StackPanel Orientation="Horizontal" Height="15" Margin="40,0,0,0">
                     <CheckBox IsChecked="{Binding IsChecked}" Panel.ZIndex="1"
-                              Visibility="{Binding IsAdditional, 
-                                           Converter={StaticResource BoolToVisibilityConverter}}">
+                              Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}">
                     </CheckBox>
                     <TextBlock Text="{Binding Name}" />
                 </StackPanel>

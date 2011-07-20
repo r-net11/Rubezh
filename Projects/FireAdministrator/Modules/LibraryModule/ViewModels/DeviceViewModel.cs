@@ -29,7 +29,7 @@ namespace LibraryModule.ViewModels
 
         void Initialize()
         {
-            DeviceControl = new DeviceControl();
+            DeviceControl = new DeviceControl(Id);
             AdditionalStates = new List<string>();
 
             AddStateCommand = new RelayCommand(OnAddState);
@@ -107,11 +107,16 @@ namespace LibraryModule.ViewModels
             set
             {
                 _selectedState = value;
+                if (value == null) return;
                 if (_selectedState.Frames != null && _selectedState.Frames.Count > 0)
                 {
                     _selectedState.SelectedFrame = _selectedState.Frames[0];
                 }
-                Parent.SelectedDevice = this;
+                if (Parent.SelectedDevice != this)
+                {
+                    Parent.SelectedDevice = this;
+                }
+                UpdateDeviceControl(value);
 
                 OnPropertyChanged("SelectedState");
             }
@@ -134,6 +139,30 @@ namespace LibraryModule.ViewModels
                      from state in States
                      orderby state.Name
                      select state);
+        }
+
+        void UpdateDeviceControl(StateViewModel stateViewModel)
+        {
+
+            if (stateViewModel.IsAdditional)
+            {
+                DeviceControl.StateId = "-1";
+                DeviceControl.AdditionalStates = new List<string>() { stateViewModel.Id };
+            }
+            else
+            {
+                DeviceControl.StateId = stateViewModel.Id;
+                List<string> tmpAStates = new List<string>();
+                foreach (var stateId in AdditionalStates)
+                {
+                    var state = States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
+                    if (state.Class == SelectedState.Id)
+                    {
+                        tmpAStates.Add(state.Id);
+                    }
+                }
+                DeviceControl.AdditionalStates = tmpAStates;
+            }
         }
 
         public RelayCommand AddStateCommand { get; private set; }

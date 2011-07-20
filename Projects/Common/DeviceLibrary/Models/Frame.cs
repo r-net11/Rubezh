@@ -13,18 +13,8 @@ namespace DeviceLibrary.Models
         public int Duration { get; set; }
 
         [XmlAttribute]
-        public int Layer { get; set;}
+        public int Layer { get; set; }
 
-        private string _image;
-        public string Image
-        {
-            get { return _image; }
-            set
-            {
-                _image = value;
-                //image = SvgConverter.Svg2Xaml(value, ResourceHelper.svg2xaml_xsl); // для загрузки из SVG
-            } 
-        }
-
+        public string Image { get; set; }
     }
 }
