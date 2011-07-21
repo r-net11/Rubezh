@@ -29,7 +29,8 @@ namespace LibraryModule.ViewModels
 
         void Initialize()
         {
-            DeviceControl = new DeviceControl(Id);
+            DeviceControl = new DeviceControl();
+            DeviceControl.DriverId = Id;
             AdditionalStates = new List<string>();
 
             AddStateCommand = new RelayCommand(OnAddState);

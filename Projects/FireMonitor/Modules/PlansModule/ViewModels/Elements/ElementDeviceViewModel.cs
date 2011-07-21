@@ -113,7 +113,7 @@ namespace PlansModule.ViewModels
         {
             if (id == DeviceId)
             {
-                _elementDeviceView._deviceControl.State = _deviceState.State.Id.ToString();
+                _elementDeviceView._deviceControl.StateId = _deviceState.State.Id.ToString();
                 _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
                     from state in _deviceState.InnerStates
                     where state.IsActive

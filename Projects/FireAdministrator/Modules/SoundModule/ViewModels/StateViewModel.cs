@@ -55,22 +55,22 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public ObservableCollection<string> AvailableSouns
+        public ObservableCollection<string> AvailableSounds
         {
             get
             {
-                ObservableCollection<string> availableSouns = new ObservableCollection<string>();
-                availableSouns.Add("<Нет>");
-                availableSouns.Add("Sound1.wav");
-                availableSouns.Add("Sound2.wav");
-                availableSouns.Add("Sound3.wav");
-                availableSouns.Add("Sound4.wav");
-                availableSouns.Add("Sound5.wav");
-                availableSouns.Add("Sound6.wav");
-                availableSouns.Add("Sound7.wav");
-                availableSouns.Add("Sound8.wav");
-                availableSouns.Add("Sound9.wav");
-                return availableSouns;
+                return new ObservableCollection<string>(){
+                "<Нет>",
+                "Sound1.wav",
+                "Sound2.wav",
+                "Sound3.wav",
+                "Sound4.wav",
+                "Sound5.wav",
+                "Sound6.wav",
+                "Sound7.wav",
+                "Sound8.wav",
+                "Sound9.wav"
+                };
             }
         }
 
@@ -78,11 +78,11 @@ namespace SoundsModule.ViewModels
         {
             get
             {
-                ObservableCollection<string> availableSpeakers = new ObservableCollection<string>();
-                availableSpeakers.Add("<Нет>");
-                availableSpeakers.Add("Тревога");
-                availableSpeakers.Add("Внимание");
-                return availableSpeakers;
+                return new ObservableCollection<string>(){
+                "<Нет>",
+                "Тревога",
+                "Внимание"
+                };
             }
         }
     }

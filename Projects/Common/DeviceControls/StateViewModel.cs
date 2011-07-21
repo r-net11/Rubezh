@@ -5,11 +5,19 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using DeviceLibrary.Models;
+using Frame = DeviceLibrary.Models.Frame;
 
 namespace DeviceControls
 {
-    public class StateViewModel
+    public class StateViewModel : IDisposable
     {
+        #region Private Fields
+        private readonly List<Frame> _frames;
+        private readonly List<Canvas> _canvases;
+        private int _tick;
+        private int _startTick;
+        #endregion
+
         public StateViewModel(State state, ICollection<Canvas> stateCanvases)
         {
             _canvases = new List<Canvas>();
@@ -23,13 +31,12 @@ namespace DeviceControls
                     canvas.Opacity = 0.01;
                 }
                 canvas.Visibility = Visibility.Collapsed;
-
                 _canvases.Add(canvas);
                 stateCanvases.Add(canvas);
             }
             _canvases[0].Visibility = Visibility.Visible;
-
-            if (_frames.Count > 1) Timer.Tick += OnTick;
+            if (_frames.Count <= 1) return;
+            Timer.Tick += OnTick;
         }
 
         static StateViewModel()
@@ -38,11 +45,6 @@ namespace DeviceControls
             Timer.Interval = TimeSpan.FromMilliseconds(94);
             Timer.Start();
         }
-
-        readonly List<DeviceLibrary.Models.Frame> _frames;
-        readonly List<Canvas> _canvases;
-        int _tick;
-        int _startTick;
 
         public static DispatcherTimer Timer { get; set; }
         void OnTick(object sender, EventArgs e)

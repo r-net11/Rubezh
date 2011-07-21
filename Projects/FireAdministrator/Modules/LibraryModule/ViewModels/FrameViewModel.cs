@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Xml;
 using Infrastructure.Common;
 using Microsoft.Win32;
 
@@ -17,7 +19,7 @@ namespace LibraryModule.ViewModels
         {
             Parent = parent;
             Id = frame.Id;
-            Image = frame.Image;
+            XmlOfImage = frame.Image;
             Duration = frame.Duration;
             Layer = frame.Layer;
 
@@ -28,7 +30,7 @@ namespace LibraryModule.ViewModels
         {
             Parent = parent;
             Id = parent.Frames.Count;
-            Image = emptyFrame;
+            XmlOfImage = emptyFrame;
             Duration = defaultDuration;
             Layer = defaultLayer;
 
@@ -74,21 +76,6 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        ObservableCollection<Canvas> _picture;
-        public ObservableCollection<Canvas> Picture
-        {
-            get
-            {
-                return _picture;
-            }
-
-            set
-            {
-                _picture = value;
-                OnPropertyChanged("Picture");
-            }
-        }
-
         int _layer;
         public int Layer
         {
@@ -104,28 +91,54 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        string _image;
-        public string Image
+        Canvas _xamlOfImage;
+        public Canvas XamlOfImage
         {
             get
             {
-                return _image;
+                return _xamlOfImage;
             }
 
             set
             {
-                _image = value;
-                Picture = new ObservableCollection<Canvas>();
-                var canvas = new Canvas();
+                _xamlOfImage = value;
+                OnPropertyChanged("Picture");
+            }
+        }
+
+        string _xmlOfImage;
+        public string XmlOfImage
+        {
+            get
+            {
+                return _xmlOfImage;
+            }
+
+            set
+            {
+                _xmlOfImage = value;
                 try
                 {
-                    Helper.Draw(Picture, ref canvas, value, Layer);
+                    XamlOfImage = GetCanvasFromXml(value, Layer);
                 }
                 catch
                 {
-                    Helper.Draw(Picture, ref canvas, errorFrame, Layer);
+                    XamlOfImage = GetCanvasFromXml(errorFrame, Layer);
                 }
                 OnPropertyChanged("Image");
+            }
+        }
+
+        static Canvas GetCanvasFromXml(string image, int layer)
+        {
+            if (string.IsNullOrWhiteSpace(image)) return new Canvas();
+
+            using (var stringReader = new StringReader(image))
+            using (var xmlReader = XmlReader.Create(stringReader))
+            {
+                Canvas canvas = (Canvas) XamlReader.Load(xmlReader);
+                Panel.SetZIndex(canvas, layer);
+                return canvas;
             }
         }
 
@@ -145,7 +158,7 @@ namespace LibraryModule.ViewModels
 
             if (openFileDialog1.ShowDialog() == true)
             {
-                Image = SvgConverter.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
+                XmlOfImage = SvgConverter.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
             }
         }
 

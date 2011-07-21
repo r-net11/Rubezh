@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecClient;
-using Firesec;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using System.Windows.Media;
+using System.Linq;
+using FiresecClient;
 using FiresecClient.Models;
-using System.Windows;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -39,7 +33,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 string address = _device.Driver.ShortName + " ";
-                foreach(var device in _device.AllParents)
+                foreach (var device in _device.AllParents)
                 {
                     if (device.Driver.HasAddress)
                     {
@@ -63,7 +57,7 @@ namespace DevicesModule.ViewModels
 
             if (_deviceControl != null)
             {
-                _deviceControl.State = deviceState.State.Id.ToString();
+                _deviceControl.StateId = deviceState.State.Id.ToString();
             }
 
             OnPropertyChanged("DeviceControlContent");
@@ -77,7 +71,7 @@ namespace DevicesModule.ViewModels
                 _deviceControl.DriverId = _device.Driver.Id;
 
                 DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                _deviceControl.State = deviceState.State.Id.ToString();
+                _deviceControl.StateId = deviceState.State.Id.ToString();
 
                 _deviceControl.Width = 50;
                 _deviceControl.Height = 50;

@@ -79,7 +79,7 @@ namespace LibraryModule.ViewModels
                     {
                         var frame = new Frame();
                         frame.Id = frameViewModel.Id;
-                        frame.Image = frameViewModel.Image;
+                        frame.Image = frameViewModel.XmlOfImage;
                         frame.Duration = frameViewModel.Duration;
                         frame.Layer = frameViewModel.Layer;
 

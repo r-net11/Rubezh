@@ -31,17 +31,13 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
-                    <ItemsControl Grid.Row="0" HorizontalAlignment="Center" 
-                                  ItemsSource="{Binding Path=Picture, UpdateSourceTrigger=PropertyChanged}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas Width="500" Height="500" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.LayoutTransform>
+                    <ContentControl Grid.Row="0" HorizontalAlignment="Center" 
+                                    Width="500" Height="500"
+                                    Content="{Binding Path=XamlOfImage, UpdateSourceTrigger=PropertyChanged}">
+                        <ContentControl.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
-                        </ItemsControl.LayoutTransform>
-                    </ItemsControl>
+                        </ContentControl.LayoutTransform>
+                    </ContentControl>
                     <WrapPanel Grid.Row="1" Orientation="Horizontal">
                         <Label Content="Слой: " />
                         <TextBox Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />

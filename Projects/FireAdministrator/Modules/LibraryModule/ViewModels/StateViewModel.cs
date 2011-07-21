@@ -125,11 +125,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(Class))
-                {
-                    return Helper.BaseStatesList[int.Parse(Class)];
-                }
-                return "";
+                return new FiresecClient.Models.State(int.Parse(Class)).ToString();
             }
         }
 
@@ -138,7 +134,6 @@ namespace LibraryModule.ViewModels
             get
             {
                 if (Parent == null) return "";
-
                 if (IsAdditional)
                 {
                     var state = Parent.Driver.States.FirstOrDefault(x => x.id == Id);
@@ -147,7 +142,7 @@ namespace LibraryModule.ViewModels
                 }
                 else
                 {
-                    return Helper.BaseStatesList[int.Parse(Id)];
+                    return new FiresecClient.Models.State(int.Parse(Id)).ToString();
                 }
             }
         }

@@ -26,7 +26,7 @@
         <Grid Grid.Row="1" DataContext="{Binding SelectedState}">
             <StackPanel>
                 <TextBlock Text="Звук" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableSouns}" SelectedItem="{Binding Sound}" Margin="2" />
+                <ComboBox ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding Sound}" Margin="2" />
                 <TextBlock Text="Встроенный динамик (PC Speaker)" Margin="2" />
                 <ComboBox ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding Speaker}" Margin="2" />
                 <CheckBox IsChecked="{Binding IsContinious}" Content="Воспроизводить звук непрерывно" Margin="2" />

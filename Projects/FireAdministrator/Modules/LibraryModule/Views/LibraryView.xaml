@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2" DataContext="{Binding SelectedDevice, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox DataContext="{Binding SelectedState.SelectedFrame, UpdateSourceTrigger=PropertyChanged}" 
-                         Text="{Binding Image, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding XmlOfImage, UpdateSourceTrigger=PropertyChanged}"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                          AcceptsReturn="True" AcceptsTab="True" />
             </Grid>
