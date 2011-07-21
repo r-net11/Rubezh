@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecClient.Models;
+using Firesec.CoreConfig;
 
 namespace FiresecClient.Converters
 {
@@ -25,8 +27,16 @@ namespace FiresecClient.Converters
                         {
                             foreach (var partZone in innerDirection.PinZ)
                             {
-                                direction.Zones.Add(System.Convert.ToInt32(partZone.pidz));
+                                direction.Zones.Add(partZone.pidz);
                             }
+                        }
+
+                        if (innerDirection.param != null)
+                        {
+                            var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
+                            direction.DeviceRm = rmParameter.value;
+                            var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
+                            direction.DeviceButton = buttonParameter.value;
                         }
 
                         FiresecManager.Configuration.Directions.Add(direction);
@@ -53,9 +63,33 @@ namespace FiresecClient.Converters
                 List<Firesec.CoreConfig.partTypePinZ> zones = new List<Firesec.CoreConfig.partTypePinZ>();
                 foreach (var zone in direction.Zones)
                 {
-                    zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone.ToString() });
+                    zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone });
                 }
                 innerDirection.PinZ = zones.ToArray();
+
+                if ((direction.DeviceRm != null) || (direction.DeviceButton != null))
+                {
+                    List<paramType> innerDirectionParameters = new List<paramType>();
+                    paramType rmParameter = new paramType();
+                    rmParameter.name = "Device_RM";
+                    rmParameter.type = "String";
+                    rmParameter.value = direction.DeviceRm;
+                    innerDirectionParameters.Add(rmParameter);
+                    paramType buttonParameter = new paramType();
+                    buttonParameter.name = "Device_AM";
+                    buttonParameter.type = "String";
+                    buttonParameter.value = direction.DeviceRm;
+                    innerDirectionParameters.Add(buttonParameter);
+                    innerDirection.param = innerDirectionParameters.ToArray();
+                }
+
+                if (innerDirection.param != null)
+                {
+                    var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
+                    direction.DeviceRm = rmParameter.value;
+                    var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
+                    direction.DeviceButton = buttonParameter.value;
+                }
 
                 innerDirections.Add(innerDirection);
             }

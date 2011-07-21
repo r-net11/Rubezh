@@ -13,6 +13,19 @@ namespace DevicesModule.ViewModels.Devices
             InitializeComponent();
 
             DataContext = this;
+
+            List<string> nullStates = new List<string>();
+
+            foreach (var driver in Drivers)
+            {
+                foreach (var state in driver.States)
+                {
+                    if (string.IsNullOrEmpty(state.code))
+                    {
+                        nullStates.Add(driver.ShortName + " - " + state.name);
+                    }
+                }
+            }
         }
 
         public IEnumerable<Driver> Drivers

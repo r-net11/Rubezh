@@ -73,6 +73,7 @@
     <Compile Include="Events\RemoveDirectionEvent.cs" />
     <Compile Include="Events\RemoveZoneEvent.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
+    <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
     </Compile>
@@ -115,6 +116,9 @@
     <Compile Include="ViewModels\Zones\ZonesMenuViewModel.cs" />
     <Compile Include="Views\Devices\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Directions\DirectionDeviceSelectorView.xaml.cs">
+      <DependentUpon>DirectionDeviceSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Directions\DirectionDetailsView.xaml.cs">
       <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
@@ -217,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Devices\DevicesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Directions\DirectionDeviceSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

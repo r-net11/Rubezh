@@ -23,30 +23,41 @@ namespace DevicesModule.ViewModels
 
             _device = device;
 
-            
+            InitializeDevices();
+            InitializeAvailableDevices();
+        }
 
-            Initialize();
+        void InitializeDevices()
+        {
+            Devices = new ObservableCollection<GroupDeviceViewModel>();
 
-            Devices = new ObservableCollection<DeviceViewModel>();
-
-            var stringGroupProperty = device.Properties.FirstOrDefault(x=>x.Name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+            var stringGroupProperty = _device.Properties.FirstOrDefault(x => x.Name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
             if (stringGroupProperty != null)
             {
                 var GroupProperty = SerializerHelper.GetGroupProperties(stringGroupProperty.Value);
-                foreach (var groupDevice in GroupProperty.device)
+                if ((GroupProperty != null) && (GroupProperty.device != null))
                 {
-                    var xDevice = FiresecManager.Configuration.Devices.FindLastIndex(x => x.UID == groupDevice.UID);
-
+                    foreach (var groupDevice in GroupProperty.device)
+                    {
+                        GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
+                        groupDeviceViewModel.Initialize(groupDevice);
+                        Devices.Add(groupDeviceViewModel);
+                    }
                 }
             }
+
+            SelectedDevice = Devices.FirstOrDefault();
         }
 
-        void Initialize()
+        void InitializeAvailableDevices()
         {
             HashSet<Device> devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.Configuration.Devices)
             {
+                if (Devices.Any(x => x.Device.Id == device.Id))
+                    continue;
+
                 if (
                     (device.Driver.DriverName == "Релейный исполнительный модуль РМ-1")
                     || (device.Driver.DriverName == "Модуль дымоудаления-1.02//3")
@@ -78,10 +89,12 @@ namespace DevicesModule.ViewModels
                     parent.Children.Add(device);
                 }
             }
+
+            SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.HasChildren == false);
         }
 
-        ObservableCollection<DeviceViewModel> _devices;
-        public ObservableCollection<DeviceViewModel> Devices
+        ObservableCollection<GroupDeviceViewModel> _devices;
+        public ObservableCollection<GroupDeviceViewModel> Devices
         {
             get { return _devices; }
             set
@@ -91,8 +104,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
+        GroupDeviceViewModel _selectedDevice;
+        public GroupDeviceViewModel SelectedDevice
         {
             get { return _selectedDevice; }
             set
@@ -128,7 +141,14 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedAvailableDevice != null)
             {
-                return true;
+                if (SelectedAvailableDevice.HasChildren == false)
+                {
+                    if ((SelectedAvailableDevice.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т") &&
+                        (Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")))
+                        return false;
+
+                    return true;
+                }
             }
             return false;
         }
@@ -136,8 +156,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            Devices.Add(SelectedAvailableDevice);
-            Initialize();
+            GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
+            groupDeviceViewModel.Initialize(SelectedAvailableDevice.Device);
+            Devices.Add(groupDeviceViewModel);
+            InitializeAvailableDevices();
         }
 
         bool CanRemove(object obj)
@@ -153,12 +175,43 @@ namespace DevicesModule.ViewModels
         void OnRemove()
         {
             Devices.Remove(SelectedDevice);
-            Initialize();
+            InitializeAvailableDevices();
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
+            Firesec.Groups.RCGroupProperties groupProperty = new Firesec.Groups.RCGroupProperties();
+            groupProperty.DevCount = Devices.Count.ToString();
+            groupProperty.AMTPreset = Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т") ? "1" : "0";
+            List<Firesec.Groups.RCGroupPropertiesDevice> groupDevices = new List<Firesec.Groups.RCGroupPropertiesDevice>();
+            foreach (var device in Devices)
+            {
+                Firesec.Groups.RCGroupPropertiesDevice groupDevice = new Firesec.Groups.RCGroupPropertiesDevice();
+                if (device.Device.UID == null)
+                {
+                    device.Device.UID = Guid.NewGuid().ToString();
+                }
+                groupDevice.UID = device.Device.UID;
+                groupDevice.Inverse = device.IsInversion ? "1" : "0";
+                groupDevice.DelayOn = device.OnDelay.ToString();
+                groupDevice.DelayOff = device.OffDelay.ToString();
+                groupDevices.Add(groupDevice);
+            }
+            groupProperty.device = groupDevices.ToArray();
+
+            if (groupDevices.Count > 0)
+            {
+                string stringGroupProperty = SerializerHelper.SeGroupProperty(groupProperty);
+                Property property = new Property() { Name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5", Value = stringGroupProperty };
+                _device.Properties = new List<Property>();
+                _device.Properties.Add(property);
+            }
+            else
+            {
+                _device.Properties = null;
+            }
+
             Close(true);
         }
 

@@ -67,4 +67,8 @@
         <Views:GroupDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectorViewModel}">
+        <Views:DirectionDeviceSelectorView />
+    </DataTemplate>
+    
 </ResourceDictionary>

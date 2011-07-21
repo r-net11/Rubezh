@@ -110,6 +110,7 @@
           <xs:attribute name="pidz" type="xs:integer" />
         </xs:complexType>
       </xs:element>
+      <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="no" type="xs:integer" />
     <xs:attribute name="id" type="xs:integer" />

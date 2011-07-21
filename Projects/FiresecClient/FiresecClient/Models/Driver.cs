@@ -328,6 +328,24 @@ namespace FiresecClient.Models
             get { return (DriverName == "Задвижка"); }
         }
 
+        public bool IsBUtton
+        {
+            get
+            {
+                switch (DriverName)
+                {
+                    case "Кнопка останова СПТ":
+                    case "Кнопка запуска СПТ":
+                    case "Кнопка управления автоматикой":
+                    case "Кнопка вкл автоматики ШУЗ и насосов в направлении":
+                    case "Кнопка выкл автоматики ШУЗ и насосов в направлении":
+                    case "Кнопка разблокировки автоматики ШУЗ в направлении":
+                        return true;
+                }
+                return false;
+            }
+        }
+
         public bool IsOutDevice
         {
             get { return (_driver.options != null) && (_driver.options.Contains("OutDevice")); }

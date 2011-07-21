@@ -7,23 +7,66 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
         <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Номер направления" />
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Наименование" />
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Примечание" />
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}" Margin="2" />
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" Margin="2" />
-            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description}" Margin="2" />
+            <TabControl>
+                <TabItem Header="Основные">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Номер направления" />
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Наименование" />
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Примечание" />
+                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Id}" Margin="2" />
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" Margin="2" />
+                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Description}" Margin="2" />
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Настройки направления">
+                    <StackPanel>
+                        <TextBlock Text="Внешняя сигнализация УАПТ заблокировано (РМ)" Margin="5" />
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
+                                <TextBlock Text="{Binding DeviceRm.PresentationAddress}" Margin="10, 0, 0, 0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Content="x" Command="{Binding ResetRmCommand}" HorizontalAlignment="Right" />
+                                <Button Content="Выбрать" Command="{Binding ChooseRmCommand}" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Text="Кнопка сброса блокировки" Margin="5" />
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="{Binding DeviceButton.Driver.ShortName}" />
+                                <TextBlock Text="{Binding DeviceButton.PresentationAddress}" Margin="10, 0, 0, 0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Content="x" Command="{Binding ResetButtonCommand}" HorizontalAlignment="Right" />
+                                <Button Content="Выбрать" Command="{Binding ChooseButtonCommand}" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
         </Grid>
+        
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />

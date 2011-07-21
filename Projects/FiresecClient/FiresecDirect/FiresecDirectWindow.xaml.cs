@@ -52,7 +52,7 @@ namespace FiresecDirect
             string coreConfig = Firesec.NativeFiresecClient.GetCoreConfig();
             textBox1.Text = coreConfig;
 
-            FileStream fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create);
+            FileStream fileStream = new FileStream("D:/CoreConfig.txt", FileMode.Create);
             StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.Write(coreConfig);
             fileStream.Close();

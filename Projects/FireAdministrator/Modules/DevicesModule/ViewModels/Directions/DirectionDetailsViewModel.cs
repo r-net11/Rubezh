@@ -2,6 +2,7 @@
 using FiresecClient;
 using FiresecClient.Models;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,6 +10,10 @@ namespace DevicesModule.ViewModels
     {
         public DirectionDetailsViewModel()
         {
+            ResetRmCommand = new RelayCommand(OnResetRm);
+            ResetButtonCommand = new RelayCommand(OnResetButton);
+            ChooseRmCommand = new RelayCommand(OnChooseRm);
+            ChooseButtonCommand = new RelayCommand(OnChooseButton);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -44,6 +49,15 @@ namespace DevicesModule.ViewModels
             Id = direction.Id;
             Name = direction.Name;
             Description = direction.Description;
+
+            if (direction.DeviceRm != null)
+            {
+                DeviceRm = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == direction.DeviceRm);
+            }
+            if (direction.DeviceButton != null)
+            {
+                DeviceButton = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == direction.DeviceButton);
+            }
         }
 
         int _id;
@@ -79,11 +93,80 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        Device _deviceRm;
+        public Device DeviceRm
+        {
+            get { return _deviceRm; }
+            set
+            {
+                _deviceRm = value;
+                OnPropertyChanged("DeviceRm");
+            }
+        }
+
+        Device _deviceButton;
+        public Device DeviceButton
+        {
+            get { return _deviceButton; }
+            set
+            {
+                _deviceButton = value;
+                OnPropertyChanged("DeviceButton");
+            }
+        }
+
         void Save()
         {
             Direction.Id = Id;
             Direction.Name = Name;
             Direction.Description = Description;
+
+            Direction.DeviceRm = null;
+            Direction.DeviceButton = null;
+            if (DeviceRm != null)
+            {
+                Direction.DeviceRm = DeviceRm.UID;
+            }
+            if (DeviceButton != null)
+            {
+                Direction.DeviceButton = DeviceButton.UID;
+            }
+        }
+
+        public RelayCommand ResetRmCommand { get; private set; }
+        void OnResetRm()
+        {
+            DeviceRm = null;
+        }
+
+        public RelayCommand ResetButtonCommand { get; private set; }
+        void OnResetButton()
+        {
+            DeviceButton = null;
+        }
+
+        public RelayCommand ChooseRmCommand { get; private set; }
+        void OnChooseRm()
+        {
+            DirectionDeviceSelectorViewModel directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
+            directionDeviceSelectorViewModel.Initialize(Direction, true);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
+            if (result)
+            {
+                DeviceRm = directionDeviceSelectorViewModel.SelectedDevice.Device;
+            }
+        }
+
+        public RelayCommand ChooseButtonCommand { get; private set; }
+        void OnChooseButton()
+        {
+            DirectionDeviceSelectorViewModel directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
+            directionDeviceSelectorViewModel.Initialize(Direction, false);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
+            if (result)
+            {
+                DeviceButton = directionDeviceSelectorViewModel.SelectedDevice.Device;
+            }
         }
 
         public RelayCommand SaveCommand { get; private set; }

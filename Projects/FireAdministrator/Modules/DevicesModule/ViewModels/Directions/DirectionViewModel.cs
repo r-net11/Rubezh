@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
             foreach (var zone in FiresecManager.Configuration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
-                if (direction.Zones.Contains(Convert.ToInt32(zone.No)))
+                if (direction.Zones.Contains(zone.No))
                 {
                     Zones.Add(zoneViewModel);
                 }
@@ -109,7 +109,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedSourceZone != null)
             {
-                Direction.Zones.Add(Convert.ToInt32(SelectedSourceZone.No));
+                Direction.Zones.Add(SelectedSourceZone.No);
                 Zones.Add(SelectedSourceZone);
                 SourceZones.Remove(SelectedSourceZone);
             }
@@ -120,7 +120,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedZone != null)
             {
-                Direction.Zones.Remove(Convert.ToInt32(SelectedZone.No));
+                Direction.Zones.Remove(SelectedZone.No);
                 SourceZones.Add(SelectedZone);
                 Zones.Remove(SelectedZone);
             }

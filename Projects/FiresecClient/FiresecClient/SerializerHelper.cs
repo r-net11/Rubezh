@@ -52,7 +52,7 @@ namespace FiresecClient
             }
         }
 
-        public static string SetIndicatorLogic(Firesec.Groups.RCGroupProperties groupProperty)
+        public static string SeGroupProperty(Firesec.Groups.RCGroupProperties groupProperty)
         {
             return Serialize<Firesec.Groups.RCGroupProperties>(groupProperty);
         }
