@@ -170,9 +170,11 @@ namespace LibraryModule.ViewModels
         void OnAddState()
         {
             var addStateViewModel = new AddStateViewModel(this);
+            addStateViewModel.Initialize();
+
             if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
             {
-                States.Add(addStateViewModel.SelectedState);
+                States.Add(addStateViewModel.SelectedItem);
             }
         }
 
@@ -180,19 +182,23 @@ namespace LibraryModule.ViewModels
         void OnShowAdditionalStates()
         {
             var addAdditionalStateViewModel = new AddAdditionalStateViewModel(this);
+            addAdditionalStateViewModel.Initialize();
+
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
-                States.Add(addAdditionalStateViewModel.SelectedState);
+                States.Add(addAdditionalStateViewModel.SelectedItem);
             }
         }
 
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
-            var newDeviceViewModel = new AddDeviceViewModel(Parent);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel))
+            var addDeviceViewModel = new AddDeviceViewModel(Parent);
+            addDeviceViewModel.Initialize();
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                Parent.Devices.Add(newDeviceViewModel.SelectedItem);
+                Parent.Devices.Add(addDeviceViewModel.SelectedItem);
             }
         }
 
@@ -200,7 +206,8 @@ namespace LibraryModule.ViewModels
         void OnRemoveDevice()
         {
             var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
-                                          "Окно подтверждения", MessageBoxButton.OKCancel,
+                                          "Окно подтверждения",
+                                          MessageBoxButton.OKCancel,
                                           MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {

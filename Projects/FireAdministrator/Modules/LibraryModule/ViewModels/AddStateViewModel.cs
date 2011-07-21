@@ -1,81 +1,30 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
-    public class AddStateViewModel : DialogContent
+    public class AddStateViewModel : AddViewModel<DeviceViewModel, StateViewModel>
     {
         public AddStateViewModel(DeviceViewModel parentDevice)
-        {
-            ParentDevice = parentDevice;
-            Initialize();
-        }
+            : base(parentDevice) { }
 
-        void Initialize()
+        override public void Initialize()
         {
             Title = "Добавить состояние";
 
-            States = new ObservableCollection<StateViewModel>();
+            Items = new ObservableCollection<StateViewModel>();
             for (int stateId = 0; stateId < 9; ++stateId)
             {
                 string id = stateId.ToString();
-                if (ParentDevice.States.Any(x => x.Id == id && !x.IsAdditional) == false)
+                if (Parent.States.Any(x => x.Id == id && !x.IsAdditional) == false)
                 {
-                    States.Add(new StateViewModel(id, ParentDevice));
+                    Items.Add(new StateViewModel(id, Parent));
                 }
             }
-            States = new ObservableCollection<StateViewModel>(
-                from state in States
-                orderby state.Name
-                select state);
-
-            OkCommand = new RelayCommand(OnOk);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
-
-        DeviceViewModel ParentDevice { get; set; }
-
-        ObservableCollection<StateViewModel> _states;
-        public ObservableCollection<StateViewModel> States
-        {
-            get
-            {
-                return _states;
-            }
-
-            set
-            {
-                _states = value;
-                OnPropertyChanged("States");
-            }
-        }
-
-        StateViewModel _selectedState;
-        public StateViewModel SelectedState
-        {
-            get
-            {
-                return _selectedState;
-            }
-
-            set
-            {
-                _selectedState = value;
-                OnPropertyChanged("SelectedState");
-            }
-        }
-
-        public RelayCommand OkCommand { get; private set; }
-        void OnOk()
-        {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
+            Items = new ObservableCollection<StateViewModel>(
+                        from state in Items
+                        orderby state.Name
+                        select state);
         }
     }
 }

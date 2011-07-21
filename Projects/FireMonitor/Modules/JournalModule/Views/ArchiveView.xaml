@@ -22,7 +22,7 @@
 
         <Grid Grid.Row="1">
             <DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
+                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />

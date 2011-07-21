@@ -7,7 +7,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Style="{StaticResource ListBoxStyle}">
+        <ListBox Grid.Row="0" Grid.Column="0" 
+                 ItemsSource="{Binding Items}" 
+                 SelectedItem="{Binding SelectedItem}" 
+                 Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Margin="5">
