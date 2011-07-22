@@ -70,7 +70,7 @@ namespace LibraryModule.ViewModels
                 return _states;
             }
 
-            set
+            private set
             {
                 _states = value;
                 OnPropertyChanged("States");
@@ -102,7 +102,7 @@ namespace LibraryModule.ViewModels
         void SetDefaultState()
         {
             States = new ObservableCollection<StateViewModel>();
-            States.Add(new StateViewModel(StateViewModel.defaultStateId, this));
+            States.Add(new StateViewModel(StateViewModel.defaultClassId, this));
         }
 
         void SetStates(DeviceLibrary.Models.Device device)
@@ -112,8 +112,14 @@ namespace LibraryModule.ViewModels
             {
                 states.Add(new StateViewModel(state, this));
             }
+            States = states;
+            SortStates();
+        }
+
+        public void SortStates()
+        {
             States = new ObservableCollection<StateViewModel>(
-                        from state in states
+                        from state in States
                         orderby state.Name
                         select state);
         }
@@ -127,6 +133,7 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
             {
                 States.Add(addStateViewModel.SelectedItem);
+                SortStates();
             }
         }
 
@@ -139,6 +146,7 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
                 States.Add(addAdditionalStateViewModel.SelectedItem);
+                SortStates();
             }
         }
 
@@ -151,6 +159,7 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
                 ParentLibrary.Devices.Add(addDeviceViewModel.SelectedItem);
+                ParentLibrary.SortDevices();
             }
         }
 

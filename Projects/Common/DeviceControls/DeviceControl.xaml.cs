@@ -68,14 +68,14 @@ namespace DeviceControls
                 return;
 
             StateCanvases = new ObservableCollection<Canvas>();
-            var state = device.States.FirstOrDefault(x => (x.Id == StateId) && (int.Parse(x.Id) >= 0) && (!x.IsAdditional));
+            var state = device.States.FirstOrDefault(x => (x.Class == StateId) && (int.Parse(x.Class) >= 0));
             if (state != null)
             {
                 _stateViewModelList.Add(new StateViewModel(state, StateCanvases));
                 if (AdditionalStates == null) return;
                 foreach (var additionalStateId in AdditionalStates)
                 {
-                    var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
+                    var aState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
                     if (aState == null) continue;
                     _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
                 }
@@ -83,7 +83,7 @@ namespace DeviceControls
             else
                 foreach (var additionalStateId in AdditionalStates)
                 {
-                    var aState = device.States.FirstOrDefault(x => (x.Id == additionalStateId) && (x.IsAdditional));
+                    var aState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
                     if (aState == null) continue;
                     _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
                 }

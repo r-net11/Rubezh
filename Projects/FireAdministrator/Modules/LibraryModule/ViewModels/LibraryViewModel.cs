@@ -17,15 +17,13 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            var devicesList = new List<DeviceViewModel>();
+            var devicesList = new ObservableCollection<DeviceViewModel>();
             foreach (var device in LibraryManager.Devices)
             {
                 devicesList.Add(new DeviceViewModel(this, device));
             }
-            Devices = new ObservableCollection<DeviceViewModel>(
-                            from device in devicesList
-                            orderby device.Name
-                            select device);
+            Devices = devicesList;
+            SortDevices();
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -33,7 +31,7 @@ namespace LibraryModule.ViewModels
         {
             get { return _devices; }
 
-            set
+            private set
             {
                 _devices = value;
                 OnPropertyChanged("Devices");
@@ -52,36 +50,46 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        public void SortDevices()
+        {
+            Devices = new ObservableCollection<DeviceViewModel>(
+                            from device in Devices
+                            orderby device.Name
+                            select device);
+        }
+
         void UpdateModel()
         {
             var devices = new List<Device>();
             foreach (var deviceViewModel in Devices)
             {
-                var device = new Device();
-                device.Id = deviceViewModel.Id;
-
-                device.States = new List<State>();
-                foreach (var stateViewModel in deviceViewModel.States)
+                if (!deviceViewModel.Driver.IsIgnore && deviceViewModel.Driver.IsPlaceable)
                 {
-                    var state = new State();
-                    state.Id = stateViewModel.Id;
-                    state.Name = stateViewModel.Name;
-                    state.IsAdditional = stateViewModel.IsAdditional;
+                    var device = new Device();
+                    device.Id = deviceViewModel.Id;
 
-                    state.Frames = new List<Frame>();
-                    foreach (var frameViewModel in stateViewModel.Frames)
+                    device.States = new List<State>();
+                    foreach (var stateViewModel in deviceViewModel.States)
                     {
-                        var frame = new Frame();
-                        frame.Id = frameViewModel.Id;
-                        frame.Image = frameViewModel.XmlOfImage;
-                        frame.Duration = frameViewModel.Duration;
-                        frame.Layer = frameViewModel.Layer;
+                        var state = new State();
+                        state.Class = stateViewModel.Class;
+                        state.Code = stateViewModel.Code;
 
-                        state.Frames.Add(frame);
+                        state.Frames = new List<Frame>();
+                        foreach (var frameViewModel in stateViewModel.Frames)
+                        {
+                            var frame = new Frame();
+                            frame.Id = frameViewModel.Id;
+                            frame.Image = frameViewModel.XmlOfImage;
+                            frame.Duration = frameViewModel.Duration;
+                            frame.Layer = frameViewModel.Layer;
+
+                            state.Frames.Add(frame);
+                        }
+                        device.States.Add(state);
                     }
-                    device.States.Add(state);
+                    devices.Add(device);
                 }
-                devices.Add(device);
             }
             LibraryManager.Devices = devices;
         }

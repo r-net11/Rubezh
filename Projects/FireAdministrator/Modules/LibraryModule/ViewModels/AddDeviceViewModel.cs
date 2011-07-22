@@ -16,7 +16,9 @@ namespace LibraryModule.ViewModels
             var items = new ObservableCollection<DeviceViewModel>();
             foreach (var driver in FiresecManager.Configuration.Drivers)
             {
-                if (driver.IsPlaceable && !Parent.Devices.Any(x => x.Id == driver.Id))
+                if (driver.IsPlaceable &&
+                    !driver.IsIgnore &&
+                    !Parent.Devices.Any(x => x.Id == driver.Id))
                 {
                     items.Add(new DeviceViewModel(Parent, driver));
                 }

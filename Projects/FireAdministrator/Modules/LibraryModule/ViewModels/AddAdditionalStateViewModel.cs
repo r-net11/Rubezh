@@ -15,7 +15,7 @@ namespace LibraryModule.ViewModels
             var items = new ObservableCollection<StateViewModel>();
             foreach (var state in Parent.Driver.States)
             {
-                if (!Parent.States.Any(x => x.Id == state.id && x.IsAdditional))
+                if (!Parent.States.Any(x => x.Code == state.code))
                 {
                     items.Add(new StateViewModel(state, Parent));
                 }

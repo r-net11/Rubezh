@@ -13,12 +13,12 @@ namespace LibraryModule.ViewModels
             Title = "Добавить состояние";
 
             var items = new ObservableCollection<StateViewModel>();
-            for (int stateId = 0; stateId < 9; ++stateId)
+            for (int classId = 0; classId < 9; ++classId)
             {
-                string id = stateId.ToString();
-                if (!Parent.States.Any(x => x.Id == id && !x.IsAdditional))
+                if (!Parent.States.Any(x => x.Class == classId.ToString()
+                    && !x.IsAdditional))
                 {
-                    items.Add(new StateViewModel(id, Parent));
+                    items.Add(new StateViewModel(classId.ToString(), Parent));
                 }
             }
             Items = new ObservableCollection<StateViewModel>(

@@ -29,7 +29,7 @@
             <Views:FramesView Grid.Row="1" Grid.Column="0" DataContext="{Binding SelectedDevice}" />
             
             <DockPanel Grid.Row="1" Grid.Column="1">
-                <Views:CanvacesView DataContext="{Binding SelectedDevice}" />
+                <Views:CanvacesView DataContext="{Binding SelectedDevice}" DockPanel.Dock="Top" />
                 <Button Content="Сохранить" VerticalAlignment="Bottom" Margin="10"
                         Command="{Binding SaveCommand}"  DockPanel.Dock="Bottom" />
             </DockPanel>

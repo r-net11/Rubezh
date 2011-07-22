@@ -8,13 +8,10 @@ namespace DeviceLibrary.Models
     public class State
     {
         [XmlAttribute]
-        public string Id { get; set; }
+        public string Class { get; set; }
 
         [XmlAttribute]
-        public string Name { get; set; }
-
-        [XmlAttribute]
-        public bool IsAdditional { get; set; }
+        public string Code { get; set; }
 
         public List<Frame> Frames { get; set; }
     }

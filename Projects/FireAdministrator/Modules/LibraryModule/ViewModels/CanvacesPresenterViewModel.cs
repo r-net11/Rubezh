@@ -33,7 +33,7 @@ namespace LibraryModule.ViewModels
         {
             foreach (var stateViewModel in stateViewModels)
             {
-                if (stateViewModel.IsAdditional && stateViewModel.IsChecked && stateViewModel.Class == ParentState.Id)
+                if (stateViewModel.IsAdditional && stateViewModel.IsChecked && stateViewModel.Class == ParentState.Class)
                 {
                     yield return stateViewModel;
                 }
