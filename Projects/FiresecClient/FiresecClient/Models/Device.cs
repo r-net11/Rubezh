@@ -94,6 +94,29 @@ namespace FiresecClient.Models
             }
         }
 
+        public string DottedAddress
+        {
+            get
+            {
+                string address = "";
+                foreach (var parentDevice in AllParents)
+                {
+                    if (parentDevice.Driver.HasAddress)
+                    {
+                        address += parentDevice.PresentationAddress + ".";
+                    }
+                }
+                if (Driver.HasAddress)
+                {
+                    address += PresentationAddress + ".";
+                }
+                if (address.EndsWith("."))
+                    address = address.Remove(address.Length - 1);
+
+                return address;
+            }
+        }
+
         public List<Device> AllParents
         {
             get

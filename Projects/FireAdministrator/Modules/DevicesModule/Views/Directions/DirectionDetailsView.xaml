@@ -40,7 +40,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
-                                <TextBlock Text="{Binding DeviceRm.PresentationAddress}" Margin="10, 0, 0, 0" />
+                                <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <Button Content="x" Command="{Binding ResetRmCommand}" HorizontalAlignment="Right" />
@@ -55,7 +55,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
                                 <TextBlock Text="{Binding DeviceButton.Driver.ShortName}" />
-                                <TextBlock Text="{Binding DeviceButton.PresentationAddress}" Margin="10, 0, 0, 0" />
+                                <TextBlock Text="{Binding DeviceButton.DottedAddress}" Margin="10, 0, 0, 0" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                 <Button Content="x" Command="{Binding ResetButtonCommand}" HorizontalAlignment="Right" />

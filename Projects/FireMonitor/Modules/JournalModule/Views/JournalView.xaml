@@ -25,6 +25,22 @@
                     <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
                 </DataGrid.Columns>
 
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Setters>
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="Menu 1" />
+                                        <MenuItem Header="Menu 2" />
+                                        <MenuItem Header="Menu 2" />
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </DataGrid.RowStyle>
+                
                 <DataGrid.CellStyle>
                     <Style TargetType="{x:Type DataGridCell}">
                         <Style.Setters>

@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
             deviceState.StateChanged += new Action(deviceState_StateChanged);
             _deviceControlViewModel = new DeviceControlViewModel(_device);
 
-            Title = Address;
+            Title = _device.Driver.ShortName + " " + _device.DottedAddress;
         }
 
         Device _device;
@@ -26,29 +26,6 @@ namespace DevicesModule.ViewModels
         public Driver Driver
         {
             get { return _device.Driver; }
-        }
-
-        public string Address
-        {
-            get
-            {
-                string address = _device.Driver.ShortName + " ";
-                foreach (var device in _device.AllParents)
-                {
-                    if (device.Driver.HasAddress)
-                    {
-                        address += device.PresentationAddress + ".";
-                    }
-                }
-                if (_device.Driver.HasAddress)
-                {
-                    address += _device.PresentationAddress + ".";
-                }
-                if (address.EndsWith("."))
-                    address = address.Remove(address.Length - 1);
-
-                return address;
-            }
         }
 
         void deviceState_StateChanged()
