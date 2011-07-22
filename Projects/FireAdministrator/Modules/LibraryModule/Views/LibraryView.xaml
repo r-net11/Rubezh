@@ -29,21 +29,7 @@
             <Views:FramesView Grid.Row="1" Grid.Column="0" DataContext="{Binding SelectedDevice}" />
             
             <DockPanel Grid.Row="1" Grid.Column="1">
-                <ContentControl Margin="10" DataContext="{Binding SelectedDevice}" DockPanel.Dock="Top">
-                    <ItemsControl ItemsSource="{Binding DeviceControl.StateCanvases}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas Width="500" Height="500" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-
-                        <ItemsControl.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" 
-                                            ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" />
-                        </ItemsControl.LayoutTransform>
-                    </ItemsControl>
-                </ContentControl>
-                <Slider Name="sliderScale" Cursor="Hand" Minimum="0.01" Maximum="0.15" Value="1.0" DockPanel.Dock="Top" />
+                <Views:CanvacesView DataContext="{Binding SelectedDevice}" />
                 <Button Content="Сохранить" VerticalAlignment="Bottom" Margin="10"
                         Command="{Binding SaveCommand}"  DockPanel.Dock="Bottom" />
             </DockPanel>

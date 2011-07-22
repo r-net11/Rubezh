@@ -12,16 +12,16 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить дополнительное состояние";
 
-            Items = new ObservableCollection<StateViewModel>();
+            var items = new ObservableCollection<StateViewModel>();
             foreach (var state in Parent.Driver.States)
             {
-                if (Parent.States.Any(x => x.Id == state.id && x.IsAdditional) == false)
+                if (!Parent.States.Any(x => x.Id == state.id && x.IsAdditional))
                 {
-                    Items.Add(new StateViewModel(state, Parent));
+                    items.Add(new StateViewModel(state, Parent));
                 }
             }
             Items = new ObservableCollection<StateViewModel>(
-                        from state in Items
+                        from state in items
                         orderby state.Name
                         orderby state.ClassName
                         select state);

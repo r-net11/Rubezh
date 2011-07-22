@@ -13,16 +13,16 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить устройство";
 
-            Items = new ObservableCollection<DeviceViewModel>();
+            var items = new ObservableCollection<DeviceViewModel>();
             foreach (var driver in FiresecManager.Configuration.Drivers)
             {
                 if (driver.IsPlaceable && !Parent.Devices.Any(x => x.Id == driver.Id))
                 {
-                    Items.Add(new DeviceViewModel(Parent, driver));
+                    items.Add(new DeviceViewModel(Parent, driver));
                 }
             }
             Items = new ObservableCollection<DeviceViewModel>(
-                        from item in Items
+                        from item in items
                         orderby item.Name
                         select item);
         }

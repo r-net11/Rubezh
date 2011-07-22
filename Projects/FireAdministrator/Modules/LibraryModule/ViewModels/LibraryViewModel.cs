@@ -17,24 +17,21 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            List<DeviceViewModel> devicesList = new List<DeviceViewModel>();
+            var devicesList = new List<DeviceViewModel>();
             foreach (var device in LibraryManager.Devices)
             {
                 devicesList.Add(new DeviceViewModel(this, device));
             }
             Devices = new ObservableCollection<DeviceViewModel>(
-                from device in devicesList
-                orderby device.Name
-                select device);
+                            from device in devicesList
+                            orderby device.Name
+                            select device);
         }
 
         ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
-            get
-            {
-                return _devices;
-            }
+            get { return _devices; }
 
             set
             {
@@ -46,10 +43,7 @@ namespace LibraryModule.ViewModels
         DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
         {
-            get
-            {
-                return _selectedDevice;
-            }
+            get { return _selectedDevice; }
 
             set
             {
@@ -58,9 +52,9 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        void Update()
+        void UpdateModel()
         {
-            LibraryManager.Devices = new List<Device>();
+            var devices = new List<Device>();
             foreach (var deviceViewModel in Devices)
             {
                 var device = new Device();
@@ -87,19 +81,20 @@ namespace LibraryModule.ViewModels
                     }
                     device.States.Add(state);
                 }
-                LibraryManager.Devices.Add(device);
+                devices.Add(device);
             }
+            LibraryManager.Devices = devices;
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
-                                                      "Окно подтверждения", MessageBoxButton.OKCancel,
-                                                      MessageBoxImage.Question);
+                                         "Окно подтверждения", MessageBoxButton.OKCancel,
+                                         MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Update();
+                UpdateModel();
                 LibraryManager.Save();
             }
         }

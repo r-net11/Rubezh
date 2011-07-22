@@ -5,19 +5,15 @@
     <ListBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"  HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <DockPanel>
-                    <Expander>
-                        <Expander.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding IconPath}" Width="14" Margin="5,0,5,0" />
-                                <TextBlock Text="{Binding Name}" />
-                            </StackPanel>
-                        </Expander.Header>
-                        <DockPanel>
-                            <Views:StatesView />
-                        </DockPanel>
-                    </Expander>
-                </DockPanel>
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding IconPath}" Width="14" Margin="5,0,5,0" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </Expander.Header>
+                    <Views:StatesView />
+                </Expander>
             </DataTemplate>
         </ListBox.ItemTemplate>        
         <ListBox.Resources>

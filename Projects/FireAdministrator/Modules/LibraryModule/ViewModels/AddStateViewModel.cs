@@ -12,17 +12,17 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить состояние";
 
-            Items = new ObservableCollection<StateViewModel>();
+            var items = new ObservableCollection<StateViewModel>();
             for (int stateId = 0; stateId < 9; ++stateId)
             {
                 string id = stateId.ToString();
-                if (Parent.States.Any(x => x.Id == id && !x.IsAdditional) == false)
+                if (!Parent.States.Any(x => x.Id == id && !x.IsAdditional))
                 {
-                    Items.Add(new StateViewModel(id, Parent));
+                    items.Add(new StateViewModel(id, Parent));
                 }
             }
             Items = new ObservableCollection<StateViewModel>(
-                        from state in Items
+                        from state in items
                         orderby state.Name
                         select state);
         }

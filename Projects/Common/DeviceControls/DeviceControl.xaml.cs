@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -69,7 +68,7 @@ namespace DeviceControls
                 return;
 
             StateCanvases = new ObservableCollection<Canvas>();
-            var state = device.States.FirstOrDefault(x => (x.Id == StateId) && (Convert.ToInt32(x.Id) >= 0) && (!x.IsAdditional));
+            var state = device.States.FirstOrDefault(x => (x.Id == StateId) && (int.Parse(x.Id) >= 0) && (!x.IsAdditional));
             if (state != null)
             {
                 _stateViewModelList.Add(new StateViewModel(state, StateCanvases));

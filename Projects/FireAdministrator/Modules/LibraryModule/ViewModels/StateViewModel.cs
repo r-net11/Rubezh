@@ -7,12 +7,14 @@ namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
+        public static readonly string defaultStateId = "8";
+
         public StateViewModel(DeviceLibrary.Models.State state, DeviceViewModel parent)
         {
             SetFrames(state);
-            Parent = parent;
+            ParentDevice = parent;
             IsAdditional = state.IsAdditional;
-            ConfigDrvState = Parent.Driver.States.FirstOrDefault(x => x.name == state.Name);
+            ConfigDrvState = ParentDevice.Driver.States.FirstOrDefault(x => x.name == state.Name);
             //if (IsAdditional)
             //{
             //    Id = ConfigDrvState.id;
@@ -28,7 +30,7 @@ namespace LibraryModule.ViewModels
         public StateViewModel(Firesec.Metadata.configDrvState configDrvState, DeviceViewModel parent)
         {
             SetDefaultFrame();
-            Parent = parent;
+            ParentDevice = parent;
             IsAdditional = true;
             ConfigDrvState = configDrvState;
             Id = configDrvState.id;
@@ -39,7 +41,7 @@ namespace LibraryModule.ViewModels
         public StateViewModel(string id, DeviceViewModel parent)
         {
             SetDefaultFrame();
-            Parent = parent;
+            ParentDevice = parent;
             IsAdditional = false;
             Id = id;
 
@@ -52,35 +54,10 @@ namespace LibraryModule.ViewModels
         }
 
         public Firesec.Metadata.configDrvState ConfigDrvState { get; private set; }
-        public DeviceViewModel Parent { get; private set; }
+        public DeviceViewModel ParentDevice { get; private set; }
 
-        string _id;
-        public string Id
-        {
-            get
-            {
-                return _id;
-            }
-
-            private set
-            {
-                _id = value;
-            }
-        }
-
-        bool _isAdditional;
-        public bool IsAdditional
-        {
-            get
-            {
-                return _isAdditional;
-            }
-
-            private set
-            {
-                _isAdditional = value;
-            }
-        }
+        public string Id { get; private set; }
+        public bool IsAdditional { get; private set; }
 
         bool _isChecked;
         public bool IsChecked
@@ -93,17 +70,9 @@ namespace LibraryModule.ViewModels
             set
             {
                 _isChecked = value;
-                if (Parent.SelectedState != this)
+                if (ParentDevice.SelectedState != this)
                 {
-                    Parent.SelectedState = this;
-                }
-                if (value)
-                {
-                    Parent.AdditionalStates.Add(Id);
-                }
-                else
-                {
-                    Parent.AdditionalStates.Remove(Id);
+                    ParentDevice.SelectedState = this;
                 }
 
                 OnPropertyChanged("IsChecked");
@@ -114,8 +83,8 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (Parent == null) return "";
-                var state = Parent.Driver.States.FirstOrDefault(x => x.id == Id);
+                if (ParentDevice == null) return "";
+                var state = ParentDevice.Driver.States.FirstOrDefault(x => x.id == Id);
                 if (state == null) return "";
                 return state.@class;
             }
@@ -133,10 +102,10 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (Parent == null) return "";
+                if (ParentDevice == null) return "";
                 if (IsAdditional)
                 {
-                    var state = Parent.Driver.States.FirstOrDefault(x => x.id == Id);
+                    var state = ParentDevice.Driver.States.FirstOrDefault(x => x.id == Id);
                     if (state == null) return "Unknown";
                     return state.name;
                 }
@@ -144,6 +113,14 @@ namespace LibraryModule.ViewModels
                 {
                     return new FiresecClient.Models.State(int.Parse(Id)).ToString();
                 }
+            }
+        }
+
+        public CanvasesPresenter CanvasesPresenter
+        {
+            get
+            {
+                return new CanvasesPresenterViewModel(this).CanvasesPresenter;
             }
         }
 
@@ -202,14 +179,12 @@ namespace LibraryModule.ViewModels
             else
             {
                 var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
-                          "Окно подтверждения", MessageBoxButton.OKCancel,
-                          MessageBoxImage.Question);
+                                                    "Окно подтверждения",
+                                                    MessageBoxButton.OKCancel,
+                                                    MessageBoxImage.Question);
                 if (dialogResult == MessageBoxResult.OK)
                 {
-                    IsChecked = false;
-                    Parent.States.Remove(this);
-                    SelectedFrame = null;
-                    Parent.DeviceControl.StateCanvases = null;
+                    ParentDevice.States.Remove(this);
                 }
             }
         }

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using DeviceControls;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -13,26 +11,24 @@ namespace LibraryModule.ViewModels
     {
         public DeviceViewModel(LibraryViewModel parent, DeviceLibrary.Models.Device device)
         {
-            Parent = parent;
+            ParentLibrary = parent;
             Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == device.Id);
             SetStates(device);
+
             Initialize();
         }
 
         public DeviceViewModel(LibraryViewModel parent, FiresecClient.Models.Driver driver)
         {
-            Parent = parent;
+            ParentLibrary = parent;
             Driver = driver;
             SetDefaultState();
+
             Initialize();
         }
 
         void Initialize()
         {
-            DeviceControl = new DeviceControl();
-            DeviceControl.DriverId = Id;
-            AdditionalStates = new List<string>();
-
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
             AddDeviceCommand = new RelayCommand(OnAddDevice);
@@ -40,8 +36,7 @@ namespace LibraryModule.ViewModels
         }
 
         public FiresecClient.Models.Driver Driver { get; private set; }
-        public LibraryViewModel Parent { get; private set; }
-        public List<string> AdditionalStates;
+        public LibraryViewModel ParentLibrary { get; private set; }
 
         public string Id
         {
@@ -67,21 +62,6 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        DeviceControl _deviceControl;
-        public DeviceControl DeviceControl
-        {
-            get
-            {
-                return _deviceControl;
-            }
-
-            private set
-            {
-                _deviceControl = value;
-                OnPropertyChanged("DeviceControl");
-            }
-        }
-
         ObservableCollection<StateViewModel> _states;
         public ObservableCollection<StateViewModel> States
         {
@@ -100,24 +80,20 @@ namespace LibraryModule.ViewModels
         StateViewModel _selectedState;
         public StateViewModel SelectedState
         {
-            get
-            {
-                return _selectedState;
-            }
+            get { return _selectedState; }
 
             set
             {
                 _selectedState = value;
-                if (value == null) return;
-                if (_selectedState.Frames != null && _selectedState.Frames.Count > 0)
+                if (value != null && value.Frames != null && value.Frames.Count > 0)
                 {
-                    _selectedState.SelectedFrame = _selectedState.Frames[0];
+                    value.SelectedFrame = value.Frames[0];
                 }
-                if (Parent.SelectedDevice != this)
+
+                if (ParentLibrary.SelectedDevice != this)
                 {
-                    Parent.SelectedDevice = this;
+                    ParentLibrary.SelectedDevice = this;
                 }
-                UpdateDeviceControl(value);
 
                 OnPropertyChanged("SelectedState");
             }
@@ -126,44 +102,20 @@ namespace LibraryModule.ViewModels
         void SetDefaultState()
         {
             States = new ObservableCollection<StateViewModel>();
-            States.Add(new StateViewModel("8", this));
+            States.Add(new StateViewModel(StateViewModel.defaultStateId, this));
         }
 
         void SetStates(DeviceLibrary.Models.Device device)
         {
-            States = new ObservableCollection<StateViewModel>();
+            var states = new ObservableCollection<StateViewModel>();
             foreach (var state in device.States)
             {
-                States.Add(new StateViewModel(state, this));
+                states.Add(new StateViewModel(state, this));
             }
             States = new ObservableCollection<StateViewModel>(
-                     from state in States
-                     orderby state.Name
-                     select state);
-        }
-
-        void UpdateDeviceControl(StateViewModel stateViewModel)
-        {
-
-            if (stateViewModel.IsAdditional)
-            {
-                DeviceControl.StateId = "-1";
-                DeviceControl.AdditionalStates = new List<string>() { stateViewModel.Id };
-            }
-            else
-            {
-                DeviceControl.StateId = stateViewModel.Id;
-                List<string> tmpAStates = new List<string>();
-                foreach (var stateId in AdditionalStates)
-                {
-                    var state = States.FirstOrDefault(x => (x.Id == stateId) && (x.IsAdditional));
-                    if (state.Class == SelectedState.Id)
-                    {
-                        tmpAStates.Add(state.Id);
-                    }
-                }
-                DeviceControl.AdditionalStates = tmpAStates;
-            }
+                        from state in states
+                        orderby state.Name
+                        select state);
         }
 
         public RelayCommand AddStateCommand { get; private set; }
@@ -193,12 +145,12 @@ namespace LibraryModule.ViewModels
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
-            var addDeviceViewModel = new AddDeviceViewModel(Parent);
+            var addDeviceViewModel = new AddDeviceViewModel(ParentLibrary);
             addDeviceViewModel.Initialize();
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                Parent.Devices.Add(addDeviceViewModel.SelectedItem);
+                ParentLibrary.Devices.Add(addDeviceViewModel.SelectedItem);
             }
         }
 
@@ -211,7 +163,7 @@ namespace LibraryModule.ViewModels
                                           MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Parent.Devices.Remove(this);
+                ParentLibrary.Devices.Remove(this);
             }
         }
     }

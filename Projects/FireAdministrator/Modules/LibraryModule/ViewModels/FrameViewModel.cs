@@ -10,14 +10,14 @@ namespace LibraryModule.ViewModels
 {
     public class FrameViewModel : BaseViewModel
     {
-        const string emptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
-        const string errorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<Border BorderBrush=\"Red\" BorderThickness=\"5\" Padding=\"20\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"60\" />\n</Border>\n</Canvas>";
-        const int defaultDuration = 300;
-        const int defaultLayer = 0;
+        static readonly string emptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
+        static readonly string errorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<Border BorderBrush=\"Red\" BorderThickness=\"5\" Padding=\"20\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"60\" />\n</Border>\n</Canvas>";
+        static readonly int defaultDuration = 300;
+        static readonly int defaultLayer = 0;
 
         public FrameViewModel(StateViewModel parent, DeviceLibrary.Models.Frame frame)
         {
-            Parent = parent;
+            ParentState = parent;
             Id = frame.Id;
             XmlOfImage = frame.Image;
             Duration = frame.Duration;
@@ -28,7 +28,7 @@ namespace LibraryModule.ViewModels
 
         public FrameViewModel(StateViewModel parent)
         {
-            Parent = parent;
+            ParentState = parent;
             Id = parent.Frames.Count;
             XmlOfImage = emptyFrame;
             Duration = defaultDuration;
@@ -44,15 +44,12 @@ namespace LibraryModule.ViewModels
             ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
-        public StateViewModel Parent { get; private set; }
+        public StateViewModel ParentState { get; private set; }
 
         int _id;
         public int Id
         {
-            get
-            {
-                return _id;
-            }
+            get { return _id; }
 
             set
             {
@@ -64,10 +61,7 @@ namespace LibraryModule.ViewModels
         int _duration;
         public int Duration
         {
-            get
-            {
-                return _duration;
-            }
+            get { return _duration; }
 
             set
             {
@@ -79,10 +73,7 @@ namespace LibraryModule.ViewModels
         int _layer;
         public int Layer
         {
-            get
-            {
-                return _layer;
-            }
+            get { return _layer; }
 
             set
             {
@@ -94,25 +85,19 @@ namespace LibraryModule.ViewModels
         Canvas _xamlOfImage;
         public Canvas XamlOfImage
         {
-            get
-            {
-                return _xamlOfImage;
-            }
+            get { return _xamlOfImage; }
 
             set
             {
                 _xamlOfImage = value;
-                OnPropertyChanged("Picture");
+                OnPropertyChanged("XamlOfImage");
             }
         }
 
         string _xmlOfImage;
         public string XmlOfImage
         {
-            get
-            {
-                return _xmlOfImage;
-            }
+            get { return _xmlOfImage; }
 
             set
             {
@@ -125,7 +110,8 @@ namespace LibraryModule.ViewModels
                 {
                     XamlOfImage = GetCanvasFromXml(errorFrame, Layer);
                 }
-                OnPropertyChanged("Image");
+
+                OnPropertyChanged("XmlOfImage");
             }
         }
 
@@ -145,9 +131,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand AddFrameCommand { get; private set; }
         void OnAddFrame()
         {
-            var newFrame = new FrameViewModel(Parent);
-            newFrame.Parent = Parent;
-            Parent.Frames.Add(newFrame);
+            ParentState.Frames.Add(new FrameViewModel(ParentState));
         }
 
         public RelayCommand ImportSvgCommand { get; private set; }
@@ -158,25 +142,27 @@ namespace LibraryModule.ViewModels
 
             if (openFileDialog1.ShowDialog() == true)
             {
-                XmlOfImage = SvgConverter.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
+                XmlOfImage = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
             }
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            if (Parent.Frames.Count == 1)
+            if (ParentState.Frames.Count == 1)
             {
                 MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
-                return;
             }
-
-            var result = MessageBox.Show("Удалить выбранный кадр?",
-                "Окно подтверждения", MessageBoxButton.OKCancel,
-                MessageBoxImage.Question);
-            if (result == MessageBoxResult.OK)
+            else
             {
-                Parent.Frames.Remove(this);
+                var result = MessageBox.Show("Удалить выбранный кадр?",
+                                            "Окно подтверждения",
+                                            MessageBoxButton.OKCancel,
+                                            MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    ParentState.Frames.Remove(this);
+                }
             }
         }
     }
