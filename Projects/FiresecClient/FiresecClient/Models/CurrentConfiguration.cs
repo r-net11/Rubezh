@@ -1,14 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class CurrentConfiguration
     {
+        [DataMember]
         public List<Driver> Drivers { get; set; }
+
+        [DataMember]
         public List<Device> Devices { get; set; }
+
+        [DataMember]
         public Device RootDevice { get; set; }
+
+        [DataMember]
         public List<Zone> Zones { get; set; }
+
+        [DataMember]
         public List<Direction> Directions { get; set; }
+
+
         public List<User> Users { get; set; }
         public List<UserGroup> UserGroups { get; set; }
         public List<Perimission> Perimissions { get; set; }

@@ -21,6 +21,8 @@ namespace FiresecClient
                 Configuration.Update();
                 Watcher watcher = new Watcher();
                 watcher.Start();
+
+                ServiceManager.Open();
             }
             return result;
         }

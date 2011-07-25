@@ -2,9 +2,11 @@
 using System.Linq;
 using Firesec.ZoneLogic;
 using FiresecClient.Converters;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class Device
     {
         public Device()
@@ -13,17 +15,37 @@ namespace FiresecClient.Models
             Children = new List<Device>();
         }
         public Device Parent { get; set; }
+
+        [DataMember]
         public List<Device> Children { get; set; }
 
+        [DataMember]
         public string DatabaseId { get; set; }
+
+        //[DataMember]
         public Driver Driver { get; set; }
+
+        [DataMember]
         public string PlaceInTree { get; set; }
+
+        [DataMember]
         public int IntAddress { get; set; }
+
+        [DataMember]
         public string ZoneNo { get; set; }
+
+        //[DataMember]
         public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
+
+        [DataMember]
         public List<Property> Properties { get; set; }
+
+        [DataMember]
         public string Description { get; set; }
+
+        [DataMember]
         public string UID { get; set; }
+
         public List<ValidationError> ValidationErrors { get; set; }
 
         public string AddressFullPath

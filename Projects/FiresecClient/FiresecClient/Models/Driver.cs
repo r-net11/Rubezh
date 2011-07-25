@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Firesec.Metadata;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class Driver
     {
         public static Firesec.Metadata.config Metadata;
@@ -14,6 +16,221 @@ namespace FiresecClient.Models
         public Driver(configDrv driver)
         {
             _driver = driver;
+            Id = _driver.id;
+            Name = _driver.name;
+            ShortName = _driver.shortName; ;
+            HasAddress = _driver.ar_no_addr != "1";
+
+            CanEditAddress = true;
+            if (_driver.ar_no_addr != null)
+            {
+                if (_driver.ar_no_addr == "1")
+                    CanEditAddress = false;
+
+                if (_driver.acr_enabled == "1")
+                    CanEditAddress = false;
+            }
+
+            AddressMask = _driver.addrMask;
+            ChildAddressMask = _driver.childAddrMask;
+
+            ShleifCount = 0;
+            if (_driver.childAddrMask != null)
+            {
+                switch (_driver.childAddrMask)
+                {
+                    case "[8(1)-15(2)];[0(1)-7(255)]":
+                        ShleifCount = 2;
+                        break;
+
+                    case "[8(1)-15(4)];[0(1)-7(255)]":
+                        ShleifCount = 4;
+                        break;
+
+                    case "[8(1)-15(10)];[0(1)-7(255)]":
+                        ShleifCount = 10;
+                        break;
+                }
+            }
+
+            IsDeviceOnShleif = ((_driver.addrMask != null) && ((_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]") || (_driver.addrMask == "[0(1)-8(30)]")));
+
+            HasShleif = ShleifCount == 0 ? false : true;
+
+            if (_driver.name == "Насосная Станция")
+                UseParentAddressSystem = false;
+            else
+                UseParentAddressSystem = ((_driver.options != null) && (_driver.options.Contains("UseParentAddressSystem")));
+
+            IsChildAddressReservedRange = (_driver.res_addr != null);
+
+            ChildAddressReserveRangeCount = IsChildAddressReservedRange ? Convert.ToInt32(_driver.res_addr) : 0;
+            DisableAutoCreateChildren = (_driver.options != null) && (_driver.options.Contains("DisableAutoCreateChildren"));
+
+            //CanAddChildren = (AvaliableChildren.Count > 0);
+
+            if (_driver.addrMask == "[0(1)-8(8)]")
+                IsRangeEnabled = true;
+            else
+                IsRangeEnabled = _driver.ar_enabled == "1";
+
+            if (_driver.addrMask == "[0(1)-8(8)]")
+                MinAddress = 1;
+            else
+                MinAddress = Convert.ToInt32(_driver.ar_from);
+
+            if (_driver.addrMask == "[0(1)-8(8)]")
+                MinAddress = 8;
+            else
+                MinAddress = Convert.ToInt32(_driver.ar_to);
+
+            IsAutoCreate = _driver.acr_enabled == "1";
+            MinAutoCreateAddress = Convert.ToInt32(_driver.acr_from);
+            MaxAutoCreateAddress = Convert.ToInt32(_driver.acr_to);
+            HasAddressMask = _driver.addrMask != null;
+
+            string imageSource;
+            if (string.IsNullOrEmpty(_driver.dev_icon) == false)
+            {
+                imageSource = _driver.dev_icon;
+            }
+            else
+            {
+                var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == _driver.clsid);
+                imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
+            }
+
+            ImageSource = @"C:/Program Files/Firesec/Icons/" + imageSource + ".ico";
+
+            HasImage = ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico";
+            IsZoneDevice = !((_driver.minZoneCardinality == "0") && (_driver.maxZoneCardinality == "0"));
+            IsZoneLogicDevice = ((_driver.options != null) && (_driver.options.Contains("ExtendedZoneLogic")));
+            CanDisable = (_driver.options != null) && (_driver.options.Contains("Ignorable"));
+            IsPlaceable = (_driver.options != null) && (_driver.options.Contains("Placeable"));
+            IsIndicatorDevice = (_driver.name == "Индикатор");
+            CanControl = (DriverName == "Задвижка");
+
+            IsBUtton = false;
+            switch (DriverName)
+            {
+                case "Кнопка останова СПТ":
+                case "Кнопка запуска СПТ":
+                case "Кнопка управления автоматикой":
+                case "Кнопка вкл автоматики ШУЗ и насосов в направлении":
+                case "Кнопка выкл автоматики ШУЗ и насосов в направлении":
+                case "Кнопка разблокировки автоматики ШУЗ в направлении":
+                    IsBUtton = true;
+                    break;
+            }
+
+            IsOutDevice = (_driver.options != null) && (_driver.options.Contains("OutDevice"));
+
+            switch (_driver.cat)
+            {
+                case "0":
+                    Category = DeviceCategory.Other;
+                    break;
+
+                case "1":
+                    Category = DeviceCategory.Device;
+                    break;
+
+                case "2":
+                    Category = DeviceCategory.Sensor;
+                    break;
+
+                case "3":
+                    Category = DeviceCategory.Effector;
+                    break;
+
+                case "4":
+                    Category = DeviceCategory.Communication;
+                    break;
+
+                case "5":
+                    Category = DeviceCategory.None;
+                    break;
+
+                case "6":
+                    Category = DeviceCategory.RemoteServer;
+                    break;
+
+                default:
+                    Category = DeviceCategory.None;
+                    break;
+            }
+
+            switch (Category)
+            {
+                case DeviceCategory.Other:
+                    CategoryName = "Прочие устройства";
+                    break;
+
+                case DeviceCategory.Device:
+                    CategoryName = "Приборы";
+                    break;
+
+                case DeviceCategory.Sensor:
+                    CategoryName = "Датчики";
+                    break;
+
+                case DeviceCategory.Effector:
+                    CategoryName = "ИУ";
+                    break;
+
+                case DeviceCategory.Communication:
+                    CategoryName = "Сеть передачи данных";
+                    break;
+
+                case DeviceCategory.None:
+                    CategoryName = "Не указано";
+                    break;
+
+                case DeviceCategory.RemoteServer:
+                    CategoryName = "Удаленный сервер";
+                    break;
+
+                default:
+                    CategoryName = "";
+                    break;
+            }
+
+            DeviceType = DeviceType.FireSecurity;
+
+            if (_driver.options != null)
+            {
+                if (_driver.options.Contains("FireOnly"))
+                    DeviceType = DeviceType.Fire;
+
+                if (_driver.options.Contains("SecOnly"))
+                    DeviceType = DeviceType.Sequrity;
+
+                if (_driver.options.Contains("TechOnly"))
+                    DeviceType = DeviceType.Technoligical;
+            }
+
+            switch (DeviceType)
+            {
+                case DeviceType.Fire:
+                    DeviceTypeName = "пожарный";
+                    break;
+
+                case DeviceType.Sequrity:
+                    DeviceTypeName = "охранный";
+                    break;
+
+                case DeviceType.Technoligical:
+                    DeviceTypeName = "технологический";
+                    break;
+
+                case DeviceType.FireSecurity:
+                    DeviceTypeName = "охранно-пожарный";
+                    break;
+
+                default:
+                    DeviceTypeName = "";
+                    break;
+            }
         }
 
         public List<DriverProperty> Properties
@@ -62,108 +279,49 @@ namespace FiresecClient.Models
             }
         }
 
-        public string Id
-        {
-            get { return _driver.id; }
-        }
 
-        public string Name
-        {
-            get { return _driver.name; }
-        }
 
-        public string ShortName
-        {
-            get { return _driver.shortName; }
-        }
+        [DataMember]
+        public string Id { get; set; }
 
-        public bool HasAddress
-        {
-            get { return _driver.ar_no_addr != "1"; }
-        }
+        [DataMember]
+        public string Name { get; set; }
 
-        public bool CanEditAddress
-        {
-            get
-            {
-                if (_driver.ar_no_addr != null)
-                {
-                    if (_driver.ar_no_addr == "1")
-                        return false;
+        [DataMember]
+        public string ShortName { get; set; }
 
-                    if (_driver.acr_enabled == "1")
-                        return false;
-                }
-                return true;
-            }
-        }
+        [DataMember]
+        public bool HasAddress { get; set; }
 
-        public string AddressMask
-        {
-            get { return _driver.addrMask; }
-        }
+        [DataMember]
+        public bool CanEditAddress { get; set; }
 
-        public string ChildAddressMask
-        {
-            get { return _driver.childAddrMask; }
-        }
+        [DataMember]
+        public string AddressMask { get; set; }
 
-        public int ShleifCount
-        {
-            get
-            {
-                if (_driver.childAddrMask != null)
-                {
-                    switch (_driver.childAddrMask)
-                    {
-                        case "[8(1)-15(2)];[0(1)-7(255)]":
-                            return 2;
+        [DataMember]
+        public string ChildAddressMask { get; set; }
 
-                        case "[8(1)-15(4)];[0(1)-7(255)]":
-                            return 4;
+        [DataMember]
+        public int ShleifCount { get; set; }
 
-                        case "[8(1)-15(10)];[0(1)-7(255)]":
-                            return 10;
-                    }
-                }
-                return 0;
-            }
-        }
+        [DataMember]
+        public bool IsDeviceOnShleif { get; set; }
 
-        public bool IsDeviceOnShleif
-        {
-            get { return ((_driver.addrMask != null) && ((_driver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]") || (_driver.addrMask == "[0(1)-8(30)]"))); }
-        }
+        [DataMember]
+        public bool HasShleif { get; set; }
 
-        public bool HasShleif
-        {
-            get { return ShleifCount == 0 ? false : true; }
-        }
+        [DataMember]
+        public bool UseParentAddressSystem { get; set; }
 
-        public bool UseParentAddressSystem
-        {
-            get
-            {
-                if (_driver.name == "Насосная Станция")
-                    return false;
-                return (_driver.options != null) && (_driver.options.Contains("UseParentAddressSystem"));
-            }
-        }
+        [DataMember]
+        public bool IsChildAddressReservedRange { get; set; }
 
-        public bool IsChildAddressReservedRange
-        {
-            get { return (_driver.res_addr != null); }
-        }
+        [DataMember]
+        public int ChildAddressReserveRangeCount { get; set; }
 
-        public int ChildAddressReserveRangeCount
-        {
-            get { return IsChildAddressReservedRange ? Convert.ToInt32(_driver.res_addr) : 0; }
-        }
-
-        public bool DisableAutoCreateChildren
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("DisableAutoCreateChildren")); }
-        }
+        [DataMember]
+        public bool DisableAutoCreateChildren { get; set; }
 
         IEnumerable AllChildren
         {
@@ -205,10 +363,8 @@ namespace FiresecClient.Models
             }
         }
 
-        public bool CanAddChildren
-        {
-            get { return (AvaliableChildren.Count > 0); }
-        }
+        [DataMember]
+        public bool CanAddChildren { get; set; }
 
         public List<string> AutoCreateChildren
         {
@@ -224,242 +380,69 @@ namespace FiresecClient.Models
             }
         }
 
-        public bool IsRangeEnabled
-        {
-            get
-            {
-                if (_driver.addrMask == "[0(1)-8(8)]")
-                    return true;
-                return _driver.ar_enabled == "1";
-            }
-        }
+        [DataMember]
+        public bool IsRangeEnabled { get; set; }
 
-        public int MinAddress
-        {
-            get
-            {
-                if (_driver.addrMask == "[0(1)-8(8)]")
-                    return 1;
-                return Convert.ToInt32(_driver.ar_from);
-            }
-        }
+        [DataMember]
+        public int MinAddress { get; set; }
 
-        public int MaxAddress
-        {
-            get
-            {
-                if (_driver.addrMask == "[0(1)-8(8)]")
-                    return 8;
-                return Convert.ToInt32(_driver.ar_to);
-            }
-        }
+        [DataMember]
+        public int MaxAddress { get; set; }
 
-        public bool IsAutoCreate
-        {
-            get { return _driver.acr_enabled == "1"; }
-        }
+        [DataMember]
+        public bool IsAutoCreate { get; set; }
 
-        public int MinAutoCreateAddress
-        {
-            get { return Convert.ToInt32(_driver.acr_from); }
-        }
+        [DataMember]
+        public int MinAutoCreateAddress { get; set; }
 
-        public int MaxAutoCreateAddress
-        {
-            get { return Convert.ToInt32(_driver.acr_to); }
-        }
+        [DataMember]
+        public int MaxAutoCreateAddress { get; set; }
 
-        public bool HasAddressMask
-        {
-            get { return _driver.addrMask != null; }
-        }
+        [DataMember]
+        public bool HasAddressMask { get; set; }
 
-        public string ImageSource
-        {
-            get
-            {
-                string imageSource;
-                if (string.IsNullOrEmpty(_driver.dev_icon) == false)
-                {
-                    imageSource = _driver.dev_icon;
-                }
-                else
-                {
-                    var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == _driver.clsid);
-                    imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-                }
+        [DataMember]
+        public string ImageSource { get; set; }
 
-                return @"C:/Program Files/Firesec/Icons/" + imageSource + ".ico";
-            }
-        }
+        [DataMember]
+        public bool HasImage { get; set; }
 
-        public bool HasImage
-        {
-            get { return ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico"; }
-        }
+        [DataMember]
+        public bool IsZoneDevice { get; set; }
 
-        public bool IsZoneDevice
-        {
-            get { return !((_driver.minZoneCardinality == "0") && (_driver.maxZoneCardinality == "0")); }
-        }
+        [DataMember]
+        public bool IsZoneLogicDevice { get; set; }
 
-        public bool IsZoneLogicDevice
-        {
-            get { return ((_driver.options != null) && (_driver.options.Contains("ExtendedZoneLogic"))); }
-        }
+        [DataMember]
+        public bool CanDisable { get; set; }
 
-        public bool CanDisable
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("Ignorable")); }
-        }
+        [DataMember]
+        public bool IsPlaceable { get; set; }
 
-        public bool IsPlaceable
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("Placeable")); }
-        }
+        [DataMember]
+        public bool IsIndicatorDevice { get; set; }
 
-        public bool IsIndicatorDevice
-        {
-            get { return (_driver.name == "Индикатор"); }
-        }
+        [DataMember]
+        public bool CanControl { get; set; }
 
-        public bool CanControl
-        {
-            get { return (DriverName == "Задвижка"); }
-        }
+        [DataMember]
+        public bool IsBUtton { get; set; }
 
-        public bool IsBUtton
-        {
-            get
-            {
-                switch (DriverName)
-                {
-                    case "Кнопка останова СПТ":
-                    case "Кнопка запуска СПТ":
-                    case "Кнопка управления автоматикой":
-                    case "Кнопка вкл автоматики ШУЗ и насосов в направлении":
-                    case "Кнопка выкл автоматики ШУЗ и насосов в направлении":
-                    case "Кнопка разблокировки автоматики ШУЗ в направлении":
-                        return true;
-                }
-                return false;
-            }
-        }
+        [DataMember]
+        public bool IsOutDevice { get; set; }
 
-        public bool IsOutDevice
-        {
-            get { return (_driver.options != null) && (_driver.options.Contains("OutDevice")); }
-        }
+        [DataMember]
+        public DeviceCategory Category { get; set; }
 
-        public DeviceCategory Category
-        {
-            get
-            {
-                switch (_driver.cat)
-                {
-                    case "0":
-                        return DeviceCategory.Other;
+        [DataMember]
+        public string CategoryName { get; set; }
 
-                    case "1":
-                        return DeviceCategory.Device;
+        [DataMember]
+        public DeviceType DeviceType { get; set; }
 
-                    case "2":
-                        return DeviceCategory.Sensor;
+        [DataMember]
+        public string DeviceTypeName { get; set; }
 
-                    case "3":
-                        return DeviceCategory.Effector;
-
-                    case "4":
-                        return DeviceCategory.Communication;
-
-                    case "5":
-                        return DeviceCategory.None;
-
-                    case "6":
-                        return DeviceCategory.RemoteServer;
-
-                    default:
-                        return DeviceCategory.None;
-                }
-            }
-        }
-
-        public string CategoryName
-        {
-            get
-            {
-                switch (Category)
-                {
-                    case DeviceCategory.Other:
-                        return "Прочие устройства";
-
-                    case DeviceCategory.Device:
-                        return "Приборы";
-
-                    case DeviceCategory.Sensor:
-                        return "Датчики";
-
-                    case DeviceCategory.Effector:
-                        return "ИУ";
-
-                    case DeviceCategory.Communication:
-                        return "Сеть передачи данных";
-
-                    case DeviceCategory.None:
-                        return "Не указано";
-
-                    case DeviceCategory.RemoteServer:
-                        return "Удаленный сервер";
-
-                    default:
-                        return "";
-                }
-            }
-        }
-
-        public DeviceType DeviceType
-        {
-            get
-            {
-                if (_driver.options != null)
-                {
-                    if (_driver.options.Contains("FireOnly"))
-                        return DeviceType.Fire;
-
-                    if (_driver.options.Contains("SecOnly"))
-                        return DeviceType.Sequrity;
-
-                    if (_driver.options.Contains("TechOnly"))
-                        return DeviceType.Technoligical;
-                }
-
-                return DeviceType.FireSecurity;
-            }
-        }
-
-        public string DeviceTypeName
-        {
-            get
-            {
-                switch (DeviceType)
-                {
-                    case DeviceType.Fire:
-                        return "пожарный";
-
-                    case DeviceType.Sequrity:
-                        return "охранный";
-
-                    case DeviceType.Technoligical:
-                        return "технологический";
-
-                    case DeviceType.FireSecurity:
-                        return "охранно-пожарный";
-
-                    default:
-                        return "";
-                }
-            }
-        }
 
         class DriverData
         {
