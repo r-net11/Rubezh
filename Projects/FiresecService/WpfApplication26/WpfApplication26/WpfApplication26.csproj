@@ -36,12 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Firesec, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Projects\Projects\FiresecClient\FiresecClient\bin\Debug\Firesec.dll</HintPath>
-    </Reference>
     <Reference Include="FiresecClient">
-      <HintPath>..\..\..\Projects\Projects\FiresecClient\FiresecClient\bin\Debug\FiresecClient.dll</HintPath>
+      <HintPath>..\..\..\FiresecClient\FiresecClient\bin\Debug\FiresecClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using FiresecClient.Models;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -11,7 +12,7 @@ namespace FiresecClient
     public interface IFiresecService
     {
         [OperationContract]
-        string GetName();
+        Stream GetFile();
 
         [OperationContract]
         CurrentConfiguration GetCoreConfig();

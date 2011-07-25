@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ServiceModel;
 using FiresecClient;
+using System.IO;
 
 namespace WpfApplication26
 {
@@ -40,6 +41,12 @@ namespace WpfApplication26
             var name = FiresecService.GetName();
             var configuration = FiresecService.GetCoreConfig();
             configuration.Update();
+
+
+            Stream stream = FiresecService.GetFile();
+            FileStream fileStream = new FileStream("D:/yyy.txt", FileMode.Create);
+            stream.CopyTo(fileStream);
+            fileStream.Close();
         }
 
         public void NewEvent(string name)
