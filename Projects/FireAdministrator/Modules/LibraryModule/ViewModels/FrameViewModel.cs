@@ -120,8 +120,8 @@ namespace LibraryModule.ViewModels
             if (string.IsNullOrWhiteSpace(image)) return new Canvas();
 
             using (var stringReader = new StringReader(image))
-            using (var xmlReader = XmlReader.Create(stringReader))
             {
+                var xmlReader = XmlReader.Create(stringReader);
                 Canvas canvas = (Canvas) XamlReader.Load(xmlReader);
                 Panel.SetZIndex(canvas, layer);
                 return canvas;

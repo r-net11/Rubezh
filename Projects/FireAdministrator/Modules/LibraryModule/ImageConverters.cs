@@ -36,8 +36,8 @@ namespace LibraryModule
             try
             {
                 using (var stringReader = new StringReader(xmlOfimage))
-                using (var xmlReader = XmlReader.Create(stringReader))
                 {
+                    var xmlReader = XmlReader.Create(stringReader);
                     canvas = (Canvas) XamlReader.Load(xmlReader);
                     Panel.SetZIndex(canvas, layer);
                 }

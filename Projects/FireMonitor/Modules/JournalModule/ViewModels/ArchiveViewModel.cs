@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using FiresecClient;
 using System.Diagnostics;
 using System.Threading;
-using JournalModule.Views;
+using System.Threading.Tasks;
+using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -24,6 +22,7 @@ namespace JournalModule.ViewModels
             JournalItems = new ObservableCollection<JournalItemViewModel>();
 
             Thread thread = new Thread(Read);
+            thread.Priority = ThreadPriority.Highest;
             thread.Start();
         }
 
@@ -39,11 +38,11 @@ namespace JournalModule.ViewModels
                 if (journalItems == null)
                     break;
 
-                foreach (var journalItem in journalItems)
+                Parallel.ForEach(journalItems, journalItem =>
                 {
-                    JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
-                    Dispatcher.Invoke((Action<JournalItemViewModel>)Add, journalItemViewModel);
+                    Dispatcher.Invoke((Action<JournalItemViewModel>) Add, new JournalItemViewModel(journalItem));
                 }
+                );
 
                 //if (journalItems.Count < 100)
                 //    break;

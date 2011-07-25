@@ -23,7 +23,6 @@ namespace LibraryModule.ViewModels
                 devicesList.Add(new DeviceViewModel(this, device));
             }
             Devices = devicesList;
-            SortDevices();
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -48,14 +47,6 @@ namespace LibraryModule.ViewModels
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
-        }
-
-        public void SortDevices()
-        {
-            Devices = new ObservableCollection<DeviceViewModel>(
-                            from device in Devices
-                            orderby device.Name
-                            select device);
         }
 
         void UpdateModel()

@@ -80,16 +80,25 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (ConfigDrvState == null)
+                string name = new FiresecClient.Models.State(int.Parse(Class)).ToString();
+                if (IsAdditional)
                 {
-                    return new FiresecClient.Models.State(int.Parse(Class)).ToString();
-                }
-                else
-                {
+                    name += ". ";
                     var state = ParentDevice.Driver.States.FirstOrDefault(x => x.code == Code);
-                    if (state == null) return "Unknown";
-                    return state.name;
+                    if (state == null) name += "Unknown";
+                    name += state.name;
                 }
+                return name;
+            }
+        }
+
+        public string AdditionalName
+        {
+            get
+            {
+                var state = ParentDevice.Driver.States.FirstOrDefault(x => x.code == Code);
+                if (state == null) return "Unknown";
+                return state.name;
             }
         }
 

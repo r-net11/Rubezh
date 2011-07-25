@@ -1,34 +1,51 @@
 ﻿<UserControl x:Class="LibraryModule.Views.AddAdditionalStateView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              MinWidth="400" MinHeight="500">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="ItemsGroups" Source="{Binding Path=Items}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="ClassName" />
+            </CollectionViewSource.GroupDescriptions>
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Class" Direction="Ascending" />
+                <scm:SortDescription PropertyName="AdditionalName" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" Grid.Column="0" 
-                 ItemsSource="{Binding Items}" 
-                 SelectedItem="{Binding SelectedItem}" 
-                 Style="{StaticResource ListBoxStyle}">
-            <ListBox.ItemTemplate>
+        <ListView Grid.Row="0" Grid.Column="0" 
+                 ItemsSource="{Binding Source={StaticResource ItemsGroups}}"
+                 SelectedItem="{Binding SelectedItem}">
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Background="Gray"
+                                Foreground="White"
+                                Margin="1"
+                                Padding="4,2,0,2"
+                                Text="{Binding Path=Name}" FontWeight="Black" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical" Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Класс состояния:  " FontStyle="Oblique" />
-                            <TextBlock Text="{Binding ClassName}" FontWeight="UltraBlack" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Состояние:  " FontStyle="Oblique" />
-                            <TextBlock Text="{Binding Name}" FontWeight="UltraBlack" />
-                        </StackPanel>
-                    </StackPanel>
+                    <TextBlock Text="{Binding AdditionalName}" />
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            </ListView.ItemTemplate>
+        </ListView>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="5">
             <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
             <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
-        </StackPanel>
+        </WrapPanel>
     </Grid>
 </UserControl>

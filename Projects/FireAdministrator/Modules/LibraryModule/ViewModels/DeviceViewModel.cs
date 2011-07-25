@@ -113,15 +113,6 @@ namespace LibraryModule.ViewModels
                 states.Add(new StateViewModel(state, this));
             }
             States = states;
-            SortStates();
-        }
-
-        public void SortStates()
-        {
-            States = new ObservableCollection<StateViewModel>(
-                        from state in States
-                        orderby state.Name
-                        select state);
         }
 
         public RelayCommand AddStateCommand { get; private set; }
@@ -133,7 +124,6 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
             {
                 States.Add(addStateViewModel.SelectedItem);
-                SortStates();
             }
         }
 
@@ -146,7 +136,6 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
                 States.Add(addAdditionalStateViewModel.SelectedItem);
-                SortStates();
             }
         }
 
@@ -159,7 +148,6 @@ namespace LibraryModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
                 ParentLibrary.Devices.Add(addDeviceViewModel.SelectedItem);
-                ParentLibrary.SortDevices();
             }
         }
 

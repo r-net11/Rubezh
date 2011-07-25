@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 
 namespace LibraryModule.ViewModels
 {
@@ -12,19 +11,15 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить состояние";
 
-            var items = new ObservableCollection<StateViewModel>();
+            Items = new System.Collections.ObjectModel.ObservableCollection<StateViewModel>();
             for (int classId = 0; classId < 9; ++classId)
             {
                 if (!Parent.States.Any(x => x.Class == classId.ToString()
                     && !x.IsAdditional))
                 {
-                    items.Add(new StateViewModel(classId.ToString(), Parent));
+                    Items.Add(new StateViewModel(classId.ToString(), Parent));
                 }
             }
-            Items = new ObservableCollection<StateViewModel>(
-                        from state in items
-                        orderby state.Name
-                        select state);
         }
     }
 }
