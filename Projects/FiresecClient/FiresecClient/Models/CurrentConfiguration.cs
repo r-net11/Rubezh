@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using FiresecClient.Converters;
 
 namespace FiresecClient.Models
 {
@@ -26,6 +28,14 @@ namespace FiresecClient.Models
         public List<UserGroup> UserGroups { get; set; }
         public List<Perimission> Perimissions { get; set; }
 
+        public void UpdateDrivers()
+        {
+            foreach (var device in Devices)
+            {
+                device.Driver = Drivers.FirstOrDefault(x => x.Id == device.DriverId);
+            }
+        }
+
         public void Update()
         {
             Devices = new List<Device>();
@@ -46,11 +56,11 @@ namespace FiresecClient.Models
 
         public void FillDrivrs(Firesec.Metadata.config metadata)
         {
-            Driver.Metadata = metadata;
+            DriverConverter.Metadata = metadata;
             Drivers = new List<Driver>();
             foreach (var firesecDriver in metadata.drv)
             {
-                Driver driver = new Driver(firesecDriver);
+                Driver driver = DriverConverter.Convert(firesecDriver);
                 if (driver.IsIgnore == false)
                 {
                     Drivers.Add(driver);

@@ -14,6 +14,8 @@ namespace FiresecClient.Models
             Properties = new List<Property>();
             Children = new List<Device>();
         }
+
+        public Driver Driver { get; set; }
         public Device Parent { get; set; }
 
         [DataMember]
@@ -22,8 +24,8 @@ namespace FiresecClient.Models
         [DataMember]
         public string DatabaseId { get; set; }
 
-        //[DataMember]
-        public Driver Driver { get; set; }
+        [DataMember]
+        public string DriverId { get; set; }
 
         [DataMember]
         public string PlaceInTree { get; set; }

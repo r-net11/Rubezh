@@ -1,22 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class DeviceState
     {
+        [DataMember]
         public string Id { get; set; }
+
+        [DataMember]
         public string PlaceInTree { get; set; }
+
+        //[DataMember]
         public List<InnerState> InnerStates { get; set; }
+
+        [DataMember]
         public State State { get; set; }
+
+        [DataMember]
         public List<string> States { get; set; }
+
+        [DataMember]
         public List<Parameter> Parameters { get; set; }
+
+        //[DataMember]
         public ChangeEntities ChangeEntities { get; set; }
+
+        [DataMember]
         public List<string> SelfStates { get; set; }
+
+        //[DataMember]
         public List<InnerState> ParentInnerStates { get; set; }
+
+        [DataMember]
         public List<string> ParentStringStates { get; set; }
+
+        [DataMember]
         public int MinPriority { get; set; }
+
+        [DataMember]
         public string SourceState { get; set; }
 
         public DeviceState()

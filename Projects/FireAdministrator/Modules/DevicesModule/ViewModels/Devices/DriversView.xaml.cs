@@ -20,9 +20,9 @@ namespace DevicesModule.ViewModels.Devices
             {
                 foreach (var state in driver.States)
                 {
-                    if (string.IsNullOrEmpty(state.code))
+                    if (string.IsNullOrEmpty(state.Code))
                     {
-                        nullStates.Add(driver.ShortName + " - " + state.name);
+                        nullStates.Add(driver.ShortName + " - " + state.Name);
                     }
                 }
             }

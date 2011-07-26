@@ -38,7 +38,7 @@ namespace AssadProcessor
         {
             AssadBase assadBase;
             string driverId = GetDriverId(innerDevice);
-            string driverName = Driver.GetDriverNameById(driverId);
+            string driverName = DriversHelper.GetDriverNameById(driverId);
             switch (driverName)
             {
                 case "zone":

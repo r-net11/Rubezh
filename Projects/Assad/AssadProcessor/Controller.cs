@@ -85,7 +85,7 @@ namespace AssadProcessor
                         {
                             foreach (var resetDevice in FiresecManager.Configuration.Devices)
                             {
-                                if (resetDevice.Driver.States.Any(x => ((x.name == commandName) && (x.manualReset == "1"))))
+                                if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
                                 {
                                     FiresecResetHelper.ResetOne(resetDevice.Id, commandName);
                                 }
@@ -108,9 +108,9 @@ namespace AssadProcessor
             {
                 foreach (var state in device.Driver.States)
                 {
-                    if (state.manualReset == "1")
+                    if (state.IsManualReset)
                     {
-                        FiresecResetHelper.ResetOne(device.Id, state.name);
+                        FiresecResetHelper.ResetOne(device.Id, state.Name);
                     }
                 }
             }

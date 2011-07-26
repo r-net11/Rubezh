@@ -1,55 +1,53 @@
-﻿
+﻿using System.Runtime.Serialization;
+
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class InnerState
     {
-        Firesec.Metadata.configDrvState _innerState;
-
-        public InnerState(Firesec.Metadata.configDrvState innerState)
-        {
-            _innerState = innerState;
-        }
-
-        public bool IsActive { get; set; }
-
-        public string Id
-        {
-            get { return _innerState.id; }
-        }
-
-        public string Name
-        {
-            get { return _innerState.name; }
-        }
-
-        public bool AffectChildren
-        {
-            get { return _innerState.affectChildren == "1" ? true : false; }
-        }
-
-        public int Priority
-        {
-            get { return System.Convert.ToInt32(_innerState.@class); }
-        }
-
         public State State
         {
             get { return new State(Priority); }
         }
 
-        public bool IsManualReset
-        {
-            get { return _innerState.manualReset == "1" ? true : false; }
-        }
+        public bool IsActive { get; set; }
 
-        public bool CanResetOnPanel
-        {
-            get { return _innerState.CanResetOnPanel == "1" ? true : false; }
-        }
+        //[DataMember]
+        public string Id { get; set; }
 
-        public bool IsAutomatic
+        //[DataMember]
+        public string Name { get; set; }
+
+        //[DataMember]
+        public bool AffectChildren { get; set; }
+
+        //[DataMember]
+        public int Priority { get; set; }
+
+        //[DataMember]
+        public bool IsManualReset { get; set; }
+
+        //[DataMember]
+        public bool CanResetOnPanel { get; set; }
+
+        //[DataMember]
+        public bool IsAutomatic { get; set; }
+
+        //[DataMember]
+        public string Code { get; set; }
+
+        public InnerState Copy()
         {
-            get { return _innerState.type == "Auto" ? true : false; }
+            InnerState innerState = new InnerState();
+            innerState.Id = Id;
+            innerState.Name = Name;
+            innerState.AffectChildren = AffectChildren;
+            innerState.Priority = Priority;
+            innerState.IsManualReset = IsManualReset;
+            innerState.CanResetOnPanel = CanResetOnPanel;
+            innerState.IsAutomatic = IsAutomatic;
+            innerState.Code = Code;
+            return innerState;
         }
     }
 }

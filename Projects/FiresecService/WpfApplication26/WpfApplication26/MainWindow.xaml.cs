@@ -38,9 +38,10 @@ namespace WpfApplication26
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             FiresecService = _duplexChannelFactory.CreateChannel();
 
-            var name = FiresecService.GetName();
             var configuration = FiresecService.GetCoreConfig();
             configuration.Update();
+
+            var states = FiresecService.GetCurrentStates();
 
 
             Stream stream = FiresecService.GetFile();

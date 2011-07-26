@@ -54,9 +54,9 @@ namespace DeviveModelManager
             List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
             foreach (var state in _driver.States)
             {
-                if (state.manualReset == "1")
+                if (state.IsManualReset)
                 {
-                    commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + state.name });
+                    commands.Add(new Assad.modelInfoTypeCommand() { command = "Сброс " + state.Name });
                 }
             }
             return commands;
@@ -123,9 +123,9 @@ namespace DeviveModelManager
             States.Add(AssadConfigurationState);
             foreach (var paramInfo in _driver.Parameters)
             {
-                if ((paramInfo.hidden == "0") && (paramInfo.showOnlyInState == "0"))
+                if (paramInfo.Visible)
                 {
-                    States.Add(new Assad.modelInfoTypeState() { state = paramInfo.caption });
+                    States.Add(new Assad.modelInfoTypeState() { state = paramInfo.Caption });
                 }
             }
 

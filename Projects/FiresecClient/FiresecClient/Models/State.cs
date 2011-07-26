@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.Serialization;
 namespace FiresecClient.Models
 {
     public enum StateType
@@ -14,6 +15,7 @@ namespace FiresecClient.Models
         No = 8
     }
 
+    [DataContract]
     public struct State
     {
         int _id;

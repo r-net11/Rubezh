@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using Infrastructure.Common;
+using FiresecClient.Models;
 
 namespace LibraryModule.ViewModels
 {
@@ -16,18 +17,18 @@ namespace LibraryModule.ViewModels
             Class = state.Class;
             if (state.Code != null)
             {
-                ConfigDrvState = ParentDevice.Driver.States.FirstOrDefault(x => x.code == state.Code);
+                InnerState = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == state.Code);
             }
 
             Initialize();
         }
 
-        public StateViewModel(Firesec.Metadata.configDrvState configDrvState, DeviceViewModel parent)
+        public StateViewModel(InnerState innerState, DeviceViewModel parent)
         {
             SetDefaultFrame();
             ParentDevice = parent;
-            Class = configDrvState.@class;
-            ConfigDrvState = configDrvState;
+            Class = innerState.State.Id.ToString();
+            InnerState = innerState;
 
             Initialize();
         }
@@ -46,7 +47,7 @@ namespace LibraryModule.ViewModels
             RemoveStateCommand = new RelayCommand(OnRemoveState);
         }
 
-        public Firesec.Metadata.configDrvState ConfigDrvState { get; private set; }
+        public InnerState InnerState { get; private set; }
         public DeviceViewModel ParentDevice { get; private set; }
 
         public string Class { get; private set; }
@@ -55,8 +56,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (ConfigDrvState == null) return null;
-                return ConfigDrvState.code;
+                return InnerState.Code;
             }
         }
 
@@ -64,7 +64,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return ConfigDrvState != null;
+                return InnerState != null;
             }
         }
 
@@ -84,9 +84,9 @@ namespace LibraryModule.ViewModels
                 if (IsAdditional)
                 {
                     name += ". ";
-                    var state = ParentDevice.Driver.States.FirstOrDefault(x => x.code == Code);
+                    var state = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == Code);
                     if (state == null) name += "Unknown";
-                    name += state.name;
+                    name += state.Name;
                 }
                 return name;
             }
@@ -96,9 +96,9 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                var state = ParentDevice.Driver.States.FirstOrDefault(x => x.code == Code);
+                var state = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == Code);
                 if (state == null) return "Unknown";
-                return state.name;
+                return state.Name;
             }
         }
 

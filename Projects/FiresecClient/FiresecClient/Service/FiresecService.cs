@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using System.IO;
+using FiresecClient.Models;
 
 namespace FiresecClient
 {
@@ -24,6 +25,11 @@ namespace FiresecClient
         public Models.CurrentConfiguration GetCoreConfig()
         {
             return FiresecManager.Configuration;
+        }
+
+        public CurrentStates GetCurrentStates()
+        {
+            return FiresecManager.States;
         }
     }
 }

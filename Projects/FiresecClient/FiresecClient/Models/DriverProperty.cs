@@ -1,115 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
 using Firesec.Metadata;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class DriverProperty
     {
-        configDrvPropInfo _property;
-
-        public DriverProperty(configDrvPropInfo property)
+        public DriverProperty(configDrvPropInfo internalProperty)
         {
-            _property = property;
-        }
+            Name = internalProperty.name;
+            Caption = internalProperty.caption;
+            Default = internalProperty.@default;
+            Visible = ((internalProperty.hidden == "0") && (internalProperty.showOnlyInState == "0"));
+            IsHidden = (internalProperty.hidden == "1");
 
-        public string Name
-        {
-            get { return _property.name; }
-        }
-
-        public string Caption
-        {
-            get { return _property.caption; }
-        }
-
-        public string Default
-        {
-            get { return _property.@default; }
-        }
-
-        public bool Visible
-        {
-            get { return ((_property.hidden == "0") && (_property.showOnlyInState == "0")); }
-        }
-
-        public bool IsHidden
-        {
-            get { return (_property.hidden == "1"); }
-        }
-
-        public List<DriverPropertyParameter> Parameters
-        {
-            get
+            Parameters = new List<DriverPropertyParameter>();
+            if (internalProperty.param != null)
             {
-                List<DriverPropertyParameter> parameters = new List<DriverPropertyParameter>();
-                foreach (var firesecParameter in _property.param)
+                foreach (var firesecParameter in internalProperty.param)
                 {
                     DriverPropertyParameter driverPropertyParameter = new DriverPropertyParameter(firesecParameter);
-                    parameters.Add(driverPropertyParameter);
+                    Parameters.Add(driverPropertyParameter);
                 }
-                return parameters;
             }
-        }
 
-        public DriverPropertyTypeEnum DriverPropertyType
-        {
-            get
+            if (internalProperty.param != null)
             {
-                if (_property.param != null)
+                DriverPropertyType = DriverPropertyTypeEnum.EnumType;
+            }
+            else
+            {
+                switch (internalProperty.type)
                 {
-                    return DriverPropertyTypeEnum.EnumType;
-                }
-                else
-                {
-                    switch (_property.type)
-                    {
-                        case "String":
-                            return DriverPropertyTypeEnum.StringType;
+                    case "String":
+                        DriverPropertyType = DriverPropertyTypeEnum.StringType;
+                        break;
 
-                        case "Int":
-                            return DriverPropertyTypeEnum.IntType;
+                    case "Int":
+                    case "Double":
+                        DriverPropertyType = DriverPropertyTypeEnum.IntType;
+                        break;
 
-                        case "Byte":
-                            return DriverPropertyTypeEnum.ByteType;
+                    case "Byte":
+                        DriverPropertyType = DriverPropertyTypeEnum.ByteType;
+                        break;
 
-                        case "Bool":
-                            return DriverPropertyTypeEnum.BoolType;
+                    case "Bool":
+                        DriverPropertyType = DriverPropertyTypeEnum.BoolType;
+                        break;
 
-                        default:
-                            throw new Exception("Неизвестный тип свойства");
-                    }
+                    default:
+                        throw new Exception("Неизвестный тип свойства");
                 }
             }
         }
 
-        public class DriverPropertyParameter
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string Caption { get; set; }
+
+        [DataMember]
+        public string Default { get; set; }
+
+        [DataMember]
+        public bool Visible { get; set; }
+
+        [DataMember]
+        public bool IsHidden { get; set; }
+
+        [DataMember]
+        public List<DriverPropertyParameter> Parameters { get; set; }
+
+        [DataMember]
+        public DriverPropertyTypeEnum DriverPropertyType { get; set; }
+    }
+
+    [DataContract]
+    public class DriverPropertyParameter
+    {
+        public DriverPropertyParameter(param parameter)
         {
-            public DriverPropertyParameter(param parameter)
-            {
-                _parameter = parameter;
-            }
-
-            param _parameter;
-
-            public string Name
-            {
-                get { return _parameter.name; }
-            }
-
-            public string Value
-            {
-                get { return _parameter.value; }
-            }
+            Name = parameter.name;
+            Value = parameter.value;
         }
 
-        public enum DriverPropertyTypeEnum
-        {
-            EnumType,
-            StringType,
-            IntType,
-            ByteType,
-            BoolType
-        }
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public string Value { get; set; }
+    }
+
+    public enum DriverPropertyTypeEnum
+    {
+        EnumType,
+        StringType,
+        IntType,
+        ByteType,
+        BoolType
     }
 }

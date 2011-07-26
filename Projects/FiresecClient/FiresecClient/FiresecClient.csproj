@@ -75,6 +75,7 @@
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="Converters\DeviceConverter.cs" />
     <Compile Include="Converters\DirectionConverter.cs" />
+    <Compile Include="Converters\DriverConverter.cs" />
     <Compile Include="Converters\SecurityConverter.cs" />
     <Compile Include="Converters\ZoneConverter.cs" />
     <Compile Include="FiresecResetHelper.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\DriverProperty.cs" />
+    <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\InnerState.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Premission.cs" />

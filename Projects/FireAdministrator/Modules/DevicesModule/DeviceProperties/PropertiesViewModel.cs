@@ -20,15 +20,15 @@ namespace DevicesModule.DeviceProperties
             {
                 switch (driverProperty.DriverPropertyType)
                 {
-                    case DriverProperty.DriverPropertyTypeEnum.EnumType:
+                    case DriverPropertyTypeEnum.EnumType:
                         EnumProperties.Add(new EnumPropertyViewModel(driverProperty, device));
                         break;
-                    case DriverProperty.DriverPropertyTypeEnum.StringType:
-                    case DriverProperty.DriverPropertyTypeEnum.IntType:
-                    case DriverProperty.DriverPropertyTypeEnum.ByteType:
+                    case DriverPropertyTypeEnum.StringType:
+                    case DriverPropertyTypeEnum.IntType:
+                    case DriverPropertyTypeEnum.ByteType:
                         StringProperties.Add(new StringPropertyViewModel(driverProperty, device));
                         break;
-                    case DriverProperty.DriverPropertyTypeEnum.BoolType:
+                    case DriverPropertyTypeEnum.BoolType:
                         BoolProperties.Add(new BoolPropertyViewModel(driverProperty, device));
                         break;
                 }

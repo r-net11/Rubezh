@@ -16,5 +16,8 @@ namespace FiresecClient
 
         [OperationContract]
         CurrentConfiguration GetCoreConfig();
+
+        [OperationContract]
+        CurrentStates GetCurrentStates();
     }
 }

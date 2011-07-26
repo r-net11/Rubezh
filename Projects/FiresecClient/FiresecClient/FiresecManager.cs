@@ -22,7 +22,7 @@ namespace FiresecClient
                 Watcher watcher = new Watcher();
                 watcher.Start();
 
-                ServiceManager.Open();
+                //ServiceManager.Open();
             }
             return result;
         }

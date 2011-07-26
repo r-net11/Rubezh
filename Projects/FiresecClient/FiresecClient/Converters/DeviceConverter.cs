@@ -52,17 +52,15 @@ namespace FiresecClient.Converters
             deviceState.PlaceInTree = device.PlaceInTree;
 
             deviceState.InnerStates = new List<InnerState>();
-            foreach (var innerState in device.Driver.States)
+            foreach (var state in device.Driver.States)
             {
-                InnerState state = new InnerState(innerState);
-                deviceState.InnerStates.Add(state);
+                deviceState.InnerStates.Add(state.Copy());
             }
 
             deviceState.Parameters = new List<Parameter>();
-            foreach (var innerParameter in device.Driver.Parameters)
+            foreach (var parameter in device.Driver.Parameters)
             {
-                Parameter parameter = new Parameter(innerParameter);
-                deviceState.Parameters.Add(parameter);
+                deviceState.Parameters.Add(parameter.Copy());
             }
 
             return deviceState;
@@ -71,6 +69,7 @@ namespace FiresecClient.Converters
         static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
         {
             var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
+            device.DriverId = driverId;
             device.Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
 
 

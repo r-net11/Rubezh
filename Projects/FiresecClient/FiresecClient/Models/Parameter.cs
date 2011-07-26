@@ -1,31 +1,30 @@
 ﻿using Firesec.Metadata;
+using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
 {
+    [DataContract]
     public class Parameter
     {
-        configDrvParamInfo _parameter;
-
-        public Parameter(configDrvParamInfo parameter)
-        {
-            _parameter = parameter;
-        }
-
+        [DataMember]
         public string Value { get; set; }
 
-        public string Name
-        {
-            get { return _parameter.name; }
-        }
+        [DataMember]
+        public string Name { get; set; }
 
-        public string Caption
-        {
-            get { return _parameter.caption; }
-        }
+        [DataMember]
+        public string Caption { get; set; }
 
-        public bool Visible
+        [DataMember]
+        public bool Visible { get; set; }
+
+        public Parameter Copy()
         {
-            get { return ((_parameter.hidden == "0") && (_parameter.showOnlyInState == "0")); }
+            Parameter parameter = new Parameter();
+            parameter.Name = Name;
+            parameter.Caption = Caption;
+            parameter.Visible = Visible;
+            return parameter;
         }
     }
 }
