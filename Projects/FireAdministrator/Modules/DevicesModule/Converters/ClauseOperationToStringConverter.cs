@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecClient.Models;
 
 namespace DevicesModule.Converters
 {
@@ -7,13 +8,13 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string operation = (string)value;
+            ZoneLogicOperation operation = (ZoneLogicOperation)value;
             switch (operation)
             {
-                case "and":
+                case ZoneLogicOperation.All:
                     return "во всех зонах из";
 
-                case "or":
+                case ZoneLogicOperation.Any:
                     return "в любой зонах из";
             }
             return "";

@@ -14,7 +14,7 @@ namespace FiresecClient.Models
         [DataMember]
         public List<Device> Devices { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public Device RootDevice { get; set; }
 
         [DataMember]

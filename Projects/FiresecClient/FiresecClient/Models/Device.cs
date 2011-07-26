@@ -37,7 +37,7 @@ namespace FiresecClient.Models
         public string ZoneNo { get; set; }
 
         //[DataMember]
-        public Firesec.ZoneLogic.expr ZoneLogic { get; set; }
+        public ZoneLogic ZoneLogic { get; set; }
 
         [DataMember]
         public List<Property> Properties { get; set; }
@@ -192,7 +192,7 @@ namespace FiresecClient.Models
                 }
                 if (Driver.IsZoneLogicDevice)
                 {
-                    return ZoneLogicToText.Convert(ZoneLogic);
+                    return ZoneLogic.ToString();
                 }
                 return "";
             }
@@ -211,21 +211,15 @@ namespace FiresecClient.Models
                 newDevice.DatabaseId = DatabaseId;
             }
 
-            newDevice.ZoneLogic = new Firesec.ZoneLogic.expr();
-            List<clauseType> clauses = new List<clauseType>();
-            if ((ZoneLogic != null) && (ZoneLogic.clause != null))
+            newDevice.ZoneLogic = new Models.ZoneLogic();
+            newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
+            foreach (var clause in ZoneLogic.Clauses)
             {
-                foreach (var clause in ZoneLogic.clause)
-                {
-                    clauseType copyClause = new clauseType();
-                    copyClause.joinOperator = clause.joinOperator;
-                    copyClause.operation = clause.operation;
-                    copyClause.state = clause.state;
-                    copyClause.zone = (string[])clause.zone.Clone();
-                    clauses.Add(copyClause);
-                }
-
-                newDevice.ZoneLogic.clause = clauses.ToArray();
+                Clause newClause = new Clause();
+                newClause.State = clause.State;
+                newClause.Operation = clause.Operation;
+                newClause.Zones = clause.Zones.ToList();
+                newDevice.ZoneLogic.Clauses.Add(newClause);
             }
 
             List<Property> copyProperties = new List<Property>();

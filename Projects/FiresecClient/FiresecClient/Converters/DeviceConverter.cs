@@ -143,7 +143,8 @@ namespace FiresecClient.Converters
                     string zoneLogicstring = property.value;
                     if (string.IsNullOrEmpty(zoneLogicstring) == false)
                     {
-                        device.ZoneLogic = SerializerHelper.GetZoneLogic(zoneLogicstring);
+                        var zoneLogic = SerializerHelper.GetZoneLogic(zoneLogicstring);
+                        device.ZoneLogic = ZoneLogicConverter.Convert(zoneLogic);
                     }
                 }
             }
@@ -222,9 +223,11 @@ namespace FiresecClient.Converters
                 }
             }
 
-            if (device.ZoneLogic != null)
+            if (device.ZoneLogic.Clauses.Count > 0)
             {
-                string zoneLogic = SerializerHelper.SetZoneLogic(device.ZoneLogic);
+                var innerZoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
+                //device.XZoneLogic = ZoneLogicConverter.Convert(zoneLogic);
+                string zoneLogic = SerializerHelper.SetZoneLogic(innerZoneLogic);
                 Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
                 property.name = "ExtendedZoneLogic";
                 property.value = zoneLogic;

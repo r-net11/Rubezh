@@ -45,15 +45,12 @@ namespace DevicesModule.ViewModels
 
                     if (device.Driver.IsZoneLogicDevice)
                     {
-                        if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
+                        foreach (var clause in device.ZoneLogic.Clauses)
                         {
-                            foreach (var clause in device.ZoneLogic.clause)
+                            if (clause.Zones.Contains(zoneNo))
                             {
-                                if ((clause.zone != null) && (clause.zone.Contains(zoneNo)))
-                                {
-                                    device.AllParents.ForEach(x => { devices.Add(x); });
-                                    devices.Add(device);
-                                }
+                                device.AllParents.ForEach(x => { devices.Add(x); });
+                                devices.Add(device);
                             }
                         }
                     }
@@ -183,11 +180,10 @@ namespace DevicesModule.ViewModels
             if (CanShowZoneLogic(null))
             {
                 ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-                zoneLogicViewModel.Initialize(SelectedDevice.Device.ZoneLogic);
+                zoneLogicViewModel.Initialize(SelectedDevice.Device);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
                 if (result)
                 {
-                    SelectedDevice.Device.ZoneLogic = zoneLogicViewModel.Save();
                 }
             }
         }

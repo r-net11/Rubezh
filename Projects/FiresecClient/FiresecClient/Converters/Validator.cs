@@ -96,8 +96,8 @@ namespace FiresecClient
             {
                 if (device.Driver.IsZoneDevice)
                 {
-                    if (device.ZoneLogic != null)
-                        device.ValidationErrors.Add(new ValidationError("Устройство не может иметь логику срабатывания", Level.Critical));
+                    //if (device.ZoneLogic != null)
+                    //    device.ValidationErrors.Add(new ValidationError("Устройство не может иметь логику срабатывания", Level.Critical));
 
                     if (string.IsNullOrEmpty(device.ZoneNo))
                         device.ValidationErrors.Add(new ValidationError("Устройство должно иметь зону", Level.Normal));
@@ -115,33 +115,33 @@ namespace FiresecClient
                     if (string.IsNullOrEmpty(device.ZoneNo))
                         device.ValidationErrors.Add(new ValidationError("Устройство не может принадлежать к зоне", Level.Critical));
 
-                    if (device.Driver.IsZoneLogicDevice)
-                    {
-                        if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
-                        {
-                            foreach (var clause in device.ZoneLogic.clause)
-                            {
-                                if ((clause.state != "0") && (clause.state != "1") && (clause.state != "2") && (clause.state != "5") && (clause.state != "6"))
-                                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип состояния", Level.Critical));
+                    //if (device.Driver.IsZoneLogicDevice)
+                    //{
+                    //    if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
+                    //    {
+                    //        foreach (var clause in device.ZoneLogic.clause)
+                    //        {
+                    //            if ((clause.state != "0") && (clause.state != "1") && (clause.state != "2") && (clause.state != "5") && (clause.state != "6"))
+                    //                device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип состояния", Level.Critical));
 
-                                if ((clause.operation != "and") && (clause.operation != "or"))
-                                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип операции", Level.Critical));
+                    //            if ((clause.operation != "and") && (clause.operation != "or"))
+                    //                device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестный тип операции", Level.Critical));
 
-                                foreach (var zonNo in clause.zone)
-                                {
-                                    if (configuration.Zones.Any(x => x.No == zonNo) == false)
-                                        device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестную зону", Level.Critical));
-                                }
+                    //            foreach (var zonNo in clause.zone)
+                    //            {
+                    //                if (configuration.Zones.Any(x => x.No == zonNo) == false)
+                    //                    device.ValidationErrors.Add(new ValidationError("Логика зоны имеет неизвестную зону", Level.Critical));
+                    //            }
 
-                                // ПРОВЕРКА ОДНОРОДНОСТИ ОПЕРАТОРОВ ОБЪЕДИНЕНИЯ
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (device.ZoneLogic != null)
-                            device.ValidationErrors.Add(new ValidationError("Устройство не может иметь логику срабатывания", Level.Critical));
-                    }
+                    //            // ПРОВЕРКА ОДНОРОДНОСТИ ОПЕРАТОРОВ ОБЪЕДИНЕНИЯ
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (device.ZoneLogic != null)
+                    //        device.ValidationErrors.Add(new ValidationError("Устройство не может иметь логику срабатывания", Level.Critical));
+                    //}
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecClient.Models;
 
 namespace DevicesModule.Converters
 {
@@ -7,22 +8,22 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string operation = (string)value;
-            switch (operation)
+            ZoneLogicState state = (ZoneLogicState)value;
+            switch (state)
             {
-                case "0":
+                case ZoneLogicState.AutomaticOn:
                     return "Включение автоматики";
 
-                case "1":
+                case ZoneLogicState.Alarm:
                     return "Тревога";
 
-                case "2":
+                case ZoneLogicState.Fre:
                     return "Пожар";
 
-                case "5":
+                case ZoneLogicState.Warning:
                     return "Внимание";
 
-                case "6":
+                case ZoneLogicState.MPTOn:
                     return "Включение модуля пожаротушения";
             }
             return "";

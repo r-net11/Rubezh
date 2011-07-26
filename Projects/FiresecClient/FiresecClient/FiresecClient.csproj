@@ -78,11 +78,11 @@
     <Compile Include="Converters\DriverConverter.cs" />
     <Compile Include="Converters\SecurityConverter.cs" />
     <Compile Include="Converters\ZoneConverter.cs" />
+    <Compile Include="Converters\ZoneLogicConverter.cs" />
     <Compile Include="FiresecResetHelper.cs" />
     <Compile Include="Models\AlarmType.cs" />
     <Compile Include="Models\ChangeEntities.cs" />
     <Compile Include="Converters\Validator.cs" />
-    <Compile Include="Converters\ZoneLogicToText.cs" />
     <Compile Include="Models\CurrentConfiguration.cs" />
     <Compile Include="Models\CurrentStates.cs" />
     <Compile Include="Models\Device.cs" />
@@ -103,6 +103,7 @@
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserGroup.cs" />
+    <Compile Include="Models\ZoneLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converters\ValidationError.cs" />
     <Compile Include="SerializerHelper.cs" />

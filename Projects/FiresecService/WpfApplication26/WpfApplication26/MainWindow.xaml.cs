@@ -38,16 +38,22 @@ namespace WpfApplication26
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(this), binding, endpointAddress);
             FiresecService = _duplexChannelFactory.CreateChannel();
 
-            var configuration = FiresecService.GetCoreConfig();
-            configuration.Update();
 
-            var states = FiresecService.GetCurrentStates();
 
 
             Stream stream = FiresecService.GetFile();
             FileStream fileStream = new FileStream("D:/yyy.txt", FileMode.Create);
             stream.CopyTo(fileStream);
             fileStream.Close();
+
+
+            var states = FiresecService.GetCurrentStates();
+
+            var configuration = FiresecService.GetCoreConfig();
+            configuration.RootDevice = configuration.Devices[0];
+            configuration.Update();
+
+            
         }
 
         public void NewEvent(string name)

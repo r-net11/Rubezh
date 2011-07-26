@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,17 +16,17 @@ namespace DevicesModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public void Initialize(Firesec.ZoneLogic.expr zoneLogic)
+        Device _device;
+
+        public void Initialize(Device device)
         {
+            _device = device;
             Clauses = new ObservableCollection<ClauseViewModel>();
-            if ((zoneLogic != null) && (zoneLogic.clause != null))
+            foreach (var clause in device.ZoneLogic.Clauses)
             {
-                foreach (var clause in zoneLogic.clause)
-                {
-                    ClauseViewModel clauseViewModel = new ClauseViewModel();
-                    clauseViewModel.Initialize(clause);
-                    Clauses.Add(clauseViewModel);
-                }
+                ClauseViewModel clauseViewModel = new ClauseViewModel();
+                clauseViewModel.Initialize(clause);
+                Clauses.Add(clauseViewModel);
             }
 
             if (Clauses.Count > 0)
@@ -58,10 +59,9 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             ClauseViewModel clauseViewModel = new ClauseViewModel();
-            Firesec.ZoneLogic.clauseType clause = new Firesec.ZoneLogic.clauseType();
-            clause.operation = "and";
-            clause.state = "0";
-            clause.zone = new string[0];
+            Clause clause = new Clause();
+            clause.Operation = ZoneLogicOperation.All;
+            clause.State = ZoneLogicState.AutomaticOn;
             clauseViewModel.Initialize(clause);
             Clauses.Add(clauseViewModel);
         }
@@ -75,22 +75,27 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public Firesec.ZoneLogic.expr Save()
+        void Save()
         {
-            Firesec.ZoneLogic.expr zoneLogic = new Firesec.ZoneLogic.expr();
-            List<Firesec.ZoneLogic.clauseType> clauses = new List<Firesec.ZoneLogic.clauseType>();
+            ZoneLogic zoneLogic = new ZoneLogic();
             foreach (var clauseViewModel in Clauses)
             {
-                var clause = clauseViewModel.Save();
-                clauses.Add(clause);
+                if (clauseViewModel.Zones.Count > 0)
+                {
+                    Clause clause = new Clause();
+                    clause.State = clauseViewModel.SelectedState;
+                    clause.Operation = clauseViewModel.SelectedOperation;
+                    clause.Zones = clauseViewModel.Zones;
+                    zoneLogic.Clauses.Add(clause);
+                }
             }
-            zoneLogic.clause = clauses.ToArray();
-            return zoneLogic;
+            _device.ZoneLogic = zoneLogic;
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
+            Save();
             Close(true);
         }
 

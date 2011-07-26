@@ -102,11 +102,10 @@ namespace DevicesModule.ViewModels
         void OnShowZoneLogic()
         {
             ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
-            zoneLogicViewModel.Initialize(Device.ZoneLogic);
+            zoneLogicViewModel.Initialize(Device);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
             if (result)
             {
-                Device.ZoneLogic = zoneLogicViewModel.Save();
             }
         }
 

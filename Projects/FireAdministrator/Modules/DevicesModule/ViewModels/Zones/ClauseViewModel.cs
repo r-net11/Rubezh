@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -12,41 +13,39 @@ namespace DevicesModule.ViewModels
             ShowZonesCommand = new RelayCommand(OnShowZones);
         }
 
-        List<string> _zones;
+        public List<string> Zones { get; set; }
 
-        public void Initialize(Firesec.ZoneLogic.clauseType clause)
+        public void Initialize(Clause clause)
         {
-            _zones = new List<string>();
-            if (clause.zone != null)
-            {
-                foreach (var zone in clause.zone)
-                    _zones.Add(zone);
-            }
-            SelectedState = clause.state;
-            SelectedOperation = clause.operation;
+            Zones = new List<string>();
+                foreach (var zone in clause.Zones)
+                    Zones.Add(zone);
+
+            SelectedState = clause.State;
+            SelectedOperation = clause.Operation;
         }
 
-        public ObservableCollection<string> States
+        public ObservableCollection<ZoneLogicState> States
         {
             get
             {
-                ObservableCollection<string> _states = new ObservableCollection<string>();
-                _states.Add("0");
-                _states.Add("1");
-                _states.Add("2");
-                _states.Add("5");
-                _states.Add("6");
+                ObservableCollection<ZoneLogicState> _states = new ObservableCollection<ZoneLogicState>();
+                _states.Add(ZoneLogicState.AutomaticOn);
+                _states.Add(ZoneLogicState.Alarm);
+                _states.Add(ZoneLogicState.Fre);
+                _states.Add(ZoneLogicState.Warning);
+                _states.Add(ZoneLogicState.MPTOn);
                 return _states;
             }
         }
 
-        public ObservableCollection<string> Operations
+        public ObservableCollection<ZoneLogicOperation> Operations
         {
             get
             {
-                ObservableCollection<string> _operations = new ObservableCollection<string>();
-                _operations.Add("and");
-                _operations.Add("or");
+                ObservableCollection<ZoneLogicOperation> _operations = new ObservableCollection<ZoneLogicOperation>();
+                _operations.Add(ZoneLogicOperation.All);
+                _operations.Add(ZoneLogicOperation.Any);
                 return _operations;
             }
         }
@@ -56,7 +55,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 string presenrationZones = "";
-                foreach (var zone in _zones)
+                foreach (var zone in Zones)
                 {
                     presenrationZones += zone + ",";
                 }
@@ -68,8 +67,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _selectedState;
-        public string SelectedState
+        ZoneLogicState _selectedState;
+        public ZoneLogicState SelectedState
         {
             get { return _selectedState; }
             set
@@ -79,8 +78,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _selectedOperation;
-        public string SelectedOperation
+        ZoneLogicOperation _selectedOperation;
+        public ZoneLogicOperation SelectedOperation
         {
             get { return _selectedOperation; }
             set
@@ -99,22 +98,13 @@ namespace DevicesModule.ViewModels
         void OnShowZones()
         {
             ZonesSelectionViewModel zonesSelectionViewModel = new ZonesSelectionViewModel();
-            zonesSelectionViewModel.Initialize(_zones);
+            zonesSelectionViewModel.Initialize(Zones);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
             if (result)
             {
-                _zones = zonesSelectionViewModel.Zones;
+                Zones = zonesSelectionViewModel.Zones;
                 Update();
             }
-        }
-
-        public Firesec.ZoneLogic.clauseType Save()
-        {
-            Firesec.ZoneLogic.clauseType clause = new Firesec.ZoneLogic.clauseType();
-            clause.state = SelectedState;
-            clause.operation = SelectedOperation;
-            clause.zone = _zones.ToArray();
-            return clause;
         }
     }
 }
