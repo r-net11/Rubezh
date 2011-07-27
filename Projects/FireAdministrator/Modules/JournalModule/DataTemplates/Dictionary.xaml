@@ -3,11 +3,15 @@
                     xmlns:Views="clr-namespace:JournalModule.Views"
                     xmlns:ViewModels="clr-namespace:JournalModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:JournalsViewModel}">
         <Views:JournalView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NewJournalViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:JournalsMenuViewModel}">
+        <Views:JournalMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:EditJournalViewModel}">
         <Views:NewJournalView />
     </DataTemplate>
 

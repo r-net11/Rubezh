@@ -8,6 +8,8 @@ namespace JournalModule
 {
     public class JournalModule : IModule
     {
+        static JournalsViewModel journalViewModel;
+
         public JournalModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
@@ -27,14 +29,12 @@ namespace JournalModule
 
         void CreateViewModels()
         {
-            journalViewModel = new JournalViewModel();
-            journalViewModel.Initialize();
+            journalViewModel = new JournalsViewModel();
         }
-
-        static JournalViewModel journalViewModel;
 
         static void OnShowJournal(string obj)
         {
+            journalViewModel.Initialize();
             ServiceFactory.Layout.Show(journalViewModel);
         }
 

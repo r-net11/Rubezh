@@ -23,12 +23,12 @@ namespace FiresecClient.Models
         public State(int id)
         {
             _id = id;
-     
+
         }
 
         public StateType StateType
         {
-            get { return (StateType)_id; }
+            get { return (StateType) _id; }
         }
 
         public int Id
@@ -80,6 +80,16 @@ namespace FiresecClient.Models
         public static bool operator !=(State value1, State value2)
         {
             return value1._id != value2._id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((State) obj).Id == Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

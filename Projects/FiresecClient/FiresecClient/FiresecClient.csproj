@@ -81,6 +81,7 @@
     <Compile Include="Converters\ZoneLogicConverter.cs" />
     <Compile Include="FiresecResetHelper.cs" />
     <Compile Include="Models\AlarmType.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\ChangeEntities.cs" />
     <Compile Include="Converters\Validator.cs" />
     <Compile Include="Models\CurrentConfiguration.cs" />
@@ -94,7 +95,9 @@
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\DriverProperty.cs" />
     <Compile Include="Models\DriversHelper.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\InnerState.cs" />
+    <Compile Include="Models\Journal.cs" />
     <Compile Include="Models\Parameter.cs" />
     <Compile Include="Models\Premission.cs" />
     <Compile Include="Models\Property.cs" />

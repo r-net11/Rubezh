@@ -23,6 +23,8 @@ namespace FiresecClient.Models
         [DataMember]
         public List<Direction> Directions { get; set; }
 
+        [DataMember]
+        public List<Journal> Journals { get; set; }
 
         public List<User> Users { get; set; }
         public List<UserGroup> UserGroups { get; set; }
@@ -38,6 +40,7 @@ namespace FiresecClient.Models
 
         public void Update()
         {
+            Journals = new List<Journal>();
             Devices = new List<Device>();
             RootDevice.Parent = null;
             Devices.Add(RootDevice);
