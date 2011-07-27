@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
             DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
             _deviceControlViewModel = new DeviceControlViewModel(_device);
-
+            CloseCommand = new RelayCommand(OnClosing);
             Title = _device.Driver.ShortName + " " + _device.DottedAddress;
         }
 
@@ -134,5 +134,15 @@ namespace DevicesModule.ViewModels
                 return deviceState.State;
             }
         }
+
+        public event Action Closing;
+        void OnClosing()
+        {
+            if (Closing != null)
+                Closing();
+        }
+
+        public RelayCommand CloseCommand { get; private set; }
     }
+
 }

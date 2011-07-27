@@ -9,6 +9,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0">
@@ -32,6 +33,19 @@
                 <CheckBox IsChecked="{Binding IsContinious}" Content="Воспроизводить звук непрерывно" Margin="2" />
             </StackPanel>
         </Grid>
-        
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" Content="Воспроизвести" Name="btnPlay" Width="100"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="Сохранить" Name="btnSave" Width="100"/>
+            <Button Grid.Row="0" Grid.Column="3" Content="Отмена" Name="btnCansel" Width="100"/>
+        </Grid>
     </Grid>
 </UserControl>

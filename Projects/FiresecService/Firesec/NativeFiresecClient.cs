@@ -84,7 +84,7 @@ namespace Firesec
 
         public static void ExecuteCommand(string devicePath, string methodName)
         {
-            Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
+            //Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
         }
 
         static string ConvertDeviceList(List<string> devicePaths)
@@ -104,18 +104,18 @@ namespace Firesec
         public static void AddToIgnoreList(List<string> devicePaths)
         {
             string devices = ConvertDeviceList(devicePaths);
-            Connectoin.IgoreListOperation(devices, true);
+            //Connectoin.IgoreListOperation(devices, true);
         }
 
         public static void RemoveFromIgnoreList(List<string> devicePaths)
         {
             string devices = ConvertDeviceList(devicePaths);
-            Connectoin.IgoreListOperation(devices, false);
+            //Connectoin.IgoreListOperation(devices, false);
         }
 
         public static void AddUserMessage(string message)
         {
-            Connectoin.StoreUserMessage(message);
+            //Connectoin.StoreUserMessage(message);
         }
 
         static FS_Types.IFSC_Connection GetConnection(string login, string password)

@@ -6,17 +6,18 @@
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
         <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                         <DataGridTemplateColumn.CellTemplate>
+                            RowHeight="20" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -72,7 +73,7 @@
             </DataGrid>
         </Grid>
 
-        <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}">
+        <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}" >
 
             <StackPanel>
 
