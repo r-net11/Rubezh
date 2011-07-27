@@ -27,49 +27,49 @@ namespace DevicesModule.ViewModels
 
         public void Initialize(Device device)
         {
-            _device = device;
+            //_device = device;
 
-            InitializeDevices();
+            //InitializeDevices();
 
-            if (device.Properties == null)
-                return;
+            //if (device.Properties == null)
+            //    return;
 
-            var indicatorProperty = device.Properties.FirstOrDefault(x => x.Name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
-            if (indicatorProperty == null)
-            {
-                return;
-            }
+            //var indicatorProperty = device.Properties.FirstOrDefault(x => x.Name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
+            //if (indicatorProperty == null)
+            //{
+            //    return;
+            //}
 
-            Logic = indicatorProperty.Value;
+            //Logic = indicatorProperty.Value;
 
-            var indicatorLogic = SerializerHelper.GetIndicatorLogic(Logic);
-            if (indicatorLogic == null)
-                return;
+            //var indicatorLogic = SerializerHelper.GetIndicatorLogic(Logic);
+            //if (indicatorLogic == null)
+            //    return;
 
-            Zones = new ObservableCollection<string>();
-            if (indicatorLogic.zone != null)
-            {
-                IsZone = true;
+            //Zones = new ObservableCollection<string>();
+            //if (indicatorLogic.zone != null)
+            //{
+            //    IsZone = true;
 
-                foreach (var zone in indicatorLogic.zone)
-                    Zones.Add(zone);
-            }
-            InitializeZones(indicatorLogic.zone.ToList());
+            //    foreach (var zone in indicatorLogic.zone)
+            //        Zones.Add(zone);
+            //}
+            //InitializeZones(indicatorLogic.zone.ToList());
 
-            if (indicatorLogic.device != null)
-            {
-                IsDevice = true;
+            //if (indicatorLogic.device != null)
+            //{
+            //    IsDevice = true;
 
-                var indicatorDevice = indicatorLogic.device[0];
-                DeviceId = indicatorDevice.UID;
-                OnColor = indicatorDevice.state1;
-                OffColor = indicatorDevice.state2;
-                FailureColor = indicatorDevice.state3;
-                ConnectionColor = indicatorDevice.state4;
+            //    var indicatorDevice = indicatorLogic.device[0];
+            //    DeviceId = indicatorDevice.UID;
+            //    OnColor = indicatorDevice.state1;
+            //    OffColor = indicatorDevice.state2;
+            //    FailureColor = indicatorDevice.state3;
+            //    ConnectionColor = indicatorDevice.state4;
 
-                InitializeDevices();
-                SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == DeviceId);
-            }
+            //    InitializeDevices();
+            //    SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == DeviceId);
+            //}
         }
 
         void InitializeDevices()
@@ -374,39 +374,39 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Firesec.Indicator.LEDProperties indicatorLogic = new Firesec.Indicator.LEDProperties();
+            //Firesec.Indicator.LEDProperties indicatorLogic = new Firesec.Indicator.LEDProperties();
 
-            if (IsZone)
-            {
-                indicatorLogic.type = "0";
-                indicatorLogic.device = null;
+            //if (IsZone)
+            //{
+            //    indicatorLogic.type = "0";
+            //    indicatorLogic.device = null;
 
-                indicatorLogic.zone = Zones.ToArray();
-            }
-            else
-            {
-                indicatorLogic.type = "1";
-                indicatorLogic.zone = null;
+            //    indicatorLogic.zone = Zones.ToArray();
+            //}
+            //else
+            //{
+            //    indicatorLogic.type = "1";
+            //    indicatorLogic.zone = null;
 
-                indicatorLogic.device = new Firesec.Indicator.deviceType[1];
-                indicatorLogic.device[0] = new Firesec.Indicator.deviceType();
-                indicatorLogic.device[0].state1 = OnColor;
-                indicatorLogic.device[0].state2 = OffColor;
-                indicatorLogic.device[0].state3 = FailureColor;
-                indicatorLogic.device[0].state4 = ConnectionColor;
+            //    indicatorLogic.device = new Firesec.Indicator.deviceType[1];
+            //    indicatorLogic.device[0] = new Firesec.Indicator.deviceType();
+            //    indicatorLogic.device[0].state1 = OnColor;
+            //    indicatorLogic.device[0].state2 = OffColor;
+            //    indicatorLogic.device[0].state3 = FailureColor;
+            //    indicatorLogic.device[0].state4 = ConnectionColor;
 
-                string uid = SelectedDevice.Device.UID;
-                if (string.IsNullOrEmpty(uid))
-                {
-                    uid = Guid.NewGuid().ToString();
-                    SelectedDevice.Device.UID = uid;
-                }
-                indicatorLogic.device[0].UID = uid;
-            }
+            //    string uid = SelectedDevice.Device.UID;
+            //    if (string.IsNullOrEmpty(uid))
+            //    {
+            //        uid = Guid.NewGuid().ToString();
+            //        SelectedDevice.Device.UID = uid;
+            //    }
+            //    indicatorLogic.device[0].UID = uid;
+            //}
 
-            string indicatorLogicValue = SerializerHelper.SetIndicatorLogic(indicatorLogic);
-            _device.Properties = new List<Property>();
-            _device.Properties.Add(new Property() { Name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24", Value = indicatorLogicValue });
+            //string indicatorLogicValue = SerializerHelper.SetIndicatorLogic(indicatorLogic);
+            //_device.Properties = new List<Property>();
+            //_device.Properties.Add(new Property() { Name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24", Value = indicatorLogicValue });
             Close(true);
         }
 

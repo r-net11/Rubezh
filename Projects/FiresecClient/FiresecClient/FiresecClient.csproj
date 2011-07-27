@@ -72,76 +72,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\AddressConverter.cs" />
-    <Compile Include="Converters\DeviceConverter.cs" />
-    <Compile Include="Converters\DirectionConverter.cs" />
-    <Compile Include="Converters\DriverConverter.cs" />
-    <Compile Include="Converters\SecurityConverter.cs" />
-    <Compile Include="Converters\ZoneConverter.cs" />
-    <Compile Include="Converters\ZoneLogicConverter.cs" />
-    <Compile Include="FiresecResetHelper.cs" />
-    <Compile Include="Models\AlarmType.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Converters\Validator.cs" />
-    <Compile Include="Models\CurrentConfiguration.cs" />
-    <Compile Include="Models\CurrentStates.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceCategory.cs" />
-    <Compile Include="Models\DeviceState.cs" />
-    <Compile Include="FiresecInternalClient.cs" />
-    <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Direction.cs" />
-    <Compile Include="Models\Driver.cs" />
-    <Compile Include="Models\DriverProperty.cs" />
-    <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\Event.cs" />
-    <Compile Include="Models\InnerState.cs" />
     <Compile Include="Models\Journal.cs" />
-    <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Premission.cs" />
-    <Compile Include="Models\Property.cs" />
     <Compile Include="FiresecManager.cs" />
-    <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="Models\State.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Converters\ValidationError.cs" />
-    <Compile Include="SerializerHelper.cs" />
-    <Compile Include="Service\FiresecService.cs" />
-    <Compile Include="Service\IFiresecCallback.cs" />
-    <Compile Include="Service\IFiresecService.cs" />
-    <Compile Include="Service\ServiceManager.cs" />
-    <Compile Include="SoundService.cs" />
-    <Compile Include="Watcher.cs" />
-    <Compile Include="Models\Zone.cs" />
-    <Compile Include="Models\ZoneState.cs" />
-    <Compile Include="XSD\GetCoreConfig.cs">
-      <DependentUpon>GetCoreConfig.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetCoreDeviceParams.cs">
-      <DependentUpon>GetCoreDeviceParams.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetCoreState.cs">
-      <DependentUpon>GetCoreState.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetMetaData.cs">
-      <DependentUpon>GetMetaData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\Group.cs">
-      <DependentUpon>Group.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\IndicatorLogic.cs">
-      <DependentUpon>IndicatorLogic.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\ReadEvents.cs">
-      <DependentUpon>ReadEvents.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\ZoneLogic.cs">
-      <DependentUpon>ZoneLogic.xsd</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -161,35 +96,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="XSD\CreateClasses.ps1" />
-    <None Include="XSD\GetCoreConfig.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetCoreDeviceParams.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetCoreState.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetMetaData.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\Group.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Group.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\IndicatorLogic.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\ReadEvents.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\ZoneLogic.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\ServiceAPI\ServiceAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>ServiceAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>

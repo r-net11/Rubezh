@@ -11,7 +11,6 @@ using PlansModule.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Firesec;
 using System.Diagnostics;
 using FiresecClient.Models;
 
@@ -112,7 +111,7 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)
             {
-                FiresecInternalClient.AddToIgnoreList(DevicesPlaceInTree);
+                FiresecManager.AddToIgnoreList(DevicesPlaceInTree);
             }
         }
 
@@ -122,7 +121,7 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)
             {
-                FiresecInternalClient.RemoveFromIgnoreList(DevicesPlaceInTree);
+                FiresecManager.RemoveFromIgnoreList(DevicesPlaceInTree);
             }
         }
 

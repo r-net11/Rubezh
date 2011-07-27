@@ -12,28 +12,28 @@ namespace FiresecClient.Models
 
         public bool IsActive { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public string Id { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public string Name { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public bool AffectChildren { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public int Priority { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public bool IsManualReset { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public bool CanResetOnPanel { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public bool IsAutomatic { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public string Code { get; set; }
 
         public InnerState Copy()

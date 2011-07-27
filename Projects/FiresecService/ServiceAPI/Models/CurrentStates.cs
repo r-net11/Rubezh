@@ -13,14 +13,14 @@ namespace FiresecClient.Models
         [DataMember]
         public List<ZoneState> ZoneStates { get; set; }
 
-        public event Action<Firesec.ReadEvents.journalType> NewJournalEvent;
-        public void OnNewJournalEvent(Firesec.ReadEvents.journalType journalItem)
-        {
-            if (NewJournalEvent != null)
-            {
-                NewJournalEvent(journalItem);
-            }
-        }
+        //public event Action<Firesec.ReadEvents.journalType> NewJournalEvent;
+        //public void OnNewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        //{
+        //    if (NewJournalEvent != null)
+        //    {
+        //        NewJournalEvent(journalItem);
+        //    }
+        //}
 
         public event Action<string> DeviceStateChanged;
         public void OnDeviceStateChanged(string id)

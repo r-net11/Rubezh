@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Firesec.ZoneLogic;
 using FiresecClient.Converters;
 using System.Runtime.Serialization;
 
@@ -181,19 +180,19 @@ namespace FiresecClient.Models
         {
             get
             {
-                if (Driver.IsZoneDevice)
-                {
-                    Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
-                    if (zone != null)
-                    {
-                        return zone.PresentationName;
-                    }
-                    return "";
-                }
-                if (Driver.IsZoneLogicDevice)
-                {
-                    return ZoneLogic.ToString();
-                }
+                //if (Driver.IsZoneDevice)
+                //{
+                //    Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+                //    if (zone != null)
+                //    {
+                //        return zone.PresentationName;
+                //    }
+                //    return "";
+                //}
+                //if (Driver.IsZoneLogicDevice)
+                //{
+                //    return ZoneLogic.ToString();
+                //}
                 return "";
             }
         }
@@ -257,20 +256,20 @@ namespace FiresecClient.Models
 
         void AddAutoCreateChildren(Device device)
         {
-            foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
-            {
-                var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
+            //foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
+            //{
+            //    var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
 
-                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
-                {
-                    Device childDevice = new Device();
-                    childDevice.Driver = autoCreateDriver;
-                    childDevice.IntAddress = i;
-                    device.Children.Add(childDevice);
+            //    for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+            //    {
+            //        Device childDevice = new Device();
+            //        childDevice.Driver = autoCreateDriver;
+            //        childDevice.IntAddress = i;
+            //        device.Children.Add(childDevice);
 
-                    AddAutoCreateChildren(childDevice);
-                }
-            }
+            //        AddAutoCreateChildren(childDevice);
+            //    }
+            //}
         }
     }
 }

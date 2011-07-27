@@ -16,29 +16,24 @@ namespace FiresecClient.Models
     }
 
     [DataContract]
-    public struct State
+    public class State
     {
-        int _id;
+        [DataMember]
+        public int Id { get; set; }
 
         public State(int id)
         {
-            _id = id;
-
+            Id = id;
         }
 
         public StateType StateType
         {
-            get { return (StateType) _id; }
-        }
-
-        public int Id
-        {
-            get { return _id; }
+            get { return (StateType)Id; }
         }
 
         public override string ToString()
         {
-            switch (_id)
+            switch (Id)
             {
                 case 0:
                     return "Тревога";
@@ -74,12 +69,12 @@ namespace FiresecClient.Models
 
         public static bool operator ==(State value1, State value2)
         {
-            return value1._id == value2._id;
+            return value1.Id == value2.Id;
         }
 
         public static bool operator !=(State value1, State value2)
         {
-            return value1._id != value2._id;
+            return value1.Id != value2.Id;
         }
 
         public override bool Equals(object obj)

@@ -234,14 +234,61 @@ namespace FiresecClient.Converters
             driver.Properties = new List<DriverProperty>();
             if (innerDriver.propInfo != null)
             {
-                foreach (var firesecProperty in innerDriver.propInfo)
+                foreach (var internalProperty in innerDriver.propInfo)
                 {
-                    if (firesecProperty.hidden == "1")
+                    if (internalProperty.hidden == "1")
                         continue;
-                    if ((firesecProperty.caption == "Заводской номер") || (firesecProperty.caption == "Версия микропрограммы"))
+                    if ((internalProperty.caption == "Заводской номер") || (internalProperty.caption == "Версия микропрограммы"))
                         continue;
 
-                    DriverProperty driverProperty = new DriverProperty(firesecProperty);
+                    DriverProperty driverProperty = new DriverProperty();
+                    driverProperty.Name = internalProperty.name;
+                    driverProperty.Caption = internalProperty.caption;
+                    driverProperty.Default = internalProperty.@default;
+                    driverProperty.Visible = ((internalProperty.hidden == "0") && (internalProperty.showOnlyInState == "0"));
+                    driverProperty.IsHidden = (internalProperty.hidden == "1");
+
+                    driverProperty.Parameters = new List<DriverPropertyParameter>();
+                    if (internalProperty.param != null)
+                    {
+                        foreach (var firesecParameter in internalProperty.param)
+                        {
+                            DriverPropertyParameter driverPropertyParameter = new DriverPropertyParameter();
+                            driverPropertyParameter.Name = firesecParameter.name;
+                            driverPropertyParameter.Value = firesecParameter.value;
+                            driverProperty.Parameters.Add(driverPropertyParameter);
+                        }
+                    }
+
+                    if (internalProperty.param != null)
+                    {
+                        driverProperty.DriverPropertyType = DriverPropertyTypeEnum.EnumType;
+                    }
+                    else
+                    {
+                        switch (internalProperty.type)
+                        {
+                            case "String":
+                                driverProperty.DriverPropertyType = DriverPropertyTypeEnum.StringType;
+                                break;
+
+                            case "Int":
+                            case "Double":
+                                driverProperty.DriverPropertyType = DriverPropertyTypeEnum.IntType;
+                                break;
+
+                            case "Byte":
+                                driverProperty.DriverPropertyType = DriverPropertyTypeEnum.ByteType;
+                                break;
+
+                            case "Bool":
+                                driverProperty.DriverPropertyType = DriverPropertyTypeEnum.BoolType;
+                                break;
+
+                            default:
+                                throw new Exception("Неизвестный тип свойства");
+                        }
+                    }
                     driver.Properties.Add(driverProperty);
                 }
             }

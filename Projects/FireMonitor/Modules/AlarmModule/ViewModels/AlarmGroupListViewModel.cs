@@ -8,7 +8,6 @@ using Infrastructure.Common;
 using AlarmModule.Events;
 using System.Diagnostics;
 using FiresecClient;
-using Firesec;
 using FiresecClient.Models;
 
 

@@ -11,10 +11,10 @@ namespace FiresecClient.Models
         [DataMember]
         public List<Driver> Drivers { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public List<Device> Devices { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public Device RootDevice { get; set; }
 
         [DataMember]
@@ -54,20 +54,6 @@ namespace FiresecClient.Models
                 device.Parent = parentDevice;
                 Devices.Add(device);
                 AddChild(device);
-            }
-        }
-
-        public void FillDrivrs(Firesec.Metadata.config metadata)
-        {
-            DriverConverter.Metadata = metadata;
-            Drivers = new List<Driver>();
-            foreach (var firesecDriver in metadata.drv)
-            {
-                Driver driver = DriverConverter.Convert(firesecDriver);
-                if (driver.IsIgnore == false)
-                {
-                    Drivers.Add(driver);
-                }
             }
         }
     }

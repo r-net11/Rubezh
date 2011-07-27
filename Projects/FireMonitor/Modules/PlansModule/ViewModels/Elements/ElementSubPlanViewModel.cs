@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using PlansModule.Events;
 using PlansModule.Models;
-using Firesec;
 using Infrastructure.Common;
 using FiresecClient.Models;
 

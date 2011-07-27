@@ -39,12 +39,12 @@ namespace FireMonitor
                 return false;
             }
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_Login) == false)
-            {
-                MessageBox.Show("Нет прав на работу с программой");
-                FiresecManager.Disconnect();
-                return false;
-            }
+            //if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_Login) == false)
+            //{
+            //    MessageBox.Show("Нет прав на работу с программой");
+            //    FiresecManager.Disconnect();
+            //    return false;
+            //}
 
             return true;
         }

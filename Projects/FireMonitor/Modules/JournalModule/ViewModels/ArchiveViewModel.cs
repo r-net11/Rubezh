@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using ServiceAPI.Models;
 
 namespace JournalModule.ViewModels
 {
@@ -21,6 +22,8 @@ namespace JournalModule.ViewModels
         {
             JournalItems = new ObservableCollection<JournalItemViewModel>();
 
+            //Read();
+
             Thread thread = new Thread(Read);
             thread.Priority = ThreadPriority.Highest;
             thread.Start();
@@ -33,14 +36,14 @@ namespace JournalModule.ViewModels
             lastJournalId = 1000;
             while (true)
             {
-                List<Firesec.ReadEvents.journalType> journalItems = FiresecManager.ReadJournal(0, 10000);
+                List<JournalItem> journalItems = FiresecManager.ReadJournal(0, 1000);
 
                 if (journalItems == null)
                     break;
 
                 Parallel.ForEach(journalItems, journalItem =>
                 {
-                    Dispatcher.Invoke((Action<JournalItemViewModel>) Add, new JournalItemViewModel(journalItem));
+                    Dispatcher.Invoke((Action<JournalItemViewModel>)Add, new JournalItemViewModel(journalItem));
                 }
                 );
 
@@ -50,10 +53,9 @@ namespace JournalModule.ViewModels
                 break;
 
                 if (journalItems.Count > 0)
-                    lastJournalId = Convert.ToInt32(journalItems[journalItems.Count - 1].IDEvents) - 1;
+                    lastJournalId = journalItems[journalItems.Count - 1].No - 1;
                 else
                     lastJournalId--;
-                Trace.WriteLine(lastJournalId.ToString());
             }
         }
 

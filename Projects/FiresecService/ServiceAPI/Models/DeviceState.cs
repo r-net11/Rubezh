@@ -53,7 +53,9 @@ namespace FiresecClient.Models
         {
             get
             {
-                return FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
+                return null;
+
+                //return FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
             }
         }
 
@@ -69,34 +71,34 @@ namespace FiresecClient.Models
         {
             get
             {
-                if (Device.Driver.CanDisable)
-                {
-                    if (IsDisabled)
-                    {
-                        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
-                    }
-                    else
-                    {
-                        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
-                    }
-                }
+                //if (Device.Driver.CanDisable)
+                //{
+                //    if (IsDisabled)
+                //    {
+                //        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
+                //    }
+                //    else
+                //    {
+                //        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
+                //    }
+                //}
                 return false;
             }
         }
 
         public void ChangeDisabled()
         {
-            if (CanDisable)
-            {
-                if (IsDisabled)
-                {
-                    FiresecInternalClient.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
-                }
-                else
-                {
-                    FiresecInternalClient.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
-                }
-            }
+            //if (CanDisable)
+            //{
+            //    if (IsDisabled)
+            //    {
+            //        FiresecManager.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
+            //    }
+            //    else
+            //    {
+            //        FiresecManager.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
+            //    }
+            //}
         }
 
         bool _isAutomaticOff = false;

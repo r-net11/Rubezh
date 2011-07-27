@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Firesec.Metadata;
 using System.Runtime.Serialization;
 
 namespace FiresecClient.Models
@@ -16,7 +15,7 @@ namespace FiresecClient.Models
         [DataMember]
         public List<Parameter> Parameters { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public List<InnerState> States { get; set; }
 
         [DataMember]

@@ -15,7 +15,6 @@ using Infrastructure;
 using Infrastructure.Events;
 using AlarmModule.Events;
 using System.ComponentModel;
-using FiresecClient.Models;
 using System.Diagnostics;
 using FiresecClient;
 
@@ -42,7 +41,7 @@ namespace FireMonitor
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+            //FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
         }
 
         void DeselectAll()
@@ -73,15 +72,15 @@ namespace FireMonitor
             }
         }
 
-        void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
-        {
-            Trace.WriteLine(journalItem.EventDesc + " - " + journalItem.IDEvents);
+        //void CurrentStates_NewJournalEvent(Firesec.ReadEvents.journalType journalItem)
+        //{
+        //    Trace.WriteLine(journalItem.EventDesc + " - " + journalItem.IDEvents);
 
-            if (IsJournalSelected == false)
-            {
-                UnreadJournalCount++;
-            }
-        }
+        //    if (IsJournalSelected == false)
+        //    {
+        //        UnreadJournalCount++;
+        //    }
+        //}
 
         bool _isAlarmSelected;
         public bool IsAlarmSelected

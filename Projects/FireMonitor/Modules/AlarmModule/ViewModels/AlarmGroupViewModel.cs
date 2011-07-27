@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Common;
-using Firesec;
 using Infrastructure.Events;
 using FiresecClient.Models;
 

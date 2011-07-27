@@ -11,7 +11,8 @@
     <RootNamespace>ServiceAPI</RootNamespace>
     <AssemblyName>ServiceAPI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -41,6 +42,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,10 +57,36 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressConverter.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\JournalItem.cs" />
+    <Compile Include="ValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AlarmType.cs" />
+    <Compile Include="Models\ChangeEntities.cs" />
+    <Compile Include="Models\CurrentConfiguration.cs" />
+    <Compile Include="Models\CurrentStates.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceCategory.cs" />
+    <Compile Include="Models\DeviceState.cs" />
+    <Compile Include="Models\DeviceType.cs" />
+    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\DriverProperty.cs" />
+    <Compile Include="Models\DriversHelper.cs" />
+    <Compile Include="Models\InnerState.cs" />
+    <Compile Include="Models\Parameter.cs" />
+    <Compile Include="Models\Premission.cs" />
+    <Compile Include="Models\Property.cs" />
+    <Compile Include="Models\ResetItem.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserGroup.cs" />
+    <Compile Include="Models\Zone.cs" />
+    <Compile Include="Models\ZoneLogic.cs" />
+    <Compile Include="Models\ZoneState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,9 +111,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
-      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
-      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
+    <ProjectReference Include="..\..\FiresecClient\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

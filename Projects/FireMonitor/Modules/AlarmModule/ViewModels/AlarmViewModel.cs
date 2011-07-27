@@ -7,7 +7,6 @@ using AlarmModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using FiresecClient;
-using Firesec;
 using FiresecClient.Models;
 
 namespace AlarmModule.ViewModels
@@ -90,7 +89,7 @@ namespace AlarmModule.ViewModels
             if (CanConfirm(null))
             {
                 IsConfirmed = true;
-                FiresecInternalClient.AddUserMessage("Подтверждение " + _alarm.Name);
+                FiresecManager.AddUserMessage("Подтверждение " + _alarm.Name);
             }
         }
 
@@ -145,7 +144,7 @@ namespace AlarmModule.ViewModels
         {
             List<ResetItem> resetItems = new List<ResetItem>();
             resetItems.Add(GetResetItem());
-            FiresecResetHelper.ResetMany(resetItems);
+            FiresecManager.ResetMany(resetItems);
         }
 
         public ResetItem GetResetItem()

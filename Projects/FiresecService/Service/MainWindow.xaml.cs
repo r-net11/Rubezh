@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FiresecClient;
 
 namespace Service
 {
@@ -23,7 +24,8 @@ namespace Service
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            FiresecManager.Connect("adm", "");
+            FiresecServiceManager.Open();
         }
     }
 }

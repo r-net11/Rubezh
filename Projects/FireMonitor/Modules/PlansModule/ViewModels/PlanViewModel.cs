@@ -6,7 +6,6 @@ using Infrastructure.Common;
 using Infrastructure;
 using PlansModule.Models;
 using System.Collections.ObjectModel;
-using Firesec;
 using FiresecClient;
 using PlansModule.Events;
 using FiresecClient.Models;

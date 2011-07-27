@@ -6,18 +6,18 @@ using Infrastructure;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Firesec;
 using FiresecClient.Models;
+using ServiceAPI.Models;
 
 namespace JournalModule.ViewModels
 {
     public class JournalItemViewModel : BaseViewModel
     {
-        Firesec.ReadEvents.journalType _journalItem;
+        JournalItem _journalItem;
         string _deviceId;
         string _zoneNo;
 
-        public JournalItemViewModel(Firesec.ReadEvents.journalType journalItem)
+        public JournalItemViewModel(JournalItem journalItem)
         {
             _journalItem = journalItem;
             Initialize();
@@ -30,13 +30,13 @@ namespace JournalModule.ViewModels
         void Initialize()
         {
             string databaseId = null;
-            if (string.IsNullOrEmpty(_journalItem.IDDevicesSource) == false)
+            if (string.IsNullOrEmpty(_journalItem.PanelDatabaseId) == false)
             {
-                databaseId = _journalItem.IDDevicesSource;
+                databaseId = _journalItem.PanelDatabaseId;
             }
-            if (string.IsNullOrEmpty(_journalItem.IDDevices) == false)
+            if (string.IsNullOrEmpty(_journalItem.DeviceDatabaseId) == false)
             {
-                databaseId = _journalItem.IDDevices;
+                databaseId = _journalItem.DeviceDatabaseId;
             }
             var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
@@ -50,7 +50,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return Convert.ToInt32(_journalItem.IDEvents);
+                return _journalItem.No;
             }
         }
 
@@ -58,7 +58,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return ConvertTime(_journalItem.Dt);
+                return _journalItem.DeviceTime;
             }
         }
 
@@ -66,7 +66,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return ConvertTime(_journalItem.SysDt);
+                return _journalItem.SystemTime;
             }
         }
 
@@ -82,7 +82,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.EventDesc;
+                return _journalItem.Description;
             }
         }
 
@@ -90,7 +90,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.CLC_Device;
+                return _journalItem.DeviceName;
             }
         }
 
@@ -98,7 +98,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.CLC_DeviceSource;
+                return _journalItem.PanelName;
             }
         }
 
@@ -106,7 +106,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.UserInfo;
+                return _journalItem.User;
             }
         }
 
@@ -114,8 +114,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return new State(id).StateType;
+                return _journalItem.State.StateType;
             }
         }
 
@@ -123,8 +122,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                int id = Convert.ToInt32(_journalItem.IDTypeEvents);
-                return new State(id).ToString();
+                return _journalItem.State.StateType.ToString();
             }
         }
 

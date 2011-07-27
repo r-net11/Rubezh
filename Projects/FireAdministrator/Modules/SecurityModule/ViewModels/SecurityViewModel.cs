@@ -28,12 +28,14 @@ namespace SecurityModule.ViewModels
 			//var permissions = FiresecManager.Configuration.Perimissions;
 
 			Users = new ObservableCollection<UserViewModel>();
+            if (_usersList != null)
 			foreach (var user in _usersList)
             {
 				Users.Add(new UserViewModel(user));
             }
 
             Groups = new ObservableCollection<GroupViewModel>();
+            if (groups != null)
 			foreach (var group in groups)
             {
 				Groups.Add(new GroupViewModel(group));

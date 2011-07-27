@@ -17,14 +17,14 @@ namespace DevicesModule.ViewModels
             Device = device;
         }
 
-        public void Initialize(Firesec.Groups.RCGroupPropertiesDevice device)
-        {
-            Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == device.UID);
+        //public void Initialize(Firesec.Groups.RCGroupPropertiesDevice device)
+        //{
+        //    Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == device.UID);
 
-            IsInversion = device.Inverse == "1" ? true : false;
-            OnDelay = Convert.ToInt32(device.DelayOn);
-            OffDelay = Convert.ToInt32(device.DelayOff);
-        }
+        //    IsInversion = device.Inverse == "1" ? true : false;
+        //    OnDelay = Convert.ToInt32(device.DelayOn);
+        //    OffDelay = Convert.ToInt32(device.DelayOff);
+        //}
 
         bool _isInversion;
         public bool IsInversion

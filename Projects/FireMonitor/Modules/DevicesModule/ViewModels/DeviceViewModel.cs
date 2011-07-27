@@ -9,7 +9,6 @@ using DevicesModule.Views;
 using System.Diagnostics;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Firesec;
 using FiresecClient.Models;
 
 namespace DevicesModule.ViewModels
@@ -236,8 +235,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            SoundService.Play("Sound1.wav");
-            SoundService.Beep();
+            //SoundService.Play("Sound1.wav");
+            //SoundService.Beep();
 
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)

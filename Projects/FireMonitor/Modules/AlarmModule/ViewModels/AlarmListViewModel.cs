@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
 using AlarmModule.Events;
-using Firesec;
 using FiresecClient;
 using FiresecClient.Models;
 
@@ -86,7 +85,7 @@ namespace AlarmModule.ViewModels
                 }
             }
 
-            FiresecResetHelper.ResetMany(resetItems);
+            FiresecManager.ResetMany(resetItems);
         }
 
         void OnAlarmAdded(Alarm alarm)

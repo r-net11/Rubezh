@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Service.XSD;
 
 namespace FiresecClient
 {
@@ -40,11 +41,11 @@ namespace FiresecClient
             return Serialize<Firesec.Indicator.LEDProperties>(indicatorLogic);
         }
 
-        public static Firesec.Groups.RCGroupProperties GetGroupProperties(string groupPropertyString)
+        public static RCGroupProperties GetGroupProperties(string groupPropertyString)
         {
             try
             {
-                return Deserialize<Firesec.Groups.RCGroupProperties>(groupPropertyString);
+                return Deserialize<RCGroupProperties>(groupPropertyString);
             }
             catch
             {
@@ -52,9 +53,9 @@ namespace FiresecClient
             }
         }
 
-        public static string SeGroupProperty(Firesec.Groups.RCGroupProperties groupProperty)
+        public static string SeGroupProperty(RCGroupProperties groupProperty)
         {
-            return Serialize<Firesec.Groups.RCGroupProperties>(groupProperty);
+            return Serialize<RCGroupProperties>(groupProperty);
         }
 
         public static T Deserialize<T>(string input)

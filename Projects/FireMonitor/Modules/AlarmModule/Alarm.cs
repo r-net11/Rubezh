@@ -5,7 +5,6 @@ using System.Text;
 using FiresecClient;
 using Infrastructure;
 using AlarmModule.Events;
-using Firesec;
 using FiresecClient.Models;
 
 namespace AlarmModule

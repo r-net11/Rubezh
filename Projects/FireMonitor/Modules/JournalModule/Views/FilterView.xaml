@@ -11,9 +11,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-
-            <extToolkit:IntegerUpDown />
-
             <TextBlock Text="Временной диапазон" Margin="2" />
             <Grid>
                 <Grid.RowDefinitions>

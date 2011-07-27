@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecClient;
-using Firesec;
 using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Events;
@@ -25,6 +24,9 @@ namespace AlarmModule
         {
             foreach (var deviceState in FiresecManager.States.DeviceStates)
             {
+                if (deviceState.InnerStates == null)
+                    continue;
+
                 var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
                 if (device.Driver.Category == DeviceCategory.Sensor)
                 {

@@ -29,24 +29,24 @@ namespace DevicesModule.ViewModels
 
         void InitializeDevices()
         {
-            Devices = new ObservableCollection<GroupDeviceViewModel>();
+            //Devices = new ObservableCollection<GroupDeviceViewModel>();
 
-            var stringGroupProperty = _device.Properties.FirstOrDefault(x => x.Name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
-            if (stringGroupProperty != null)
-            {
-                var GroupProperty = SerializerHelper.GetGroupProperties(stringGroupProperty.Value);
-                if ((GroupProperty != null) && (GroupProperty.device != null))
-                {
-                    foreach (var groupDevice in GroupProperty.device)
-                    {
-                        GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
-                        groupDeviceViewModel.Initialize(groupDevice);
-                        Devices.Add(groupDeviceViewModel);
-                    }
-                }
-            }
+            //var stringGroupProperty = _device.Properties.FirstOrDefault(x => x.Name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+            //if (stringGroupProperty != null)
+            //{
+            //    var GroupProperty = SerializerHelper.GetGroupProperties(stringGroupProperty.Value);
+            //    if ((GroupProperty != null) && (GroupProperty.device != null))
+            //    {
+            //        foreach (var groupDevice in GroupProperty.device)
+            //        {
+            //            GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
+            //            groupDeviceViewModel.Initialize(groupDevice);
+            //            Devices.Add(groupDeviceViewModel);
+            //        }
+            //    }
+            //}
 
-            SelectedDevice = Devices.FirstOrDefault();
+            //SelectedDevice = Devices.FirstOrDefault();
         }
 
         void InitializeAvailableDevices()
@@ -181,36 +181,36 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Firesec.Groups.RCGroupProperties groupProperty = new Firesec.Groups.RCGroupProperties();
-            groupProperty.DevCount = Devices.Count.ToString();
-            groupProperty.AMTPreset = Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т") ? "1" : "0";
-            List<Firesec.Groups.RCGroupPropertiesDevice> groupDevices = new List<Firesec.Groups.RCGroupPropertiesDevice>();
-            foreach (var device in Devices)
-            {
-                Firesec.Groups.RCGroupPropertiesDevice groupDevice = new Firesec.Groups.RCGroupPropertiesDevice();
-                if (device.Device.UID == null)
-                {
-                    device.Device.UID = Guid.NewGuid().ToString();
-                }
-                groupDevice.UID = device.Device.UID;
-                groupDevice.Inverse = device.IsInversion ? "1" : "0";
-                groupDevice.DelayOn = device.OnDelay.ToString();
-                groupDevice.DelayOff = device.OffDelay.ToString();
-                groupDevices.Add(groupDevice);
-            }
-            groupProperty.device = groupDevices.ToArray();
+            //Firesec.Groups.RCGroupProperties groupProperty = new Firesec.Groups.RCGroupProperties();
+            //groupProperty.DevCount = Devices.Count.ToString();
+            //groupProperty.AMTPreset = Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т") ? "1" : "0";
+            //List<Firesec.Groups.RCGroupPropertiesDevice> groupDevices = new List<Firesec.Groups.RCGroupPropertiesDevice>();
+            //foreach (var device in Devices)
+            //{
+            //    Firesec.Groups.RCGroupPropertiesDevice groupDevice = new Firesec.Groups.RCGroupPropertiesDevice();
+            //    if (device.Device.UID == null)
+            //    {
+            //        device.Device.UID = Guid.NewGuid().ToString();
+            //    }
+            //    groupDevice.UID = device.Device.UID;
+            //    groupDevice.Inverse = device.IsInversion ? "1" : "0";
+            //    groupDevice.DelayOn = device.OnDelay.ToString();
+            //    groupDevice.DelayOff = device.OffDelay.ToString();
+            //    groupDevices.Add(groupDevice);
+            //}
+            //groupProperty.device = groupDevices.ToArray();
 
-            if (groupDevices.Count > 0)
-            {
-                string stringGroupProperty = SerializerHelper.SeGroupProperty(groupProperty);
-                Property property = new Property() { Name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5", Value = stringGroupProperty };
-                _device.Properties = new List<Property>();
-                _device.Properties.Add(property);
-            }
-            else
-            {
-                _device.Properties = null;
-            }
+            //if (groupDevices.Count > 0)
+            //{
+            //    string stringGroupProperty = SerializerHelper.SeGroupProperty(groupProperty);
+            //    Property property = new Property() { Name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5", Value = stringGroupProperty };
+            //    _device.Properties = new List<Property>();
+            //    _device.Properties.Add(property);
+            //}
+            //else
+            //{
+            //    _device.Properties = null;
+            //}
 
             Close(true);
         }

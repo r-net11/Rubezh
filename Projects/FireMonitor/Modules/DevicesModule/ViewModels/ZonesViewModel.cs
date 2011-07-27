@@ -122,11 +122,11 @@ namespace DevicesModule.ViewModels
 
                 if (device.Driver.IsZoneLogicDevice)
                 {
-                    if ((device.ZoneLogic != null) && (device.ZoneLogic.clause != null))
+                    if (device.ZoneLogic != null)
                     {
-                        foreach (var clause in device.ZoneLogic.clause)
+                        foreach (var clause in device.ZoneLogic.Clauses)
                         {
-                            if ((clause.zone != null) && (clause.zone.Contains(SelectedZone.Zone.No)))
+                            if (clause.Zones.Contains(SelectedZone.Zone.No))
                             {
                                 device.AllParents.ForEach(x => { devices.Add(x); });
                                 devices.Add(device);

@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ServiceModel;
+using ServiceAPI;
 using System.IO;
+using FiresecClient;
 using FiresecClient.Models;
+using ServiceAPI.Models;
+using Service.Converters;
 
-namespace FiresecClient
+namespace Service
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
@@ -22,7 +26,7 @@ namespace FiresecClient
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 
-        public Models.CurrentConfiguration GetCoreConfig()
+        public CurrentConfiguration GetCoreConfig()
         {
             return FiresecManager.Configuration;
         }
@@ -30,6 +34,12 @@ namespace FiresecClient
         public CurrentStates GetCurrentStates()
         {
             return FiresecManager.States;
+        }
+
+        public List<JournalItem> ReadJournal(int startIndex, int count)
+        {
+            var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
+            return JournalConverter.Convert(internalJournal);
         }
     }
 }
