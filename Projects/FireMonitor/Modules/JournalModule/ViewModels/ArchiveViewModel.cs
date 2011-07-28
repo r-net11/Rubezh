@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using ServiceAPI.Models;
+using FiresecAPI.Models;
 
 namespace JournalModule.ViewModels
 {

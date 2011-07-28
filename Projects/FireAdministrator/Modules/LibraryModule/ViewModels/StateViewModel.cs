@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 using Infrastructure.Common;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace LibraryModule.ViewModels
 {
@@ -72,7 +72,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return new FiresecClient.Models.State(int.Parse(Class)).ToString();
+                return new State(int.Parse(Class)).ToString();
             }
         }
 
@@ -80,7 +80,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                string name = new FiresecClient.Models.State(int.Parse(Class)).ToString();
+                string name = new State(int.Parse(Class)).ToString();
                 if (IsAdditional)
                 {
                     name += ". ";

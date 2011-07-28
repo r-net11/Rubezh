@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace AlarmModule.Converters
 {

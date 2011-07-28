@@ -4,6 +4,7 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 
 namespace LibraryModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace LibraryModule.ViewModels
             Initialize();
         }
 
-        public DeviceViewModel(LibraryViewModel parent, FiresecClient.Models.Driver driver)
+        public DeviceViewModel(LibraryViewModel parent, Driver driver)
         {
             ParentLibrary = parent;
             Driver = driver;
@@ -35,7 +36,7 @@ namespace LibraryModule.ViewModels
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
         }
 
-        public FiresecClient.Models.Driver Driver { get; private set; }
+        public Driver Driver { get; private set; }
         public LibraryViewModel ParentLibrary { get; private set; }
 
         public string Id

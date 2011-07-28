@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using FiresecClient.Models;
 using System.ServiceModel;
-using ServiceAPI;
-using System;
-using System.IO;
-using ServiceAPI.Models;
+using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace FiresecClient
 {
-    public class EventClient : ServiceAPI.IFiresecCallback
+    public class EventClient : IFiresecCallback
     {
         public void StateChanged(string deviceId)
         {

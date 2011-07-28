@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecClient;
-using FiresecClient.Models;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {

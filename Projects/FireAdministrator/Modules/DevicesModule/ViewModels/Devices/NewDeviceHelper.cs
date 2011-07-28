@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {

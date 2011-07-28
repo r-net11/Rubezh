@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
 {

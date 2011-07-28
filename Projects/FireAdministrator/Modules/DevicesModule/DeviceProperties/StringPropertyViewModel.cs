@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace DevicesModule.DeviceProperties
 {

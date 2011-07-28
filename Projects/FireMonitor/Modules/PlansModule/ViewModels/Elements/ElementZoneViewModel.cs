@@ -12,7 +12,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using System.Diagnostics;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace PlansModule.ViewModels
 {

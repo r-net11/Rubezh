@@ -7,7 +7,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace JournalModule
 {

@@ -7,7 +7,7 @@ using Infrastructure;
 using AlarmModule.Events;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace AlarmModule.ViewModels
 {

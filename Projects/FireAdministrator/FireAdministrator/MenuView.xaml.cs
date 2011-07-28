@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Linq;
 using FiresecClient;
 using Microsoft.Win32;
+using FiresecAPI.Models;
 
 namespace FireAdministrator
 {
@@ -28,7 +29,7 @@ namespace FireAdministrator
         {
             get
             {
-                return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Adm_ChangeConfigDevices));
+                return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ChangeConfigDevices));
             }
         }
 

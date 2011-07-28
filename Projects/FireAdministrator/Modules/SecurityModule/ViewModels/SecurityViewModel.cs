@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using FiresecClient;
-using FiresecClient.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 
 namespace SecurityModule.ViewModels
 {
