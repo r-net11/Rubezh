@@ -39,6 +39,11 @@ namespace DevicesModule.ViewModels
             get { return Device.Driver; }
         }
 
+        public string PresentationZone
+        {
+            get { return Device.GetPersentationZone(); }
+        }
+
         public void UpdateParameters()
         {
             Update();
@@ -229,15 +234,12 @@ namespace DevicesModule.ViewModels
 
         public bool CanDisable(object obj)
         {
-            return _deviceState.CanDisable;
+            return _deviceState.CanDisable();
         }
 
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            //SoundService.Play("Sound1.wav");
-            //SoundService.Beep();
-
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)
             {

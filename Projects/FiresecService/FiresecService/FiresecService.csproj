@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\PDUGroupLogicConverter.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
@@ -75,14 +76,10 @@
     <Compile Include="XSD\Group.cs">
       <DependentUpon>Group.xsd</DependentUpon>
     </Compile>
-    <Compile Include="XSD\Group.Designer.cs">
-      <DependentUpon>Group.xsd</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="XSD\IndicatorLogic.cs">
       <DependentUpon>IndicatorLogic.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Converters\IndicatorLogicConverter.cs" />
     <Compile Include="XSD\ReadEvents.cs">
       <DependentUpon>ReadEvents.xsd</DependentUpon>
     </Compile>

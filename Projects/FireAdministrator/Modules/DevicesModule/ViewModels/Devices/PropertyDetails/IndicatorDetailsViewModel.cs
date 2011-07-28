@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
 using FiresecAPI.Models;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -26,49 +27,39 @@ namespace DevicesModule.ViewModels
 
         public void Initialize(Device device)
         {
-            //_device = device;
+            _device = device;
 
-            //InitializeDevices();
+            InitializeDevices();
 
-            //if (device.Properties == null)
-            //    return;
+            if (device.IndicatorLogic == null)
+                return;
 
-            //var indicatorProperty = device.Properties.FirstOrDefault(x => x.Name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
-            //if (indicatorProperty == null)
-            //{
-            //    return;
-            //}
+            Zones = new ObservableCollection<string>();
 
-            //Logic = indicatorProperty.Value;
+            switch (device.IndicatorLogic.IndicatorLogicType)
+            {
+                case IndicatorLogicType.Zone:
+                    IsZone = true;
 
-            //var indicatorLogic = SerializerHelper.GetIndicatorLogic(Logic);
-            //if (indicatorLogic == null)
-            //    return;
+                    foreach (var zone in device.IndicatorLogic.Zones)
+                        Zones.Add(zone);
 
-            //Zones = new ObservableCollection<string>();
-            //if (indicatorLogic.zone != null)
-            //{
-            //    IsZone = true;
+                    InitializeZones(device.IndicatorLogic.Zones);
+                    break;
 
-            //    foreach (var zone in indicatorLogic.zone)
-            //        Zones.Add(zone);
-            //}
-            //InitializeZones(indicatorLogic.zone.ToList());
+                case IndicatorLogicType.Device:
+                    IsDevice = true;
 
-            //if (indicatorLogic.device != null)
-            //{
-            //    IsDevice = true;
+                    DeviceId = device.IndicatorLogic.DeviceUID;
+                    OnColor = device.IndicatorLogic.OnColor;
+                    OffColor = device.IndicatorLogic.OffColor;
+                    FailureColor = device.IndicatorLogic.FailureColor;
+                    ConnectionColor = device.IndicatorLogic.ConnectionColor;
 
-            //    var indicatorDevice = indicatorLogic.device[0];
-            //    DeviceId = indicatorDevice.UID;
-            //    OnColor = indicatorDevice.state1;
-            //    OffColor = indicatorDevice.state2;
-            //    FailureColor = indicatorDevice.state3;
-            //    ConnectionColor = indicatorDevice.state4;
-
-            //    InitializeDevices();
-            //    SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == DeviceId);
-            //}
+                    InitializeDevices();
+                    SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == DeviceId);
+                    break;
+            }
         }
 
         void InitializeDevices()
@@ -299,24 +290,24 @@ namespace DevicesModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        public ObservableCollection<string> Colors
+        public List<IndicatorColorType> Colors
         {
             get
             {
-                ObservableCollection<string> colors = new ObservableCollection<string>();
-                colors.Add("0");
-                colors.Add("1");
-                colors.Add("2");
-                colors.Add("3");
-                colors.Add("4");
-                colors.Add("5");
-                colors.Add("6");
+                List<IndicatorColorType> colors = new List<IndicatorColorType>();
+                colors.Add(IndicatorColorType.None);
+                colors.Add(IndicatorColorType.Red);
+                colors.Add(IndicatorColorType.Green);
+                colors.Add(IndicatorColorType.Orange);
+                colors.Add(IndicatorColorType.RedBlink);
+                colors.Add(IndicatorColorType.GreenBlink);
+                colors.Add(IndicatorColorType.OrangeBlink);
                 return colors;
             }
         }
 
-        string _onColor;
-        public string OnColor
+        IndicatorColorType _onColor;
+        public IndicatorColorType OnColor
         {
             get { return _onColor; }
             set
@@ -326,8 +317,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _offColor;
-        public string OffColor
+        IndicatorColorType _offColor;
+        public IndicatorColorType OffColor
         {
             get { return _offColor; }
             set
@@ -337,8 +328,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _failureColor;
-        public string FailureColor
+        IndicatorColorType _failureColor;
+        public IndicatorColorType FailureColor
         {
             get { return _failureColor; }
             set
@@ -348,8 +339,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _connectionColor;
-        public string ConnectionColor
+        IndicatorColorType _connectionColor;
+        public IndicatorColorType ConnectionColor
         {
             get { return _connectionColor; }
             set
@@ -373,39 +364,34 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            //Firesec.Indicator.LEDProperties indicatorLogic = new Firesec.Indicator.LEDProperties();
+            _device.IndicatorLogic = new IndicatorLogic();
 
-            //if (IsZone)
-            //{
-            //    indicatorLogic.type = "0";
-            //    indicatorLogic.device = null;
+            if (IsZone)
+            {
+                _device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
 
-            //    indicatorLogic.zone = Zones.ToArray();
-            //}
-            //else
-            //{
-            //    indicatorLogic.type = "1";
-            //    indicatorLogic.zone = null;
+                foreach (var zone in TargetZones)
+                    _device.IndicatorLogic.Zones.Add(zone.Zone.No);
+            }
 
-            //    indicatorLogic.device = new Firesec.Indicator.deviceType[1];
-            //    indicatorLogic.device[0] = new Firesec.Indicator.deviceType();
-            //    indicatorLogic.device[0].state1 = OnColor;
-            //    indicatorLogic.device[0].state2 = OffColor;
-            //    indicatorLogic.device[0].state3 = FailureColor;
-            //    indicatorLogic.device[0].state4 = ConnectionColor;
+            if (IsDevice)
+            {
+                _device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
 
-            //    string uid = SelectedDevice.Device.UID;
-            //    if (string.IsNullOrEmpty(uid))
-            //    {
-            //        uid = Guid.NewGuid().ToString();
-            //        SelectedDevice.Device.UID = uid;
-            //    }
-            //    indicatorLogic.device[0].UID = uid;
-            //}
+                string uid = SelectedDevice.Device.UID;
+                if (string.IsNullOrEmpty(uid))
+                {
+                    uid = Guid.NewGuid().ToString();
+                    SelectedDevice.Device.UID = uid;
+                }
 
-            //string indicatorLogicValue = SerializerHelper.SetIndicatorLogic(indicatorLogic);
-            //_device.Properties = new List<Property>();
-            //_device.Properties.Add(new Property() { Name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24", Value = indicatorLogicValue });
+                _device.IndicatorLogic.DeviceUID = SelectedDevice.Device.UID;
+                _device.IndicatorLogic.OnColor = OnColor;
+                _device.IndicatorLogic.OffColor = OffColor;
+                _device.IndicatorLogic.FailureColor = FailureColor;
+                _device.IndicatorLogic.ConnectionColor = ConnectionColor;
+            }
+
             Close(true);
         }
 

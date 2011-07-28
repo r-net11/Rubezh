@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
 {
@@ -7,28 +8,29 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string colorId = (string)value;
-            switch (colorId)
+            IndicatorColorType indicatorColorType = (IndicatorColorType)value;
+            switch (indicatorColorType)
             {
-                case "0":
+
+                case IndicatorColorType.None:
                     return "Нет";
 
-                case "1":
+                case IndicatorColorType.Red:
                     return "Красный";
 
-                case "2":
+                case IndicatorColorType.Green:
                     return "Зеленый";
 
-                case "3":
+                case IndicatorColorType.Orange:
                     return "Оранжевый";
 
-                case "4":
+                case IndicatorColorType.RedBlink:
                     return "Красный мигающий";
 
-                case "5":
+                case IndicatorColorType.GreenBlink:
                     return "Зеленый мигающий";
 
-                case "6":
+                case IndicatorColorType.OrangeBlink:
                     return "Оранжевый мигающий";
 
                 default:

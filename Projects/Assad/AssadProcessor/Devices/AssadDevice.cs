@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Firesec;
 using FiresecClient;
-using System.Diagnostics;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace AssadProcessor.Devices
 {
@@ -141,7 +138,7 @@ namespace AssadProcessor.Devices
                         {
                             Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
                             state2.state = "Настройка включения по состоянию зон";
-                            string zonelogicstring = ZoneLogicToText.Convert(device.ZoneLogic);
+                            string zonelogicstring = device.ZoneLogic.ToString();
                             state2.value = zonelogicstring;
                             states.Add(state2);
                         }

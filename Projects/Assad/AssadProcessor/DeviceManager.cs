@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Diagnostics;
-using AssadProcessor.Devices;
-using Firesec;
-using FiresecClient;
-using FiresecClient.Models;
+﻿using AssadProcessor.Devices;
+using FiresecAPI.Models;
 
 namespace AssadProcessor
 {

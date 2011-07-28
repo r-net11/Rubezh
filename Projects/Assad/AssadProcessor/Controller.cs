@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using FiresecClient;
-using System.Windows.Forms;
-using Firesec;
 using AssadProcessor.Devices;
-using System.Diagnostics;
-using FiresecClient.Models;
 
 namespace AssadProcessor
 {
@@ -87,13 +80,13 @@ namespace AssadProcessor
                             {
                                 if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
                                 {
-                                    FiresecResetHelper.ResetOne(resetDevice.Id, commandName);
+                                    FiresecManager.ResetOne(resetDevice.Id, commandName);
                                 }
                             }
                         }
                         else
                         {
-                            FiresecResetHelper.ResetOne(device.Id, commandName);
+                            FiresecManager.ResetOne(device.Id, commandName);
                         }
                     }
                 }
@@ -110,7 +103,7 @@ namespace AssadProcessor
                 {
                     if (state.IsManualReset)
                     {
-                        FiresecResetHelper.ResetOne(device.Id, state.Name);
+                        FiresecManager.ResetOne(device.Id, state.Name);
                     }
                 }
             }

@@ -137,14 +137,36 @@ namespace FiresecService.Converters
             }
             if (innerDevice.prop != null)
             {
-                var property = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
-                if (property != null)
+                var zoneLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
+                if (zoneLogicProperty != null)
                 {
-                    string zoneLogicstring = property.value;
+                    string zoneLogicstring = zoneLogicProperty.value;
                     if (string.IsNullOrEmpty(zoneLogicstring) == false)
                     {
                         var zoneLogic = SerializerHelper.GetZoneLogic(zoneLogicstring);
                         device.ZoneLogic = ZoneLogicConverter.Convert(zoneLogic);
+                    }
+                }
+
+                var indicatorLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
+                if (indicatorLogicProperty != null)
+                {
+                    string indicatorLogicString = indicatorLogicProperty.value;
+                    if (string.IsNullOrEmpty(indicatorLogicString) == false)
+                    {
+                        var indicatorLogic = SerializerHelper.GetIndicatorLogic(indicatorLogicString);
+                        device.IndicatorLogic = IndicatorLogicConverter.Convert(indicatorLogic);
+                    }
+                }
+
+                var pDUGroupLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+                if (pDUGroupLogicProperty != null)
+                {
+                    string pDUGroupLogicPropertyString = pDUGroupLogicProperty.value;
+                    if (string.IsNullOrEmpty(pDUGroupLogicPropertyString) == false)
+                    {
+                        var pDUGroupLogic = SerializerHelper.GetGroupProperties(pDUGroupLogicPropertyString);
+                        device.PDUGroupLogic = PDUGroupLogicConverter.Convert(pDUGroupLogic);
                     }
                 }
             }
@@ -211,13 +233,10 @@ namespace FiresecService.Converters
                     {
                         if ((string.IsNullOrEmpty(deviceProperty.Name) == false) && (string.IsNullOrEmpty(deviceProperty.Value)) == false)
                         {
-                            //if ((device.Driver.propInfo != null) && (device.Driver.propInfo.Any(x => x.name == deviceProperty.Name)))
-                            {
-                                Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
-                                property.name = deviceProperty.Name;
-                                property.value = deviceProperty.Value;
-                                propertyList.Add(property);
-                            }
+                            Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
+                            property.name = deviceProperty.Name;
+                            property.value = deviceProperty.Value;
+                            propertyList.Add(property);
                         }
                     }
                 }
@@ -225,13 +244,50 @@ namespace FiresecService.Converters
 
             if (device.ZoneLogic.Clauses.Count > 0)
             {
-                var innerZoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
-                //device.XZoneLogic = ZoneLogicConverter.Convert(zoneLogic);
-                string zoneLogic = SerializerHelper.SetZoneLogic(innerZoneLogic);
-                Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
-                property.name = "ExtendedZoneLogic";
-                property.value = zoneLogic;
-                propertyList.Add(property);
+                var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
+                if (zoneLogicProperty == null)
+                {
+                    zoneLogicProperty = new Firesec.CoreConfig.propType();
+                    propertyList.Add(zoneLogicProperty);
+                }
+
+                var zoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
+                var zoneLogicString = SerializerHelper.SetZoneLogic(zoneLogic);
+
+                zoneLogicProperty.name = "ExtendedZoneLogic";
+                zoneLogicProperty.value = zoneLogicString;
+            }
+
+            if (device.IndicatorLogic != null)
+            {
+                var indicatorLogicProperty = propertyList.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
+                if (indicatorLogicProperty == null)
+                {
+                    indicatorLogicProperty = new Firesec.CoreConfig.propType();
+                    propertyList.Add(indicatorLogicProperty);
+                }
+
+                var indicatorLogic = IndicatorLogicConverter.ConvertBack(device.IndicatorLogic);
+                var indicatorLogicString = SerializerHelper.SetIndicatorLogic(indicatorLogic);
+
+                indicatorLogicProperty.name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24";
+                indicatorLogicProperty.value = indicatorLogicString;
+            }
+
+            if (device.PDUGroupLogic != null)
+            {
+                var pDUGroupLogicProperty = propertyList.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+                if (pDUGroupLogicProperty == null)
+                {
+                    pDUGroupLogicProperty = new Firesec.CoreConfig.propType();
+                    propertyList.Add(pDUGroupLogicProperty);
+                }
+
+                var pDUGroupLogic = PDUGroupLogicConverter.ConvertBack(device.PDUGroupLogic);
+                var pDUGroupLogicString = SerializerHelper.SeGroupProperty(pDUGroupLogic);
+
+                pDUGroupLogicProperty.name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5";
+                pDUGroupLogicProperty.value = pDUGroupLogicString;
             }
 
             return propertyList;

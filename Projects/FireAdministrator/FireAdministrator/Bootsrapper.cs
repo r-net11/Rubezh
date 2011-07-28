@@ -4,6 +4,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.UnityExtensions;
+using FiresecAPI.Models;
 
 
 namespace FireAdministrator
@@ -26,12 +27,12 @@ namespace FireAdministrator
                 return;
             }
 
-            //if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Adm_ViewConfig) == false)
-            //{
-            //    MessageBox.Show("Нет прав на работу с программой");
-            //    FiresecManager.Disconnect();
-            //    return;
-            //}
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ViewConfig) == false)
+            {
+                MessageBox.Show("Нет прав на работу с программой");
+                FiresecManager.Disconnect();
+                return;
+            }
 
             RegisterServices();
 

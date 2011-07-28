@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using CustomWindow;
 using FiresecClient;
+using FiresecAPI.Models;
 
 namespace FireMonitor
 {
@@ -75,17 +76,17 @@ namespace FireMonitor
 
         private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
-            //if (FiresecManager.CurrentPermissions.Any(x=>x.PermissionType == FiresecClient.Models.PermissionType.Oper_Logout) == false)
-            //{
-            //    MessageBox.Show("Нет прав для выхода из программы");
-            //    e.Cancel = true;
-            //    return;
-            //}
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Logout) == false)
+            {
+                MessageBox.Show("Нет прав для выхода из программы");
+                e.Cancel = true;
+                return;
+            }
 
-            //if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == FiresecClient.Models.PermissionType.Oper_LogoutNoPassword))
-            //{
-            //    return;
-            //}
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
+            {
+                return;
+            }
 
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result == false)

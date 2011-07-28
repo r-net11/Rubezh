@@ -89,7 +89,7 @@ namespace PlansModule.ViewModels
 
         public bool CanDisable(object obj)
         {
-            return _deviceState.CanDisable;
+            return _deviceState.CanDisable();
         }
 
         public RelayCommand DisableCommand { get; private set; }

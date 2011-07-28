@@ -34,8 +34,14 @@ namespace FiresecAPI.Models
         [DataMember]
         public string ZoneNo { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public ZoneLogic ZoneLogic { get; set; }
+
+        [DataMember]
+        public IndicatorLogic IndicatorLogic { get; set; }
+
+        [DataMember]
+        public PDUGroupLogic PDUGroupLogic { get; set; }
 
         [DataMember]
         public List<Property> Properties { get; set; }
@@ -175,27 +181,6 @@ namespace FiresecAPI.Models
             }
         }
 
-        public string PresentationZone
-        {
-            get
-            {
-                //if (Driver.IsZoneDevice)
-                //{
-                //    Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
-                //    if (zone != null)
-                //    {
-                //        return zone.PresentationName;
-                //    }
-                //    return "";
-                //}
-                //if (Driver.IsZoneLogicDevice)
-                //{
-                //    return ZoneLogic.ToString();
-                //}
-                return "";
-            }
-        }
-
         public Device Copy(bool fullCopy)
         {
             Device newDevice = new Device();
@@ -239,36 +224,6 @@ namespace FiresecAPI.Models
             }
 
             return newDevice;
-        }
-
-        public Device AddChild(Driver newDriver, int newAddress)
-        {
-            Device device = new Device();
-            device.Driver = newDriver;
-            device.IntAddress = newAddress;
-            Children.Add(device);
-            device.Parent = this;
-            AddAutoCreateChildren(device);
-
-            return device;
-        }
-
-        void AddAutoCreateChildren(Device device)
-        {
-            //foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
-            //{
-            //    var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
-
-            //    for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
-            //    {
-            //        Device childDevice = new Device();
-            //        childDevice.Driver = autoCreateDriver;
-            //        childDevice.IntAddress = i;
-            //        device.Children.Add(childDevice);
-
-            //        AddAutoCreateChildren(childDevice);
-            //    }
-            //}
         }
     }
 }

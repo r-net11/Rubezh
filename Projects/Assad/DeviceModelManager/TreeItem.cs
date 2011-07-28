@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.IO;
-using System.Xml;
-using FiresecClient.Models;
+using FiresecAPI.Models;
 
 namespace DeviveModelManager
 {

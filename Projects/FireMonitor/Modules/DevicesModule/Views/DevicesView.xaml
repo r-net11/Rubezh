@@ -59,7 +59,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Зона" MinWidth="100" MaxWidth="150" Binding="{Binding Device.PresentationZone}" />
+                    <DataGridTextColumn Header="Зона" MinWidth="100" MaxWidth="150" Binding="{Binding PresentationZone}" />
                     <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" />
                     <DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
                     <DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />

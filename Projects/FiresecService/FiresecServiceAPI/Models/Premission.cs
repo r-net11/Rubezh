@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
+    [DataContract]
     public class Perimission
     {
+        [DataMember]
         public string Id { get; set; }
+
+        [DataMember]
         public string Name { get; set; }
 
         public PermissionType PermissionType

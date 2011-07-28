@@ -72,6 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extentions\DeviceCreationExtention.cs" />
+    <Compile Include="Extentions\DevicePresentationZoneExtention.cs" />
+    <Compile Include="Extentions\DeviceStateDisableExtention.cs" />
     <Compile Include="FiresecManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -29,8 +29,13 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Journal> Journals { get; set; }
 
+        [DataMember]
         public List<User> Users { get; set; }
+
+        [DataMember]
         public List<UserGroup> UserGroups { get; set; }
+
+        [DataMember]
         public List<Perimission> Perimissions { get; set; }
 
         public void UpdateDrivers()

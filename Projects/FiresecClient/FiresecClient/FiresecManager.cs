@@ -42,6 +42,8 @@ namespace FiresecClient
 
             Update();
 
+            _loggedInUserName = login;
+
             return true;
         }
 
@@ -49,6 +51,11 @@ namespace FiresecClient
         {
             Configuration.Update();
             Configuration.UpdateDrivers();
+
+            foreach (var deviceState in States.DeviceStates)
+            {
+                deviceState.Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+            }
         }
 
         static string _loggedInUserName;
@@ -141,19 +148,6 @@ namespace FiresecClient
             //DirectionConverter.ConvertBack(Configuration);
             //FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
         }
-
-        //public static List<Firesec.ReadEvents.journalType> ReadJournal(int startIndex, int count)
-        //{
-        //    Firesec.ReadEvents.document journal = FiresecInternalClient.ReadEvents(startIndex, count);
-        //    if (journal.Journal != null)
-        //    {
-        //        if (journal.Journal.Count() > 0)
-        //        {
-        //            return journal.Journal.ToList();
-        //        }
-        //    }
-        //    return new List<Firesec.ReadEvents.journalType>();
-        //}
 
         public static void AddToIgnoreList(List<string> devicePaths)
         {

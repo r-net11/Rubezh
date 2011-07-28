@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using FiresecAPI.Models;
+
+namespace FiresecClient
+{
+    public static class DeviceCreationExtention
+    {
+        public static Device AddChild(this Device parentDevice, Driver newDriver, int newAddress)
+        {
+            Device device = new Device();
+            device.Driver = newDriver;
+            device.IntAddress = newAddress;
+            parentDevice.Children.Add(device);
+            device.Parent = parentDevice;
+            AddAutoCreateChildren(device);
+
+            return device;
+        }
+
+        static void AddAutoCreateChildren(Device device)
+        {
+            foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
+            {
+                var autoCreateDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == autoCreateDriverId);
+
+                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+                {
+                    Device childDevice = new Device();
+                    childDevice.Driver = autoCreateDriver;
+                    childDevice.IntAddress = i;
+                    device.Children.Add(childDevice);
+
+                    AddAutoCreateChildren(childDevice);
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Common;
+using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -12,14 +14,14 @@ namespace DevicesModule.ViewModels
             Device = device;
         }
 
-        //public void Initialize(Firesec.Groups.RCGroupPropertiesDevice device)
-        //{
-        //    Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == device.UID);
+        public void Initialize(PDUGroupDevice device)
+        {
+            Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == device.DeviceUID);
 
-        //    IsInversion = device.Inverse == "1" ? true : false;
-        //    OnDelay = Convert.ToInt32(device.DelayOn);
-        //    OffDelay = Convert.ToInt32(device.DelayOff);
-        //}
+            IsInversion = device.IsInversion;
+            OnDelay = device.OnDelay;
+            OffDelay = device.OffDelay;
+        }
 
         bool _isInversion;
         public bool IsInversion

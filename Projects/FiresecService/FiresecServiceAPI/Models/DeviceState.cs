@@ -49,15 +49,7 @@ namespace FiresecAPI.Models
             State = new State(8);
         }
 
-        Device Device
-        {
-            get
-            {
-                return null;
-
-                //return FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
-            }
-        }
+        public Device Device { get; set; }
 
         public bool IsDisabled
         {
@@ -65,40 +57,6 @@ namespace FiresecAPI.Models
             {
                 return InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
             }
-        }
-
-        public bool CanDisable
-        {
-            get
-            {
-                //if (Device.Driver.CanDisable)
-                //{
-                //    if (IsDisabled)
-                //    {
-                //        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
-                //    }
-                //    else
-                //    {
-                //        return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
-                //    }
-                //}
-                return false;
-            }
-        }
-
-        public void ChangeDisabled()
-        {
-            //if (CanDisable)
-            //{
-            //    if (IsDisabled)
-            //    {
-            //        FiresecManager.RemoveFromIgnoreList(new List<string>() { Device.PlaceInTree });
-            //    }
-            //    else
-            //    {
-            //        FiresecManager.AddToIgnoreList(new List<string>() { Device.PlaceInTree });
-            //    }
-            //}
         }
 
         bool _isAutomaticOff = false;

@@ -71,7 +71,7 @@ namespace DevicesModule.ViewModels
 
         public string PresentationZone
         {
-            get { return _device.PresentationZone; }
+            get { return _device.GetPersentationZone(); }
         }
 
         public ObservableCollection<string> SelfStates
