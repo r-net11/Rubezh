@@ -144,7 +144,7 @@ namespace AlarmModule.ViewModels
         {
             List<ResetItem> resetItems = new List<ResetItem>();
             resetItems.Add(GetResetItem());
-            FiresecManager.ResetMany(resetItems);
+            FiresecManager.ResetStates(resetItems);
         }
 
         public ResetItem GetResetItem()

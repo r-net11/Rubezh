@@ -14,7 +14,7 @@ namespace AlarmModule
     {
         public AlarmWatcher()
         {
-            FiresecManager.States.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
             DeviceState.AlarmAdded += new Action<AlarmType, string>(DeviceState_AlarmAdded);
             DeviceState.AlarmRemoved += new Action<AlarmType, string>(DeviceState_AlarmRemoved);
             Update();
@@ -69,7 +69,7 @@ namespace AlarmModule
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
         }
 
-        void CurrentStates_DeviceStateChanged(string obj)
+        void OnDeviceStateChangedEvent(string obj)
         {
             Update();
         }

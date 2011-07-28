@@ -28,14 +28,14 @@ namespace AlarmModule.Imitator
         {
             var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
             deviceState.InnerStates.FirstOrDefault(x => x.Priority == state).IsActive = true;
-            deviceState.State = new State(state);
-            FiresecManager.States.OnDeviceStateChanged(id);
+            deviceState.State = new State() { Id = state };
+            FiresecEventSubscriber.OnDeviceStateChanged(id);
             deviceState.OnStateChanged();
 
             var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == id);
             var zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == device.ZoneNo);
-            zoneState.State = new State(state);
-            FiresecManager.States.OnZoneStateChanged(zoneState.No);
+            zoneState.State = new State() { Id = state };
+            FiresecEventSubscriber.OnZoneStateChanged(zoneState.No);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

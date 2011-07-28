@@ -9,15 +9,42 @@ namespace FiresecAPI
     public interface IFiresecService
     {
         [OperationContract]
-        Stream GetFile();
+        void Connect();
 
         [OperationContract]
-        CurrentConfiguration GetCoreConfig();
+        void Disconnect();
 
         [OperationContract]
-        CurrentStates GetCurrentStates();
+        CurrentConfiguration GetConfiguration();
+
+        [OperationContract]
+        CurrentStates GetStates();
+
+        [OperationContract]
+        void SetConfiguration(CurrentConfiguration currentConfiguration);
+
+        [OperationContract]
+        void WriteConfiguration(string devicePath);
 
         [OperationContract]
         List<JournalItem> ReadJournal(int startIndex, int count);
+
+        [OperationContract]
+        void AddToIgnoreList(List<string> devicePaths);
+
+        [OperationContract]
+        void RemoveFromIgnoreList(List<string> devicePaths);
+
+        [OperationContract]
+        void ResetStates(List<ResetItem> resetItems);
+
+        [OperationContract]
+        void AddUserMessage(string message);
+
+        [OperationContract]
+        void ExecuteCommand(string devicePath, string methodName);
+
+        [OperationContract]
+        Stream GetFile();
     }
 }

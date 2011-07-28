@@ -5,10 +5,9 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ZoneState
     {
-        public ZoneState(string no)
+        public ZoneState()
         {
-            No = no;
-            State = new State(8);
+            State = new State();
         }
 
         [DataMember]

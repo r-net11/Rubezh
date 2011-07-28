@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
 
         public void Initialize()
         {
-            FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
         }
 
         public IEnumerable<ZoneViewModel> Zones
@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void CurrentStates_ZoneStateChanged(string zoneNo)
+        void OnZoneStateChangedEvent(string zoneNo)
         {
             ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);

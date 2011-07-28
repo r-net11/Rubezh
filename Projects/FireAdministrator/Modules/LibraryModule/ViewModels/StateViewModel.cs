@@ -72,7 +72,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return new State(int.Parse(Class)).ToString();
+                return new State(){Id = int.Parse(Class)}.ToString();
             }
         }
 
@@ -80,7 +80,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                string name = new State(int.Parse(Class)).ToString();
+                var name = new State() { Id = int.Parse(Class) }.ToString();
                 if (IsAdditional)
                 {
                     name += ". ";

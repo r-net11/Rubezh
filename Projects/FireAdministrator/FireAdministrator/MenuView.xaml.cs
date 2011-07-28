@@ -17,7 +17,7 @@ namespace FireAdministrator
 
         private void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            FiresecManager.SetNewConfig();
+            FiresecManager.SetConfiguration();
         }
 
         private void OnCreateNew(object sender, RoutedEventArgs e)

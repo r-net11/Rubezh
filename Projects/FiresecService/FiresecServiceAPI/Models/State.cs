@@ -21,11 +21,6 @@ namespace FiresecAPI.Models
         [DataMember]
         public int Id { get; set; }
 
-        public State(int id)
-        {
-            Id = id;
-        }
-
         public StateType StateType
         {
             get { return (StateType)Id; }

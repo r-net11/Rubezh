@@ -7,13 +7,6 @@ using FiresecAPI;
 
 namespace FiresecClient
 {
-    public class EventClient : IFiresecCallback
-    {
-        public void StateChanged(string deviceId)
-        {
-        }
-    }
-
     public class FiresecManager
     {
         public static CurrentConfiguration Configuration { get; set; }
@@ -21,29 +14,28 @@ namespace FiresecClient
 
         static DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
         public static IFiresecService FiresecService;
-        static EventClient _eventClient;
+        static FiresecEventSubscriber _eventClient;
 
         public static bool Connect(string login, string password)
         {
             NetTcpBinding binding = new NetTcpBinding();
+            binding.ReceiveTimeout = TimeSpan.FromMinutes(1);
+            //binding.ListenBacklog = 10;
             binding.MaxBufferSize = Int32.MaxValue;
             binding.MaxReceivedMessageSize = Int32.MaxValue;
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
-            _eventClient = new EventClient();
+            _eventClient = new FiresecEventSubscriber();
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_eventClient), binding, endpointAddress);
             FiresecService = _duplexChannelFactory.CreateChannel();
 
 
-            States = FiresecService.GetCurrentStates();
-
-            Configuration = FiresecService.GetCoreConfig();
-
+            FiresecService.Connect();
+            Configuration = FiresecService.GetConfiguration();
+            States = FiresecService.GetStates();
             Update();
-
             _loggedInUserName = login;
-
             return true;
         }
 
@@ -95,41 +87,42 @@ namespace FiresecClient
 
         public static void Disconnect()
         {
-            //FiresecInternalClient.Disconnect();
+            FiresecService.Disconnect();
         }
 
-        static void BuildDeviceTree()
+        public static void SetConfiguration()
         {
-            //CoreConfig = FiresecInternalClient.GetCoreConfig();
-            //Configuration = new CurrentConfiguration();
-            //var metadata = FiresecInternalClient.GetMetaData();
-            //Configuration.FillDrivrs(metadata);
-            //Convert();
+            FiresecService.SetConfiguration(Configuration);
         }
 
-        public static void SetNewConfig()
+        public static void AddToIgnoreList(List<string> devicePaths)
         {
-            //Validator validator = new Validator();
-            //validator.Validate(Configuration);
-            //ConvertBack();
-            //FiresecInternalClient.SetNewConfig(CoreConfig);
+            FiresecService.AddToIgnoreList(devicePaths);
         }
 
-        static void Convert()
+        public static void RemoveFromIgnoreList(List<string> devicePaths)
         {
-            //FiresecManager.States = new CurrentStates();
-            //ZoneConverter.Convert(CoreConfig);
-            //DirectionConverter.Convert(CoreConfig);
-            //SecurityConverter.Convert(CoreConfig);
-            //DeviceConverter.Convert(CoreConfig);
+            FiresecService.RemoveFromIgnoreList(devicePaths);
         }
 
-        static void ConvertBack()
+        public static void ResetStates(List<ResetItem> resetItems)
         {
-            //ZoneConverter.ConvertBack(Configuration);
-            //DeviceConverter.ConvertBack(Configuration);
-            //DirectionConverter.ConvertBack(Configuration);
-            //SecurityConverter.ConvertBack(Configuration);
+            FiresecService.ResetStates(resetItems);
+        }
+
+        public static void AddUserMessage(string message)
+        {
+            FiresecService.AddUserMessage(message);
+        }
+
+        public static void ExecuteCommand(string devicePath, string methodName)
+        {
+            FiresecService.ExecuteCommand(devicePath, methodName);
+        }
+
+        public static List<JournalItem> ReadJournal(int startIndex, int count)
+        {
+            return FiresecService.ReadJournal(startIndex, count);
         }
 
         public static void LoadFromFile(string fileName)
@@ -147,41 +140,6 @@ namespace FiresecClient
             //DeviceConverter.ConvertBack(Configuration);
             //DirectionConverter.ConvertBack(Configuration);
             //FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
-        }
-
-        public static void AddToIgnoreList(List<string> devicePaths)
-        {
-            //FiresecInternalClient.AddToIgnoreList(devicePaths);
-        }
-
-        public static void RemoveFromIgnoreList(List<string> devicePaths)
-        {
-            //FiresecInternalClient.RemoveFromIgnoreList(devicePaths);
-        }
-
-        public static void ResetOne(string deviceId, string stateName)
-        {
-            //FiresecResetHelper.ResetOne(deviceId, stateName);
-        }
-
-        public static void ResetMany(List<ResetItem> resetItems)
-        {
-            //FiresecResetHelper.ResetMany(resetItems);
-        }
-
-        public static void AddUserMessage(string message)
-        {
-            //FiresecInternalClient.AddUserMessage(message);
-        }
-
-        public static void ExecuteCommand(string devicePath, string methodName)
-        {
-            //FiresecInternalClient.ExecuteCommand(devicePath, methodName);
-        }
-
-        public static List<JournalItem> ReadJournal(int startIndex, int count)
-        {
-            return FiresecService.ReadJournal(startIndex, count);
         }
     }
 }

@@ -99,22 +99,22 @@ namespace FireMonitor
 
         void InitializeFiresecClient()
         {
-            FiresecManager.States.DeviceStateChanged += CurrentStates_DeviceStateChanged;
-            FiresecManager.States.DeviceParametersChanged += new Action<string>(CurrentStates_DeviceParametersChanged);
-            FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChangedEvent;
+            FiresecEventSubscriber.DeviceParametersChangedEvent += new Action<string>(OnDeviceParametersChangedEvent);
+            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
         }
 
-        void CurrentStates_DeviceStateChanged(string obj)
+        void OnDeviceStateChangedEvent(string obj)
         {
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(obj);
         }
 
-        void CurrentStates_DeviceParametersChanged(string obj)
+        void OnDeviceParametersChangedEvent(string obj)
         {
             ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(obj);
         }
 
-        void CurrentStates_ZoneStateChanged(string obj)
+        void OnZoneStateChangedEvent(string obj)
         {
             ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
         }

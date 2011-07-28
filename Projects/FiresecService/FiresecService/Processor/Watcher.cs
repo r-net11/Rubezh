@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.Models;
+using FiresecService.Converters;
 
 namespace FiresecService
 {
@@ -11,8 +12,8 @@ namespace FiresecService
         internal void Start()
         {
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-            OnStateChanged(FiresecInternalClient.GetCoreState());
-            OnParametersChanged(FiresecInternalClient.GetDeviceParams());
+            OnStateChanged();
+            OnParametersChanged();
             SetLastEvent();
         }
 
@@ -33,18 +34,15 @@ namespace FiresecService
 
             if (evmStateChanged)
             {
-                var state = FiresecInternalClient.GetCoreState();
-                OnStateChanged(state);
+                OnStateChanged();
             }
             if (evmDeviceParamsUpdated)
             {
-                var parameters = FiresecInternalClient.GetDeviceParams();
-                OnParametersChanged(parameters);
+                OnParametersChanged();
             }
             if (evmNewEvents)
             {
-                var document = FiresecInternalClient.ReadEvents(0, 100);
-                OnNewEvent(document);
+                OnNewEvent();
             }
         }
 
@@ -61,31 +59,29 @@ namespace FiresecService
 
         // ДОБАВИТЬ ПРОВЕРКУ - ЕСЛИ В ВЫЧИТАННЫХ 100 СОБЫТИЯХ ВСЕ СОБЫТИЯ НОВЫЕ, ТО ВЫЧИТАТЬ И ВТОРУЮ СОТНЮ
 
-        void OnNewEvent(Firesec.ReadEvents.document journal)
+        void OnNewEvent()
         {
-            if ((journal != null) && (journal.Journal.Count() > 0))
-            {
-                foreach (var journalItem in journal.Journal)
-                {
-                    if (Convert.ToInt32(journalItem.IDEvents) > LastEventId)
-                    {
-                        //*****************************************************************
-                        //*****************************************************************
-                        //*****************************************************************
+            var document = FiresecInternalClient.ReadEvents(0, 100);
 
-                        //FiresecManager.States.OnNewJournalEvent(journalItem);
+            if ((document != null) && (document.Journal.Count() > 0))
+            {
+                foreach (var innerJournalItem in document.Journal)
+                {
+                    if (Convert.ToInt32(innerJournalItem.IDEvents) > LastEventId)
+                    {
+                        var journalItem = JournalConverter.Convert(innerJournalItem);
+                        FiresecService.OnNewJournalItem(journalItem);
                     }
                 }
-                LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);
+                LastEventId = Convert.ToInt32(document.Journal[0].IDEvents);
             }
         }
 
-        void OnParametersChanged(Firesec.DeviceParams.config coreParameters)
+        void OnParametersChanged()
         {
+            var coreParameters = FiresecInternalClient.GetDeviceParams();
             try
             {
-                Trace.WriteLine("OnParametersChanged");
-
                 foreach (var deviceState in FiresecManager.States.DeviceStates)
                 {
                     deviceState.ChangeEntities.Reset();
@@ -110,19 +106,19 @@ namespace FiresecService
 
                         if (deviceState.ChangeEntities.ParameterChanged)
                         {
-                            FiresecManager.States.OnDeviceParametersChanged(deviceState.Id);
+                            FiresecService.OnDeviceParametersChanged(deviceState.Id);
                         }
                     }
                 }
             }
             catch (Exception e)
             {
-                Trace.WriteLine("OnParametersChanged Error: " + e.ToString());
             }
         }
 
-        public void OnStateChanged(Firesec.CoreState.config coreState)
+        public void OnStateChanged()
         {
+            var coreState = FiresecInternalClient.GetCoreState();
             try
             {
                 SetStates(coreState);
@@ -130,28 +126,28 @@ namespace FiresecService
                 CalculateStates();
                 CalculateZones();
 
-                foreach (var device in FiresecManager.States.DeviceStates)
+                foreach (var deviceState in FiresecManager.States.DeviceStates)
                 {
-                    device.States = new List<string>();
-                    foreach (var parentState in device.ParentStringStates)
-                        device.States.Add(parentState);
+                    deviceState.States = new List<string>();
+                    foreach (var parentState in deviceState.ParentStringStates)
+                        deviceState.States.Add(parentState);
 
-                    foreach (var selfState in device.SelfStates)
-                        device.States.Add(selfState);
+                    foreach (var selfState in deviceState.SelfStates)
+                        deviceState.States.Add(selfState);
                 }
 
-                foreach (var device in FiresecManager.States.DeviceStates)
+                foreach (var deviceState in FiresecManager.States.DeviceStates)
                 {
-                    if ((device.ChangeEntities.StatesChanged) || (device.ChangeEntities.StateChanged))
+                    if ((deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.StateChanged))
                     {
-                        device.OnStateChanged();
-                        FiresecManager.States.OnDeviceStateChanged(device.Id);
+                        deviceState.OnStateChanged();
+                        FiresecService.OnDeviceStateChanged(deviceState.Id);
                     }
                 }
             }
             catch (Exception e)
             {
-                Trace.WriteLine("Watcher Error: " + e.ToString());
+                ;
             }
         }
 
@@ -263,7 +259,7 @@ namespace FiresecService
                 {
                     deviceState.ChangeEntities.StateChanged = false;
                 }
-                deviceState.State = new State(minPriority);
+                deviceState.State = new State() { Id = minPriority };
                 deviceState.MinPriority = minPriority;
 
                 if (sourceState != null)
@@ -283,23 +279,23 @@ namespace FiresecService
             {
                 foreach (var zoneState in FiresecManager.States.ZoneStates)
                 {
-                    int minZonePriority = 7;
+                    int minZonePriority = 8;
                     foreach (var device in FiresecManager.Configuration.Devices)
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
-                            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+                            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
                             if (deviceState.MinPriority < minZonePriority)
                                 minZonePriority = deviceState.MinPriority;
                         }
                     }
 
-                    State newZoneState = new State(minZonePriority);
+                    State newZoneState = new State() { Id = minZonePriority };
 
                     bool ZoneChanged = false;
 
-                    if ((zoneState.State == null) || (zoneState.State != newZoneState))
+                    if (zoneState.State.Id != newZoneState.Id)
                     {
                         ZoneChanged = true;
                     }
@@ -307,7 +303,7 @@ namespace FiresecService
 
                     if (ZoneChanged)
                     {
-                        FiresecManager.States.OnZoneStateChanged(zoneState.No);
+                        FiresecService.OnZoneStateChanged(zoneState.No);
                     }
                 }
             }

@@ -7,9 +7,10 @@ namespace FiresecAPI.Models
     {
         public State State
         {
-            get { return new State(Priority); }
+            get { return new State() { Id = Priority }; }
         }
 
+        [DataMember]
         public bool IsActive { get; set; }
 
         [DataMember]

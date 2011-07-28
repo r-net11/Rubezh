@@ -9,12 +9,12 @@ namespace AssadProcessor
     {
         internal void Start()
         {
-            FiresecManager.States.DeviceStateChanged += new Action<string>(ServiceClient_DeviceChanged);
-            FiresecManager.States.ZoneStateChanged += new Action<string>(CurrentStates_ZoneStateChanged);
-            //FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
+            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
+            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItemEvent);
         }
 
-        void ServiceClient_DeviceChanged(string id)
+        void OnDeviceStateChangedEvent(string id)
         {
             var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == id);
             if (assadDevice != null)
@@ -28,7 +28,7 @@ namespace AssadProcessor
             }
         }
 
-        void CurrentStates_ZoneStateChanged(string zoneNo)
+        void OnZoneStateChangedEvent(string zoneNo)
         {
             var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
             if (assadZone != null)
@@ -37,7 +37,7 @@ namespace AssadProcessor
             }
         }
 
-        void CurrentStates_NewJournalEvent(JournalItem journalItem)
+        void OnNewJournalItemEvent(JournalItem journalItem)
         {
             if (journalItem.DeviceDatabaseId != null)
             {

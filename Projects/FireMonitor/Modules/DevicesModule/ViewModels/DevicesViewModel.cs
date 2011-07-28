@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             BuildDeviceTree();
-            FiresecManager.States.DeviceStateChanged += new Action<string>(CurrentStates_DeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -59,7 +59,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void CurrentStates_DeviceStateChanged(string id)
+        void OnDeviceStateChangedEvent(string id)
         {
             DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
             if (deviceViewModel != null)

@@ -1,36 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
+using Firesec.ReadEvents;
 
 namespace FiresecService.Converters
 {
     public static class JournalConverter
     {
-        public static List<JournalItem> Convert(Firesec.ReadEvents.document innerJournal)
+        public static JournalItem Convert(journalType innerJournalItem)
         {
-            List<JournalItem> journalItems = new List<JournalItem>();
-            if ((innerJournal != null) && (innerJournal.Journal != null))
-            {
-                foreach (var innerJournalItem in innerJournal.Journal)
-                {
-                    JournalItem journalItem = new JournalItem();
-                    journalItem.No = System.Convert.ToInt32(innerJournalItem.IDEvents);
-                    journalItem.DeviceTime = ConvertTime(innerJournalItem.Dt);
-                    journalItem.SystemTime = ConvertTime(innerJournalItem.SysDt);
-                    journalItem.ZoneName = innerJournalItem.ZoneName;
-                    journalItem.Description = innerJournalItem.EventDesc;
-                    journalItem.DeviceName = innerJournalItem.CLC_Device;
-                    journalItem.PanelName = innerJournalItem.CLC_DeviceSource;
-                    journalItem.DeviceDatabaseId = innerJournalItem.IDDevices;
-                    journalItem.PanelDatabaseId = innerJournalItem.IDDevicesSource;
-                    journalItem.User = innerJournalItem.UserInfo;
-                    int id = System.Convert.ToInt32(innerJournalItem.IDTypeEvents);
-                    journalItem.State = new State(id);
-                    journalItem.User = innerJournalItem.UserInfo;
-                    journalItems.Add(journalItem);
-                }
-            }
-            return journalItems;
+            JournalItem journalItem = new JournalItem();
+            journalItem.No = System.Convert.ToInt32(innerJournalItem.IDEvents);
+            journalItem.DeviceTime = ConvertTime(innerJournalItem.Dt);
+            journalItem.SystemTime = ConvertTime(innerJournalItem.SysDt);
+            journalItem.ZoneName = innerJournalItem.ZoneName;
+            journalItem.Description = innerJournalItem.EventDesc;
+            journalItem.DeviceName = innerJournalItem.CLC_Device;
+            journalItem.PanelName = innerJournalItem.CLC_DeviceSource;
+            journalItem.DeviceDatabaseId = innerJournalItem.IDDevices;
+            journalItem.PanelDatabaseId = innerJournalItem.IDDevicesSource;
+            journalItem.User = innerJournalItem.UserInfo;
+            int id = System.Convert.ToInt32(innerJournalItem.IDTypeEvents);
+            journalItem.State = new State() { Id = id };
+            journalItem.User = innerJournalItem.UserInfo;
+            return journalItem;
         }
 
         static DateTime ConvertTime(string firesecTime)

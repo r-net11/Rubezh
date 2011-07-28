@@ -6,22 +6,6 @@ namespace FiresecService
 {
     public static class FiresecResetHelper
     {
-        public static void ResetOne(string deviceId, string stateName)
-        {
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
-            var innerState = deviceState.InnerStates.First(x => x.Name == stateName);
-
-            Firesec.CoreState.config coreState = new Firesec.CoreState.config();
-            coreState.dev = new Firesec.CoreState.devType[1];
-            coreState.dev[0] = new Firesec.CoreState.devType();
-            coreState.dev[0].name = deviceState.PlaceInTree;
-            coreState.dev[0].state = new Firesec.CoreState.stateType[1];
-            coreState.dev[0].state[0] = new Firesec.CoreState.stateType();
-            coreState.dev[0].state[0].id = innerState.Id;
-
-            FiresecInternalClient.ResetStates(coreState);
-        }
-
         public static void ResetMany(List<ResetItem> resetItems)
         {
             List<Firesec.CoreState.devType> innerDevices = new List<Firesec.CoreState.devType>();

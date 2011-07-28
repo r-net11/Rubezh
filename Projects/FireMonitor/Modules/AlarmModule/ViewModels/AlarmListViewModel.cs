@@ -85,7 +85,7 @@ namespace AlarmModule.ViewModels
                 }
             }
 
-            FiresecManager.ResetMany(resetItems);
+            FiresecManager.ResetStates(resetItems);
         }
 
         void OnAlarmAdded(Alarm alarm)

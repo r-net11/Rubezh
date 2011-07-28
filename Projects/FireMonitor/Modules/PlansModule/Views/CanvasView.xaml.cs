@@ -58,7 +58,6 @@ namespace PlansModule.Views
         static int counter = 0;
         void CanvasView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Trace.WriteLine("SizeChanged " + counter++.ToString());
         }
 
         void OnMouseMove(object sender, MouseEventArgs e)
@@ -121,9 +120,6 @@ namespace PlansModule.Views
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
-
-            Trace.WriteLine(centerOfViewport.ToString());
-            Trace.WriteLine(lastCenterPositionOnTarget.ToString());
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)

@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient;
 using AssadProcessor.Devices;
+using FiresecAPI.Models;
 
 namespace AssadProcessor
 {
@@ -80,13 +81,19 @@ namespace AssadProcessor
                             {
                                 if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
                                 {
-                                    FiresecManager.ResetOne(resetDevice.Id, commandName);
+                                    ResetItem resetItem = new ResetItem();
+                                    resetItem.DeviceId = resetDevice.Id;
+                                    resetItem.States = new List<string>() { commandName };
+                                    FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                                 }
                             }
                         }
                         else
                         {
-                            FiresecManager.ResetOne(device.Id, commandName);
+                            ResetItem resetItem = new ResetItem();
+                            resetItem.DeviceId = device.Id;
+                            resetItem.States = new List<string>() { commandName };
+                            FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                         }
                     }
                 }
@@ -103,7 +110,10 @@ namespace AssadProcessor
                 {
                     if (state.IsManualReset)
                     {
-                        FiresecManager.ResetOne(device.Id, state.Name);
+                        ResetItem resetItem = new ResetItem();
+                        resetItem.DeviceId = device.Id;
+                        resetItem.States = new List<string>() { state.Name };
+                        FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                     }
                 }
             }

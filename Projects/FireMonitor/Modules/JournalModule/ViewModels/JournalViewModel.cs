@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using FiresecAPI.Models;
+using System;
 
 namespace JournalModule.ViewModels
 {
@@ -18,10 +19,10 @@ namespace JournalModule.ViewModels
                 JournalItems.Add(journalItemViewModel);
             }
 
-            //FiresecManager.States.NewJournalEvent += new Action<Firesec.ReadEvents.journalType>(CurrentStates_NewJournalEvent);
+            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItemEvent);
         }
 
-        void CurrentStates_NewJournalEvent(JournalItem journalItem)
+        void OnNewJournalItemEvent(JournalItem journalItem)
         {
             JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
             if (JournalItems.Count > 0)

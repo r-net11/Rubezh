@@ -7,6 +7,11 @@ namespace FiresecAPI.Models
     [DataContract]
     public class DriverProperty
     {
+        public DriverProperty()
+        {
+            Parameters = new List<DriverPropertyParameter>();
+        }
+
         [DataMember]
         public string Name { get; set; }
 

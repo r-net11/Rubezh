@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
             _deviceStates = new List<DeviceState>();
             foreach (var elementDevice in plan.ElementDevices)
             {
-                DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
+                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
                 if (deviceState != null)
                 {
                     _deviceStates.Add(deviceState);
@@ -67,7 +67,7 @@ namespace PlansModule.ViewModels
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            _selfState = new State(minPriority);
+            _selfState = new State() { Id = minPriority };
 
             UpdateState();
         }
@@ -82,7 +82,7 @@ namespace PlansModule.ViewModels
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            State = new State(minPriority);
+            State = new State() { Id = minPriority };
 
             if (Parent != null)
             {

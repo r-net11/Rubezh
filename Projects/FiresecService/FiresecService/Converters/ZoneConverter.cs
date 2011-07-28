@@ -50,7 +50,7 @@ namespace FiresecService.Converters
                             zone.GuardZoneType = guardZoneTypeParam.value;
                     }
                     FiresecManager.Configuration.Zones.Add(zone);
-                    FiresecManager.States.ZoneStates.Add(new ZoneState(zone.No));
+                    FiresecManager.States.ZoneStates.Add(new ZoneState() { No = zone.No });
                 }
             }
         }

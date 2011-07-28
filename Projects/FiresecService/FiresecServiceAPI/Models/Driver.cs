@@ -9,6 +9,16 @@ namespace FiresecAPI.Models
     [DataContract]
     public class Driver
     {
+        public Driver()
+        {
+            Properties = new List<DriverProperty>();
+            Parameters = new List<Parameter>();
+            States = new List<InnerState>();
+            Children = new List<string>();
+            AvaliableChildren = new List<string>();
+            AutoCreateChildren = new List<string>();
+        }
+
         [DataMember]
         public List<DriverProperty> Properties { get; set; }
 

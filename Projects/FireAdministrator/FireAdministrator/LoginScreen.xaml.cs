@@ -30,7 +30,7 @@ namespace FireAdministrator
             else
             {
                 _info.Text = "Не удается установить связь с сервером";
-                FiresecManager.Disconnect();
+                //FiresecManager.Disconnect();
                 return;
             }
             Close();

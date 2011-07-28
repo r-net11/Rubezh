@@ -8,6 +8,13 @@ namespace FiresecAPI.Models
     [DataContract]
     public class DeviceState
     {
+        public DeviceState()
+        {
+            State = new State();
+            InnerStates = new List<InnerState>();
+            ParentInnerStates = new List<InnerState>();
+        }
+
         [DataMember]
         public string Id { get; set; }
 
@@ -43,11 +50,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string SourceState { get; set; }
-
-        public DeviceState()
-        {
-            State = new State(8);
-        }
 
         public Device Device { get; set; }
 
