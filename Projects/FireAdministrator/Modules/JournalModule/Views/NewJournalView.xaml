@@ -27,7 +27,7 @@
                             <ItemsControl ItemsSource="{Binding Events}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ToggleButton   HorizontalAlignment="Stretch"
+                                        <CheckBox   HorizontalAlignment="Stretch"
                                                         Background="Transparent"
                                                         IsChecked="{Binding IsEnable, UpdateSourceTrigger=PropertyChanged}"
                                                         Content="{Binding Name}" />
@@ -54,7 +54,7 @@
                             <ItemsControl ItemsSource="{Binding Categories}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <ToggleButton   HorizontalAlignment="Stretch"
+                                        <CheckBox   HorizontalAlignment="Stretch"
                                                 Background="Transparent"
                                                 IsChecked="{Binding IsEnable, UpdateSourceTrigger=PropertyChanged}"
                                                 Content="{Binding Name}" />

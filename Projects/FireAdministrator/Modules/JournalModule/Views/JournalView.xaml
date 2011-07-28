@@ -17,31 +17,46 @@
                  Margin="5" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="5" BorderBrush="Gray" BorderThickness="3">
+                    <Border Name="border" Padding="5" BorderBrush="PowderBlue" BorderThickness="3">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="1,0.80">
+                                <GradientStop Offset="0" Color="White" />
+                                <GradientStop Offset="1" Color="PapayaWhip" />
+                            </LinearGradientBrush>
+                        </Border.Background>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style x:Key="textBlockStyle" TargetType="{x:Type TextBlock}">
                                     <Setter Property="Foreground" Value="OrangeRed" />
                                     <Setter Property="FontWeight" Value="Black" />
-                                    <Setter Property="Margin" Value="2" />
                                 </Style>
                             </StackPanel.Resources>
+                            <TextBlock Style="{StaticResource textBlockStyle}">
                             <StackPanel>
-                                <TextBlock Text="Наименование: " Style="{StaticResource textBlockStyle}" />
-                                <TextBlock Text="Тип события: " Style="{StaticResource textBlockStyle}" />
-                                <TextBlock Text="Тип устройства: " Style="{StaticResource textBlockStyle}" />
-                                <TextBlock Text="Выбрать записи: " Style="{StaticResource textBlockStyle}" />
+                                <TextBlock Text="Наименование: " Margin="2" />
+                                <TextBlock Text="Тип события: " Margin="2" />
+                                <TextBlock Text="Тип устройства: " Margin="2" />
+                                <TextBlock Text="Выбрать записи: " Margin="2" />
                             </StackPanel>
+                            </TextBlock>
+                            <TextBlock Name="textBlock">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Margin="2" />
                                 <TextBlock Text="{Binding EnableEvents}" TextWrapping="Wrap" Margin="2" />
                                 <TextBlock Text="{Binding EnableCategories}" TextWrapping="Wrap" Margin="2" />
                                 <TextBlock Text="{Binding RecordsConditions}" TextWrapping="Wrap" Margin="2" />
                             </StackPanel>
+                            </TextBlock>
                         </StackPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <Trigger SourceName="border" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="PapayaWhip"/>
+                            <Setter TargetName="textBlock" Property="Foreground" Value="LightSlateGray"/>
+                        </Trigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
-            </ListBox.ItemTemplate>            
+            </ListBox.ItemTemplate>
         </ListBox>
         
     </DockPanel>
