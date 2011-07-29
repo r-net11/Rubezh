@@ -63,7 +63,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\Journal.cs" />
+    <Compile Include="Models\JournalFilter.cs" />
     <Compile Include="Models\JournalItem.cs" />
     <Compile Include="Models\PDUGroupLogic.cs" />
     <Compile Include="ValidationError.cs" />

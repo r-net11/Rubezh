@@ -27,7 +27,7 @@
                     </Border.Background>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="Станция пожарного мониторинга" Foreground="White" FontFamily="Arial" FontSize="15" Margin="0 5" Opacity="0.5" />
@@ -40,8 +40,8 @@
                             </Grid.RowDefinitions>
                             
                             <Image Margin="10 5 0 0" HorizontalAlignment="Left" Source="Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                            
-                            <TextBlock Grid.Row="1" Text="12:24:13" Margin="10 15 0 0" Foreground="White" FontFamily="Arial" FontSize="25" ></TextBlock>
+
+                            <TextBlock Grid.Row="1" Text="{Binding RealTime}" Margin="10 15 0 0" Foreground="White" FontFamily="Arial" FontSize="25" />
                             
                             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Image Margin="15 5 20 5" Source="Images/mute.png" Width="24" Height="24" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.5"/>

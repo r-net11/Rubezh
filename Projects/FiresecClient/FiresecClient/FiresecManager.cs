@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FiresecClient
 {
@@ -79,8 +79,8 @@ namespace FiresecClient
                 }
 
                 var permissions = new List<Perimission>(from permission in Configuration.Perimissions
-                               where permissionIds.Contains(permission.Id)
-                               select permission);
+                                                        where permissionIds.Contains(permission.Id)
+                                                        select permission);
                 return permissions;
             }
         }

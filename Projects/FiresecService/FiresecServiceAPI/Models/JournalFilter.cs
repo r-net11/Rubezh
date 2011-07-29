@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class Journal
+    public class JournalFilter
     {
-        public Journal()
+        public JournalFilter()
         {
             Events = new List<Event>{
                 new Event("Тревога"),

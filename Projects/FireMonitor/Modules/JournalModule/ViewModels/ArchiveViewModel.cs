@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace JournalModule.ViewModels
 {
@@ -31,7 +31,6 @@ namespace JournalModule.ViewModels
         void Read()
         {
             int lastJournalId = 0;
-            lastJournalId = 2510;
             lastJournalId = 1000;
             while (true)
             {
@@ -42,7 +41,7 @@ namespace JournalModule.ViewModels
 
                 Parallel.ForEach(journalItems, journalItem =>
                 {
-                    Dispatcher.Invoke((Action<JournalItemViewModel>)Add, new JournalItemViewModel(journalItem));
+                    Dispatcher.Invoke((Action<JournalItemViewModel>) Add, new JournalItemViewModel(journalItem));
                 }
                 );
 

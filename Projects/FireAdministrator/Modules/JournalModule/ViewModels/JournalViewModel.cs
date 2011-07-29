@@ -9,11 +9,11 @@ namespace JournalModule.ViewModels
     {
         public JournalViewModel()
         {
-            Journal = new Journal();
+            Journal = new JournalFilter();
             Initialize();
         }
 
-        public JournalViewModel(Journal journal)
+        public JournalViewModel(JournalFilter journal)
         {
             Journal = journal;
             Initialize();
@@ -26,7 +26,7 @@ namespace JournalModule.ViewModels
             SetRecordsConditions();
         }
 
-        public Journal Journal { get; private set; }
+        public JournalFilter Journal { get; private set; }
 
         public string Name
         {

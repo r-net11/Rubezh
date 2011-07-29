@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public CurrentConfiguration()
         {
-            Journals = new List<Journal>();
+            Journals = new List<JournalFilter>();
         }
 
         public List<Device> Devices { get; set; }
@@ -27,7 +27,7 @@ namespace FiresecAPI.Models
         public List<Direction> Directions { get; set; }
 
         [DataMember]
-        public List<Journal> Journals { get; set; }
+        public List<JournalFilter> Journals { get; set; }
 
         [DataMember]
         public List<User> Users { get; set; }

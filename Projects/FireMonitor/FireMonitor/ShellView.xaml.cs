@@ -1,33 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Infrastructure;
-using Infrastructure.Common;
-using AlarmModule.Events;
-using Infrastructure.Events;
-using System.Diagnostics;
 using System.ComponentModel;
+using System.Threading;
+using System.Windows.Controls;
 using CustomWindow;
 using FiresecClient;
 using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace FireMonitor
 {
     public partial class ShellView : EssentialWindow, INotifyPropertyChanged
     {
+        readonly Thread realTimeDaemon;
+
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
+            realTimeDaemon = new Thread(UpdateTime);
+            realTimeDaemon.Start();
+        }
+
+        string _realTime;
+        public string RealTime
+        {
+            get { return _realTime; }
+            private set
+            {
+                _realTime = value;
+                OnPropertyChanged("RealTime");
+            }
+        }
+
+        void UpdateTime()
+        {
+            while (true)
+            {
+                Dispatcher.BeginInvoke((Action<string>) (x => RealTime = x),
+                                        System.Windows.Threading.DispatcherPriority.Send,
+                                        DateTime.Now.ToString());
+                Thread.Sleep(500);
+            }
         }
 
         protected override Decorator GetWindowButtonsPlaceholder()
@@ -88,16 +102,18 @@ namespace FireMonitor
                 return;
             }
 
-            bool result = ServiceFactory.Get<ISecurityService>().Check();
-            if (result == false)
-            {
-                e.Cancel = true;
-                return;
-            }
+            //bool result = ServiceFactory.Get<ISecurityService>().Check();
+            //if (result == false)
+            //{
+            //    e.Cancel = true;
+            //    return;
+            //}
         }
 
         private void EssentialWindow_Closed(object sender, EventArgs e)
         {
+            realTimeDaemon.Abort();
+            realTimeDaemon.Join();
             FiresecManager.Disconnect();
         }
     }

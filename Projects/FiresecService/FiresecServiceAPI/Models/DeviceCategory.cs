@@ -7,7 +7,7 @@
         Sensor,
         Effector,
         Communication,
-        None,
-        RemoteServer
+        RemoteServer,
+        None
     }
 }
