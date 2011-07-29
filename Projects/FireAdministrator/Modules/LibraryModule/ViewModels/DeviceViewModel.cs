@@ -103,7 +103,7 @@ namespace LibraryModule.ViewModels
         void SetDefaultState()
         {
             States = new ObservableCollection<StateViewModel>();
-            States.Add(new StateViewModel(StateViewModel.defaultClassId, this));
+            States.Add(new StateViewModel(StateViewModel.DefaultClassId, this));
         }
 
         void SetStates(DeviceLibrary.Models.Device device)

@@ -134,7 +134,7 @@ namespace FiresecAPI.Models
         public bool IsOutDevice { get; set; }
 
         [DataMember]
-        public DeviceCategory Category { get; set; }
+        public DeviceCategoryType Category { get; set; }
 
         [DataMember]
         public string CategoryName { get; set; }

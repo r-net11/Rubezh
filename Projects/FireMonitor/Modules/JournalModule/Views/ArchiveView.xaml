@@ -13,25 +13,80 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Фильтр" Command="{Binding ShowFilterCommand}" />
-                <CheckBox Content="Применить фильтр" IsChecked="{Binding IsFiltered}" />
-            </StackPanel>
+    
+    <DockPanel>
+
+        <WrapPanel DockPanel.Dock="Top">
+            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}" Margin="5" Foreground="OrangeRed" />
+            <Button Content="Выбрать фильтр" Command="{Binding ShowFilterCommand}" Margin="5" />
+        </WrapPanel>
+
+        <Grid DockPanel.Dock="Bottom" DataContext="{Binding SelectedItem}" Margin="5">
+            <Grid.Resources>
+                <Style x:Key="headerStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="OrangeRed" />                    
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.ColumnSpan="2"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5"
+                    Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
+                <WrapPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Класс: " Style="{StaticResource headerStyle}" />
+                    <TextBlock Text="{Binding ClassId, Converter={StaticResource IdToClassNameConverter}}" />
+                </WrapPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="0"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Description}" FontWeight="Black" />
+                    <WrapPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Пользователь: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding User}" FontWeight="Black" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+                <StackPanel VerticalAlignment="Center">
+                    <WrapPanel>
+                        <TextBlock Text="Время: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding SystemTime}" />
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Устройство - Датчик: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding Device}" />
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Устройство: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding Panel}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <WrapPanel Grid.Row="2" Grid.ColumnSpan="2">
+                <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" Margin="3" />
+                <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" Margin="3" />
+                <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" Margin="3" />
+            </WrapPanel>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Source={StaticResource SortedJournalItems}}" SelectedItem="{Binding SelectedItem}"
-                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
+        <DataGrid ItemsSource="{Binding Source={StaticResource SortedJournalItems}}" SelectedItem="{Binding SelectedItem}"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="№" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
                     <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
                     <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
@@ -65,43 +120,6 @@
                 </DataGrid.CellStyle>
                 
             </DataGrid>
-        </Grid>
 
-        <Grid Grid.Row="2">
-            <StackPanel DataContext="{Binding SelectedItem}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Класс" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding State}" Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Время" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding SystemTime}" />
-                </StackPanel>
-
-                <TextBlock Text="{Binding Description}" />
-
-                <StackPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Пользователь" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding User}" />
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Устройство - Датчик" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding Device}" />
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Устройство" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding Panel}" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                    <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" />
-                    <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </Grid>
+    </DockPanel>
 </UserControl>

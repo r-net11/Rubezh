@@ -23,7 +23,7 @@ namespace FiresecAPI.Models
 
         public StateType StateType
         {
-            get { return (StateType)Id; }
+            get { return (StateType) Id; }
         }
 
         public override string ToString()

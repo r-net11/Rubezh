@@ -28,7 +28,7 @@ namespace AlarmModule
                     continue;
 
                 var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
-                if (device.Driver.Category == DeviceCategory.Sensor)
+                if (device.Driver.Category == DeviceCategoryType.Sensor)
                 {
                     //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
 

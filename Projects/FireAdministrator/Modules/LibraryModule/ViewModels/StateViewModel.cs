@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public static readonly string defaultClassId = "8";
+        public static readonly string DefaultClassId = "8";
 
         public StateViewModel(DeviceLibrary.Models.State state, DeviceViewModel parent)
         {
@@ -72,7 +72,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return new State(){Id = int.Parse(Class)}.ToString();
+                return new State() { Id = int.Parse(Class) }.ToString();
             }
         }
 
@@ -178,7 +178,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
         {
-            if (Class == defaultClassId)
+            if (Class == DefaultClassId)
             {
                 MessageBox.Show("Невозможно удалить базовый рисунок");
             }

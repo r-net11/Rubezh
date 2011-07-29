@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -27,7 +26,7 @@ namespace JournalModule.ViewModels
             _journalItems = journalItems;
 
             var stringJournalTypes = (from journalItem in _journalItems
-                                      select journalItem.State).Distinct();
+                                      select journalItem.ToString()).Distinct();
 
             JournalTypes = (from journalType in stringJournalTypes
                             select new ClassViewModel(journalType)).ToList();

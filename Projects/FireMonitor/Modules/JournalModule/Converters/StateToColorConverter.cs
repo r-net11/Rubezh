@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI.Models;
@@ -12,54 +9,38 @@ namespace JournalModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType)value;
-
-            Brush brush;
-
-            switch (stateType)
+            switch ((StateType) value)
             {
                 case StateType.Fire:
-                    brush = Brushes.Red;
-                    break;
+                    return Brushes.Red;
 
                 case StateType.Failure:
-                    brush = Brushes.LightPink;
-                    break;
+                    return Brushes.LightPink;
 
                 case StateType.Info:
-                    brush = Brushes.Transparent;
-                    break;
+                    return Brushes.Transparent;
 
                 case StateType.No:
-                    brush = Brushes.Transparent;
-                    break;
+                    return Brushes.Transparent;
 
                 case StateType.Norm:
-                    brush = Brushes.Green;
-                    break;
+                    return Brushes.Green;
 
                 case StateType.Off:
-                    brush = Brushes.Red;
-                    break;
+                    return Brushes.Red;
 
                 case StateType.Service:
-                    brush = Brushes.Yellow;
-                    break;
+                    return Brushes.Yellow;
 
                 case StateType.Unknown:
-                    brush = Brushes.Gray;
-                    break;
+                    return Brushes.Gray;
 
                 case StateType.Attention:
-                    brush = Brushes.Yellow;
-                    break;
+                    return Brushes.Yellow;
 
                 default:
-                    brush = Brushes.Transparent;
-                    break;
+                    return Brushes.Transparent;
             }
-
-            return brush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

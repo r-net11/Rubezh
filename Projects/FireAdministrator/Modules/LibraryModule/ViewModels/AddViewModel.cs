@@ -3,9 +3,9 @@ using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
-    public abstract class AddViewModel<ViewModel1, ViewModel2> : Infrastructure.Common.DialogContent
+    public abstract class AddViewModel<TViewModel1, TViewModel2> : Infrastructure.Common.DialogContent
     {
-        public AddViewModel(ViewModel1 parent)
+        public AddViewModel(TViewModel1 parent)
         {
             Parent = parent;
             OkCommand = new RelayCommand(OnOk);
@@ -14,16 +14,12 @@ namespace LibraryModule.ViewModels
 
         public abstract void Initialize();
 
-        public ViewModel1 Parent { get; private set; }
+        public TViewModel1 Parent { get; private set; }
 
-        ObservableCollection<ViewModel2> _items;
-        public ObservableCollection<ViewModel2> Items
+        ObservableCollection<TViewModel2> _items;
+        public ObservableCollection<TViewModel2> Items
         {
-            get
-            {
-                return _items;
-            }
-
+            get { return _items; }
             set
             {
                 _items = value;
@@ -31,14 +27,10 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        ViewModel2 _selectedItem;
-        public ViewModel2 SelectedItem
+        TViewModel2 _selectedItem;
+        public TViewModel2 SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
-
+            get { return _selectedItem; }
             set
             {
                 _selectedItem = value;

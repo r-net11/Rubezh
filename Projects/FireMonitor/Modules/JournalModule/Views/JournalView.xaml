@@ -5,103 +5,124 @@
     <UserControl.Resources>
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    </UserControl.Resources>        
 
-        <Grid Grid.Row="0">
-            <DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
-                    <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
-                    <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
-                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                    <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding Device}" />
-                    <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
-                    <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
-                </DataGrid.Columns>
+    <DockPanel>
 
-                <DataGrid.RowStyle>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Style.Setters>
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem Header="Menu 1" />
-                                        <MenuItem Header="Menu 2" />
-                                        <MenuItem Header="Menu 2" />
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                    </Style>
-                </DataGrid.RowStyle>
-                
-                <DataGrid.CellStyle>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="YellowGreen" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.CellStyle>
-                
-            </DataGrid>
+        <Grid DockPanel.Dock="Bottom" DataContext="{Binding SelectedItem}" Margin="5">
+            <Grid.Resources>
+                <Style x:Key="headerStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="OrangeRed" />
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.ColumnSpan="2"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5"
+                    Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
+                <WrapPanel HorizontalAlignment="Center">
+                    <TextBlock Text="Класс: " Style="{StaticResource headerStyle}" />
+                    <TextBlock Text="{Binding ClassId, Converter={StaticResource IdToClassNameConverter}}" />
+                </WrapPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="0"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Description}" FontWeight="Black" />
+                    <WrapPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Пользователь: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding User}" FontWeight="Black" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1"
+                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+                <StackPanel VerticalAlignment="Center">
+                    <WrapPanel>
+                        <TextBlock Text="Время: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding SystemTime}" />
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Устройство - Датчик: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding Device}" />
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}">
+                        <TextBlock Text="Устройство: " Style="{StaticResource headerStyle}" />
+                        <TextBlock Text="{Binding Panel}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <WrapPanel Grid.Row="2" Grid.ColumnSpan="2">
+                <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" Margin="3" />
+                <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" Margin="3" />
+                <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" Margin="3" />
+            </WrapPanel>
         </Grid>
+
+        <DataGrid ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedItem}"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
+                <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding Device}" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
+            </DataGrid.Columns>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Setters>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Menu 1" />
+                                    <MenuItem Header="Menu 2" />
+                                    <MenuItem Header="Menu 2" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="YellowGreen" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+
+        </DataGrid>
         
-        <Grid Grid.Row="1">
-            <StackPanel DataContext="{Binding SelectedItem}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Класс" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding State}" Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Время" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding SystemTime}" />
-                </StackPanel>
-
-                <TextBlock Text="{Binding Description}" />
-
-                <StackPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Пользователь" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding User}" />
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Устройство - Датчик" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding Device}" />
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" Orientation="Horizontal">
-                    <TextBlock Text="Устройство" Padding="0, 0, 2, 0" />
-                    <TextBlock Text="{Binding Panel}" />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                    <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" />
-                    <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" />
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </Grid>
+    </DockPanel>
 </UserControl>

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Infrastructure;
+using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecAPI.Models;
 
 namespace JournalModule.ViewModels
 {
     public class JournalItemViewModel : BaseViewModel
     {
-        JournalItem _journalItem;
+        readonly JournalItem _journalItem;
         string _deviceId;
         string _zoneNo;
 
@@ -51,19 +51,19 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public DateTime DeviceTime
+        public string DeviceTime
         {
             get
             {
-                return _journalItem.DeviceTime;
+                return _journalItem.DeviceTime.ToString();
             }
         }
 
-        public DateTime SystemTime
+        public string SystemTime
         {
             get
             {
-                return _journalItem.SystemTime;
+                return _journalItem.SystemTime.ToString();
             }
         }
 
@@ -115,11 +115,11 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public string State
+        public int ClassId
         {
             get
             {
-                return _journalItem.State.StateType.ToString();
+                return _journalItem.State.Id;
             }
         }
 

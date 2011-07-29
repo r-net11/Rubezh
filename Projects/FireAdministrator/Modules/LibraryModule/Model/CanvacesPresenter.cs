@@ -27,19 +27,22 @@ namespace LibraryModule.ViewModels
 
         public void AddCanvacesFrom(StateViewModel stateViewModel)
         {
-            _frames.AddRange(stateViewModel.Frames);
-            SetTimer();
-
-            foreach (var frame in stateViewModel.Frames)
+            if (stateViewModel != null)
             {
-                var canvas = ImageConverters.Xml2Canvas(frame.XmlOfImage, frame.Layer);
-                if (canvas.Children.Count == 0)
+                _frames.AddRange(stateViewModel.Frames);
+                SetTimer();
+
+                foreach (var frame in stateViewModel.Frames)
                 {
-                    canvas.Background = Brushes.White;
-                    canvas.Opacity = 0.01;
+                    var canvas = ImageConverters.Xml2Canvas(frame.XmlOfImage, frame.Layer);
+                    if (canvas.Children.Count == 0)
+                    {
+                        canvas.Background = Brushes.White;
+                        canvas.Opacity = 0.01;
+                    }
+                    canvas.Visibility = Visibility.Collapsed;
+                    Canvases.Add(canvas);
                 }
-                canvas.Visibility = Visibility.Collapsed;
-                Canvases.Add(canvas);
             }
         }
 

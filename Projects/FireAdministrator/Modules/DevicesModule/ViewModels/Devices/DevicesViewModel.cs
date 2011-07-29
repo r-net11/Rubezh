@@ -85,7 +85,7 @@ namespace DevicesModule.ViewModels
 
         void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
-            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategory.Device)
+            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
             {
                 parentDeviceViewModel.IsExpanded = true;
                 foreach (var deviceViewModel in parentDeviceViewModel.Children)
