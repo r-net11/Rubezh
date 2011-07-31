@@ -32,7 +32,7 @@ namespace DevicesModule.ViewModels.Devices
         {
             get
             {
-                return from Driver driver in FiresecManager.Configuration.Drivers
+                return from Driver driver in FiresecManager.DeviceConfiguration.Drivers
                        where driver.IsIgnore == false
                        select driver;
             }

@@ -8,8 +8,8 @@ namespace FiresecService.Converters
     {
         public static void Convert(Firesec.CoreConfig.config firesecConfig)
         {
-            FiresecManager.Configuration.Zones = new List<Zone>();
-            FiresecManager.States.ZoneStates = new List<ZoneState>();
+            FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
+            FiresecManager.DeviceConfigurationStates.ZoneStates = new List<ZoneState>();
 
             if (firesecConfig.zone != null)
             {
@@ -49,13 +49,13 @@ namespace FiresecService.Converters
                         if (guardZoneTypeParam != null)
                             zone.GuardZoneType = guardZoneTypeParam.value;
                     }
-                    FiresecManager.Configuration.Zones.Add(zone);
-                    FiresecManager.States.ZoneStates.Add(new ZoneState() { No = zone.No });
+                    FiresecManager.DeviceConfiguration.Zones.Add(zone);
+                    FiresecManager.DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
                 }
             }
         }
 
-        public static void ConvertBack(CurrentConfiguration currentConfiguration)
+        public static void ConvertBack(DeviceConfiguration currentConfiguration)
         {
             List<Firesec.CoreConfig.zoneType> zones = new List<Firesec.CoreConfig.zoneType>();
             foreach (var zone in currentConfiguration.Zones)

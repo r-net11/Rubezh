@@ -40,7 +40,7 @@ namespace FiresecClient
             if (DeviceStateChangedEvent != null)
                 DeviceStateChangedEvent(deviceId);
 
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
             deviceState.OnStateChanged();
         }
 

@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
             Zones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (var zone in FiresecManager.Configuration.Zones)
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
                 if (direction.Zones.Contains(zone.No))

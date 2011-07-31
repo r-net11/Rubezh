@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class CurrentStates
+    public class DeviceConfigurationStates
     {
         [DataMember]
         public List<DeviceState> DeviceStates { get; set; }

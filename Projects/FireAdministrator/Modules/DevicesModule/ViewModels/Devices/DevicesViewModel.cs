@@ -51,7 +51,7 @@ namespace DevicesModule.ViewModels
         void BuildTree()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-            var device = FiresecManager.Configuration.RootDevice;
+            var device = FiresecManager.DeviceConfiguration.RootDevice;
             AddDevice(device, null);
         }
 
@@ -123,7 +123,7 @@ namespace DevicesModule.ViewModels
         {
             _deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
             SelectedDevice.RemoveCommand.Execute();
-            FiresecManager.Configuration.Update();
+            FiresecManager.DeviceConfiguration.Update();
         }
 
         bool CanPaste(object obj)
@@ -151,7 +151,7 @@ namespace DevicesModule.ViewModels
             var newDevice = AddDevice(pasteDevice, SelectedDevice);
             CollapseChild(newDevice);
 
-            FiresecManager.Configuration.Update();
+            FiresecManager.DeviceConfiguration.Update();
         }
 
         public override void OnShow()

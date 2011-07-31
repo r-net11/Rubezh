@@ -21,7 +21,7 @@ namespace FiresecAPI.Models
         [DataMember]
         public string PlaceInTree { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public List<InnerState> InnerStates { get; set; }
 
         [DataMember]
@@ -39,7 +39,7 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<string> SelfStates { get; set; }
 
-        //[DataMember]
+        [DataMember]
         public List<InnerState> ParentInnerStates { get; set; }
 
         [DataMember]

@@ -51,8 +51,8 @@ namespace AlarmModule.ViewModels
         {
             get
             {
-                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
-                var zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                 return device.Driver.ShortName + " - " + device.PresentationAddress;
             }
         }
@@ -61,8 +61,8 @@ namespace AlarmModule.ViewModels
         {
             get
             {
-                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
-                var zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                 return zone.No + "." + zone.Name;
             }
         }
@@ -149,10 +149,10 @@ namespace AlarmModule.ViewModels
 
         public ResetItem GetResetItem()
         {
-            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
             var parentDevice = device.Parent;
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
-            var parentDeviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+            var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
 
             ResetItem resetItem = new ResetItem();
             resetItem.States = new List<string>();

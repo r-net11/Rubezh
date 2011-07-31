@@ -34,7 +34,7 @@ namespace PlansModule.ViewModels
         public void Initialize(ElementZone elementZone, Canvas canvas)
         {
             ZoneNo = elementZone.ZoneNo;
-            _zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+            _zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
             _elementZoneView = new ElementZoneView();
             _elementZoneView.DataContext = this;
@@ -92,7 +92,7 @@ namespace PlansModule.ViewModels
             get
             {
                 return new List<string>(
-                       from device in FiresecManager.Configuration.Devices
+                       from device in FiresecManager.DeviceConfiguration.Devices
                        where device.ZoneNo == ZoneNo
                        where device.Driver.CanDisable
                        select device.PlaceInTree);
@@ -129,7 +129,7 @@ namespace PlansModule.ViewModels
         {
             if (ZoneNo == zoneNo)
             {
-                var zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
                 State = zoneState.State;
             }
         }

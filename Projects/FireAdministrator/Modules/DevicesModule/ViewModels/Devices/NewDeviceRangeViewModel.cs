@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return from Driver driver in FiresecManager.Configuration.Drivers
+                return from Driver driver in FiresecManager.DeviceConfiguration.Drivers
                        where ((_parent.Driver.AvaliableChildren.Contains(driver.Id)) && (driver.HasAddress))
                        select driver;
             }
@@ -222,7 +222,7 @@ namespace DevicesModule.ViewModels
             }
 
             _parentDeviceViewModel.Update();
-            FiresecManager.Configuration.Update();
+            FiresecManager.DeviceConfiguration.Update();
             Close(true);
         }
 

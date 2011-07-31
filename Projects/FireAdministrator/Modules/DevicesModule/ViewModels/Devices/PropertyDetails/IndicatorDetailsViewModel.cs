@@ -66,7 +66,7 @@ namespace DevicesModule.ViewModels
         {
             HashSet<Device> devices = new HashSet<Device>();
 
-            foreach (var device in FiresecManager.Configuration.Devices)
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 if (device.Driver.DriverName == "Выход")
                     continue;
@@ -167,7 +167,7 @@ namespace DevicesModule.ViewModels
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in FiresecManager.Configuration.Zones)
+            foreach (Zone zone in FiresecManager.DeviceConfiguration.Zones)
             {
                 ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
 

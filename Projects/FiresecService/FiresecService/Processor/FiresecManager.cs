@@ -7,8 +7,9 @@ namespace FiresecService
 {
     public class FiresecManager
     {
-        public static CurrentConfiguration Configuration { get; set; }
-        public static CurrentStates States { get; set; }
+        public static DeviceConfiguration DeviceConfiguration { get; set; }
+        public static DeviceConfigurationStates DeviceConfigurationStates { get; set; }
+        public static SystemConfiguration SystemConfiguration { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
         public static bool Connect(string login, string password)
@@ -17,7 +18,7 @@ namespace FiresecService
             if (result)
             {
                 BuildDeviceTree();
-                Configuration.Update();
+                DeviceConfiguration.Update();
                 Watcher watcher = new Watcher();
                 watcher.Start();
             }
@@ -27,7 +28,7 @@ namespace FiresecService
         static void BuildDeviceTree()
         {
             CoreConfig = FiresecInternalClient.GetCoreConfig();
-            Configuration = new CurrentConfiguration();
+            DeviceConfiguration = new DeviceConfiguration();
             var metadata = FiresecInternalClient.GetMetaData();
             FillDrivrs(metadata);
             Convert();
@@ -36,13 +37,13 @@ namespace FiresecService
         public static void FillDrivrs(Firesec.Metadata.config metadata)
         {
             DriverConverter.Metadata = metadata;
-            Configuration.Drivers = new List<Driver>();
+            DeviceConfiguration.Drivers = new List<Driver>();
             foreach (var firesecDriver in metadata.drv)
             {
                 Driver driver = DriverConverter.Convert(firesecDriver);
                 if (driver.IsIgnore == false)
                 {
-                    Configuration.Drivers.Add(driver);
+                    DeviceConfiguration.Drivers.Add(driver);
                 }
             }
         }
@@ -50,14 +51,14 @@ namespace FiresecService
         public static void SetNewConfig()
         {
             Validator validator = new Validator();
-            validator.Validate(Configuration);
+            validator.Validate(DeviceConfiguration);
             ConvertBack();
             FiresecInternalClient.SetNewConfig(CoreConfig);
         }
 
         static void Convert()
         {
-            FiresecManager.States = new CurrentStates();
+            FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
             ZoneConverter.Convert(CoreConfig);
             DirectionConverter.Convert(CoreConfig);
             SecurityConverter.Convert(CoreConfig);
@@ -66,16 +67,16 @@ namespace FiresecService
 
         static void ConvertBack()
         {
-            ZoneConverter.ConvertBack(Configuration);
-            DeviceConverter.ConvertBack(Configuration);
-            DirectionConverter.ConvertBack(Configuration);
-            SecurityConverter.ConvertBack(Configuration);
+            ZoneConverter.ConvertBack(DeviceConfiguration);
+            DeviceConverter.ConvertBack(DeviceConfiguration);
+            DirectionConverter.ConvertBack(DeviceConfiguration);
+            SecurityConverter.ConvertBack(SystemConfiguration);
         }
 
         public static void LoadFromFile(string fileName)
         {
             CoreConfig = FiresecInternalClient.LoadConfigFromFile(fileName);
-            FiresecManager.States = new CurrentStates();
+            FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
             ZoneConverter.Convert(CoreConfig);
             DirectionConverter.Convert(CoreConfig);
             DeviceConverter.Convert(CoreConfig);
@@ -83,9 +84,9 @@ namespace FiresecService
 
         public static void SaveToFile(string fileName)
         {
-            ZoneConverter.ConvertBack(Configuration);
-            DeviceConverter.ConvertBack(Configuration);
-            DirectionConverter.ConvertBack(Configuration);
+            ZoneConverter.ConvertBack(DeviceConfiguration);
+            DeviceConverter.ConvertBack(DeviceConfiguration);
+            DirectionConverter.ConvertBack(DeviceConfiguration);
             FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
         }
     }

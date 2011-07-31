@@ -74,7 +74,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return from Zone zone in FiresecManager.Configuration.Zones
+                return from Zone zone in FiresecManager.DeviceConfiguration.Zones
                        orderby Convert.ToInt32(zone.No)
                        select zone;
             }
@@ -84,7 +84,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+                return FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
             }
             set
             {
@@ -164,7 +164,7 @@ namespace DevicesModule.ViewModels
                 Parent.Update();
                 Parent.IsExpanded = true;
 
-                FiresecManager.Configuration.Update();
+                FiresecManager.DeviceConfiguration.Update();
             }
         }
 

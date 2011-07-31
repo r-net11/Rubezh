@@ -33,7 +33,7 @@ namespace AssadProcessor.Devices
             configurationState.value = "Норма";
             states.Add(configurationState);
 
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
                 var stateType = deviceState.State.StateType;
                 var stateTypeCounter = _stateTypeCounters.FirstOrDefault(x => x.StateType == stateType);
@@ -69,7 +69,7 @@ namespace AssadProcessor.Devices
             for (int i = 0; i < 9; i++)
                 counters.Add(new StateTypeCounter(i));
 
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
                 var stateType = deviceState.State.StateType;
                 var stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
@@ -129,7 +129,7 @@ namespace AssadProcessor.Devices
 
         public StateTypeCounter(int i)
         {
-            State = new State(i);
+            State = new State() { Id = i };
             StateType = State.StateType;
         }
     }

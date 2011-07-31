@@ -22,12 +22,12 @@ namespace AlarmModule
 
         void Update()
         {
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
                 if (deviceState.InnerStates == null)
                     continue;
 
-                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
                 if (device.Driver.Category == DeviceCategoryType.Sensor)
                 {
                     //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
@@ -46,8 +46,8 @@ namespace AlarmModule
 
         void DeviceState_AlarmAdded(AlarmType alarmType, string id)
         {
-            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == id);
-            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
             Alarm alarm = new Alarm();
             alarm.AlarmType = alarmType;
             alarm.DeviceId = id;

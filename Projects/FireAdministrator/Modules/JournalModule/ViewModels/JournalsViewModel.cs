@@ -17,7 +17,7 @@ namespace JournalModule.ViewModels
         public void Initialize()
         {
             var journals = new ObservableCollection<JournalViewModel>();
-            foreach (var journal in FiresecManager.Configuration.Journals)
+            foreach (var journal in FiresecManager.SystemConfiguration.Journals)
             {
                 journals.Add(new JournalViewModel(journal));
             }
@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
             {
                 editJournalViewModel.JournalViewModel.UpdateProperties();
                 Journals.Add(editJournalViewModel.JournalViewModel);
-                FiresecManager.Configuration.Journals.Add(editJournalViewModel.JournalViewModel.Journal);
+                FiresecManager.SystemConfiguration.Journals.Add(editJournalViewModel.JournalViewModel.Journal);
             }
         }
 
@@ -77,7 +77,7 @@ namespace JournalModule.ViewModels
         {
             if (SelectedJournal != null)
             {
-                FiresecManager.Configuration.Journals.Remove(SelectedJournal.Journal);
+                FiresecManager.SystemConfiguration.Journals.Remove(SelectedJournal.Journal);
                 Journals.Remove(SelectedJournal);
             }
         }

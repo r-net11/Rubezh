@@ -23,8 +23,8 @@ namespace SecurityModule.ViewModels
 		List<User> _usersList;
 		public void Initialize()
         {
-			var _usersList = FiresecManager.Configuration.Users;
-			var groups = FiresecManager.Configuration.UserGroups;
+            var _usersList = FiresecManager.SystemConfiguration.Users;
+            var groups = FiresecManager.SystemConfiguration.UserGroups;
 			//var permissions = FiresecManager.Configuration.Perimissions;
 
 			Users = new ObservableCollection<UserViewModel>();

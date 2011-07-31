@@ -15,16 +15,22 @@ namespace FiresecAPI
         void Disconnect();
 
         [OperationContract]
-        CurrentConfiguration GetConfiguration();
+        DeviceConfiguration GetDeviceConfiguration();
 
         [OperationContract]
-        CurrentStates GetStates();
+        SystemConfiguration GetSystemConfiguration();
 
         [OperationContract]
-        void SetConfiguration(CurrentConfiguration currentConfiguration);
+        DeviceConfigurationStates GetStates();
+
+        [OperationContract]
+        void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
         void WriteConfiguration(string devicePath);
+
+        [OperationContract]
+        void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
         [OperationContract]
         List<JournalItem> ReadJournal(int startIndex, int count);

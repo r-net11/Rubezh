@@ -12,18 +12,18 @@ namespace FiresecService.Converters
         {
             _firesecConfig = firesecConfig;
 
-            FiresecManager.Configuration.Devices = new List<Device>();
-            FiresecManager.States.DeviceStates = new List<DeviceState>();
+            FiresecManager.DeviceConfiguration.Devices = new List<Device>();
+            FiresecManager.DeviceConfigurationStates.DeviceStates = new List<DeviceState>();
 
             var rootInnerDevice = FiresecManager.CoreConfig.dev[0];
             Device rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
-            FiresecManager.Configuration.Devices.Add(rootDevice);
-            FiresecManager.States.DeviceStates.Add(CreateDeviceState(rootDevice));
+            FiresecManager.DeviceConfiguration.Devices.Add(rootDevice);
+            FiresecManager.DeviceConfigurationStates.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
-            FiresecManager.Configuration.RootDevice = rootDevice;
+            FiresecManager.DeviceConfiguration.RootDevice = rootDevice;
         }
 
         static void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
@@ -37,8 +37,8 @@ namespace FiresecService.Converters
                     device.Parent = parentDevice;
                     parentDevice.Children.Add(device);
                     SetInnerDevice(device, innerDevice);
-                    FiresecManager.Configuration.Devices.Add(device);
-                    FiresecManager.States.DeviceStates.Add(CreateDeviceState(device));
+                    FiresecManager.DeviceConfiguration.Devices.Add(device);
+                    FiresecManager.DeviceConfigurationStates.DeviceStates.Add(CreateDeviceState(device));
                     AddDevice(innerDevice, device);
                 }
             }
@@ -70,7 +70,7 @@ namespace FiresecService.Converters
         {
             var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             device.DriverId = driverId;
-            device.Driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driverId);
+            device.Driver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == driverId);
 
 
             device.IntAddress = System.Convert.ToInt32(innerDevice.addr);
@@ -172,7 +172,7 @@ namespace FiresecService.Converters
             }
         }
 
-        public static void ConvertBack(CurrentConfiguration currentConfiguration)
+        public static void ConvertBack(DeviceConfiguration currentConfiguration)
         {
             Device rootDevice = currentConfiguration.RootDevice;
             Firesec.CoreConfig.devType rootInnerDevice = DeviceToInnerDevice(rootDevice);

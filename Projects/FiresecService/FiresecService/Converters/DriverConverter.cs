@@ -123,42 +123,42 @@ namespace FiresecService.Converters
             switch (innerDriver.cat)
             {
                 case "0":
-                    driver.Category = DeviceCategory.Other;
+                    driver.Category = DeviceCategoryType.Other;
                     driver.CategoryName = "Прочие устройства";
                     break;
 
                 case "1":
-                    driver.Category = DeviceCategory.Device;
+                    driver.Category = DeviceCategoryType.Device;
                     driver.CategoryName = "Приборы";
                     break;
 
                 case "2":
-                    driver.Category = DeviceCategory.Sensor;
+                    driver.Category = DeviceCategoryType.Sensor;
                     driver.CategoryName = "Датчики";
                     break;
 
                 case "3":
-                    driver.Category = DeviceCategory.Effector;
+                    driver.Category = DeviceCategoryType.Effector;
                     driver.CategoryName = "ИУ";
                     break;
 
                 case "4":
-                    driver.Category = DeviceCategory.Communication;
+                    driver.Category = DeviceCategoryType.Communication;
                     driver.CategoryName = "Сеть передачи данных";
                     break;
 
                 case "5":
-                    driver.Category = DeviceCategory.None;
+                    driver.Category = DeviceCategoryType.None;
                     driver.CategoryName = "Не указано";
                     break;
 
                 case "6":
-                    driver.Category = DeviceCategory.RemoteServer;
+                    driver.Category = DeviceCategoryType.RemoteServer;
                     driver.CategoryName = "Удаленный сервер";
                     break;
 
                 default:
-                    driver.Category = DeviceCategory.None;
+                    driver.Category = DeviceCategoryType.None;
                     driver.CategoryName = "Не указано";
                     break;
             }

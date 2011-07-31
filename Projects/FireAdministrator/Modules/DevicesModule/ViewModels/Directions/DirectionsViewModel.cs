@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             Directions = new ObservableCollection<DirectionViewModel>(
-                from direction in FiresecManager.Configuration.Directions
+                from direction in FiresecManager.DeviceConfiguration.Directions
                 select new DirectionViewModel(direction));
 
             if (Directions.Count > 0)
@@ -57,7 +57,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanDelete(null))
             {
-                FiresecManager.Configuration.Directions.Remove(SelectedDirection.Direction);
+                FiresecManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
                 Directions.Remove(SelectedDirection);
             }
         }
@@ -90,7 +90,7 @@ namespace DevicesModule.ViewModels
             var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
             if (result)
             {
-                FiresecManager.Configuration.Directions.Add(directionDetailsViewModel.Direction);
+                FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);
                 DirectionViewModel directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
                 Directions.Add(directionViewModel);
             }

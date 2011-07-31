@@ -17,7 +17,7 @@ namespace DeviveModelManager
             RootTreeItem = RootHelper.CreateRoot();
             RootTreeItem.Name = "Компьютер";
 
-            var rootDriverId = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер").Id;
+            var rootDriverId = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер").Id;
             AddDriver(rootDriverId, RootTreeItem);
             RootTreeItem.Children.Add(MonitorHelper.CreateMonitor());
             RootTreeItem.Children.Add(ZoneHelper.CreateZone());
@@ -27,7 +27,7 @@ namespace DeviveModelManager
 
         void AddDriver(string parentDriverId, TreeItem parentTreeItem)
         {
-            Driver parentDriver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == parentDriverId);
+            Driver parentDriver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == parentDriverId);
 
             if (parentDriver != null)
             {
@@ -36,7 +36,7 @@ namespace DeviveModelManager
 
                 foreach (var driver in parentDriver.Children)
                 {
-                    var _driver = FiresecManager.Configuration.Drivers.FirstOrDefault(x => x.Id == driver);
+                    var _driver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == driver);
                     TreeItem childTree = new TreeItem();
                     childTree.SetDriver(_driver);
                     parentTreeItem.Children.Add(childTree);

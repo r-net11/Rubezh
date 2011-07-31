@@ -67,13 +67,14 @@
     <Compile Include="Models\JournalFilter.cs" />
     <Compile Include="Models\JournalItem.cs" />
     <Compile Include="Models\PDUGroupLogic.cs" />
+    <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="ValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AlarmType.cs" />
     <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Models\CurrentConfiguration.cs" />
-    <Compile Include="Models\CurrentStates.cs" />
+    <Compile Include="Models\DeviceConfiguration.cs" />
+    <Compile Include="Models\DeviceConfigurationStates.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceCategory.cs" />
     <Compile Include="Models\DeviceState.cs" />

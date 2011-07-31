@@ -43,8 +43,8 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(_elementDeviceView);
 
             DeviceId = elementDevice.Id;
-            _device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            _deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
             if (_device != null)
             {
                 _elementDeviceView._deviceControl.DriverId = _device.Driver.Id;

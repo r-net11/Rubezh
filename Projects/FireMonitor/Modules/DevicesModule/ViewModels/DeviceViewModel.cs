@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
         {
             Source = sourceDevices;
             Device = device;
-            _deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
             UpdateParameters();
         }
 

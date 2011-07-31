@@ -72,7 +72,7 @@ namespace DevicesModule.ViewModels
         {
             Devices = new ObservableCollection<DeviceViewModel>();
 
-            Device device = FiresecManager.Configuration.RootDevice;
+            Device device = FiresecManager.DeviceConfiguration.RootDevice;
 
             DeviceViewModel deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = null;

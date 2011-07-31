@@ -4,36 +4,26 @@ using System.Linq;
 using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.ServiceModel.Description;
 
 namespace FiresecClient
 {
     public class FiresecManager
     {
-        public static CurrentConfiguration Configuration { get; set; }
-        public static CurrentStates States { get; set; }
+        public static DeviceConfiguration DeviceConfiguration { get; set; }
+        public static DeviceConfigurationStates DeviceStates { get; set; }
+        public static SystemConfiguration SystemConfiguration { get; set; }
 
-        static DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
-        public static IFiresecService FiresecService;
-        static FiresecEventSubscriber _eventClient;
+        static IFiresecService _firesecService;
 
         public static bool Connect(string login, string password)
         {
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.ReceiveTimeout = TimeSpan.FromMinutes(1);
-            //binding.ListenBacklog = 10;
-            binding.MaxBufferSize = Int32.MaxValue;
-            binding.MaxReceivedMessageSize = Int32.MaxValue;
-            binding.MaxBufferPoolSize = Int32.MaxValue;
-            binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-            EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
-            _eventClient = new FiresecEventSubscriber();
-            _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_eventClient), binding, endpointAddress);
-            FiresecService = _duplexChannelFactory.CreateChannel();
+            _firesecService = FiresecServiceFactory.Create();
 
-
-            FiresecService.Connect();
-            Configuration = FiresecService.GetConfiguration();
-            States = FiresecService.GetStates();
+            _firesecService.Connect();
+            SystemConfiguration = _firesecService.GetSystemConfiguration();
+            DeviceConfiguration = _firesecService.GetDeviceConfiguration();
+            DeviceStates = _firesecService.GetStates();
             Update();
             _loggedInUserName = login;
             return true;
@@ -41,12 +31,12 @@ namespace FiresecClient
 
         static void Update()
         {
-            Configuration.Update();
-            Configuration.UpdateDrivers();
+            DeviceConfiguration.Update();
+            DeviceConfiguration.UpdateDrivers();
 
-            foreach (var deviceState in States.DeviceStates)
+            foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                deviceState.Device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
             }
         }
 
@@ -55,7 +45,7 @@ namespace FiresecClient
         {
             get
             {
-                return Configuration.Users.FirstOrDefault(x => x.Name == _loggedInUserName);
+                return SystemConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName);
             }
         }
 
@@ -67,7 +57,7 @@ namespace FiresecClient
 
                 foreach (var groupId in CurrentUser.Groups)
                 {
-                    var group = Configuration.UserGroups.FirstOrDefault(x => x.Id == groupId);
+                    var group = SystemConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
 
                     permissionIds.AddRange(group.Permissions);
                 }
@@ -78,7 +68,7 @@ namespace FiresecClient
                     permissionIds.Remove(permissionId);
                 }
 
-                var permissions = new List<Perimission>(from permission in Configuration.Perimissions
+                var permissions = new List<Perimission>(from permission in SystemConfiguration.Perimissions
                                                         where permissionIds.Contains(permission.Id)
                                                         select permission);
                 return permissions;
@@ -87,42 +77,42 @@ namespace FiresecClient
 
         public static void Disconnect()
         {
-            FiresecService.Disconnect();
+            _firesecService.Disconnect();
         }
 
         public static void SetConfiguration()
         {
-            FiresecService.SetConfiguration(Configuration);
+            _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
         public static void AddToIgnoreList(List<string> devicePaths)
         {
-            FiresecService.AddToIgnoreList(devicePaths);
+            _firesecService.AddToIgnoreList(devicePaths);
         }
 
         public static void RemoveFromIgnoreList(List<string> devicePaths)
         {
-            FiresecService.RemoveFromIgnoreList(devicePaths);
+            _firesecService.RemoveFromIgnoreList(devicePaths);
         }
 
         public static void ResetStates(List<ResetItem> resetItems)
         {
-            FiresecService.ResetStates(resetItems);
+            _firesecService.ResetStates(resetItems);
         }
 
         public static void AddUserMessage(string message)
         {
-            FiresecService.AddUserMessage(message);
+            _firesecService.AddUserMessage(message);
         }
 
         public static void ExecuteCommand(string devicePath, string methodName)
         {
-            FiresecService.ExecuteCommand(devicePath, methodName);
+            _firesecService.ExecuteCommand(devicePath, methodName);
         }
 
         public static List<JournalItem> ReadJournal(int startIndex, int count)
         {
-            return FiresecService.ReadJournal(startIndex, count);
+            return _firesecService.ReadJournal(startIndex, count);
         }
 
         public static void LoadFromFile(string fileName)

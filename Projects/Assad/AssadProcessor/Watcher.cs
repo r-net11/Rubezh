@@ -51,7 +51,7 @@ namespace AssadProcessor
 
         void SendEvent(JournalItem journalItem, string dataBaseId)
         {
-            var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
             if (device != null)
             {
                 var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);

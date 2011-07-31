@@ -64,9 +64,9 @@ namespace AssadProcessor.Devices
             List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
 //            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
 
-            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.DeviceStates.DeviceStates.Any(x => x.Id == Id))
             {
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
@@ -105,10 +105,10 @@ namespace AssadProcessor.Devices
                         states.Add(parameterState);
                     }
                 }
- 
-                if (FiresecManager.Configuration.Devices.Any(x => x.Id == Id))
+
+                if (FiresecManager.DeviceConfiguration.Devices.Any(x => x.Id == Id))
                 {
-                    var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == Id);
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == Id);
 
                     Assad.DeviceTypeState state0 = new Assad.DeviceTypeState();
                     state0.state = "Примечание";
@@ -201,9 +201,9 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.DeviceStates.DeviceStates.Any(x => x.Id == Id))
             {
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
                 List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
@@ -237,9 +237,9 @@ namespace AssadProcessor.Devices
             deviceAbility.deviceId = DeviceId;
             List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
 
-            if (FiresecManager.States.DeviceStates.Any(x => x.Id == Id))
+            if (FiresecManager.DeviceStates.DeviceStates.Any(x => x.Id == Id))
             {
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == Id);
 
                 foreach (var parameter in deviceState.Parameters)
                 {

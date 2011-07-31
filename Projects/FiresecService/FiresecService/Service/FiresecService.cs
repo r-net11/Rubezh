@@ -8,121 +8,51 @@ using FiresecService.Converters;
 namespace FiresecService
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single, MaxItemsInObjectGraph = 2147483647)]
     public class FiresecService : IFiresecService
     {
-        static FiresecService()
-        {
-            callbacks = new List<IFiresecCallback>();
-        }
+        IFiresecCallback _currentCallback;
 
-        IFiresecCallback currentCallbacks;
-        static List<IFiresecCallback> callbacks;
-
-        public static void OnNewJournalItem(JournalItem journalItem)
-        {
-            foreach (IFiresecCallback callback in callbacks)
-            {
-                try
-                {
-                    if (callback != null)
-                    {
-                        callback.NewJournalItem(journalItem);
-                    }
-                }
-                catch
-                {
-                    //callback = null;
-                    //callbacks.Remove(callback);
-                }
-            }
-        }
-
-        public static void OnDeviceStateChanged(string deviceId)
-        {
-            foreach (IFiresecCallback callback in callbacks)
-            {
-                try
-                {
-                    if (callback != null)
-                    {
-                        callback.DeviceStateChanged(deviceId);
-                    }
-                }
-                catch
-                {
-                    //callback = null;
-                    //callbacks.Remove(callback);
-                }
-            }
-        }
-
-        public static void OnDeviceParametersChanged(string deviceId)
-        {
-            foreach (IFiresecCallback callback in callbacks)
-            {
-                try
-                {
-                    if (callback != null)
-                    {
-                        callback.DeviceParametersChanged(deviceId);
-                    }
-                }
-                catch
-                {
-                    //callback = null;
-                    //callbacks.Remove(callback);
-                }
-            }
-        }
-
-        public static void OnZoneStateChanged(string zoneNo)
-        {
-            foreach (IFiresecCallback callback in callbacks)
-            {
-                try
-                {
-                    if (callback != null)
-                    {
-                        callback.ZoneStateChanged(zoneNo);
-                    }
-                }
-                catch
-                {
-                    //callback = null;
-                    //callbacks.Remove(callback);
-                }
-            }
-        }
         public void Connect()
         {
-            currentCallbacks = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-            callbacks.Add(currentCallbacks);
+            _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+            CallbackManager.Add(_currentCallback);
         }
 
         public void Disconnect()
         {
-            callbacks.Remove(currentCallbacks);
+            CallbackManager.Remove(_currentCallback);
         }
 
-        public CurrentConfiguration GetConfiguration()
+        public DeviceConfiguration GetDeviceConfiguration()
         {
-            return FiresecManager.Configuration;
+            return FiresecManager.DeviceConfiguration;
         }
 
-        public CurrentStates GetStates()
+        public DeviceConfigurationStates GetStates()
         {
-            return FiresecManager.States;
+            return FiresecManager.DeviceConfigurationStates;
         }
 
-        public void SetConfiguration(CurrentConfiguration currentConfiguration)
+        public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
+            FiresecManager.DeviceConfiguration = deviceConfiguration;
             FiresecManager.SetNewConfig();
         }
 
         public void WriteConfiguration(string devicePath)
         {
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, devicePath);
+        }
+
+        public SystemConfiguration GetSystemConfiguration()
+        {
+            return FiresecManager.SystemConfiguration;
+        }
+
+        public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
+        {
+            FiresecManager.SystemConfiguration = systemConfiguration;
         }
 
         public List<JournalItem> ReadJournal(int startIndex, int count)

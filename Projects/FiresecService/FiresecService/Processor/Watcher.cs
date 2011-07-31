@@ -70,7 +70,7 @@ namespace FiresecService
                     if (Convert.ToInt32(innerJournalItem.IDEvents) > LastEventId)
                     {
                         var journalItem = JournalConverter.Convert(innerJournalItem);
-                        FiresecService.OnNewJournalItem(journalItem);
+                        CallbackManager.OnNewJournalItem(journalItem);
                     }
                 }
                 LastEventId = Convert.ToInt32(document.Journal[0].IDEvents);
@@ -82,7 +82,7 @@ namespace FiresecService
             var coreParameters = FiresecInternalClient.GetDeviceParams();
             try
             {
-                foreach (var deviceState in FiresecManager.States.DeviceStates)
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
                     deviceState.ChangeEntities.Reset();
 
@@ -106,7 +106,7 @@ namespace FiresecService
 
                         if (deviceState.ChangeEntities.ParameterChanged)
                         {
-                            FiresecService.OnDeviceParametersChanged(deviceState.Id);
+                            CallbackManager.OnDeviceParametersChanged(deviceState.Id);
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace FiresecService
                 CalculateStates();
                 CalculateZones();
 
-                foreach (var deviceState in FiresecManager.States.DeviceStates)
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
                     deviceState.States = new List<string>();
                     foreach (var parentState in deviceState.ParentStringStates)
@@ -136,12 +136,12 @@ namespace FiresecService
                         deviceState.States.Add(selfState);
                 }
 
-                foreach (var deviceState in FiresecManager.States.DeviceStates)
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
                     if ((deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.StateChanged))
                     {
                         deviceState.OnStateChanged();
-                        FiresecService.OnDeviceStateChanged(deviceState.Id);
+                        CallbackManager.OnDeviceStateChanged(deviceState.Id);
                     }
                 }
             }
@@ -153,7 +153,7 @@ namespace FiresecService
 
         void SetStates(Firesec.CoreState.config coreState)
         {
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
@@ -198,24 +198,24 @@ namespace FiresecService
 
         void PropogateStates()
         {
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 deviceState.ParentInnerStates = new List<InnerState>();
                 deviceState.ParentStringStates = new List<string>();
             }
 
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 foreach (var state in deviceState.InnerStates)
                 {
                     if ((state.IsActive) && (state.AffectChildren))
                     {
-                        foreach (var chilDevice in FiresecManager.States.DeviceStates)
+                        foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 chilDevice.ParentInnerStates.Add(state);
-                                var device = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
                                 chilDevice.ParentStringStates.Add(device.Driver.ShortName + " - " + state.Name);
                                 chilDevice.ChangeEntities.StatesChanged = true;
                             }
@@ -227,7 +227,7 @@ namespace FiresecService
 
         void CalculateStates()
         {
-            foreach (var deviceState in FiresecManager.States.DeviceStates)
+            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 int minPriority = 7;
                 InnerState sourceState = null;
@@ -275,16 +275,16 @@ namespace FiresecService
 
         void CalculateZones()
         {
-            if (FiresecManager.States.ZoneStates != null)
+            if (FiresecManager.DeviceConfigurationStates.ZoneStates != null)
             {
-                foreach (var zoneState in FiresecManager.States.ZoneStates)
+                foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
                 {
                     int minZonePriority = 8;
-                    foreach (var device in FiresecManager.Configuration.Devices)
+                    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
-                            var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+                            var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
                             if (deviceState.MinPriority < minZonePriority)
                                 minZonePriority = deviceState.MinPriority;
@@ -303,7 +303,7 @@ namespace FiresecService
 
                     if (ZoneChanged)
                     {
-                        FiresecService.OnZoneStateChanged(zoneState.No);
+                        CallbackManager.OnZoneStateChanged(zoneState.No);
                     }
                 }
             }

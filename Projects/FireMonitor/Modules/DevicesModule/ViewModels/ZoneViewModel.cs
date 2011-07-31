@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
             SelectCommand = new RelayCommand(OnSelect);
 
             Zone = zone;
-            ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+            ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
             State = zoneState.State;
         }
 

@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return from Zone zone in FiresecManager.Configuration.Zones
+                return from Zone zone in FiresecManager.DeviceConfiguration.Zones
                        orderby Convert.ToInt32(zone.No)
                        select new ZoneViewModel(zone);
             }
@@ -61,7 +61,7 @@ namespace DevicesModule.ViewModels
 
         void OnZoneStateChanged(string zoneNo)
         {
-            ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+            ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             if (zoneState != null)
             {
                 ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
@@ -74,7 +74,7 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            DeviceState deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == id);
+            DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
             if (deviceState != null)
             {
                 if (Devices != null)
@@ -91,7 +91,7 @@ namespace DevicesModule.ViewModels
 
         void OnZoneStateChangedEvent(string zoneNo)
         {
-            ZoneState zoneState = FiresecManager.States.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+            ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
             zoneViewModel.State = zoneState.State;
         }
@@ -109,7 +109,7 @@ namespace DevicesModule.ViewModels
 
             HashSet<Device> devices = new HashSet<Device>();
 
-            foreach (var device in FiresecManager.Configuration.Devices)
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 if (device.Driver.IsZoneDevice)
                 {

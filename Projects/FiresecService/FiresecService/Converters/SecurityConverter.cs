@@ -9,9 +9,10 @@ namespace FiresecService.Converters
     {
         public static void Convert(Firesec.CoreConfig.config firesecConfig)
         {
-            FiresecManager.Configuration.Users = new List<User>();
-            FiresecManager.Configuration.UserGroups = new List<UserGroup>();
-            FiresecManager.Configuration.Perimissions = new List<Perimission>();
+            FiresecManager.SystemConfiguration = new SystemConfiguration();
+            FiresecManager.SystemConfiguration.Users = new List<User>();
+            FiresecManager.SystemConfiguration.UserGroups = new List<UserGroup>();
+            FiresecManager.SystemConfiguration.Perimissions = new List<Perimission>();
 
             foreach (var firesecUser in FiresecManager.CoreConfig.user)
             {
@@ -31,7 +32,7 @@ namespace FiresecService.Converters
                     }
                 }
 
-                FiresecManager.Configuration.Users.Add(user);
+                FiresecManager.SystemConfiguration.Users.Add(user);
             }
 
             foreach (var firesecUserGroup in FiresecManager.CoreConfig.userGroup)
@@ -39,7 +40,7 @@ namespace FiresecService.Converters
                 UserGroup userGroup = new UserGroup();
                 userGroup.Id = firesecUserGroup.param.value;
                 userGroup.Name = firesecUserGroup.name;
-                FiresecManager.Configuration.UserGroups.Add(userGroup);
+                FiresecManager.SystemConfiguration.UserGroups.Add(userGroup);
             }
 
             var secObj = FiresecManager.CoreConfig.secObjType.FirstOrDefault(x => x.name == "Функции программы");
@@ -48,7 +49,7 @@ namespace FiresecService.Converters
                 Perimission perimission = new Perimission();
                 perimission.Id = firesecPerimission.num;
                 perimission.Name = firesecPerimission.name;
-                FiresecManager.Configuration.Perimissions.Add(perimission);
+                FiresecManager.SystemConfiguration.Perimissions.Add(perimission);
             }
 
             foreach (var secRight in FiresecManager.CoreConfig.secGUI.FirstOrDefault(x => x.name == "Функции программы").secRight)
@@ -64,7 +65,7 @@ namespace FiresecService.Converters
                 if (firesecUser != null)
                 {
                     string userId = firesecUser.param.value;
-                    var user = FiresecManager.Configuration.Users.FirstOrDefault(x => x.Id == userId);
+                    var user = FiresecManager.SystemConfiguration.Users.FirstOrDefault(x => x.Id == userId);
 
                     if (secRight.deleteflag != "1")
                     {
@@ -79,18 +80,18 @@ namespace FiresecService.Converters
                 if (firesecGroup != null)
                 {
                     string groupId = firesecGroup.param.value;
-                    var group = FiresecManager.Configuration.UserGroups.FirstOrDefault(x => x.Id == groupId);
+                    var group = FiresecManager.SystemConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
                     group.Permissions.Add(permissionId);
                 }
             }
         }
 
-        public static void ConvertBack(CurrentConfiguration configuration)
+        public static void ConvertBack(SystemConfiguration systemConfiguration)
         {
             int idx = 0;
 
             List<userGroupType> internalGroups = new List<userGroupType>();
-            foreach (var group in configuration.UserGroups)
+            foreach (var group in systemConfiguration.UserGroups)
             {
                 userGroupType internalGroup = new userGroupType();
                 internalGroup.idx = idx.ToString();
@@ -107,7 +108,7 @@ namespace FiresecService.Converters
             FiresecManager.CoreConfig.userGroup = internalGroups.ToArray();
 
             List<userType> internalUsers = new List<userType>();
-            foreach (var user in configuration.Users)
+            foreach (var user in systemConfiguration.Users)
             {
                 userType internalUser = new userType();
                 internalUser.idx = idx.ToString();
@@ -147,7 +148,7 @@ namespace FiresecService.Converters
 
             List<secRightType> permissionBindings = new List<secRightType>();
 
-            foreach (var group in FiresecManager.Configuration.UserGroups)
+            foreach (var group in FiresecManager.SystemConfiguration.UserGroups)
             {
                 var internalGroup = FiresecManager.CoreConfig.userGroup.FirstOrDefault(x => x.name == group.Name);
 
@@ -162,7 +163,7 @@ namespace FiresecService.Converters
                 }
             }
 
-            foreach (var user in FiresecManager.Configuration.Users)
+            foreach (var user in FiresecManager.SystemConfiguration.Users)
             {
                 var internalUser = FiresecManager.CoreConfig.user.FirstOrDefault(x => x.name == user.Name);
 

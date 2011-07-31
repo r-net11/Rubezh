@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
         {
             HashSet<Device> devices = new HashSet<Device>();
 
-            foreach (var device in FiresecManager.Configuration.Devices)
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 if (Devices.Any(x => x.Device.Id == device.Id))
                     continue;

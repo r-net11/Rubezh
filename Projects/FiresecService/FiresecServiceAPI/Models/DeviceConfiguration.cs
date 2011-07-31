@@ -5,13 +5,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class CurrentConfiguration
+    public class DeviceConfiguration
     {
-        public CurrentConfiguration()
-        {
-            Journals = new List<JournalFilter>();
-        }
-
         public List<Device> Devices { get; set; }
 
         [DataMember]
@@ -25,18 +20,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<Direction> Directions { get; set; }
-
-        [DataMember]
-        public List<JournalFilter> Journals { get; set; }
-
-        [DataMember]
-        public List<User> Users { get; set; }
-
-        [DataMember]
-        public List<UserGroup> UserGroups { get; set; }
-
-        [DataMember]
-        public List<Perimission> Perimissions { get; set; }
 
         public void UpdateDrivers()
         {

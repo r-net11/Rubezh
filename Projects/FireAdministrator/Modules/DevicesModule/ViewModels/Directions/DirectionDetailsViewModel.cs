@@ -28,9 +28,9 @@ namespace DevicesModule.ViewModels
 
             Direction = new Direction();
             Direction.Name = "Новое направление";
-            if (FiresecManager.Configuration.Directions.Count > 0)
+            if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
             {
-                int maxId = FiresecManager.Configuration.Directions.Max(x => x.Id);
+                int maxId = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id);
                 Id = maxId + 1;
             }
             else
@@ -52,11 +52,11 @@ namespace DevicesModule.ViewModels
 
             if (direction.DeviceRm != null)
             {
-                DeviceRm = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == direction.DeviceRm);
+                DeviceRm = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == direction.DeviceRm);
             }
             if (direction.DeviceButton != null)
             {
-                DeviceButton = FiresecManager.Configuration.Devices.FirstOrDefault(x => x.UID == direction.DeviceButton);
+                DeviceButton = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == direction.DeviceButton);
             }
         }
 
@@ -174,7 +174,7 @@ namespace DevicesModule.ViewModels
         {
             if (_isNew)
             {
-                if (FiresecManager.Configuration.Directions.Any(x => x.Id == Id))
+                if (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
                     Close(false);
                     return;
@@ -183,7 +183,7 @@ namespace DevicesModule.ViewModels
             }
             else
             {
-                if ((Id != Direction.Id) && (FiresecManager.Configuration.Directions.Any(x => x.Id == Id)))
+                if ((Id != Direction.Id) && (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id)))
                 {
                     Close(false);
                     return;

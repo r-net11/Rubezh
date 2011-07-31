@@ -7,9 +7,9 @@ namespace FiresecService
 {
     public class Validator
     {
-        CurrentConfiguration configuration;
+        DeviceConfiguration configuration;
 
-        public void Validate(CurrentConfiguration currentConfiguration)
+        public void Validate(DeviceConfiguration currentConfiguration)
         {
             this.configuration = currentConfiguration;
             configuration.Update();

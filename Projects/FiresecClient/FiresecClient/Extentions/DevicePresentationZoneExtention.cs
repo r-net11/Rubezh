@@ -12,7 +12,7 @@ namespace FiresecClient
         {
             if (device.Driver.IsZoneDevice)
             {
-                Zone zone = FiresecManager.Configuration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                Zone zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                 if (zone != null)
                 {
                     return zone.PresentationName;

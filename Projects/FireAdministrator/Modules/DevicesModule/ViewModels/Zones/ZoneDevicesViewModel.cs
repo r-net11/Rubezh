@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
                 HashSet<Device> devices = new HashSet<Device>();
                 HashSet<Device> availableDevices = new HashSet<Device>();
 
-                foreach (var device in FiresecManager.Configuration.Devices)
+                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                 {
                     if (device.Driver.IsZoneDevice)
                     {

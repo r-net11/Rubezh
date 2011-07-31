@@ -9,7 +9,7 @@ namespace FiresecService.Converters
     {
         public static void Convert(Firesec.CoreConfig.config firesecConfig)
         {
-            FiresecManager.Configuration.Directions = new List<Direction>();
+            FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
 
             if (FiresecManager.CoreConfig.part != null)
             {
@@ -39,18 +39,18 @@ namespace FiresecService.Converters
                             direction.DeviceButton = buttonParameter.value;
                         }
 
-                        FiresecManager.Configuration.Directions.Add(direction);
+                        FiresecManager.DeviceConfiguration.Directions.Add(direction);
                     }
                 }
             }
         }
 
-        public static void ConvertBack(CurrentConfiguration currentConfiguration)
+        public static void ConvertBack(DeviceConfiguration currentConfiguration)
         {
             List<Firesec.CoreConfig.partType> innerDirections = new List<Firesec.CoreConfig.partType>();
             int no = 0;
 
-            foreach (var direction in FiresecManager.Configuration.Directions)
+            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
             {
                 Firesec.CoreConfig.partType innerDirection = new Firesec.CoreConfig.partType();
                 innerDirection.type = "direction";

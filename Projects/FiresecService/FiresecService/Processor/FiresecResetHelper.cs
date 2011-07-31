@@ -15,7 +15,7 @@ namespace FiresecService
                 if (resetItem == null)
                     continue;
 
-                var deviceState = FiresecManager.States.DeviceStates.FirstOrDefault(x => x.Id == resetItem.DeviceId);
+                var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == resetItem.DeviceId);
 
                 Firesec.CoreState.devType innerDevice = new Firesec.CoreState.devType();
                 innerDevice.name = deviceState.PlaceInTree;
