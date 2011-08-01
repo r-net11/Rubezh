@@ -40,6 +40,7 @@ namespace Firesec
 
         public static string GetCoreConfig()
         {
+            //return Connectoin.GetCoreConfigW();
             mscoree.IStream stream = Connectoin.GetCoreConfig();
             return ReadFromStream(stream);
         }
@@ -142,28 +143,37 @@ namespace Firesec
 
         static string ReadFromStream(mscoree.IStream stream)
         {
-            string message = "";
+            StringBuilder stringBuilder = new StringBuilder();
 
-            unsafe
+            try
             {
-                while (true)
+                unsafe
                 {
                     byte* unsafeBytes = stackalloc byte[1024];
-                    IntPtr _intPtr = new IntPtr(unsafeBytes);
-                    uint bytesRead = 0;
-                    stream.Read(_intPtr, 1024, out bytesRead);
-                    if (bytesRead == 0)
-                        break;
-
-                    byte[] bytes = new byte[bytesRead];
-                    for (int i = 0; i < bytesRead; i++)
+                    while (true)
                     {
-                        bytes[i] = unsafeBytes[i];
+                        IntPtr _intPtr = new IntPtr(unsafeBytes);
+                        uint bytesRead = 0;
+                        stream.Read(_intPtr, 1024, out bytesRead);
+                        if (bytesRead == 0)
+                            break;
+
+                        byte[] bytes = new byte[bytesRead];
+                        for (int i = 0; i < bytesRead; i++)
+                        {
+                            bytes[i] = unsafeBytes[i];
+                        }
+                        string part = Encoding.Default.GetString(bytes);
+                        stringBuilder.Append(part);
                     }
-                    message += Encoding.Default.GetString(bytes);
                 }
             }
-            return message;
+            catch(Exception ex)
+            {
+                ;
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

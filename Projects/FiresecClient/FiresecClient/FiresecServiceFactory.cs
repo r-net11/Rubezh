@@ -33,12 +33,12 @@ namespace FiresecClient
             _firesecEventSubscriber = new FiresecEventSubscriber();
             DuplexChannelFactory<IFiresecService> _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
 
-            foreach (OperationDescription op in _duplexChannelFactory.Endpoint.Contract.Operations)
+            foreach (OperationDescription operationDescription in _duplexChannelFactory.Endpoint.Contract.Operations)
             {
-                DataContractSerializerOperationBehavior dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
-                if (dataContractBehavior != null)
+                DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
+                if (dataContractSerializerOperationBehavior != null)
                 {
-                    dataContractBehavior.MaxItemsInObjectGraph = 2147483647;
+                    dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = 2147483647;
                 }
             }
 

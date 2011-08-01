@@ -27,7 +27,7 @@ namespace DevicesModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initialize();

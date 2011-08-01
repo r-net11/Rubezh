@@ -5,6 +5,9 @@ using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.ServiceModel.Description;
+using System.Xml.Serialization;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace FiresecClient
 {
@@ -25,6 +28,7 @@ namespace FiresecClient
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
             Update();
+
             _loggedInUserName = login;
             return true;
         }
@@ -82,6 +86,8 @@ namespace FiresecClient
 
         public static void SetConfiguration()
         {
+            _firesecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+            return;
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
@@ -117,19 +123,20 @@ namespace FiresecClient
 
         public static void LoadFromFile(string fileName)
         {
-            //CoreConfig = FiresecInternalClient.LoadConfigFromFile(fileName);
-            //FiresecManager.States = new CurrentStates();
-            //ZoneConverter.Convert(CoreConfig);
-            //DirectionConverter.Convert(CoreConfig);
-            //DeviceConverter.Convert(CoreConfig);
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            FileStream fileStream = new FileStream(fileName, FileMode.Open);
+            FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+            fileStream.Close();
+
+            Update();
         }
 
         public static void SaveToFile(string fileName)
         {
-            //ZoneConverter.ConvertBack(Configuration);
-            //DeviceConverter.ConvertBack(Configuration);
-            //DirectionConverter.ConvertBack(Configuration);
-            //FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            FileStream fileStream = new FileStream(fileName, FileMode.Create);
+            dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
+            fileStream.Close();
         }
     }
 }

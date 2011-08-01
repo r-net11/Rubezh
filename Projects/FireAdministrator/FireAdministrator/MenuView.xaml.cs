@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecClient;
 using Microsoft.Win32;
 using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace FireAdministrator
 {
@@ -36,17 +38,21 @@ namespace FireAdministrator
         private void OnLoadFromFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Filter = "firesec files|*.fsc";
+            openDialog.Filter = "firesec2 files|*.fsc2";
             if (openDialog.ShowDialog().Value)
             {
                 FiresecManager.LoadFromFile(openDialog.FileName);
             }
+
+            DevicesModule.DevicesModule.CreateViewModels();
+            ServiceFactory.Layout.Close();
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
         }
 
         private void OnSaveToFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "firesec files|*.fsc";
+            saveDialog.Filter = "firesec2 files|*.fsc2";
             if (saveDialog.ShowDialog().Value)
             {
                 FiresecManager.SaveToFile(saveDialog.FileName);

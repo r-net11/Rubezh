@@ -4,6 +4,8 @@ using System.IO;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace FiresecService
 {
@@ -47,12 +49,22 @@ namespace FiresecService
 
         public SystemConfiguration GetSystemConfiguration()
         {
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+            FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
+            FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
+            fileStream.Close();
+
             return FiresecManager.SystemConfiguration;
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             FiresecManager.SystemConfiguration = systemConfiguration;
+
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+            FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Create);
+            dataContractSerializer.WriteObject(fileStream, FiresecManager.SystemConfiguration);
+            fileStream.Close();
         }
 
         public List<JournalItem> ReadJournal(int startIndex, int count)

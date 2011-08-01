@@ -27,6 +27,8 @@ namespace FiresecService
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
+            binding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
+
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
 
