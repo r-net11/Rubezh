@@ -121,6 +121,16 @@ namespace FiresecClient
             return _firesecService.ReadJournal(startIndex, count);
         }
 
+        public static List<string> GetSoundsFileName()
+        {
+            return _firesecService.GetSoundsFileName();
+        }
+
+        public static Stream GetFile(string filepath)
+        {
+            return _firesecService.GetFile(filepath);
+        }
+
         public static void LoadFromFile(string fileName)
         {
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));

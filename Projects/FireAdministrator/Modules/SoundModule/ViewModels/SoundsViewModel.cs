@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using System.Media;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace SoundsModule.ViewModels
 {
@@ -13,18 +15,71 @@ namespace SoundsModule.ViewModels
 
         public void Initialize()
         {
+            AvailableStates = new ObservableCollection<string>();
+            AvailableSounds = new ObservableCollection<string>();
+            AvailableSpeakers = new ObservableCollection<string>();
+            LoadSoundsData = new SoundsLoadViewModel();
+            LoadSoundsData.Inicialized(AvailableStates, AvailableSounds, AvailableSpeakers);
+
             States = new ObservableCollection<StateViewModel>();
-
-            States.Add(new StateViewModel("Тревога", SoundPl));
-            States.Add(new StateViewModel("Внимание", SoundPl));
-            States.Add(new StateViewModel("Неисправность", SoundPl));
-            States.Add(new StateViewModel("Требуется обслуживание", SoundPl));
-            States.Add(new StateViewModel("Отключено", SoundPl));
-            States.Add(new StateViewModel("Неизвестно", SoundPl));
-            States.Add(new StateViewModel("Норма(*)", SoundPl));
-            States.Add(new StateViewModel("Норма", SoundPl));
-
+            foreach (string str in AvailableStates)
+            {
+                States.Add(new StateViewModel(str,SoundPl));
+            }
             SelectedState = States[0];
+        }
+
+        private SoundsLoadViewModel _loadSoundsData;
+        public SoundsLoadViewModel LoadSoundsData
+        {
+            get 
+            {
+                return _loadSoundsDatal; 
+            }
+
+            set 
+            {
+                LoadSoundsData = value;
+            }
+        }
+
+        private ObservableCollection<string> _availableStates;
+        public ObservableCollection<string> AvailableStates
+        {
+            get
+            {
+                return _availableStates;
+            }
+            set
+            {
+                _availableStates = value;
+            }
+        }
+
+        private ObservableCollection<string> _availableSounds;
+        public ObservableCollection<string> AvailableSounds
+        {
+            get
+            {
+                return _availableSounds;
+            }
+            set
+            {
+                _availableSounds = value;
+            }
+        }
+        
+        private ObservableCollection<string> _availableSpeakers;
+        public ObservableCollection<string> AvailableSpeakers
+        {
+            get
+            {
+                return _availableSpeakers;
+            }
+            set
+            {
+                _availableSpeakers = value;
+            }
         }
 
         ObservableCollection<StateViewModel> _states;
@@ -61,6 +116,11 @@ namespace SoundsModule.ViewModels
             {
                 _soundPl = value;
             }
+        }
+
+        public void CreateHash()
+        {
+            
         }
 
     }

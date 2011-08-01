@@ -60,6 +60,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
@@ -104,9 +105,11 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="10" DataContext="{Binding SelectedState}">
-            <!--<Button HorizontalAlignment="Left" Content="Проверка" Name="btnCheck" Width="100" Command="{StaticResource PlaySoundCommand}"/>-->
             <CheckBox HorizontalAlignment="Left" IsChecked="{Binding IsSoundPlayed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
+        </Grid>
+        <Grid Grid.Row="2">
+            <Button HorizontalAlignment="Left" Content="Load" Name="btnLoad" Width="100" Command="{Binding LoadSoundCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -51,6 +51,9 @@ namespace FiresecAPI
         void ExecuteCommand(string devicePath, string methodName);
 
         [OperationContract]
-        Stream GetFile();
+        List<string> GetSoundsFileName();
+
+        [OperationContract]
+        Stream GetFile(string filepath);
     }
 }

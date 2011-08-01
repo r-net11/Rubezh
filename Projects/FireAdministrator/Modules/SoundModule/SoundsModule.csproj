@@ -77,6 +77,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SoundsModule.cs" />
+    <Compile Include="ViewModels\SoundsLoadViewModel.cs" />
     <Compile Include="ViewModels\SoundsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="Views\SoundsView.xaml.cs">
@@ -96,6 +97,10 @@
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>

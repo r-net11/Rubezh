@@ -109,9 +109,20 @@ namespace FiresecService
             FiresecInternalClient.ExecuteCommand(devicePath, methodName);
         }
 
-        public Stream GetFile()
+        public List<string> GetSoundsFileName()
         {
-            string filePath = @"D:\xxx.txt";
+            List<string> listSoungsFileName = new List<string>();
+            var soungsFileName = Directory.GetFiles(@"C:\Program Files\Firesec\Sounds");
+            foreach (string str in soungsFileName)
+            {
+                listSoungsFileName.Add(Path.GetFileName(str));
+            }
+            return listSoungsFileName;
+        }
+
+        public Stream GetFile(string filename)
+        {
+            string filePath = @"C:\Program Files\Firesec\Sounds\" + filename;
 
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
