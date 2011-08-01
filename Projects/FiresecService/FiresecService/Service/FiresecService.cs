@@ -49,10 +49,10 @@ namespace FiresecService
 
         public SystemConfiguration GetSystemConfiguration()
         {
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
-            FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
-            fileStream.Close();
+            //DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+            //FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
+            //FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
+            //fileStream.Close();
 
             return FiresecManager.SystemConfiguration;
         }
