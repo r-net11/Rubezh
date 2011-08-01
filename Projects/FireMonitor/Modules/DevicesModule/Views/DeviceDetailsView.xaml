@@ -6,64 +6,23 @@
              xmlns:vsm="clr-namespace:System.Windows;assembly=PresentationFramework"
              xmlns:controls="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
              xmlns:controlsPrimitives="clr-namespace:System.Windows.Controls.Primitives;assembly=PresentationFramework"
-             d:DesignHeight="184" d:DesignWidth="314" MinHeight="100" MinWidth="200">
+             MinHeight="100" MinWidth="200">
     <UserControl.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <Style TargetType="controls:TabControl" x:Key="newTabControlStyle">
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFA3AEB9" Offset="0"/>
-                        <GradientStop Color="#FF8399A9" Offset="0.375"/>
-                        <GradientStop Color="#FF718597" Offset="0.375"/>
-                        <GradientStop Color="#FF617584" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderBrush">
-                <Setter.Value>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                        <GradientStop Color="Gray" Offset="0"/>
-                        <GradientStop Color="Gray" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="Padding" Value="1" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        </Style>
-        <Style TargetType="controls:TabItem">
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Background" Value="#FF1F3B53" />
-            <Setter Property="BorderBrush" Value="#FFA3AEB9" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Padding" Value="6,2,6,2" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="MinWidth" Value="5" />
-            <Setter Property="MinHeight" Value="5" />
-        </Style>
+        <!--<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />-->
     </UserControl.Resources>
-    <UserControl.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#4D4D4D" Offset="0"/>
-            <GradientStop Color="#4D4D4D" Offset="1"/>
-        </LinearGradientBrush>
-    </UserControl.Background>
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl Style="{StaticResource newTabControlStyle}" Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ContentControl Grid.Column="0" Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <TextBlock Grid.Column="1" Text="{Binding State}" Margin="5" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Row="0" Grid.Column="0" Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding State}" Margin="5" />
+        <TabControl Grid.Row="1">
             <TabItem Header="Основные">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
@@ -134,7 +93,7 @@
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="1" Margin="0">
+        <StackPanel Grid.Row="2" Margin="0">
             <Button Name="btnClose" HorizontalAlignment="Right" Content="Закрыть" Command="{Binding CloseCommand}" Width="100" Margin="0" Foreground="White" Background="Gray" />
         </StackPanel>
     </Grid>

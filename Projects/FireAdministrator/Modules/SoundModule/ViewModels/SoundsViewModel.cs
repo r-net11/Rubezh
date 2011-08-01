@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using System.Media;
 
 namespace SoundsModule.ViewModels
 {
@@ -7,20 +8,21 @@ namespace SoundsModule.ViewModels
     {
         public SoundsViewModel()
         {
+            SoundPl = new SoundPlayer();
         }
 
         public void Initialize()
         {
             States = new ObservableCollection<StateViewModel>();
 
-            States.Add(new StateViewModel("Тревога"));
-            States.Add(new StateViewModel("Внимание"));
-            States.Add(new StateViewModel("Неисправность"));
-            States.Add(new StateViewModel("Требуется обслуживание"));
-            States.Add(new StateViewModel("Отключено"));
-            States.Add(new StateViewModel("Неизвестно"));
-            States.Add(new StateViewModel("Норма(*)"));
-            States.Add(new StateViewModel("Норма"));
+            States.Add(new StateViewModel("Тревога", SoundPl));
+            States.Add(new StateViewModel("Внимание", SoundPl));
+            States.Add(new StateViewModel("Неисправность", SoundPl));
+            States.Add(new StateViewModel("Требуется обслуживание", SoundPl));
+            States.Add(new StateViewModel("Отключено", SoundPl));
+            States.Add(new StateViewModel("Неизвестно", SoundPl));
+            States.Add(new StateViewModel("Норма(*)", SoundPl));
+            States.Add(new StateViewModel("Норма", SoundPl));
 
             SelectedState = States[0];
         }
@@ -46,5 +48,20 @@ namespace SoundsModule.ViewModels
                 OnPropertyChanged("SelectedState");
             }
         }
+
+        SoundPlayer _soundPl;
+        public SoundPlayer SoundPl
+        {
+            get 
+            {
+                return _soundPl; 
+            }
+
+            set 
+            {
+                _soundPl = value;
+            }
+        }
+
     }
 }

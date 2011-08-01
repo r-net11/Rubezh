@@ -6,5 +6,5 @@
     <DataTemplate DataType="{x:Type ViewModels:SoundsViewModel}">
         <Views:SoundsView />
     </DataTemplate>
-    
+
 </ResourceDictionary>

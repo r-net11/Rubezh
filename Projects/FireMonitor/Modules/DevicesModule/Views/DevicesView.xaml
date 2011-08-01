@@ -17,7 +17,6 @@
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                         <DataGridTemplateColumn.CellTemplate>
-                            RowHeight="20" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>

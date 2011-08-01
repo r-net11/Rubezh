@@ -4,48 +4,109 @@
              xmlns:Converters="clr-namespace:SoundsModule.Converters">
     <UserControl.Resources>
         <Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <ControlTemplate x:Key="ComboBoxToggleButton"
+                 TargetType="{x:Type ToggleButton}">
+            <Label>
+                <Label.Background>
+                    <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
+                </Label.Background>
+            </Label>
+        </ControlTemplate>
+        <Style x:Key="MyToggleButton" TargetType="ToggleButton">
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="true">
+                    <Setter Property = "Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="false">
+                    <Setter Property = "Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SoundButton" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property = "Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="false">
+                    <Setter Property = "Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger> 
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property = "Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+
+        <Grid Grid.Row="0" >
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedState}"
+                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Звук" Width="1*" Binding="{Binding Sound}" />
-                    <DataGridTextColumn  Header="PC Speaker" Width="1*" Binding="{Binding Speaker}" />
-                    <DataGridTextColumn Header="Непрерывно" Width="1*" Binding="{Binding IsContinious, Converter={StaticResource BoolToStringConverter}}" />
+                    
+                    <DataGridTemplateColumn Header="Звук" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Sound}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding Sound}" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="PC Speaker" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Speaker}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding Speaker}" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Непрерывно" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
 
-        <Grid Grid.Row="1" DataContext="{Binding SelectedState}">
-            <StackPanel>
-                <TextBlock Text="Звук" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding Sound}" Margin="2" />
-                <TextBlock Text="Встроенный динамик (PC Speaker)" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding Speaker}" Margin="2" />
-                <CheckBox IsChecked="{Binding IsContinious}" Content="Воспроизводить звук непрерывно" Margin="2" />
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="2" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" Content="Воспроизвести" Name="btnPlay" Width="100"/>
-            <Button Grid.Row="0" Grid.Column="2" Content="Сохранить" Name="btnSave" Width="100"/>
-            <Button Grid.Row="0" Grid.Column="3" Content="Отмена" Name="btnCansel" Width="100"/>
+        <Grid Grid.Row="1" Margin="10" DataContext="{Binding SelectedState}">
+            <!--<Button HorizontalAlignment="Left" Content="Проверка" Name="btnCheck" Width="100" Command="{StaticResource PlaySoundCommand}"/>-->
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding IsSoundPlayed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
     </Grid>
 </UserControl>
