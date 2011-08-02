@@ -1,16 +1,16 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using JournalModule.ViewModels;
+using FiltersModule.ViewModels;
 using Microsoft.Practices.Prism.Modularity;
 
-namespace JournalModule
+namespace FiltersModule
 {
-    public class JournalModule : IModule
+    public class FiltersModule : IModule
     {
-        static JournalsViewModel journalViewModel;
+        static FiltersViewModel journalViewModel;
 
-        public JournalModule()
+        public FiltersModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
         }
@@ -29,7 +29,7 @@ namespace JournalModule
 
         void CreateViewModels()
         {
-            journalViewModel = new JournalsViewModel();
+            journalViewModel = new FiltersViewModel();
         }
 
         static void OnShowJournal(string obj)

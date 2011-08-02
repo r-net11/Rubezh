@@ -24,10 +24,10 @@ namespace Infrastructure.Common.Converters
                 case 4:
                     return "Сеть передачи данных";
 
-                case 6:
+                case 5:
                     return "Удаленный сервер";
 
-                case 7:
+                case 6:
                     return "[Без устройства]";
 
                 default:

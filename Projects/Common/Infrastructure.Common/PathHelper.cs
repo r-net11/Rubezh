@@ -8,6 +8,7 @@ namespace Infrastructure.Common
         public static string Report = Data + "ReportTemplates/TypesCountReport.xaml";
 
         public static string DeviceLibraryFileName = Data + "DeviceLibrary.xml";
+        public static string JournalFiltersFileName = Data + "JournalFilters.xml";
         public static string TransormFileName = Data + "svg2xaml.xsl";
 
         public static string Data

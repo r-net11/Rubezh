@@ -61,11 +61,11 @@
     <Compile Include="AddressConverter.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IndicatorLogic.cs" />
     <Compile Include="Models\JournalFilter.cs" />
+    <Compile Include="Models\JournalFiltersManager.cs" />
     <Compile Include="Models\JournalItem.cs" />
+    <Compile Include="Models\JournalManager.cs" />
     <Compile Include="Models\PDUGroupLogic.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="ValidationError.cs" />
@@ -118,6 +118,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>

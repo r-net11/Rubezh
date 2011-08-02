@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -13,10 +14,10 @@ namespace FiresecAPI.Models
         None
     }
 
-    [DataContract]
+    [Serializable]
     public class DeviceCategory
     {
-        [DataMember]
+        [XmlAttribute]
         public int Id { get; set; }
 
         public DeviceCategoryType DeviceCategoryType
@@ -24,24 +25,37 @@ namespace FiresecAPI.Models
             get { return (DeviceCategoryType) Id; }
         }
 
-        public static bool operator ==(DeviceCategory value1, DeviceCategory value2)
+        public string DeviceCategoryName
         {
-            return value1.Id == value2.Id;
-        }
+            get
+            {
+                switch (Id)
+                {
+                    case 0:
+                        return "Прочие устройства";
 
-        public static bool operator !=(DeviceCategory value1, DeviceCategory value2)
-        {
-            return value1.Id != value2.Id;
-        }
+                    case 1:
+                        return "Прибор";
 
-        public override bool Equals(object obj)
-        {
-            return ((DeviceCategory) obj).Id == Id;
-        }
+                    case 2:
+                        return "Датчик";
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
+                    case 3:
+                        return "Исполнительное устройство";
+
+                    case 4:
+                        return "Сеть передачи данных";
+
+                    case 5:
+                        return "Удаленный сервер";
+
+                    case 6:
+                        return "[Без устройства]";
+
+                    default:
+                        return "";
+                }
+            }
         }
     }
 }

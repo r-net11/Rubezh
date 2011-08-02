@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="JournalModule.Views.JournalMenuView"
+﻿<UserControl x:Class="FiltersModule.Views.FilterMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,6 +17,10 @@
 
         <Button Command="{Binding RemoveCommand}" ToolTip="Удалить">
             <Image Source="/DevicesModule;component/Images/Delete.png" Height="32" />
+        </Button>
+        
+        <Button Command="{Binding SaveCommand}" ToolTip="Удалить" Margin="35,0,0,0">
+            <Image Source="/FireAdministrator;component/Images/Save.png" Height="32" />
         </Button>
     </ToolBar>
 </UserControl>

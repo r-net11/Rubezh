@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<JournalFiltersManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Filters>
+    <JournalFilter Name="фильтр1" LastRecordsCount="99" LastDaysCount="10">
+      <Events>
+        <State Id="0" />
+      </Events>
+      <Categories>
+        <DeviceCategory Id="3" />
+      </Categories>
+    </JournalFilter>
+    <JournalFilter Name="фильтр2" LastRecordsCount="96" LastDaysCount="16">
+      <Events>
+        <State Id="2" />
+        <State Id="4" />
+      </Events>
+      <Categories>
+        <DeviceCategory Id="0" />
+        <DeviceCategory Id="1" />
+        <DeviceCategory Id="2" />
+        <DeviceCategory Id="3" />
+        <DeviceCategory Id="4" />
+      </Categories>
+    </JournalFilter>
+  </Filters>
+</JournalFiltersManager>

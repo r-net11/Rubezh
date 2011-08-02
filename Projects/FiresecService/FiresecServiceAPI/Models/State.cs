@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -15,15 +17,50 @@ namespace FiresecAPI.Models
         No = 8
     }
 
+    [Serializable]
     [DataContract]
     public class State
     {
+        [XmlAttribute]
         [DataMember]
         public int Id { get; set; }
 
         public StateType StateType
         {
             get { return (StateType) Id; }
+        }
+
+        public string EventName
+        {
+            get
+            {
+                switch (Id)
+                {
+                    case 0:
+                        return "Тревога";
+
+                    case 1:
+                        return "Внимание";
+
+                    case 2:
+                        return "Неисправность";
+
+                    case 3:
+                        return "Требуется обслуживание";
+
+                    case 4:
+                        return "Тревоги отключены";
+
+                    case 6:
+                        return "Информация";
+
+                    case 7:
+                        return "Прочие";
+
+                    default:
+                        return "";
+                }
+            }
         }
 
         public override string ToString()
@@ -64,22 +101,32 @@ namespace FiresecAPI.Models
 
         public static bool operator ==(State value1, State value2)
         {
-            return value1.Id == value2.Id;
+            if (value1 == null && value2 == null)
+            {
+                return true;
+            }
+
+            if (value1 != null && value2 != null)
+            {
+                return value1.Id == value2.Id;
+            }
+
+            return false;
         }
 
         public static bool operator !=(State value1, State value2)
         {
-            return value1.Id != value2.Id;
-        }
+            if (value1 == null && value2 == null)
+            {
+                return false;
+            }
 
-        public override bool Equals(object obj)
-        {
-            return ((State) obj).Id == Id;
-        }
+            if (value1 != null && value2 != null)
+            {
+                return value1.Id == value2.Id;
+            }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
+            return true;
         }
     }
 }

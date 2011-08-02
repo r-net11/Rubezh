@@ -1,47 +1,45 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
+    [Serializable]
     public class JournalFilter
     {
-        public JournalFilter()
-        {
-            Events = new List<Event>{
-                new Event("Тревога"),
-                new Event("Внимание"),
-                new Event("Неисправность"),
-                new Event("Требуется обслуживание"),
-                new Event("Тревоги отключены"),
-                new Event("Информация"),
-                new Event("Прочие")
-            };
-
-            Categories = new List<Category>(){
-                new Category("Прочие устройства"),
-                new Category("Прибор"),
-                new Category("Датчик"),
-                new Category("Исполнительное устройство"),
-                new Category("Сеть передачи данных"),
-                new Category("Удаленный сервер"),
-                new Category("[Без устройства]")
-            };
-        }
-
-        [DataMember]
+        [XmlAttribute]
         public string Name { get; set; }
 
-        [DataMember]
+        [XmlAttribute]
         public string LastRecordsCount { get; set; }
 
-        [DataMember]
+        [XmlAttribute]
         public string LastDaysCount { get; set; }
 
-        [DataMember]
-        public List<Event> Events { get; set; }
+        public List<State> Events { get; set; }
 
-        [DataMember]
-        public List<Category> Categories { get; set; }
+        public List<DeviceCategory> Categories { get; set; }
+
+        public JournalFilter Copy()
+        {
+            var copyJournalFilter = new JournalFilter();
+            copyJournalFilter.Name = Name;
+            copyJournalFilter.LastRecordsCount = LastRecordsCount;
+            copyJournalFilter.LastDaysCount = LastDaysCount;
+
+            copyJournalFilter.Events = new List<State>();
+            foreach (var state in Events)
+            {
+                copyJournalFilter.Events.Add(new State() { Id = state.Id });
+            }
+
+            copyJournalFilter.Categories = new List<DeviceCategory>();
+            foreach (var category in Categories)
+            {
+                copyJournalFilter.Categories.Add(new DeviceCategory() { Id = category.Id });
+            }
+
+            return copyJournalFilter;
+        }
     }
 }

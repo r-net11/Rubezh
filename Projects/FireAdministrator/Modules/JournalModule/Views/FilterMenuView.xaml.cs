@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JournalModule.Views
+namespace FiltersModule.Views
 {
     /// <summary>
     /// Логика взаимодействия для JournalMenuView.xaml
     /// </summary>
-    public partial class JournalMenuView : UserControl
+    public partial class FilterMenuView : UserControl
     {
-        public JournalMenuView()
+        public FilterMenuView()
         {
             InitializeComponent();
         }

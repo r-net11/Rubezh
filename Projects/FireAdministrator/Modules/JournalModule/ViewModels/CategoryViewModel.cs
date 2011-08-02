@@ -1,34 +1,15 @@
 ﻿using Infrastructure.Common;
 
-namespace JournalModule.ViewModels
+namespace FiltersModule.ViewModels
 {
     public class CategoryViewModel : BaseViewModel
     {
-        public CategoryViewModel(string name)
+        public CategoryViewModel(int id)
         {
-            Name = name;
+            Id = id;
         }
 
-        string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        string _isEnabled;
-        public string IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
-            }
-        }
+        public int Id { get; private set; }
+        public bool IsChecked { get; set; }
     }
 }

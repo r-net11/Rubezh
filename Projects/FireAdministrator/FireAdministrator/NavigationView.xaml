@@ -67,7 +67,7 @@
             <TabItem IsSelected="{Binding IsJournalSelected}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Журнал" FontWeight="Bold" />
+                        <TextBlock Text="Фильтры" FontWeight="Bold" />
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>

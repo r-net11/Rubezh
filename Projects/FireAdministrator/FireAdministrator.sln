@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Devices", "Devices", "{5783
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundsModule", "Modules\SoundModule\SoundsModule.csproj", "{1D308F1E-F990-4CB8-8613-609C3637130D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JournalModule", "Modules\JournalModule\JournalModule.csproj", "{7867A1CC-8039-4D7C-B493-7C06E5CDA327}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiltersModule", "Modules\JournalModule\FiltersModule.csproj", "{7867A1CC-8039-4D7C-B493-7C06E5CDA327}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buttons", "..\Common\Buttons\Buttons.csproj", "{D8D17C88-CFA0-485A-95BA-A966C02562C1}"
 EndProject

@@ -161,9 +161,9 @@
       <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
       <Name>DevicesModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\JournalModule\JournalModule.csproj">
+    <ProjectReference Include="..\Modules\JournalModule\FiltersModule.csproj">
       <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>
-      <Name>JournalModule</Name>
+      <Name>FiltersModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\LibraryModule\LibraryModule.csproj">
       <Project>{16D926CB-C605-48A0-91FC-105C80AA685B}</Project>

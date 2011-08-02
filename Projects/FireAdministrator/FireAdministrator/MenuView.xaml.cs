@@ -62,7 +62,7 @@ namespace FireAdministrator
         private void OnValidate(object sender, RoutedEventArgs e)
         {
             DevicesModule.DevicesModule.Validate();
-            JournalModule.JournalModule.Validate();
+            FiltersModule.FiltersModule.Validate();
         }
     }
 }
