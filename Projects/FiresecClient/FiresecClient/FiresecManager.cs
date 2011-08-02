@@ -13,6 +13,7 @@ namespace FiresecClient
 {
     public class FiresecManager
     {
+        public static List<Driver> Drivers { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
@@ -24,6 +25,7 @@ namespace FiresecClient
             _firesecService = FiresecServiceFactory.Create();
 
             _firesecService.Connect();
+            Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
@@ -36,7 +38,11 @@ namespace FiresecClient
         static void Update()
         {
             DeviceConfiguration.Update();
-            DeviceConfiguration.UpdateDrivers();
+
+            foreach (var device in DeviceConfiguration.Devices)
+            {
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.DriverId);
+            }
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
@@ -91,9 +97,9 @@ namespace FiresecClient
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
-        public static void AddToIgnoreList(List<string> devicePaths)
+        public static void AddToIgnoreList(List<string> ids)
         {
-            _firesecService.AddToIgnoreList(devicePaths);
+            _firesecService.AddToIgnoreList(ids);
         }
 
         public static void RemoveFromIgnoreList(List<string> devicePaths)
@@ -111,9 +117,9 @@ namespace FiresecClient
             _firesecService.AddUserMessage(message);
         }
 
-        public static void ExecuteCommand(string devicePath, string methodName)
+        public static void ExecuteCommand(string id, string methodName)
         {
-            _firesecService.ExecuteCommand(devicePath, methodName);
+            _firesecService.ExecuteCommand(id, methodName);
         }
 
         public static List<JournalItem> ReadJournal(int startIndex, int count)

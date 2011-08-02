@@ -70,7 +70,7 @@ namespace FiresecService.Converters
         {
             var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             device.DriverId = driverId;
-            device.Driver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == driverId);
+            device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == driverId);
 
 
             device.IntAddress = System.Convert.ToInt32(innerDevice.addr);

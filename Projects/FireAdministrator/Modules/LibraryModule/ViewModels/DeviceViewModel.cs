@@ -13,7 +13,7 @@ namespace LibraryModule.ViewModels
         public DeviceViewModel(LibraryViewModel parent, DeviceLibrary.Models.Device device)
         {
             ParentLibrary = parent;
-            Driver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == device.Id);
+            Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.Id);
             SetStates(device);
 
             Initialize();

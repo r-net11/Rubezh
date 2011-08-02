@@ -21,8 +21,6 @@ namespace JournalModule.ViewModels
         {
             JournalItems = new ObservableCollection<JournalItemViewModel>();
 
-            //Read();
-
             Thread thread = new Thread(Read);
             thread.Priority = ThreadPriority.Highest;
             thread.Start();
@@ -31,10 +29,10 @@ namespace JournalModule.ViewModels
         void Read()
         {
             int lastJournalId = 0;
-            lastJournalId = 1000;
+            lastJournalId = 100000;
             while (true)
             {
-                List<JournalItem> journalItems = FiresecManager.ReadJournal(0, 1000);
+                List<JournalItem> journalItems = FiresecManager.ReadJournal(0, 100000);
 
                 if (journalItems == null)
                     break;

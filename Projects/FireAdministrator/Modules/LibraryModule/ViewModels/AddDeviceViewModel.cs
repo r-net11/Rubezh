@@ -14,7 +14,7 @@ namespace LibraryModule.ViewModels
             Title = "Добавить устройство";
 
             Items = new ObservableCollection<DeviceViewModel>();
-            foreach (var driver in FiresecManager.DeviceConfiguration.Drivers)
+            foreach (var driver in FiresecManager.Drivers)
             {
                 if (driver.IsPlaceable &&
                     !driver.IsIgnore &&

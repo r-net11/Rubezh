@@ -13,21 +13,10 @@ namespace FiresecAPI.Models
         public Device RootDevice { get; set; }
 
         [DataMember]
-        public List<Driver> Drivers { get; set; }
-
-        [DataMember]
         public List<Zone> Zones { get; set; }
 
         [DataMember]
         public List<Direction> Directions { get; set; }
-
-        public void UpdateDrivers()
-        {
-            foreach (var device in Devices)
-            {
-                device.Driver = Drivers.FirstOrDefault(x => x.Id == device.DriverId);
-            }
-        }
 
         public void Update()
         {

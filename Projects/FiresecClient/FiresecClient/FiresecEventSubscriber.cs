@@ -7,19 +7,25 @@ namespace FiresecClient
 {
     public class FiresecEventSubscriber : IFiresecCallback
     {
-        public void DeviceStateChanged(string deviceId)
+        public void DeviceStateChanged(DeviceState newDeviceState)
         {
-            OnDeviceStateChanged(deviceId);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == newDeviceState.Id);
+            deviceState.CopyFrom(newDeviceState);
+            OnDeviceStateChanged(deviceState.Id);
         }
 
-        public void DeviceParametersChanged(string deviceId)
+        public void DeviceParametersChanged(DeviceState newDeviceState)
         {
-            OnDeviceParametersChanged(deviceId);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == newDeviceState.Id);
+            deviceState.CopyFrom(newDeviceState);
+            OnDeviceParametersChanged(deviceState.Id);
         }
 
-        public void ZoneStateChanged(string zoneNo)
+        public void ZoneStateChanged(ZoneState newZoneState)
         {
-            OnZoneStateChanged(zoneNo);
+            var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
+            zoneState.State = newZoneState.State;
+            OnZoneStateChanged(zoneState.No);
         }
 
         public void NewJournalItem(JournalItem journalItem)

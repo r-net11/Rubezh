@@ -18,7 +18,7 @@ namespace FiresecAPI.Models
         [DataMember]
         public string Id { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string PlaceInTree { get; set; }
 
         [DataMember]
@@ -59,6 +59,20 @@ namespace FiresecAPI.Models
             {
                 return InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
             }
+        }
+
+        public void CopyFrom(DeviceState deviceState)
+        {
+        Id = deviceState.Id;
+        InnerStates = deviceState.InnerStates;
+        State = deviceState.State;
+        States = deviceState.States;
+        Parameters = deviceState.Parameters;
+        SelfStates = deviceState.SelfStates;
+        ParentInnerStates = deviceState.ParentInnerStates;
+        ParentStringStates = deviceState.ParentStringStates;
+        MinPriority = deviceState.MinPriority;
+        SourceState = deviceState.SourceState;
         }
 
         bool _isAutomaticOff = false;

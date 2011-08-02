@@ -87,7 +87,7 @@ namespace PlansModule.ViewModels
                 Selected();
         }
 
-        List<string> DevicesPlaceInTree
+        List<string> DevicesToIgnore
         {
             get
             {
@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
                        from device in FiresecManager.DeviceConfiguration.Devices
                        where device.ZoneNo == ZoneNo
                        where device.Driver.CanDisable
-                       select device.PlaceInTree);
+                       select device.Id);
             }
         }
 
@@ -111,7 +111,7 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)
             {
-                FiresecManager.AddToIgnoreList(DevicesPlaceInTree);
+                FiresecManager.AddToIgnoreList(DevicesToIgnore);
             }
         }
 
@@ -121,7 +121,7 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.Get<ISecurityService>().Check();
             if (result)
             {
-                FiresecManager.RemoveFromIgnoreList(DevicesPlaceInTree);
+                FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
             }
         }
 

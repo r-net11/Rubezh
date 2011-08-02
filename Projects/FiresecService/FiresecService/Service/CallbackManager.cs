@@ -45,7 +45,7 @@ namespace FiresecService
             }
         }
 
-        public static void OnDeviceStateChanged(string deviceId)
+        public static void OnDeviceStateChanged(DeviceState deviceState)
         {
             foreach (IFiresecCallback callback in _callbacks)
             {
@@ -53,7 +53,7 @@ namespace FiresecService
                 {
                     if (callback != null)
                     {
-                        callback.DeviceStateChanged(deviceId);
+                        callback.DeviceStateChanged(deviceState);
                     }
                 }
                 catch
@@ -64,7 +64,7 @@ namespace FiresecService
             }
         }
 
-        public static void OnDeviceParametersChanged(string deviceId)
+        public static void OnDeviceParametersChanged(DeviceState deviceState)
         {
             foreach (IFiresecCallback callback in _callbacks)
             {
@@ -72,7 +72,7 @@ namespace FiresecService
                 {
                     if (callback != null)
                     {
-                        callback.DeviceParametersChanged(deviceId);
+                        callback.DeviceParametersChanged(deviceState);
                     }
                 }
                 catch
@@ -83,7 +83,7 @@ namespace FiresecService
             }
         }
 
-        public static void OnZoneStateChanged(string zoneNo)
+        public static void OnZoneStateChanged(ZoneState zoneState)
         {
             foreach (IFiresecCallback callback in _callbacks)
             {
@@ -91,7 +91,7 @@ namespace FiresecService
                 {
                     if (callback != null)
                     {
-                        callback.ZoneStateChanged(zoneNo);
+                        callback.ZoneStateChanged(zoneState);
                     }
                 }
                 catch

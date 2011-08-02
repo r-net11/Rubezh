@@ -30,11 +30,11 @@ namespace FiresecClient
             {
                 if (deviceState.IsDisabled)
                 {
-                    FiresecManager.RemoveFromIgnoreList(new List<string>() { deviceState.Device.PlaceInTree });
+                    FiresecManager.RemoveFromIgnoreList(new List<string>() { deviceState.Device.Id });
                 }
                 else
                 {
-                    FiresecManager.AddToIgnoreList(new List<string>() { deviceState.Device.PlaceInTree });
+                    FiresecManager.AddToIgnoreList(new List<string>() { deviceState.Device.Id });
                 }
             }
         }

@@ -106,7 +106,7 @@ namespace FiresecService
 
                         if (deviceState.ChangeEntities.ParameterChanged)
                         {
-                            CallbackManager.OnDeviceParametersChanged(deviceState.Id);
+                            CallbackManager.OnDeviceParametersChanged(deviceState);
                         }
                     }
                 }
@@ -141,7 +141,7 @@ namespace FiresecService
                     if ((deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.StateChanged))
                     {
                         deviceState.OnStateChanged();
-                        CallbackManager.OnDeviceStateChanged(deviceState.Id);
+                        CallbackManager.OnDeviceStateChanged(deviceState);
                     }
                 }
             }
@@ -303,7 +303,7 @@ namespace FiresecService
 
                     if (ZoneChanged)
                     {
-                        CallbackManager.OnZoneStateChanged(zoneState.No);
+                        CallbackManager.OnZoneStateChanged(zoneState);
                     }
                 }
             }

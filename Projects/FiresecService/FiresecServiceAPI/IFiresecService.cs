@@ -15,6 +15,9 @@ namespace FiresecAPI
         void Disconnect();
 
         [OperationContract]
+        List<Driver> GetDrivers();
+
+        [OperationContract]
         DeviceConfiguration GetDeviceConfiguration();
 
         [OperationContract]
@@ -27,7 +30,7 @@ namespace FiresecAPI
         void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
-        void WriteConfiguration(string devicePath);
+        void WriteConfiguration(string id);
 
         [OperationContract]
         void SetSystemConfiguration(SystemConfiguration systemConfiguration);
@@ -36,10 +39,10 @@ namespace FiresecAPI
         List<JournalItem> ReadJournal(int startIndex, int count);
 
         [OperationContract]
-        void AddToIgnoreList(List<string> devicePaths);
+        void AddToIgnoreList(List<string> ids);
 
         [OperationContract]
-        void RemoveFromIgnoreList(List<string> devicePaths);
+        void RemoveFromIgnoreList(List<string> ids);
 
         [OperationContract]
         void ResetStates(List<ResetItem> resetItems);
@@ -48,7 +51,7 @@ namespace FiresecAPI
         void AddUserMessage(string message);
 
         [OperationContract]
-        void ExecuteCommand(string devicePath, string methodName);
+        void ExecuteCommand(string id, string methodName);
 
         [OperationContract]
         List<string> GetSoundsFileName();

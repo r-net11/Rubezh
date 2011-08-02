@@ -25,7 +25,7 @@ namespace FiresecAPI.Models
         [DataMember]
         public string DriverId { get; set; }
 
-        [DataMember]
+        //[DataMember]
         public string PlaceInTree { get; set; }
 
         [DataMember]

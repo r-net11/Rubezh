@@ -7,13 +7,13 @@ namespace FiresecAPI
     public interface IFiresecCallback
     {
         [OperationContract(IsOneWay = true)]
-        void DeviceStateChanged(string deviceId);
+        void DeviceStateChanged(DeviceState deviceState);
 
         [OperationContract(IsOneWay = true)]
-        void DeviceParametersChanged(string deviceId);
+        void DeviceParametersChanged(DeviceState deviceState);
 
         [OperationContract(IsOneWay = true)]
-        void ZoneStateChanged(string zoneNo);
+        void ZoneStateChanged(ZoneState zoneState);
 
         [OperationContract(IsOneWay = true)]
         void NewJournalItem(JournalItem journalItem);

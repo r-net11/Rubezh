@@ -7,6 +7,7 @@ namespace FiresecService
 {
     public class FiresecManager
     {
+        public static List<Driver> Drivers { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceConfigurationStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
@@ -37,13 +38,13 @@ namespace FiresecService
         public static void FillDrivrs(Firesec.Metadata.config metadata)
         {
             DriverConverter.Metadata = metadata;
-            DeviceConfiguration.Drivers = new List<Driver>();
+            Drivers = new List<Driver>();
             foreach (var firesecDriver in metadata.drv)
             {
-                Driver driver = DriverConverter.Convert(firesecDriver);
+                var driver = DriverConverter.Convert(firesecDriver);
                 if (driver.IsIgnore == false)
                 {
-                    DeviceConfiguration.Drivers.Add(driver);
+                    Drivers.Add(driver);
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.IO;
 using FiresecAPI;
@@ -28,6 +29,11 @@ namespace FiresecService
             CallbackManager.Remove(_currentCallback);
         }
 
+        public List<Driver> GetDrivers()
+        {
+            return FiresecManager.Drivers;
+        }
+
         public DeviceConfiguration GetDeviceConfiguration()
         {
             return FiresecManager.DeviceConfiguration;
@@ -44,9 +50,10 @@ namespace FiresecService
             FiresecManager.SetNewConfig();
         }
 
-        public void WriteConfiguration(string devicePath)
+        public void WriteConfiguration(string id)
         {
-            FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, devicePath);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+            FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
         public SystemConfiguration GetSystemConfiguration()
@@ -86,13 +93,25 @@ namespace FiresecService
             return journalItems;
         }
 
-        public void AddToIgnoreList(List<string> devicePaths)
+        public void AddToIgnoreList(List<string> ids)
         {
+            List<string> devicePaths = new List<string>();
+            foreach (var id in ids)
+            {
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+                devicePaths.Add(device.PlaceInTree);
+            }
             FiresecInternalClient.AddToIgnoreList(devicePaths);
         }
 
-        public void RemoveFromIgnoreList(List<string> devicePaths)
+        public void RemoveFromIgnoreList(List<string> ids)
         {
+            List<string> devicePaths = new List<string>();
+            foreach (var id in ids)
+            {
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+                devicePaths.Add(device.PlaceInTree);
+            }
             FiresecInternalClient.RemoveFromIgnoreList(devicePaths);
         }
 
@@ -106,9 +125,10 @@ namespace FiresecService
             FiresecInternalClient.AddUserMessage(message);
         }
 
-        public void ExecuteCommand(string devicePath, string methodName)
+        public void ExecuteCommand(string id, string methodName)
         {
-            FiresecInternalClient.ExecuteCommand(devicePath, methodName);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x=>x.Id == id);
+            FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 
         public List<string> GetSoundsFileName()

@@ -82,6 +82,7 @@ namespace FiltersModule.ViewModels
         }
 
         public JournalFilter JournalFilter { get; private set; }
+
         public bool IsAdditionalFilter { get; set; }
 
         public string MaxCountRecords

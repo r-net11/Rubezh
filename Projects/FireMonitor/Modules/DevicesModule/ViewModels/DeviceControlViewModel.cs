@@ -29,31 +29,31 @@ namespace DevicesModule.ViewModels
         public RelayCommand CloseCommand { get; private set; }
         void OnClose()
         {
-            FiresecManager.ExecuteCommand(_device.PlaceInTree, "BoltClose");
+            FiresecManager.ExecuteCommand(_device.Id, "BoltClose");
         }
 
         public RelayCommand StopCommand { get; private set; }
         void OnStop()
         {
-            FiresecManager.ExecuteCommand(_device.PlaceInTree, "BoltStop");
+            FiresecManager.ExecuteCommand(_device.Id, "BoltStop");
         }
 
         public RelayCommand OpenCommand { get; private set; }
         void OnOpen()
         {
-            FiresecManager.ExecuteCommand(_device.PlaceInTree, "BoltOpen");
+            FiresecManager.ExecuteCommand(_device.Id, "BoltOpen");
         }
 
         public RelayCommand AutomaticOnCommand { get; private set; }
         void OnAutomaticOn()
         {
-            FiresecManager.ExecuteCommand(_device.PlaceInTree, "BoltAutoOn");
+            FiresecManager.ExecuteCommand(_device.Id, "BoltAutoOn");
         }
 
         public RelayCommand AutomaticOffCommand { get; private set; }
         void OnAutomaticOff()
         {
-            FiresecManager.ExecuteCommand(_device.PlaceInTree, "BoltAutoOff");
+            FiresecManager.ExecuteCommand(_device.Id, "BoltAutoOff");
         }
 
         public RelayCommand StartCommand { get; private set; }

@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return from Driver driver in FiresecManager.DeviceConfiguration.Drivers
+                return from Driver driver in FiresecManager.Drivers
                        where _parent.Driver.AvaliableChildren.Contains(driver.Id)
                        select driver;
             }
