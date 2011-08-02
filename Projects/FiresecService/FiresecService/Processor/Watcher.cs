@@ -128,16 +128,6 @@ namespace FiresecService
 
                 foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
-                    deviceState.States = new List<string>();
-                    foreach (var parentState in deviceState.ParentStringStates)
-                        deviceState.States.Add(parentState);
-
-                    foreach (var selfState in deviceState.SelfStates)
-                        deviceState.States.Add(selfState);
-                }
-
-                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
-                {
                     if ((deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.StateChanged))
                     {
                         deviceState.OnStateChanged();
@@ -158,7 +148,6 @@ namespace FiresecService
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
                 bool hasOneActiveState = false;
-                deviceState.SelfStates = new List<string>();
 
                 if (innerDevice != null)
                 {
@@ -168,7 +157,6 @@ namespace FiresecService
                         if (state.IsActive != IsActive)
                         {
                             hasOneActiveState = true;
-                            deviceState.SelfStates.Add(state.Name);
                         }
                         state.IsActive = IsActive;
                     }

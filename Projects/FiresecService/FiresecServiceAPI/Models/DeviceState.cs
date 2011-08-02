@@ -28,18 +28,12 @@ namespace FiresecAPI.Models
         public State State { get; set; }
 
         [DataMember]
-        public List<string> States { get; set; }
-
-        [DataMember]
         public List<Parameter> Parameters { get; set; }
 
         //[DataMember]
         public ChangeEntities ChangeEntities { get; set; }
 
-        [DataMember]
-        public List<string> SelfStates { get; set; }
-
-        [DataMember]
+        //[DataMember]
         public List<InnerState> ParentInnerStates { get; set; }
 
         [DataMember]
@@ -66,9 +60,7 @@ namespace FiresecAPI.Models
         Id = deviceState.Id;
         InnerStates = deviceState.InnerStates;
         State = deviceState.State;
-        States = deviceState.States;
         Parameters = deviceState.Parameters;
-        SelfStates = deviceState.SelfStates;
         ParentInnerStates = deviceState.ParentInnerStates;
         ParentStringStates = deviceState.ParentStringStates;
         MinPriority = deviceState.MinPriority;
