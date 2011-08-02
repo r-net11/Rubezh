@@ -9,13 +9,13 @@ using System.IO;
 
 namespace SoundsModule.ViewModels
 {
-    public class StateViewModel : BaseViewModel
+    public class SoundViewModel : BaseViewModel
     {
-        public StateViewModel(string name, SoundPlayer soundPlayer,
+        public SoundViewModel(string name, SoundPlayer soundPlayer,
             ObservableCollection<string> availableSounds,
             ObservableCollection<string> availableSpeakers)
         {
-            Name = name;
+            StateName = name;
             IsContinious = false;
             IsNowPlaying = false;
             SoundPlayer = soundPlayer;
@@ -24,29 +24,29 @@ namespace SoundsModule.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
 
-        string _name;
-        public string Name
+        string _stateName;
+        public string StateName
         {
-            get { return _name; }
+            get { return _stateName; }
             set
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                _stateName = value;
+                OnPropertyChanged("StateName");
             }
         }
 
-        string _sound;
-        public string Sound
+        string _soundName;
+        public string SoundName
         {
             get
             {
-                return _sound;
+                return _soundName;
             }
 
             set
             {
-                _sound = value;
-                OnPropertyChanged("Sound");
+                _soundName = value;
+                OnPropertyChanged("SoundName");
             }
         }
 
@@ -105,8 +105,9 @@ namespace SoundsModule.ViewModels
 
         public void PlaySound()
         {
-            SoundPlayer.SoundLocation = CurrentDirectory + Sound;
-            if (!string.IsNullOrWhiteSpace(Sound))
+            SoundPlayer.SoundLocation = CurrentDirectory + SoundName;
+
+            if (!string.IsNullOrWhiteSpace(SoundName))
             {
                 SoundPlayer.Load();
             }

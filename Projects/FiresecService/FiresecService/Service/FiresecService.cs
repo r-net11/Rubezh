@@ -6,6 +6,8 @@ using FiresecAPI.Models;
 using FiresecService.Converters;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace FiresecService
 {
@@ -118,6 +120,30 @@ namespace FiresecService
                 listSoungsFileName.Add(Path.GetFileName(str));
             }
             return listSoungsFileName;
+        }
+
+        public Dictionary<string, string> GetHashAndNameSoundFiles()
+        {
+            Dictionary<string, string> hashTable = new Dictionary<string, string>();
+            List<string> HashListSoundFiles = new List<string>();
+            DirectoryInfo dir = new DirectoryInfo(@"C:\Program Files\Firesec\Sounds");
+            FileInfo[] files = dir.GetFiles();
+            byte[] hash;
+            StringBuilder sBuilder = new StringBuilder();
+            foreach (FileInfo fInfo in files)
+            {
+                sBuilder.Clear();
+                using (FileStream fileStream = fInfo.Open(FileMode.Open))
+                {
+                    hash = MD5.Create().ComputeHash(fileStream);
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        sBuilder.Append(hash[i].ToString());
+                    }
+                }
+                hashTable.Add(sBuilder.ToString(), fInfo.Name);
+            }
+            return hashTable;
         }
 
         public Stream GetFile(string filename)

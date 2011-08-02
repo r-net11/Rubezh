@@ -155,7 +155,10 @@ namespace FiresecService.Converters
                     if (string.IsNullOrEmpty(indicatorLogicString) == false)
                     {
                         var indicatorLogic = SerializerHelper.GetIndicatorLogic(indicatorLogicString);
-                        device.IndicatorLogic = IndicatorLogicConverter.Convert(indicatorLogic);
+                        if (indicatorLogic != null)
+                        {
+                            device.IndicatorLogic = IndicatorLogicConverter.Convert(indicatorLogic);
+                        }
                     }
                 }
 

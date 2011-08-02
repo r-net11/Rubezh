@@ -22,10 +22,10 @@ namespace SoundsModule.ViewModels
             LoadSoundsData = new SoundsLoadViewModel();
             LoadSoundsData.Inicialized(AvailableStates, AvailableSounds, AvailableSpeakers);
 
-            States = new ObservableCollection<StateViewModel>();
+            States = new ObservableCollection<SoundViewModel>();
             foreach (string str in AvailableStates)
             {
-                States.Add(new StateViewModel(str, SoundPl, AvailableSounds, AvailableSpeakers));
+                States.Add(new SoundViewModel(str, SoundPl, AvailableSounds, AvailableSpeakers));
             }
             SelectedState = States[0];
         }
@@ -83,8 +83,8 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        ObservableCollection<StateViewModel> _states;
-        public ObservableCollection<StateViewModel> States
+        ObservableCollection<SoundViewModel> _states;
+        public ObservableCollection<SoundViewModel> States
         {
             get { return _states; }
             set
@@ -94,8 +94,8 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        StateViewModel _selectedState;
-        public StateViewModel SelectedState
+        SoundViewModel _selectedState;
+        public SoundViewModel SelectedState
         {
             get { return _selectedState; }
             set

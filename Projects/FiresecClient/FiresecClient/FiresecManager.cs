@@ -126,6 +126,11 @@ namespace FiresecClient
             return _firesecService.GetSoundsFileName();
         }
 
+        public static Dictionary<string, string> GetHashAndNameSoundFiles()
+        {
+            return _firesecService.GetHashAndNameSoundFiles();
+        }
+
         public static Stream GetFile(string filepath)
         {
             return _firesecService.GetFile(filepath);

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SoundsModule.Converters">
     <UserControl.Resources>
-        <Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
         <ControlTemplate x:Key="ComboBoxToggleButton"
                  TargetType="{x:Type ToggleButton}">
             <Label>
@@ -12,53 +11,75 @@
                 </Label.Background>
             </Label>
         </ControlTemplate>
-        <Style x:Key="MyToggleButton" TargetType="ToggleButton">
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="true">
-                    <Setter Property = "Background">
-                        <Setter.Value>
-                            <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsChecked" Value="false">
-                    <Setter Property = "Background">
-                        <Setter.Value>
-                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="SoundButton" TargetType="Button">
-            <Style.Triggers>
-                <Trigger Property="IsPressed" Value="true">
-                    <Setter Property = "Background">
-                        <Setter.Value>
-                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="false">
-                    <Setter Property = "Background">
-                        <Setter.Value>
-                            <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger> 
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property = "Background">
-                        <Setter.Value>
-                            <ImageBrush ImageSource="/SoundsModule;component/Icons/stop.png"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
+        <Style
+            x:Key="CheckBoxTemplate"
+            TargetType="{x:Type CheckBox}">
+            <Setter
+                Property="Border.CornerRadius"
+                Value="5" />
+            <Setter
+                Property="BorderThickness"
+                Value="1" />
+            <Setter
+                Property="HorizontalContentAlignment"
+                Value="Center" />
+            <Setter
+                Property="VerticalContentAlignment"
+                Value="Center" />
+            <Setter
+                Property="FocusVisualStyle"
+                Value="{x:Null}" />
+            <Setter
+                Property="Cursor"
+                Value="Hand" />
+            <Setter
+                Property="Height"
+                Value="23" />
+            <Setter	Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Ellipse
+                                Name="ell"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="{TemplateBinding BorderThickness}"
+                                Fill="{TemplateBinding Background}" />
+                            <Rectangle
+                                Name="rec"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="{TemplateBinding BorderThickness}"
+                                Fill="{TemplateBinding Background}"
+                                Visibility="Hidden"/>
+                            <ContentPresenter
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                            Property="IsChecked"
+                            Value="True">
+                                <Setter
+                                    Property="Content"
+                                    Value="Остановить" />
+                                <Setter
+                                    TargetName="ell"
+                                    Property="Visibility"
+                                    Value="Hidden" />
+                                <Setter
+                                    TargetName="rec"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            </Trigger>
+                           
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -67,17 +88,17 @@
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedState}"
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateName}" />
                     
                     <DataGridTemplateColumn Header="Звук" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Sound}" />
+                                <TextBlock Text="{Binding SoundName}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding Sound}" Margin="2" />
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
@@ -105,11 +126,8 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="10" DataContext="{Binding SelectedState}">
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
-        </Grid>
-        <Grid Grid.Row="2" DataContext="{Binding LoadSoundsData}">
-            <Button HorizontalAlignment="Left" Content="Load" Name="btnLoad" Width="100" Command="{Binding LoadSoundCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

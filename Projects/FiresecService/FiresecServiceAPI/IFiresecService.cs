@@ -54,6 +54,9 @@ namespace FiresecAPI
         List<string> GetSoundsFileName();
 
         [OperationContract]
+        Dictionary<string, string> GetHashAndNameSoundFiles();
+
+        [OperationContract]
         Stream GetFile(string filepath);
     }
 }
