@@ -105,10 +105,10 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="10" DataContext="{Binding SelectedState}">
-            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding IsSoundPlayed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" DataContext="{Binding LoadSoundsData}">
             <Button HorizontalAlignment="Left" Content="Load" Name="btnLoad" Width="100" Command="{Binding LoadSoundCommand}"/>
         </Grid>
     </Grid>

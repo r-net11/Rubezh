@@ -11,20 +11,19 @@ namespace SoundsModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public StateViewModel(string name, SoundPlayer soundPlayer)
+        public StateViewModel(string name, SoundPlayer soundPlayer,
+            ObservableCollection<string> availableSounds,
+            ObservableCollection<string> availableSpeakers)
         {
             Name = name;
             IsContinious = false;
             IsNowPlaying = false;
             SoundPlayer = soundPlayer;
+            AvailableSounds = availableSounds;
+            AvailableSpeakers = availableSpeakers;
             PlaySoundCommand = new RelayCommand(OnPlaySound);
-            LoadSoundCommand = new RelayCommand(OnLoadSounds);
         }
 
-        public void Inicialized()
-        {
-
-        }
         string _name;
         public string Name
         {
@@ -77,7 +76,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        bool _isNowPlaying;
+        static bool _isNowPlaying;
         public bool IsNowPlaying
         {
             get
@@ -88,6 +87,7 @@ namespace SoundsModule.ViewModels
             set
             {
                 _isNowPlaying = value;
+                OnPropertyChanged("IsNowPlaying");
             }
         }
 
@@ -97,44 +97,33 @@ namespace SoundsModule.ViewModels
             get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
         }
 
-        public ObservableCollection<string> AvailableSounds
-        {
-            get
-            {
-                return _availableSounds;
-            }
-        }
+        public ObservableCollection<string> AvailableSounds { get; private set; }
 
-        public ObservableCollection<string> AvailableSpeakers
-        {
-            get
-            {
-                return new ObservableCollection<string>(){
-                "<Нет>",
-                "Тревога",
-                "Внимание"
-                };
-            }
-        }
-
+        public ObservableCollection<string> AvailableSpeakers { get; private set; }
+        
         public SoundPlayer SoundPlayer { get; private set; }
 
         public void PlaySound()
         {
-            SoundPl.SoundLocation = CurrentDirectory + Sound;
+            SoundPlayer.SoundLocation = CurrentDirectory + Sound;
             if (!string.IsNullOrWhiteSpace(Sound))
             {
-                SoundPl.Load();
+                SoundPlayer.Load();
             }
-            if (SoundPl.IsLoadCompleted)
+            else
+            {
+                IsNowPlaying = false;
+                return;
+            }
+            if (SoundPlayer.IsLoadCompleted)
             {
                 if (IsContinious)
                 {
-                    SoundPl.PlayLooping();
+                    SoundPlayer.PlayLooping();
                 }
                 else
                 {
-                    SoundPl.Play();
+                    SoundPlayer.Play();
                     IsNowPlaying = false;
                 }
                 
@@ -143,13 +132,7 @@ namespace SoundsModule.ViewModels
 
         public void StopPlaySound()
         {
-            SoundPl.Stop();
-        }
-
-        public RelayCommand LoadSoundCommand { get; private set; }
-        public void OnLoadSounds()
-        {
-            
+            SoundPlayer.Stop();
         }
 
         public RelayCommand PlaySoundCommand { get; private set; }
@@ -166,7 +149,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        static void PlayPCSpeaker(object isContinious, object speaker)
+        public void PlayPCSpeaker(object isContinious, object speaker)
         {
             
         }

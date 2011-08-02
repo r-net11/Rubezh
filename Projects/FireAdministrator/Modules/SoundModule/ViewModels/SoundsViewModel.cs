@@ -10,11 +10,12 @@ namespace SoundsModule.ViewModels
     {
         public SoundsViewModel()
         {
-            SoundPl = new SoundPlayer();
+           
         }
 
         public void Initialize()
         {
+            SoundPl = new SoundPlayer();
             AvailableStates = new ObservableCollection<string>();
             AvailableSounds = new ObservableCollection<string>();
             AvailableSpeakers = new ObservableCollection<string>();
@@ -24,7 +25,7 @@ namespace SoundsModule.ViewModels
             States = new ObservableCollection<StateViewModel>();
             foreach (string str in AvailableStates)
             {
-                States.Add(new StateViewModel(str,SoundPl));
+                States.Add(new StateViewModel(str, SoundPl, AvailableSounds, AvailableSpeakers));
             }
             SelectedState = States[0];
         }
@@ -34,12 +35,12 @@ namespace SoundsModule.ViewModels
         {
             get 
             {
-                return _loadSoundsDatal; 
+                return _loadSoundsData; 
             }
 
             set 
             {
-                LoadSoundsData = value;
+                _loadSoundsData = value;
             }
         }
 
@@ -117,11 +118,5 @@ namespace SoundsModule.ViewModels
                 _soundPl = value;
             }
         }
-
-        public void CreateHash()
-        {
-            
-        }
-
     }
 }

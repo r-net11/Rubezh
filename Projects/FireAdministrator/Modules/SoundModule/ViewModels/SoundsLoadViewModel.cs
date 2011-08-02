@@ -5,17 +5,19 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.IO;
 using FiresecClient;
+using System.Security.Cryptography;
+using Infrastructure.Common;
 
 namespace SoundsModule.ViewModels
 {
-    class SoundsLoadViewModel
+    public class SoundsLoadViewModel
     {
         public SoundsLoadViewModel()
         {
-
+            LoadSoundCommand = new RelayCommand(OnLoadSound);
         }
 
-        public Inicialized(ObservableCollection<string> availableStates,
+        public void Inicialized(ObservableCollection<string> availableStates,
             ObservableCollection<string> availableSounds,
             ObservableCollection<string> availableSpeakers)
         {
@@ -31,20 +33,6 @@ namespace SoundsModule.ViewModels
         public ObservableCollection<string> AvailableSounds { get; set; }
 
         public ObservableCollection<string> AvailableSpeakers { get; set; }
-
-        //List<string> _hashListSoundFiles;
-        //public List<string> HashListSoundFiles
-        //{
-        //    get 
-        //    {
-        //        return _hashListSoundFiles;
-        //    }
-
-        //    set 
-        //    {
-        //        _hashListSoundFiles = value;
-        //    }
-        //}
 
         public string CurrentDirectory
         {
@@ -65,22 +53,25 @@ namespace SoundsModule.ViewModels
 
         void SetAvailableSpeakers()
         {
-            AvailableStates.Add("<Нет>");
-            AvailableStates.Add("Тревога");
-            AvailableStates.Add("Внимание");
+            AvailableSpeakers.Add("<Нет>");
+            AvailableSpeakers.Add("Тревога");
+            AvailableSpeakers.Add("Внимание");
         }
-
 
         void LoadAvailableSoundsFromServer()
         {
             if (Directory.Exists(CurrentDirectory))
             {
                 var listSounds = Directory.GetFiles(CurrentDirectory);
-                List<string> HashListSoundFiles = new List<string>();
-                foreach (string str in listSounds)
-                {    
-                    HashListSoundFiles.Add(GetFileHash());
+                foreach (string file in listSounds)
+                {
+                    AvailableSounds.Add(Path.GetFileName(file));
                 }
+                //List<string> HashListSoundFiles = new List<string>();
+                //foreach (string str in listSounds)
+                //{    
+                //    HashListSoundFiles.Add(GetFileHash());
+                //}
             }
             else
             {
@@ -89,22 +80,34 @@ namespace SoundsModule.ViewModels
                 DirectoryInfo newDirectory = Directory.CreateDirectory(CurrentDirectory);
                 foreach (string file in listSounds)
                 {
-                    Stream stream = FiresecManager.GetFile(file);
-                    FileStream destinationStream = new FileStream(newDirectory.FullName + file, FileMode.Create, FileAccess.Write);
-                    stream.CopyTo(destinationStream);
-                    destinationStream.Close();
+                    LoadFileFromServerToFilePath(file, newDirectory.FullName + file);
                     AvailableSounds.Add(file);
                 }
             }
         }
 
-        string GetFileHash(string filepath)
+        void LoadFileFromServerToFilePath(string file, string destinationPath)
+        {
+            Stream stream = FiresecManager.GetFile(file);
+            FileStream destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write);
+            stream.CopyTo(destinationStream);
+            destinationStream.Close();
+        }
+
+        byte[] GetFileHash(string filepath)
         {
             byte[] hash;
             using (Stream fs = File.OpenRead(filepath))
             {
                 hash = MD5.Create().ComputeHash(fs);
             }
+            return hash;
+        }
+
+        public RelayCommand LoadSoundCommand { get; private set; }
+        void OnLoadSound()
+        {
+            LoadAvailableSoundsFromServer();
         }
     }
 }
