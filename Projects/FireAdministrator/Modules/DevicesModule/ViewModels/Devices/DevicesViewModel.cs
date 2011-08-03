@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -26,6 +28,37 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        #region DeviceSection
+        public List<DeviceViewModel> AllDevices;
+
+        public void FillAllDevices()
+        {
+            AllDevices = new List<DeviceViewModel>();
+            AddChildPlainDevices(Devices[0]);
+        }
+
+        void AddChildPlainDevices(DeviceViewModel parentViewModel)
+        {
+            AllDevices.Add(parentViewModel);
+            foreach (var childViewModel in parentViewModel.Children)
+            {
+                AddChildPlainDevices(childViewModel);
+            }
+        }
+
+        public void Select(string id)
+        {
+            FillAllDevices();
+
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Id == id);
+            if (deviceViewModel != null)
+            {
+                deviceViewModel.ExpantToThis();
+            }
+            SelectedDevice = deviceViewModel;
+        }
+        #endregion
+
         ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
@@ -44,6 +77,10 @@ namespace DevicesModule.ViewModels
             set
             {
                 _selectedDevice = value;
+                if (value != null)
+                {
+                    value.ExpantToThis();
+                }
                 OnPropertyChanged("SelectedDevice");
             }
         }

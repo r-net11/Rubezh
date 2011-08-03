@@ -51,8 +51,8 @@ namespace FiresecService
 
         public static void SetNewConfig()
         {
-            Validator validator = new Validator();
-            validator.Validate(DeviceConfiguration);
+            //Validator validator = new Validator();
+            //validator.Validate(DeviceConfiguration);
             ConvertBack();
             FiresecInternalClient.SetNewConfig(CoreConfig);
         }

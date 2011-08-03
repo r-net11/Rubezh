@@ -24,6 +24,12 @@ namespace FireAdministrator
             set { _menu.DataContext = _menu.Content = value; }
         }
 
+        public object ValidatoinArea
+        {
+            get { return _validationArea.Content; }
+            set { _validationArea.DataContext = _validationArea.Content = value; }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)
         {

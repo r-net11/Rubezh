@@ -70,5 +70,9 @@
     <DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectorViewModel}">
         <Views:DirectionDeviceSelectorView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ValidationErrorsViewModel}">
+        <Views:ValidationErrorsView />
+    </DataTemplate>
     
 </ResourceDictionary>

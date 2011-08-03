@@ -133,11 +133,11 @@ namespace PlansModule.ViewModels
                     tooltip += parentState + "\n";
                 }
 
-            if (_deviceState.SelfStates != null)
-                foreach (var selfState in _deviceState.SelfStates)
-                {
-                    tooltip += selfState + "\n";
-                }
+            foreach (var innerState in _deviceState.InnerStates)
+            {
+                if (innerState.IsActive)
+                    tooltip += innerState.Name + "\n";
+            }
 
             if (_deviceState.Parameters != null)
                 foreach (var parameter in _deviceState.Parameters)

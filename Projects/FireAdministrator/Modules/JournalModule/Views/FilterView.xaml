@@ -28,7 +28,7 @@
             <Button DockPanel.Dock="Top" Command="{Binding RemoveCommand}">Удалить</Button>
         </DockPanel>-->
 
-        <ListBox ItemsSource="{Binding Source={StaticResource SortedFilters}}" SelectedItem="{Binding SelectedFilter}" 
+        <ListBox ItemsSource="{Binding Source={StaticResource SortedFilters}}" SelectedItem="{Binding SelectedFilter}"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>

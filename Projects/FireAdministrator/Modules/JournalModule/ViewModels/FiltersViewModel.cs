@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecAPI.Models;
 
 namespace FiltersModule.ViewModels
 {
@@ -68,7 +69,7 @@ namespace FiltersModule.ViewModels
         {
             if (FilterViewModels != null)
             {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<FiresecAPI.Models.JournalFilter>();
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
                 foreach (var filterViewModel in FilterViewModels)
                 {
                     FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterViewModel.JournalFilter);
@@ -78,8 +79,7 @@ namespace FiltersModule.ViewModels
 
         public override void OnShow()
         {
-            FiltersMenuViewModel journalsMenuViewModel =
-                new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
+            FiltersMenuViewModel journalsMenuViewModel = new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
             ServiceFactory.Layout.ShowMenu(journalsMenuViewModel);
         }
 

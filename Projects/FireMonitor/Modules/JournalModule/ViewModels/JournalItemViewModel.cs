@@ -10,13 +10,13 @@ namespace JournalModule.ViewModels
 {
     public class JournalItemViewModel : BaseViewModel
     {
-        readonly JournalRecord _journalItem;
+        readonly JournalRecord _journalRecord;
         string _deviceId;
         string _zoneNo;
 
-        public JournalItemViewModel(JournalRecord journalItem)
+        public JournalItemViewModel(JournalRecord journalRecord)
         {
-            _journalItem = journalItem;
+            _journalRecord = journalRecord;
             Initialize();
 
             ShowPlanCommand = new RelayCommand(OnShowPlan, (o) => { return (string.IsNullOrEmpty(_deviceId) == false); });
@@ -27,13 +27,13 @@ namespace JournalModule.ViewModels
         void Initialize()
         {
             string databaseId = null;
-            if (string.IsNullOrEmpty(_journalItem.PanelDatabaseId) == false)
+            if (string.IsNullOrEmpty(_journalRecord.PanelDatabaseId) == false)
             {
-                databaseId = _journalItem.PanelDatabaseId;
+                databaseId = _journalRecord.PanelDatabaseId;
             }
-            if (string.IsNullOrEmpty(_journalItem.DeviceDatabaseId) == false)
+            if (string.IsNullOrEmpty(_journalRecord.DeviceDatabaseId) == false)
             {
-                databaseId = _journalItem.DeviceDatabaseId;
+                databaseId = _journalRecord.DeviceDatabaseId;
             }
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == databaseId);
             if (device != null)
@@ -47,7 +47,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.No;
+                return _journalRecord.No;
             }
         }
 
@@ -55,7 +55,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.DeviceTime.ToString();
+                return _journalRecord.DeviceTime.ToString();
             }
         }
 
@@ -63,7 +63,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.SystemTime.ToString();
+                return _journalRecord.SystemTime.ToString();
             }
         }
 
@@ -71,7 +71,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.ZoneName;
+                return _journalRecord.ZoneName;
             }
         }
 
@@ -79,7 +79,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.Description;
+                return _journalRecord.Description;
             }
         }
 
@@ -87,7 +87,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.DeviceName;
+                return _journalRecord.DeviceName;
             }
         }
 
@@ -95,7 +95,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.PanelName;
+                return _journalRecord.PanelName;
             }
         }
 
@@ -103,7 +103,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.User;
+                return _journalRecord.User;
             }
         }
 
@@ -111,7 +111,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.State.StateType;
+                return _journalRecord.State.StateType;
             }
         }
 
@@ -119,7 +119,7 @@ namespace JournalModule.ViewModels
         {
             get
             {
-                return _journalItem.State.Id;
+                return _journalRecord.State.Id;
             }
         }
 
@@ -139,18 +139,6 @@ namespace JournalModule.ViewModels
         void OnShowZone()
         {
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zoneNo);
-        }
-
-        DateTime ConvertTime(string firesecTime)
-        {
-            int year = Convert.ToInt32(firesecTime.Substring(0, 4));
-            int month = Convert.ToInt32(firesecTime.Substring(4, 2));
-            int day = Convert.ToInt32(firesecTime.Substring(6, 2));
-            int hour = Convert.ToInt32(firesecTime.Substring(9, 2));
-            int minute = Convert.ToInt32(firesecTime.Substring(12, 2));
-            int secunde = Convert.ToInt32(firesecTime.Substring(15, 2));
-            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
-            return dt;
         }
     }
 }

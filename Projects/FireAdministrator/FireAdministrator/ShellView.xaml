@@ -19,6 +19,7 @@
             </Grid>
             
             <Grid DockPanel.Dock="Bottom" >
+                <ContentControl Name="_validationArea" />
             </Grid>
 
             <Grid>

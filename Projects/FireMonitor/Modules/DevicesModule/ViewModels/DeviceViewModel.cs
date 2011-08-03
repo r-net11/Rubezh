@@ -85,25 +85,25 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<string> SelfStates
+        public List<string> SelfStates
         {
             get
             {
-                ObservableCollection<string> selfStates = new ObservableCollection<string>();
-                if (_deviceState.SelfStates != null)
-                    foreach (var selfState in _deviceState.SelfStates)
-                    {
-                        selfStates.Add(selfState);
-                    }
+                List<string> selfStates = new List<string>();
+                foreach (var innerState in _deviceState.InnerStates)
+                {
+                    if (innerState.IsActive)
+                        selfStates.Add(innerState.Name);
+                }
                 return selfStates;
             }
         }
 
-        public ObservableCollection<string> ParentStates
+        public List<string> ParentStates
         {
             get
             {
-                ObservableCollection<string> parentStates = new ObservableCollection<string>();
+                List<string> parentStates = new List<string>();
                 if (_deviceState.ParentStringStates != null)
                     foreach (var parentState in _deviceState.ParentStringStates)
                     {
@@ -113,11 +113,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<string> Parameters
+        public List<string> Parameters
         {
             get
             {
-                ObservableCollection<string> parameters = new ObservableCollection<string>();
+                List<string> parameters = new List<string>();
                 if (_deviceState.Parameters != null)
                     foreach (var parameter in _deviceState.Parameters)
                     {
@@ -136,10 +136,7 @@ namespace DevicesModule.ViewModels
 
         public State State
         {
-            get
-            {
-                return _deviceState.State;
-            }
+            get { return _deviceState.State; }
         }
 
         string _failureType;

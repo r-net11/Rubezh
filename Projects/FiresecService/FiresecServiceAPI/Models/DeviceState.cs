@@ -15,11 +15,13 @@ namespace FiresecAPI.Models
             ParentInnerStates = new List<InnerState>();
         }
 
+        public Device Device { get; set; }
+        public string PlaceInTree { get; set; }
+        public ChangeEntities ChangeEntities { get; set; }
+        public List<InnerState> ParentInnerStates { get; set; }
+
         [DataMember]
         public string Id { get; set; }
-
-        //[DataMember]
-        public string PlaceInTree { get; set; }
 
         [DataMember]
         public List<InnerState> InnerStates { get; set; }
@@ -30,12 +32,6 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Parameter> Parameters { get; set; }
 
-        //[DataMember]
-        public ChangeEntities ChangeEntities { get; set; }
-
-        //[DataMember]
-        public List<InnerState> ParentInnerStates { get; set; }
-
         [DataMember]
         public List<string> ParentStringStates { get; set; }
 
@@ -44,8 +40,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string SourceState { get; set; }
-
-        public Device Device { get; set; }
 
         public bool IsDisabled
         {

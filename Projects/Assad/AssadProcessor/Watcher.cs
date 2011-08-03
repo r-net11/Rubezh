@@ -11,7 +11,7 @@ namespace AssadProcessor
         {
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItemEvent);
+            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
         void OnDeviceStateChangedEvent(string id)
@@ -37,19 +37,19 @@ namespace AssadProcessor
             }
         }
 
-        void OnNewJournalItemEvent(JournalItem journalItem)
+        void OnNewJournalItemEvent(JournalRecord journalRecord)
         {
-            if (journalItem.DeviceDatabaseId != null)
+            if (journalRecord.DeviceDatabaseId != null)
             {
-                SendEvent(journalItem, journalItem.DeviceDatabaseId);
+                SendEvent(journalRecord, journalRecord.DeviceDatabaseId);
             }
-            if (journalItem.PanelDatabaseId != null)
+            if (journalRecord.PanelDatabaseId != null)
             {
-                SendEvent(journalItem, journalItem.PanelDatabaseId);
+                SendEvent(journalRecord, journalRecord.PanelDatabaseId);
             }
         }
 
-        void SendEvent(JournalItem journalItem, string dataBaseId)
+        void SendEvent(JournalRecord journalRecord, string dataBaseId)
         {
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
             if (device != null)
@@ -57,7 +57,7 @@ namespace AssadProcessor
                 var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
                 if (assadDevice != null)
                 {
-                    string eventName = journalItem.State.ToString();
+                    string eventName = journalRecord.State.ToString();
                     assadDevice.FireEvent(eventName);
                 }
             }
