@@ -12,10 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using System.Windows.Markup;
-using PlanEditor;
 
 
-namespace UndoRedo_Change
+
+namespace PlanEditor
 {
 
     public partial class CustomPanel : Canvas
@@ -27,6 +27,9 @@ namespace UndoRedo_Change
         #endregion
 
         #region Properties
+
+        public static ListObjects listShapes = new ListObjects();
+        Thumb thumb = null;
 
         private UnDoRedo _UnDoObject;
         public UnDoRedo UnDoObject
@@ -45,9 +48,11 @@ namespace UndoRedo_Change
         public CustomPanel()
         {
 
-            this.Background = Brushes.LightBlue;
+            //this.Background = Brushes.LightBlue;
+            this.Background = Brushes.White;
             this.Height = 450;
             this.Width = 450;
+            ListObjects listShapes = new ListObjects();
         }
 
         void UnDoObject_adornerevent(object sender, EventArgs e)
@@ -56,6 +61,18 @@ namespace UndoRedo_Change
         }
 
         #endregion
+        public void onDragStarted(object sender, DragStartedEventArgs e)
+        {
+            Thumb thumb = (Thumb)e.Source;
+            thumb.Background = Brushes.Green;
+
+        }
+
+        public void onDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            Thumb thumb = (Thumb)e.Source;
+            thumb.Background = Brushes.Blue;
+        }
 
         #region line
         Point StartPointline;
@@ -69,8 +86,8 @@ namespace UndoRedo_Change
             }
             else
             {
-                if (Isellipse || Isrectangle) return;
-                Isrectangle = true;
+                if (Isellipse || Isrectangle || Isline) return;
+                Isline = true;
             }
             this.Cursor = Cursors.Cross;
         }
@@ -186,10 +203,15 @@ namespace UndoRedo_Change
             base.OnMouseLeftButtonDown(e);
             if (Isline)
             {
-                PELine line = new PELine(new Point(15, 15), new Point(50, 50));
-                Canvas.SetTop(line.GetShape(), 15);
-                Canvas.SetLeft(line.GetShape(), 15);
-                this.Children.Add(line);
+                Point point = Mouse.GetPosition(this);
+                PELine line = new PELine(new Point(point.X, point.Y), new Point(point.X+50, point.Y+50));
+                
+                //double x = Mouse.GetPosition().X;
+                //double y = Mouse.GetPosition().Y;
+                //Canvas.SetTop(line.GetShape(), point.X);
+                //Canvas.SetLeft(line.GetShape(), point.Y);
+                this.Children.Add(line.GetShape());
+                listShapes.Add(line);
             }
 
             if (Isrectangle)
@@ -302,8 +324,42 @@ namespace UndoRedo_Change
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
+            foreach (Object obj in listShapes)
+            {
+                if (obj is PlanEditor.PELine)
+                {
+                    PELine line = (PELine)obj;
+                    if (line.active)
+                    {
+                        line.SetActive(this);
+                        //Line l = (Line)line.GetShape();
+                        //double x = Math.Abs(e.GetPosition(this).X) - Canvas.GetLeft(l);
+                        //double y = Math.Abs(e.GetPosition(this).Y) - Canvas.GetTop(l);
+                        /*
+                                                if (thumb.Name.Equals("thumb2"))
+                                                {
+                                                    line.X2 = x;
+                                                    line.Y2 = y;
+                                                }
+                                                if (thumb.Name.Equals("thumb1"))
+                                                {
+                                                    line.X1 = x;
+                                                    line.Y1 = y;
+                                                }
+                                            }
+                                            //_overlayElementLine = null;
+                         */
+                    }
+                }
+            }
+
+            
             string drawingCode = "";
-            if (Isrectangle && ContiniousDrawing)
+            if (Isline )
+            {
+                Isline = false;
+            }
+            else if (Isrectangle && ContiniousDrawing)
             {
                 ContiniousDrawing = false;
                 Isrectangle = false;
@@ -559,10 +615,6 @@ namespace UndoRedo_Change
 
 
         }
-
-
-
-
 
         #endregion
 

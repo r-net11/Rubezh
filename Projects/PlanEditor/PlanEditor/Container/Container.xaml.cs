@@ -12,16 +12,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Windows.Controls.Primitives;
-using PlanEditor;
 
-namespace UndoRedo_Change
+
+namespace PlanEditor
 {
      
     public partial class Container : System.Windows.Controls.UserControl
     {   
         CustomPanel  Panel = null;
         //PECanvas MyCanvas = new PECanvas();
-        PECanvas MyCanvas = null;
+        //PECanvas MyCanvas = null;
 
         UnDoRedo UnDoObject = null;    
      
@@ -30,10 +30,10 @@ namespace UndoRedo_Change
         public Container()
         {
             InitializeComponent();
-            //Panel = new CustomPanel();           
-            //SetPanel();
-            MyCanvas = new PECanvas();
-            SetCanvas();
+            Panel = new CustomPanel();           
+            SetPanel();
+            //MyCanvas = new PECanvas();
+            //SetCanvas();
             
             InitializeEvent();
         }
@@ -46,7 +46,7 @@ namespace UndoRedo_Change
             }
             if (e.Key == Key.Delete)
             {
-                //Panel.delete();
+                Panel.delete();
                 //MessageBox.Show()
             }
             else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
@@ -69,15 +69,7 @@ namespace UndoRedo_Change
             UnDoObject.Container = Panel;
             vbPanel.Child = Panel;
             UnDoObject.EnableDisableUndoRedoFeature += new EventHandler(UnDoObject_EnableDisableUndoRedoFeature);
-        }
-
-        private void SetCanvas()
-        {
-            UnDoObject = new UnDoRedo();
-            MyCanvas.UnDoObject = UnDoObject;
-            UnDoObject.Container = MyCanvas;
-            vbPanel.Child = MyCanvas;
-            UnDoObject.EnableDisableUndoRedoFeature += new EventHandler(UnDoObject_EnableDisableUndoRedoFeature);
+          
         }
 
         void UnDoObject_EnableDisableUndoRedoFeature(object sender, EventArgs e)
@@ -110,14 +102,15 @@ namespace UndoRedo_Change
 
         private void ToggleButton(bool IsCheck)
         {
-            EnabDisabToolbar(true);        
+            EnabDisabToolbar(true);
+            btnLine.IsChecked = IsCheck;
             btnRectangle.IsChecked = IsCheck;
             btnOval.IsChecked = IsCheck;        
             
         }
         private void EnabDisabToolbar(bool IsEnable)
         {
-            MainToolBar.IsEnabled = IsEnable;           
+            //MainToolBar.IsEnabled = IsEnable;           
         }
         
         #region delete
@@ -149,18 +142,20 @@ namespace UndoRedo_Change
         {
             Panel.DrawLineApbMode();
             btnRectangle.IsChecked = false;
-
         }
 
         void btnRedo_Click(object sender, RoutedEventArgs e)
         {
+            
             UnDoObject.Redo(1);
             Panel.RemoveResizGrip();
+            
         }
         void btnUndo_Click(object sender, RoutedEventArgs e)
         {
             UnDoObject.Undo(1);
             Panel.RemoveResizGrip();
+            
         } 
 
         #endregion
@@ -172,14 +167,18 @@ namespace UndoRedo_Change
             EnabDisabToolbar(false);
             ((ToggleButton)sender).IsChecked = true;
             switch (((ToggleButton)sender).Name)
-            {            
+            {
+
+                case "btnLine":
+                    Panel.DrawLineApbMode();
+                    break;
 
                 case "btnRectangle":
-                    MyCanvas.DrawRectangleApbMode();
+                    Panel.DrawRectangleApbMode();
                     break;
 
                 case "btnOval":
-                    MyCanvas.DrawEllipseApbMode();
+                    Panel.DrawEllipseApbMode();
                     break;             
 
             }
@@ -196,7 +195,7 @@ namespace UndoRedo_Change
             btnUndo.Click += new RoutedEventHandler(btnUndo_Click);
             btnRedo.Click += new RoutedEventHandler(btnRedo_Click);        
             if (Panel!=null) Panel.CompleteDraw += new EventHandler(Panel_EndDrawing);
-            MyCanvas.CompleteDraw += new EventHandler(Panel_EndDrawing);      
+            //if (MyCanvas != null) MyCanvas.CompleteDraw += new EventHandler(Panel_EndDrawing);      
             this.KeyDown += new System.Windows.Input.KeyEventHandler(ConfigureMapView_KeyDown);
            
             #endregion

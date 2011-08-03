@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace PlanEditor
 {
-    class ListObjects : IEnumerable
+    public class ListObjects : IEnumerable
     {
         public List<Object> Objects;
         public bool activeGroup;

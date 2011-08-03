@@ -59,6 +59,7 @@
       <DependentUpon>Container.xaml</DependentUpon>
     </Compile>
     <Compile Include="Container\Panel.cs" />
+    <Compile Include="Container\PECanvas.cs" />
     <Compile Include="EllipseAdorner.cs" />
     <Compile Include="PEEllipse.cs" />
     <Compile Include="RectangleAdorner.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="PELine.cs" />
     <Compile Include="ListShape.cs" />
     <Compile Include="MoveThumb.cs" />
-    <Compile Include="PECanvas.cs" />
     <Compile Include="PERectangle.cs" />
     <Compile Include="PEShape.cs" />
     <Compile Include="MainWindow.xaml.cs">

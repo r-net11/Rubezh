@@ -80,15 +80,15 @@ namespace PlanEditor
                 dTop = Canvas.GetTop(this.line);
                 if (thumb.Name == "thumb1")
                 {
-                    Canvas.SetLeft(thumb, line.X1 + dLeft - 5);
-                    Canvas.SetTop(thumb, line.Y1 + dTop - 5);
+                    Canvas.SetLeft(thumb, line.X1 - 5);
+                    Canvas.SetTop(thumb, line.Y1 - 5);
                     if (canvas.Children.IndexOf(thumb) == -1) canvas.Children.Add(thumb);
                 }
                 else
                 {
+                    Canvas.SetLeft(thumb, line.X2 - 5);
+                    Canvas.SetTop(thumb, line.Y2 - 5);
                     if (canvas.Children.IndexOf(thumb) == -1) canvas.Children.Add(thumb);
-                    Canvas.SetLeft(thumb, line.X2 + dLeft - 5);
-                    Canvas.SetTop(thumb, line.Y2 + dTop - 5);
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace PlanEditor
         {
             this.line = new Line();
             this.line.Stroke = Brushes.Red;
-            this.line.StrokeThickness = 5;
+            this.line.StrokeThickness = 2;
         }
 
         public PELine(Line line)
@@ -156,7 +156,7 @@ namespace PlanEditor
             this.Y1 = _from.Y;
             this.Y2 = _to.Y;
             this.line.Stroke = Brushes.Red;
-            this.line.StrokeThickness = 5;
+            this.line.StrokeThickness = 2;
             thumbList = new List<Thumb>();
             for (int i = 0;i<2;i++)
             {
@@ -177,6 +177,7 @@ namespace PlanEditor
             thumb2 = new Thumb();
             thumb1.Name = "thumb1";
             thumb2.Name = "thumb2";
+            active = true;
         }
 
         public List<Thumb> GetListThumb()

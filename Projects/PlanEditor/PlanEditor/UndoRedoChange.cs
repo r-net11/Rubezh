@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Shapes;
 
-namespace UndoRedo_Change
+namespace PlanEditor
 {
     #region UndoRedo
     interface IUndoRedo

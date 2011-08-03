@@ -4,24 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Controls.Primitives;
+using System.Data;
+using System.Windows.Markup;
 using System.Windows.Input;
-using UndoRedo_Change;
+
 
 namespace PlanEditor
 {
-    class PECanvas : Canvas
+    public partial class PECanvas_old : Canvas
     {
         #region Declaration
 
         public event EventHandler CompleteDraw;
 
         #endregion
-
 
         #region Properties
 
@@ -37,7 +39,7 @@ namespace PlanEditor
         }
         #endregion
 
-
+        /*old properties
         public static ListObjects listShapes = new ListObjects();
         private bool _isDown;
         private bool _isResize;
@@ -53,30 +55,38 @@ namespace PlanEditor
         private double _originalX;
         private double _originalY;
         private Point _startPoint;
+        */
 
+        /*old GetCanvas
         public Canvas GetCanvas()
         {
             return this;
         }
-
+        */
+        
+        /*old GetDragging
         public bool GetDragging()
         {
             return _isDragging;
         }
-
+        */
+     
+        
         #region Constructors
 
-        public PECanvas()
+        public PECanvas_old()
         {
+
+            this.Background = Brushes.LightBlue;
+            this.Height = 490;
+            this.Width = 490;
+
             //canvas = new Canvas();
             //this.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MouseLeftButtonDown);
             //this.PreviewMouseMove += new System.Windows.Input.MouseEventHandler(MyPreviewMouseMove);
             //this.PreviewMouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MouseLeftButtonUp);
             //this.previewm 
-            this.Height = 500;
-            this.Width = 500;
-
-            //ListObjects listShapes = new ListObjects();
+            //ListObjects = new ListObjects();
         }
 
         #endregion
@@ -126,7 +136,8 @@ namespace PlanEditor
         }
         #endregion
 
-        /*
+
+        /*onDragStarted
         public void onDragStarted(object sender, DragStartedEventArgs e)
         {
             Thumb thumb = (Thumb)e.Source;
@@ -135,7 +146,7 @@ namespace PlanEditor
         }
         */
 
-        /*
+        /*onDragCompleted
         public void onDragCompleted(object sender, DragCompletedEventArgs e)
         {
             Thumb thumb = (Thumb)e.Source;
@@ -425,12 +436,13 @@ namespace PlanEditor
             }
         }
         */
-        //protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        //void MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+
+        /* old OnMouseLeftButtonDown
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            //string drawingCode = "";
+            string drawingCode = "";
             if (e.Source == this)
             {
                 if (Isrectangle)
@@ -525,7 +537,9 @@ namespace PlanEditor
                 }
             }
         }
+         */
 
+        /*AddShape
         public void AddShape(Object _object)
         {
 
@@ -556,6 +570,27 @@ namespace PlanEditor
             };
             listShapes.Add(_object);
 
+        }*/
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+        }
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            OnMouseLeftButtonUp(null);
+        }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
         }
     }
+         
 }
