@@ -7,9 +7,9 @@ namespace FiresecService.Converters
 {
     public static class JournalConverter
     {
-        public static JournalItem Convert(journalType innerJournalItem)
+        public static JournalRecord Convert(journalType innerJournalItem)
         {
-            JournalItem journalItem = new JournalItem();
+            JournalRecord journalItem = new JournalRecord();
             journalItem.No = System.Convert.ToInt32(innerJournalItem.IDEvents);
             journalItem.DeviceTime = ConvertTime(innerJournalItem.Dt);
             journalItem.SystemTime = ConvertTime(innerJournalItem.SysDt);

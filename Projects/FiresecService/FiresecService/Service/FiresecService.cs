@@ -76,11 +76,11 @@ namespace FiresecService
             fileStream.Close();
         }
 
-        public List<JournalItem> ReadJournal(int startIndex, int count)
+        public List<JournalRecord> ReadJournal(int startIndex, int count)
         {
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
 
-            List<JournalItem> journalItems = new List<JournalItem>();
+            List<JournalRecord> journalItems = new List<JournalRecord>();
             if ((internalJournal != null) && (internalJournal.Journal != null))
             {
                 foreach (var innerJournalItem in internalJournal.Journal)
