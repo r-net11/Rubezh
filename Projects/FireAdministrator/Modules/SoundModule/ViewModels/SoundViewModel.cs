@@ -7,27 +7,45 @@ using System;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
+using FiresecAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
     public class SoundViewModel : RegionViewModel
     {
+
+        public SoundViewModel(Sound sound)
+        {
+            Sound = sound;
+        }
+
         public SoundViewModel(string stateName)
         {
+            Sound = new FiresecAPI.Models.Sound();
             StateName = stateName;
             SoundName = DownloadHelper.DefaultName;
             SpeakerName = DownloadHelper.DefaultName;
             IsContinious = DownloadHelper.DefaultIsContinious;
         }
 
-        string _stateName;
+        Sound _sound;
+        public Sound Sound
+        {
+            get { return _sound; }
+            set
+            {
+                _sound = value;
+                //OnPropertyChanged("Sound");
+            }
+        }
+
         public string StateName
         {
-            get 
+            get
             {
-                if (AvailableStates.IndexOf(_stateName) != -1)
+                if (AvailableStates.IndexOf(Sound.StateName) != -1)
                 {
-                    return _stateName;
+                    return Sound.StateName;
                 }
                 else
                 {
@@ -36,19 +54,18 @@ namespace SoundsModule.ViewModels
             }
             set
             {
-                _stateName = value;
+                Sound.StateName = value;
                 OnPropertyChanged("StateName");
             }
         }
 
-        string _soundName;
         public string SoundName
         {
-            get 
+            get
             {
-                if (AvailableSounds.IndexOf(_soundName) != -1)
+                if (AvailableSounds.IndexOf(Sound.SoundName) != -1)
                 {
-                    return _soundName;
+                    return Sound.SoundName;
                 }
                 else
                 {
@@ -57,19 +74,18 @@ namespace SoundsModule.ViewModels
             }
             set
             {
-                _soundName = value;
+                Sound.SoundName = value;
                 OnPropertyChanged("SoundName");
             }
         }
 
-        string _speakerName;
         public string SpeakerName
         {
-            get 
+            get
             {
-                if (AvailableSpeakers.IndexOf(_speakerName) != -1)
+                if (AvailableSpeakers.IndexOf(Sound.SpeakerName) != -1)
                 {
-                    return _speakerName;
+                    return Sound.SpeakerName;
                 }
                 else
                 {
@@ -78,18 +94,17 @@ namespace SoundsModule.ViewModels
             }
             set
             {
-                _speakerName = value;
+                Sound.SpeakerName = value;
                 OnPropertyChanged("SpeakerName");
             }
         }
 
-        bool _isContinious;
         public bool IsContinious
         {
-            get { return _isContinious; }
+            get { return Sound.IsContinious; }
             set
             {
-                _isContinious = value;
+                Sound.IsContinious = value;
                 OnPropertyChanged("IsContinious");
             }
         }
@@ -108,10 +123,5 @@ namespace SoundsModule.ViewModels
         {
             get { return DownloadHelper.GetAvailableSpeakers; } 
         }
-        
-        
-        
-
-        
     }
 }

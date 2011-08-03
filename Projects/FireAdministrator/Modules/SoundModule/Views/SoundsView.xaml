@@ -82,10 +82,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedState}" 
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}" 
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateName}" />
@@ -129,5 +130,6 @@
             <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding Path=SoundPlrHelper.IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
+        <Button Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
     </Grid>
 </UserControl>
