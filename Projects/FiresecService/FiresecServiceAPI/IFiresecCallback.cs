@@ -16,6 +16,6 @@ namespace FiresecAPI
         void ZoneStateChanged(ZoneState zoneState);
 
         [OperationContract(IsOneWay = true)]
-        void NewJournalItem(JournalItem journalItem);
+        void NewJournalItem(JournalRecord journalItem);
     }
 }

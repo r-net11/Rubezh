@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -14,10 +13,10 @@ namespace FiresecAPI.Models
         None
     }
 
-    [Serializable]
+    [DataContract]
     public class DeviceCategory
     {
-        [XmlAttribute]
+        [DataMember]
         public int Id { get; set; }
 
         public DeviceCategoryType DeviceCategoryType

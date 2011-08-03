@@ -13,22 +13,26 @@
     <ListBox ItemsSource="{Binding Source={StaticResource SortedStates}}" SelectedItem="{Binding SelectedState}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                 <StackPanel Orientation="Horizontal" Height="15" Margin="40,0,0,0">
+                <StackPanel Orientation="Horizontal" Height="15" Margin="40,0,0,0">
                     <CheckBox IsChecked="{Binding IsChecked}"
                               Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}">
                     </CheckBox>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                 </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
-        <ListBox.Resources>
-            <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
-            </ContextMenu>
-        </ListBox.Resources>
+        
         <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Style.Setters>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
             </Style>
         </ListBox.ItemContainerStyle>
     </ListBox>

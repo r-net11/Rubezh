@@ -10,11 +10,11 @@ namespace JournalModule.ViewModels
 {
     public class JournalItemViewModel : BaseViewModel
     {
-        readonly JournalItem _journalItem;
+        readonly JournalRecord _journalItem;
         string _deviceId;
         string _zoneNo;
 
-        public JournalItemViewModel(JournalItem journalItem)
+        public JournalItemViewModel(JournalRecord journalItem)
         {
             _journalItem = journalItem;
             Initialize();

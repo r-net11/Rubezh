@@ -4,6 +4,12 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              MinWidth="400" MinHeight="500">
     <UserControl.Resources>
+        <LinearGradientBrush x:Key="headerBrush" StartPoint="0, 0" EndPoint="0,1">
+            <GradientStop Color="Silver" Offset="0" />
+            <GradientStop Color="Gray" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="whiteBrush">White</SolidColorBrush>
+        
         <CollectionViewSource x:Key="ItemsGroups" Source="{Binding Path=Items}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ClassName" />
@@ -14,22 +20,21 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" 
-                 ItemsSource="{Binding Source={StaticResource ItemsGroups}}"
+
+    <DockPanel Margin="10">
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5">
+            <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
+            <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
+        </WrapPanel>
+        <ListView ItemsSource="{Binding Source={StaticResource ItemsGroups}}"
                  SelectedItem="{Binding SelectedItem}">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock
-                                Background="Gray"
-                                Foreground="White"
+                                Background="{StaticResource headerBrush}"
+                                Foreground="{StaticResource whiteBrush}"
                                 Margin="1"
                                 Padding="4,2,0,2"
                                 Text="{Binding Path=Name}" FontWeight="Black" />
@@ -43,9 +48,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="5">
-            <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
-            <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
-        </WrapPanel>
-    </Grid>
+    </DockPanel>
 </UserControl>

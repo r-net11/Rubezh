@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
 
@@ -17,9 +18,12 @@ namespace FiltersModule.ViewModels
         public void Initialize()
         {
             var filters = new ObservableCollection<FilterViewModel>();
-            foreach (var filter in FiresecAPI.Models.JournalManager.Filters)
+            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters != null)
             {
-                filters.Add(new FilterViewModel(filter));
+                foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
+                {
+                    filters.Add(new FilterViewModel(filter));
+                }
             }
             FilterViewModels = filters;
         }
@@ -42,7 +46,7 @@ namespace FiltersModule.ViewModels
         {
             if (SelectedFilter != null)
             {
-                FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter.Copy());
+                FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
                 {
                     SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
@@ -64,13 +68,11 @@ namespace FiltersModule.ViewModels
         {
             if (FilterViewModels != null)
             {
-                FiresecAPI.Models.JournalManager.Filters =
-                    new System.Collections.Generic.List<FiresecAPI.Models.JournalFilter>();
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<FiresecAPI.Models.JournalFilter>();
                 foreach (var filterViewModel in FilterViewModels)
                 {
-                    FiresecAPI.Models.JournalManager.Filters.Add(filterViewModel.JournalFilter);
+                    FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterViewModel.JournalFilter);
                 }
-                FiresecAPI.Models.JournalManager.Save();
             }
         }
 
@@ -79,6 +81,11 @@ namespace FiltersModule.ViewModels
             FiltersMenuViewModel journalsMenuViewModel =
                 new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
             ServiceFactory.Layout.ShowMenu(journalsMenuViewModel);
+        }
+
+        public override void OnHide()
+        {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

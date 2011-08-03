@@ -10,27 +10,17 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" 
-                 ItemsSource="{Binding Source={StaticResource SortedItems}}" 
-                 SelectedItem="{Binding SelectedItem}" 
-                 Style="{StaticResource ListBoxStyle}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}" Margin="5, 5, 0, 0" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+    <DockPanel Margin="10">
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5">
             <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
             <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
-        </StackPanel>
-    </Grid>
+        </WrapPanel>
+        <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}" 
+                 SelectedItem="{Binding SelectedItem}" 
+                 Style="{StaticResource ListBoxStyle}"
+                 DisplayMemberPath="Name">
+        </ListBox>
+
+    </DockPanel>
 </UserControl>

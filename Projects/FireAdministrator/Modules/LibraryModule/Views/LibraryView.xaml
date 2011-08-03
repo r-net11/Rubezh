@@ -19,9 +19,9 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.ColumnSpan="2" DataContext="{Binding SelectedDevice, UpdateSourceTrigger=PropertyChanged}">
-                <TextBox DataContext="{Binding SelectedState.SelectedFrame, UpdateSourceTrigger=PropertyChanged}" 
-                         Text="{Binding XmlOfImage, UpdateSourceTrigger=PropertyChanged}"
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <TextBox DataContext="{Binding SelectedDevice.SelectedState.SelectedFrame}"
+                         Text="{Binding XmlOfImage}"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                          AcceptsReturn="True" AcceptsTab="True" />
             </Grid>

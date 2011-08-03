@@ -10,28 +10,23 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ListBox Grid.Row="0"   ItemsSource="{Binding Source={StaticResource SortedItems}}" 
-                                SelectedItem="{Binding SelectedItem}" 
-                                Style="{StaticResource ListBoxStyle}">
+
+    <DockPanel Margin="10">
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5">
+            <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
+            <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
+        </WrapPanel>
+        <ListBox  ItemsSource="{Binding Source={StaticResource SortedItems}}" 
+                  SelectedItem="{Binding SelectedItem}" 
+                  Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5, 5, 0, 0">
+                    <WrapPanel Margin="5, 5, 0, 0">
                         <Image Source="{Binding IconPath}" Width="16" Height="16" Margin="0, 0, 5, 0" />
                         <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
+                    </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
-            <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
-        </StackPanel>
-    </Grid>
+    </DockPanel>
 </UserControl>

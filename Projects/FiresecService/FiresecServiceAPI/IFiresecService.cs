@@ -36,7 +36,7 @@ namespace FiresecAPI
         void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
         [OperationContract]
-        List<JournalItem> ReadJournal(int startIndex, int count);
+        List<JournalRecord> ReadJournal(int startIndex, int count);
 
         [OperationContract]
         void AddToIgnoreList(List<string> ids);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
@@ -17,11 +15,9 @@ namespace FiresecAPI.Models
         No = 8
     }
 
-    [Serializable]
     [DataContract]
     public class State
     {
-        [XmlAttribute]
         [DataMember]
         public int Id { get; set; }
 

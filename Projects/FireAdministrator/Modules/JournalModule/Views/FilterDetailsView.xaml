@@ -64,13 +64,13 @@
                     </GroupBox>
                     <GroupBox Padding="5" Margin="0,5,0,0">
                         <GroupBox.Header>
-                            <CheckBox Name="additionalFilter" IsChecked="{Binding IsAdditionalFilter}"
-                                          Content="дополнительный фильтр" />
+                            <CheckBox IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}"
+                                      Content="дополнительный фильтр" />
                         </GroupBox.Header>
-                        <WrapPanel IsEnabled="{Binding IsChecked, ElementName=_checkBox}">
+                        <WrapPanel>
                             <TextBlock Text="записи за последние" Margin="5,0,5,5" />
                             <ExtToolkit:IntegerUpDown Minimum="1"
-                                                      IsEnabled="{Binding ElementName=additionalFilter, Path=IsChecked}"
+                                                      IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}"
                                                       Value="{Binding JournalFilter.LastDaysCount}" />
                             <TextBlock Text="дн." Margin="5,5,0,5" />
                         </WrapPanel>

@@ -56,7 +56,8 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return InnerState.Code;
+                if (InnerState != null) return InnerState.Code;
+                return null;
             }
         }
 
@@ -105,11 +106,7 @@ namespace LibraryModule.ViewModels
         bool _isChecked;
         public bool IsChecked
         {
-            get
-            {
-                return _isChecked;
-            }
-
+            get { return _isChecked; }
             set
             {
                 _isChecked = value;
@@ -124,10 +121,7 @@ namespace LibraryModule.ViewModels
 
         public CanvasesPresenter CanvasesPresenter
         {
-            get
-            {
-                return new CanvasesPresenterViewModel(this).CanvasesPresenter;
-            }
+            get { return new CanvasesPresenterViewModel(this).CanvasesPresenter; }
         }
 
         ObservableCollection<FrameViewModel> _frames;

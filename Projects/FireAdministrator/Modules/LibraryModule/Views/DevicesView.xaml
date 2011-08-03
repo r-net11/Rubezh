@@ -4,7 +4,7 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:Views="clr-namespace:LibraryModule.Views">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="SortedDevices" Source="{Binding Path=Devices}">
+        <CollectionViewSource x:Key="SortedDevices" Source="{Binding Devices}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Name" Direction="Ascending" />
             </CollectionViewSource.SortDescriptions>
@@ -12,31 +12,35 @@
     </UserControl.Resources>
 
     <ListBox ItemsSource="{Binding Source={StaticResource SortedDevices}}" SelectedItem="{Binding SelectedDevice}" 
-             HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+             HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Expander>
                     <Expander.Header>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <Image Source="{Binding IconPath}" Width="14" Margin="5,0" />
                             <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
+                        </WrapPanel>
                     </Expander.Header>
                     <Views:StatesView />
                 </Expander>
             </DataTemplate>
-        </ListBox.ItemTemplate>        
-        <ListBox.Resources>
-            <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
-                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}" />
-                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding AddAdditionalStateCommand}" />
-                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
-            </ContextMenu>
-        </ListBox.Resources>        
+        </ListBox.ItemTemplate>    
+        
         <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <Setter Property="ListBoxItem.ContextMenu" Value="{StaticResource contextMenu}" />
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Style.Setters>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
+                                <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}" />
+                                <MenuItem Header="Добавить дополнительное состояние" Command="{Binding AddAdditionalStateCommand}" />
+                                <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
             </Style>
         </ListBox.ItemContainerStyle>
     </ListBox>

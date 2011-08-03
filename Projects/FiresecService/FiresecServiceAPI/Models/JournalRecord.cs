@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class JournalItem
+    public class JournalRecord
     {
         [DataMember]
         public int No { get; set; }

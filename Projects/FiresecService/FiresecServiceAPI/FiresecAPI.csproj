@@ -63,9 +63,7 @@
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\IndicatorLogic.cs" />
     <Compile Include="Models\JournalFilter.cs" />
-    <Compile Include="Models\JournalFiltersManager.cs" />
-    <Compile Include="Models\JournalItem.cs" />
-    <Compile Include="Models\JournalManager.cs" />
+    <Compile Include="Models\JournalRecord.cs" />
     <Compile Include="Models\PDUGroupLogic.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
     <Compile Include="ValidationError.cs" />

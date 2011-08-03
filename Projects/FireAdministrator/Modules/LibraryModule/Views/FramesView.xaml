@@ -13,17 +13,22 @@
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
-        <TabControl.Resources>
-            <ContextMenu x:Key="contextMenu">
-                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
-                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
-            </ContextMenu>
-        </TabControl.Resources>
+        
         <TabControl.ItemContainerStyle>
-            <Style TargetType="TabItem">
-                <Setter Property="TabItem.ContextMenu" Value="{StaticResource contextMenu}" />
+            <Style TargetType="{x:Type TabItem}">
+                <Style.Setters>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
             </Style>
         </TabControl.ItemContainerStyle>
+        
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <Grid>
@@ -38,7 +43,7 @@
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                         </ContentControl.LayoutTransform>
                     </ContentControl>
-                    <WrapPanel Grid.Row="1" Orientation="Horizontal">
+                    <WrapPanel Grid.Row="1">
                         <Label Content="Слой: " />
                         <TextBox Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
                         <Label  Content=" Длительность: " />

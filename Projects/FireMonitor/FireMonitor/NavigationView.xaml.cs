@@ -42,7 +42,7 @@ namespace FireMonitor
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItemEvent);
+            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
         void DeselectAll()
@@ -73,7 +73,7 @@ namespace FireMonitor
             }
         }
 
-        void OnNewJournalItemEvent(JournalItem journalItem)
+        void OnNewJournalItemEvent(JournalRecord journalItem)
         {
             if (IsJournalSelected == false)
             {

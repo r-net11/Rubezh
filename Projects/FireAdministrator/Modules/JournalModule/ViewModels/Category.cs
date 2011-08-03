@@ -2,9 +2,9 @@
 
 namespace FiltersModule.ViewModels
 {
-    public class CategoryViewModel : BaseViewModel
+    public class Category : BaseViewModel
     {
-        public CategoryViewModel(int id)
+        public Category(int id)
         {
             Id = id;
         }

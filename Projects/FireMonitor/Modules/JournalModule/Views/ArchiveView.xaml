@@ -4,6 +4,9 @@
              xmlns:Converter="clr-namespace:JournalModule.Converters"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <UserControl.Resources>
+        <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
+        <SolidColorBrush x:Key="borderBrush">LightGray</SolidColorBrush>
+        
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 
@@ -17,14 +20,19 @@
     <DockPanel>
 
         <WrapPanel DockPanel.Dock="Top">
-            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}" Margin="5" Foreground="OrangeRed" />
+            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}" Margin="5" Foreground="{StaticResource headerBrush}" />
             <Button Content="Выбрать фильтр" Command="{Binding ShowFilterCommand}" Margin="5" />
         </WrapPanel>
 
         <Grid DockPanel.Dock="Bottom" DataContext="{Binding SelectedItem}" Margin="5">
             <Grid.Resources>
                 <Style x:Key="headerStyle" TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="OrangeRed" />                    
+                    <Setter Property="Foreground" Value="{StaticResource headerBrush}" />
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Setter Property="BorderBrush" Value="{StaticResource borderBrush}" />
+                    <Setter Property="Padding" Value="5" />
                 </Style>
             </Grid.Resources>
             
@@ -39,7 +47,6 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" Grid.ColumnSpan="2"
-                    BorderThickness="2" BorderBrush="LightGray" Padding="5"
                     Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
                 <WrapPanel HorizontalAlignment="Center">
                     <TextBlock Text="Класс: " Style="{StaticResource headerStyle}" />
@@ -47,8 +54,7 @@
                 </WrapPanel>
             </Border>
 
-            <Border Grid.Row="1" Grid.Column="0"
-                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+            <Border Grid.Row="1" Grid.Column="0">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="{Binding Description}" FontWeight="Black" />
                     <WrapPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}">
@@ -58,8 +64,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Row="1" Grid.Column="1"
-                    BorderThickness="2" BorderBrush="LightGray" Padding="5">
+            <Border Grid.Row="1" Grid.Column="1">
                 <StackPanel VerticalAlignment="Center">
                     <WrapPanel>
                         <TextBlock Text="Время: " Style="{StaticResource headerStyle}" />

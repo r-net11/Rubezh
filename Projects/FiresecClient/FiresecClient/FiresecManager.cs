@@ -122,7 +122,7 @@ namespace FiresecClient
             _firesecService.ExecuteCommand(id, methodName);
         }
 
-        public static List<JournalItem> ReadJournal(int startIndex, int count)
+        public static List<JournalRecord> ReadJournal(int startIndex, int count)
         {
             return _firesecService.ReadJournal(startIndex, count);
         }

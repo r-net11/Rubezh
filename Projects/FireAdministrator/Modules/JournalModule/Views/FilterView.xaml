@@ -9,7 +9,6 @@
         
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
-        <Converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 
         <CollectionViewSource x:Key="SortedFilters" Source="{Binding FilterViewModels}">
             <CollectionViewSource.SortDescriptions>
@@ -21,7 +20,7 @@
         
         <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
         <TextBlock DockPanel.Dock="Top"  Text="" />
-        <TextBlock DockPanel.Dock="Top" Margin="5, 0"  Text="Представления фильтра журнала:" Foreground="{StaticResource headerBrush}" />
+        <TextBlock DockPanel.Dock="Top" Margin="5, 0"  Text="Представления фильтров журнала:" Foreground="{StaticResource headerBrush}" />
         
         <!--<DockPanel  DockPanel.Dock="Right" Margin="5" LastChildFill="False">
             <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding CreateCommand}">Создать</Button>
@@ -35,20 +34,18 @@
                 <DataTemplate>
                     <Border Padding="5" BorderBrush="{StaticResource borderBrush}" BorderThickness="3">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel.Resources>
-                                <Style x:Key="textBlockStyle" TargetType="{x:Type TextBlock}">
-                                    <Setter Property="Foreground" Value="{StaticResource headerBrush}" />
-                                    <Setter Property="FontWeight" Value="Black" />
-                                </Style>
-                            </StackPanel.Resources>
-                            <TextBlock Style="{StaticResource textBlockStyle}">
                             <StackPanel>
+                                <StackPanel.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{StaticResource headerBrush}" />
+                                        <Setter Property="FontWeight" Value="Black" />
+                                    </Style>
+                                </StackPanel.Resources>
                                 <TextBlock Text="Наименование: " Margin="2" />
                                 <TextBlock Text="Тип события: " Margin="2" />
                                 <TextBlock Text="Тип устройства: " Margin="2" />
                                 <TextBlock Text="Выбрать записи: " Margin="2" />
                             </StackPanel>
-                            </TextBlock>
                             <TextBlock Name="textBlock">
                             <StackPanel DataContext="{Binding JournalFilter}" >
                                 <TextBlock Text="{Binding Name}"
@@ -62,7 +59,7 @@
                                         <TextBlock Text="{Binding LastRecordsCount}" />
                                         <TextBlock Text=" последних" />
                                     </WrapPanel>
-                                    <WrapPanel Visibility="{Binding LastDaysCount, Converter={StaticResource StringToVisibilityConverter}}">
+                                    <WrapPanel Visibility="{Binding IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock Text=" за " />
                                         <TextBlock Text="{Binding LastDaysCount}" />
                                         <TextBlock Text=" дней" />

@@ -32,7 +32,7 @@ namespace JournalModule.ViewModels
             lastJournalId = 100000;
             while (true)
             {
-                List<JournalItem> journalItems = FiresecManager.ReadJournal(0, 100000);
+                List<JournalRecord> journalItems = FiresecManager.ReadJournal(0, 1000);
 
                 if (journalItems == null)
                     break;

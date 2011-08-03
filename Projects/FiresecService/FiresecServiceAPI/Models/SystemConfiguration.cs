@@ -11,14 +11,14 @@ namespace FiresecAPI.Models
     {
         public SystemConfiguration()
         {
-            Journals = new List<JournalFilter>();
+            JournalFilters = new List<JournalFilter>();
             Users = new List<User>();
             UserGroups = new List<UserGroup>();
             Perimissions = new List<Perimission>();
         }
 
         [DataMember]
-        public List<JournalFilter> Journals { get; set; }
+        public List<JournalFilter> JournalFilters { get; set; }
 
         [DataMember]
         public List<User> Users { get; set; }

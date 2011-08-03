@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Infrastructure.Common;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FiresecClient;
 using FiresecAPI.Models;
-using System;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
@@ -12,17 +12,17 @@ namespace JournalModule.ViewModels
         public void Initialize()
         {
             JournalItems = new ObservableCollection<JournalItemViewModel>();
-            List<JournalItem> journalItems = FiresecManager.ReadJournal(0, 100);
+            List<JournalRecord> journalItems = FiresecManager.ReadJournal(0, 100);
             foreach (var journalItem in journalItems)
             {
                 JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
                 JournalItems.Add(journalItemViewModel);
             }
 
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItemEvent);
+            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
-        void OnNewJournalItemEvent(JournalItem journalItem)
+        void OnNewJournalItemEvent(JournalRecord journalItem)
         {
             JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
             if (JournalItems.Count > 0)

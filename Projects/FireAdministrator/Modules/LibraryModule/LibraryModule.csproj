@@ -91,6 +91,9 @@
     <Compile Include="Views\FramesView.xaml.cs">
       <DependentUpon>FramesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LibraryTree.xaml.cs">
+      <DependentUpon>LibraryTree.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FramesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
