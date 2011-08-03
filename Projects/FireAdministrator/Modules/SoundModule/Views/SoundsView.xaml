@@ -85,7 +85,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedState}"
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding States}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedState}" 
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateName}" />
@@ -105,12 +105,12 @@
                     <DataGridTemplateColumn Header="PC Speaker" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Speaker}" />
+                                <TextBlock Text="{Binding SpeakerName}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding Speaker}" Margin="2" />
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding SpeakerName}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
@@ -125,8 +125,8 @@
             </DataGrid>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="10" DataContext="{Binding SelectedState}">
-            <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <Grid Grid.Row="1" Margin="10">
+            <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding Path=SoundPlrHelper.IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
     </Grid>

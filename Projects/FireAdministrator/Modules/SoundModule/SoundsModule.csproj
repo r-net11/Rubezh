@@ -77,7 +77,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SoundsModule.cs" />
-    <Compile Include="ViewModels\SoundsLoadViewModel.cs" />
+    <Compile Include="ViewModels\DownloadHelper.cs" />
+    <Compile Include="ViewModels\SoundPlayerHelper.cs" />
     <Compile Include="ViewModels\SoundsViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="Views\SoundsView.xaml.cs">

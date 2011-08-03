@@ -6,28 +6,34 @@ using System.Windows;
 using System;
 using System.Threading;
 using System.IO;
+using System.Collections.Generic;
 
 namespace SoundsModule.ViewModels
 {
-    public class SoundViewModel : BaseViewModel
+    public class SoundViewModel : RegionViewModel
     {
-        public SoundViewModel(string name, SoundPlayer soundPlayer,
-            ObservableCollection<string> availableSounds,
-            ObservableCollection<string> availableSpeakers)
+        public SoundViewModel(string stateName)
         {
-            StateName = name;
-            IsContinious = false;
-            IsNowPlaying = false;
-            SoundPlayer = soundPlayer;
-            AvailableSounds = availableSounds;
-            AvailableSpeakers = availableSpeakers;
-            PlaySoundCommand = new RelayCommand(OnPlaySound);
+            StateName = stateName;
+            SoundName = DownloadHelper.DefaultName;
+            SpeakerName = DownloadHelper.DefaultName;
+            IsContinious = DownloadHelper.DefaultIsContinious;
         }
 
         string _stateName;
         public string StateName
         {
-            get { return _stateName; }
+            get 
+            {
+                if (AvailableStates.IndexOf(_stateName) != -1)
+                {
+                    return _stateName;
+                }
+                else
+                {
+                    return DownloadHelper.DefaultName;
+                }
+            }
             set
             {
                 _stateName = value;
@@ -38,11 +44,17 @@ namespace SoundsModule.ViewModels
         string _soundName;
         public string SoundName
         {
-            get
+            get 
             {
-                return _soundName;
+                if (AvailableSounds.IndexOf(_soundName) != -1)
+                {
+                    return _soundName;
+                }
+                else
+                {
+                    return DownloadHelper.DefaultName;
+                }
             }
-
             set
             {
                 _soundName = value;
@@ -50,25 +62,31 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        string _speaker;
-        public string Speaker
+        string _speakerName;
+        public string SpeakerName
         {
-            get { return _speaker; }
+            get 
+            {
+                if (AvailableSpeakers.IndexOf(_speakerName) != -1)
+                {
+                    return _speakerName;
+                }
+                else
+                {
+                    return DownloadHelper.DefaultName;
+                }
+            }
             set
             {
-                _speaker = value;
-                OnPropertyChanged("Speaker");
+                _speakerName = value;
+                OnPropertyChanged("SpeakerName");
             }
         }
 
         bool _isContinious;
         public bool IsContinious
         {
-            get 
-            { 
-                return _isContinious;
-            }
-
+            get { return _isContinious; }
             set
             {
                 _isContinious = value;
@@ -76,83 +94,24 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        static bool _isNowPlaying;
-        public bool IsNowPlaying
+        public ObservableCollection<string> AvailableStates
         {
-            get
-            {
-                return _isNowPlaying;
-            }
-
-            set
-            {
-                _isNowPlaying = value;
-                OnPropertyChanged("IsNowPlaying");
-            }
+            get { return DownloadHelper.GetAvailableStates; }
         }
 
-        string _currentDirectory;
-        public string CurrentDirectory
+        public ObservableCollection<string> AvailableSounds 
         {
-            get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
+            get { return DownloadHelper.GetAvailableSounds; } 
         }
 
-        public ObservableCollection<string> AvailableSounds { get; private set; }
-
-        public ObservableCollection<string> AvailableSpeakers { get; private set; }
+        public ObservableCollection<string> AvailableSpeakers
+        {
+            get { return DownloadHelper.GetAvailableSpeakers; } 
+        }
         
-        public SoundPlayer SoundPlayer { get; private set; }
+        
+        
 
-        public void PlaySound()
-        {
-            SoundPlayer.SoundLocation = CurrentDirectory + SoundName;
-
-            if (!string.IsNullOrWhiteSpace(SoundName))
-            {
-                SoundPlayer.Load();
-            }
-            else
-            {
-                IsNowPlaying = false;
-                return;
-            }
-            if (SoundPlayer.IsLoadCompleted)
-            {
-                if (IsContinious)
-                {
-                    SoundPlayer.PlayLooping();
-                }
-                else
-                {
-                    SoundPlayer.Play();
-                    IsNowPlaying = false;
-                }
-                
-            }
-        }
-
-        public void StopPlaySound()
-        {
-            SoundPlayer.Stop();
-        }
-
-        public RelayCommand PlaySoundCommand { get; private set; }
-        void OnPlaySound()
-        {
-            if (IsNowPlaying)
-            {
-                StopPlaySound();
-                PlaySound();
-            }
-            else
-            {
-                StopPlaySound();
-            }
-        }
-
-        public void PlayPCSpeaker(object isContinious, object speaker)
-        {
-            
-        }
+        
     }
 }

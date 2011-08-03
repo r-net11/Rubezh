@@ -8,81 +8,30 @@ namespace SoundsModule.ViewModels
 {
     public class SoundsViewModel : RegionViewModel
     {
+        public SoundsViewModel()
+        {
+            
+        }
+
         public void Initialize()
         {
-            SoundPl = new SoundPlayer();
-            AvailableStates = new ObservableCollection<string>();
-            AvailableSounds = new ObservableCollection<string>();
-            AvailableSpeakers = new ObservableCollection<string>();
-            LoadSoundsData = new SoundsLoadViewModel();
-            LoadSoundsData.Inicialized(AvailableStates, AvailableSounds, AvailableSpeakers);
+            SoundPlrHelper = new SoundPlayerHelper();
+            PlaySoundCommand = new RelayCommand(OnPlaySound);
+            DownloadHelper.UpdateSound();
 
             States = new ObservableCollection<SoundViewModel>();
-            foreach (string str in AvailableStates)
-            {
-                States.Add(new SoundViewModel(str, SoundPl, AvailableSounds, AvailableSpeakers));
+            foreach (string str in DownloadHelper.GetAvailableStates) // Временно!
+            {                                                         //
+                States.Add(new SoundViewModel(str));
             }
             SelectedState = States[0];
         }
 
-        private SoundsLoadViewModel _loadSoundsData;
-        public SoundsLoadViewModel LoadSoundsData
-        {
-            get 
-            {
-                return _loadSoundsData; 
-            }
-
-            set 
-            {
-                _loadSoundsData = value;
-            }
-        }
-
-        private ObservableCollection<string> _availableStates;
-        public ObservableCollection<string> AvailableStates
-        {
-            get
-            {
-                return _availableStates;
-            }
-            set
-            {
-                _availableStates = value;
-            }
-        }
-
-        private ObservableCollection<string> _availableSounds;
-        public ObservableCollection<string> AvailableSounds
-        {
-            get
-            {
-                return _availableSounds;
-            }
-            set
-            {
-                _availableSounds = value;
-            }
-        }
-        
-        private ObservableCollection<string> _availableSpeakers;
-        public ObservableCollection<string> AvailableSpeakers
-        {
-            get
-            {
-                return _availableSpeakers;
-            }
-            set
-            {
-                _availableSpeakers = value;
-            }
-        }
-
-        ObservableCollection<SoundViewModel> _states;
+ObservableCollection<SoundViewModel> _states;
         public ObservableCollection<SoundViewModel> States
         {
             get { return _states; }
-            set
+            set 
             {
                 _states = value;
                 OnPropertyChanged("States");
@@ -100,18 +49,13 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        SoundPlayer _soundPl;
-        public SoundPlayer SoundPl
-        {
-            get 
-            {
-                return _soundPl; 
-            }
+        SoundPlayerHelper _soundPlrHelper;
+        public SoundPlayerHelper SoundPlrHelper { get; set; }        
 
-            set 
-            {
-                _soundPl = value;
-            }
+        public RelayCommand PlaySoundCommand { get; private set; }
+        void OnPlaySound()
+        {
+            SoundPlrHelper.PlaySound(SelectedState.SoundName, SelectedState.IsContinious);
         }
     }
 }
