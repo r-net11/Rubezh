@@ -50,17 +50,19 @@
                                 StrokeThickness="{TemplateBinding BorderThickness}"
                                 Fill="{TemplateBinding Background}"
                                 Visibility="Hidden"/>
+                            <TextBlock Name="txtBlock" Text="Проверка" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <ContentPresenter
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger
                             Property="IsChecked"
                             Value="True">
                                 <Setter
-                                    Property="Content"
+                                    TargetName="txtBlock"
+                                    Property="Text"
                                     Value="Остановить" />
                                 <Setter
                                     TargetName="ell"
@@ -71,6 +73,7 @@
                                     Property="Visibility"
                                     Value="Visible" />
                             </Trigger>
+                           
                            
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -128,7 +131,7 @@
 
         <Grid Grid.Row="1" Margin="10">
             <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding Path=SoundPlrHelper.IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Content="Проверка" Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
+                      Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
         <Button Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
     </Grid>
