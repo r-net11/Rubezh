@@ -430,7 +430,7 @@ namespace PlanEditor
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            string drawingCode = "";
+            //string drawingCode = "";
             if (e.Source == this)
             {
                 if (Isrectangle)
