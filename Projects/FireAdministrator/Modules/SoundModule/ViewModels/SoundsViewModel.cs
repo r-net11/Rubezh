@@ -16,21 +16,9 @@ namespace SoundsModule.ViewModels
 
         public void Initialize()
         {
-            SoundPlrHelper = new SoundPlayerHelper();
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             SaveCommand = new RelayCommand(Save);
-            DownloadHelper.UpdateSound();
-
-            Sounds = Load();
-            if (Sounds.Count == 0)
-            {
-                Sounds = new ObservableCollection<SoundViewModel>();
-                foreach (string str in DownloadHelper.GetAvailableStates) // Временно!
-                {                                                         //
-                    Sounds.Add(new SoundViewModel(str));
-                }
-            }
-            
+            Inicialize();
             SelectedSound = Sounds[0];
         }
         
@@ -41,23 +29,31 @@ namespace SoundsModule.ViewModels
             set 
             {
                 _sounds = value;
-                OnPropertyChanged("States");
+                OnPropertyChanged("Sounds");
             }
         }
 
-        SoundViewModel _selectedState;
+        SoundViewModel _selectedSound;
         public SoundViewModel SelectedSound
         {
-            get { return _selectedState; }
+            get { return _selectedSound; }
             set
             {
-                _selectedState = value;
-                OnPropertyChanged("SelectedState");
+                _selectedSound = value;
+                OnPropertyChanged("SelectedSound");
             }
         }
 
-        SoundPlayerHelper _soundPlrHelper;
-        public SoundPlayerHelper SoundPlrHelper { get; set; }
+        bool _isNowPlaying;
+        public bool IsNowPlaying
+        {
+            get { return _isNowPlaying; }
+            set
+            {
+                _isNowPlaying = value;
+                OnPropertyChanged("IsNowPlaying");
+            }
+        }
 
         public RelayCommand SaveCommand { get; private set; }
         public void Save()
@@ -65,30 +61,63 @@ namespace SoundsModule.ViewModels
             if (Sounds != null)
             {
                 FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
-                foreach (var state in Sounds)
+                foreach (var sound in Sounds)
                 {
-                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(state.Sound);
+                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
                 }
             }
         }
 
-        public ObservableCollection<SoundViewModel> Load()
+        public void Inicialize()
         {
+            DownloadHelper.UpdateSound();
+            IsNowPlaying = false;
+
             var sounds = new ObservableCollection<SoundViewModel>();
             var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            if (sysConfSounds != null)
+            //**************************
+            //временно(заменю на Linq)
+            bool isContains = false;
+            foreach (var state in DownloadHelper.GetAvailableStates)
             {
                 foreach (var sound in sysConfSounds)
                 {
-                    sounds.Add(new SoundViewModel(sound));
+                    if (string.Equals(sound.StateType, state))
+                    {
+                        isContains = true;
+                        sounds.Add(new SoundViewModel(sound));
+                    }
+                }
+                if (!isContains)
+                {
+                    sounds.Add(new SoundViewModel(state));
+                }
+                else
+                {
+                    isContains = false;
                 }
             }
-            return sounds;
+            //********************
+            Sounds = sounds;
         }
+
         public RelayCommand PlaySoundCommand { get; private set; }
         void OnPlaySound()
         {
-            SoundPlrHelper.PlaySound(SelectedSound.SoundName, SelectedSound.IsContinious);
+            if (IsNowPlaying)
+            {
+                SoundPlayerHelper.PlaySound(SelectedSound.SoundName, SelectedSound.IsContinious);
+                SoundPlayerHelper.PlayPCSpeaker(SelectedSound.SpeakerName, SelectedSound.IsContinious);
+                if (!SelectedSound.IsContinious)
+                {
+                    IsNowPlaying = false;
+                }
+            }
+            else
+            {
+                SoundPlayerHelper.StopPlaySound();
+                SoundPlayerHelper.StopPlayPCSpeaker();
+            }
         }
     }
 }

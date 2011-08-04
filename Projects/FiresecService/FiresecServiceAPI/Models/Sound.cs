@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
     public class Sound
     {
         [DataMember]
-        public string StateName { get; set; }
+        public string StateType { get; set; }
 
         [DataMember]
         public string SoundName { get; set; }

@@ -3,14 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SoundsModule.Converters">
     <UserControl.Resources>
-        <ControlTemplate x:Key="ComboBoxToggleButton"
-                 TargetType="{x:Type ToggleButton}">
-            <Label>
-                <Label.Background>
-                    <ImageBrush ImageSource="/SoundsModule;component/Icons/forward.png"/>
-                </Label.Background>
-            </Label>
-        </ControlTemplate>
         <Style
             x:Key="CheckBoxTemplate"
             TargetType="{x:Type CheckBox}">
@@ -73,8 +65,6 @@
                                     Property="Visibility"
                                     Value="Visible" />
                             </Trigger>
-                           
-                           
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -92,7 +82,7 @@
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}" 
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateName}" />
+                    <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateType}" />
                     
                     <DataGridTemplateColumn Header="Звук" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -130,7 +120,7 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="10">
-            <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding Path=SoundPlrHelper.IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
         <Button Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />

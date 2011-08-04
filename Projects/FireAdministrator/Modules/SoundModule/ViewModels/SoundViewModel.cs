@@ -13,16 +13,15 @@ namespace SoundsModule.ViewModels
 {
     public class SoundViewModel : RegionViewModel
     {
-
         public SoundViewModel(Sound sound)
         {
             Sound = sound;
         }
 
-        public SoundViewModel(string stateName)
+        public SoundViewModel(string stateType)
         {
-            Sound = new FiresecAPI.Models.Sound();
-            StateName = stateName;
+            Sound = new Sound();
+            StateType = stateType;
             SoundName = DownloadHelper.DefaultName;
             SpeakerName = DownloadHelper.DefaultName;
             IsContinious = DownloadHelper.DefaultIsContinious;
@@ -39,22 +38,22 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public string StateName
+        public string StateType
         {
             get
             {
-                if (AvailableStates.IndexOf(Sound.StateName) != -1)
+                if ((string.IsNullOrWhiteSpace(Sound.StateType)) || (AvailableStates.IndexOf(Sound.StateType) == -1))
                 {
-                    return Sound.StateName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.StateType;
                 }
             }
             set
             {
-                Sound.StateName = value;
+                Sound.StateType = value;
                 OnPropertyChanged("StateName");
             }
         }
@@ -63,18 +62,25 @@ namespace SoundsModule.ViewModels
         {
             get
             {
-                if (AvailableSounds.IndexOf(Sound.SoundName) != -1)
+                if ((string.IsNullOrWhiteSpace(Sound.SoundName)) || (AvailableSounds.IndexOf(Sound.SoundName) == -1))
                 {
-                    return Sound.SoundName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.SoundName;
                 }
             }
             set
             {
-                Sound.SoundName = value;
+                if (value == DownloadHelper.DefaultName)
+                {
+                    Sound.SoundName = null;
+                }
+                else
+                {
+                    Sound.SoundName = value;
+                }
                 OnPropertyChanged("SoundName");
             }
         }
@@ -83,18 +89,25 @@ namespace SoundsModule.ViewModels
         {
             get
             {
-                if (AvailableSpeakers.IndexOf(Sound.SpeakerName) != -1)
+                if ((string.IsNullOrWhiteSpace(Sound.SpeakerName)) || (AvailableSpeakers.IndexOf(Sound.SpeakerName) == -1))
                 {
-                    return Sound.SpeakerName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.SpeakerName;
                 }
             }
             set
             {
-                Sound.SpeakerName = value;
+                if (value == DownloadHelper.DefaultName)
+                {
+                    Sound.SpeakerName = null;
+                }
+                else
+                {
+                    Sound.SpeakerName = value;
+                }
                 OnPropertyChanged("SpeakerName");
             }
         }
@@ -111,7 +124,19 @@ namespace SoundsModule.ViewModels
 
         public ObservableCollection<string> AvailableStates
         {
-            get { return DownloadHelper.GetAvailableStates; }
+            get
+            {
+                ObservableCollection<string> availableStates = new ObservableCollection<string>();
+                availableStates.Add("Тревога");
+                availableStates.Add("Внимание");
+                availableStates.Add("Неисправность");
+                availableStates.Add("Требуется обслуживание");
+                availableStates.Add("Отключено");
+                availableStates.Add("Неизвестно");
+                availableStates.Add("Норма(*)");
+                availableStates.Add("Норма");
+                return availableStates;
+            }
         }
 
         public ObservableCollection<string> AvailableSounds 
@@ -121,7 +146,14 @@ namespace SoundsModule.ViewModels
 
         public ObservableCollection<string> AvailableSpeakers
         {
-            get { return DownloadHelper.GetAvailableSpeakers; } 
+            get
+            {
+                ObservableCollection<string> availableSpeakers = new ObservableCollection<string>();
+                availableSpeakers.Add(DownloadHelper.DefaultName);
+                availableSpeakers.Add("Тревога");
+                availableSpeakers.Add("Внимание");
+                return availableSpeakers;
+            }
         }
     }
 }

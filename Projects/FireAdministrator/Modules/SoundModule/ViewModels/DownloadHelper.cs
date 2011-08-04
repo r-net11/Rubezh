@@ -17,11 +17,12 @@ namespace SoundsModule.ViewModels
         }
 
         public const string DefaultName = "<не задано>";
+
         public const bool DefaultIsContinious = false;
 
         public static ObservableCollection<string> GetAvailableStates
         {
-            get 
+            get
             {
                 ObservableCollection<string> availableStates = new ObservableCollection<string>();
                 availableStates.Add("Тревога");
@@ -32,9 +33,9 @@ namespace SoundsModule.ViewModels
                 availableStates.Add("Неизвестно");
                 availableStates.Add("Норма(*)");
                 availableStates.Add("Норма");
-                return availableStates; 
+                return availableStates;
             }
-            
+
         }
 
         public static ObservableCollection<string> GetAvailableSounds
@@ -51,7 +52,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public static ObservableCollection<string> GetAvailableSpeakers
+        public static ObservableCollection<string> AvailableSpeakers
         {
             get
             {
@@ -61,7 +62,6 @@ namespace SoundsModule.ViewModels
                 availableSpeakers.Add("Внимание");
                 return availableSpeakers;
             }
-            
         }
 
         public static void UpdateSound()
@@ -120,6 +120,5 @@ namespace SoundsModule.ViewModels
             }
             return hashTable;
         }
-
     }
 }
