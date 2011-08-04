@@ -53,5 +53,10 @@ namespace FireAdministrator
         {
             Shell.Menu = model;
         }
+
+        public void ShowValidationArea(object model)
+        {
+            Shell.ValidatoinArea = model;
+        }
     }
 }

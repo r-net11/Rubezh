@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
@@ -10,85 +11,79 @@ namespace LibraryModule.ViewModels
     {
         public static readonly string DefaultClassId = "8";
 
-        public StateViewModel(DeviceLibrary.Models.State state, DeviceViewModel parent)
+        public StateViewModel(DeviceLibrary.Models.State state, FiresecAPI.Models.Driver parentDriver)
         {
-            SetFrames(state);
-            ParentDevice = parent;
-            Class = state.Class;
-            if (state.Code != null)
+            Initialize(parentDriver);
+
+            State.Class = state.Class;
+            State.Code = state.Code;
+            if (state.Frames != null)
             {
-                InnerState = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == state.Code);
+                State.Frames = new List<DeviceLibrary.Models.Frame>(state.Frames);
             }
-
-            Initialize();
         }
 
-        public StateViewModel(InnerState innerState, DeviceViewModel parent)
+        public StateViewModel(InnerState innerState, FiresecAPI.Models.Driver parentDriver)
         {
-            SetDefaultFrame();
-            ParentDevice = parent;
-            Class = innerState.State.Id.ToString();
-            InnerState = innerState;
+            Initialize(parentDriver);
 
-            Initialize();
+            State.Class = innerState.State.Id.ToString();
+            State.Code = innerState.Code;
         }
 
-        public StateViewModel(string classId, DeviceViewModel parent)
+        public StateViewModel(string classId, FiresecAPI.Models.Driver parentDriver)
         {
-            SetDefaultFrame();
-            ParentDevice = parent;
-            Class = classId;
+            Initialize(parentDriver);
 
-            Initialize();
+            State.Class = classId;
         }
 
-        void Initialize()
+        public void Initialize(FiresecAPI.Models.Driver parentDriver)
         {
-            RemoveStateCommand = new RelayCommand(OnRemoveState);
+            ParentDriver = parentDriver;
+            State = new DeviceLibrary.Models.State();
+            SetDefaultFrameTo(State);
+
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
         }
 
-        public InnerState InnerState { get; private set; }
-        public DeviceViewModel ParentDevice { get; private set; }
+        public DeviceLibrary.Models.State State { get; private set; }
+        public FiresecAPI.Models.Driver ParentDriver { get; private set; }
 
-        public string Class { get; private set; }
-
-        public string Code
+        bool isChecked;
+        public bool IsChecked
         {
             get
             {
-                if (InnerState != null) return InnerState.Code;
-                return null;
+                return isChecked;
+            }
+            set
+            {
+                isChecked = value;
             }
         }
 
         public bool IsAdditional
         {
-            get
-            {
-                return InnerState != null;
-            }
+            get { return State.Code != null; }
         }
 
         public string ClassName
         {
-            get
-            {
-                return new State() { Id = int.Parse(Class) }.ToString();
-            }
+            get { return new State() { Id = int.Parse(State.Class) }.ToString(); }
         }
 
         public string Name
         {
             get
             {
-                var name = new State() { Id = int.Parse(Class) }.ToString();
+                var name = ClassName;
                 if (IsAdditional)
                 {
-                    name += ". ";
-                    var state = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == Code);
-                    if (state == null) name += "Unknown";
-                    name += state.Name;
+                    name = name + "." + AdditionalName;
                 }
+
                 return name;
             }
         }
@@ -97,94 +92,81 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                var state = ParentDevice.Driver.States.FirstOrDefault(x => x.Code == Code);
-                if (state == null) return "Unknown";
-                return state.Name;
-            }
-        }
-
-        bool _isChecked;
-        public bool IsChecked
-        {
-            get { return _isChecked; }
-            set
-            {
-                _isChecked = value;
-                if (ParentDevice.SelectedState != this)
+                if (IsAdditional)
                 {
-                    ParentDevice.SelectedState = this;
+                    return ParentDriver.States.First(x => x.Code == State.Code).Name;
                 }
 
-                OnPropertyChanged("IsChecked");
+                return null;
             }
         }
 
-        public CanvasesPresenter CanvasesPresenter
-        {
-            get { return new CanvasesPresenterViewModel(this).CanvasesPresenter; }
-        }
-
-        ObservableCollection<FrameViewModel> _frames;
-        public ObservableCollection<FrameViewModel> Frames
+        public ObservableCollection<FrameViewModel> FrameViewModels
         {
             get
             {
-                return _frames;
-            }
+                var frameViewModels = new ObservableCollection<FrameViewModel>();
+                foreach (var frame in State.Frames)
+                {
+                    frameViewModels.Add(new FrameViewModel(frame));
+                }
+                SelectedFrameViewModel = frameViewModels[0];
 
-            private set
-            {
-                _frames = value;
-                OnPropertyChanged("Frames");
+                return frameViewModels;
             }
         }
 
-        FrameViewModel _selectedFrame;
-        public FrameViewModel SelectedFrame
+        FrameViewModel _selectedFrameViewModel;
+        public FrameViewModel SelectedFrameViewModel
         {
-            get
-            {
-                return _selectedFrame;
-            }
-
+            get { return _selectedFrameViewModel; }
             set
             {
-                _selectedFrame = value;
-                OnPropertyChanged("SelectedFrame");
+                _selectedFrameViewModel = value;
+                OnPropertyChanged("SelectedFrameViewModel");
             }
         }
 
-        void SetDefaultFrame()
+        public static void SetDefaultFrameTo(DeviceLibrary.Models.State state)
         {
-            Frames = new ObservableCollection<FrameViewModel>();
-            Frames.Add(new FrameViewModel(this));
+            state.Frames = new List<DeviceLibrary.Models.Frame>();
+            state.Frames.Add(FrameViewModel.GetDefaultFrameWith(state.Frames.Count));
         }
 
-        void SetFrames(DeviceLibrary.Models.State state)
+        public static DeviceLibrary.Models.State GetDefaultState()
         {
-            Frames = new ObservableCollection<FrameViewModel>();
-            foreach (var frame in state.Frames)
-            {
-                Frames.Add(new FrameViewModel(this, frame));
-            }
+            var state = new DeviceLibrary.Models.State();
+            state.Class = DefaultClassId;
+            SetDefaultFrameTo(state);
+
+            return state;
         }
 
-        public RelayCommand RemoveStateCommand { get; private set; }
-        void OnRemoveState()
+        public RelayCommand AddFrameCommand { get; private set; }
+        void OnAddFrame()
         {
-            if (Class == DefaultClassId)
+            State.Frames.Add(FrameViewModel.GetDefaultFrameWith(State.Frames.Count));
+            OnPropertyChanged("FrameViewModels");
+        }
+
+        public RelayCommand RemoveFrameCommand { get; private set; }
+        void OnRemoveFrame()
+        {
+            if (State.Frames.Count == 1)
             {
-                MessageBox.Show("Невозможно удалить базовый рисунок");
+                MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
             }
             else
             {
-                var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
-                                                    "Окно подтверждения",
-                                                    MessageBoxButton.OKCancel,
-                                                    MessageBoxImage.Question);
-                if (dialogResult == MessageBoxResult.OK)
+                var result = MessageBox.Show("Удалить выбранный кадр?",
+                                            "Окно подтверждения",
+                                            MessageBoxButton.OKCancel,
+                                            MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.OK)
                 {
-                    ParentDevice.States.Remove(this);
+                    State.Frames.Remove(SelectedFrameViewModel.Frame);
+                    OnPropertyChanged("FrameViewModels");
                 }
             }
         }

@@ -1,88 +1,71 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using DeviceLibrary;
-using DeviceLibrary.Models;
+using Infrastructure;
 using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {
     public class LibraryViewModel : RegionViewModel
     {
-        public LibraryViewModel()
-        {
-            SaveCommand = new RelayCommand(OnSave);
-        }
+        public LibraryViewModel() { }
 
         public void Initialize()
         {
-            var devicesList = new ObservableCollection<DeviceViewModel>();
-            foreach (var device in LibraryManager.Devices)
-            {
-                devicesList.Add(new DeviceViewModel(this, device));
-            }
-            Devices = devicesList;
+            AddDeviceCommand = new RelayCommand(OnAddDevice);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
+            SaveCommand = new RelayCommand(OnSave);
         }
 
-        ObservableCollection<DeviceViewModel> _devices;
-        public ObservableCollection<DeviceViewModel> Devices
+        public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
-            get { return _devices; }
-
-            private set
+            get
             {
-                _devices = value;
-                OnPropertyChanged("Devices");
+                var deviceViewModels = new ObservableCollection<DeviceViewModel>();
+                foreach (var device in LibraryManager.Devices)
+                {
+                    deviceViewModels.Add(new DeviceViewModel(device));
+                }
+
+                return deviceViewModels;
             }
         }
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
+        DeviceViewModel _selectedDeviceViewModel;
+        public DeviceViewModel SelectedDeviceViewModel
         {
-            get { return _selectedDevice; }
-
+            get { return _selectedDeviceViewModel; }
             set
             {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
+                _selectedDeviceViewModel = value;
+                OnPropertyChanged("SelectedDeviceViewModel");
             }
         }
 
-        void UpdateModel()
+        public RelayCommand AddDeviceCommand { get; private set; }
+        void OnAddDevice()
         {
-            var devices = new List<Device>();
-            foreach (var deviceViewModel in Devices)
+            var addDeviceViewModel = new DeviceDetailsViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                if (!deviceViewModel.Driver.IsIgnore && deviceViewModel.Driver.IsPlaceable)
-                {
-                    var device = new Device();
-                    device.Id = deviceViewModel.Id;
-
-                    device.States = new List<State>();
-                    foreach (var stateViewModel in deviceViewModel.States)
-                    {
-                        var state = new State();
-                        state.Class = stateViewModel.Class;
-                        state.Code = stateViewModel.Code;
-
-                        state.Frames = new List<Frame>();
-                        foreach (var frameViewModel in stateViewModel.Frames)
-                        {
-                            var frame = new Frame();
-                            frame.Id = frameViewModel.Id;
-                            frame.Image = frameViewModel.XmlOfImage;
-                            frame.Duration = frameViewModel.Duration;
-                            frame.Layer = frameViewModel.Layer;
-
-                            state.Frames.Add(frame);
-                        }
-                        device.States.Add(state);
-                    }
-                    devices.Add(device);
-                }
+                LibraryManager.Devices.Add(addDeviceViewModel.SelectedItem.Device);
+                OnPropertyChanged("DeviceViewModels");
             }
-            LibraryManager.Devices = devices;
+        }
+
+        public RelayCommand RemoveDeviceCommand { get; private set; }
+        void OnRemoveDevice()
+        {
+            var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
+                                          "Окно подтверждения",
+                                          MessageBoxButton.OKCancel,
+                                          MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.OK)
+            {
+                LibraryManager.Devices.Remove(SelectedDeviceViewModel.Device);
+                OnPropertyChanged("DeviceViewModels");
+            }
         }
 
         public RelayCommand SaveCommand { get; private set; }
@@ -91,9 +74,9 @@ namespace LibraryModule.ViewModels
             var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
                                          "Окно подтверждения", MessageBoxButton.OKCancel,
                                          MessageBoxImage.Question);
+
             if (result == MessageBoxResult.OK)
             {
-                UpdateModel();
                 LibraryManager.Save();
             }
         }

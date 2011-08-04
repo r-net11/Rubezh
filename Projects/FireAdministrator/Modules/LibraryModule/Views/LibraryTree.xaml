@@ -4,49 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ViewModels="clr-namespace:LibraryModule.ViewModels"
+             xmlns:Converters="clr-namespace:LibraryModule.Converters"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        
-        <CollectionViewSource x:Key="SortedDevices" Source="{Binding Devices}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Name" Direction="Ascending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        
+        <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />              
     </UserControl.Resources>
-    <StackPanel>
-        <TextBlock Text="{Binding ElementName=tree, Path=SelectedItem.Name}" Background="Yellow" />
-        <TreeView Name="DevicesTree" ItemsSource="{Binding Source={StaticResource SortedDevices}}"
+    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+        <TreeView Name="DevicesTree" 
+                  ItemsSource="{Binding DeviceViewModels, 
+                                        Converter={StaticResource CollectionViewFactoryConverter}, 
+                                        ConverterParameter=Driver.Name}"
                   SelectedItemChanged="LibraryTree_SelectedItemChanged">
-        <!--<TreeView.Resources>
-            <CollectionViewSource x:Key="SortedStates" Source="{Binding States}">
-                <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="Name" Direction="Ascending" />
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
-        </TreeView.Resources>-->
-        <TreeView.ItemTemplate>
-            <HierarchicalDataTemplate ItemsSource = "{Binding States}">
-                <WrapPanel Margin="0,3">
-                    <Image Source="{Binding IconPath}" Width="14" Margin="5,0" />
-                    <TextBlock Text="{Binding Name}" />
-                </WrapPanel>
-                <HierarchicalDataTemplate.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
-                            <CheckBox IsChecked="{Binding IsChecked}"
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding StateViewModels,
+                                        Converter={StaticResource CollectionViewFactoryConverter}, 
+                                        ConverterParameter=Name}">
+                    <WrapPanel Margin="0,3">
+                        <Image Source="{Binding Driver.ImageSource}" Width="14" Margin="5,0" />
+                        <TextBlock Text="{Binding Driver.DriverName}" />
+                    </WrapPanel>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
                                       Visibility="{Binding IsAdditional, 
                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <TextBlock Text="{Binding Name}" 
+                                <TextBlock Text="{Binding Name}" 
                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
-                        </WrapPanel>
-                    </DataTemplate>
-                </HierarchicalDataTemplate.ItemTemplate>
-            </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
-    </TreeView>
-    </StackPanel>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </ScrollViewer>
 </UserControl>

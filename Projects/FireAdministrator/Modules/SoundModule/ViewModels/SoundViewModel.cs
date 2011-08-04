@@ -7,96 +7,136 @@ using System;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
+using FiresecAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
     public class SoundViewModel : RegionViewModel
     {
-        public SoundViewModel(string stateName)
+        public SoundViewModel(Sound sound)
         {
-            StateName = stateName;
+            Sound = sound;
+        }
+
+        public SoundViewModel(string stateType)
+        {
+            Sound = new Sound();
+            StateType = stateType;
             SoundName = DownloadHelper.DefaultName;
             SpeakerName = DownloadHelper.DefaultName;
             IsContinious = DownloadHelper.DefaultIsContinious;
         }
 
-        string _stateName;
-        public string StateName
+        Sound _sound;
+        public Sound Sound
         {
-            get 
+            get { return _sound; }
+            set
             {
-                if (AvailableStates.IndexOf(_stateName) != -1)
+                _sound = value;
+                //OnPropertyChanged("Sound");
+            }
+        }
+
+        public string StateType
+        {
+            get
+            {
+                if ((string.IsNullOrWhiteSpace(Sound.StateType)) || (AvailableStates.IndexOf(Sound.StateType) == -1))
                 {
-                    return _stateName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.StateType;
                 }
             }
             set
             {
-                _stateName = value;
+                Sound.StateType = value;
                 OnPropertyChanged("StateName");
             }
         }
 
-        string _soundName;
         public string SoundName
         {
-            get 
+            get
             {
-                if (AvailableSounds.IndexOf(_soundName) != -1)
+                if ((string.IsNullOrWhiteSpace(Sound.SoundName)) || (AvailableSounds.IndexOf(Sound.SoundName) == -1))
                 {
-                    return _soundName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.SoundName;
                 }
             }
             set
             {
-                _soundName = value;
+                if (value == DownloadHelper.DefaultName)
+                {
+                    Sound.SoundName = null;
+                }
+                else
+                {
+                    Sound.SoundName = value;
+                }
                 OnPropertyChanged("SoundName");
             }
         }
 
-        string _speakerName;
         public string SpeakerName
         {
-            get 
+            get
             {
-                if (AvailableSpeakers.IndexOf(_speakerName) != -1)
+                if ((string.IsNullOrWhiteSpace(Sound.SpeakerName)) || (AvailableSpeakers.IndexOf(Sound.SpeakerName) == -1))
                 {
-                    return _speakerName;
+                    return DownloadHelper.DefaultName;
                 }
                 else
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.SpeakerName;
                 }
             }
             set
             {
-                _speakerName = value;
+                if (value == DownloadHelper.DefaultName)
+                {
+                    Sound.SpeakerName = null;
+                }
+                else
+                {
+                    Sound.SpeakerName = value;
+                }
                 OnPropertyChanged("SpeakerName");
             }
         }
 
-        bool _isContinious;
         public bool IsContinious
         {
-            get { return _isContinious; }
+            get { return Sound.IsContinious; }
             set
             {
-                _isContinious = value;
+                Sound.IsContinious = value;
                 OnPropertyChanged("IsContinious");
             }
         }
 
         public ObservableCollection<string> AvailableStates
         {
-            get { return DownloadHelper.GetAvailableStates; }
+            get
+            {
+                ObservableCollection<string> availableStates = new ObservableCollection<string>();
+                availableStates.Add("Тревога");
+                availableStates.Add("Внимание");
+                availableStates.Add("Неисправность");
+                availableStates.Add("Требуется обслуживание");
+                availableStates.Add("Отключено");
+                availableStates.Add("Неизвестно");
+                availableStates.Add("Норма(*)");
+                availableStates.Add("Норма");
+                return availableStates;
+            }
         }
 
         public ObservableCollection<string> AvailableSounds 
@@ -106,12 +146,14 @@ namespace SoundsModule.ViewModels
 
         public ObservableCollection<string> AvailableSpeakers
         {
-            get { return DownloadHelper.GetAvailableSpeakers; } 
+            get
+            {
+                ObservableCollection<string> availableSpeakers = new ObservableCollection<string>();
+                availableSpeakers.Add(DownloadHelper.DefaultName);
+                availableSpeakers.Add("Тревога");
+                availableSpeakers.Add("Внимание");
+                return availableSpeakers;
+            }
         }
-        
-        
-        
-
-        
     }
 }

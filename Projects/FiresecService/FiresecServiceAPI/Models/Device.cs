@@ -15,6 +15,7 @@ namespace FiresecAPI.Models
 
         public Driver Driver { get; set; }
         public Device Parent { get; set; }
+        public string PlaceInTree { get; set; }
 
         [DataMember]
         public List<Device> Children { get; set; }
@@ -24,9 +25,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string DriverId { get; set; }
-
-        //[DataMember]
-        public string PlaceInTree { get; set; }
 
         [DataMember]
         public int IntAddress { get; set; }
@@ -51,8 +49,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string UID { get; set; }
-
-        public List<ValidationError> ValidationErrors { get; set; }
 
         public string AddressFullPath
         {
@@ -194,15 +190,18 @@ namespace FiresecAPI.Models
                 newDevice.DatabaseId = DatabaseId;
             }
 
-            newDevice.ZoneLogic = new Models.ZoneLogic();
-            newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
-            foreach (var clause in ZoneLogic.Clauses)
+            if (ZoneLogic != null)
             {
-                Clause newClause = new Clause();
-                newClause.State = clause.State;
-                newClause.Operation = clause.Operation;
-                newClause.Zones = clause.Zones.ToList();
-                newDevice.ZoneLogic.Clauses.Add(newClause);
+                newDevice.ZoneLogic = new Models.ZoneLogic();
+                newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
+                foreach (var clause in ZoneLogic.Clauses)
+                {
+                    Clause newClause = new Clause();
+                    newClause.State = clause.State;
+                    newClause.Operation = clause.Operation;
+                    newClause.Zones = clause.Zones.ToList();
+                    newDevice.ZoneLogic.Clauses.Add(newClause);
+                }
             }
 
             List<Property> copyProperties = new List<Property>();

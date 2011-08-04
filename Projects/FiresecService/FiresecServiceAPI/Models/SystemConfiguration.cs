@@ -11,11 +11,15 @@ namespace FiresecAPI.Models
     {
         public SystemConfiguration()
         {
+            Sounds = new List<Sound>();
             JournalFilters = new List<JournalFilter>();
             Users = new List<User>();
             UserGroups = new List<UserGroup>();
             Perimissions = new List<Perimission>();
         }
+
+        [DataMember]
+        public List<Sound> Sounds { get; set; }
 
         [DataMember]
         public List<JournalFilter> JournalFilters { get; set; }

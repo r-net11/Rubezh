@@ -40,6 +40,5 @@ namespace FiresecAPI.Models
         {
             get { return No + "." + Name; }
         }
-        public List<ValidationError> ValidationErrors { get; set; }
     }
 }

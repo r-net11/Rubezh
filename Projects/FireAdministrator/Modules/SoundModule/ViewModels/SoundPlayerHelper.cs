@@ -4,93 +4,76 @@ using System.Linq;
 using System.Text;
 using System.Media;
 using Infrastructure.Common;
+using System.Threading;
 
 namespace SoundsModule.ViewModels
 {
-    public class SoundPlayerHelper : RegionViewModel
+    public static class SoundPlayerHelper
     {
-        public SoundPlayerHelper()
+        static SoundPlayerHelper()
         {
             SoundPlr = new SoundPlayer();
-            IsNowPlaying = false;
         }
 
-        SoundPlayer _soundPlr;
-        public SoundPlayer SoundPlr
-        {
-            get { return _soundPlr; }
-            set
-            {
-                _soundPlr = value;
-            }
-        }
+        static SoundPlayer SoundPlr { get; set; }
+        static Thread thread { get; set; }
 
-        bool _isNowPlaying;
-        public bool IsNowPlaying 
-        {
-            get { return _isNowPlaying; }
-            set 
-            {
-                _isNowPlaying = value;
-                OnPropertyChanged("IsNowPlaying");
-            }
-        }
-
-        public void PlaySound(string soundName, bool isContinious)
-        {
-            if (IsNowPlaying)
-            {
-                Stop();
-                Play(soundName, isContinious);
-            }
-            else
-            {
-                Stop();
-            }
-        }
-
-        public void Play(string SoundName, bool isContinious)
+        static public void PlaySound(string SoundName, bool isContinious)
         {
             SoundPlr.SoundLocation = DownloadHelper.CurrentDirectory + SoundName;
 
-            if (!(string.IsNullOrWhiteSpace(SoundName))&&(!string.Equals(SoundName, DownloadHelper.DefaultName)))
+            if (!(string.IsNullOrWhiteSpace(SoundName)) && (!string.Equals(SoundName, DownloadHelper.DefaultName)))
             {
-                try
+                SoundPlr.Load();
+                if (SoundPlr.IsLoadCompleted)
                 {
-                    SoundPlr.Load();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-            else
-            {
-                IsNowPlaying = false;
-                return;
-            }
-
-            if (SoundPlr.IsLoadCompleted)
-            {
-                if (isContinious)
-                {
-                    SoundPlr.PlayLooping();
-                }
-                else
-                {
-                    SoundPlr.Play();
-                    IsNowPlaying = false;
+                    if (isContinious)
+                    {
+                        SoundPlr.PlayLooping();
+                    }
+                    else
+                    {
+                        SoundPlr.Play();
+                    }
                 }
             }
         }
 
-        public void Stop()
+        static public void StopPlaySound()
         {
             SoundPlr.Stop();
         }
 
-        public void PlayPCSpeaker(object isContinious, object speaker)
+        static void PlayBeepContinious(object isContinious)
         {
+            bool IsContinious = (bool)isContinious;
+            if (IsContinious)
+            {
+                while (true)
+                {
+                    Console.Beep(1000, 1000);
+                    Thread.Sleep(500);
+                }
+            }
+            else
+            {
+                Console.Beep(1000, 1000);
+            }
+        }
 
+
+        static public void PlayPCSpeaker(string Speaker, bool isContinious)
+        {
+            if (!(string.IsNullOrWhiteSpace(Speaker)) && (!string.Equals(Speaker, DownloadHelper.DefaultName)))
+            {
+                thread = new Thread(PlayBeepContinious);
+                thread.Start(isContinious);
+            }
+        }
+
+        static public void StopPlayPCSpeaker()
+        {
+            thread.Abort();
         }
     }
 }

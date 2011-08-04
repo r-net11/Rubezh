@@ -113,9 +113,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\forward.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,20 +121,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Sounds\Sound1.wav" />
-    <Content Include="Sounds\Sound2.wav" />
-    <Content Include="Sounds\Sound3.wav" />
-    <Content Include="Sounds\Sound4.wav" />
-    <Content Include="Sounds\Sound5.wav" />
-    <Content Include="Sounds\Sound6.wav" />
-    <Content Include="Sounds\Sound7.wav" />
-    <Content Include="Sounds\Sound8.wav" />
-    <Content Include="Sounds\Sound9.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

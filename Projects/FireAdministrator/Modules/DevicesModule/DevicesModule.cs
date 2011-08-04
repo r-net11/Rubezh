@@ -1,4 +1,5 @@
-﻿using DevicesModule.ViewModels;
+﻿using System.Linq;
+using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
@@ -45,11 +46,23 @@ namespace DevicesModule
 
         static void OnShowDevice(string id)
         {
+            if (string.IsNullOrEmpty(id) != null)
+            {
+                devicesViewModel.Select(id);
+            }
+            //devicesViewModel.FillAllDevices();
+            //var deviceViewModel = devicesViewModel.AllDevices.FirstOrDefault(x => x.Id == id);
+            //if (deviceViewModel != null)
+            //{
+            //    deviceViewModel.ExpantToThis();
+            //}
+            //devicesViewModel.SelectedDevice = deviceViewModel;
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
         static void OnShowZone(string zoneNo)
         {
+            zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
             ServiceFactory.Layout.Show(zonesViewModel);
         }
 
@@ -60,6 +73,8 @@ namespace DevicesModule
 
         public static void Validate()
         {
+            ValidationErrorsViewModel validationErrorsViewModel = new ValidationErrorsViewModel();
+            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
         }
     }
 }

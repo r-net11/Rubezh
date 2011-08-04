@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,37 +9,38 @@ namespace LibraryModule.ViewModels
 {
     public class CanvasesPresenter
     {
-        public CanvasesPresenter(StateViewModel stateViewModel)
+        public CanvasesPresenter(DeviceLibrary.Models.State state)
         {
-            Canvases = new ObservableCollection<Canvas>();
-            AddCanvacesFrom(stateViewModel);
+            Canvases = new List<Canvas>();
+            AddCanvacesFrom(state);
             Canvases[0].Visibility = Visibility.Visible;
         }
 
-        List<FrameViewModel> _frames = new List<FrameViewModel>();
+        List<DeviceLibrary.Models.Frame> _frames = new List<DeviceLibrary.Models.Frame>();
         int _tick = 0;
         int _startTick = 0;
         bool _isTimerSetted = false;
 
-        public ObservableCollection<Canvas> Canvases { get; private set; }
+        public List<Canvas> Canvases { get; private set; }
         public DispatcherTimer Timer { get; private set; }
 
-        public void AddCanvacesFrom(StateViewModel stateViewModel)
+        public void AddCanvacesFrom(DeviceLibrary.Models.State state)
         {
-            if (stateViewModel != null)
+            if (state != null)
             {
-                _frames.AddRange(stateViewModel.Frames);
+                _frames.AddRange(state.Frames);
                 SetTimer();
 
-                foreach (var frame in stateViewModel.Frames)
+                foreach (var frame in state.Frames)
                 {
-                    var canvas = ImageConverters.Xml2Canvas(frame.XmlOfImage, frame.Layer);
+                    var canvas = ImageConverters.Xml2Canvas(frame.Image, frame.Layer);
                     if (canvas.Children.Count == 0)
                     {
                         canvas.Background = Brushes.White;
                         canvas.Opacity = 0.01;
                     }
                     canvas.Visibility = Visibility.Collapsed;
+
                     Canvases.Add(canvas);
                 }
             }

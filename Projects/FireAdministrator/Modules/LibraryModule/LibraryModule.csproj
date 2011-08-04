@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="LibraryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -72,15 +73,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ImageConverters.cs" />
-    <Compile Include="ViewModels\AddDeviceViewModel.cs" />
-    <Compile Include="ViewModels\AddViewModel.cs" />
+    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DetailsBaseViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
-    <Compile Include="ViewModels\AddAdditionalStateViewModel.cs" />
-    <Compile Include="ViewModels\AddStateViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalStateDetailsViewModel.cs" />
+    <Compile Include="ViewModels\StateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
-    <Compile Include="ViewModels\CanvacesPresenterViewModel.cs" />
     <Compile Include="Model\CanvacesPresenter.cs" />
     <Compile Include="Views\CanvacesView.xaml.cs">
       <DependentUpon>CanvacesView.xaml</DependentUpon>
@@ -97,17 +97,17 @@
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddAdditionalStateView.xaml.cs">
-      <DependentUpon>AddAdditionalStateView.xaml</DependentUpon>
+    <Compile Include="Views\AdditionalStateDetailsView.xaml.cs">
+      <DependentUpon>AdditionalStateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddStateView.xaml.cs">
-      <DependentUpon>AddStateView.xaml</DependentUpon>
+    <Compile Include="Views\StateDetailsView.xaml.cs">
+      <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatesView.xaml.cs">
       <DependentUpon>StatesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddDeviceView.xaml.cs">
-      <DependentUpon>AddDeviceView.xaml</DependentUpon>
+    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -175,11 +175,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddAdditionalStateView.xaml">
+    <Page Include="Views\AdditionalStateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddStateView.xaml">
+    <Page Include="Views\StateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,7 +187,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddDeviceView.xaml">
+    <Page Include="Views\DeviceDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

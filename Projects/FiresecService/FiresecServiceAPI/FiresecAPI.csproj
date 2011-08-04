@@ -65,8 +65,8 @@
     <Compile Include="Models\JournalFilter.cs" />
     <Compile Include="Models\JournalRecord.cs" />
     <Compile Include="Models\PDUGroupLogic.cs" />
+    <Compile Include="Models\Sound.cs" />
     <Compile Include="Models\SystemConfiguration.cs" />
-    <Compile Include="ValidationError.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AlarmType.cs" />

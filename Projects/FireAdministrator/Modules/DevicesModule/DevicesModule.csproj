@@ -75,6 +75,8 @@
     <Compile Include="Events\RemoveZoneEvent.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
+    <Compile Include="ViewModels\ValidationErrorsViewModel.cs" />
+    <Compile Include="ViewModels\ValidationErrorViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +158,9 @@
     </Compile>
     <Compile Include="Views\Devices\PropertyDetails\ValveDetailsView.xaml.cs">
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValidationErrorsView.xaml.cs">
+      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Zones\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
@@ -270,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Devices\PropertyDetails\ValveDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ValidationErrorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

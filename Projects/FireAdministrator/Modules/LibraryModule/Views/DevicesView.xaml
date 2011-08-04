@@ -4,22 +4,22 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:Views="clr-namespace:LibraryModule.Views">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="SortedDevices" Source="{Binding Devices}">
+        <CollectionViewSource x:Key="SortedDevices" Source="{Binding DeviceViewModels}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Name" Direction="Ascending" />
+                <scm:SortDescription PropertyName="Driver.Name" Direction="Ascending" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <ListBox ItemsSource="{Binding Source={StaticResource SortedDevices}}" SelectedItem="{Binding SelectedDevice}" 
+    <ListBox ItemsSource="{Binding Source={StaticResource SortedDevices}}" SelectedItem="{Binding SelectedDeviceViewModel}"
              HorizontalContentAlignment="Stretch">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Expander>
                     <Expander.Header>
                         <WrapPanel>
-                            <Image Source="{Binding IconPath}" Width="14" Margin="5,0" />
-                            <TextBlock Text="{Binding Name}" />
+                            <Image Source="{Binding Driver.ImageSource}" Width="14" Margin="5,0" />
+                            <TextBlock Text="{Binding Driver.DriverName}" />
                         </WrapPanel>
                     </Expander.Header>
                     <Views:StatesView />

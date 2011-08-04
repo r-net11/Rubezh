@@ -19,6 +19,8 @@ namespace FireAdministrator
 
         private void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
+            //FiltersModule.FiltersModule.Save();
+            //SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
         }
 
@@ -29,10 +31,7 @@ namespace FireAdministrator
 
         public bool CanChangeConfig
         {
-            get
-            {
-                return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ChangeConfigDevices));
-            }
+            get { return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ChangeConfigDevices)); }
         }
 
         private void OnLoadFromFile(object sender, RoutedEventArgs e)
