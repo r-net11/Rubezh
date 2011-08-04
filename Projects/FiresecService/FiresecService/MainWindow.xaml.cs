@@ -15,5 +15,10 @@ namespace FiresecServiceRunner
             FiresecManager.Connect("adm", "");
             FiresecServiceManager.Open();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

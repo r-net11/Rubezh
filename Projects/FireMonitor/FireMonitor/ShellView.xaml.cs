@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Microsoft.Windows.Controls;
+using Infrastructure;
 
 namespace FireMonitor
 {
@@ -103,12 +104,12 @@ namespace FireMonitor
                 return;
             }
 
-            //bool result = ServiceFactory.Get<ISecurityService>().Check();
-            //if (result == false)
-            //{
-            //    e.Cancel = true;
-            //    return;
-            //}
+            bool result = ServiceFactory.Get<ISecurityService>().Check();
+            if (result == false)
+            {
+                e.Cancel = true;
+                return;
+            }
         }
 
         private void EssentialWindow_Closed(object sender, EventArgs e)

@@ -22,11 +22,31 @@ namespace FireAdministrator
             //FiltersModule.FiltersModule.Save();
             //SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
+            DevicesModule.DevicesModule.HasChanges = false;
         }
 
         private void OnCreateNew(object sender, RoutedEventArgs e)
         {
+            var result = MessageBox.Show("Вы уверены, что хотите создать новую конфигурацию", "Новая конфигурация", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                FiresecManager.DeviceConfiguration.Devices = new System.Collections.Generic.List<Device>();
+                FiresecManager.DeviceConfiguration.Zones = new System.Collections.Generic.List<Zone>();
+                FiresecManager.DeviceConfiguration.Directions = new System.Collections.Generic.List<Direction>();
 
+                Device device = new Device();
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер");
+                device.DriverId = device.Driver.Id;
+
+                FiresecManager.DeviceConfiguration.RootDevice = device;
+                FiresecManager.DeviceConfiguration.Update();
+
+                DevicesModule.DevicesModule.CreateViewModels();
+                ServiceFactory.Layout.Close();
+                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+
+                DevicesModule.DevicesModule.HasChanges = true;
+            }
         }
 
         public bool CanChangeConfig
@@ -46,6 +66,8 @@ namespace FireAdministrator
             DevicesModule.DevicesModule.CreateViewModels();
             ServiceFactory.Layout.Close();
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+
+            DevicesModule.DevicesModule.HasChanges = true;
         }
 
         private void OnSaveToFile(object sender, RoutedEventArgs e)

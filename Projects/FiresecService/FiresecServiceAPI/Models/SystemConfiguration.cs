@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
         {
             Sounds = new List<Sound>();
             JournalFilters = new List<JournalFilter>();
+            Instructions = new List<Instruction>();
             Users = new List<User>();
             UserGroups = new List<UserGroup>();
             Perimissions = new List<Perimission>();
@@ -23,6 +24,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<JournalFilter> JournalFilters { get; set; }
+
+        [DataMember]
+        public List<Instruction> Instructions { get; set; }
 
         [DataMember]
         public List<User> Users { get; set; }

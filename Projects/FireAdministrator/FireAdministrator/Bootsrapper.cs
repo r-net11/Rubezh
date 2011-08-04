@@ -72,6 +72,9 @@ namespace FireAdministrator
 
             SoundsModule.SoundsModule soundsModule = new SoundsModule.SoundsModule();
             soundsModule.Initialize();
+
+            InstructionsModule.InstructionsModule instructionsModule = new InstructionsModule.InstructionsModule();
+            instructionsModule.Initialize();
         }
     }
 }

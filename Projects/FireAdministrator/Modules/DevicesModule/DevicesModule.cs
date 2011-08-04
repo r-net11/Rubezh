@@ -11,6 +11,7 @@ namespace DevicesModule
     {
         public DevicesModule()
         {
+            HasChanges = false;
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
@@ -50,13 +51,6 @@ namespace DevicesModule
             {
                 devicesViewModel.Select(id);
             }
-            //devicesViewModel.FillAllDevices();
-            //var deviceViewModel = devicesViewModel.AllDevices.FirstOrDefault(x => x.Id == id);
-            //if (deviceViewModel != null)
-            //{
-            //    deviceViewModel.ExpantToThis();
-            //}
-            //devicesViewModel.SelectedDevice = deviceViewModel;
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
@@ -70,6 +64,8 @@ namespace DevicesModule
         {
             ServiceFactory.Layout.Show(directionsViewModel);
         }
+
+        public static bool HasChanges { get; set; }
 
         public static void Validate()
         {

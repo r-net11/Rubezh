@@ -75,6 +75,7 @@ namespace DevicesModule.ViewModels
                 FiresecManager.DeviceConfiguration.Zones.Add(newZone);
                 ZoneViewModel zoneViewModel = new ZoneViewModel(newZone);
                 Zones.Add(zoneViewModel);
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -93,6 +94,7 @@ namespace DevicesModule.ViewModels
                 {
                     FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
                     Zones.Remove(SelectedZone);
+                    DevicesModule.HasChanges = true;
                 }
             }
         }
@@ -105,6 +107,7 @@ namespace DevicesModule.ViewModels
                 ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
                 SelectedZone.Update();
+                DevicesModule.HasChanges = true;
             }
         }
 

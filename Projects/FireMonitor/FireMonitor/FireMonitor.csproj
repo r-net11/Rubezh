@@ -92,14 +92,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LayoutService.cs" />
+    <Compile Include="Services\LayoutService.cs" />
     <Compile Include="LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceService.cs" />
+    <Compile Include="Services\ResourceService.cs" />
     <Compile Include="Services\SecurityService.cs" />
     <Compile Include="Services\PasswordView.xaml.cs">
       <DependentUpon>PasswordView.xaml</DependentUpon>
@@ -107,7 +107,7 @@
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserDialogService.cs" />
+    <Compile Include="Services\UserDialogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />

@@ -154,6 +154,7 @@ namespace DevicesModule.ViewModels
             {
                 SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
                 Initialize(_zoneNo);
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -169,6 +170,7 @@ namespace DevicesModule.ViewModels
             {
                 SelectedDevice.Device.ZoneNo = null;
                 Initialize(_zoneNo);
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -187,6 +189,7 @@ namespace DevicesModule.ViewModels
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
                 if (result)
                 {
+                    DevicesModule.HasChanges = true;
                 }
             }
         }

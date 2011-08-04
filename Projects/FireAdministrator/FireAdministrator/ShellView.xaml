@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:FireAdministrator"
         WindowStartupLocation="CenterScreen"
-        Title="Администратор" Height="700" Width="900">
+        Title="Администратор" Width="1100" Height="750"
+        Closing="Window_Closing"
+        Closed="Window_Closed">
 
     <Grid Background="Gray">
 
@@ -24,7 +26,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 

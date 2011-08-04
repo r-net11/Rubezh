@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace FireAdministrator
 {
@@ -35,6 +36,30 @@ namespace FireAdministrator
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (DevicesModule.DevicesModule.HasChanges == false)
+            {
+                return;
+            }
+
+            var result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
+            if (result == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+                return;
+            }
+            if (result == MessageBoxResult.Yes)
+            {
+                DevicesModule.DevicesModule.HasChanges = true;
+            }
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            FiresecManager.Disconnect();
         }
     }
 }

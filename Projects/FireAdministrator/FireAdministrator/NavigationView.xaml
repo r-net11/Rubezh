@@ -79,7 +79,15 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            
+
+            <TabItem IsSelected="{Binding IsInstructionsSelected}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Инструкции" FontWeight="Bold" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+
         </TabControl>
     </StackPanel>
 </UserControl>

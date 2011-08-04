@@ -27,6 +27,13 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             BuildDeviceTree();
+            if (Devices.Count > 0)
+            {
+                CollapseChild(Devices[0]);
+                ExpandChild(Devices[0]);
+                SelectedDevice = Devices[0];
+            }
+
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
         }
 
@@ -56,6 +63,28 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        {
+            parentDeviceViewModel.IsExpanded = false;
+
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
+            {
+                CollapseChild(deviceViewModel);
+            }
+        }
+
+        void ExpandChild(DeviceViewModel parentDeviceViewModel)
+        {
+            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+            {
+                parentDeviceViewModel.IsExpanded = true;
+                foreach (var deviceViewModel in parentDeviceViewModel.Children)
+                {
+                    ExpandChild(deviceViewModel);
+                }
+            }
+        }
+
         void OnDeviceStateChanged(string id)
         {
             DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
@@ -77,39 +106,42 @@ namespace DevicesModule.ViewModels
         void BuildDeviceTree()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-
-            Device device = FiresecManager.DeviceConfiguration.RootDevice;
-
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Parent = null;
-            deviceViewModel.Initialize(device, Devices);
-            deviceViewModel.IsExpanded = true;
-            Devices.Add(deviceViewModel);
-            AddDevice(device, deviceViewModel);
-
-            if (Devices.Count > 0)
-            {
-                SelectedDevice = Devices[0];
-            }
+            AllDevices = new List<DeviceViewModel>();
+            var device = FiresecManager.DeviceConfiguration.RootDevice;
+            AddDevice(device, null);
         }
 
-        void AddDevice(Device parentDevice, DeviceViewModel parentDeviceViewModel)
+        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            foreach (var device in parentDevice.Children)
+            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = parentDeviceViewModel;
+            deviceViewModel.Initialize(device, Devices);
+            AllDevices.Add(deviceViewModel);
+
+            var indexOf = Devices.IndexOf(parentDeviceViewModel);
+            Devices.Insert(indexOf + 1, deviceViewModel);
+
+            foreach (var childDevice in device.Children)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Parent = parentDeviceViewModel;
-                deviceViewModel.Initialize(device, Devices);
-                deviceViewModel.IsExpanded = true;
-                parentDeviceViewModel.Children.Add(deviceViewModel);
-                Devices.Add(deviceViewModel);
-                AddDevice(device, deviceViewModel);
+                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+                deviceViewModel.Children.Add(childDeviceViewModel);
             }
+
+            return deviceViewModel;
         }
+
+        #region DeviceSection
+        public List<DeviceViewModel> AllDevices;
 
         public void Select(string id)
         {
-            SelectedDevice = Devices.FirstOrDefault(x => x.Device.Id == id);
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.Id == id);
+            if (deviceViewModel != null)
+            {
+                deviceViewModel.ExpantToThis();
+            }
+            SelectedDevice = deviceViewModel;
         }
+        #endregion
     }
 }

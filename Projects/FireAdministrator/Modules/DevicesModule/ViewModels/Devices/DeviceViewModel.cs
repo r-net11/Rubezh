@@ -29,6 +29,7 @@ namespace DevicesModule.ViewModels
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
         }
+
         public Device Device { get; private set; }
 
         public PropertiesViewModel PropertiesViewModel { get; private set; }
@@ -57,6 +58,7 @@ namespace DevicesModule.ViewModels
             {
                 Device.SetAddress(value);
                 OnPropertyChanged("Address");
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -67,6 +69,7 @@ namespace DevicesModule.ViewModels
             {
                 Device.Description = value;
                 OnPropertyChanged("Description");
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -90,6 +93,7 @@ namespace DevicesModule.ViewModels
             {
                 Device.ZoneNo = value.No;
                 OnPropertyChanged("Zone");
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -106,6 +110,7 @@ namespace DevicesModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
             if (result)
             {
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -114,7 +119,11 @@ namespace DevicesModule.ViewModels
         {
             IndicatorDetailsViewModel indicatorDetailsViewModel = new IndicatorDetailsViewModel();
             indicatorDetailsViewModel.Initialize(Device);
-            ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
+            if (result)
+            {
+                DevicesModule.HasChanges = true;
+            }
         }
 
         public bool CanAdd(object obj)
@@ -128,7 +137,11 @@ namespace DevicesModule.ViewModels
             if (CanAdd(null))
             {
                 NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
-                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+                bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+                if (result)
+                {
+                    DevicesModule.HasChanges = true;
+                }
             }
         }
 
@@ -138,7 +151,11 @@ namespace DevicesModule.ViewModels
             if (CanAdd(null))
             {
                 NewDeviceRangeViewModel newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
-                ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
+                bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
+                if (result)
+                {
+                    DevicesModule.HasChanges = true;
+                }
             }
         }
 
@@ -165,6 +182,7 @@ namespace DevicesModule.ViewModels
                 Parent.IsExpanded = true;
 
                 FiresecManager.DeviceConfiguration.Update();
+                DevicesModule.HasChanges = true;
             }
         }
 
@@ -187,6 +205,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
+            bool result = false;
+
             switch (Device.Driver.DriverName)
             {
                 case "Индикатор":
@@ -195,7 +215,7 @@ namespace DevicesModule.ViewModels
 
                 case "Задвижка":
                     ValveDetailsViewModel valveDetailsViewModel = new ValveDetailsViewModel(Device);
-                    ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
+                    result = ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
                     break;
 
                 case "Насос":
@@ -203,13 +223,18 @@ namespace DevicesModule.ViewModels
                 case "Компрессор":
                 case "Насос компенсации утечек":
                     PumpDetailsViewModel pumpDetailsViewModel = new PumpDetailsViewModel(Device);
-                    ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
+                    result = ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
                     break;
 
                 case "Группа":
                     GroupDetailsViewModel groupDetailsViewModel = new GroupDetailsViewModel(Device);
-                    ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
+                    result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
                     break;
+            }
+
+            if (result)
+            {
+                DevicesModule.HasChanges = true;
             }
         }
     }

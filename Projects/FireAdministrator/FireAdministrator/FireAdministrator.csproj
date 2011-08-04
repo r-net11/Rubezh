@@ -74,7 +74,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootsrapper.cs" />
-    <Compile Include="LayoutService.cs" />
+    <Compile Include="Services\LayoutService.cs" />
     <Compile Include="LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
     </Compile>
@@ -84,11 +84,11 @@
     <Compile Include="NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceService.cs" />
+    <Compile Include="Services\ResourceService.cs" />
     <Compile Include="ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserDialogService.cs" />
+    <Compile Include="Services\UserDialogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -160,6 +160,10 @@
     <ProjectReference Include="..\Modules\DevicesModule\DevicesModule.csproj">
       <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
       <Name>DevicesModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\InstructionsModule\InstructionsModule.csproj">
+      <Project>{0F163243-0BCB-44D6-B849-4ED207B27027}</Project>
+      <Name>InstructionsModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\FiltersModule\FiltersModule.csproj">
       <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>

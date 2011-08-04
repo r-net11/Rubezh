@@ -2,23 +2,21 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{0F163243-0BCB-44D6-B849-4ED207B27027}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiresecAPI</RootNamespace>
-    <AssemblyName>FiresecAPI</AssemblyName>
+    <RootNamespace>InstructionsModule</RootNamespace>
+    <AssemblyName>InstructionsModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,10 +24,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,14 +33,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,42 +55,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressConverter.cs" />
-    <Compile Include="IFiresecCallback.cs" />
-    <Compile Include="IFiresecService.cs" />
-    <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\Instruction.cs" />
-    <Compile Include="Models\JournalFilter.cs" />
-    <Compile Include="Models\JournalRecord.cs" />
-    <Compile Include="Models\PDUGroupLogic.cs" />
-    <Compile Include="Models\Sound.cs" />
-    <Compile Include="Models\SystemConfiguration.cs" />
-    <Compile Include="StateTypeConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\AlarmType.cs" />
-    <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Models\DeviceConfiguration.cs" />
-    <Compile Include="Models\DeviceConfigurationStates.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceCategory.cs" />
-    <Compile Include="Models\DeviceState.cs" />
-    <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Direction.cs" />
-    <Compile Include="Models\Driver.cs" />
-    <Compile Include="Models\DriverProperty.cs" />
-    <Compile Include="DriversHelper.cs" />
-    <Compile Include="Models\InnerState.cs" />
-    <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Premission.cs" />
-    <Compile Include="Models\Property.cs" />
-    <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="Models\State.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="Models\Zone.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
-    <Compile Include="Models\ZoneState.cs" />
+    <Compile Include="InstructionsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +69,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
+    <Compile Include="ViewModels\InstructionsViewModel.cs" />
+    <Compile Include="ViewModels\InstructionViewModel.cs" />
+    <Compile Include="Views\InstructionDetailsView.xaml.cs">
+      <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstructionsMenuView.xaml.cs">
+      <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstructionsView.xaml.cs">
+      <DependentUpon>InstructionsView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,10 +93,41 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InstructionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InstructionsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InstructionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
