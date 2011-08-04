@@ -39,12 +39,13 @@ namespace PlanEditor
         }
         #endregion
 
-        /*old properties
+
+        Thumb thumb = null;
         public static ListObjects listShapes = new ListObjects();
         private bool _isDown;
         private bool _isResize;
-        Thumb thumb = null;
         private bool _isDragging;
+        private Point _startPoint;
         private UIElement _originalElement;
         private LineAdorner _overlayElementLine;
         private RectangleAdorner _overlayElementRect;
@@ -54,22 +55,21 @@ namespace PlanEditor
         private double _originalLeft;
         private double _originalX;
         private double _originalY;
-        private Point _startPoint;
-        */
+        
 
-        /*old GetCanvas
+        
         public Canvas GetCanvas()
         {
             return this;
         }
-        */
         
-        /*old GetDragging
+        
+        
         public bool GetDragging()
         {
             return _isDragging;
         }
-        */
+        
      
         
         #region Constructors
@@ -82,71 +82,23 @@ namespace PlanEditor
             this.Width = 490;
 
             //canvas = new Canvas();
-            //this.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MouseLeftButtonDown);
-            //this.PreviewMouseMove += new System.Windows.Input.MouseEventHandler(MyPreviewMouseMove);
-            //this.PreviewMouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MouseLeftButtonUp);
-            //this.previewm 
-            //ListObjects = new ListObjects();
+            this.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(MyMouseLeftButtonDown);
+            this.PreviewMouseMove += new System.Windows.Input.MouseEventHandler(MyPreviewMouseMove);
+            this.PreviewMouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(MouseLeftButtonUp);
         }
 
         #endregion
 
-        #region PERect
-        Point StartPointRectangle;
-        Rectangle rect;
-        bool Isrectangle = false;
-        bool ContiniousDrawing = false;
 
-        public void DrawRectangleApbMode()
-        {
-            if (Isrectangle)
-            {
-            }
-            else
-            {
-                if (Isellipse || Isrectangle) return;
-                Isrectangle = true;
-            }
-            this.Cursor = Cursors.Cross;
-            /*
-                PERectangle rect = new PERectangle();
-                Canvas.SetTop(rect.GetShape(), 100);
-                Canvas.SetLeft(rect.GetShape(), 100);
-                this.Children.Add(rect.GetShape());
-             */
-        }
-        #endregion
-
-        #region ellipse
-        Ellipse ellipse;
-        bool Isellipse = false;
-        Point StartPointellipse;
-        bool ContiniousDrawingellipse = false;
-        public void DrawEllipseApbMode()
-        {
-            if (Isellipse)
-            {
-            }
-            else
-            {
-                if (Isellipse || Isrectangle) return;
-                Isellipse = true;
-            }
-            this.Cursor = Cursors.Cross;
-        }
-        #endregion
-
-
-        /*onDragStarted
         public void onDragStarted(object sender, DragStartedEventArgs e)
         {
             Thumb thumb = (Thumb)e.Source;
             thumb.Background = Brushes.Green;
 
         }
-        */
 
-        /*onDragCompleted
+
+
         public void onDragCompleted(object sender, DragCompletedEventArgs e)
         {
             Thumb thumb = (Thumb)e.Source;
@@ -156,8 +108,6 @@ namespace PlanEditor
             _isResize = false;
 
         }
-        */
-        /*MouseLeftButtonUp
         void MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (_isDown)
@@ -212,9 +162,6 @@ namespace PlanEditor
 
             }
         }
-        */
-       
-        /*DragFinished
         public void DragFinished(bool cancelled, int _code, Canvas canvas)
         {
             System.Windows.Input.Mouse.Capture(null);
@@ -260,8 +207,7 @@ namespace PlanEditor
             //_isResize = false;
             //listShapes.SetActiveLineToResize(false);
         }
-        */
-        /*MyPreviewMouseMove
+  
         void MyPreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
 
@@ -283,8 +229,6 @@ namespace PlanEditor
             }
 
         }
-        */
-        /*DragStarted
         private void DragStarted()
         {
             if (_originalElement != null && (_originalElement is System.Windows.Shapes.Line))
@@ -330,6 +274,7 @@ namespace PlanEditor
                 AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
                 layer.Add(_overlayElementLine);
             };
+
             if (_originalElement != null && (_originalElement is System.Windows.Shapes.Rectangle))
             {
                 _isDragging = true;
@@ -409,8 +354,7 @@ namespace PlanEditor
                 layer.Add(_overlayElementEllipse);
             };
         }
-        */
-        /*DragMoved
+
         private void DragMoved(int _code, Canvas canvas)
         {
             if (_overlayElementLine != null)
@@ -435,26 +379,13 @@ namespace PlanEditor
                 listShapes.DragMove(_code, canvas);
             }
         }
-        */
 
-
-        /* old OnMouseLeftButtonDown
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        void MyMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             string drawingCode = "";
             if (e.Source == this)
             {
-                if (Isrectangle)
-                {
-                    Isrectangle = false;
-                    MessageBox.Show("rect");
-                }
-                if (Isellipse)
-                {
-                    Isellipse = false;
-                    MessageBox.Show("ellipse");
-                }
                 //_startPoint = e.GetPosition(canvas);
             }
             else
@@ -537,9 +468,7 @@ namespace PlanEditor
                 }
             }
         }
-         */
 
-        /*AddShape
         public void AddShape(Object _object)
         {
 
@@ -570,27 +499,8 @@ namespace PlanEditor
             };
             listShapes.Add(_object);
 
-        }*/
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-        }
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
         }
 
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            OnMouseLeftButtonUp(null);
-        }
-
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-        }
     }
          
 }

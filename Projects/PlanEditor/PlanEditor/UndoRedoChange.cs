@@ -267,7 +267,9 @@ namespace PlanEditor
         Delete = 0,
         Move = 1,
         Resize = 2,
-        Insert = 3
+        Insert = 3,
+        Copy = 4,
+        Paste = 5
     }
 
     #endregion

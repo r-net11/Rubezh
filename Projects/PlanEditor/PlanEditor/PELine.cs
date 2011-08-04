@@ -19,7 +19,38 @@ namespace PlanEditor
         Thumb thumb1;
         Thumb thumb2;
         int hashcode;
-        List<Thumb> thumbList;
+        List<Thumb> thumbList = null;
+
+        public double Left
+        {
+            get
+            {
+                return line.Margin.Left;
+            }
+        }
+        public double Top
+        {
+            get
+            {
+                return line.Margin.Top;
+            }
+        }
+        public double Width
+        {
+            get
+            {
+                //return line.Width;
+                return Math.Abs(X2-X1);
+            }
+        }
+        public double Height
+        {
+            get
+            {
+                //return line.Height;
+                return Math.Abs(Y2 - Y1);
+            }
+        }
         public double X1
         {
             get
@@ -184,6 +215,7 @@ namespace PlanEditor
         {
             return thumbList;
         }
+
 
         public Thumb GetMovingThumb(UIElement element)
         {

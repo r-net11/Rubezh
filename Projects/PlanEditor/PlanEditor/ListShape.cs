@@ -63,6 +63,7 @@ namespace PlanEditor
                 }
             }
         }
+
         public void DragFinished(int _code, Canvas canvas, double top, double left)
         {
             foreach (Object obj in Objects)

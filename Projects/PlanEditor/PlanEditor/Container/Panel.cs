@@ -27,6 +27,23 @@ namespace PlanEditor
         #endregion
 
         #region Properties
+        #region Operation
+
+        private bool _isInsert = false;
+        private bool _isMove = false;
+        private bool _isResize;
+
+        #endregion
+        private bool _isDown;
+        private bool _isDragging;
+
+        private Point _startPoint;
+        private UIElement _originalElement;
+        private LineAdorner _overlayElementLine;
+        private RectangleAdorner _overlayElementRect;
+        private EllipseAdorner _overlayElementEllipse;
+        private double _originalTop;
+        private double _originalLeft;
 
         public static ListObjects listShapes = new ListObjects();
         Thumb thumb = null;
@@ -47,8 +64,6 @@ namespace PlanEditor
 
         public CustomPanel()
         {
-
-            //this.Background = Brushes.LightBlue;
             this.Background = Brushes.White;
             this.Height = 450;
             this.Width = 450;
@@ -61,6 +76,7 @@ namespace PlanEditor
         }
 
         #endregion
+
         public void onDragStarted(object sender, DragStartedEventArgs e)
         {
             Thumb thumb = (Thumb)e.Source;
@@ -73,6 +89,216 @@ namespace PlanEditor
             Thumb thumb = (Thumb)e.Source;
             thumb.Background = Brushes.Blue;
         }
+
+        #region Мои операции с PECanvas
+
+        private void DragStarted()
+        {
+            if (_originalElement != null && (_originalElement is System.Windows.Shapes.Line))
+            {
+                _isDragging = true;
+
+                _originalLeft = Canvas.GetLeft(_originalElement);
+                _originalTop = Canvas.GetTop(_originalElement);
+                _overlayElementLine = new LineAdorner(_originalElement);
+                if (_isResize)
+                {
+                    _overlayElementLine.SetCanvas(this);
+                    _overlayElementLine.SetOperationMove(false);
+                    foreach (Object obj in listShapes)
+                    {
+                        if (obj is PlanEditor.PELine)
+                        {
+                            PELine line = (PELine)obj;
+                            if (line.active)
+                            {
+                                Line l = (Line)line.GetShape();
+                                double x = 0;
+                                double y = 0;
+                                if (thumb.Name.Equals("thumb2"))
+                                {
+                                    x = l.X1 + Canvas.GetLeft(l);
+                                    y = l.Y1 + Canvas.GetTop(l);
+                                }
+                                if (thumb.Name.Equals("thumb1"))
+                                {
+                                    x = l.X2 + Canvas.GetLeft(l);
+                                    y = l.Y2 + Canvas.GetTop(l);
+                                }
+                                _overlayElementLine.SetPointFrom(new Point(x, y));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    _overlayElementLine.SetOperationMove(true);
+                    Line line = (Line)_originalElement;
+                    double x1 = line.X1;
+                    double y1 = line.Y1;
+                    double top = Canvas.GetTop(line);
+                    double left = Canvas.GetLeft(line);
+                    
+                }
+
+                AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
+                //previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset, _overlayElementLine.TopOffset);
+                
+                layer.Add(_overlayElementLine);
+            };
+
+            if (_originalElement != null && (_originalElement is System.Windows.Shapes.Rectangle))
+            {
+                _isDragging = true;
+                _originalLeft = Canvas.GetLeft(_originalElement);
+                _originalTop = Canvas.GetTop(_originalElement);
+                _overlayElementRect = new RectangleAdorner(_originalElement);
+                if (_isResize)
+                {
+                    _overlayElementRect.SetOperationMove(false);
+                    foreach (Object obj in listShapes)
+                    {
+                        if (obj is PlanEditor.PERectangle)
+                        {
+                            PERectangle rect = (PERectangle)obj;
+                            _overlayElementRect.SetCanvas(this, rect.MinWidth, rect.MinHeight);
+                            if (rect.active)
+                            {
+                                Rectangle r = (Rectangle)rect.GetShape();
+                                if (thumb.Name.Equals("thumb1"))
+                                {
+                                    _overlayElementRect.SetRect(new Rect(rect.X, rect.Y, rect.Width, rect.Height), 1);
+                                }
+                                if (thumb.Name.Equals("thumb2"))
+                                {
+                                    _overlayElementRect.SetRect(new Rect(rect.X, rect.Y, rect.Width, rect.Height), 2);
+                                }
+                                if (thumb.Name.Equals("thumb3"))
+                                {
+                                    _overlayElementRect.SetRect(new Rect(rect.X, rect.Y, rect.Width, rect.Height), 3);
+                                }
+                                if (thumb.Name.Equals("thumb4"))
+                                {
+                                    _overlayElementRect.SetRect(new Rect(rect.X, rect.Y, rect.Width, rect.Height), 4);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    _overlayElementRect.SetOperationMove(true);
+
+                }
+                AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
+                layer.Add(_overlayElementRect);
+            };
+
+            if (_originalElement != null && (_originalElement is System.Windows.Shapes.Ellipse))
+            {
+                _isDragging = true;
+                _originalLeft = Canvas.GetLeft(_originalElement);
+                _originalTop = Canvas.GetTop(_originalElement);
+                _overlayElementEllipse = new EllipseAdorner(_originalElement);
+                if (_isResize)
+                {
+                    _overlayElementEllipse.SetOperationMove(false);
+
+                    foreach (Object obj in listShapes)
+                    {
+                        if (obj is PlanEditor.PEEllipse)
+                        {
+                            PEEllipse ellipse = (PEEllipse)obj;
+                            Rectangle r = new Rectangle();
+
+                            //MessageBox.Show(ellipse.X.ToString());
+
+                            _overlayElementEllipse.SetCanvas(this, ellipse.MinWidth, ellipse.MinHeight, thumb);
+                            _overlayElementEllipse.SetRect(new Rect(ellipse.X, ellipse.Y, ellipse.Width, ellipse.Height));
+
+                        }
+                    }
+                }
+                else
+                {
+                    _overlayElementEllipse.SetOperationMove(true);
+                }
+                AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
+                layer.Add(_overlayElementEllipse);
+            };
+        }
+        private void DragMoved(int _code)
+        {
+            if (_overlayElementLine != null)
+            {
+                Point CurrentPosition = System.Windows.Input.Mouse.GetPosition(this);
+                _overlayElementLine.LeftOffset = CurrentPosition.X - _startPoint.X;
+                _overlayElementLine.TopOffset = CurrentPosition.Y - _startPoint.Y;
+                listShapes.DragMove(_code, this);
+            }
+            if (_overlayElementRect != null)
+            {
+                Point CurrentPosition = System.Windows.Input.Mouse.GetPosition(this);
+                _overlayElementRect.LeftOffset = CurrentPosition.X - _startPoint.X;
+                _overlayElementRect.TopOffset = CurrentPosition.Y - _startPoint.Y;
+                listShapes.DragMove(_code, this);
+            }
+            if (_overlayElementEllipse != null)
+            {
+                Point CurrentPosition = System.Windows.Input.Mouse.GetPosition(this);
+                _overlayElementEllipse.LeftOffset = CurrentPosition.X - _startPoint.X;
+                _overlayElementEllipse.TopOffset = CurrentPosition.Y - _startPoint.Y;
+                listShapes.DragMove(_code, this);
+            }
+        }
+        public void DragFinished(bool cancelled, int _code)
+        {
+            System.Windows.Input.Mouse.Capture(null);
+            if (_isDragging && _overlayElementLine != null)
+            {
+                AdornerLayer.GetAdornerLayer(_overlayElementLine.AdornedElement).Remove(_overlayElementLine);
+                if (cancelled == false)
+                {
+                    Canvas.SetTop(_originalElement, _overlayElementLine.TopOffset);
+                    Canvas.SetLeft(_originalElement, _overlayElementLine.LeftOffset);
+                    previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset * -1, _overlayElementLine.TopOffset*-1);
+                    listShapes.DragFinished(_code, this, _overlayElementLine.TopOffset, _overlayElementLine.LeftOffset);
+                }
+                //_overlayElementLine = null;
+            }
+            if (_isDragging && _overlayElementRect != null)
+            {
+                AdornerLayer.GetAdornerLayer(_overlayElementRect.AdornedElement).Remove(_overlayElementRect);
+
+                if (cancelled == false)
+                {
+                    Canvas.SetTop(_originalElement, _originalTop + _overlayElementRect.TopOffset);
+                    Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementRect.LeftOffset);
+                    listShapes.DragFinished(_code, this, _originalTop + _overlayElementRect.TopOffset, _originalLeft + _overlayElementRect.LeftOffset);
+                }
+                //_overlayElementRect = null;
+            }
+            if (_isDragging && _overlayElementEllipse != null)
+            {
+                AdornerLayer.GetAdornerLayer(_overlayElementEllipse.AdornedElement).Remove(_overlayElementEllipse);
+
+                if (cancelled == false)
+                {
+                    Canvas.SetTop(_originalElement, _originalTop + _overlayElementEllipse.TopOffset);
+                    Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementEllipse.LeftOffset);
+                    listShapes.DragFinished(_code, this, _originalTop + _overlayElementEllipse.TopOffset, _originalLeft + _overlayElementEllipse.LeftOffset);
+                }
+                //_overlayElementRect = null;
+            }
+
+            _isDragging = false;
+            _isDown = false;
+            //_isResize = false;
+            //listShapes.SetActiveLineToResize(false);
+        }
+
+        #endregion
+
 
         #region line
         Point StartPointline;
@@ -88,6 +314,7 @@ namespace PlanEditor
             {
                 if (Isellipse || Isrectangle || Isline) return;
                 Isline = true;
+                _isInsert = true;
             }
             this.Cursor = Cursors.Cross;
         }
@@ -163,6 +390,7 @@ namespace PlanEditor
                 selectdeobject = null;
             }
         }
+
         private void ColorChangeForApbAndDevice(object Selectedob)
         {
             if (Selectedob is Rectangle)
@@ -177,6 +405,7 @@ namespace PlanEditor
             }
 
         }
+
         private void UndoColorChangeForApbAndDevice()
         {
             if (selectdeobject == null) return;
@@ -201,19 +430,28 @@ namespace PlanEditor
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            if (Isline)
+            if (_isInsert)
             {
-                Point point = Mouse.GetPosition(this);
-                PELine line = new PELine(new Point(point.X, point.Y), new Point(point.X+50, point.Y+50));
-                
-                //double x = Mouse.GetPosition().X;
-                //double y = Mouse.GetPosition().Y;
-                //Canvas.SetTop(line.GetShape(), point.X);
-                //Canvas.SetLeft(line.GetShape(), point.Y);
-                this.Children.Add(line.GetShape());
-                listShapes.Add(line);
+                if (Isline)
+                {
+                    Point point = Mouse.GetPosition(this);
+                    PELine line = new PELine(new Point(point.X, point.Y), new Point(point.X + 50, point.Y + 50));
+                    ContiniousDrawing = true;
+                    this.Children.Add(line.GetShape());
+                    listShapes.Add(line);
+                }
             }
-
+            else
+            {
+                _isDown = true;
+                _isResize = false;
+                _isMove = true;
+                Isline = true;
+                _startPoint = e.GetPosition(this);
+                _originalElement = e.Source as UIElement;
+                this.CaptureMouse();
+                e.Handled = true;
+            }
             if (Isrectangle)
             {
                 Point marginpoint = e.GetPosition(this);
@@ -238,8 +476,6 @@ namespace PlanEditor
                 this.Children.Add(ellipse);
                 ContiniousDrawingellipse = true;
             }
-
-
             else
             {
                 Point ptMouseStart = e.GetPosition(this);
@@ -263,11 +499,15 @@ namespace PlanEditor
 
                         if (selectdeobject != null)
                         {
-
-                            previousMarginOfSelectedObject = new Point(((FrameworkElement)selectdeobject).Margin.Left, ((FrameworkElement)selectdeobject).Margin.Top);
-
-                            previousheightOfSelectedObject = ((FrameworkElement)selectdeobject).Height;
-                            previouswidthOfSelectedObject = ((FrameworkElement)selectdeobject).Width;
+                            if (!(selectdeobject is Line))
+                            {
+                                previousMarginOfSelectedObject = new Point(((FrameworkElement)selectdeobject).Margin.Left, ((FrameworkElement)selectdeobject).Margin.Top);
+                                previousheightOfSelectedObject = ((FrameworkElement)selectdeobject).Height;
+                                previouswidthOfSelectedObject = ((FrameworkElement)selectdeobject).Width;
+                            }
+                            else
+                            {
+                            }
                         }
                     }
                 }
@@ -277,6 +517,23 @@ namespace PlanEditor
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+            if (e.Source != this)
+            {
+                listShapes.SetActiveShape(e.Source, this);
+            }
+            if (_isDown)
+            {
+                if ((_isDragging == false) && ((Math.Abs(e.GetPosition(this).X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
+                    (Math.Abs(e.GetPosition(this).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+                {
+                    DragStarted();
+                }
+                if (_isDragging)
+                {
+                    DragMoved(e.Source.GetHashCode());
+                }
+            }
+
             if (Isrectangle && ContiniousDrawing)
             {
                 Point endpoint = e.GetPosition(this);
@@ -306,12 +563,16 @@ namespace PlanEditor
 
             if (selectdeobject is Rectangle)
             {
-
                 SetEleAfterResize((Rectangle)selectdeobject);
             }
             else if (selectdeobject is Ellipse)
             {
                 SetEleAfterResize((Ellipse)selectdeobject);
+            }
+            if (selectdeobject is Line)
+            {
+                //SetEleAfterResize((Line)selectdeobject);
+                //MessageBox.Show("test");
             }
         }
 
@@ -324,40 +585,43 @@ namespace PlanEditor
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            foreach (Object obj in listShapes)
+            string drawingCode = "";
+
+            if (Isline)
             {
-                if (obj is PlanEditor.PELine)
+                if (_isDown)
                 {
-                    PELine line = (PELine)obj;
-                    if (line.active)
+                    DragFinished(false, this.GetHashCode());
+                }
+                Isline = false;
+                foreach (Object obj in listShapes)
+                {
+                    if (obj is PlanEditor.PELine)
                     {
-                        line.SetActive(this);
-                        //Line l = (Line)line.GetShape();
-                        //double x = Math.Abs(e.GetPosition(this).X) - Canvas.GetLeft(l);
-                        //double y = Math.Abs(e.GetPosition(this).Y) - Canvas.GetTop(l);
-                        /*
-                                                if (thumb.Name.Equals("thumb2"))
-                                                {
-                                                    line.X2 = x;
-                                                    line.Y2 = y;
-                                                }
-                                                if (thumb.Name.Equals("thumb1"))
-                                                {
-                                                    line.X1 = x;
-                                                    line.Y1 = y;
-                                                }
-                                            }
-                                            //_overlayElementLine = null;
-                         */
+                        PELine line = (PELine)obj;
+                        if (line.active)
+                        {
+                            this.Cursor = Cursors.Arrow;
+                            if (_isInsert)
+                            {
+                                _isInsert = false;
+                                drawingCode = ("3," + line.Left + "," + line.Top + "," + line.Width + "," + line.Height);
+                                CallDrawAPB(drawingCode, (Line)line.GetShape());
+                                EndDraw();
+                            }
+                            if (_isMove)
+                            {
+                                _isMove = false;
+                                if (selectdeobject != null)
+                                {
+                                    ChangeRepresentationObject ChangeRepresentationObjectOfResize = UnDoObject.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject, (FrameworkElement)selectdeobject);
+                                    UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
+                                }
+
+                            }
+                        }
                     }
                 }
-            }
-
-            
-            string drawingCode = "";
-            if (Isline )
-            {
-                Isline = false;
             }
             else if (Isrectangle && ContiniousDrawing)
             {
@@ -402,8 +666,8 @@ namespace PlanEditor
                     {
                         if (e != null)
                         {
-                        ChangeRepresentationObject ChangeRepresentationObjectOfResize = UnDoObject.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject , (FrameworkElement)selectdeobject);
-                        UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
+                            ChangeRepresentationObject ChangeRepresentationObjectOfResize = UnDoObject.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject, (FrameworkElement)selectdeobject);
+                            UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
                         }
                     }
 
@@ -435,11 +699,10 @@ namespace PlanEditor
         private void CallDrawAPB(string drawingCode, Shape oshape)
         {
             oshape.Tag = drawingCode;
-
-          ChangeRepresentationObject  ChangeRepresentationObjectforInsert = UnDoObject.MakeChangeRepresentationObjectForInsert(oshape);
-          UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectforInsert);
-
+            ChangeRepresentationObject ChangeRepresentationObjectforInsert = UnDoObject.MakeChangeRepresentationObjectForInsert(oshape);
+            UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectforInsert);
             EndDraw();
+
         }
 
         #endregion
@@ -513,12 +776,16 @@ namespace PlanEditor
 
         private void SetEleAfterResize(Shape oRect)
         {
+            if (!(selectdeobject is Line))
+            {
+                _LeftThumb.Margin = new Thickness(oRect.Margin.Left - 4, oRect.Margin.Top + oRect.Height / 2.0 - 6, 0, 0);
+                _RightThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width - 6, oRect.Margin.Top + oRect.Height / 2.0 - 6, 0, 0);
+                _TopThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width / 2.0 - 6, oRect.Margin.Top - 4, 0, 0);
+                _BottomThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width / 2.0 - 6, oRect.Margin.Top + oRect.Height - 4, 0, 0);
+            }
 
-            _LeftThumb.Margin = new Thickness(oRect.Margin.Left - 4, oRect.Margin.Top + oRect.Height / 2.0 - 6, 0, 0);
-            _RightThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width - 6, oRect.Margin.Top + oRect.Height / 2.0 - 6, 0, 0);
-            _TopThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width / 2.0 - 6, oRect.Margin.Top - 4, 0, 0);
-            _BottomThumb.Margin = new Thickness(oRect.Margin.Left + oRect.Width / 2.0 - 6, oRect.Margin.Top + oRect.Height - 4, 0, 0);
         }
+
         private void SetResizeEllipeProperty(Thumb eleps)
         {
             eleps.DragDelta += new DragDeltaEventHandler(Ellipse_DragDelta);
@@ -540,8 +807,8 @@ namespace PlanEditor
 
             if (tempwidth > 6 || tempheight > 6)
             {
-             ChangeRepresentationObject ChangeRepresentationObjectOfResize =   UnDoObject.MakeChangeRepresentationObjectForResize(_PreviouMargin, _PreviouWidth, _PreviouHeight, (FrameworkElement)selectdeobject);
-             UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
+                ChangeRepresentationObject ChangeRepresentationObjectOfResize = UnDoObject.MakeChangeRepresentationObjectForResize(_PreviouMargin, _PreviouWidth, _PreviouHeight, (FrameworkElement)selectdeobject);
+                UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
             }
         }
 
