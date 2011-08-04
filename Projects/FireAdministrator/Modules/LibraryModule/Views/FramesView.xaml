@@ -2,55 +2,53 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <TabControl TabStripPlacement="Bottom"
-                DataContext="{Binding SelectedState}"
-                ItemsSource="{Binding Frames}" 
-                SelectedItem="{Binding SelectedFrame}">
+                ItemsSource="{Binding FrameViewModels}" 
+                SelectedItem="{Binding SelectedFrameViewModel}">
+        <TabControl.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+            </ContextMenu>
+        </TabControl.ContextMenu>
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Кадр " />
-                    <TextBlock Text="{Binding Id}" />
+                    <TextBlock Text="{Binding Frame.Id}" />
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
-        
-        <TabControl.ItemContainerStyle>
+
+        <!--<TabControl.ItemContainerStyle>
             <Style TargetType="{x:Type TabItem}">
                 <Style.Setters>
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
-                                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
-                            </ContextMenu>
                         </Setter.Value>
                     </Setter>
                 </Style.Setters>
             </Style>
-        </TabControl.ItemContainerStyle>
+        </TabControl.ItemContainerStyle>-->
         
         <TabControl.ContentTemplate>
             <DataTemplate>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="50" />
-                    </Grid.RowDefinitions>
-                    <ContentControl Grid.Row="0" HorizontalAlignment="Center" 
+                <DockPanel>
+                    <WrapPanel DockPanel.Dock="Bottom">
+                        <Label Content="Слой: " />
+                        <TextBox Text="{Binding Frame.Layer, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label  Content=" Длительность: " />
+                        <TextBox Text="{Binding Frame.Duration, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
+                    </WrapPanel>
+                    
+                    <ContentControl HorizontalAlignment="Center" 
                                     Width="500" Height="500"
-                                    Content="{Binding Path=XamlOfImage, UpdateSourceTrigger=PropertyChanged}">
+                                    Content="{Binding XamlOfImage}">
                         <ContentControl.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                         </ContentControl.LayoutTransform>
                     </ContentControl>
-                    <WrapPanel Grid.Row="1">
-                        <Label Content="Слой: " />
-                        <TextBox Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
-                        <Label  Content=" Длительность: " />
-                        <TextBox Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
-                    </WrapPanel>
-                </Grid>
+                </DockPanel>
             </DataTemplate>
         </TabControl.ContentTemplate>
     </TabControl>

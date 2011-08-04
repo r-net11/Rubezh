@@ -3,9 +3,9 @@
 
 namespace LibraryModule.Views
 {
-    public partial class AddAdditionalStateView : UserControl
+    public partial class AdditionalStateDetailsView : UserControl
     {
-        public AddAdditionalStateView()
+        public AdditionalStateDetailsView()
         {
             InitializeComponent();
         }

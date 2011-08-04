@@ -1,11 +1,10 @@
 ﻿using System.Windows.Controls;
 
-
 namespace LibraryModule.Views
 {
-    public partial class AddDeviceView : UserControl
+    public partial class StateDetailsView : UserControl
     {
-        public AddDeviceView()
+        public StateDetailsView()
         {
             InitializeComponent();
         }

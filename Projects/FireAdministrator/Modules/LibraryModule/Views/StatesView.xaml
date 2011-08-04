@@ -3,22 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="SortedStates" Source="{Binding Path=States}">
+        <CollectionViewSource x:Key="SortedStates" Source="{Binding StateViewModels}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Name" Direction="Ascending" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
     
-    <ListBox ItemsSource="{Binding Source={StaticResource SortedStates}}" SelectedItem="{Binding SelectedState}">
+    <ListBox Name="lb" ItemsSource="{Binding Source={StaticResource SortedStates}}" SelectedItem="{Binding SelectedStateViewModel}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal" Height="15" Margin="40,0,0,0">
-                    <CheckBox IsChecked="{Binding IsChecked}"
-                              Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}">
-                    </CheckBox>
-                    <TextBlock Text="{Binding Name}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
-                </StackPanel>
+                <WrapPanel Margin="40,0,0,0">
+                    <CheckBox IsChecked="{Binding IsChecked}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"
+                              Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding Name}" 
+                               ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+                </WrapPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
         

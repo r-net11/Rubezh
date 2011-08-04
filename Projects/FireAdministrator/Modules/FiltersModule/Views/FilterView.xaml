@@ -19,8 +19,8 @@
     <DockPanel Margin="10, 20">
         
         <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
-        <TextBlock DockPanel.Dock="Top"  Text="" />
-        <TextBlock DockPanel.Dock="Top" Margin="5, 0"  Text="Представления фильтров журнала:" Foreground="{StaticResource headerBrush}" />
+        <TextBlock DockPanel.Dock="Top" Text="" />
+        <TextBlock DockPanel.Dock="Top" Margin="5, 0" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
         
         <!--<DockPanel  DockPanel.Dock="Right" Margin="5" LastChildFill="False">
             <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding CreateCommand}">Создать</Button>
@@ -41,19 +41,19 @@
                                         <Setter Property="FontWeight" Value="Black" />
                                     </Style>
                                 </StackPanel.Resources>
-                                <TextBlock Text="Наименование: " Margin="2" />
-                                <TextBlock Text="Тип события: " Margin="2" />
-                                <TextBlock Text="Тип устройства: " Margin="2" />
-                                <TextBlock Text="Выбрать записи: " Margin="2" />
+                                <TextBlock Margin="2" Text="Наименование: " />
+                                <TextBlock Margin="2" Text="Тип события: " />
+                                <TextBlock Margin="2" Text="Тип устройства: " />
+                                <TextBlock Margin="2" Text="Выбрать записи: " />
                             </StackPanel>
-                            <TextBlock Name="textBlock">
+                            <TextBlock>
                             <StackPanel DataContext="{Binding JournalFilter}" >
-                                <TextBlock Text="{Binding Name}"
-                                           Margin="2" />
-                                <TextBlock Text="{Binding Events, Converter={StaticResource EventsToStringConverter}}" 
-                                           Margin="2" />
-                                <TextBlock Text="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" 
-                                           Margin="2" />
+                                <TextBlock Margin="2" 
+                                           Text="{Binding Name}" />
+                                <TextBlock Margin="2"
+                                           Text="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
+                                <TextBlock Margin="2"
+                                           Text="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
                                 <WrapPanel Margin="2">
                                     <WrapPanel>
                                         <TextBlock Text="{Binding LastRecordsCount}" />

@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using LibraryModule.ViewModels;
 
 
 namespace LibraryModule.Views
@@ -11,9 +11,11 @@ namespace LibraryModule.Views
             InitializeComponent();
         }
 
-        private void ListBoxGotFocus(object sender, RoutedEventArgs e)
+        private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            ((ListBox)sender).SelectedItem = ((ListBox)sender).SelectedItem;
+            var checkBox = sender as CheckBox;
+            var stateViewModel = checkBox.DataContext as StateViewModel;
+            (DataContext as DeviceViewModel).SelectedStateViewModel = stateViewModel;
         }
     }
 }

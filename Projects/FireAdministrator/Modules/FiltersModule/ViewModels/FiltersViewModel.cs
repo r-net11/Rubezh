@@ -65,7 +65,7 @@ namespace FiltersModule.ViewModels
         }
 
         public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        public void OnSave()
         {
             if (FilterViewModels != null)
             {

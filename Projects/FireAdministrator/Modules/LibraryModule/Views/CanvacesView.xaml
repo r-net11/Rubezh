@@ -2,9 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
-        <Slider Margin="0, 15" Name="sliderScale" Cursor="Hand" Minimum="0.01" Maximum="0.15" Value="1.0" />
-        <ItemsControl DataContext="{Binding SelectedState}"
-                      ItemsSource="{Binding CanvasesPresenter.Canvases}"
+        <Slider Name="sliderScale"  Margin="0, 15" Cursor="Hand" Minimum="0.01" Maximum="0.15" Value="1.0" />
+        <ItemsControl ItemsSource="{Binding CanvasesPresenter.Canvases}" 
                       Width="500" Height="500">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

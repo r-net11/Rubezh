@@ -1,14 +1,14 @@
-﻿using Infrastructure;
+﻿using FiltersModule.ViewModels;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiltersModule.ViewModels;
 using Microsoft.Practices.Prism.Modularity;
 
 namespace FiltersModule
 {
     public class FiltersModule : IModule
     {
-        static FiltersViewModel journalViewModel;
+        static FiltersViewModel filtersViewModel;
 
         public FiltersModule()
         {
@@ -29,17 +29,22 @@ namespace FiltersModule
 
         void CreateViewModels()
         {
-            journalViewModel = new FiltersViewModel();
+            filtersViewModel = new FiltersViewModel();
+            filtersViewModel.Initialize();
         }
 
         static void OnShowJournal(string obj)
         {
-            journalViewModel.Initialize();
-            ServiceFactory.Layout.Show(journalViewModel);
+            ServiceFactory.Layout.Show(filtersViewModel);
         }
 
         public static void Validate()
         {
+        }
+
+        public void Save()
+        {
+            filtersViewModel.OnSave();
         }
     }
 }

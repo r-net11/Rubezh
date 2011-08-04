@@ -8,9 +8,9 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         
-        <Views:DevicesView Grid.Column="0" />
-        
-        <Grid Grid.Column="1">
+        <Views:LibraryTree Grid.Column="0" />
+
+        <Grid Grid.Column="1" DataContext="{Binding SelectedDeviceViewModel}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="90" />
@@ -20,18 +20,19 @@
                 <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                <TextBox DataContext="{Binding SelectedDevice.SelectedState.SelectedFrame}"
-                         Text="{Binding XmlOfImage}"
+                <TextBox DataContext="{Binding SelectedStateViewModel.SelectedFrameViewModel.Frame}"
+                         Text="{Binding Image}"
                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                          AcceptsReturn="True" AcceptsTab="True" />
             </Grid>
-            
-            <Views:FramesView Grid.Row="1" Grid.Column="0" DataContext="{Binding SelectedDevice}" />
+
+            <Views:FramesView Grid.Row="1" Grid.Column="0" 
+                DataContext="{Binding SelectedStateViewModel}" />
             
             <DockPanel Grid.Row="1" Grid.Column="1">
-                <Views:CanvacesView DataContext="{Binding SelectedDevice}" DockPanel.Dock="Top" />
-                <Button Content="Сохранить" VerticalAlignment="Bottom" Margin="10"
-                        Command="{Binding SaveCommand}"  DockPanel.Dock="Bottom" />
+                <Views:CanvacesView DockPanel.Dock="Top" />
+                <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="10"
+                        Command="{Binding SaveCommand}" Content="Сохранить" />
             </DockPanel>
         </Grid>
     </Grid>

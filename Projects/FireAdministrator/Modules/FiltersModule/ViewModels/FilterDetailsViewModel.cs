@@ -15,7 +15,6 @@ namespace FiltersModule.ViewModels
         {
             Initialize();
 
-            JournalFilter = new JournalFilter();
             JournalFilter.LastRecordsCount = maxCountRecords;
             JournalFilter.LastDaysCount = DefaultDaysCount;
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using LibraryModule.ViewModels;
@@ -32,14 +33,23 @@ namespace LibraryModule.Views
 
         private void LibraryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if ((e.NewValue as DeviceViewModel) != null && (e.OldValue as DeviceViewModel) != null)
+            var treeView = sender as TreeView;
+            if ((treeView.SelectedItem as DeviceViewModel) != null)
             {
-                OnPropertyChanged("SelectedDevice");
+                (DataContext as LibraryViewModel).SelectedDeviceViewModel = treeView.SelectedItem as DeviceViewModel;
             }
-
-            if ((e.NewValue as StateViewModel) != null && (e.OldValue as StateViewModel) != null)
+            if ((treeView.SelectedItem as StateViewModel) != null)
             {
-                OnPropertyChanged("SelectedDevice");
+                var stateViewModel = treeView.SelectedItem as StateViewModel;
+                var library = (DataContext as LibraryViewModel);
+                var parentDevice =
+                    library.DeviceViewModels.First(x => x.Driver.Id == stateViewModel.ParentDriver.Id);
+
+                if (library.SelectedDeviceViewModel != parentDevice)
+                {
+                    library.SelectedDeviceViewModel = parentDevice;
+                }
+                parentDevice.SelectedStateViewModel = stateViewModel;
             }
         }
 
@@ -48,6 +58,6 @@ namespace LibraryModule.Views
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }   
+        }
     }
 }
