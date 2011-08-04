@@ -138,7 +138,7 @@ namespace PlanEditor
                     double y1 = line.Y1;
                     double top = Canvas.GetTop(line);
                     double left = Canvas.GetLeft(line);
-                    
+                    previousMarginOfSelectedObject = new Point(x1*-1, y1*-1);
                 }
 
                 AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
@@ -227,6 +227,7 @@ namespace PlanEditor
                 layer.Add(_overlayElementEllipse);
             };
         }
+        //123
         private void DragMoved(int _code)
         {
             if (_overlayElementLine != null)
@@ -261,7 +262,7 @@ namespace PlanEditor
                 {
                     Canvas.SetTop(_originalElement, _overlayElementLine.TopOffset);
                     Canvas.SetLeft(_originalElement, _overlayElementLine.LeftOffset);
-                    previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset * -1, _overlayElementLine.TopOffset*-1);
+                    //previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset * -1, _overlayElementLine.TopOffset*-1);
                     listShapes.DragFinished(_code, this, _overlayElementLine.TopOffset, _overlayElementLine.LeftOffset);
                 }
                 //_overlayElementLine = null;
