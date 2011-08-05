@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SoundsModule.Views.SoundsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SoundsModule.Converters">
+             xmlns:Converters="clr-namespace:SoundsModule.Converters" >
     <UserControl.Resources>
         <Style
             x:Key="CheckBoxTemplate"
@@ -70,6 +70,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Converters:EnumToStringConverter x:Key="EnumToStringConverter" />
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -79,7 +80,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}" 
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}"
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateType}" />
@@ -99,7 +100,7 @@
                     <DataGridTemplateColumn Header="PC Speaker" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SpeakerName}" />
+                                <TextBlock Text="{Binding SpeakerName, Converter={StaticResource EnumToStringConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>

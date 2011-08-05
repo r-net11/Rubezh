@@ -11,57 +11,15 @@ namespace SoundsModule.ViewModels
 {
     public static class DownloadHelper
     {
-        public static string CurrentDirectory
-        {
-            get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
-        }
-
         public const string DefaultName = "<не задано>";
 
         public const bool DefaultIsContinious = false;
 
-        public static ObservableCollection<string> GetAvailableStates
-        {
-            get
-            {
-                ObservableCollection<string> availableStates = new ObservableCollection<string>();
-                availableStates.Add("Тревога");
-                availableStates.Add("Внимание");
-                availableStates.Add("Неисправность");
-                availableStates.Add("Требуется обслуживание");
-                availableStates.Add("Отключено");
-                availableStates.Add("Неизвестно");
-                availableStates.Add("Норма(*)");
-                availableStates.Add("Норма");
-                return availableStates;
-            }
+        public enum AvailableSpeaker { Нет = 0, Тревога = 500, Внимание = 3000};
 
-        }
-
-        public static ObservableCollection<string> GetAvailableSounds
+        public static string CurrentDirectory
         {
-            get
-            {
-                ObservableCollection<string> fileNames = new ObservableCollection<string>();
-                fileNames.Add(DefaultName);
-                foreach (string str in Directory.GetFiles(CurrentDirectory))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
-                return fileNames;
-            }
-        }
-
-        public static ObservableCollection<string> AvailableSpeakers
-        {
-            get
-            {
-                ObservableCollection<string> availableSpeakers = new ObservableCollection<string>();
-                availableSpeakers.Add(DownloadHelper.DefaultName);
-                availableSpeakers.Add("Тревога");
-                availableSpeakers.Add("Внимание");
-                return availableSpeakers;
-            }
+            get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
         }
 
         public static void UpdateSound()

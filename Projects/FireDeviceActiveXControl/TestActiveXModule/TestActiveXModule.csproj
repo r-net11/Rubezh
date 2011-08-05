@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{034AE365-8D02-4E2A-9F32-A9714AEE28D7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FiresecAPI</RootNamespace>
-    <AssemblyName>FiresecAPI</AssemblyName>
+    <RootNamespace>TestActiveXModule</RootNamespace>
+    <AssemblyName>TestActiveXModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -37,14 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,41 +51,24 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressConverter.cs" />
-    <Compile Include="IFiresecCallback.cs" />
-    <Compile Include="IFiresecService.cs" />
-    <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\JournalFilter.cs" />
-    <Compile Include="Models\JournalRecord.cs" />
-    <Compile Include="Models\PDUGroupLogic.cs" />
-    <Compile Include="Models\Sound.cs" />
-    <Compile Include="Models\SystemConfiguration.cs" />
-    <Compile Include="StateTypeConverter.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AlarmType.cs" />
-    <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Models\DeviceConfiguration.cs" />
-    <Compile Include="Models\DeviceConfigurationStates.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceCategory.cs" />
-    <Compile Include="Models\DeviceState.cs" />
-    <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Direction.cs" />
-    <Compile Include="Models\Driver.cs" />
-    <Compile Include="Models\DriverProperty.cs" />
-    <Compile Include="Models\DriversHelper.cs" />
-    <Compile Include="Models\InnerState.cs" />
-    <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Premission.cs" />
-    <Compile Include="Models\Property.cs" />
-    <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="Models\State.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="Models\Zone.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
-    <Compile Include="Models\ZoneState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,13 +93,21 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+    <ProjectReference Include="..\..\..\..\Rubezh\Projects\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
+    <ProjectReference Include="..\..\..\..\Rubezh\Projects\FireMonitor\Infrastructure\Infrastructure.csproj">
+      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Rubezh\Projects\FiresecClient\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CurrentDeviceModule\CurrentDeviceModule.csproj">
+      <Project>{72775D38-3333-45FF-A8C2-E86B578E3C84}</Project>
+      <Name>CurrentDeviceModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

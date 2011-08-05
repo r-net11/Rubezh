@@ -100,7 +100,7 @@ namespace SoundsModule.ViewModels
             }
             set
             {
-                if (value == DownloadHelper.DefaultName)
+                if (value == Enum.GetName(typeof(DownloadHelper.AvailableSpeaker), 0))
                 {
                     Sound.SpeakerName = null;
                 }
@@ -122,37 +122,35 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public ObservableCollection<string> AvailableStates
+        public List<string> AvailableStates
         {
-            get
-            {
-                ObservableCollection<string> availableStates = new ObservableCollection<string>();
-                availableStates.Add("Тревога");
-                availableStates.Add("Внимание");
-                availableStates.Add("Неисправность");
-                availableStates.Add("Требуется обслуживание");
-                availableStates.Add("Отключено");
-                availableStates.Add("Неизвестно");
-                availableStates.Add("Норма(*)");
-                availableStates.Add("Норма");
-                return availableStates;
-            }
+            get { return FiresecAPI.StateTypeConverter.ConvertStateTypeToListString(); }
         }
 
         public ObservableCollection<string> AvailableSounds 
         {
-            get { return DownloadHelper.GetAvailableSounds; } 
+            get
+            {
+                ObservableCollection<string> fileNames = new ObservableCollection<string>();
+                fileNames.Add(DownloadHelper.DefaultName);
+                foreach (string str in Directory.GetFiles(DownloadHelper.CurrentDirectory))
+                {
+                    fileNames.Add(Path.GetFileName(str));
+                }
+                return fileNames;
+            } 
         }
 
-        public ObservableCollection<string> AvailableSpeakers
+        public ObservableCollection<string> AvailableSpeakers 
         {
             get
             {
-                ObservableCollection<string> availableSpeakers = new ObservableCollection<string>();
-                availableSpeakers.Add(DownloadHelper.DefaultName);
-                availableSpeakers.Add("Тревога");
-                availableSpeakers.Add("Внимание");
-                return availableSpeakers;
+                ObservableCollection<string> speakerNames = new ObservableCollection<string>();
+                foreach (var speakername in Enum.GetNames(typeof(DownloadHelper.AvailableSpeaker)))
+                {
+                    speakerNames.Add(speakername);
+                }
+                return speakerNames;
             }
         }
     }

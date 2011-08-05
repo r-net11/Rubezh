@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using System.Media;
+using System.Security.Cryptography;
+using System.IO;
+using System.Collections.Generic;
+using System;
 
 namespace SoundsModule.ViewModels
 {
@@ -13,10 +18,45 @@ namespace SoundsModule.ViewModels
 
         public void Initialize()
         {
+            DownloadHelper.UpdateSound();
+            IsNowPlaying = false;
+            var sounds = new ObservableCollection<SoundViewModel>();
+            var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
+            //**************************
+            //временно(заменю на Linq)
+            bool isContains = false;
+            ObservableCollection<string> availableStates = new ObservableCollection<string>();
+            foreach (var id in FiresecAPI.StateTypeConverter.ConvertStateTypeToListString())
+            {
+                availableStates.Add(id);
+            }
+
+            foreach (var state in availableStates)
+            {
+                foreach (var sound in sysConfSounds)
+                {
+                    if (string.Equals(sound.StateType, state))
+                    {
+                        isContains = true;
+                        sounds.Add(new SoundViewModel(sound));
+                    }
+                }
+                if (!isContains)
+                {
+                    sounds.Add(new SoundViewModel(state));
+                }
+                else
+                {
+                    isContains = false;
+                }
+            }
+            //********************
+            Sounds = sounds;
+            SelectedSound = Sounds[0];
+
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             SaveCommand = new RelayCommand(Save);
-            Inicialize();
-            //SelectedSound = Sounds[0];
+
         }
 
         ObservableCollection<SoundViewModel> _sounds;
@@ -63,39 +103,6 @@ namespace SoundsModule.ViewModels
                     FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
                 }
             }
-        }
-
-        public void Inicialize()
-        {
-            DownloadHelper.UpdateSound();
-            IsNowPlaying = false;
-
-            var sounds = new ObservableCollection<SoundViewModel>();
-            var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            //**************************
-            //временно(заменю на Linq)
-            bool isContains = false;
-            //foreach (var state in DownloadHelper.GetAvailableStates)
-            //{
-            //    foreach (var sound in sysConfSounds)
-            //    {
-            //        if (string.Equals(sound.StateType, state))
-            //        {
-            //            isContains = true;
-            //            sounds.Add(new SoundViewModel(sound));
-            //        }
-            //    }
-            //    if (!isContains)
-            //    {
-            //        sounds.Add(new SoundViewModel(state));
-            //    }
-            //    else
-            //    {
-            //        isContains = false;
-            //    }
-            //}
-            //********************
-            Sounds = sounds;
         }
 
         public RelayCommand PlaySoundCommand { get; private set; }
