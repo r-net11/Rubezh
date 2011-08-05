@@ -79,6 +79,7 @@
     <Compile Include="ViewModels\DetailsBaseViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
+    <Compile Include="ViewModels\LibraryMenuViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\AdditionalStateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateDetailsViewModel.cs" />
@@ -92,6 +93,9 @@
     </Compile>
     <Compile Include="Views\FramesView.xaml.cs">
       <DependentUpon>FramesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryMenuView.xaml.cs">
+      <DependentUpon>LibraryMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryTree.xaml.cs">
       <DependentUpon>LibraryTree.xaml</DependentUpon>
@@ -166,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FramesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LibraryMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

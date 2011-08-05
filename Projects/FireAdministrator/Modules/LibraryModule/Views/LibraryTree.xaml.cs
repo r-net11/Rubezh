@@ -25,13 +25,42 @@ namespace LibraryModule.Views
                 var stateViewModel = treeView.SelectedItem as StateViewModel;
                 var library = (DataContext as LibraryViewModel);
                 var parentDevice =
-                    library.DeviceViewModels.First(x => x.Driver.Id == stateViewModel.ParentDriver.Id);
+                    library.DeviceViewModels.First(x => x.Id == stateViewModel.ParentDriver.Id);
 
                 if (library.SelectedDeviceViewModel != parentDevice)
                 {
                     library.SelectedDeviceViewModel = parentDevice;
                 }
                 parentDevice.SelectedStateViewModel = stateViewModel;
+            }
+        }
+
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var treeView = (sender as TreeView);
+            var contextMenu = treeView.ContextMenu;
+            foreach (MenuItem item in contextMenu.Items)
+            {
+                item.Visibility =
+                    System.Windows.Visibility.Collapsed;
+            }
+            if (treeView.SelectedItem == null)
+            {
+                (contextMenu.Items[0] as MenuItem).Visibility =
+                    System.Windows.Visibility.Visible;
+            }
+            if ((treeView.SelectedItem as StateViewModel) != null)
+            {
+                (contextMenu.Items[contextMenu.Items.Count - 1] as MenuItem).Visibility =
+                    System.Windows.Visibility.Visible;
+            }
+            if ((treeView.SelectedItem as DeviceViewModel) != null)
+            {
+                for (var i = 0; i < contextMenu.Items.Count - 1; ++i)
+                {
+                    (contextMenu.Items[i] as MenuItem).Visibility =
+                        System.Windows.Visibility.Visible;
+                }
             }
         }
     }

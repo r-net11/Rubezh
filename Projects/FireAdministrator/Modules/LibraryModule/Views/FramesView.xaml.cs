@@ -8,5 +8,10 @@ namespace LibraryModule.Views
         {
             InitializeComponent();
         }
+
+        private void TabControl_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            (Resources["tabItemContextMenu"] as ContextMenu).DataContext = DataContext;
+        }
     }
 }

@@ -23,19 +23,24 @@ namespace LibraryModule.ViewModels
 
             AddFrameCommand = new RelayCommand(OnAddFrame);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
+
+            Initialize();
+        }
+
+        void Initialize()
+        {
+            FrameViewModels = new ObservableCollection<FrameViewModel>();
+            foreach (var frame in State.Frames)
+            {
+                FrameViewModels.Add(new FrameViewModel(frame));
+            }
+            SelectedFrameViewModel = FrameViewModels[0];
         }
 
         public DeviceLibrary.Models.State State { get; private set; }
         public FiresecAPI.Models.Driver ParentDriver { get; private set; }
 
-        public bool IsChecked
-        {
-            get { return State.isChecked; }
-            set
-            {
-                State.isChecked = value;
-            }
-        }
+        public bool IsChecked { get; set; }
 
         public bool IsAdditional
         {
@@ -74,18 +79,14 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        ObservableCollection<FrameViewModel> _frameViewModels;
         public ObservableCollection<FrameViewModel> FrameViewModels
         {
-            get
+            get { return _frameViewModels; }
+            set
             {
-                var frameViewModels = new ObservableCollection<FrameViewModel>();
-                foreach (var frame in State.Frames)
-                {
-                    frameViewModels.Add(new FrameViewModel(frame));
-                }
-                SelectedFrameViewModel = frameViewModels[0];
-
-                return frameViewModels;
+                _frameViewModels = value;
+                OnPropertyChanged("FrameViewModels");
             }
         }
 
@@ -117,17 +118,28 @@ namespace LibraryModule.ViewModels
             return state;
         }
 
+        public DeviceLibrary.Models.State GetModel()
+        {
+            State.Frames = new List<DeviceLibrary.Models.Frame>();
+            foreach (var frameViewModel in FrameViewModels)
+            {
+                State.Frames.Add(frameViewModel.Frame);
+            }
+
+            return State;
+        }
+
         public RelayCommand AddFrameCommand { get; private set; }
         void OnAddFrame()
         {
-            State.Frames.Add(FrameViewModel.GetDefaultFrameWith(State.Frames.Count));
-            OnPropertyChanged("FrameViewModels");
+            FrameViewModels.Add(
+                new FrameViewModel(FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count)));
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            if (State.Frames.Count == 1)
+            if (FrameViewModels.Count == 1)
             {
                 MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
             }
@@ -140,8 +152,7 @@ namespace LibraryModule.ViewModels
 
                 if (result == MessageBoxResult.OK)
                 {
-                    State.Frames.Remove(SelectedFrameViewModel.Frame);
-                    OnPropertyChanged("FrameViewModels");
+                    FrameViewModels.Remove(SelectedFrameViewModel);
                 }
             }
         }

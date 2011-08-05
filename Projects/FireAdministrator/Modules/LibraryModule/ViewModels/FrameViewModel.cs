@@ -13,7 +13,12 @@ namespace LibraryModule.ViewModels
 
         public FrameViewModel(DeviceLibrary.Models.Frame frame)
         {
-            Frame = frame;
+            Frame = new DeviceLibrary.Models.Frame();
+            Frame.Duration = frame.Duration;
+            Frame.Id = frame.Id;
+            Frame.Image = frame.Image;
+            Frame.Layer = frame.Layer;
+
             ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 

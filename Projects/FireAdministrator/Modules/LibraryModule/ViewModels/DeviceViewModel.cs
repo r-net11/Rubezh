@@ -13,32 +13,55 @@ namespace LibraryModule.ViewModels
     {
         public DeviceViewModel(DeviceLibrary.Models.Device device)
         {
-            Device = device;
-            if (device.States == null)
+            _device = device;
+            _driver = FiresecManager.Drivers.First(x => x.Id == _device.Id);
+            if (_device.States == null)
             {
-                SetDefaultStateTo(Device);
+                SetDefaultStateTo(_device);
             }
-            Driver = FiresecManager.Drivers.First(x => x.Id == device.Id);
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
+
+            Initialize();
         }
 
-        public Driver Driver { get; private set; }
-        public DeviceLibrary.Models.Device Device { get; private set; }
+        void Initialize()
+        {
+            StateViewModels = new ObservableCollection<StateViewModel>();
+            foreach (var state in _device.States)
+            {
+                StateViewModels.Add(new StateViewModel(state, _driver));
+            }
+        }
 
+        readonly Driver _driver;
+        readonly DeviceLibrary.Models.Device _device;
+
+        public string Name
+        {
+            get { return _driver.Name; }
+        }
+
+        public string ImageSource
+        {
+            get { return _driver.ImageSource; }
+        }
+
+        public string Id
+        {
+            get { return _device.Id; }
+        }
+
+        ObservableCollection<StateViewModel> _stateViewModels;
         public ObservableCollection<StateViewModel> StateViewModels
         {
-            get
+            get { return _stateViewModels; }
+            set
             {
-                var stateViewModels = new ObservableCollection<StateViewModel>();
-                foreach (var state in Device.States)
-                {
-                    stateViewModels.Add(new StateViewModel(state, Driver));
-                }
-
-                return stateViewModels;
+                _stateViewModels = value;
+                OnPropertyChanged("StateViewModels");
             }
         }
 
@@ -94,25 +117,34 @@ namespace LibraryModule.ViewModels
             return device;
         }
 
+        public DeviceLibrary.Models.Device GetModel()
+        {
+            _device.States = new List<DeviceLibrary.Models.State>();
+            foreach (var stateViewModel in StateViewModels)
+            {
+                _device.States.Add(stateViewModel.GetModel());
+            }
+
+            return _device;
+        }
+
         public RelayCommand AddStateCommand { get; private set; }
         void OnAddState()
         {
-            var addStateViewModel = new StateDetailsViewModel(Device);
+            var addStateViewModel = new StateDetailsViewModel(_device);
             if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
             {
-                Device.States.Add(addStateViewModel.SelectedItem.State);
-                OnPropertyChanged("StateViewModels");
+                StateViewModels.Add(addStateViewModel.SelectedItem);
             }
         }
 
         public RelayCommand AddAdditionalStateCommand { get; private set; }
         void OnShowAdditionalStates()
         {
-            var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(Device);
+            var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(_device);
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
-                Device.States.Add(addAdditionalStateViewModel.SelectedItem.State);
-                OnPropertyChanged("StateViewModels");
+                StateViewModels.Add(addAdditionalStateViewModel.SelectedItem);
             }
         }
 
@@ -132,8 +164,7 @@ namespace LibraryModule.ViewModels
 
                 if (dialogResult == MessageBoxResult.OK)
                 {
-                    Device.States.Remove(SelectedStateViewModel.State);
-                    OnPropertyChanged("StateViewModels");
+                    StateViewModels.Remove(SelectedStateViewModel);
                 }
             }
         }

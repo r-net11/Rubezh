@@ -1,17 +1,30 @@
 ﻿<UserControl x:Class="LibraryModule.Views.FramesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <ContextMenu x:Key="tabItemContextMenu">
+            <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
+            <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+        </ContextMenu>
+    </UserControl.Resources>
     <TabControl TabStripPlacement="Bottom"
                 ItemsSource="{Binding FrameViewModels}" 
-                SelectedItem="{Binding SelectedFrameViewModel}">
+                SelectedItem="{Binding SelectedFrameViewModel}"
+                ContextMenuOpening="TabControl_ContextMenuOpening">
         
-        <TabControl.ContextMenu>
+        <!--<TabControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
                 <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
             </ContextMenu>
-        </TabControl.ContextMenu>
-        
+        </TabControl.ContextMenu>-->
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="{x:Type TabItem}">
+                <Style.Setters>
+                    <Setter Property="ContextMenu" Value="{StaticResource tabItemContextMenu}" />
+                </Style.Setters>
+            </Style>
+        </TabControl.ItemContainerStyle>
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">

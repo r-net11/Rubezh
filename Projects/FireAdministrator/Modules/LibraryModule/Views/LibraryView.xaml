@@ -28,12 +28,8 @@
 
             <Views:FramesView Grid.Row="1" Grid.Column="0" 
                 DataContext="{Binding SelectedStateViewModel}" />
-            
-            <DockPanel Grid.Row="1" Grid.Column="1">
-                <Views:CanvacesView DockPanel.Dock="Top" />
-                <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="10"
-                        Command="{Binding SaveCommand}" Content="Сохранить" />
-            </DockPanel>
+
+            <Views:CanvacesView Grid.Row="1" Grid.Column="1" />
         </Grid>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using DeviceLibrary;
 using Infrastructure;
@@ -15,19 +16,23 @@ namespace LibraryModule.ViewModels
             SaveCommand = new RelayCommand(OnSave);
         }
 
-        public void Initialize() { }
+        public void Initialize()
+        {
+            DeviceViewModels = new ObservableCollection<DeviceViewModel>();
+            foreach (var device in LibraryManager.Devices)
+            {
+                DeviceViewModels.Add(new DeviceViewModel(device));
+            }
+        }
 
+        ObservableCollection<DeviceViewModel> _deviceViewModels;
         public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
-            get
+            get { return _deviceViewModels; }
+            set
             {
-                var deviceViewModels = new ObservableCollection<DeviceViewModel>();
-                foreach (var device in LibraryManager.Devices)
-                {
-                    deviceViewModels.Add(new DeviceViewModel(device));
-                }
-
-                return deviceViewModels;
+                _deviceViewModels = value;
+                OnPropertyChanged("DeviceViewModels");
             }
         }
 
@@ -42,14 +47,24 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        public List<DeviceLibrary.Models.Device> GetModel()
+        {
+            var devices = new List<DeviceLibrary.Models.Device>();
+            foreach (var deviceViewModel in DeviceViewModels)
+            {
+                devices.Add(deviceViewModel.GetModel());
+            }
+
+            return devices;
+        }
+
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
             var addDeviceViewModel = new DeviceDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                LibraryManager.Devices.Add(addDeviceViewModel.SelectedItem.Device);
-                OnPropertyChanged("DeviceViewModels");
+                DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
             }
         }
 
@@ -63,8 +78,7 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                LibraryManager.Devices.Remove(SelectedDeviceViewModel.Device);
-                OnPropertyChanged("DeviceViewModels");
+                DeviceViewModels.Remove(SelectedDeviceViewModel);
             }
         }
 
@@ -77,8 +91,20 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
+                LibraryManager.Devices = GetModel();
                 LibraryManager.Save();
             }
+        }
+
+        public override void OnShow()
+        {
+            LibraryMenuViewModel libraryMenuViewModel = new LibraryMenuViewModel(SaveCommand);
+            ServiceFactory.Layout.ShowMenu(libraryMenuViewModel);
+        }
+
+        public override void OnHide()
+        {
+            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

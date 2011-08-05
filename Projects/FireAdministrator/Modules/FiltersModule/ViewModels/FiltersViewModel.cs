@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace FiltersModule.ViewModels
 {
@@ -79,8 +79,9 @@ namespace FiltersModule.ViewModels
 
         public override void OnShow()
         {
-            FiltersMenuViewModel journalsMenuViewModel = new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
-            ServiceFactory.Layout.ShowMenu(journalsMenuViewModel);
+            FiltersMenuViewModel filtersMenuViewModel =
+                new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
+            ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
         }
 
         public override void OnHide()

@@ -1,9 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Infrastructure.Common;
-using System.Media;
-using System.Security.Cryptography;
-using System.IO;
-using System.Collections.Generic;
 
 namespace SoundsModule.ViewModels
 {
@@ -11,7 +8,7 @@ namespace SoundsModule.ViewModels
     {
         public SoundsViewModel()
         {
-            
+
         }
 
         public void Initialize()
@@ -19,14 +16,14 @@ namespace SoundsModule.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             SaveCommand = new RelayCommand(Save);
             Inicialize();
-            SelectedSound = Sounds[0];
+            //SelectedSound = Sounds[0];
         }
-        
+
         ObservableCollection<SoundViewModel> _sounds;
         public ObservableCollection<SoundViewModel> Sounds
         {
             get { return _sounds; }
-            set 
+            set
             {
                 _sounds = value;
                 OnPropertyChanged("Sounds");
@@ -78,25 +75,25 @@ namespace SoundsModule.ViewModels
             //**************************
             //временно(заменю на Linq)
             bool isContains = false;
-            foreach (var state in DownloadHelper.GetAvailableStates)
-            {
-                foreach (var sound in sysConfSounds)
-                {
-                    if (string.Equals(sound.StateType, state))
-                    {
-                        isContains = true;
-                        sounds.Add(new SoundViewModel(sound));
-                    }
-                }
-                if (!isContains)
-                {
-                    sounds.Add(new SoundViewModel(state));
-                }
-                else
-                {
-                    isContains = false;
-                }
-            }
+            //foreach (var state in DownloadHelper.GetAvailableStates)
+            //{
+            //    foreach (var sound in sysConfSounds)
+            //    {
+            //        if (string.Equals(sound.StateType, state))
+            //        {
+            //            isContains = true;
+            //            sounds.Add(new SoundViewModel(sound));
+            //        }
+            //    }
+            //    if (!isContains)
+            //    {
+            //        sounds.Add(new SoundViewModel(state));
+            //    }
+            //    else
+            //    {
+            //        isContains = false;
+            //    }
+            //}
             //********************
             Sounds = sounds;
         }
