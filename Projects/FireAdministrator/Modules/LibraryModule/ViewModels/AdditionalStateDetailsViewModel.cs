@@ -14,7 +14,9 @@ namespace LibraryModule.ViewModels
                 if (state.Name != null &&
                     !device.States.Any(x => x.Code == state.Code))
                 {
-                    Items.Add(new StateViewModel(state, driver));
+                    Items.Add(
+                        new StateViewModel(
+                            StateViewModel.GetDefaultStateWith(state.Priority.ToString(), state.Code), driver));
                 }
             }
         }

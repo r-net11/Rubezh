@@ -13,26 +13,12 @@ namespace LibraryModule.ViewModels
     {
         public DeviceViewModel(DeviceLibrary.Models.Device device)
         {
-            Initialize();
-
-            Device.Id = device.Id;
-            if (device.States != null)
+            Device = device;
+            if (device.States == null)
             {
-                Device.States = new List<DeviceLibrary.Models.State>(device.States);
+                SetDefaultStateTo(Device);
             }
-            Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.Id);
-        }
-        public DeviceViewModel(Driver driver)
-        {
-            Initialize();
-
-            Driver = driver;
-            Device.Id = driver.Id;
-        }
-        public void Initialize()
-        {
-            Device = new DeviceLibrary.Models.Device();
-            SetDefaultStateTo(Device);
+            Driver = FiresecManager.Drivers.First(x => x.Id == device.Id);
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
             AddStateCommand = new RelayCommand(OnAddState);
@@ -93,11 +79,19 @@ namespace LibraryModule.ViewModels
             }
         }
 
-
         public static void SetDefaultStateTo(DeviceLibrary.Models.Device device)
         {
             device.States = new List<DeviceLibrary.Models.State>();
-            device.States.Add(StateViewModel.GetDefaultState());
+            device.States.Add(StateViewModel.GetDefaultStateWith());
+        }
+
+        public static DeviceLibrary.Models.Device GetDefaultDriverWith(string id)
+        {
+            var device = new DeviceLibrary.Models.Device();
+            device.Id = id;
+            SetDefaultStateTo(device);
+
+            return device;
         }
 
         public RelayCommand AddStateCommand { get; private set; }

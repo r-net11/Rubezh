@@ -14,7 +14,9 @@ namespace LibraryModule.ViewModels
                 if (!device.States.Any(x => x.Class == classId.ToString() &&
                     x.Code == null))
                 {
-                    Items.Add(new StateViewModel(classId.ToString(), driver));
+                    Items.Add(
+                        new StateViewModel(
+                            StateViewModel.GetDefaultStateWith(classId.ToString()), driver));
                 }
             }
         }

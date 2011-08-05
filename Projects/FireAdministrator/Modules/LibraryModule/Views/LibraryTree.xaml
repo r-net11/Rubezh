@@ -10,14 +10,17 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />              
+        <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
+        <Converters:SelectionToVisibilityConverter x:Key="SelectionToVisibilityConverter" />
     </UserControl.Resources>
+    
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <TreeView Name="DevicesTree" 
-                  ItemsSource="{Binding DeviceViewModels, 
+        <TreeView Name="treeView"
+                 ItemsSource="{Binding DeviceViewModels, 
                                         Converter={StaticResource CollectionViewFactoryConverter}, 
                                         ConverterParameter=Driver.Name}"
                   SelectedItemChanged="LibraryTree_SelectedItemChanged">
+            
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding StateViewModels,
                                         Converter={StaticResource CollectionViewFactoryConverter}, 
@@ -29,7 +32,7 @@
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <CheckBox IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}"
+                                <CheckBox IsChecked="{Binding IsChecked}"
                                       Visibility="{Binding IsAdditional, 
                                       Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <TextBlock Text="{Binding Name}" 
@@ -39,6 +42,26 @@
                     </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+            
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить устройство" 
+                              Command="{Binding AddDeviceCommand}"
+                              Visibility="{Binding Path=SelectedItem, 
+                                                ElementName=treeView,
+                                                Converter={StaticResource SelectionToVisibilityConverter},
+                                                ConverterParameter={x:Static Converters:SelectionType.None}}"/>
+                    <MenuItem Header="Добавить состояние" 
+                              Command="{Binding SelectedDeviceViewModel.AddStateCommand}" />
+                    <MenuItem Header="Добавить дополнительное состояние" 
+                              Command="{Binding SelectedDeviceViewModel.AddAdditionalStateCommand}" />
+                    <MenuItem Header="Удалить устройство" 
+                              Command="{Binding RemoveDeviceCommand}" />
+                    <MenuItem Header="Удалить состояние" 
+                              Command="{Binding SelectedDeviceViewModel.RemoveStateCommand}" />
+                </ContextMenu>
+            </TreeView.ContextMenu>
+            
         </TreeView>
     </ScrollViewer>
 </UserControl>

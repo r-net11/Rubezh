@@ -4,12 +4,14 @@
     <TabControl TabStripPlacement="Bottom"
                 ItemsSource="{Binding FrameViewModels}" 
                 SelectedItem="{Binding SelectedFrameViewModel}">
+        
         <TabControl.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
                 <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
             </ContextMenu>
         </TabControl.ContextMenu>
+        
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal">
@@ -18,17 +20,6 @@
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
-
-        <!--<TabControl.ItemContainerStyle>
-            <Style TargetType="{x:Type TabItem}">
-                <Style.Setters>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                        </Setter.Value>
-                    </Setter>
-                </Style.Setters>
-            </Style>
-        </TabControl.ItemContainerStyle>-->
         
         <TabControl.ContentTemplate>
             <DataTemplate>
@@ -51,5 +42,6 @@
                 </DockPanel>
             </DataTemplate>
         </TabControl.ContentTemplate>
+        
     </TabControl>
 </UserControl>

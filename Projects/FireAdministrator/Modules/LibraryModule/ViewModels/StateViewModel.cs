@@ -9,40 +9,17 @@ namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public static readonly string DefaultClassId = "8";
+        public const string DefaultClassId = "8";
 
-        public StateViewModel(DeviceLibrary.Models.State state, FiresecAPI.Models.Driver parentDriver)
+        public StateViewModel(
+            DeviceLibrary.Models.State state, FiresecAPI.Models.Driver parentDriver)
         {
-            Initialize(parentDriver);
-
-            State.Class = state.Class;
-            State.Code = state.Code;
-            if (state.Frames != null)
+            State = state;
+            if (state.Frames == null)
             {
-                State.Frames = new List<DeviceLibrary.Models.Frame>(state.Frames);
+                SetDefaultFrameTo(State);
             }
-        }
-
-        public StateViewModel(InnerState innerState, FiresecAPI.Models.Driver parentDriver)
-        {
-            Initialize(parentDriver);
-
-            State.Class = innerState.State.Id.ToString();
-            State.Code = innerState.Code;
-        }
-
-        public StateViewModel(string classId, FiresecAPI.Models.Driver parentDriver)
-        {
-            Initialize(parentDriver);
-
-            State.Class = classId;
-        }
-
-        public void Initialize(FiresecAPI.Models.Driver parentDriver)
-        {
             ParentDriver = parentDriver;
-            State = new DeviceLibrary.Models.State();
-            SetDefaultFrameTo(State);
 
             AddFrameCommand = new RelayCommand(OnAddFrame);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
@@ -51,16 +28,12 @@ namespace LibraryModule.ViewModels
         public DeviceLibrary.Models.State State { get; private set; }
         public FiresecAPI.Models.Driver ParentDriver { get; private set; }
 
-        bool isChecked;
         public bool IsChecked
         {
-            get
-            {
-                return isChecked;
-            }
+            get { return State.isChecked; }
             set
             {
-                isChecked = value;
+                State.isChecked = value;
             }
         }
 
@@ -133,10 +106,12 @@ namespace LibraryModule.ViewModels
             state.Frames.Add(FrameViewModel.GetDefaultFrameWith(state.Frames.Count));
         }
 
-        public static DeviceLibrary.Models.State GetDefaultState()
+        public static DeviceLibrary.Models.State GetDefaultStateWith(
+            string classId = DefaultClassId, string code = null)
         {
             var state = new DeviceLibrary.Models.State();
-            state.Class = DefaultClassId;
+            state.Class = classId;
+            state.Code = code;
             SetDefaultFrameTo(state);
 
             return state;

@@ -57,7 +57,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\SelectionType.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
+    <Compile Include="Converters\SelectionToVisibilityConverter.cs" />
     <Compile Include="LibraryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

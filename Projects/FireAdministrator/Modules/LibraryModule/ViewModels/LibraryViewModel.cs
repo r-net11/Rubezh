@@ -8,14 +8,14 @@ namespace LibraryModule.ViewModels
 {
     public class LibraryViewModel : RegionViewModel
     {
-        public LibraryViewModel() { }
-
-        public void Initialize()
+        public LibraryViewModel()
         {
             AddDeviceCommand = new RelayCommand(OnAddDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
             SaveCommand = new RelayCommand(OnSave);
         }
+
+        public void Initialize() { }
 
         public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
