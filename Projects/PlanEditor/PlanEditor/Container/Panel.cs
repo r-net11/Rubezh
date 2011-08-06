@@ -138,12 +138,13 @@ namespace PlanEditor
                     double y1 = line.Y1;
                     double top = Canvas.GetTop(line);
                     double left = Canvas.GetLeft(line);
-                    previousMarginOfSelectedObject = new Point(x1*-1, y1*-1);
+                    double x2 = _overlayElementLine.LeftOffset-x1;
+                    double y2 = _overlayElementLine.TopOffset-y1;
+
+                    previousMarginOfSelectedObject = new Point(x1,y1);
                 }
 
                 AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
-                //previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset, _overlayElementLine.TopOffset);
-                
                 layer.Add(_overlayElementLine);
             };
 
@@ -210,12 +211,8 @@ namespace PlanEditor
                         {
                             PEEllipse ellipse = (PEEllipse)obj;
                             Rectangle r = new Rectangle();
-
-                            //MessageBox.Show(ellipse.X.ToString());
-
                             _overlayElementEllipse.SetCanvas(this, ellipse.MinWidth, ellipse.MinHeight, thumb);
                             _overlayElementEllipse.SetRect(new Rect(ellipse.X, ellipse.Y, ellipse.Width, ellipse.Height));
-
                         }
                     }
                 }
@@ -258,11 +255,15 @@ namespace PlanEditor
             if (_isDragging && _overlayElementLine != null)
             {
                 AdornerLayer.GetAdornerLayer(_overlayElementLine.AdornedElement).Remove(_overlayElementLine);
+                double x2 = _overlayElementLine.LeftOffset;
+                double y2 = _overlayElementLine.TopOffset;
+                double x1 = _originalLeft;
+                double y1 = _originalTop;
+                previousMarginOfSelectedObject = new Point(-1*x2, -1*y2);
                 if (cancelled == false)
                 {
                     Canvas.SetTop(_originalElement, _overlayElementLine.TopOffset);
                     Canvas.SetLeft(_originalElement, _overlayElementLine.LeftOffset);
-                    //previousMarginOfSelectedObject = new Point(_overlayElementLine.LeftOffset * -1, _overlayElementLine.TopOffset*-1);
                     listShapes.DragFinished(_code, this, _overlayElementLine.TopOffset, _overlayElementLine.LeftOffset);
                 }
                 //_overlayElementLine = null;
@@ -479,35 +480,38 @@ namespace PlanEditor
             }
             else
             {
-                Point ptMouseStart = e.GetPosition(this);
-                ptMouseStartforDrag = ptMouseStart;
-
-                object TestPanelOrUI = this.InputHitTest(ptMouseStart) as FrameworkElement;
-                if (TestPanelOrUI != null)
+                //if (!(e.Source is Line))
                 {
-                    if (TestPanelOrUI is CustomPanel)
-                    {
-                        UndoColorChangeForApbAndDevice();
-                    }
-                    else
-                    {
-                        if (selectdeobject != TestPanelOrUI) UndoColorChangeForApbAndDevice();
-                        selectdeobject = TestPanelOrUI;
-                        ColorChangeForApbAndDevice(selectdeobject);
-                        ((Shape)selectdeobject).MouseMove += new System.Windows.Input.MouseEventHandler(Rect_MouseMove);
-                        ((Shape)selectdeobject).MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Rect_MouseLeftButtonUp);
-                        ((Shape)selectdeobject).MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(Rect_MouseLeftButtonDown);
+                    Point ptMouseStart = e.GetPosition(this);
+                    ptMouseStartforDrag = ptMouseStart;
 
-                        if (selectdeobject != null)
+                    object TestPanelOrUI = this.InputHitTest(ptMouseStart) as FrameworkElement;
+                    if (TestPanelOrUI != null)
+                    {
+                        if (TestPanelOrUI is CustomPanel)
                         {
-                            if (!(selectdeobject is Line))
+                            UndoColorChangeForApbAndDevice();
+                        }
+                        else
+                        {
+                            if (selectdeobject != TestPanelOrUI) UndoColorChangeForApbAndDevice();
+                            selectdeobject = TestPanelOrUI;
+                            ColorChangeForApbAndDevice(selectdeobject);
+                            ((Shape)selectdeobject).MouseMove += new System.Windows.Input.MouseEventHandler(Rect_MouseMove);
+                            ((Shape)selectdeobject).MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Rect_MouseLeftButtonUp);
+                            ((Shape)selectdeobject).MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(Rect_MouseLeftButtonDown);
+
+                            if (selectdeobject != null)
                             {
-                                previousMarginOfSelectedObject = new Point(((FrameworkElement)selectdeobject).Margin.Left, ((FrameworkElement)selectdeobject).Margin.Top);
-                                previousheightOfSelectedObject = ((FrameworkElement)selectdeobject).Height;
-                                previouswidthOfSelectedObject = ((FrameworkElement)selectdeobject).Width;
-                            }
-                            else
-                            {
+                                if (!(selectdeobject is Line))
+                                {
+                                    previousMarginOfSelectedObject = new Point(((FrameworkElement)selectdeobject).Margin.Left, ((FrameworkElement)selectdeobject).Margin.Top);
+                                    previousheightOfSelectedObject = ((FrameworkElement)selectdeobject).Height;
+                                    previouswidthOfSelectedObject = ((FrameworkElement)selectdeobject).Width;
+                                }
+                                else
+                                {
+                                }
                             }
                         }
                     }
