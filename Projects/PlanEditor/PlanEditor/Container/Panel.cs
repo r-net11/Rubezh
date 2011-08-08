@@ -97,7 +97,6 @@ namespace PlanEditor
             if (_originalElement != null && (_originalElement is System.Windows.Shapes.Line))
             {
                 _isDragging = true;
-
                 _originalLeft = Canvas.GetLeft(_originalElement);
                 _originalTop = Canvas.GetTop(_originalElement);
                 _overlayElementLine = new LineAdorner(_originalElement);
@@ -140,8 +139,6 @@ namespace PlanEditor
                     double left = Canvas.GetLeft(line);
                     double x2 = _overlayElementLine.LeftOffset - x1;
                     double y2 = _overlayElementLine.TopOffset - y1;
-
-                    //previousMarginOfSelectedObject = new Point(x1, y1);
                 }
 
                 AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
