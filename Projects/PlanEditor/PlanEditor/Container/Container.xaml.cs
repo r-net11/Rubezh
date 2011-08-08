@@ -155,8 +155,9 @@ namespace PlanEditor
         {
             UnDoObject.Undo(1);
             Panel.RemoveResizGrip();
-            
+            Panel.RefreshActiveShape();
         } 
+
 
         #endregion
      

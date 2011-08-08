@@ -72,11 +72,17 @@ namespace PlanEditor
                 }
                 else
                 {
+                    /*
                     tmpX = Mouse.GetPosition(canvas).X;
                     tmpY = Mouse.GetPosition(canvas).Y;
                     Canvas.SetTop(_childLine, 0);
                     Canvas.SetLeft(_childLine, 0);
                     drawingContext.DrawLine(renderPen, new Point(from.X, from.Y), new Point(tmpX, tmpY));
+                     */
+                    tmpX = Mouse.GetPosition(canvas).X;
+                    tmpY = Mouse.GetPosition(canvas).Y;
+                    drawingContext.DrawLine(renderPen, new Point(from.X, from.Y), new Point(tmpX, tmpY));
+                    
                 }
             }
         }

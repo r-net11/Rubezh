@@ -8,6 +8,7 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using System;
 
 namespace FiresecService
 {
@@ -57,12 +58,19 @@ namespace FiresecService
 
         public SystemConfiguration GetSystemConfiguration()
         {
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
-            FiresecManager.SystemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
-            fileStream.Close();
+            try
+            {
+                DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+                FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
+                FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
+                fileStream.Close();
 
-            return FiresecManager.SystemConfiguration;
+                return FiresecManager.SystemConfiguration;
+            }
+            catch(Exception ex)
+            {
+                return FiresecManager.SystemConfiguration;
+            }
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)

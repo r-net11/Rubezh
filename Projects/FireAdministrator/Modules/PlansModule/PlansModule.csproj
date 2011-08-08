@@ -72,6 +72,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="Views\PlansTree.xaml.cs">
+      <DependentUpon>PlansTree.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlansTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

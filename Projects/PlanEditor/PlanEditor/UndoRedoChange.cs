@@ -63,9 +63,17 @@ namespace PlanEditor
                 }
                 else if (Undostruct.Action == ActionType.Move)
                 {
-                    Point previousMarginOfSelectedObject = new Point(((FrameworkElement)Undostruct.UiElement).Margin.Left, ((FrameworkElement)Undostruct.UiElement).Margin.Top);
-                    this.RedoPushInUnDoForMove(previousMarginOfSelectedObject, Undostruct.UiElement);
-                    Undostruct.UiElement.Margin = new Thickness(Undostruct.Margin.X, Undostruct.Margin.Y, 0, 0);
+                    if (Undostruct.UiElement is Line)
+                    {
+                        Line line = (Line)Undostruct.UiElement;
+                        line.X1 = line.X1 + Undostruct.Margin.X;
+                        line.X2 = line.X2 + Undostruct.Margin.X;
+                        line.Y1 = line.Y1 + Undostruct.Margin.Y;
+                        line.Y2 = line.Y2 + Undostruct.Margin.Y;
+                        Point previousMarginOfSelectedObject = new Point(-1*Undostruct.Margin.X, -1*Undostruct.Margin.Y);
+                        this.RedoPushInUnDoForMove(previousMarginOfSelectedObject, Undostruct.UiElement);
+                    }
+                    
                 }
             }
 
@@ -107,10 +115,17 @@ namespace PlanEditor
                 }
                 else if (Undostruct.Action == ActionType.Move)
                 {
-                    Point previousMarginOfSelectedObject = new Point(((FrameworkElement)Undostruct.UiElement).Margin.Left, ((FrameworkElement)Undostruct.UiElement).Margin.Top);
-                    ChangeRepresentationObject ChangeRepresentationObjectForMove = this.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject, Undostruct.UiElement);
-                    _UndoActionsCollection.Push(ChangeRepresentationObjectForMove);
-                    Undostruct.UiElement.Margin = new Thickness(Undostruct.Margin.X, Undostruct.Margin.Y, 0, 0);
+                    if (Undostruct.UiElement is Line)
+                    {
+                        Line line = (Line)Undostruct.UiElement;
+                        line.X1 = line.X1 + Undostruct.Margin.X;
+                        line.X2 = line.X2 + Undostruct.Margin.X;
+                        line.Y1 = line.Y1 + Undostruct.Margin.Y;
+                        line.Y2 = line.Y2 + Undostruct.Margin.Y;
+                        Point previousMarginOfSelectedObject = new Point(-1 * Undostruct.Margin.X, -1 * Undostruct.Margin.Y);
+                        ChangeRepresentationObject ChangeRepresentationObjectForMove = this.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject, Undostruct.UiElement);
+                        _UndoActionsCollection.Push(ChangeRepresentationObjectForMove);
+                    }
                 }
 
             }
@@ -124,11 +139,13 @@ namespace PlanEditor
         public void InsertObjectforUndoRedo(ChangeRepresentationObject dataobject)
         {
             _UndoActionsCollection.Push(dataobject);
+            
             _RedoActionsCollection.Clear();
             if (EnableDisableUndoRedoFeature != null)
             {
                 EnableDisableUndoRedoFeature(null, null);
             }
+            
         }
 
         #endregion
@@ -283,7 +300,6 @@ namespace PlanEditor
         public double Width;
         public double height;
         public FrameworkElement UiElement;
-
     }
 
     #endregion

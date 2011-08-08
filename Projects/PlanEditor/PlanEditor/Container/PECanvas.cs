@@ -229,6 +229,7 @@ namespace PlanEditor
             }
 
         }
+
         private void DragStarted()
         {
             if (_originalElement != null && (_originalElement is System.Windows.Shapes.Line))
@@ -359,7 +360,7 @@ namespace PlanEditor
         {
             if (_overlayElementLine != null)
             {
-                Point CurrentPosition = System.Windows.Input.Mouse.GetPosition(canvas);
+                Point CurrentPosition = Mouse.GetPosition(canvas);
                 _overlayElementLine.LeftOffset = CurrentPosition.X - _startPoint.X;
                 _overlayElementLine.TopOffset = CurrentPosition.Y - _startPoint.Y;
                 listShapes.DragMove(_code, canvas);

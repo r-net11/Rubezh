@@ -36,6 +36,7 @@ namespace PlanEditor
         #endregion
         private bool _isDown;
         private bool _isDragging;
+        private bool _isThumb = false;
 
         private Point _startPoint;
         private UIElement _originalElement;
@@ -76,19 +77,6 @@ namespace PlanEditor
         }
 
         #endregion
-
-        public void onDragStarted(object sender, DragStartedEventArgs e)
-        {
-            Thumb thumb = (Thumb)e.Source;
-            thumb.Background = Brushes.Green;
-
-        }
-
-        public void onDragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            Thumb thumb = (Thumb)e.Source;
-            thumb.Background = Brushes.Blue;
-        }
 
         #region Мои операции с PECanvas
 
@@ -156,6 +144,7 @@ namespace PlanEditor
                 listShapes.DragMove(_code, this);
             }
         }
+
         public void DragFinished(bool cancelled, int _code)
         {
             System.Windows.Input.Mouse.Capture(null);
@@ -171,12 +160,20 @@ namespace PlanEditor
                     previousMarginOfSelectedObject = new Point(-1 * x2, -1 * y2);
                     if (cancelled == false)
                     {
-                        Canvas.SetTop(_originalElement, _overlayElementLine.TopOffset);
-                        Canvas.SetLeft(_originalElement, _overlayElementLine.LeftOffset);
+                        //Canvas.SetTop(_originalElement, _overlayElementLine.TopOffset);
+                        //Canvas.SetLeft(_originalElement, _overlayElementLine.LeftOffset);
+                        /*Line line = (Line)_originalElement;
+                        line.X1 = line.X1 + _overlayElementLine.LeftOffset;
+                        line.X2 = line.X2 + _overlayElementLine.LeftOffset;
+                        line.Y1 = line.Y1 + _overlayElementLine.TopOffset;
+                        line.Y2 = line.Y2 + _overlayElementLine.TopOffset;*/
                         listShapes.DragFinished(_code, this, _overlayElementLine.TopOffset, _overlayElementLine.LeftOffset);
                     }
-                    _overlayElementLine = null;
-                    _originalElement = null;
+                    //_overlayElementLine = null;
+                    //_originalElement = null;
+                }
+                if (_isResize)
+                {
                 }
             }
             _isDragging = false;
@@ -185,6 +182,23 @@ namespace PlanEditor
             listShapes.SetActiveLineToResize(false);
         }
 
+        public void RefreshActiveShape()
+        {
+
+            foreach (Object obj in listShapes)
+            {
+                if (obj is PlanEditor.PELine)
+                {
+                    PELine line = (PELine)obj;
+                    if (line.active)
+                    {
+                        listShapes.SetActiveShape(line.GetShape(), this);
+                    }
+                }
+            }
+
+            
+        }
         #endregion
 
 
@@ -331,34 +345,45 @@ namespace PlanEditor
             }
             else
             {
-                _isDown = true;
-                _isResize = false;
-                _isMove = true;
-                Isline = true;
-                _startPoint = e.GetPosition(this);
-                _originalElement = e.Source as UIElement;
-                this.CaptureMouse();
-                e.Handled = true;
-
-                Point ptMouseStart = e.GetPosition(this);
-                ptMouseStartforDrag = ptMouseStart;
-
-                object TestPanelOrUI = this.InputHitTest(ptMouseStart) as FrameworkElement;
-                if (TestPanelOrUI != null)
+                if (Isline)
                 {
-                    if (TestPanelOrUI is CustomPanel)
+                    _isDown = true;
+                    _isResize = false;
+                    _isMove = true;
+                    Isline = true;
+                    _startPoint = e.GetPosition(this);
+                    _originalElement = e.Source as UIElement;
+                    this.CaptureMouse();
+                    e.Handled = true;
+
+                    Point ptMouseStart = e.GetPosition(this);
+                    ptMouseStartforDrag = ptMouseStart;
+
+                    object TestPanelOrUI = this.InputHitTest(ptMouseStart) as FrameworkElement;
+                    if (TestPanelOrUI != null)
                     {
-                        UndoColorChangeForApbAndDevice();
-                    }
-                    else
-                    {
-                        if (_originalElement != TestPanelOrUI) 
+                        if (TestPanelOrUI is CustomPanel)
+                        {
                             UndoColorChangeForApbAndDevice();
-                        _originalElement = (UIElement)TestPanelOrUI;
-                       
+                        }
+                        else
+                        {
+                            if (_originalElement != TestPanelOrUI)
+                                UndoColorChangeForApbAndDevice();
+                            _originalElement = (UIElement)TestPanelOrUI;
+
+                        }
                     }
+
                 }
-                
+                if (_isThumb)
+                {
+                    _isDown = true;
+                    _isResize = true;
+                    thumb = (Thumb)e.Source;
+                    MessageBox.Show("ok");
+                }
+
             }
         }
 
@@ -368,12 +393,22 @@ namespace PlanEditor
             if (e.Source != this)
             {
                 listShapes.SetActiveShape(e.Source, this);
+                if (e.Source is Line) Isline = true;
+                if (e.Source is Thumb)
+                    _isThumb = true;
+                else
+                    _isThumb = false;
+            }
+            else
+            {
+                _isThumb = false;
             }
             if (_isDown)
             {
                 if ((_isDragging == false) && ((Math.Abs(e.GetPosition(this).X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
                     (Math.Abs(e.GetPosition(this).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
                 {
+                    if (e.Source is Line) Isline = true;
                     DragStarted();
                 }
                 if (_isDragging)
@@ -390,6 +425,14 @@ namespace PlanEditor
             OnMouseLeftButtonUp(null);
         }
 
+        public void SetResize(Point point, UIElement element)
+        {
+            _isResize = true;
+            _originalElement=element;
+            //previousMarginOfSelectedObject
+        }
+
+        
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
@@ -426,6 +469,16 @@ namespace PlanEditor
                                     UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
                                 }
                             }
+                            if (_isResize)
+                            {
+                                _isResize = false;
+                                if (_originalElement != null)
+                                {
+                                    ChangeRepresentationObject ChangeRepresentationObjectOfResize = UnDoObject.MakeChangeRepresentationObjectForMove(previousMarginOfSelectedObject, (FrameworkElement)_originalElement);
+                                    UnDoObject.InsertObjectforUndoRedo(ChangeRepresentationObjectOfResize);
+                                }
+                            }
+
                         }
                     }
                 }
