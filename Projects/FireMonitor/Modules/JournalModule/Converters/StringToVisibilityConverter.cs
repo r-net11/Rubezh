@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
 using System.Windows;
+using System.Windows.Data;
 
 namespace JournalModule.Converters
 {
@@ -11,9 +8,11 @@ namespace JournalModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string str = (string)value;
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(value as string))
+            {
                 return Visibility.Collapsed;
+            }
+
             return Visibility.Visible;
         }
 

@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure;
 using System.Windows.Controls;
-using PlansModule.Views;
-using PlansModule.Models;
 using System.Windows.Media;
-using System.Reflection;
 using System.Windows.Media.Imaging;
-using System.Diagnostics;
-using PlansModule.Events;
-using Infrastructure.Common;
 using System.Windows.Shapes;
-using System.Windows;
+using Infrastructure;
+using Infrastructure.Common;
+using PlansModule.Events;
+using PlansModule.Models;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDetailsViewModel :RegionViewModel
+    public class PlanDetailsViewModel : RegionViewModel
     {
         Plan _plan;
         Canvas _canvas;
@@ -126,7 +122,7 @@ namespace PlansModule.ViewModels
             Canvas.SetLeft(cameraCanvas, 170);
             Canvas.SetTop(cameraCanvas, 223);
             _canvas.Children.Add(cameraCanvas);
-            
+
         }
 
         void camera_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -170,7 +166,7 @@ namespace PlansModule.ViewModels
             bitmapImage.EndInit();
             image.Source = bitmapImage;
             image.ToolTip = "Дверь 1";
-            image.MouseDown +=new System.Windows.Input.MouseButtonEventHandler(door_MouseDown);
+            image.MouseDown += new System.Windows.Input.MouseButtonEventHandler(door_MouseDown);
 
             Canvas.SetLeft(image, 54);
             Canvas.SetTop(image, 424);

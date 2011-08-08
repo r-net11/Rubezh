@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using FiresecAPI.Models;
 using Firesec.ReadEvents;
+using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
@@ -9,21 +8,21 @@ namespace FiresecService.Converters
     {
         public static JournalRecord Convert(journalType innerJournalItem)
         {
-            JournalRecord journalItem = new JournalRecord();
-            journalItem.No = System.Convert.ToInt32(innerJournalItem.IDEvents);
-            journalItem.DeviceTime = ConvertTime(innerJournalItem.Dt);
-            journalItem.SystemTime = ConvertTime(innerJournalItem.SysDt);
-            journalItem.ZoneName = innerJournalItem.ZoneName;
-            journalItem.Description = innerJournalItem.EventDesc;
-            journalItem.DeviceName = innerJournalItem.CLC_Device;
-            journalItem.PanelName = innerJournalItem.CLC_DeviceSource;
-            journalItem.DeviceDatabaseId = innerJournalItem.IDDevices;
-            journalItem.PanelDatabaseId = innerJournalItem.IDDevicesSource;
-            journalItem.User = innerJournalItem.UserInfo;
-            int id = System.Convert.ToInt32(innerJournalItem.IDTypeEvents);
-            journalItem.State = new State() { Id = id };
-            journalItem.User = innerJournalItem.UserInfo;
-            return journalItem;
+            JournalRecord journalRecord = new JournalRecord();
+            journalRecord.No = int.Parse(innerJournalItem.IDEvents);
+            journalRecord.DeviceTime = ConvertTime(innerJournalItem.Dt);
+            journalRecord.SystemTime = ConvertTime(innerJournalItem.SysDt);
+            journalRecord.ZoneName = innerJournalItem.ZoneName;
+            journalRecord.Description = innerJournalItem.EventDesc;
+            journalRecord.DeviceName = innerJournalItem.CLC_Device;
+            journalRecord.PanelName = innerJournalItem.CLC_DeviceSource;
+            journalRecord.DeviceDatabaseId = innerJournalItem.IDDevices;
+            journalRecord.PanelDatabaseId = innerJournalItem.IDDevicesSource;
+            journalRecord.User = innerJournalItem.UserInfo;
+            journalRecord.State = new State() { Id = int.Parse(innerJournalItem.IDTypeEvents) };
+            journalRecord.User = innerJournalItem.UserInfo;
+
+            return journalRecord;
         }
 
         static DateTime ConvertTime(string firesecTime)
@@ -34,8 +33,8 @@ namespace FiresecService.Converters
             int hour = System.Convert.ToInt32(firesecTime.Substring(9, 2));
             int minute = System.Convert.ToInt32(firesecTime.Substring(12, 2));
             int secunde = System.Convert.ToInt32(firesecTime.Substring(15, 2));
-            DateTime dt = new DateTime(year, month, day, hour, minute, secunde);
-            return dt;
+
+            return new DateTime(year, month, day, hour, minute, secunde);
         }
     }
 }

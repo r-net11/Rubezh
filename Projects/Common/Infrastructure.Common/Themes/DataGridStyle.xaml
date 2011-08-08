@@ -5,8 +5,9 @@
 	
 	<Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-	<Converters:IdToClassNameConverter x:Key="IdToClassNameConverter" />
-	<Converters:IdToDeviceCategoryNameConverter x:Key="IdToDeviceCategoryNameConverter" />
+    <Converters:IdToClassNameConverter x:Key="IdToClassNameConverter" />
+    <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
+    <Converters:IdToDeviceCategoryNameConverter x:Key="IdToDeviceCategoryNameConverter" />
 
 	<SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
 	<SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>

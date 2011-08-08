@@ -1,32 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
     public class ClassViewModel : BaseViewModel
     {
-        public ClassViewModel(string name)
+        public ClassViewModel(int id)
         {
-            _name = name;
+            Id = id;
+            _isEnable = false;
         }
 
-        string _name;
-        public string Name
-        {
-            get { return _name; }
-        }
+        public int Id { get; private set; }
 
-        bool _isEnabled;
-        public bool IsEnabled
+        bool? _isEnable;
+        public bool? IsEnable
         {
-            get { return _isEnabled; }
+            get { return _isEnable; }
             set
             {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
+                _isEnable = value;
+                OnPropertyChanged("IsEnable");
             }
         }
     }

@@ -1,32 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
     public class EventViewModel : BaseViewModel
     {
-        public EventViewModel(string name)
+        public EventViewModel(int classId, string name)
         {
-            _name = name;
+            ClassId = classId;
+            Name = name;
         }
 
-        string _name;
-        public string Name
-        {
-            get { return _name; }
-        }
+        public int ClassId { get; private set; }
+        public string Name { get; private set; }
 
-        bool _isEnabled;
-        public bool IsEnabled
+        bool _isEnable;
+        public bool IsEnable
         {
-            get { return _isEnabled; }
+            get { return _isEnable; }
             set
             {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
+                _isEnable = value;
+                OnPropertyChanged("IsEnable");
             }
         }
     }

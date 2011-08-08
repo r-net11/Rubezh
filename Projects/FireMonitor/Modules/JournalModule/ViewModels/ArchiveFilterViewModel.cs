@@ -6,11 +6,11 @@ using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
-    public class FilterViewModel : DialogContent
+    public class ArchiveFilterViewModel : DialogContent
     {
-        ObservableCollection<JournalItemViewModel> _journalItems;
+        ObservableCollection<JournalRecordViewModel> _journalItems;
 
-        public FilterViewModel()
+        public ArchiveFilterViewModel()
         {
             Title = "Фильтр журнала";
 
@@ -21,12 +21,12 @@ namespace JournalModule.ViewModels
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
         }
 
-        public void Initialize(ObservableCollection<JournalItemViewModel> journalItems)
+        public void Initialize(ObservableCollection<JournalRecordViewModel> journalItems)
         {
             _journalItems = journalItems;
 
             var stringJournalTypes = (from journalItem in _journalItems
-                                      select journalItem.ToString()).Distinct();
+                                      select journalItem.ClassId).Distinct();
 
             JournalTypes = (from journalType in stringJournalTypes
                             select new ClassViewModel(journalType)).ToList();
@@ -34,8 +34,12 @@ namespace JournalModule.ViewModels
             var stringJournalEvents = (from journalItem in _journalItems
                                        select journalItem.Description).Distinct();
 
-            JournalEvents = (from journalEvent in stringJournalEvents
-                             select new EventViewModel(journalEvent)).ToList();
+            JournalEvents = new List<EventViewModel>(); 
+            foreach (var journalEvent in stringJournalEvents)
+            {
+                var jounalRecord = journalItems.First(x => x.Description == journalEvent);
+                JournalEvents.Add(new EventViewModel(jounalRecord.ClassId, jounalRecord.Description));
+            }
         }
 
         public List<ClassViewModel> JournalTypes { get; set; }
@@ -102,8 +106,8 @@ namespace JournalModule.ViewModels
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
             UseSystemDate = false;
 
-            JournalTypes.ForEach(x => x.IsEnabled = false);
-            JournalEvents.ForEach(x => x.IsEnabled = false);
+            JournalTypes.ForEach(x => x.IsEnable = false);
+            JournalEvents.ForEach(x => x.IsEnable = false);
         }
 
         public RelayCommand SaveCommand { get; private set; }

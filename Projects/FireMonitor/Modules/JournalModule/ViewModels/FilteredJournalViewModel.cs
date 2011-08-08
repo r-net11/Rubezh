@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -7,35 +6,36 @@ using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
-    public class JournalViewModel : RegionViewModel
+    public class FilteredJournalViewModel : RegionViewModel
     {
+        static readonly int RecordsMaxCount = 100;
+
         public void Initialize()
         {
-            JournalItems = new ObservableCollection<JournalItemViewModel>();
-            List<JournalRecord> journalItems = FiresecManager.ReadJournal(0, 100);
-            foreach (var journalItem in journalItems)
+            JournalItems = new ObservableCollection<JournalRecordViewModel>();
+            foreach (var journalRecord in FiresecManager.ReadJournal(0, RecordsMaxCount))
             {
-                JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
+                JournalRecordViewModel journalItemViewModel = new JournalRecordViewModel(journalRecord);
                 JournalItems.Add(journalItemViewModel);
             }
 
             FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
-        void OnNewJournalItemEvent(JournalRecord journalItem)
+        void OnNewJournalItemEvent(JournalRecord journalRecord)
         {
-            JournalItemViewModel journalItemViewModel = new JournalItemViewModel(journalItem);
+            JournalRecordViewModel journalItemViewModel = new JournalRecordViewModel(journalRecord);
             if (JournalItems.Count > 0)
                 JournalItems.Insert(0, journalItemViewModel);
             else
                 JournalItems.Add(journalItemViewModel);
 
-            if (JournalItems.Count > 100)
-                JournalItems.RemoveAt(100);
+            if (JournalItems.Count > RecordsMaxCount)
+                JournalItems.RemoveAt(RecordsMaxCount);
         }
 
-        ObservableCollection<JournalItemViewModel> _journalItems;
-        public ObservableCollection<JournalItemViewModel> JournalItems
+        ObservableCollection<JournalRecordViewModel> _journalItems;
+        public ObservableCollection<JournalRecordViewModel> JournalItems
         {
             get { return _journalItems; }
             set
@@ -45,8 +45,8 @@ namespace JournalModule.ViewModels
             }
         }
 
-        JournalItemViewModel _selectedItem;
-        public JournalItemViewModel SelectedItem
+        JournalRecordViewModel _selectedItem;
+        public JournalRecordViewModel SelectedItem
         {
             get { return _selectedItem; }
             set

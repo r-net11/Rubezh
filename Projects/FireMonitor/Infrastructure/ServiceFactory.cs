@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.ServiceLocation;
+﻿using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 
 namespace Infrastructure
 {
     public class ServiceFactory
     {
-        private static IUnityContainer _container;
-
-        private static IUnityContainer Container
+        static IUnityContainer _container;
+        static IUnityContainer Container
         {
             get
             {
@@ -27,26 +22,17 @@ namespace Infrastructure
 
         public static ILayoutService Layout
         {
-            get
-            {
-                return Get<ILayoutService>();
-            }
+            get { return Get<ILayoutService>(); }
         }
 
         public static IEventAggregator Events
         {
-            get
-            {
-                return Get<IEventAggregator>();
-            }
+            get { return Get<IEventAggregator>(); }
         }
 
         public static IUserDialogService UserDialogs
         {
-            get
-            {
-                return Get<IUserDialogService>();
-            }
+            get { return Get<IUserDialogService>(); }
         }
 
         public static void RegisterType<TFrom, TTo>()

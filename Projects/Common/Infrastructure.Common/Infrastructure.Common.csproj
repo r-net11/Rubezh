@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="BaseViewModel.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\IdToClassNameConverter.cs" />
     <Compile Include="Converters\IdToDeviceCategoryNameConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />

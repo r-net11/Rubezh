@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.ServiceModel;
+using System.Runtime.Serialization;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.ServiceModel.Description;
-using System.Xml.Serialization;
-using System.IO;
-using System.Runtime.Serialization;
 
 namespace FiresecClient
 {
@@ -146,7 +142,7 @@ namespace FiresecClient
         {
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
             FileStream fileStream = new FileStream(fileName, FileMode.Open);
-            FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+            FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
             fileStream.Close();
 
             Update();

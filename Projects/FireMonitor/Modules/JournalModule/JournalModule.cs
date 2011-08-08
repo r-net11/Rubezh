@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
-using FiresecAPI.Models;
+using Microsoft.Practices.Prism.Modularity;
 
 namespace JournalModule
 {
     public class JournalModule : IModule
     {
+        static FilteredJournalViewModel _journalViewModel;
         public JournalModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
@@ -21,6 +17,9 @@ namespace JournalModule
 
         public void Initialize()
         {
+            _journalViewModel = new FilteredJournalViewModel();
+            _journalViewModel.Initialize();
+
             RegisterResources();
         }
 
@@ -32,9 +31,7 @@ namespace JournalModule
 
         static void OnShowJournal(object obj)
         {
-            JournalViewModel journalViewModel = new JournalViewModel();
-            journalViewModel.Initialize();
-            ServiceFactory.Layout.Show(journalViewModel);
+            ServiceFactory.Layout.Show(_journalViewModel);
         }
 
         static void OnShowArchive(object obj)

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.ServiceModel;
+using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using System.Xml.Serialization;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Security.Cryptography;
 
 namespace FiresecService
 {
@@ -52,7 +51,7 @@ namespace FiresecService
 
         public void WriteConfiguration(string id)
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
@@ -80,17 +79,16 @@ namespace FiresecService
         {
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
 
-            List<JournalRecord> journalItems = new List<JournalRecord>();
-            if ((internalJournal != null) && (internalJournal.Journal != null))
+            var journalRecords = new List<JournalRecord>();
+            if (internalJournal != null && internalJournal.Journal != null)
             {
-                foreach (var innerJournalItem in internalJournal.Journal)
+                foreach (var innerJournaRecord in internalJournal.Journal)
                 {
-                    var journalItem = JournalConverter.Convert(innerJournalItem);
-                    journalItems.Add(journalItem);
+                    journalRecords.Add(JournalConverter.Convert(innerJournaRecord));
                 }
             }
 
-            return journalItems;
+            return journalRecords;
         }
 
         public void AddToIgnoreList(List<string> ids)
@@ -98,7 +96,7 @@ namespace FiresecService
             List<string> devicePaths = new List<string>();
             foreach (var id in ids)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
                 devicePaths.Add(device.PlaceInTree);
             }
             FiresecInternalClient.AddToIgnoreList(devicePaths);
@@ -127,7 +125,7 @@ namespace FiresecService
 
         public void ExecuteCommand(string id, string methodName)
         {
-            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x=>x.Id == id);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == id);
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 

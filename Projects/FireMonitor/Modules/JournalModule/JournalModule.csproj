@@ -79,14 +79,15 @@
     <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
-    <Compile Include="ViewModels\FilterViewModel.cs" />
-    <Compile Include="ViewModels\JournalItemViewModel.cs" />
-    <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="ViewModels\JournalRecordViewModel.cs" />
+    <Compile Include="ViewModels\JournalsViewModel.cs" />
+    <Compile Include="ViewModels\FilteredJournalViewModel.cs" />
     <Compile Include="Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FilterView.xaml.cs">
-      <DependentUpon>FilterView.xaml</DependentUpon>
+    <Compile Include="Views\ArchiveFilterView.xaml.cs">
+      <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
@@ -129,7 +130,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FilterView.xaml">
+    <Page Include="Views\ArchiveFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,7 +19,7 @@ namespace JournalModule.ViewModels
 
         public void Initialize()
         {
-            JournalItems = new ObservableCollection<JournalItemViewModel>();
+            JournalItems = new ObservableCollection<JournalRecordViewModel>();
 
             Thread thread = new Thread(Read);
             thread.Priority = ThreadPriority.Highest;
@@ -28,18 +28,17 @@ namespace JournalModule.ViewModels
 
         void Read()
         {
-            int lastJournalId = 0;
-            lastJournalId = 100000;
+            int lastJournalId = 100000;
             while (true)
             {
-                List<JournalRecord> journalItems = FiresecManager.ReadJournal(0, 1000);
+                List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 1000);
 
-                if (journalItems == null)
+                if (journalRecords == null)
                     break;
 
-                Parallel.ForEach(journalItems, journalItem =>
+                Parallel.ForEach(journalRecords, journalItem =>
                 {
-                    Dispatcher.Invoke((Action<JournalItemViewModel>) Add, new JournalItemViewModel(journalItem));
+                    Dispatcher.Invoke((Action<JournalRecordViewModel>) Add, new JournalRecordViewModel(journalItem));
                 }
                 );
 
@@ -48,20 +47,20 @@ namespace JournalModule.ViewModels
 
                 break;
 
-                if (journalItems.Count > 0)
-                    lastJournalId = journalItems[journalItems.Count - 1].No - 1;
+                if (journalRecords.Count > 0)
+                    lastJournalId = journalRecords[journalRecords.Count - 1].No - 1;
                 else
                     lastJournalId--;
             }
         }
 
-        void Add(JournalItemViewModel journalItemViewModel)
+        void Add(JournalRecordViewModel journalItemViewModel)
         {
             JournalItems.Add(journalItemViewModel);
         }
 
-        ObservableCollection<JournalItemViewModel> _journalItems;
-        public ObservableCollection<JournalItemViewModel> JournalItems
+        ObservableCollection<JournalRecordViewModel> _journalItems;
+        public ObservableCollection<JournalRecordViewModel> JournalItems
         {
             get { return _journalItems; }
             set
@@ -71,8 +70,8 @@ namespace JournalModule.ViewModels
             }
         }
 
-        JournalItemViewModel _selectedItem;
-        public JournalItemViewModel SelectedItem
+        JournalRecordViewModel _selectedItem;
+        public JournalRecordViewModel SelectedItem
         {
             get { return _selectedItem; }
             set
@@ -85,7 +84,7 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            FilterViewModel filterViewModel = new FilterViewModel();
+            ArchiveFilterViewModel filterViewModel = new ArchiveFilterViewModel();
             filterViewModel.Initialize(JournalItems);
             ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
         }
