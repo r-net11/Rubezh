@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
 using System.ServiceModel;
-using System.Text;
+using System.IO;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Security.Cryptography;
 using System;
 
 namespace FiresecService
@@ -52,7 +53,7 @@ namespace FiresecService
 
         public void WriteConfiguration(string deviceId)
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
@@ -69,17 +70,12 @@ namespace FiresecService
         public SystemConfiguration GetSystemConfiguration()
         {
             FiresecManager.SystemConfiguration = new SystemConfiguration();
-
             try
             {
                 DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
                 FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
                 FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
                 fileStream.Close();
-            }
-            catch
-            {
-            }
 
             return FiresecManager.SystemConfiguration;
         }
@@ -98,16 +94,17 @@ namespace FiresecService
         {
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
 
-            var journalRecords = new List<JournalRecord>();
-            if (internalJournal != null && internalJournal.Journal != null)
+            List<JournalRecord> journalItems = new List<JournalRecord>();
+            if ((internalJournal != null) && (internalJournal.Journal != null))
             {
-                foreach (var innerJournaRecord in internalJournal.Journal)
+                foreach (var innerJournalItem in internalJournal.Journal)
                 {
-                    journalRecords.Add(JournalConverter.Convert(innerJournaRecord));
+                    var journalItem = JournalConverter.Convert(innerJournalItem);
+                    journalItems.Add(journalItem);
                 }
             }
 
-            return journalRecords;
+            return journalItems;
         }
 
         public void AddToIgnoreList(List<string> deviceIds)
@@ -115,7 +112,7 @@ namespace FiresecService
             List<string> devicePaths = new List<string>();
             foreach (var id in deviceIds)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
                 devicePaths.Add(device.PlaceInTree);
             }
             FiresecInternalClient.AddToIgnoreList(devicePaths);
@@ -144,7 +141,7 @@ namespace FiresecService
 
         public void ExecuteCommand(string deviceId, string methodName)
         {
-            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x=>x.Id == id);
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 

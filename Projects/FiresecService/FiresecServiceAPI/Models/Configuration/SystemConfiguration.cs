@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
             Sounds = new List<Sound>();
             JournalFilters = new List<JournalFilter>();
             Instructions = new List<Instruction>();
+            Plans = new List<Plan>();
         }
 
         [DataMember]
@@ -21,5 +22,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<Instruction> Instructions { get; set; }
+
+        [DataMember]
+        public List<Plan> Plans { get; set; }
     }
 }

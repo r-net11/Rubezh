@@ -3,15 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:PlansModule.Views">
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
         <Views:PlansTree Grid.Column="0" />
-        
-            
 
         <Grid Grid.Column="1" Background="LightGray">
             <TextBlock Text="Редактор планов"/>

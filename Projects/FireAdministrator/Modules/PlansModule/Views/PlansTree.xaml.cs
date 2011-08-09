@@ -10,15 +10,5 @@ namespace PlansModule.Views
             InitializeComponent();
         }
 
-        private void PlansTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            MessageBox.Show("Selected");
-        }
-
-        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-
-            
-        }
     }
 }

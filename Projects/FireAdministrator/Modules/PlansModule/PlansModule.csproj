@@ -71,7 +71,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="ViewModels\PlanViewModel.cs" />
+    <Compile Include="Views\PlanDetailsView.xaml.cs">
+      <DependentUpon>PlanDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlansTree.xaml.cs">
       <DependentUpon>PlansTree.xaml</DependentUpon>
     </Compile>
@@ -93,6 +99,10 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\FiresecClient\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
@@ -107,6 +117,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlanDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PlansTree.xaml">
       <SubType>Designer</SubType>
