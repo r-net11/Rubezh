@@ -21,17 +21,6 @@ namespace CurrentDeviceModule.ViewModels
             Device = device;
         }
 
-        //public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
-        //{
-        //    DriverShortName = device.Driver.ShortName;
-        //    DeviceDescription = device.Description;
-        //    DeviceAddress = device.Address;
-        //    DevicePresentationZone = device.PresentationZone;
-        //    DriverHasAddress = device.Driver.HasAddress;
-        //    DeviceId = device.Id;
-        //    Source = sourceDevices;
-        //}
-
         public Device Device { get; private set; }
 
         public string DeviceId

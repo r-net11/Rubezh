@@ -11,21 +11,35 @@ using System.Runtime.InteropServices;
 using CurrentDeviceModule.ViewModels;
 using Microsoft.Win32;
 using System.Reflection;
+using CurrentDeviceModule.Views;
+using FiresecClient;
+using System.Windows;
 
 namespace FireDeviceActiveXControl
 {
+    [ClassInterface(ClassInterfaceType.None)]
+    [PropertyTab(typeof(System.Windows.Forms.Form))]
     [Guid("03B7A288-90FB-47D2-8B2A-2CEADDD13367")]
     [ComVisible(true)]
     public partial class ActiveXDeviceControl : UserControl, ISpecifyPropertyPages
     {
         public ActiveXDeviceControl()
         {
+            
             InitializeComponent();
+            FiresecManager.Connect("adm", "");
             currentDeviceViewModel = new CurrentDeviceViewModel();
-            currentDeviceViewModel.Inicialize(DeviceId);
+            currentDeviceView = new CurrentDeviceView();
+            if (!string.IsNullOrWhiteSpace(DeviceId))
+            {
+                currentDeviceViewModel.Inicialize(DeviceId);
+            }
+            currentDeviceView.DataContext = currentDeviceViewModel;
+            elementHost.Child = currentDeviceView;
         }
 
         CurrentDeviceViewModel currentDeviceViewModel;
+        CurrentDeviceView currentDeviceView;
 
         public string _deviceId;
         public string DeviceId
@@ -36,6 +50,9 @@ namespace FireDeviceActiveXControl
 
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
+            currentDeviceViewModel.SelectDevice();
+            DeviceId = currentDeviceViewModel.DeviceId;
+            //currentDeviceViewModel.InicializeDeviceControl();
         }
 
         #region ActiveX Control Registration

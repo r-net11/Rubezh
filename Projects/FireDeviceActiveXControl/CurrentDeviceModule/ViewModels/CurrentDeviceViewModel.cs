@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
-//using FireDeviceActiveXControl.ViewModels;
 using CurrentDeviceModule.Views;
 using DeviceControls;
 using FiresecClient;
+using System.Windows;
 
 namespace CurrentDeviceModule.ViewModels
 {
-    public class CurrentDeviceViewModel : RegionViewModel
+    public class CurrentDeviceViewModel : BaseViewModel
     {
         public CurrentDeviceViewModel()
         {
+            
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
             CurrentDeviceControl = new DeviceControl();
             Device = new Device();
@@ -29,13 +30,6 @@ namespace CurrentDeviceModule.ViewModels
             {
                 _deviceControl = value;
             }
-        }
-
-        CurrentDeviceView _deviceControlView;
-        public CurrentDeviceView CurrentDeviceControlView
-        {
-            get { return _deviceControlView; }
-            set { _deviceControlView = value; }
         }
 
         Device _device;
@@ -70,6 +64,17 @@ namespace CurrentDeviceModule.ViewModels
         public string DriverId
         {
             get { return Device.Driver.Id; }
+        }
+
+        string _toolTip;
+        public string ToolTip
+        {
+            get { return _toolTip; }
+            set
+            {
+                _toolTip = value;
+                OnPropertyChanged("ToolTip");
+            }
         }
 
         public bool DriverCanDisable
@@ -111,6 +116,45 @@ namespace CurrentDeviceModule.ViewModels
             CurrentDeviceControl.StateId = State.Id.ToString();
             IsCurrentDeviceSelected = true;
         }
+
+        public void InicializeDeviceControl()
+        {
+            CurrentDeviceControl.DriverId = DriverId;
+            CurrentDeviceControl.StateId = State.Id.ToString();
+        }
+
+        //public void SetToolTip()
+        //{
+        //    DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+        //    string str = "";
+        //    str = Device.Address + " - " + Device.Driver.ShortName + "\n";
+
+        //    if (deviceState.ParentStringStates != null)
+        //        foreach (var parentState in deviceState.ParentStringStates)
+        //        {
+        //            str += parentState + "\n";
+        //        }
+
+        //    if (deviceState.SelfStates != null)
+        //        foreach (var selfState in deviceState.SelfStates)
+        //        {
+        //            str += selfState + "\n";
+        //        }
+
+        //    if (deviceState.Parameters != null)
+        //        foreach (var parameter in deviceState.Parameters)
+        //        {
+        //            if (parameter.Visible)
+        //            {
+        //                if (string.IsNullOrEmpty(parameter.Value))
+        //                    continue;
+        //                if (parameter.Value == "<NULL>")
+        //                    continue;
+        //                str += parameter.Caption + " - " + parameter.Value + "\n";
+        //            }
+        //        }
+        //    ToolTip = str;
+        //}
 
         void OnDeviceStateChanged(string id)
         {

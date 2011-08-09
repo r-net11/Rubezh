@@ -28,10 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.elementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.currentDeviceView1 = new CurrentDeviceModule.Views.CurrentDeviceView();
+            this.SuspendLayout();
+            // 
+            // elementHost
+            // 
+            this.elementHost.Location = new System.Drawing.Point(3, 3);
+            this.elementHost.Name = "elementHost";
+            this.elementHost.Size = new System.Drawing.Size(174, 175);
+            this.elementHost.TabIndex = 0;
+            this.elementHost.Text = "elementHost1";
+            this.elementHost.Child = this.currentDeviceView1;
+            // 
+            // ActiveXDeviceControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.elementHost);
+            this.Name = "ActiveXDeviceControl";
+            this.Size = new System.Drawing.Size(181, 181);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Integration.ElementHost elementHost;
+        private CurrentDeviceModule.Views.CurrentDeviceView currentDeviceView1;
     }
 }

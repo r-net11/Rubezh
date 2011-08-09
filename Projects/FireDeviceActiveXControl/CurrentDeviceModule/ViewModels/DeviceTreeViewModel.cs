@@ -9,7 +9,7 @@ using FiresecClient;
 
 namespace CurrentDeviceModule.ViewModels
 {
-    public class DeviceTreeViewModel : RegionViewModel
+    public class DeviceTreeViewModel : BaseViewModel
     {
         public DeviceTreeViewModel()
         {
