@@ -50,7 +50,7 @@ namespace InstructionsModule.ViewModels
 
         public List<StateType> AvailableStates
         {
-            get { return StateHelper.AllStates; }
+            get { return null; }
         }
 
         StateType _state;

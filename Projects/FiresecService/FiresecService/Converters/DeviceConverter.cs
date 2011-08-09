@@ -51,10 +51,15 @@ namespace FiresecService.Converters
             deviceState.Id = device.Id;
             deviceState.PlaceInTree = device.PlaceInTree;
 
-            deviceState.InnerStates = new List<InnerState>();
+            //deviceState.InnerStates = new List<InnerState>();
+            deviceState.States = new List<DriverInnerState>();
             foreach (var state in device.Driver.States)
             {
-                deviceState.InnerStates.Add(state.Copy());
+                //deviceState.InnerStates.Add(state.Copy());
+                var driverInnerState = new DriverInnerState();
+                driverInnerState.InnerState = state;
+                driverInnerState.Code = state.Code;
+                deviceState.States.Add(driverInnerState);
             }
 
             deviceState.Parameters = new List<Parameter>();

@@ -43,6 +43,12 @@ namespace FiresecClient
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+
+                foreach (var state in deviceState.States)
+                {
+                    var driverState = deviceState.Device.Driver.States.FirstOrDefault(x=>x.Code == state.Code);
+                    state.InnerState = driverState;
+                }
             }
         }
 

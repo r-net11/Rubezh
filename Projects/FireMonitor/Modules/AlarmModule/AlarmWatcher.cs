@@ -24,7 +24,7 @@ namespace AlarmModule
         {
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                if (deviceState.InnerStates == null)
+                if (deviceState.States == null)
                     continue;
 
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
@@ -32,15 +32,15 @@ namespace AlarmModule
                 {
                     //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
 
-                    deviceState.IsFire = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Fire)));
-                    deviceState.IsAttention = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Attention)));
-                    deviceState.IsInfo = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Info) && (x.Name == "Тест")));
-                    deviceState.IsOff = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
+                    deviceState.IsFire = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Fire)));
+                    deviceState.IsAttention = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Attention)));
+                    deviceState.IsInfo = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Info) && (x.InnerState.Name == "Тест")));
+                    deviceState.IsOff = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Off)));
                 }
 
-                deviceState.IsFailure = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Failure)));
-                deviceState.IsService = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.State.StateType == StateType.Service) && (x.IsAutomatic) == false));
-                deviceState.IsAutomaticOff = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.IsManualReset) && (x.IsAutomatic)));
+                deviceState.IsFailure = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.State.StateType == StateType.Failure)));
+                deviceState.IsService = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.State.StateType == StateType.Service) && (x.InnerState.IsAutomatic) == false));
+                deviceState.IsAutomaticOff = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.IsAutomatic)));
             }
         }
 

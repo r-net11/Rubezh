@@ -162,11 +162,11 @@ namespace AlarmModule.ViewModels
                 resetItem.DeviceId = parentDeviceState.Id;
 
 
-                foreach (var state in parentDeviceState.InnerStates)
+                foreach (var state in parentDeviceState.States)
                 {
-                    if ((state.IsActive) && (state.Priority == AlarmTypeToClass(_alarm.AlarmType)) && (state.IsManualReset))
+                    if ((state.IsActive) && (state.InnerState.StateClassId == AlarmTypeToClass(_alarm.AlarmType)) && (state.InnerState.IsManualReset))
                     {
-                        resetItem.States.Add(state.Name);
+                        resetItem.States.Add(state.InnerState.Name);
                     }
                 }
             }
@@ -174,11 +174,11 @@ namespace AlarmModule.ViewModels
             {
                 resetItem.DeviceId = device.Id;
 
-                foreach (var state in deviceState.InnerStates)
+                foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.IsAutomatic) && (state.IsManualReset))
+                    if ((state.IsActive) && (state.InnerState.IsAutomatic) && (state.InnerState.IsManualReset))
                     {
-                        resetItem.States.Add(state.Name);
+                        resetItem.States.Add(state.InnerState.Name);
                     }
                 }
             }

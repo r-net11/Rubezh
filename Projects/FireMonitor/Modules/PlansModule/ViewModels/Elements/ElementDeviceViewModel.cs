@@ -114,9 +114,9 @@ namespace PlansModule.ViewModels
             {
                 _elementDeviceView._deviceControl.StateId = _deviceState.State.Id.ToString();
                 _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
-                    from state in _deviceState.InnerStates
+                    from state in _deviceState.States
                     where state.IsActive
-                    select state.Id);
+                    select state.InnerState.Id);
 
                 UpdateTooltip();
             }
@@ -133,10 +133,10 @@ namespace PlansModule.ViewModels
                     tooltip += parentState + "\n";
                 }
 
-            foreach (var innerState in _deviceState.InnerStates)
+            foreach (var innerState in _deviceState.States)
             {
                 if (innerState.IsActive)
-                    tooltip += innerState.Name + "\n";
+                    tooltip += innerState.InnerState.Name + "\n";
             }
 
             if (_deviceState.Parameters != null)

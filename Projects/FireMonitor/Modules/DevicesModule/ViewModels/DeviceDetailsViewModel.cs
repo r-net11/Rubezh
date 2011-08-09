@@ -80,10 +80,10 @@ namespace DevicesModule.ViewModels
             {
                 ObservableCollection<string> selfStates = new ObservableCollection<string>();
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                    foreach (var innerState in deviceState.InnerStates)
+                    foreach (var innerState in deviceState.States)
                     {
                         if (innerState.IsActive)
-                        selfStates.Add(innerState.Name);
+                            selfStates.Add(innerState.InnerState.Name);
                     }
                 return selfStates;
             }

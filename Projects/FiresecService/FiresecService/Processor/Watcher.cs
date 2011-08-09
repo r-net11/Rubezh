@@ -151,9 +151,9 @@ namespace FiresecService
 
                 if (innerDevice != null)
                 {
-                    foreach (var state in deviceState.InnerStates)
+                    foreach (var state in deviceState.States)
                     {
-                        bool IsActive = innerDevice.state.Any(a => a.id == state.Id);
+                        bool IsActive = innerDevice.state.Any(a => a.id == state.InnerState.Id);
                         if (state.IsActive != IsActive)
                         {
                             hasOneActiveState = true;
@@ -163,7 +163,7 @@ namespace FiresecService
                 }
                 else
                 {
-                    foreach (var state in deviceState.InnerStates)
+                    foreach (var state in deviceState.States)
                     {
                         if (state.IsActive)
                         {
@@ -194,17 +194,17 @@ namespace FiresecService
 
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                foreach (var state in deviceState.InnerStates)
+                foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.AffectChildren))
+                    if ((state.IsActive) && (state.InnerState.AffectChildren))
                     {
                         foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
-                                chilDevice.ParentInnerStates.Add(state);
+                                chilDevice.ParentInnerStates.Add(state.InnerState);
                                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
-                                chilDevice.ParentStringStates.Add(device.Driver.ShortName + " - " + state.Name);
+                                chilDevice.ParentStringStates.Add(device.Driver.ShortName + " - " + state.InnerState.Name);
                                 chilDevice.ChangeEntities.StatesChanged = true;
                             }
                         }
@@ -218,45 +218,29 @@ namespace FiresecService
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 int minPriority = 7;
-                InnerState sourceState = null;
 
-                foreach (var state in deviceState.InnerStates)
+                foreach (var state in deviceState.States)
                 {
                     if (state.IsActive)
                     {
-                        if (minPriority > state.Priority)
-                            minPriority = state.Priority;
+                        if (minPriority > state.InnerState.StateClassId)
+                            minPriority = state.InnerState.StateClassId;
                     }
                 }
                 foreach (var state in deviceState.ParentInnerStates)
                 {
-                    if (state.IsActive)
+                    if (minPriority > state.StateClassId)
                     {
-                        if (minPriority > state.Priority)
-                        {
-                            minPriority = state.Priority;
-                            sourceState = state;
-                        }
+                        minPriority = state.StateClassId;
                     }
                 }
-                if (deviceState.MinPriority != minPriority)
+                if (deviceState.StateClassId != minPriority)
                 {
                     deviceState.ChangeEntities.StateChanged = true;
                 }
                 else
                 {
                     deviceState.ChangeEntities.StateChanged = false;
-                }
-                deviceState.State = new State() { Id = minPriority };
-                deviceState.MinPriority = minPriority;
-
-                if (sourceState != null)
-                {
-                    deviceState.SourceState = sourceState.Name;
-                }
-                else
-                {
-                    deviceState.SourceState = "";
                 }
             }
         }
@@ -274,8 +258,8 @@ namespace FiresecService
                         {
                             var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
-                            if (deviceState.MinPriority < minZonePriority)
-                                minZonePriority = deviceState.MinPriority;
+                            if (deviceState.StateClassId < minZonePriority)
+                                minZonePriority = deviceState.StateClassId;
                         }
                     }
 

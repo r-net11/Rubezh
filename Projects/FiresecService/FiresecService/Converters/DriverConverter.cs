@@ -314,7 +314,7 @@ namespace FiresecService.Converters
                     state.Id = innerState.id;
                     state.Name = innerState.name;
                     state.AffectChildren = innerState.affectChildren == "1" ? true : false;
-                    state.Priority = System.Convert.ToInt32(innerState.@class);
+                    state.StateClassId = System.Convert.ToInt32(innerState.@class);
                     state.IsManualReset = innerState.manualReset == "1" ? true : false;
                     state.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
                     state.IsAutomatic = innerState.type == "Auto" ? true : false;

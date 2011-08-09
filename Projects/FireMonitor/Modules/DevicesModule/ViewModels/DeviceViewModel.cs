@@ -90,10 +90,10 @@ namespace DevicesModule.ViewModels
             get
             {
                 List<string> selfStates = new List<string>();
-                foreach (var innerState in _deviceState.InnerStates)
+                foreach (var innerState in _deviceState.States)
                 {
                     if (innerState.IsActive)
-                        selfStates.Add(innerState.Name);
+                        selfStates.Add(innerState.InnerState.Name);
                 }
                 return selfStates;
             }

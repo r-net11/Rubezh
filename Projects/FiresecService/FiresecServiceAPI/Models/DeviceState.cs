@@ -10,57 +10,67 @@ namespace FiresecAPI.Models
     {
         public DeviceState()
         {
-            State = new State();
-            InnerStates = new List<InnerState>();
             ParentInnerStates = new List<InnerState>();
+            States = new List<DriverInnerState>();
         }
 
         public Device Device { get; set; }
         public string PlaceInTree { get; set; }
         public ChangeEntities ChangeEntities { get; set; }
-        public List<InnerState> ParentInnerStates { get; set; }
 
         [DataMember]
         public string Id { get; set; }
 
         [DataMember]
-        public List<InnerState> InnerStates { get; set; }
+        public List<DriverInnerState> States { get; set; }
 
         [DataMember]
-        public State State { get; set; }
+        public List<InnerState> ParentInnerStates { get; set; }
 
         [DataMember]
         public List<Parameter> Parameters { get; set; }
 
-        [DataMember]
-        public List<string> ParentStringStates { get; set; }
+        public State State
+        {
+            get { return new State() { Id = StateClassId }; }
+        }
 
-        [DataMember]
-        public int MinPriority { get; set; }
-
-        [DataMember]
-        public string SourceState { get; set; }
-
-        public bool IsDisabled
+        public int StateClassId
         {
             get
             {
-                return InnerStates.Any(x => ((x.IsActive) && (x.State.StateType == StateType.Off)));
+                List<int> stateClassIds = new List<int>() { 8 };
+
+                stateClassIds.AddRange(from DriverInnerState driverInnerState in States
+                                    where driverInnerState.IsActive
+                                    select driverInnerState.InnerState.StateClassId);
+
+                stateClassIds.AddRange(from InnerState innerState in ParentInnerStates
+                                          select innerState.StateClassId);
+
+                return stateClassIds.Min();
             }
+        }
+
+        [DataMember]
+        public List<string> ParentStringStates { get; set; }
+
+
+        public bool IsDisabled
+        {
+            get { return States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Off))); }
         }
 
         public void CopyFrom(DeviceState deviceState)
         {
-        Id = deviceState.Id;
-        InnerStates = deviceState.InnerStates;
-        State = deviceState.State;
-        Parameters = deviceState.Parameters;
-        ParentInnerStates = deviceState.ParentInnerStates;
-        ParentStringStates = deviceState.ParentStringStates;
-        MinPriority = deviceState.MinPriority;
-        SourceState = deviceState.SourceState;
+            Id = deviceState.Id;
+            States = deviceState.States;
+            Parameters = deviceState.Parameters;
+            ParentInnerStates = deviceState.ParentInnerStates;
+            ParentStringStates = deviceState.ParentStringStates;
         }
 
+        #region Automatic
         bool _isAutomaticOff = false;
         public bool IsAutomaticOff
         {
@@ -193,6 +203,7 @@ namespace FiresecAPI.Models
             if (AlarmRemoved != null)
                 AlarmRemoved(alarmType, id);
         }
+        #endregion Automatic
 
         public event Action StateChanged;
         public void OnStateChanged()
@@ -200,5 +211,17 @@ namespace FiresecAPI.Models
             if (StateChanged != null)
                 StateChanged();
         }
+    }
+
+    [DataContract]
+    public class DriverInnerState
+    {
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public string Code { get; set; }
+
+        public InnerState InnerState { get; set; }
     }
 }

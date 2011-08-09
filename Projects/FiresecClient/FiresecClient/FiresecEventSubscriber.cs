@@ -11,6 +11,13 @@ namespace FiresecClient
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == newDeviceState.Id);
             deviceState.CopyFrom(newDeviceState);
+
+            foreach (var state in deviceState.States)
+            {
+                var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
+                state.InnerState = driverState;
+            }
+
             OnDeviceStateChanged(deviceState.Id);
         }
 

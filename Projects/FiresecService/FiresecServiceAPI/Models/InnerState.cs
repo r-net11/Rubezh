@@ -7,11 +7,11 @@ namespace FiresecAPI.Models
     {
         public State State
         {
-            get { return new State() { Id = Priority }; }
+            get { return new State() { Id = StateClassId }; }
         }
 
         [DataMember]
-        public bool IsActive { get; set; }
+        public string Code { get; set; }
 
         [DataMember]
         public string Id { get; set; }
@@ -20,10 +20,10 @@ namespace FiresecAPI.Models
         public string Name { get; set; }
 
         [DataMember]
-        public bool AffectChildren { get; set; }
+        public int StateClassId { get; set; }
 
         [DataMember]
-        public int Priority { get; set; }
+        public bool AffectChildren { get; set; }
 
         [DataMember]
         public bool IsManualReset { get; set; }
@@ -34,16 +34,13 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool IsAutomatic { get; set; }
 
-        [DataMember]
-        public string Code { get; set; }
-
         public InnerState Copy()
         {
             InnerState innerState = new InnerState();
             innerState.Id = Id;
             innerState.Name = Name;
             innerState.AffectChildren = AffectChildren;
-            innerState.Priority = Priority;
+            innerState.StateClassId = StateClassId;
             innerState.IsManualReset = IsManualReset;
             innerState.CanResetOnPanel = CanResetOnPanel;
             innerState.IsAutomatic = IsAutomatic;

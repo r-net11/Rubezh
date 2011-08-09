@@ -16,7 +16,7 @@ namespace LibraryModule.ViewModels
                 {
                     Items.Add(
                         new StateViewModel(
-                            StateViewModel.GetDefaultStateWith(state.Priority.ToString(), state.Code), driver));
+                            StateViewModel.GetDefaultStateWith(state.StateClassId.ToString(), state.Code), driver));
                 }
             }
         }
