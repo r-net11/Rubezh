@@ -68,6 +68,8 @@ namespace FiresecService
 
         public SystemConfiguration GetSystemConfiguration()
         {
+            FiresecManager.SystemConfiguration = new SystemConfiguration();
+
             try
             {
                 DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));

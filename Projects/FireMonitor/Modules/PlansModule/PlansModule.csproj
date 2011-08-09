@@ -65,17 +65,12 @@
     </Compile>
     <Compile Include="Events\PlanStateChangedEvent.cs" />
     <Compile Include="Events\SelectPlanEvent.cs" />
-    <Compile Include="Models\ElementDevice.cs" />
-    <Compile Include="Models\ElementSubPlan.cs" />
-    <Compile Include="Models\ElementZone.cs" />
-    <Compile Include="Models\PolygonPoint.cs" />
     <Compile Include="Views\Elements\ElementZoneView.xaml.cs">
       <DependentUpon>ElementZoneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\FakePresentation\DoorViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementDeviceViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementSubPlanViewModel.cs" />
-    <Compile Include="Models\Plan.cs" />
     <Compile Include="PlanBuilder.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

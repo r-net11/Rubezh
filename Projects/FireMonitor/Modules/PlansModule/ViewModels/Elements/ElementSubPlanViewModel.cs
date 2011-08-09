@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PlansModule.Events;
-using PlansModule.Models;
-using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

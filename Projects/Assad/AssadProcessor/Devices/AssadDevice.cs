@@ -254,10 +254,13 @@ namespace AssadProcessor.Devices
 
                 foreach (var state in deviceState.States)
                 {
-                    Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
-                    stateParameter.name = state;
-                    stateParameter.value = " ";
-                    abilityParameters.Add(stateParameter);
+                    if (state.IsActive)
+                    {
+                        Assad.DeviceTypeParam stateParameter = new Assad.DeviceTypeParam();
+                        stateParameter.name = state.DriverState.Name;
+                        stateParameter.value = " ";
+                        abilityParameters.Add(stateParameter);
+                    }
                 }
             }
 

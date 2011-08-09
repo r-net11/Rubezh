@@ -64,6 +64,11 @@
     <Compile Include="Models\ChangeEntities.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
     <Compile Include="Models\Device\IndicatorLogic.cs" />
+    <Compile Include="Models\Plans\ElementDevice.cs" />
+    <Compile Include="Models\Plans\ElementSubPlan.cs" />
+    <Compile Include="Models\Plans\ElementZone.cs" />
+    <Compile Include="Models\Plans\Plan.cs" />
+    <Compile Include="Models\Plans\PolygonPoint.cs" />
     <Compile Include="Models\System\Instruction.cs" />
     <Compile Include="Models\System\JournalFilter.cs" />
     <Compile Include="Models\System\JournalRecord.cs" />
@@ -125,9 +130,7 @@
       <Name>Firesec</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Plans\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

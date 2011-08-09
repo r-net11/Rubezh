@@ -161,13 +161,13 @@
       <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
       <Name>DevicesModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\InstructionsModule\InstructionsModule.csproj">
-      <Project>{0F163243-0BCB-44D6-B849-4ED207B27027}</Project>
-      <Name>InstructionsModule</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Modules\FiltersModule\FiltersModule.csproj">
       <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>
       <Name>FiltersModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\InstructionsModule\InstructionsModule.csproj">
+      <Project>{0F163243-0BCB-44D6-B849-4ED207B27027}</Project>
+      <Name>InstructionsModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\LibraryModule\LibraryModule.csproj">
       <Project>{16D926CB-C605-48A0-91FC-105C80AA685B}</Project>

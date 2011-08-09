@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace PlansModule.Models
+namespace FiresecAPI.Models
 {
     public class ElementZone
     {
