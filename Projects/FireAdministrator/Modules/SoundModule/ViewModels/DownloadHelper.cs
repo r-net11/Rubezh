@@ -15,8 +15,6 @@ namespace SoundsModule.ViewModels
 
         public const bool DefaultIsContinious = false;
 
-        public enum AvailableSpeaker { Нет = 0, Тревога = 500, Внимание = 3000};
-
         public static string CurrentDirectory
         {
             get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }

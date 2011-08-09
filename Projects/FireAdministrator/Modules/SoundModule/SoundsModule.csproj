@@ -62,7 +62,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\EnumToStringConverter.cs" />
+    <Compile Include="Converters\EnumSpeakerConverter.cs" />
+    <Compile Include="Converters\SpeakerTypeToStringConverter.cs" />
+    <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

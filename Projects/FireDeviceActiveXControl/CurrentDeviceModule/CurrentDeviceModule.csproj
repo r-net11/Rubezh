@@ -49,8 +49,11 @@
     <Compile Include="ViewModels\CurrentDeviceViewModel.cs" />
     <Compile Include="ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="ViewModels\ElementTreeViewModel.cs" />
-    <Compile Include="Views\DeviceControlView.xaml.cs">
-      <DependentUpon>DeviceControlView.xaml</DependentUpon>
+    <Compile Include="Views\CurrentDeviceDetailsView.xaml.cs">
+      <DependentUpon>CurrentDeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CurrentDeviceView.xaml.cs">
+      <DependentUpon>CurrentDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeviceTreeView.xaml.cs">
       <DependentUpon>DeviceTreeView.xaml</DependentUpon>
@@ -77,6 +80,10 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FireMonitor\Modules\DevicesModule\DevicesModule.csproj">
+      <Project>{408CBBFB-3989-443C-A5A2-3D78310210CD}</Project>
+      <Name>DevicesModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
@@ -86,7 +93,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceControlView.xaml">
+    <Page Include="Views\CurrentDeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CurrentDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

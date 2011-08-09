@@ -37,5 +37,10 @@ namespace SoundsModule
         {
             ServiceFactory.Layout.Show(soundsViewModel);
         }
+
+        public void Save()
+        {
+            soundsViewModel.Save();
+        }
     }
 }

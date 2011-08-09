@@ -1,5 +1,6 @@
 ﻿using FiresecClient;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Infrastructure.Common;
 using System.Media;
 using System.Windows;
@@ -11,20 +12,11 @@ using FiresecAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
-    public class SoundViewModel : RegionViewModel
+    public class SoundViewModel : BaseViewModel
     {
         public SoundViewModel(Sound sound)
         {
             Sound = sound;
-        }
-
-        public SoundViewModel(string stateType)
-        {
-            Sound = new Sound();
-            StateType = stateType;
-            SoundName = DownloadHelper.DefaultName;
-            SpeakerName = DownloadHelper.DefaultName;
-            IsContinious = DownloadHelper.DefaultIsContinious;
         }
 
         Sound _sound;
@@ -34,41 +26,25 @@ namespace SoundsModule.ViewModels
             set
             {
                 _sound = value;
-                //OnPropertyChanged("Sound");
             }
         }
 
-        public string StateType
+        public StateType StateType
         {
-            get
-            {
-                if ((string.IsNullOrWhiteSpace(Sound.StateType)) || (AvailableStates.IndexOf(Sound.StateType) == -1))
-                {
-                    return DownloadHelper.DefaultName;
-                }
-                else
-                {
-                    return Sound.StateType;
-                }
-            }
-            set
-            {
-                Sound.StateType = value;
-                OnPropertyChanged("StateName");
-            }
+            get { return Sound.StateType; }
         }
 
         public string SoundName
         {
             get
             {
-                if ((string.IsNullOrWhiteSpace(Sound.SoundName)) || (AvailableSounds.IndexOf(Sound.SoundName) == -1))
+                if (AvailableSounds.Any(x => x == Sound.SoundName))
                 {
-                    return DownloadHelper.DefaultName;
+                    return Sound.SoundName;
                 }
                 else
                 {
-                    return Sound.SoundName;
+                    return DownloadHelper.DefaultName;
                 }
             }
             set
@@ -85,30 +61,12 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public string SpeakerName
+        public SpeakerType SpeakerType
         {
-            get
+            get { return Sound.SpeakerType; }
+            set 
             {
-                if ((string.IsNullOrWhiteSpace(Sound.SpeakerName)) || (AvailableSpeakers.IndexOf(Sound.SpeakerName) == -1))
-                {
-                    return DownloadHelper.DefaultName;
-                }
-                else
-                {
-                    return Sound.SpeakerName;
-                }
-            }
-            set
-            {
-                if (value == Enum.GetName(typeof(DownloadHelper.AvailableSpeaker), 0))
-                {
-                    Sound.SpeakerName = null;
-                }
-                else
-                {
-                    Sound.SpeakerName = value;
-                }
-                OnPropertyChanged("SpeakerName");
+                Sound.SpeakerType = value; 
             }
         }
 
@@ -122,16 +80,11 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public List<string> AvailableStates
-        {
-            get { return FiresecAPI.StateTypeConverter.ConvertStateTypeToListString(); }
-        }
-
-        public ObservableCollection<string> AvailableSounds 
+        public List<string> AvailableSounds 
         {
             get
             {
-                ObservableCollection<string> fileNames = new ObservableCollection<string>();
+                List<string> fileNames = new List<string>();
                 fileNames.Add(DownloadHelper.DefaultName);
                 foreach (string str in Directory.GetFiles(DownloadHelper.CurrentDirectory))
                 {
@@ -141,17 +94,22 @@ namespace SoundsModule.ViewModels
             } 
         }
 
-        public ObservableCollection<string> AvailableSpeakers 
+        public Array AvailableSpeakers
         {
-            get
-            {
-                ObservableCollection<string> speakerNames = new ObservableCollection<string>();
-                foreach (var speakername in Enum.GetNames(typeof(DownloadHelper.AvailableSpeaker)))
-                {
-                    speakerNames.Add(speakername);
-                }
-                return speakerNames;
-            }
+            get { return Enum.GetValues(typeof(SpeakerType)); }
         }
+
+        //public List<string> AvailableSpeakers 
+        //{
+            //get
+            //{
+            //    List<string> speakerType = new List<string>();
+            //    foreach (var speakertype in Enum.GetNames(typeof(SpeakerType)))
+            //    {
+            //        speakerType.Add(speakertype);
+            //    }
+            //    return speakerType;
+            //}
+        //}
     }
 }

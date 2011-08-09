@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace CurrentDeviceModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DeviceControlView.xaml
+    /// Логика взаимодействия для CurrentDeviceDetailsView.xaml
     /// </summary>
-    public partial class DeviceControlView : UserControl
+    public partial class CurrentDeviceDetailsView : Window
     {
-        public DeviceControlView()
+        public CurrentDeviceDetailsView()
         {
             InitializeComponent();
         }

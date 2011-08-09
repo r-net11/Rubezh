@@ -15,6 +15,8 @@ using Infrastructure.Common;
 using CurrentDeviceModule.ViewModels;
 using CurrentDeviceModule.Views;
 using FiresecClient;
+using DevicesModule.ViewModels;
+using DevicesModule.Views;
 
 namespace TestActiveXModule
 {
@@ -27,28 +29,44 @@ namespace TestActiveXModule
         {
             InitializeComponent();
             FiresecManager.Connect("adm", "");
+            //DataContext = this;
             SelectDeviceCommand = new RelayCommand(OnSelect);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-            currentDeviceViewModel = new CurrentDeviceViewModel();
+            _currentDeviceViewModel = new CurrentDeviceViewModel();
+            _currentDeviceView = new CurrentDeviceView();
+            //currentDeviceView.DataContext = _currentDeviceViewModel;
+            _currentDeviceViewModel.SelectDevice();
+            DataContext = CurrentDeviceViewModel;
+            //_mainCurrentDeviceView.DataContext = CurrentDeviceViewModel;
+            // currentDeviceView = _currentDeviceViewModel;
         }
 
-        CurrentDeviceViewModel currentDeviceViewModel;
+        
+
+        CurrentDeviceViewModel _currentDeviceViewModel;
+        CurrentDeviceView _currentDeviceView;
+
+        public CurrentDeviceViewModel CurrentDeviceViewModel
+        {
+            get { return _currentDeviceViewModel; }
+        }
+
+        public CurrentDeviceView CurrentDeviceView
+        {
+            get { return _currentDeviceView; }
+        }
 
         public RelayCommand SelectDeviceCommand { get; private set; }
         void OnSelect()
         {
-            DeviceTreeViewModel deviceTreeViewModel = new DeviceTreeViewModel();
-            deviceTreeViewModel.Initialize();
-            DeviceTreeView deviceTreeView = new DeviceTreeView();
-            deviceTreeView.DataContext = deviceTreeViewModel;
-            deviceTreeViewModel.Closing += deviceTreeView.Close;
-            deviceTreeView.Show();
+            
         }
 
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
+
         }
     }
 }

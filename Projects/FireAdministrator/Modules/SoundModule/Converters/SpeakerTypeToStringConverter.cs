@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using FiresecAPI.Models;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
 {
-    class EnumToStringConverter : IValueConverter
+    class SpeakerTypeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string Value = (string)value;
+            SpeakerType Value = (SpeakerType)value;
             switch (Value)
             {
-                case "Нет":
+                case SpeakerType.None:
                     return DownloadHelper.DefaultName;
-                case "Тревога":
+                case SpeakerType.Alarm:
                     return "Тревога";
-                case "Внимание":
+                case SpeakerType.Attention:
                     return "Внимание";
                 default:
                     return DownloadHelper.DefaultName;

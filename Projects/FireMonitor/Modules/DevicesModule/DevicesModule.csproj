@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />

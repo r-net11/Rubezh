@@ -3,7 +3,7 @@
                     xmlns:Views="clr-namespace:CurrentDeviceModule.Views"
                     xmlns:ViewModels="clr-namespace:CurrentDeviceModule.ViewModels">
     <DataTemplate DataType="{x:Type ViewModels:CurrentDeviceViewModel}">
-        <Views:DeviceControlView />
+        <Views:CurrentDeviceView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type ViewModels:DeviceTreeViewModel}">
         <Views:DeviceTreeView />

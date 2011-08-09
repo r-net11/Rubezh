@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Infrastructure.Common;
 using System.Media;
 using System.Security.Cryptography;
 using System.IO;
 using System.Collections.Generic;
 using System;
+using FiresecAPI.Models;
 
 namespace SoundsModule.ViewModels
 {
@@ -20,42 +22,31 @@ namespace SoundsModule.ViewModels
         {
             DownloadHelper.UpdateSound();
             IsNowPlaying = false;
-            var sounds = new ObservableCollection<SoundViewModel>();
             var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            //**************************
-            //временно(заменю на Linq)
-            bool isContains = false;
-            ObservableCollection<string> availableStates = new ObservableCollection<string>();
-            foreach (var id in FiresecAPI.StateTypeConverter.ConvertStateTypeToListString())
-            {
-                availableStates.Add(id);
-            }
+            Sounds = new ObservableCollection<SoundViewModel>();
 
-            foreach (var state in availableStates)
+            if ((sysConfSounds != null) && (sysConfSounds.Count > 0))
             {
                 foreach (var sound in sysConfSounds)
                 {
-                    if (string.Equals(sound.StateType, state))
-                    {
-                        isContains = true;
-                        sounds.Add(new SoundViewModel(sound));
-                    }
-                }
-                if (!isContains)
-                {
-                    sounds.Add(new SoundViewModel(state));
-                }
-                else
-                {
-                    isContains = false;
+                    Sounds.Add(new SoundViewModel(sound));
                 }
             }
-            //********************
-            Sounds = sounds;
+            else
+            {
+                foreach (var statetype in Enum.GetValues(typeof(StateType)))
+                {
+                    if ((StateType)statetype == StateType.No)
+                        continue;
+                    Sound newSound = new Sound();
+                    newSound.StateType = (StateType)statetype;
+                    Sounds.Add(new SoundViewModel(newSound));
+                }
+            }
+
             SelectedSound = Sounds[0];
 
             PlaySoundCommand = new RelayCommand(OnPlaySound);
-            SaveCommand = new RelayCommand(Save);
 
         }
 
@@ -92,7 +83,6 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
         public void Save()
         {
             if (Sounds != null)
@@ -111,7 +101,7 @@ namespace SoundsModule.ViewModels
             if (IsNowPlaying)
             {
                 SoundPlayerHelper.PlaySound(SelectedSound.SoundName, SelectedSound.IsContinious);
-                SoundPlayerHelper.PlayPCSpeaker(SelectedSound.SpeakerName, SelectedSound.IsContinious);
+                SoundPlayerHelper.PlayPCSpeaker(SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {
                     IsNowPlaying = false;
@@ -122,6 +112,14 @@ namespace SoundsModule.ViewModels
                 SoundPlayerHelper.StopPlaySound();
                 SoundPlayerHelper.StopPlayPCSpeaker();
             }
+        }
+
+        public override void OnHide()
+        {
+            base.OnHide();
+            IsNowPlaying = false;
+            SoundPlayerHelper.StopPlaySound();
+            SoundPlayerHelper.StopPlayPCSpeaker();
         }
     }
 }

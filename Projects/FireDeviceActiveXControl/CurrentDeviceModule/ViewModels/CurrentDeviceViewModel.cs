@@ -28,8 +28,14 @@ namespace CurrentDeviceModule.ViewModels
             set
             {
                 _deviceControl = value;
-                OnPropertyChanged("DeviceControl");
             }
+        }
+
+        CurrentDeviceView _deviceControlView;
+        public CurrentDeviceView CurrentDeviceControlView
+        {
+            get { return _deviceControlView; }
+            set { _deviceControlView = value; }
         }
 
         Device _device;
@@ -39,7 +45,6 @@ namespace CurrentDeviceModule.ViewModels
             private set 
             {
                 _device = value;
-                //OnPropertyChanged("Device");
             }
         }
 
@@ -59,7 +64,6 @@ namespace CurrentDeviceModule.ViewModels
             set 
             {
                 _deviceId = value;
-                //OnPropertyChanged("DeviceId");
             }
         }
 
@@ -73,7 +77,7 @@ namespace CurrentDeviceModule.ViewModels
             get { return Device.Driver.CanDisable; }
         }
 
-        private bool _isCurrentDeviceSelected;
+        bool _isCurrentDeviceSelected;
         public bool IsCurrentDeviceSelected
         {
             get { return _isCurrentDeviceSelected; }
@@ -88,21 +92,24 @@ namespace CurrentDeviceModule.ViewModels
             newDeviceTreeView.DataContext = newDeviceTreeViewModel;
             newDeviceTreeViewModel.Closing += newDeviceTreeView.Close;
             newDeviceTreeView.ShowDialog();
+
             if (!string.IsNullOrWhiteSpace(newDeviceTreeViewModel.DeviceId))
             {
                 DeviceId = string.Copy(newDeviceTreeViewModel.DeviceId);
-            }
-            IsCurrentDeviceSelected = true;
-        }
-
-        public void Inicialize()
-        {
-            if (IsCurrentDeviceSelected)
-            {
+                IsCurrentDeviceSelected = true;
                 Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
                 CurrentDeviceControl.DriverId = DriverId;
                 CurrentDeviceControl.StateId = State.Id.ToString();
             }
+        }
+
+        public void Inicialize(string deviceId)
+        {
+            DeviceId = deviceId;
+            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDeviceControl.DriverId = DriverId;
+            CurrentDeviceControl.StateId = State.Id.ToString();
+            IsCurrentDeviceSelected = true;
         }
 
         void OnDeviceStateChanged(string id)

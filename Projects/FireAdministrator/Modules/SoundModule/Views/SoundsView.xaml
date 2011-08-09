@@ -31,17 +31,12 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
                         <Grid>
-                            <Ellipse
-                                Name="ell"
-                                Stroke="{TemplateBinding BorderBrush}"
-                                StrokeThickness="{TemplateBinding BorderThickness}"
-                                Fill="{TemplateBinding Background}" />
                             <Rectangle
                                 Name="rec"
                                 Stroke="{TemplateBinding BorderBrush}"
                                 StrokeThickness="{TemplateBinding BorderThickness}"
                                 Fill="{TemplateBinding Background}"
-                                Visibility="Hidden"/>
+                                Visibility="Visible"/>
                             <TextBlock Name="txtBlock" Text="Проверка" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <ContentPresenter
                                 Margin="{TemplateBinding Padding}"
@@ -56,25 +51,18 @@
                                     TargetName="txtBlock"
                                     Property="Text"
                                     Value="Остановить" />
-                                <Setter
-                                    TargetName="ell"
-                                    Property="Visibility"
-                                    Value="Hidden" />
-                                <Setter
-                                    TargetName="rec"
-                                    Property="Visibility"
-                                    Value="Visible" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Converters:EnumToStringConverter x:Key="EnumToStringConverter" />
+        <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+        <Converters:SpeakerTypeToStringConverter x:Key="SpeakerTypeToStringConverter" />
+        <Converters:EnumSpeakerConverter x:Key="EnumSpeakerConverter" />
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -83,8 +71,13 @@
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}"
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding StateType}" />
-                    
+                    <DataGridTemplateColumn Header="Состояние" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Звук" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -100,12 +93,14 @@
                     <DataGridTemplateColumn Header="PC Speaker" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SpeakerName, Converter={StaticResource EnumToStringConverter}}" />
+                                <TextBlock Text="{Binding SpeakerType, Converter={StaticResource SpeakerTypeToStringConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}" SelectedItem="{Binding SpeakerName}" Margin="2" />
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" 
+                                          ItemsSource="{Binding AvailableSpeakers}"
+                                          SelectedItem="{Binding SpeakerType}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
@@ -124,6 +119,5 @@
             <CheckBox Style="{StaticResource CheckBoxTemplate}" HorizontalAlignment="Left" IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Name="btnCheck" Width="100" Command="{Binding PlaySoundCommand}" />
         </Grid>
-        <Button Grid.Row="2" Content="Save" Command="{Binding SaveCommand}" />
     </Grid>
 </UserControl>
