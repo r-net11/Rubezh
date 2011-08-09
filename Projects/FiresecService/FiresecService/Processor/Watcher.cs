@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecService.Converters;
@@ -70,7 +69,7 @@ namespace FiresecService
                     if (Convert.ToInt32(innerJournalItem.IDEvents) > LastEventId)
                     {
                         var journalItem = JournalConverter.Convert(innerJournalItem);
-                        CallbackManager.OnNewJournalItem(journalItem);
+                        CallbackManager.OnNewJournalRecord(journalItem);
                     }
                 }
                 LastEventId = Convert.ToInt32(document.Journal[0].IDEvents);

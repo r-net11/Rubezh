@@ -12,16 +12,6 @@ namespace JournalModule.ViewModels
 
         public int ClassId { get; private set; }
         public string Name { get; private set; }
-
-        bool _isEnable;
-        public bool IsEnable
-        {
-            get { return _isEnable; }
-            set
-            {
-                _isEnable = value;
-                OnPropertyChanged("IsEnable");
-            }
-        }
+        public bool IsEnable { get; set; }
     }
 }

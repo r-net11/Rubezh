@@ -30,11 +30,11 @@ namespace LibraryModule.ViewModels
             {
                 try
                 {
-                    return ImageConverters.GetCanvasFromXml(Frame.Image, Frame.Layer);
+                    return ImageConverters.Xml2Canvas(Frame.Image, Frame.Layer);
                 }
                 catch
                 {
-                    return ImageConverters.GetCanvasFromXml(errorFrame, Frame.Layer);
+                    return ImageConverters.Xml2Canvas(errorFrame, Frame.Layer);
                 }
             }
         }

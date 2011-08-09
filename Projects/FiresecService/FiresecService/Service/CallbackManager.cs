@@ -26,7 +26,7 @@ namespace FiresecService
             _callbacks.Remove(callback);
         }
 
-        public static void OnNewJournalItem(JournalRecord journalItem)
+        public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
             foreach (IFiresecCallback callback in _callbacks)
             {
@@ -34,7 +34,7 @@ namespace FiresecService
                 {
                     if (callback != null)
                     {
-                        callback.NewJournalItem(journalItem);
+                        callback.NewJournalRecord(journalRecord);
                     }
                 }
                 catch

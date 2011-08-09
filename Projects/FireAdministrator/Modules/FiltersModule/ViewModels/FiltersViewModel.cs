@@ -13,20 +13,18 @@ namespace FiltersModule.ViewModels
             CreateCommand = new RelayCommand(OnCreate);
             EditCommand = new RelayCommand(OnEdit);
             RemoveCommand = new RelayCommand(OnRemove);
-            SaveCommand = new RelayCommand(OnSave);
         }
 
         public void Initialize()
         {
-            var filters = new ObservableCollection<FilterViewModel>();
+            FilterViewModels = new ObservableCollection<FilterViewModel>();
             if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters != null)
             {
                 foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
                 {
-                    filters.Add(new FilterViewModel(filter));
+                    FilterViewModels.Add(new FilterViewModel(filter));
                 }
             }
-            FilterViewModels = filters;
         }
 
         public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }
@@ -64,8 +62,7 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        public void OnSave()
+        public void Save()
         {
             if (FilterViewModels != null)
             {
@@ -80,7 +77,7 @@ namespace FiltersModule.ViewModels
         public override void OnShow()
         {
             FiltersMenuViewModel filtersMenuViewModel =
-                new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand, SaveCommand);
+                new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
         }
 

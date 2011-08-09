@@ -8,7 +8,8 @@ namespace JournalModule
 {
     public class JournalModule : IModule
     {
-        static FilteredJournalViewModel _journalViewModel;
+        static JournalsViewModel _journalsViewModel;
+        static ArchiveViewModel _archiveViewModel;
         public JournalModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
@@ -17,8 +18,8 @@ namespace JournalModule
 
         public void Initialize()
         {
-            _journalViewModel = new FilteredJournalViewModel();
-            _journalViewModel.Initialize();
+            _journalsViewModel = new JournalsViewModel();
+            _archiveViewModel = new ArchiveViewModel();
 
             RegisterResources();
         }
@@ -31,14 +32,13 @@ namespace JournalModule
 
         static void OnShowJournal(object obj)
         {
-            ServiceFactory.Layout.Show(_journalViewModel);
+            _journalsViewModel.SelectedJournal = _journalsViewModel.Journals[0];
+            ServiceFactory.Layout.Show(_journalsViewModel);
         }
 
         static void OnShowArchive(object obj)
         {
-            ArchiveViewModel archiveViewModel = new ArchiveViewModel();
-            archiveViewModel.Initialize();
-            ServiceFactory.Layout.Show(archiveViewModel);
+            ServiceFactory.Layout.Show(_archiveViewModel);
         }
     }
 }

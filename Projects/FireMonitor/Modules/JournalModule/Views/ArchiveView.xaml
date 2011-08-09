@@ -6,21 +6,16 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
         <SolidColorBrush x:Key="borderBrush">LightGray</SolidColorBrush>
-        
+
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-
-        <CollectionViewSource x:Key="SortedJournalItems" Source="{Binding Path=JournalItems}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Id" Direction="Ascending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
     </UserControl.Resources>
-    
+
     <DockPanel>
 
         <WrapPanel DockPanel.Dock="Top">
-            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}" Margin="5" Foreground="{StaticResource headerBrush}" />
+            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}"
+                          Margin="5" Foreground="{StaticResource headerBrush}" />
             <Button Content="Выбрать фильтр" Command="{Binding ShowFilterCommand}" Margin="5" />
         </WrapPanel>
 
@@ -35,7 +30,7 @@
                     <Setter Property="Padding" Value="5" />
                 </Style>
             </Grid.Resources>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -88,43 +83,46 @@
             </WrapPanel>
         </Grid>
 
-        <DataGrid ItemsSource="{Binding Source={StaticResource SortedJournalItems}}" SelectedItem="{Binding SelectedItem}"
+        <DataGrid ItemsSource="{Binding JournalRecords,
+                                        Converter={StaticResource CollectionViewFactoryConverter},
+                                        ConverterParameter=DeviceTime}"
+                  SelectedItem="{Binding SelectedItem}"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
-                    <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
-                    <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
-                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                    <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding Device}" />
-                    <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
-                    <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
-                </DataGrid.Columns>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
+                <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding Device}" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
+            </DataGrid.Columns>
 
-                <DataGrid.CellStyle>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="YellowGreen" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.CellStyle>
-                
-            </DataGrid>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center"></ContentPresenter>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="YellowGreen" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+
+        </DataGrid>
 
     </DockPanel>
 </UserControl>

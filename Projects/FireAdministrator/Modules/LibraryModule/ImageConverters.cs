@@ -45,18 +45,5 @@ namespace LibraryModule
             catch { }
             return canvas;
         }
-
-        public static Canvas GetCanvasFromXml(string image, int layer)
-        {
-            if (string.IsNullOrWhiteSpace(image)) return new Canvas();
-
-            using (var stringReader = new StringReader(image))
-            {
-                var xmlReader = XmlReader.Create(stringReader);
-                Canvas canvas = (Canvas) XamlReader.Load(xmlReader);
-                Panel.SetZIndex(canvas, layer);
-                return canvas;
-            }
-        }
     }
 }

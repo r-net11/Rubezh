@@ -42,7 +42,7 @@ namespace FireMonitor
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
+            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
         void DeselectAll()
@@ -201,7 +201,6 @@ namespace FireMonitor
                 OnPropertyChanged("IsCallSelected");
             }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)

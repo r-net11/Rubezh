@@ -15,23 +15,21 @@ namespace JournalModule.ViewModels
         public ArchiveViewModel()
         {
             ShowFilterCommand = new RelayCommand(OnShowFilter);
+            Initialize();
         }
 
-        public void Initialize()
+        void Initialize()
         {
-            JournalItems = new ObservableCollection<JournalRecordViewModel>();
-
-            Thread thread = new Thread(Read);
-            thread.Priority = ThreadPriority.Highest;
-            thread.Start();
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(Read));
         }
 
-        void Read()
+        void Read(Object stateInfo)
         {
-            int lastJournalId = 100000;
+            int lastJournalId = 100;
             while (true)
             {
-                List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 1000);
+                List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, lastJournalId);
 
                 if (journalRecords == null)
                     break;
@@ -56,17 +54,28 @@ namespace JournalModule.ViewModels
 
         void Add(JournalRecordViewModel journalItemViewModel)
         {
-            JournalItems.Add(journalItemViewModel);
+            JournalRecords.Add(journalItemViewModel);
         }
 
-        ObservableCollection<JournalRecordViewModel> _journalItems;
-        public ObservableCollection<JournalRecordViewModel> JournalItems
+        bool _isFiltered;
+        public bool IsFiltered
         {
-            get { return _journalItems; }
+            get { return _isFiltered; }
             set
             {
-                _journalItems = value;
-                OnPropertyChanged("JournalItems");
+                _isFiltered = value;
+                OnPropertyChanged("IsFiltered");
+            }
+        }
+
+        ObservableCollection<JournalRecordViewModel> _journalRecords;
+        public ObservableCollection<JournalRecordViewModel> JournalRecords
+        {
+            get { return _journalRecords; }
+            set
+            {
+                _journalRecords = value;
+                OnPropertyChanged("JournalRecords");
             }
         }
 
@@ -85,19 +94,8 @@ namespace JournalModule.ViewModels
         void OnShowFilter()
         {
             ArchiveFilterViewModel filterViewModel = new ArchiveFilterViewModel();
-            filterViewModel.Initialize(JournalItems);
+            filterViewModel.Initialize(JournalRecords);
             ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
-        }
-
-        bool _isFiltered;
-        public bool IsFiltered
-        {
-            get { return _isFiltered; }
-            set
-            {
-                _isFiltered = value;
-                OnPropertyChanged("IsFiltered");
-            }
         }
     }
 }

@@ -2,11 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common;
-using System.Media;
-using System.Security.Cryptography;
-using System.IO;
-using System.Collections.Generic;
-using System;
 using FiresecAPI.Models;
 
 namespace SoundsModule.ViewModels
@@ -23,7 +18,10 @@ namespace SoundsModule.ViewModels
             DownloadHelper.UpdateSound();
             IsNowPlaying = false;
             var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            Sounds = new ObservableCollection<SoundViewModel>();
+            if (sysConfSounds == null)
+            {
+                sysConfSounds = new List<FiresecAPI.Models.Sound>();
+            }
 
             if ((sysConfSounds != null) && (sysConfSounds.Count > 0))
             {

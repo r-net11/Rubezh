@@ -8,16 +8,10 @@
         </ContextMenu>
     </UserControl.Resources>
     <TabControl TabStripPlacement="Bottom"
-                ItemsSource="{Binding FrameViewModels}" 
+                ItemsSource="{Binding FrameViewModels}"
                 SelectedItem="{Binding SelectedFrameViewModel}"
                 ContextMenuOpening="TabControl_ContextMenuOpening">
-        
-        <!--<TabControl.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
-                <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
-            </ContextMenu>
-        </TabControl.ContextMenu>-->
+
         <TabControl.ItemContainerStyle>
             <Style TargetType="{x:Type TabItem}">
                 <Style.Setters>
@@ -33,7 +27,7 @@
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
-        
+
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <DockPanel>
@@ -44,8 +38,8 @@
                         <TextBox Text="{Binding Frame.Duration, UpdateSourceTrigger=PropertyChanged}" />
                         <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
                     </WrapPanel>
-                    
-                    <ContentControl HorizontalAlignment="Center" 
+
+                    <ContentControl HorizontalAlignment="Center"
                                     Width="500" Height="500"
                                     Content="{Binding XamlOfImage}">
                         <ContentControl.LayoutTransform>
@@ -55,6 +49,6 @@
                 </DockPanel>
             </DataTemplate>
         </TabControl.ContentTemplate>
-        
+
     </TabControl>
 </UserControl>

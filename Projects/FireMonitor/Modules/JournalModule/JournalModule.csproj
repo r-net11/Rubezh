@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\ClassViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="ViewModels\JournalFilterViewModel.cs" />
     <Compile Include="ViewModels\JournalRecordViewModel.cs" />
     <Compile Include="ViewModels\JournalsViewModel.cs" />
     <Compile Include="ViewModels\FilteredJournalViewModel.cs" />
@@ -89,8 +90,11 @@
     <Compile Include="Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\JournalView.xaml.cs">
-      <DependentUpon>JournalView.xaml</DependentUpon>
+    <Compile Include="Views\FilteredJournalView.xaml.cs">
+      <DependentUpon>FilteredJournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JournalsView.xaml.cs">
+      <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -134,7 +138,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\JournalView.xaml">
+    <Page Include="Views\FilteredJournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

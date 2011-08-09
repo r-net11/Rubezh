@@ -14,9 +14,9 @@ using System.Windows.Shapes;
 
 namespace JournalModule.Views
 {
-    public partial class JournalView : UserControl
+    public partial class JournalsView : UserControl
     {
-        public JournalView()
+        public JournalsView()
         {
             InitializeComponent();
         }

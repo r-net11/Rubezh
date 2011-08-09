@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using FiresecAPI.Models;
 
 namespace FiresecAPI
@@ -16,6 +15,6 @@ namespace FiresecAPI
         void ZoneStateChanged(ZoneState zoneState);
 
         [OperationContract(IsOneWay = true)]
-        void NewJournalItem(JournalRecord journalItem);
+        void NewJournalRecord(JournalRecord journalRecord);
     }
 }

@@ -14,14 +14,13 @@ namespace FireMonitor
 {
     public partial class ShellView : EssentialWindow, INotifyPropertyChanged
     {
-        readonly Thread realTimeDaemon;
+        readonly Timer _realTimeDaemon;
 
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
-            realTimeDaemon = new Thread(UpdateTime);
-            realTimeDaemon.Start();
+            _realTimeDaemon = new Timer(new TimerCallback(UpdateTime), null, 0, 1000);
         }
 
         string _realTime;
@@ -35,15 +34,11 @@ namespace FireMonitor
             }
         }
 
-        void UpdateTime()
+        void UpdateTime(object obj)
         {
-            while (true)
-            {
-                Dispatcher.BeginInvoke((Action<string>) (x => RealTime = x),
-                                        System.Windows.Threading.DispatcherPriority.Send,
-                                        DateTime.Now.ToString());
-                Thread.Sleep(500);
-            }
+            Dispatcher.BeginInvoke((Action<string>) (x => RealTime = x),
+                                    System.Windows.Threading.DispatcherPriority.Send,
+                                    DateTime.Now.ToString());
         }
 
         protected override Decorator GetWindowButtonsPlaceholder()
@@ -114,8 +109,6 @@ namespace FireMonitor
 
         private void EssentialWindow_Closed(object sender, EventArgs e)
         {
-            realTimeDaemon.Abort();
-            realTimeDaemon.Join();
             FiresecManager.Disconnect();
         }
     }

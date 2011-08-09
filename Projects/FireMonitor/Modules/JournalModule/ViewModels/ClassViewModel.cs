@@ -7,20 +7,10 @@ namespace JournalModule.ViewModels
         public ClassViewModel(int id)
         {
             Id = id;
-            _isEnable = false;
+            IsEnable = false;
         }
 
         public int Id { get; private set; }
-
-        bool? _isEnable;
-        public bool? IsEnable
-        {
-            get { return _isEnable; }
-            set
-            {
-                _isEnable = value;
-                OnPropertyChanged("IsEnable");
-            }
-        }
+        public bool? IsEnable { get; set; }
     }
 }

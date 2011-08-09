@@ -19,7 +19,7 @@ namespace FireAdministrator
 
         private void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            //FiltersModule.FiltersModule.Save();
+            FiltersModule.FiltersModule.Save();
             //SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
             DevicesModule.DevicesModule.HasChanges = false;
@@ -37,7 +37,6 @@ namespace FireAdministrator
                 Device device = new Device();
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер");
                 device.DriverId = device.Driver.Id;
-
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
 

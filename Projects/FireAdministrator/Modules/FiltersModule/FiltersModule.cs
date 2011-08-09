@@ -42,9 +42,9 @@ namespace FiltersModule
         {
         }
 
-        public void Save()
+        public static void Save()
         {
-            filtersViewModel.OnSave();
+            filtersViewModel.Save();
         }
     }
 }

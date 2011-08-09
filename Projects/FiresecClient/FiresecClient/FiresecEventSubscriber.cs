@@ -42,16 +42,16 @@ namespace FiresecClient
             OnZoneStateChanged(zoneState.No);
         }
 
-        public void NewJournalItem(JournalRecord journalItem)
+        public void NewJournalRecord(JournalRecord journalRecord)
         {
-            OnNewJournalItemEvent(journalItem);
+            OnNewJournalRecordEvent(journalRecord);
         }
 
-        public static event Action<JournalRecord> NewJournalItemEvent;
-        public static void OnNewJournalItemEvent(JournalRecord journalItem)
+        public static event Action<JournalRecord> NewJournalRecordEvent;
+        public static void OnNewJournalRecordEvent(JournalRecord journalRecord)
         {
-            if (NewJournalItemEvent != null)
-                NewJournalItemEvent(journalItem);
+            if (NewJournalRecordEvent != null)
+                NewJournalRecordEvent(journalRecord);
         }
 
         public static event Action<string> DeviceStateChangedEvent;

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -8,51 +10,102 @@ namespace JournalModule.ViewModels
 {
     public class FilteredJournalViewModel : RegionViewModel
     {
-        static readonly int RecordsMaxCount = 100;
+        public static readonly int RecordsMaxCount = 100;
+        readonly JournalFilterViewModel _journalFilter;
 
-        public void Initialize()
+        public FilteredJournalViewModel(JournalFilter journalFilter)
         {
-            JournalItems = new ObservableCollection<JournalRecordViewModel>();
-            foreach (var journalRecord in FiresecManager.ReadJournal(0, RecordsMaxCount))
-            {
-                JournalRecordViewModel journalItemViewModel = new JournalRecordViewModel(journalRecord);
-                JournalItems.Add(journalItemViewModel);
-            }
+            Name = journalFilter.Name;
+            _journalFilter = new JournalFilterViewModel(journalFilter);
 
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
+            Initialize();
         }
 
-        void OnNewJournalItemEvent(JournalRecord journalRecord)
+        void Initialize()
         {
-            JournalRecordViewModel journalItemViewModel = new JournalRecordViewModel(journalRecord);
-            if (JournalItems.Count > 0)
-                JournalItems.Insert(0, journalItemViewModel);
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+            FiresecEventSubscriber.NewJournalRecordEvent +=
+                new Action<JournalRecord>(OnNewJournaRecordEvent);
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AplyFilter));
+        }
+
+        public string Name { get; private set; }
+
+        ObservableCollection<JournalRecordViewModel> _journalRecords;
+        public ObservableCollection<JournalRecordViewModel> JournalRecords
+        {
+            get { return _journalRecords; }
+            set
+            {
+                _journalRecords = value;
+                OnPropertyChanged("JournalRecords");
+            }
+        }
+
+        JournalRecordViewModel _selectedRecord;
+        public JournalRecordViewModel SelectedRecord
+        {
+            get { return _selectedRecord; }
+            set
+            {
+                _selectedRecord = value;
+                OnPropertyChanged("SelectedRecord");
+            }
+        }
+
+        void AplyFilter(Object stateInfo)
+        {
+            List<JournalRecord> journalRecords = null;
+            bool isFiltered = false;
+            int startIndex = 0;
+
+            while (isFiltered == false &&
+                (journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount)) != null)
+            {
+                foreach (var journalRecord in journalRecords)
+                {
+                    if (isFiltered = FilterRecord(journalRecord))
+                        break;
+                }
+
+                startIndex += RecordsMaxCount;
+            }
+        }
+
+        bool FilterRecord(JournalRecord journalRecord)
+        {
+            if (_journalFilter.CheckDaysConstraint(journalRecord))
+            {
+                if (_journalFilter.FilterRecord(journalRecord))
+                {
+                    Dispatcher.Invoke(new Action(() =>
+                        JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
+                }
+
+                return JournalRecords.Count >= _journalFilter.RecordsCount;
+            }
+
+            return false;
+        }
+
+        void OnNewJournaRecordEvent(JournalRecord journalRecord)
+        {
+            if (JournalRecords.Count > 0)
+            {
+                Dispatcher.Invoke(new Action(() =>
+                    JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord))), null);
+            }
             else
-                JournalItems.Add(journalItemViewModel);
-
-            if (JournalItems.Count > RecordsMaxCount)
-                JournalItems.RemoveAt(RecordsMaxCount);
-        }
-
-        ObservableCollection<JournalRecordViewModel> _journalItems;
-        public ObservableCollection<JournalRecordViewModel> JournalItems
-        {
-            get { return _journalItems; }
-            set
             {
-                _journalItems = value;
-                OnPropertyChanged("JournalItems");
+                Dispatcher.Invoke(new Action(() =>
+                    JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
             }
-        }
 
-        JournalRecordViewModel _selectedItem;
-        public JournalRecordViewModel SelectedItem
-        {
-            get { return _selectedItem; }
-            set
+            if (JournalRecords.Count > _journalFilter.RecordsCount)
             {
-                _selectedItem = value;
-                OnPropertyChanged("SelectedItem");
+                Dispatcher.BeginInvoke(new Action(() =>
+                    JournalRecords.RemoveAt(_journalFilter.RecordsCount)), null);
             }
         }
     }
