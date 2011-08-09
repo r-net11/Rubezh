@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using PlansModule.Models;
 
 namespace PlansModule.ViewModels
 {
@@ -60,7 +61,7 @@ namespace PlansModule.ViewModels
         {
             int minPriority = 7;
 
-            foreach(var deviceState in _deviceStates)
+            foreach (var deviceState in _deviceStates)
             {
                 int priority = deviceState.State.Id;
                 if (priority < minPriority)

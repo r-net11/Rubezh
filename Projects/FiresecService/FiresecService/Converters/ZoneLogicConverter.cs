@@ -42,7 +42,6 @@ namespace FiresecService.Converters
                             break;
                     }
 
-
                     switch (innerClause.operation)
                     {
                         case "and":
@@ -68,7 +67,6 @@ namespace FiresecService.Converters
                     zoneLogic.Clauses.Add(clause);
                 }
             }
-
 
             return zoneLogic;
         }
@@ -116,7 +114,7 @@ namespace FiresecService.Converters
                         break;
                 }
 
-                switch(zoneLogic.JoinOperator)
+                switch (zoneLogic.JoinOperator)
                 {
                     case ZoneLogicJoinOperator.And:
                         innerClause.joinOperator = "and";

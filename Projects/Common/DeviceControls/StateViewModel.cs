@@ -12,10 +12,12 @@ namespace DeviceControls
     public class StateViewModel : IDisposable
     {
         #region Private Fields
+
         private readonly List<Frame> _frames;
         private readonly List<Canvas> _canvases;
         private int _tick;
         private int _startTick;
+
         #endregion
 
         public StateViewModel(State state, ICollection<Canvas> stateCanvases)

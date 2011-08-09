@@ -26,7 +26,6 @@ namespace AutoHosting
             LastCommand = (_commandCount++).ToString() + " - " + message;
         }
 
-
         string _status = "None";
         public string Status
         {

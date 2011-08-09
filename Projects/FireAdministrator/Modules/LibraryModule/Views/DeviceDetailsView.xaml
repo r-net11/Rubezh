@@ -16,8 +16,8 @@
             <Button Command="{Binding OkCommand}" MinWidth="100" Margin="2" IsDefault="True">Ok</Button>
             <Button Command="{Binding CancelCommand}" MinWidth="100" Margin="2">Отмена</Button>
         </WrapPanel>
-        <ListBox  ItemsSource="{Binding Source={StaticResource SortedItems}}" 
-                  SelectedItem="{Binding SelectedItem}" 
+        <ListBox  ItemsSource="{Binding Source={StaticResource SortedItems}}"
+                  SelectedItem="{Binding SelectedItem}"
                   Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>

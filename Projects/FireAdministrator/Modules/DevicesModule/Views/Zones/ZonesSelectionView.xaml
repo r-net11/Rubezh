@@ -51,6 +51,6 @@
                 <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
             </StackPanel>
         </Grid>
-        
+
     </Grid>
 </UserControl>

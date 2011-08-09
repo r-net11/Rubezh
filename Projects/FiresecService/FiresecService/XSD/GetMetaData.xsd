@@ -12,7 +12,7 @@
     <xs:attribute name="type" type="xs:string" />
     <xs:attribute name="value" type="xs:string" />
   </xs:complexType>
-  
+
   <xs:complexType name="classType">
     <xs:sequence>
       <xs:element name="parent" type="parentType" minOccurs="0" maxOccurs="unbounded" />
@@ -21,7 +21,6 @@
     <xs:attribute name="clsid" type="xs:string" />
   </xs:complexType>
 
-  
   <!-- Driver -->
 
   <xs:complexType name="propInfoType">
@@ -70,7 +69,7 @@
     <xs:attribute name="hidden" type="xs:string" />
     <xs:attribute name="showOnlyInState" type="xs:string" />
   </xs:complexType>
-  
+
   <xs:complexType name="drvType">
     <xs:sequence>
       <xs:element name="propInfo" type="propInfoType" minOccurs="0" maxOccurs="unbounded" />
@@ -104,9 +103,9 @@
     <xs:attribute name="altIntf" type="xs:string" />
     <xs:attribute name="addrPrefix" type="xs:string" />
   </xs:complexType>
-  
+
   <!-- Root Element -->
-  
+
   <xs:element name="config">
     <xs:complexType>
       <xs:sequence>

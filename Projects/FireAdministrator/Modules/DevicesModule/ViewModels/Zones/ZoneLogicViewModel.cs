@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {

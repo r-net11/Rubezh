@@ -14,7 +14,7 @@ namespace DeviceControls
             {
                 var stringReader = new StringReader(image);
                 var xmlReader = XmlReader.Create(stringReader);
-                canvas = (Canvas)XamlReader.Load(xmlReader);
+                canvas = (Canvas) XamlReader.Load(xmlReader);
                 Panel.SetZIndex(canvas, layer);
             }
             catch { }

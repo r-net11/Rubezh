@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -29,6 +29,7 @@ namespace DevicesModule.ViewModels
         }
 
         #region DeviceSection
+
         public List<DeviceViewModel> AllDevices;
 
         public void FillAllDevices()
@@ -57,6 +58,7 @@ namespace DevicesModule.ViewModels
             }
             SelectedDevice = deviceViewModel;
         }
+
         #endregion
 
         ObservableCollection<DeviceViewModel> _devices;

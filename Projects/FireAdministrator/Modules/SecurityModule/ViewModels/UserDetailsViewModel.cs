@@ -1,7 +1,6 @@
-﻿
-namespace SecurityModule.ViewModels
+﻿namespace SecurityModule.ViewModels
 {
-	public class UserDetailsViewModel
-	{
-	}
+    public class UserDetailsViewModel
+    {
+    }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
 
 namespace FiresecClient
@@ -21,7 +19,7 @@ namespace FiresecClient
                     return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
                 }
             }
-                return false;
+            return false;
         }
 
         public static void ChangeDisabled(this DeviceState deviceState)

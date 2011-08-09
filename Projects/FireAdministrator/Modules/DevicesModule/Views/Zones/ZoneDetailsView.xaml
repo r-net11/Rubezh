@@ -4,21 +4,21 @@
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
              MinWidth="600" MinHeight="400">
-    
+
     <UserControl.Resources>
         <Converters:ZoneTypeToStringConverter x:Key="ZoneTypeToStringConverter" />
         <Converters:GuardZoneTypeToStringConverter x:Key="GuardZoneTypeToStringConverter" />
     </UserControl.Resources>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
             <TabControl>
-                
+
                 <TabItem Header="Основные">
                     <Grid Grid.Row="0">
                         <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
                         <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Description}" />
                     </Grid>
                 </TabItem>
-                
+
                 <TabItem Header="Настройки зоны">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -47,7 +47,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        
+
                         <TextBlock Grid.Row="0" Text="Назначение зоны" />
                         <ComboBox Grid.Row="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}">
                             <ComboBox.ItemTemplate>
@@ -72,7 +72,7 @@
                             <Grid Visibility="{Binding IsGuardZone, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <StackPanel>
                                     <TextBlock Text="Вид зоны" />
-                                    
+
                                     <ComboBox ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -80,7 +80,7 @@
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
-                                    
+
                                     <CheckBox Content="Тихая тревога" IsChecked="{Binding Skipped}" />
                                     <TextBlock Text="Входная/выходная задержка, сек" />
                                     <extToolkit:IntegerUpDown Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" />
@@ -88,15 +88,15 @@
                                     <extToolkit:IntegerUpDown Value="{Binding AutoSet}" Minimum="0" />
                                 </StackPanel>
                             </Grid>
-                            
+
                         </Grid>
-                        
+
                     </Grid>
                 </TabItem>
-                
+
             </TabControl>
         </Grid>
-        
+
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
             <Button Content="OK" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />

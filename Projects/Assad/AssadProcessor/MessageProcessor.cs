@@ -17,14 +17,14 @@ namespace AssadProcessor
                 byte[] bytes = Encoding.UTF8.GetBytes(message);
                 MemoryStream memoryStream = new MemoryStream(bytes);
                 XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
-                Assad.MessageType messageType = (Assad.MessageType)serializer.Deserialize(memoryStream);
+                Assad.MessageType messageType = (Assad.MessageType) serializer.Deserialize(memoryStream);
                 memoryStream.Close();
 
                 messageId = messageType.msgId;
 
                 return messageType.Item;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string s = message;
                 throw new InvalidOperationException();
@@ -72,12 +72,12 @@ namespace AssadProcessor
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHconfig";
                     confirmation.status = Assad.CommandStatus.OK;
-                    
+
                     NetManager.Send(confirmation, refMessageId);
                     break;
 
                 case "MHqueryStateType":
-                    Assad.DeviceType[] deviceItems = Controller.Current.QueryState((Assad.MHqueryStateType)content);
+                    Assad.DeviceType[] deviceItems = Controller.Current.QueryState((Assad.MHqueryStateType) content);
 
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryState";
@@ -95,7 +95,7 @@ namespace AssadProcessor
                     break;
 
                 case "MHdeviceControlType":
-                    Controller.Current.AssadExecuteCommand((Assad.MHdeviceControlType)content);
+                    Controller.Current.AssadExecuteCommand((Assad.MHdeviceControlType) content);
 
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHDeviceControl";
@@ -114,7 +114,7 @@ namespace AssadProcessor
                     confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryAbilityType";
 
-                    Assad.DeviceType deviceAbility = Controller.Current.QueryAbility((Assad.MHqueryAbilityType)content);
+                    Assad.DeviceType deviceAbility = Controller.Current.QueryAbility((Assad.MHqueryAbilityType) content);
 
                     confirmation.Items = new Assad.DeviceType[1];
                     confirmation.Items[0] = deviceAbility;
@@ -131,7 +131,7 @@ namespace AssadProcessor
                     break;
 
                 case "MHresetAlarmType":
-                    Assad.MHresetAlarmType mHresetAlarmType = (Assad.MHresetAlarmType)content;
+                    Assad.MHresetAlarmType mHresetAlarmType = (Assad.MHresetAlarmType) content;
                     Controller.Current.ResetAllStates(mHresetAlarmType.deviceId);
 
                     confirmation = new Assad.CPconfirmationType();

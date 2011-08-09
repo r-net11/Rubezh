@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using Infrastructure;
 using AlarmModule.Events;
+using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecAPI.Models;
 
 namespace AlarmModule.ViewModels
 {

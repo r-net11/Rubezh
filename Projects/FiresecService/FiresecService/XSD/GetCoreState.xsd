@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-
   <xs:complexType name="stateType">
     <xs:attribute name="id" type="xs:string" />
   </xs:complexType>
@@ -12,8 +11,7 @@
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" />
   </xs:complexType>
-  
-  
+
   <!-- Root Element -->
 
   <xs:element name="config">

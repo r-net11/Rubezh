@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AssadProcessor.Devices
 {
@@ -37,19 +37,17 @@ namespace AssadProcessor.Devices
 
                 case "USB преобразователь МС-1":
                 case "USB преобразователь МС-2":
-                    {
-                        string serialNo = null;
-                        if (innerDevice.param.Any(x => x.param == "Серийный номер"))
-                            serialNo = innerDevice.param.FirstOrDefault(x => x.param == "Серийный номер").value;
+                    string serialNo = null;
+                    if (innerDevice.param.Any(x => x.param == "Серийный номер"))
+                        serialNo = innerDevice.param.FirstOrDefault(x => x.param == "Серийный номер").value;
 
-                        if (string.IsNullOrEmpty(serialNo))
-                        {
-                            Address = "0";
-                        }
-                        else
-                        {
-                            Address = serialNo;
-                        }
+                    if (string.IsNullOrEmpty(serialNo))
+                    {
+                        Address = "0";
+                    }
+                    else
+                    {
+                        Address = serialNo;
                     }
                     break;
             }
@@ -61,8 +59,8 @@ namespace AssadProcessor.Devices
         {
             Assad.DeviceType deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
-            List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
-//            List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
+            var states = new List<Assad.DeviceTypeState>();
+            //List<Assad.DeviceTypeParam> param = new List<Assad.DeviceTypeParam>();
 
             if (FiresecManager.DeviceStates.DeviceStates.Any(x => x.Id == Id))
             {
@@ -133,7 +131,6 @@ namespace AssadProcessor.Devices
                     }
                     else
                     {
-
                         if (device.Driver.IsZoneLogicDevice)
                         {
                             Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
@@ -142,7 +139,6 @@ namespace AssadProcessor.Devices
                             state2.value = zonelogicstring;
                             states.Add(state2);
                         }
-
                     }
                     foreach (var propinfo in device.Driver.Properties)
                     {
@@ -225,7 +221,7 @@ namespace AssadProcessor.Devices
                         }
                         states.Add(parameterState);
                     }
-                }                
+                }
                 eventType.state = states.ToArray();
             }
             NetManager.Send(eventType, null);

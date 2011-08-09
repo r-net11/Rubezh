@@ -8,7 +8,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            ZoneLogicState state = (ZoneLogicState)value;
+            ZoneLogicState state = (ZoneLogicState) value;
             switch (state)
             {
                 case ZoneLogicState.AutomaticOn:

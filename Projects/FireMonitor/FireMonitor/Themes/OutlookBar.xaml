@@ -101,5 +101,5 @@
             <ContentPresenter Content="{TemplateBinding SelectedContent}" />
         </DockPanel>
     </ControlTemplate>
-    
+
 </ResourceDictionary>

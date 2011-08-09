@@ -14,7 +14,7 @@
     <DataTemplate DataType="{x:Type ViewModels:StateDetailsViewModel}">
         <Views:StateDetailsView />
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type ViewModels:AdditionalStateDetailsViewModel}">
         <Views:AdditionalStateDetailsView />
     </DataTemplate>

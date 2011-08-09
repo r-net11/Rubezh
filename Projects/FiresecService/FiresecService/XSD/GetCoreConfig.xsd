@@ -126,7 +126,7 @@
     <xs:attribute name="name" type="xs:string" />
     <xs:attribute name="value" type="xs:string" />
   </xs:complexType>
-  
+
   <xs:complexType name="dev_paramType">
     <xs:attribute name="name" type="xs:string" />
     <xs:attribute name="type" type="xs:string" />

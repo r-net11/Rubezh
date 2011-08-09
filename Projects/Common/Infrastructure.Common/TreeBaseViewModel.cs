@@ -65,7 +65,6 @@ namespace Infrastructure.Common
             }
         }
 
-
         public bool HasChildren
         {
             get

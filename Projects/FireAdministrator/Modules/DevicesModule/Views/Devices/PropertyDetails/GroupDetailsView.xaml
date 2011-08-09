@@ -48,7 +48,7 @@
             <Button Content="Добавить в группу" Command="{Binding AddCommand}" Margin="2" />
             <Button Content="Удалить из группы" Command="{Binding RemoveCommand}" Margin="2" />
         </StackPanel>
-        
+
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">

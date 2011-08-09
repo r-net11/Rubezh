@@ -44,7 +44,7 @@ namespace FireAdministrator
                     //throw new Exception(Errors.ResultCannotBeNull); // TODO: create exception
                 }
 
-                return (bool)result;
+                return (bool) result;
             }
             catch (Exception)
             {

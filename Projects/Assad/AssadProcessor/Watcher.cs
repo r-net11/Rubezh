@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AssadProcessor
 {
@@ -11,7 +11,7 @@ namespace AssadProcessor
         {
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
-            FiresecEventSubscriber.NewJournalItemEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
+            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
         void OnDeviceStateChangedEvent(string id)

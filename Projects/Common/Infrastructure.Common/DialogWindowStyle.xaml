@@ -11,7 +11,6 @@
 	//
 	//-->
 
-
     <Style x:Key="ResizeGripStyleKey" TargetType="{x:Type ResizeGrip}">
         <Setter Property="Template">
             <Setter.Value>
@@ -192,7 +191,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Label
 									Grid.Column="0"
-									Style="{DynamicResource MessageBoxTitle}" 
+									Style="{DynamicResource MessageBoxTitle}"
 									Content="{TemplateBinding Title}" />
                                 <Button
 									x:Name="PART_Help"
@@ -201,12 +200,12 @@
 									Padding="3"
 									Content="?"
 									/>
-                                <Button 
+                                <Button
 									x:Name="PART_Close"
 									Grid.Column="2"
 									Style="{StaticResource CloseButton}"
 									Padding="3" >
-                                    <Path 
+                                    <Path
 										Data="M1,1 L7.4999998,7.334 M7.4999998,1 L0.99999997,7.334"
 										Stretch="Fill"
 										Stroke="White"
@@ -232,6 +231,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
 </ResourceDictionary>

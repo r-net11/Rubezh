@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -103,7 +103,6 @@ namespace DevicesModule.ViewModels
 
             if (SourceZones.Count > 0)
                 SelectedSourceZone = SourceZones[0];
-
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
@@ -147,6 +146,7 @@ namespace DevicesModule.ViewModels
         {
             return SelectedSourceZone != null;
         }
+
         bool CanRemove(object obj)
         {
             return SelectedTargetZone != null;

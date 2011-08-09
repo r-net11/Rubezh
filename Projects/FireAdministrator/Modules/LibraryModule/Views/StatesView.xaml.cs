@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
 using LibraryModule.ViewModels;
 
-
 namespace LibraryModule.Views
 {
     public partial class StatesView : UserControl

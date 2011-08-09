@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
-using Infrastructure.Common;
-using Infrastructure;
+﻿using AlarmModule.Imitator;
 using AlarmModule.ViewModels;
-using AlarmModule.Imitator;
+using Infrastructure;
+using Infrastructure.Common;
+using Microsoft.Practices.Prism.Modularity;
 
 namespace AlarmModule
 {

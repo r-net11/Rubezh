@@ -42,7 +42,6 @@ namespace JournalModule.Views
             {
                 archiveFilter.JournalTypes.Find(x => x.Id == classId).IsEnable = null;
             }
-
         }
     }
 }

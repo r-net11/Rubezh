@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common
+﻿namespace Infrastructure.Common
 {
     public abstract class RegionViewModel :
             BaseViewModel,
@@ -13,6 +12,7 @@ namespace Infrastructure.Common
         public virtual void OnShow()
         {
         }
+
         public virtual void OnHide()
         {
         }

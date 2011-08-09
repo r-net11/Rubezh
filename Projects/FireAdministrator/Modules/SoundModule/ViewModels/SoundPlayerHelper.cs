@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Media;
-using Infrastructure.Common;
 using System.Threading;
 using FiresecAPI.Models;
 
@@ -22,7 +18,7 @@ namespace SoundsModule.ViewModels
 
         static void PlayBeepContinious(object freq)
         {
-            int frequency = (int)freq;
+            int frequency = (int) freq;
             while (true)
             {
                 Console.Beep(frequency, 1000);
@@ -32,7 +28,7 @@ namespace SoundsModule.ViewModels
 
         static void PlayBeep(object freq)
         {
-            int frequency = (int)freq;
+            int frequency = (int) freq;
             Console.Beep(frequency, 1000);
         }
 

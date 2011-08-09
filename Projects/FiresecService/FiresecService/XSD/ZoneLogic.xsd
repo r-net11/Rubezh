@@ -9,7 +9,7 @@
     <xs:attribute name="operation" type="xs:string" />
     <xs:attribute name="state" type="xs:string" />
   </xs:complexType>
-  
+
   <!-- Root Element -->
 
   <xs:element name="expr">
@@ -19,5 +19,5 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  
+
 </xs:schema>

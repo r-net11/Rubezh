@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
+﻿using System.Linq;
 using Firesec.Indicator;
+using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
@@ -12,7 +9,7 @@ namespace FiresecService.Converters
         public static IndicatorLogic Convert(LEDProperties lEDProperties)
         {
             IndicatorLogic indicatorLogic = new IndicatorLogic();
-            
+
             switch (lEDProperties.type)
             {
                 case "0":
@@ -26,7 +23,7 @@ namespace FiresecService.Converters
 
             if (lEDProperties.zone != null)
             {
-                foreach(string zone in lEDProperties.zone)
+                foreach (string zone in lEDProperties.zone)
                 {
                     indicatorLogic.Zones.Add(zone);
                 }
@@ -81,22 +78,22 @@ namespace FiresecService.Converters
                 case "0":
                     return IndicatorColorType.None;
 
-                                        case "1":
+                case "1":
                     return IndicatorColorType.Red;
 
-                                        case "2":
+                case "2":
                     return IndicatorColorType.Green;
 
-                                        case "3":
+                case "3":
                     return IndicatorColorType.Orange;
 
-                                        case "4":
+                case "4":
                     return IndicatorColorType.RedBlink;
 
-                                        case "5":
+                case "5":
                     return IndicatorColorType.GreenBlink;
 
-                                        case "6":
+                case "6":
                     return IndicatorColorType.OrangeBlink;
             }
 

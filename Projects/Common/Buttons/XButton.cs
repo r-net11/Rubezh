@@ -39,58 +39,57 @@ namespace Buttons
             DefaultStyleKeyProperty.OverrideMetadata(typeof(XButton), new FrameworkPropertyMetadata(typeof(XButton)));
         }
 
-
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            get { return (CornerRadius) GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
         public Brush OuterBorderBrush
         {
-            get { return (Brush)GetValue(OuterBorderBrushProperty); }
+            get { return (Brush) GetValue(OuterBorderBrushProperty); }
             set { SetValue(OuterBorderBrushProperty, value); }
         }
 
         public Thickness OuterBorderThickness
         {
-            get { return (Thickness)GetValue(OuterBorderThicknessProperty); }
+            get { return (Thickness) GetValue(OuterBorderThicknessProperty); }
             set { SetValue(OuterBorderThicknessProperty, value); }
         }
 
         public Brush InnerBorderBrush
         {
-            get { return (Brush)GetValue(InnerBorderBrushProperty); }
+            get { return (Brush) GetValue(InnerBorderBrushProperty); }
             set { SetValue(InnerBorderBrushProperty, value); }
         }
 
         public Thickness InnerBorderThickness
         {
-            get { return (Thickness)GetValue(InnerBorderThicknessProperty); }
+            get { return (Thickness) GetValue(InnerBorderThicknessProperty); }
             set { SetValue(InnerBorderThicknessProperty, value); }
         }
 
         public Brush GlowColor
         {
-            get { return (SolidColorBrush)GetValue(GlowColorProperty); }
+            get { return (SolidColorBrush) GetValue(GlowColorProperty); }
             set { SetValue(GlowColorProperty, value); }
         }
 
         public Thickness HighlightMargin
         {
-            get { return (Thickness)GetValue(HighlightMarginProperty); }
+            get { return (Thickness) GetValue(HighlightMarginProperty); }
             set { SetValue(HighlightMarginProperty, value); }
         }
 
         public byte HighlightBrightness
         {
-            get { return (byte)GetValue(HighlightBrightnessProperty); }
+            get { return (byte) GetValue(HighlightBrightnessProperty); }
             set { SetValue(HighlightBrightnessProperty, value); }
         }
 
         public bool IsGlowing
         {
-            get { return (bool)GetValue(IsGlowingProperty); }
+            get { return (bool) GetValue(IsGlowingProperty); }
             set { SetValue(IsGlowingProperty, value); }
         }
     }

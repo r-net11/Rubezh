@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CodeReason.Reports;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Data;
-using FiresecClient;
+using System.IO;
 using System.Windows.Xps.Packaging;
+using CodeReason.Reports;
+using FiresecClient;
 using Infrastructure.Common;
 
 namespace ReportsModule.Reports
@@ -76,7 +73,7 @@ namespace ReportsModule.Reports
         }
     }
 
-    class DriverCounter
+    internal class DriverCounter
     {
         public string DriverName { get; set; }
         public int Count { get; set; }

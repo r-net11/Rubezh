@@ -82,7 +82,7 @@ namespace Infrastructure.Common
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _title = (FrameworkElement)Template.FindName("PART_Title", this);
+            _title = (FrameworkElement) Template.FindName("PART_Title", this);
             if (null != _title)
             {
                 _title.MouseLeftButtonDown += OnMouseLeftButtonDown;

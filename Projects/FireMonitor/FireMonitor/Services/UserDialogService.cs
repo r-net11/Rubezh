@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace FireMonitor
 {
@@ -47,7 +43,7 @@ namespace FireMonitor
                     //throw new Exception(Errors.ResultCannotBeNull); // TODO: create exception
                 }
 
-                return (bool)result;
+                return (bool) result;
             }
             catch
             {

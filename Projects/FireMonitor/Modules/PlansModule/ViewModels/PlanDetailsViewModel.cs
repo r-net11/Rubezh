@@ -122,7 +122,6 @@ namespace PlansModule.ViewModels
             Canvas.SetLeft(cameraCanvas, 170);
             Canvas.SetTop(cameraCanvas, 223);
             _canvas.Children.Add(cameraCanvas);
-
         }
 
         void camera_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

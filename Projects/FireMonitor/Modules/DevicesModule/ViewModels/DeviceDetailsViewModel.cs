@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;
 
@@ -83,10 +83,10 @@ namespace DevicesModule.ViewModels
                 List<string> selfStates = new List<string>();
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                     foreach (var state in deviceState.States)
-                    {
+                {
                         if (state.IsActive)
                             selfStates.Add(state.DriverState.Name);
-                    }
+                }
                 return selfStates;
             }
         }
@@ -146,5 +146,4 @@ namespace DevicesModule.ViewModels
 
         public RelayCommand CloseCommand { get; private set; }
     }
-
 }

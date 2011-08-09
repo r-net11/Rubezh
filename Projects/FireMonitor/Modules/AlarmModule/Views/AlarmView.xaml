@@ -24,7 +24,7 @@
                 <Button Content="Устройство в дереве" Command="{Binding ShowDeviceCommand}" Height="30" Width="150" Margin="2" />
                 <Button Content="Зона в списке" Command="{Binding ShowZoneCommand}" Height="30" Width="150" Margin="2" />
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal">
                 <Button Content="Инструкции" Command="{Binding ShowInstructionCommand}" Height="30" Width="150" Margin="2" />
                 <Button Content="Оповещение по телефону" Command="{Binding NotifyPthoneCommand}" Height="30" Width="150" Margin="2" />

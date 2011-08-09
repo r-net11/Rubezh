@@ -20,8 +20,11 @@ namespace AssadProcessor.Devices
         public string DeviceId { get; set; }
 
         public abstract void SetInnerDevice(Assad.MHconfigTypeDevice innerDevice);
+
         public abstract Assad.DeviceType GetStates();
+
         public abstract void FireEvent(string eventName);
+
         public abstract Assad.DeviceType QueryAbility();
 
         List<AssadBase> _allChildren;

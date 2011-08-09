@@ -19,7 +19,7 @@
                 <local:MenuView Grid.Column="0" />
                 <ContentControl Grid.Column="1" Name="_menu" />
             </Grid>
-            
+
             <Grid DockPanel.Dock="Bottom" >
                 <ContentControl Name="_validationArea" />
             </Grid>

@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.UnityExtensions;
-using Microsoft.Practices.Unity;
-
 using System.Windows;
-using Infrastructure;
+using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecAPI.Models;
+using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireMonitor
 {
@@ -64,7 +58,7 @@ namespace FireMonitor
 
             InitializeKnownModules();
 
-            App.Current.MainWindow = (Window)this.Shell;
+            App.Current.MainWindow = (Window) this.Shell;
             App.Current.MainWindow.Show();
         }
 

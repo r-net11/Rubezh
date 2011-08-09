@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
                  ToolTip="{Binding PresentationName}" Fill="{Binding State, Converter={StaticResource StateToColorConverter}}"

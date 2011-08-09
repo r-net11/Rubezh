@@ -8,7 +8,7 @@ namespace Infrastructure.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            int level = (int)value;
+            int level = (int) value;
             return new Thickness(level * 20, 0, 0, 0);
         }
 

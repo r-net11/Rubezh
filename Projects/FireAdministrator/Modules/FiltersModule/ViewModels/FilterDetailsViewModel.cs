@@ -78,7 +78,6 @@ namespace FiltersModule.ViewModels
 
         public JournalFilter JournalFilter { get; private set; }
 
-
         public int MaxCountRecords
         {
             get { return maxCountRecords; }

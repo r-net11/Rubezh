@@ -121,7 +121,7 @@ namespace AssadProcessor.Devices
         }
     }
 
-    class StateTypeCounter
+    internal class StateTypeCounter
     {
         public StateType StateType { get; set; }
         public State State { get; set; }

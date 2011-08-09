@@ -18,7 +18,7 @@
                 <DataTemplate>
                     <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
                              GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
-                             IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}" 
+                             IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
                              PathToIcon="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}"
                              ToolTip="{Binding Name}">
                         <StackPanel Orientation="Horizontal">

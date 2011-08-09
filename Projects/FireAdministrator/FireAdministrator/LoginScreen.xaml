@@ -5,7 +5,7 @@
         Title="Ввод имени пользователя и пароля" Height="180" Width="350"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow">
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -28,7 +28,7 @@
         </Grid>
 
         <TextBlock Grid.Row="1" Name="_info" />
-        
+
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
             <XButtons:XButton Content="Ok" Click="OnConnect" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
             <XButtons:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />

@@ -16,8 +16,8 @@
             <Button Command="{Binding OkCommand}" Width="100" Margin="2" IsDefault="True">Ok</Button>
             <Button Command="{Binding CancelCommand}" Width="100" Margin="2">Отмена</Button>
         </WrapPanel>
-        <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}" 
-                 SelectedItem="{Binding SelectedItem}" 
+        <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}"
+                 SelectedItem="{Binding SelectedItem}"
                  Style="{StaticResource ListBoxStyle}"
                  DisplayMemberPath="Name">
         </ListBox>

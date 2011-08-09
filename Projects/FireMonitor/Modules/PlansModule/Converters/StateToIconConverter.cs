@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using FiresecAPI.Models;
 
@@ -11,7 +8,7 @@ namespace PlansModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            State state = (State)value;
+            State state = (State) value;
             string icon = StateToIcon(state);
             if (icon != null)
             {

@@ -19,7 +19,7 @@ namespace Firesec
 
         public static bool Connect(string login, string password)
         {
-            var result = (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
+            var result = (bool) control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
             return result;
         }
 
@@ -30,27 +30,27 @@ namespace Firesec
 
         public static string GetCoreConfig()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig));
         }
 
         public static string GetCoreState()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
         }
 
         public static string GetMetaData()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetaData));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetaData));
         }
 
         public static string GetCoreDeviceParams()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreDeviceParams));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreDeviceParams));
         }
 
         public static string ReadEvents(int fromId, int limit)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateIntInt(NativeFiresecClient.ReadEvents), fromId, limit);
+            return (string) control.Dispatcher.Invoke(new StringDelegateIntInt(NativeFiresecClient.ReadEvents), fromId, limit);
         }
 
         public static void SetNewConfig(string coreConfig)

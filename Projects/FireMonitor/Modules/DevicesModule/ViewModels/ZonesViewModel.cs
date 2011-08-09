@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using Infrastructure;
 using System.Collections.ObjectModel;
-using FiresecClient;
+using System.Linq;
 using DevicesModule.Events;
-using Infrastructure.Events;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -100,7 +99,6 @@ namespace DevicesModule.ViewModels
         {
             SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
         }
-
 
         void InitializeDevices()
         {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,8 +18,8 @@ namespace DevicesModule.ViewModels
         public void Initialize(Clause clause)
         {
             Zones = new List<string>();
-                foreach (var zone in clause.Zones)
-                    Zones.Add(zone);
+            foreach (var zone in clause.Zones)
+                Zones.Add(zone);
 
             SelectedState = clause.State;
             SelectedOperation = clause.Operation;

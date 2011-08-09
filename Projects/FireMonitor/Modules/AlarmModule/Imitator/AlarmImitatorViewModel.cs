@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using AlarmModule.Events;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using AlarmModule.Events;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace AlarmModule.Imitator
 {

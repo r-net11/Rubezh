@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
-using Infrastructure.Common;
+﻿using DevicesModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
-using DevicesModule.ViewModels;
-using FiresecClient;
-using DevicesModule.Views;
+using Microsoft.Practices.Prism.Modularity;
 
 namespace DevicesModule
 {

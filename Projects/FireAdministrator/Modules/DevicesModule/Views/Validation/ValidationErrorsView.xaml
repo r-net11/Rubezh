@@ -9,7 +9,7 @@
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                 <DataGridTextColumn Header="Ошибка" Binding="{Binding Error}" Width="*" />
             </DataGrid.Columns>
-            
+
             <DataGrid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ClickCommand}" />
             </DataGrid.InputBindings>

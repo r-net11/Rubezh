@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AlarmModule.ViewModels;
+﻿using AlarmModule.ViewModels;
 using Microsoft.Practices.Prism.Events;
 
 namespace AlarmModule.Events

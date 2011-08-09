@@ -1,14 +1,10 @@
-﻿using FiresecClient;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Infrastructure.Common;
-using System.Media;
-using System.Windows;
+﻿using System.Linq;
 using System;
-using System.Threading;
-using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace SoundsModule.ViewModels
 {
@@ -91,7 +87,7 @@ namespace SoundsModule.ViewModels
                     fileNames.Add(Path.GetFileName(str));
                 }
                 return fileNames;
-            } 
+            }
         }
 
         public Array AvailableSpeakers

@@ -4,7 +4,7 @@
              MinWidth="250" MinHeight="250">
     <Grid Margin="10">
         <StackPanel>
-        <TextBlock Text="Телефон 123" FontSize="16" />
+            <TextBlock Text="Телефон 123" FontSize="16" />
             <TextBlock Text="" />
             <Button Content="Позвонить" Width="150" />
         </StackPanel>

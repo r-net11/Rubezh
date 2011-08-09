@@ -6,6 +6,7 @@ namespace Infrastructure.Common
     {
         string Title { get; }
         void Close(bool result);
+
         Window Surface { set; }
         object InternalViewModel { get; }
     }

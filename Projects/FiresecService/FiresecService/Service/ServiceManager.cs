@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.IdentityModel.Selectors;
 using System.IdentityModel.Tokens;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 
 namespace FiresecService
 {

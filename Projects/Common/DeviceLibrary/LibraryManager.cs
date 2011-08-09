@@ -24,7 +24,6 @@ namespace DeviceLibrary
                 var deviceManager = (DeviceManager) serializer.Deserialize(fileStream);
                 Devices = deviceManager.Devices;
             }
-
         }
 
         public static void Save()

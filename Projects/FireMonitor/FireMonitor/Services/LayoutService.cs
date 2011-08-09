@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 
 namespace FireMonitor
@@ -30,14 +26,14 @@ namespace FireMonitor
         {
             if (ActiveViewModel != null)
             {
-                    IViewPart temp = ActiveViewModel;
-                    try
-                    {
-                        //temp.Dispose();
-                    }
-                    catch
-                    {
-                    }
+                IViewPart temp = ActiveViewModel;
+                try
+                {
+                    //temp.Dispose();
+                }
+                catch
+                {
+                }
             }
             ActiveViewModel = model;
         }

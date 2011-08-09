@@ -14,7 +14,7 @@ namespace Infrastructure.Common.Converters
                 isRevert = System.Convert.ToBoolean(parameter);
             }
 
-            bool boolValue = (bool)value;
+            bool boolValue = (bool) value;
 
             if (isRevert)
             {

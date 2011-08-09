@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
         ObservableCollection<DirectionViewModel> _directions;
         public ObservableCollection<DirectionViewModel> Directions
         {
-            get{return _directions;}
+            get { return _directions; }
             set
             {
                 _directions = value;

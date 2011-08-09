@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -213,7 +213,7 @@ namespace DevicesModule.ViewModels
             _zone.Description = Description;
             _zone.DetectorCount = DetectorCount;
             _zone.EvacuationTime = EvacuationTime;
-            _zone.AutoSet = AutoSet ;
+            _zone.AutoSet = AutoSet;
             _zone.Delay = Delay;
             _zone.Skipped = Skipped;
             _zone.GuardZoneType = GuardZoneType;

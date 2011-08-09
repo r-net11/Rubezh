@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
     </UserControl.Resources>
-    
+
     <DockPanel Margin="10">
 
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5">
@@ -40,7 +40,7 @@
                     <GroupBox Header="количество записей" Padding="5" Margin="0,5,5,0"
                                   HorizontalContentAlignment="Center">
                         <WrapPanel>
-                            <ExtToolkit:IntegerUpDown Minimum="1" Maximum="{Binding MaxCountRecords}" 
+                            <ExtToolkit:IntegerUpDown Minimum="1" Maximum="{Binding MaxCountRecords}"
                                                       Value="{Binding JournalFilter.LastRecordsCount}" />
                             <TextBlock Margin="5,5,0,5" Text="последних дней" />
                         </WrapPanel>

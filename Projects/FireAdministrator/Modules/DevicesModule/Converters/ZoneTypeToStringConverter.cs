@@ -7,7 +7,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string stringType = (string)value;
+            string stringType = (string) value;
             switch (stringType)
             {
                 case "0":

@@ -125,7 +125,7 @@ namespace FiresecService.Converters
                 internalUser.extSecurity.remoteAccess = "0";
 
                 List<grpType> internalUserGroups = new List<grpType>();
-                foreach(var group in user.Groups)
+                foreach (var group in user.Groups)
                 {
                     var firesecGroup = FiresecManager.CoreConfig.userGroup.FirstOrDefault(x => x.param.value == group);
                     grpType internalUserGroup = new grpType();

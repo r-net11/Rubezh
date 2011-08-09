@@ -9,19 +9,19 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
+
     <ListBox Name="lb" ItemsSource="{Binding Source={StaticResource SortedStates}}" SelectedItem="{Binding SelectedStateViewModel}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <WrapPanel Margin="40,0,0,0">
                     <CheckBox IsChecked="{Binding IsChecked}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"
                               Visibility="{Binding IsAdditional, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <TextBlock Text="{Binding Name}" 
+                    <TextBlock Text="{Binding Name}"
                                ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                 </WrapPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>
-        
+
         <ListBox.ItemContainerStyle>
             <Style TargetType="{x:Type ListBoxItem}">
                 <Style.Setters>

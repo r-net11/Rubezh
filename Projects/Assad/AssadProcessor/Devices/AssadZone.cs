@@ -55,7 +55,7 @@ namespace AssadProcessor.Devices
                 state5.state = "Назначение зоны";
                 state5.value = "Пожарная";
                 states.Add(state5);
-             }
+            }
             else
             {
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();

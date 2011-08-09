@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
         <SolidColorBrush x:Key="borderBrush">Silver</SolidColorBrush>
-        
+
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
 
@@ -17,11 +17,11 @@
         </CollectionViewSource>
     </UserControl.Resources>
     <DockPanel Margin="10, 20">
-        
+
         <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
         <TextBlock DockPanel.Dock="Top" Text="" />
         <TextBlock DockPanel.Dock="Top" Margin="5, 0" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
-        
+
         <!--<DockPanel  DockPanel.Dock="Right" Margin="5" LastChildFill="False">
             <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding CreateCommand}">Создать</Button>
             <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding EditCommand}">Изменить</Button>
@@ -48,7 +48,7 @@
                             </StackPanel>
                             <TextBlock>
                             <StackPanel DataContext="{Binding JournalFilter}" >
-                                <TextBlock Margin="2" 
+                                <TextBlock Margin="2"
                                            Text="{Binding Name}" />
                                 <TextBlock Margin="2"
                                            Text="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
@@ -72,6 +72,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
     </DockPanel>
 </UserControl>

@@ -10,7 +10,6 @@ namespace SoundsModule.ViewModels
     {
         public SoundsViewModel()
         {
-
         }
 
         public void Initialize()
@@ -45,7 +44,6 @@ namespace SoundsModule.ViewModels
             SelectedSound = Sounds[0];
 
             PlaySoundCommand = new RelayCommand(OnPlaySound);
-
         }
 
         ObservableCollection<SoundViewModel> _sounds;

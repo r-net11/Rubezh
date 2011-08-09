@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FireMonitor.Services;
 using Infrastructure;
-using FiresecClient;
-using FireMonitor.Services;
 
 namespace FireMonitor
 {

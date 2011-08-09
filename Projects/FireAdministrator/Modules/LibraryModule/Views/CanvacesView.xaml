@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
         <Slider Name="sliderScale"  Margin="0, 15" Cursor="Hand" Minimum="0.01" Maximum="0.15" Value="1.0" />
-        <ItemsControl ItemsSource="{Binding CanvasesPresenter.Canvases}" 
+        <ItemsControl ItemsSource="{Binding CanvasesPresenter.Canvases}"
                       Width="500" Height="500">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -11,8 +11,8 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.LayoutTransform>
-                <ScaleTransform ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" 
-                                ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" 
+                <ScaleTransform ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}"
+                                ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}"
                                 CenterX="0.5" CenterY="0.5" />
             </ItemsControl.LayoutTransform>
         </ItemsControl>

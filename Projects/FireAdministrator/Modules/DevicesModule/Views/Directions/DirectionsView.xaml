@@ -6,7 +6,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
@@ -37,7 +37,7 @@
                     </DataGrid.RowStyle>
                 </DataGrid>
             </Grid>
-            
+
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
@@ -60,7 +60,7 @@
                     <Button Content="Добавить" Command="{Binding AddZoneCommand}" Width="100" />
                     <Button Content="Удалить" Command="{Binding RemoveZoneCommand}" Width="100" />
                 </StackPanel>
-                
+
                 <Grid Grid.Row="2">
                     <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">

@@ -6,5 +6,5 @@
     <DataTemplate DataType="{x:Type ViewModels:PlansViewModel}">
         <Views:PlansView />
     </DataTemplate>
-    
+
 </ResourceDictionary>

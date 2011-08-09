@@ -6,11 +6,11 @@
     <UserControl.Resources>
         <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
-    
+
     <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
         <Grid.Resources>
         </Grid.Resources>
-        
+
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />

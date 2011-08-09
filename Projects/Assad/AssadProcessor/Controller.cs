@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecClient;
 using AssadProcessor.Devices;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AssadProcessor
 {

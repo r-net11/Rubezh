@@ -6,7 +6,7 @@
     <DataTemplate DataType="{x:Type ViewModels:SecurityViewModel}">
         <Views:SecurityView />
     </DataTemplate>
-	<DataTemplate DataType="{x:Type ViewModels:NewUserViewModel}">
-		<Views:NewUserView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:NewUserViewModel}">
+        <Views:NewUserView />
+    </DataTemplate>
 </ResourceDictionary>

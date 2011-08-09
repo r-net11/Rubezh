@@ -1243,7 +1243,6 @@
     <xs:attribute name="changeDate" type="xs:dateTime" use="optional"/>
   </xs:complexType>
 
-
   <xs:complexType name="mainHostInfoType">
     <xs:annotation>
       <xs:documentation xml:lang="ru">

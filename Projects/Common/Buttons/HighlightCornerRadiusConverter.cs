@@ -7,7 +7,7 @@ namespace Buttons
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            CornerRadius corners = (CornerRadius)value;
+            CornerRadius corners = (CornerRadius) value;
 
             if (corners != null)
             {
@@ -18,7 +18,6 @@ namespace Buttons
 
             return null;
         }
-
 
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -6,6 +6,8 @@ using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Common;
 using PlansModule.Events;
 
 namespace PlansModule.ViewModels

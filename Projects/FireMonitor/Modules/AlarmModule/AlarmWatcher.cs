@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using AlarmModule.Events;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using AlarmModule.Events;
 using Infrastructure.Events;
-using FiresecAPI.Models;
 
 namespace AlarmModule
 {

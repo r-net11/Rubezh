@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
+using System.Windows;
 
 namespace FiresecDirect
 {
@@ -89,22 +76,18 @@ namespace FiresecDirect
 
         private void OnBoltClose(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnBoltStop(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnBoltAutoOn(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnBoltAutoOff(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnAddToIgnoreList(object sender, RoutedEventArgs e)
@@ -114,7 +97,6 @@ namespace FiresecDirect
 
         private void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnAddCustomMessage(object sender, RoutedEventArgs e)

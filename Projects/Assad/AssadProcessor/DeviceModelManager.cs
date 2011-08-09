@@ -16,7 +16,7 @@ namespace AssadProcessor
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
             FileStream fileStream = new FileStream("DeviceModel.xml", FileMode.Open);
-            RootModelInfo = (Assad.modelInfoType)serializer.Deserialize(fileStream);
+            RootModelInfo = (Assad.modelInfoType) serializer.Deserialize(fileStream);
             fileStream.Close();
 
             ModelInfos = new List<Assad.modelInfoType>();

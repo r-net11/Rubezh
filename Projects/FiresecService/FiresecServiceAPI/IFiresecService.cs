@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ServiceModel;
 using System.IO;
+using System.ServiceModel;
 using FiresecAPI.Models;
 
 namespace FiresecAPI

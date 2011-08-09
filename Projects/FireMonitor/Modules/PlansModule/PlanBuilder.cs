@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using PlansModule.Models;
 
 namespace PlansModule
 {
@@ -14,7 +15,7 @@ namespace PlansModule
             {
                 XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
                 StreamReader reader = new StreamReader(PathHelper.Plans);
-                Plan plan = (Plan)deserializer.Deserialize(reader);
+                Plan plan = (Plan) deserializer.Deserialize(reader);
                 reader.Close();
                 return plan;
             }

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-
   <xs:complexType name="dev_paramType">
     <xs:attribute name="name" type="xs:string" />
     <xs:attribute name="type" type="xs:string" />
@@ -14,8 +13,7 @@
     </xs:sequence>
     <xs:attribute name="name" type="xs:string" />
   </xs:complexType>
-  
-  
+
   <!-- Root Element -->
 
   <xs:element name="config">

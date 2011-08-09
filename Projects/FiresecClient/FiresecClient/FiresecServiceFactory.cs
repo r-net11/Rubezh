@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using FiresecAPI;
 
 namespace FiresecClient
 {
@@ -32,8 +29,6 @@ namespace FiresecClient
             binding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
 
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
-
-            
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
             DuplexChannelFactory<IFiresecService> _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);

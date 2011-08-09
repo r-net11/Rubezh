@@ -31,24 +31,24 @@
             </DataGrid>
         </Grid>
     </Grid>-->
-	<Grid Margin="10" x:Name="OuterGrid">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<Border Grid.Row="0" Grid.Column="1" Background="AntiqueWhite" BorderThickness="2">
-		<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" >
-				<TabControl>
-					<TabItem Header="Пользователи">
-						<Views:UsersView/>
-					</TabItem>
-					<TabItem Header="Группы">
-						<Views:Groups/>
-					</TabItem>
-				</TabControl>
-		</StackPanel>
-		</Border>
-	</Grid>
+    <Grid Margin="10" x:Name="OuterGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="1" Background="AntiqueWhite" BorderThickness="2">
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Left" >
+                <TabControl>
+                    <TabItem Header="Пользователи">
+                        <Views:UsersView/>
+                    </TabItem>
+                    <TabItem Header="Группы">
+                        <Views:Groups/>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

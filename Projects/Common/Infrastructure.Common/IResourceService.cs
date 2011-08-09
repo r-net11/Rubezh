@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common
+﻿namespace Infrastructure.Common
 {
     public interface IResourceService
     {

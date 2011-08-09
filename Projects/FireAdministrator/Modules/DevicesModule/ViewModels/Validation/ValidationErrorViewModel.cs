@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecClient.Validation;
+﻿using FiresecClient.Validation;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels

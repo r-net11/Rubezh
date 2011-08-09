@@ -4,20 +4,20 @@
              Width="394" Height="300">
 
     <Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
-			<Button Content="Добавить" Command="{Binding AddGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Удалить" Command="{Binding DeleteGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-			<Button Content="Редактировать" Command="{Binding EditGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
-		</StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
+            <Button Content="Добавить" Command="{Binding AddGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+            <Button Content="Удалить" Command="{Binding DeleteGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
+            <Button Content="Редактировать" Command="{Binding EditGroupCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
+        </StackPanel>
         <DataGrid Margin="5" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
-			</DataGrid.Columns>
-		</DataGrid>
-	</Grid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>

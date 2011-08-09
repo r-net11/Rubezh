@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure;
 using AlarmModule.Events;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace AlarmModule.ViewModels
 {
@@ -160,7 +158,6 @@ namespace AlarmModule.ViewModels
             if ((_alarm.AlarmType == AlarmType.Fire) || (_alarm.AlarmType == AlarmType.Attention) || (_alarm.AlarmType == AlarmType.Info))
             {
                 resetItem.DeviceId = parentDeviceState.Id;
-
 
                 foreach (var state in parentDeviceState.States)
                 {

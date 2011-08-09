@@ -43,7 +43,7 @@ namespace FiresecService.Converters
 
                         var skippedParam = innerZone.param.FirstOrDefault(x => x.name == "Skipped");
                         if (skippedParam != null)
-                            zone.Skipped = skippedParam.value == "1" ? true : false; 
+                            zone.Skipped = skippedParam.value == "1" ? true : false;
 
                         var guardZoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
                         if (guardZoneTypeParam != null)

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using System.IO;
 
 namespace Logger
 {
@@ -34,7 +32,7 @@ namespace Logger
                 byte[] bytes = Encoding.UTF8.GetBytes(Message);
                 MemoryStream memoryStream = new MemoryStream(bytes);
                 XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
-                Assad.MessageType messageType = (Assad.MessageType)serializer.Deserialize(memoryStream);
+                Assad.MessageType messageType = (Assad.MessageType) serializer.Deserialize(memoryStream);
                 memoryStream.Close();
 
                 string type = messageType.Item.GetType().ToString();

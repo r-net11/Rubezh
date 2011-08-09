@@ -88,7 +88,6 @@ namespace LibraryModule.ViewModels
                 {
                     foreach (var stateViewModel in StateViewModels)
                     {
-
                         if (stateViewModel.IsAdditional &&
                             stateViewModel.IsChecked &&
                             stateViewModel.State.Class == SelectedStateViewModel.State.Class)

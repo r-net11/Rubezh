@@ -1,6 +1,4 @@
-﻿
-
-namespace Firesec
+﻿namespace Firesec
 {
     public class NotificationCallBack : FS_Types.IFS_CallBack
     {

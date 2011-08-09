@@ -26,7 +26,7 @@
                 <extToolkit:TimePicker Grid.Row="1" Grid.Column="3" Value="{Binding EndTime}" Margin="2" />
             </Grid>
 
-            <CheckBox Content="Использовать дату регистрации события в системе (иначе дату возникновения)" 
+            <CheckBox Content="Использовать дату регистрации события в системе (иначе дату возникновения)"
                       IsChecked="{Binding UseSystemDate}" Margin="2" />
         </StackPanel>
 
@@ -35,14 +35,14 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Очистить" Command="{Binding ClearCommand}" 
+            <Button Grid.Column="0" Content="Очистить" Command="{Binding ClearCommand}"
                     HorizontalAlignment="Left" Width="100" Margin="2" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" IsDefault="True" />
                 <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
             </StackPanel>
         </Grid>
-        
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -56,9 +56,9 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Классы событий" HorizontalAlignment="Center" Margin="2" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="События" HorizontalAlignment="Center" Margin="2" />
 
-            <ListBox Grid.Row="1" Grid.Column="0" 
-                     ItemsSource="{Binding JournalTypes, 
-                                           Converter={StaticResource CollectionViewFactoryConverter}, 
+            <ListBox Grid.Row="1" Grid.Column="0"
+                     ItemsSource="{Binding JournalTypes,
+                                           Converter={StaticResource CollectionViewFactoryConverter},
                                            ConverterParameter=Id}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -71,9 +71,9 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox Grid.Row="1" Grid.Column="1" 
-                     ItemsSource="{Binding JournalEvents, 
-                                           Converter={StaticResource CollectionViewFactoryConverter}, 
+            <ListBox Grid.Row="1" Grid.Column="1"
+                     ItemsSource="{Binding JournalEvents,
+                                           Converter={StaticResource CollectionViewFactoryConverter},
                                            ConverterParameter=ClassId}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

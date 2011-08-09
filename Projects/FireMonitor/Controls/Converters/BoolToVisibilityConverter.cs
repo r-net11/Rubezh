@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Controls
 {
@@ -11,7 +8,7 @@ namespace Controls
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool boolValue = (bool)value;
+            bool boolValue = (bool) value;
             return boolValue ? Visibility.Visible : Visibility.Collapsed;
         }
 

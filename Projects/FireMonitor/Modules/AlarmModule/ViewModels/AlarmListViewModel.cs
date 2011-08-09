@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using AlarmModule.Events;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using AlarmModule.Events;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace AlarmModule.ViewModels
 {
@@ -114,7 +112,7 @@ namespace AlarmModule.ViewModels
         void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
         {
             //int oldIndex = Alarms.IndexOf(alarmViewModel);
-            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x=>x.Name == alarmViewModel.Name));
+            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Name == alarmViewModel.Name));
             int newIndex = Alarms.Count;
             Alarms.Move(oldIndex, newIndex - 1);
         }

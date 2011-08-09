@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Windows;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.UnityExtensions;
-using FiresecAPI.Models;
-
 
 namespace FireAdministrator
 {
@@ -38,11 +37,10 @@ namespace FireAdministrator
 
             ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
             Application.Current.Resources.MergedDictionaries.Add(rd);
-        
 
             InitializeKnownModules();
 
-            App.Current.MainWindow = (Window)this.Shell;
+            App.Current.MainWindow = (Window) this.Shell;
             App.Current.MainWindow.Show();
         }
 

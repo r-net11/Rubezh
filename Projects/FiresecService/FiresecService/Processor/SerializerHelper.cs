@@ -64,7 +64,7 @@ namespace FiresecService
             MemoryStream memoryStream = new MemoryStream(bytes);
 
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            T output = (T)serializer.Deserialize(memoryStream);
+            T output = (T) serializer.Deserialize(memoryStream);
             memoryStream.Close();
             return output;
         }

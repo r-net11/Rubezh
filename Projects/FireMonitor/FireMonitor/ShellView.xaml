@@ -9,7 +9,7 @@
         AllowsTransparency="True" Background="Transparent"
         Closing="EssentialWindow_Closing"
         Closed="EssentialWindow_Closed">
-    
+
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="10">
             <DockPanel>
@@ -38,11 +38,11 @@
                                 <RowDefinition />
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
-                            
+
                             <Image Margin="10 5 0 0" HorizontalAlignment="Left" Source="Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
                             <TextBlock Grid.Row="1" Text="{Binding RealTime}" Margin="10 15 0 0" Foreground="White" FontFamily="Arial" FontSize="25" />
-                            
+
                             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Image Margin="15 5 20 5" Source="Images/mute.png" Width="24" Height="24" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.5"/>
                                 <Image Margin="5" Source="Images/Ind_C-C.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4" />
@@ -57,14 +57,14 @@
                 <Thumb DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Margin="0 0 3 3" DockPanel.Dock="Bottom"
                        Cursor="SizeNWSE" />
                 <Grid>
-                     <DockPanel>
+                    <DockPanel>
 
                         <StackPanel DockPanel.Dock="Bottom">
                             <ContentControl Name="_alarm" />
                         </StackPanel>
 
-                         <Grid>
-                             
+                        <Grid>
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="*" />
@@ -74,12 +74,12 @@
 
                             <Grid Grid.Column="1" Margin="5 5 5 20">
                                 <Border BorderBrush="#B5B6B5" BorderThickness="1" CornerRadius="3" Background="#E4E1E5">
-                                <ContentControl Name="_mainRegionHost" />
+                                    <ContentControl Name="_mainRegionHost" />
                                 </Border>
                             </Grid>
-                             
+
                         </Grid>
-                   </DockPanel>
+                    </DockPanel>
                 </Grid>
             </DockPanel>
         </Border>

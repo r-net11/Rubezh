@@ -9,7 +9,7 @@
             <GradientStop Color="Gray" Offset="1" />
         </LinearGradientBrush>
         <SolidColorBrush x:Key="whiteBrush">White</SolidColorBrush>
-        
+
         <CollectionViewSource x:Key="ItemsGroups" Source="{Binding Path=Items}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ClassName" />

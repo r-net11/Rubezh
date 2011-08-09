@@ -6,6 +6,7 @@ namespace Infrastructure.Common
         INotifyPropertyChanged
     {
         void OnShow();
+
         void OnHide();
     }
 }

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Xml.Serialization;
 using System.ComponentModel;
-using System.Xml;
-using Microsoft.Win32;
-using System.Windows;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 using Infrastructure.Common;
+using Microsoft.Win32;
 
 namespace Logger
 {
@@ -56,7 +53,7 @@ namespace Logger
         {
             StreamReader reader = new StreamReader(fileName);
             XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
-            LogCollection logCollection = (LogCollection)serializer.Deserialize(reader);
+            LogCollection logCollection = (LogCollection) serializer.Deserialize(reader);
             reader.Close();
 
             Logs = new ObservableCollection<LogEntry>(logCollection.logEnties);
@@ -110,6 +107,7 @@ namespace Logger
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

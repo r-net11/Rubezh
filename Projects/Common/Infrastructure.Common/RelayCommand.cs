@@ -95,13 +95,13 @@ namespace Infrastructure.Common
 
         void ICommand.Execute(object parameter)
         {
-            _execute((T)parameter);
+            _execute((T) parameter);
         }
 
         public bool CanExecute(object parameter)
         {
             if (_canExecute != null)
-                return _canExecute((T)parameter);
+                return _canExecute((T) parameter);
             return true;
         }
 

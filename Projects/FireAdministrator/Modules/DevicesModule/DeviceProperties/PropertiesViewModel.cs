@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace DevicesModule.DeviceProperties
 {

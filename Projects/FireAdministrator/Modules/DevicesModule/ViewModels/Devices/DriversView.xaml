@@ -17,7 +17,7 @@
                 <DataGridTextColumn Header="ar_no_addr" Binding="{Binding _driver.ar_no_addr}" />
                 <DataGridTextColumn Header="addrGroup" Binding="{Binding _driver.addrGroup}" />
                 <DataGridTextColumn Header="parentInAddr" Binding="{Binding _driver.parentInAddr}" />
-                
+
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

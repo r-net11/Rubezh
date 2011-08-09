@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <StackPanel Grid.Row="0" Margin="5">
             <TextBlock Text="Индикатор состояния" />
             <StackPanel Orientation="Horizontal">
@@ -64,17 +64,17 @@
                         </DataGrid>
                     </Grid>
                 </Grid>
-                
+
             </StackPanel>
         </Grid>
-        
+
         <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <TextBox Grid.Row="0" Text="{Binding DeviceId}" />
 
             <Grid Grid.Row="1">
@@ -173,7 +173,7 @@
 
             </Grid>
         </Grid>
-        
+
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />

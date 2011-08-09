@@ -34,7 +34,7 @@ namespace JournalModule.ViewModels
             var stringJournalEvents = (from journalItem in _journalItems
                                        select journalItem.Description).Distinct();
 
-            JournalEvents = new List<EventViewModel>(); 
+            JournalEvents = new List<EventViewModel>();
             foreach (var journalEvent in stringJournalEvents)
             {
                 var jounalRecord = journalItems.First(x => x.Description == journalEvent);

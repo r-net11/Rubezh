@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace Logger
 {
@@ -38,7 +34,7 @@ namespace Logger
         {
             StreamReader reader = new StreamReader("log.xml");
             XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
-            Logs = (LogCollection)serializer.Deserialize(reader);
+            Logs = (LogCollection) serializer.Deserialize(reader);
             reader.Close();
         }
 

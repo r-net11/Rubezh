@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using Infrastructure;
 using System.Collections.ObjectModel;
-using FiresecClient;
-using Infrastructure.Events;
+using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -17,6 +15,7 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
+
         private string _avc;
 
         public string Avc
