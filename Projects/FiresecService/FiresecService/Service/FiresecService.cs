@@ -56,10 +56,18 @@ namespace FiresecService
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
+        public SecurityConfiguration GetSecurityConfiguration()
+        {
+            return FiresecManager.SecurityConfiguration;
+        }
+
+        public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
+        {
+            FiresecManager.SecurityConfiguration = securityConfiguration;
+        }
+
         public SystemConfiguration GetSystemConfiguration()
         {
-            return FiresecManager.SystemConfiguration;
-
             try
             {
                 DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
@@ -71,12 +79,7 @@ namespace FiresecService
             {
             }
 
-                return FiresecManager.SystemConfiguration;
-            }
-            catch(Exception ex)
-            {
-                return FiresecManager.SystemConfiguration;
-            }
+            return FiresecManager.SystemConfiguration;
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)

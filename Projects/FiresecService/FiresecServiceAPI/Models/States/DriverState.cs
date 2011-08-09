@@ -3,7 +3,7 @@
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class InnerState
+    public class DriverState
     {
         public State State
         {
@@ -34,18 +34,18 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool IsAutomatic { get; set; }
 
-        public InnerState Copy()
+        public DriverState Copy()
         {
-            InnerState innerState = new InnerState();
-            innerState.Id = Id;
-            innerState.Name = Name;
-            innerState.AffectChildren = AffectChildren;
-            innerState.StateClassId = StateClassId;
-            innerState.IsManualReset = IsManualReset;
-            innerState.CanResetOnPanel = CanResetOnPanel;
-            innerState.IsAutomatic = IsAutomatic;
-            innerState.Code = Code;
-            return innerState;
+            DriverState driverState = new DriverState();
+            driverState.Id = Id;
+            driverState.Name = Name;
+            driverState.AffectChildren = AffectChildren;
+            driverState.StateClassId = StateClassId;
+            driverState.IsManualReset = IsManualReset;
+            driverState.CanResetOnPanel = CanResetOnPanel;
+            driverState.IsAutomatic = IsAutomatic;
+            driverState.Code = Code;
+            return driverState;
         }
     }
 }

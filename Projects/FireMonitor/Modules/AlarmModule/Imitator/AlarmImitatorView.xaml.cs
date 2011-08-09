@@ -27,7 +27,7 @@ namespace AlarmModule.Imitator
         void Set(string id, int state)
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
-            deviceState.States.FirstOrDefault(x => x.InnerState.StateClassId == state).IsActive = true;
+            deviceState.States.FirstOrDefault(x => x.DriverState.StateClassId == state).IsActive = true;
             FiresecEventSubscriber.OnDeviceStateChanged(id);
             deviceState.OnStateChanged();
 

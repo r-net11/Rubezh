@@ -164,9 +164,9 @@ namespace AlarmModule.ViewModels
 
                 foreach (var state in parentDeviceState.States)
                 {
-                    if ((state.IsActive) && (state.InnerState.StateClassId == AlarmTypeToClass(_alarm.AlarmType)) && (state.InnerState.IsManualReset))
+                    if ((state.IsActive) && (state.DriverState.StateClassId == AlarmTypeToClass(_alarm.AlarmType)) && (state.DriverState.IsManualReset))
                     {
-                        resetItem.States.Add(state.InnerState.Name);
+                        resetItem.States.Add(state.DriverState.Name);
                     }
                 }
             }
@@ -176,9 +176,9 @@ namespace AlarmModule.ViewModels
 
                 foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.InnerState.IsAutomatic) && (state.InnerState.IsManualReset))
+                    if ((state.IsActive) && (state.DriverState.IsAutomatic) && (state.DriverState.IsManualReset))
                     {
-                        resetItem.States.Add(state.InnerState.Name);
+                        resetItem.States.Add(state.DriverState.Name);
                     }
                 }
             }

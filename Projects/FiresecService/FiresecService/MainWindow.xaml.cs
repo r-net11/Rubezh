@@ -23,7 +23,7 @@ namespace FiresecServiceRunner
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
             var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
 
-            deviceState.States.FirstOrDefault(x => x.InnerState.StateClassId == 0).IsActive = true;
+            deviceState.States.FirstOrDefault(x => x.DriverState.StateClassId == 0).IsActive = true;
 
             CallbackManager.OnDeviceStateChanged(deviceState);
         }

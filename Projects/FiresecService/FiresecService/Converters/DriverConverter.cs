@@ -305,21 +305,21 @@ namespace FiresecService.Converters
                 }
             }
 
-            driver.States = new List<InnerState>();
+            driver.States = new List<DriverState>();
             if (innerDriver.state != null)
             {
                 foreach (var innerState in innerDriver.state)
                 {
-                    InnerState state = new InnerState();
-                    state.Id = innerState.id;
-                    state.Name = innerState.name;
-                    state.AffectChildren = innerState.affectChildren == "1" ? true : false;
-                    state.StateClassId = System.Convert.ToInt32(innerState.@class);
-                    state.IsManualReset = innerState.manualReset == "1" ? true : false;
-                    state.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
-                    state.IsAutomatic = innerState.type == "Auto" ? true : false;
-                    state.Code = innerState.code;
-                    driver.States.Add(state);
+                    DriverState driverState = new DriverState();
+                    driverState.Id = innerState.id;
+                    driverState.Name = innerState.name;
+                    driverState.AffectChildren = innerState.affectChildren == "1" ? true : false;
+                    driverState.StateClassId = System.Convert.ToInt32(innerState.@class);
+                    driverState.IsManualReset = innerState.manualReset == "1" ? true : false;
+                    driverState.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
+                    driverState.IsAutomatic = innerState.type == "Auto" ? true : false;
+                    driverState.Code = innerState.code;
+                    driver.States.Add(driverState);
                 }
             }
 

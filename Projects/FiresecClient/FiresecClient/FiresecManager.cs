@@ -13,6 +13,7 @@ namespace FiresecClient
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
+        public static SecurityConfiguration SecurityConfiguration { get; set; }
 
         static IFiresecService _firesecService;
 
@@ -23,6 +24,7 @@ namespace FiresecClient
             _firesecService.Connect();
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
+            SecurityConfiguration = _firesecService.GetSecurityConfiguration();
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
             Update();
@@ -47,7 +49,14 @@ namespace FiresecClient
                 foreach (var state in deviceState.States)
                 {
                     var driverState = deviceState.Device.Driver.States.FirstOrDefault(x=>x.Code == state.Code);
-                    state.InnerState = driverState;
+                    state.DriverState = driverState;
+                }
+
+                foreach (var parentState in deviceState.ParentStates)
+                {
+                    parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == parentState.ParentDeviceId);
+                    var driverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
+                    parentState.DriverState = driverState;
                 }
             }
         }
@@ -57,7 +66,7 @@ namespace FiresecClient
         {
             get
             {
-                return SystemConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName);
+                return SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName);
             }
         }
 
@@ -69,7 +78,7 @@ namespace FiresecClient
 
                 foreach (var groupId in CurrentUser.Groups)
                 {
-                    var group = SystemConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
+                    var group = SecurityConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
 
                     permissionIds.AddRange(group.Permissions);
                 }
@@ -80,7 +89,7 @@ namespace FiresecClient
                     permissionIds.Remove(permissionId);
                 }
 
-                var permissions = new List<Perimission>(from permission in SystemConfiguration.Perimissions
+                var permissions = new List<Perimission>(from permission in SecurityConfiguration.Perimissions
                                                         where permissionIds.Contains(permission.Id)
                                                         select permission);
                 return permissions;

@@ -24,7 +24,7 @@ namespace FiresecService
 
                 foreach (var state in resetItem.States)
                 {
-                    var innerState = deviceState.States.First(x => x.InnerState.Name == state).InnerState;
+                    var innerState = deviceState.States.First(x => x.DriverState.Name == state).DriverState;
                     innerStates.Add(new Firesec.CoreState.stateType() { id = innerState.Id });
                 }
                 innerDevice.state = innerStates.ToArray();

@@ -116,7 +116,7 @@ namespace PlansModule.ViewModels
                 _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
                     from state in _deviceState.States
                     where state.IsActive
-                    select state.InnerState.Id);
+                    select state.DriverState.Id);
 
                 UpdateTooltip();
             }
@@ -133,10 +133,10 @@ namespace PlansModule.ViewModels
                     tooltip += parentState + "\n";
                 }
 
-            foreach (var innerState in _deviceState.States)
+            foreach (var state in _deviceState.States)
             {
-                if (innerState.IsActive)
-                    tooltip += innerState.InnerState.Name + "\n";
+                if (state.IsActive)
+                    tooltip += state.DriverState.Name + "\n";
             }
 
             if (_deviceState.Parameters != null)

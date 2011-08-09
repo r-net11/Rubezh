@@ -61,38 +61,41 @@
     <Compile Include="AddressConverter.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
-    <Compile Include="Models\IndicatorLogic.cs" />
-    <Compile Include="Models\Instruction.cs" />
-    <Compile Include="Models\JournalFilter.cs" />
-    <Compile Include="Models\JournalRecord.cs" />
-    <Compile Include="Models\PDUGroupLogic.cs" />
-    <Compile Include="Models\Sound.cs" />
-    <Compile Include="Models\SystemConfiguration.cs" />
+    <Compile Include="Models\ChangeEntities.cs" />
+    <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
+    <Compile Include="Models\Device\IndicatorLogic.cs" />
+    <Compile Include="Models\System\Instruction.cs" />
+    <Compile Include="Models\System\JournalFilter.cs" />
+    <Compile Include="Models\System\JournalRecord.cs" />
+    <Compile Include="Models\Device\PDUGroupLogic.cs" />
+    <Compile Include="Models\System\Sound.cs" />
+    <Compile Include="Models\States\DriverDriverState.cs" />
+    <Compile Include="Models\States\ParentDeviceState.cs" />
+    <Compile Include="Models\Configuration\SystemConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AlarmType.cs" />
-    <Compile Include="Models\ChangeEntities.cs" />
-    <Compile Include="Models\DeviceConfiguration.cs" />
-    <Compile Include="Models\DeviceConfigurationStates.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceCategory.cs" />
-    <Compile Include="Models\DeviceState.cs" />
-    <Compile Include="Models\DeviceType.cs" />
-    <Compile Include="Models\Direction.cs" />
-    <Compile Include="Models\Driver.cs" />
-    <Compile Include="Models\DriverProperty.cs" />
+    <Compile Include="Models\Configuration\DeviceConfiguration.cs" />
+    <Compile Include="Models\Configuration\DeviceConfigurationStates.cs" />
+    <Compile Include="Models\Device\Device.cs" />
+    <Compile Include="Models\Driver\DeviceCategory.cs" />
+    <Compile Include="Models\States\DeviceState.cs" />
+    <Compile Include="Models\Driver\DeviceType.cs" />
+    <Compile Include="Models\Device\Direction.cs" />
+    <Compile Include="Models\Driver\Driver.cs" />
+    <Compile Include="Models\Driver\DriverProperty.cs" />
     <Compile Include="DriversHelper.cs" />
-    <Compile Include="Models\InnerState.cs" />
-    <Compile Include="Models\Parameter.cs" />
-    <Compile Include="Models\Premission.cs" />
-    <Compile Include="Models\Property.cs" />
+    <Compile Include="Models\States\DriverState.cs" />
+    <Compile Include="Models\Driver\Parameter.cs" />
+    <Compile Include="Models\Security\Premission.cs" />
+    <Compile Include="Models\Driver\Property.cs" />
     <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="Models\State.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="Models\Zone.cs" />
-    <Compile Include="Models\ZoneLogic.cs" />
-    <Compile Include="Models\ZoneState.cs" />
+    <Compile Include="Models\States\State.cs" />
+    <Compile Include="Models\Security\User.cs" />
+    <Compile Include="Models\Security\UserGroup.cs" />
+    <Compile Include="Models\Device\Zone.cs" />
+    <Compile Include="Models\Device\ZoneLogic.cs" />
+    <Compile Include="Models\States\ZoneState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +124,9 @@
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Plans\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

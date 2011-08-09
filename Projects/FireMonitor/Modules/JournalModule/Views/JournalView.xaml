@@ -94,9 +94,9 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Header="Menu 1" />
-                                    <MenuItem Header="Menu 2" />
-                                    <MenuItem Header="Menu 2" />
+                                    <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                    <MenuItem Header="Показать в дереве" Command="{Binding ShowTreeCommand}" />
+                                    <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>

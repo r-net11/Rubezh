@@ -7,26 +7,14 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class SystemConfiguration
+    public class SecurityConfiguration
     {
-        public SystemConfiguration()
+        public SecurityConfiguration()
         {
-            Sounds = new List<Sound>();
-            JournalFilters = new List<JournalFilter>();
-            Instructions = new List<Instruction>();
             Users = new List<User>();
             UserGroups = new List<UserGroup>();
             Perimissions = new List<Perimission>();
         }
-
-        [DataMember]
-        public List<Sound> Sounds { get; set; }
-
-        [DataMember]
-        public List<JournalFilter> JournalFilters { get; set; }
-
-        [DataMember]
-        public List<Instruction> Instructions { get; set; }
 
         [DataMember]
         public List<User> Users { get; set; }

@@ -13,7 +13,7 @@ namespace FiresecAPI.Models
         {
             Properties = new List<DriverProperty>();
             Parameters = new List<Parameter>();
-            States = new List<InnerState>();
+            States = new List<DriverState>();
             Children = new List<string>();
             AvaliableChildren = new List<string>();
             AutoCreateChildren = new List<string>();
@@ -26,7 +26,7 @@ namespace FiresecAPI.Models
         public List<Parameter> Parameters { get; set; }
 
         [DataMember]
-        public List<InnerState> States { get; set; }
+        public List<DriverState> States { get; set; }
 
         [DataMember]
         public string Id { get; set; }

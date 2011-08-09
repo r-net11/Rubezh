@@ -153,7 +153,7 @@ namespace FiresecService
                 {
                     foreach (var state in deviceState.States)
                     {
-                        bool IsActive = innerDevice.state.Any(a => a.id == state.InnerState.Id);
+                        bool IsActive = innerDevice.state.Any(a => a.id == state.DriverState.Id);
                         if (state.IsActive != IsActive)
                         {
                             hasOneActiveState = true;
@@ -188,23 +188,24 @@ namespace FiresecService
         {
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                deviceState.ParentInnerStates = new List<InnerState>();
-                deviceState.ParentStringStates = new List<string>();
+                deviceState.ParentStates = new List<ParentDeviceState>();
             }
 
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.InnerState.AffectChildren))
+                    if ((state.IsActive) && (state.DriverState.AffectChildren))
                     {
                         foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
-                                chilDevice.ParentInnerStates.Add(state.InnerState);
-                                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
-                                chilDevice.ParentStringStates.Add(device.Driver.ShortName + " - " + state.InnerState.Name);
+                                ParentDeviceState parentDeviceState = new ParentDeviceState();
+                                parentDeviceState.ParentDeviceId = deviceState.Id;
+                                parentDeviceState.Code = state.Code;
+                                parentDeviceState.DriverState = state.DriverState;
+                                chilDevice.ParentStates.Add(parentDeviceState);
                                 chilDevice.ChangeEntities.StatesChanged = true;
                             }
                         }
@@ -223,15 +224,15 @@ namespace FiresecService
                 {
                     if (state.IsActive)
                     {
-                        if (minPriority > state.InnerState.StateClassId)
-                            minPriority = state.InnerState.StateClassId;
+                        if (minPriority > state.DriverState.StateClassId)
+                            minPriority = state.DriverState.StateClassId;
                     }
                 }
-                foreach (var state in deviceState.ParentInnerStates)
+                foreach (var state in deviceState.ParentStates)
                 {
-                    if (minPriority > state.StateClassId)
+                    if (minPriority > state.DriverState.StateClassId)
                     {
-                        minPriority = state.StateClassId;
+                        minPriority = state.DriverState.StateClassId;
                     }
                 }
                 if (deviceState.StateClassId != minPriority)

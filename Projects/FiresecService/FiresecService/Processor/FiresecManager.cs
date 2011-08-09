@@ -11,6 +11,7 @@ namespace FiresecService
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceConfigurationStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
+        public static SecurityConfiguration SecurityConfiguration { get; set; }
         public static Firesec.CoreConfig.config CoreConfig { get; set; }
 
         public static bool Connect(string login, string password)
@@ -71,7 +72,7 @@ namespace FiresecService
             ZoneConverter.ConvertBack(DeviceConfiguration);
             DeviceConverter.ConvertBack(DeviceConfiguration);
             DirectionConverter.ConvertBack(DeviceConfiguration);
-            SecurityConverter.ConvertBack(SystemConfiguration);
+            SecurityConverter.ConvertBack(SecurityConfiguration);
         }
 
         public static void LoadFromFile(string fileName)

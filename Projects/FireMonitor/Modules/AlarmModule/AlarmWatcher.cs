@@ -32,15 +32,15 @@ namespace AlarmModule
                 {
                     //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
 
-                    deviceState.IsFire = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Fire)));
-                    deviceState.IsAttention = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Attention)));
-                    deviceState.IsInfo = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Info) && (x.InnerState.Name == "Тест")));
-                    deviceState.IsOff = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Off)));
+                    deviceState.IsFire = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Fire)));
+                    deviceState.IsAttention = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Attention)));
+                    deviceState.IsInfo = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Info) && (x.DriverState.Name == "Тест")));
+                    deviceState.IsOff = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Off)));
                 }
 
-                deviceState.IsFailure = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.State.StateType == StateType.Failure)));
-                deviceState.IsService = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.State.StateType == StateType.Service) && (x.InnerState.IsAutomatic) == false));
-                deviceState.IsAutomaticOff = deviceState.States.Any(x => ((x.IsActive) && (x.InnerState.IsManualReset) && (x.InnerState.IsAutomatic)));
+                deviceState.IsFailure = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.IsManualReset) && (x.DriverState.State.StateType == StateType.Failure)));
+                deviceState.IsService = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.IsManualReset) && (x.DriverState.State.StateType == StateType.Service) && (x.DriverState.IsAutomatic) == false));
+                deviceState.IsAutomaticOff = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.IsManualReset) && (x.DriverState.IsAutomatic)));
             }
         }
 

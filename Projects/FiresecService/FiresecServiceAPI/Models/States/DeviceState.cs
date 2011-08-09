@@ -10,8 +10,8 @@ namespace FiresecAPI.Models
     {
         public DeviceState()
         {
-            ParentInnerStates = new List<InnerState>();
-            States = new List<DriverInnerState>();
+            ParentStates = new List<ParentDeviceState>();
+            States = new List<DeviceDriverState>();
         }
 
         public Device Device { get; set; }
@@ -22,10 +22,10 @@ namespace FiresecAPI.Models
         public string Id { get; set; }
 
         [DataMember]
-        public List<DriverInnerState> States { get; set; }
+        public List<DeviceDriverState> States { get; set; }
 
         [DataMember]
-        public List<InnerState> ParentInnerStates { get; set; }
+        public List<ParentDeviceState> ParentStates { get; set; }
 
         [DataMember]
         public List<Parameter> Parameters { get; set; }
@@ -41,33 +41,41 @@ namespace FiresecAPI.Models
             {
                 List<int> stateClassIds = new List<int>() { 8 };
 
-                stateClassIds.AddRange(from DriverInnerState driverInnerState in States
-                                    where driverInnerState.IsActive
-                                    select driverInnerState.InnerState.StateClassId);
+                stateClassIds.AddRange(from DeviceDriverState deviceDriverState in States
+                                       where deviceDriverState.IsActive
+                                       select deviceDriverState.DriverState.StateClassId);
 
-                stateClassIds.AddRange(from InnerState innerState in ParentInnerStates
-                                          select innerState.StateClassId);
+                stateClassIds.AddRange(from ParentDeviceState parentDeviceState in ParentStates
+                                       select parentDeviceState.DriverState.StateClassId);
 
                 return stateClassIds.Min();
             }
         }
 
-        [DataMember]
-        public List<string> ParentStringStates { get; set; }
-
+        public List<string> ParentStringStates
+        {
+            get
+            {
+                List<string> parentStringStates = new List<string>();
+                foreach (var parentDeviceState in ParentStates)
+                {
+                    parentStringStates.Add(parentDeviceState.ParentDevice.Driver.ShortName + " - " + parentDeviceState.DriverState.Name);
+                }
+                return parentStringStates;
+            }
+        }
 
         public bool IsDisabled
         {
-            get { return States.Any(x => ((x.IsActive) && (x.InnerState.State.StateType == StateType.Off))); }
+            get { return States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Off))); }
         }
 
         public void CopyFrom(DeviceState deviceState)
         {
             Id = deviceState.Id;
             States = deviceState.States;
+            ParentStates = deviceState.ParentStates;
             Parameters = deviceState.Parameters;
-            ParentInnerStates = deviceState.ParentInnerStates;
-            ParentStringStates = deviceState.ParentStringStates;
         }
 
         #region Automatic
@@ -211,17 +219,5 @@ namespace FiresecAPI.Models
             if (StateChanged != null)
                 StateChanged();
         }
-    }
-
-    [DataContract]
-    public class DriverInnerState
-    {
-        [DataMember]
-        public bool IsActive { get; set; }
-
-        [DataMember]
-        public string Code { get; set; }
-
-        public InnerState InnerState { get; set; }
     }
 }

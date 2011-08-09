@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecClient;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -12,11 +13,12 @@ namespace DevicesModule.ViewModels
         public DeviceDetailsViewModel(string deviceId)
         {
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
-            DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
             _deviceControlViewModel = new DeviceControlViewModel(_device);
-            CloseCommand = new RelayCommand(OnClosing);
+
             Title = _device.Driver.ShortName + " " + _device.DottedAddress;
+            CloseCommand = new RelayCommand(OnClosing);
         }
 
         Device _device;
@@ -74,26 +76,26 @@ namespace DevicesModule.ViewModels
             get { return _device.GetPersentationZone(); }
         }
 
-        public ObservableCollection<string> SelfStates
+        public List<string> SelfStates
         {
             get
             {
-                ObservableCollection<string> selfStates = new ObservableCollection<string>();
+                List<string> selfStates = new List<string>();
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                    foreach (var innerState in deviceState.States)
+                    foreach (var state in deviceState.States)
                     {
-                        if (innerState.IsActive)
-                            selfStates.Add(innerState.InnerState.Name);
+                        if (state.IsActive)
+                            selfStates.Add(state.DriverState.Name);
                     }
                 return selfStates;
             }
         }
 
-        public ObservableCollection<string> ParentStates
+        public List<string> ParentStates
         {
             get
             {
-                ObservableCollection<string> parentStates = new ObservableCollection<string>();
+                List<string> parentStates = new List<string>();
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
@@ -104,11 +106,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<string> Parameters
+        public List<string> Parameters
         {
             get
             {
-                ObservableCollection<string> parameters = new ObservableCollection<string>();
+                List<string> parameters = new List<string>();
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)
