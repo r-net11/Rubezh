@@ -22,11 +22,11 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class param
     {
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string valueField;
+        string valueField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -80,11 +80,11 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class config
     {
-        private configClass[] classField;
+        configClass[] classField;
 
-        private configDrv[] drvField;
+        configDrv[] drvField;
 
-        private string clsidField;
+        string clsidField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("class", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -137,11 +137,11 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configClass
     {
-        private configClassParent[] parentField;
+        configClassParent[] parentField;
 
-        private param[] paramField;
+        param[] paramField;
 
-        private string clsidField;
+        string clsidField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("parent", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -194,7 +194,7 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configClassParent
     {
-        private string clsidField;
+        string clsidField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -219,65 +219,65 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configDrv
     {
-        private configDrvParamInfo[] paramInfoField;
+        configDrvParamInfo[] paramInfoField;
 
-        private configDrvPropInfo[] propInfoField;
+        configDrvPropInfo[] propInfoField;
 
-        private configDrvState[] stateField;
+        configDrvState[] stateField;
 
-        private string nameField;
+        string nameField;
 
-        private string idField;
+        string idField;
 
-        private string clsidField;
+        string clsidField;
 
-        private string optionsField;
+        string optionsField;
 
-        private string maxZoneCardinalityField;
+        string maxZoneCardinalityField;
 
-        private string minZoneCardinalityField;
+        string minZoneCardinalityField;
 
-        private string addrGroupField;
+        string addrGroupField;
 
-        private string parentInAddrField;
+        string parentInAddrField;
 
-        private string shortNameField;
+        string shortNameField;
 
-        private string acr_enabledField;
+        string acr_enabledField;
 
-        private string acr_fromField;
+        string acr_fromField;
 
-        private string acr_toField;
+        string acr_toField;
 
-        private string ar_enabledField;
+        string ar_enabledField;
 
-        private string ar_fromField;
+        string ar_fromField;
 
-        private string ar_toField;
+        string ar_toField;
 
-        private string ar_no_addrField;
+        string ar_no_addrField;
 
-        private string catField;
+        string catField;
 
-        private string caseCntField;
+        string caseCntField;
 
-        private string childAddrMaskField;
+        string childAddrMaskField;
 
-        private string validCharsField;
+        string validCharsField;
 
-        private string dev_iconField;
+        string dev_iconField;
 
-        private string addrMaskField;
+        string addrMaskField;
 
-        private string lim_parentField;
+        string lim_parentField;
 
-        private string altIntfField;
+        string altIntfField;
 
-        private string id_aliasField;
+        string id_aliasField;
 
-        private string res_addrField;
+        string res_addrField;
 
-        private string addrPrefixField;
+        string addrPrefixField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("paramInfo", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -708,33 +708,33 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configDrvParamInfo
     {
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string defaultField;
+        string defaultField;
 
-        private string editTypeField;
+        string editTypeField;
 
-        private string captionField;
+        string captionField;
 
-        private string helpIndexField;
+        string helpIndexField;
 
-        private string hintField;
+        string hintField;
 
-        private string paramIDField;
+        string paramIDField;
 
-        private string minField;
+        string minField;
 
-        private string maxField;
+        string maxField;
 
-        private string tslenField;
+        string tslenField;
 
-        private string hiddenField;
+        string hiddenField;
 
-        private string showOnlyInStateField;
+        string showOnlyInStateField;
 
-        private string nameSourceField;
+        string nameSourceField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -941,33 +941,33 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configDrvPropInfo
     {
-        private param[] paramField;
+        param[] paramField;
 
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string defaultField;
+        string defaultField;
 
-        private string editTypeField;
+        string editTypeField;
 
-        private string captionField;
+        string captionField;
 
-        private string helpIndexField;
+        string helpIndexField;
 
-        private string hintField;
+        string hintField;
 
-        private string paramIDField;
+        string paramIDField;
 
-        private string minField;
+        string minField;
 
-        private string maxField;
+        string maxField;
 
-        private string tslenField;
+        string tslenField;
 
-        private string hiddenField;
+        string hiddenField;
 
-        private string showOnlyInStateField;
+        string showOnlyInStateField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("param")]
@@ -1174,27 +1174,27 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class configDrvState
     {
-        private string idField;
+        string idField;
 
-        private string nameField;
+        string nameField;
 
-        private string codeField;
+        string codeField;
 
-        private string classField;
+        string classField;
 
-        private string typeField;
+        string typeField;
 
-        private string canResetOnPanelField;
+        string canResetOnPanelField;
 
-        private string affectedParentField;
+        string affectedParentField;
 
-        private string affectChildrenField;
+        string affectChildrenField;
 
-        private string manualResetField;
+        string manualResetField;
 
-        private string primaryStateField;
+        string primaryStateField;
 
-        private string nameSourceField;
+        string nameSourceField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -1360,7 +1360,7 @@ namespace Firesec.Metadata
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class NewDataSet
     {
-        private object[] itemsField;
+        object[] itemsField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("config", typeof(config))]

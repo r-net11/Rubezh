@@ -17,7 +17,7 @@ namespace FireAdministrator
             DataContext = this;
         }
 
-        private void OnSetNewConfig(object sender, RoutedEventArgs e)
+        void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
             FiltersModule.FiltersModule.Save();
             //SoundsModule.SoundsModule.Save();
@@ -25,7 +25,7 @@ namespace FireAdministrator
             DevicesModule.DevicesModule.HasChanges = false;
         }
 
-        private void OnCreateNew(object sender, RoutedEventArgs e)
+        void OnCreateNew(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Вы уверены, что хотите создать новую конфигурацию", "Новая конфигурация", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
@@ -53,7 +53,7 @@ namespace FireAdministrator
             get { return (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ChangeConfigDevices)); }
         }
 
-        private void OnLoadFromFile(object sender, RoutedEventArgs e)
+        void OnLoadFromFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
             openDialog.Filter = "firesec2 files|*.fsc2";
@@ -69,7 +69,7 @@ namespace FireAdministrator
             DevicesModule.DevicesModule.HasChanges = true;
         }
 
-        private void OnSaveToFile(object sender, RoutedEventArgs e)
+        void OnSaveToFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "firesec2 files|*.fsc2";
@@ -79,7 +79,7 @@ namespace FireAdministrator
             }
         }
 
-        private void OnValidate(object sender, RoutedEventArgs e)
+        void OnValidate(object sender, RoutedEventArgs e)
         {
             DevicesModule.DevicesModule.Validate();
             FiltersModule.FiltersModule.Validate();

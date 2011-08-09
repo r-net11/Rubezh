@@ -22,11 +22,11 @@ namespace Firesec.Indicator
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class LEDProperties
     {
-        private string[] zoneField;
+        string[] zoneField;
 
-        private deviceType[] deviceField;
+        deviceType[] deviceField;
 
-        private string typeField;
+        string typeField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("zone", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -78,15 +78,15 @@ namespace Firesec.Indicator
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class deviceType
     {
-        private string uIDField;
+        string uIDField;
 
-        private string state1Field;
+        string state1Field;
 
-        private string state2Field;
+        string state2Field;
 
-        private string state3Field;
+        string state3Field;
 
-        private string state4Field;
+        string state4Field;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

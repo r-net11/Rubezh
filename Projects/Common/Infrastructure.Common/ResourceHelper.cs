@@ -5,7 +5,7 @@ namespace Infrastructure.Common
 {
     public class ResourceHelper
     {
-        private static string InitialiPath(string resourcePath, string callingAssemblyName)
+        static string InitialiPath(string resourcePath, string callingAssemblyName)
         {
             string urlString = string.Format("pack://application:,,,/{0};component{1}",
                 callingAssemblyName,

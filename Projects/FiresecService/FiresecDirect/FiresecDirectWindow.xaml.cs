@@ -11,12 +11,12 @@ namespace FiresecDirect
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Firesec.NativeFiresecClient.Connect("adm", "");
         }
 
-        private void OnSetNewConfig(object sender, RoutedEventArgs e)
+        void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
             StreamReader reader = new StreamReader("SetNewConfig.xml");
             string message = reader.ReadToEnd();
@@ -34,7 +34,7 @@ namespace FiresecDirect
             textBox1.Text = message;
         }
 
-        private void OnGetCoreConfig(object sender, RoutedEventArgs e)
+        void OnGetCoreConfig(object sender, RoutedEventArgs e)
         {
             string coreConfig = Firesec.NativeFiresecClient.GetCoreConfig();
             textBox1.Text = coreConfig;
@@ -45,61 +45,61 @@ namespace FiresecDirect
             fileStream.Close();
         }
 
-        private void OnGetCoreState(object sender, RoutedEventArgs e)
+        void OnGetCoreState(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetCoreState();
         }
 
-        private void OnGetMetaData(object sender, RoutedEventArgs e)
+        void OnGetMetaData(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetMetaData();
         }
 
-        private void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)
+        void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams();
         }
 
-        private void OnReadEvents(object sender, RoutedEventArgs e)
+        void OnReadEvents(object sender, RoutedEventArgs e)
         {
             textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100);
         }
 
-        private void Button_Click_6(object sender, RoutedEventArgs e)
+        void Button_Click_6(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnBoltOpen(object sender, RoutedEventArgs e)
+        void OnBoltOpen(object sender, RoutedEventArgs e)
         {
             Firesec.NativeFiresecClient.ExecuteCommand("0\\0\\6\\13", "BoltOpen");
         }
 
-        private void OnBoltClose(object sender, RoutedEventArgs e)
+        void OnBoltClose(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnBoltStop(object sender, RoutedEventArgs e)
+        void OnBoltStop(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnBoltAutoOn(object sender, RoutedEventArgs e)
+        void OnBoltAutoOn(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnBoltAutoOff(object sender, RoutedEventArgs e)
+        void OnBoltAutoOff(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnAddToIgnoreList(object sender, RoutedEventArgs e)
+        void OnAddToIgnoreList(object sender, RoutedEventArgs e)
         {
             Firesec.NativeFiresecClient.AddToIgnoreList(new List<string>() { "0\\0\\0\\0" });
         }
 
-        private void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)
+        void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)
         {
         }
 
-        private void OnAddCustomMessage(object sender, RoutedEventArgs e)
+        void OnAddCustomMessage(object sender, RoutedEventArgs e)
         {
             Firesec.NativeFiresecClient.AddUserMessage("message");
         }

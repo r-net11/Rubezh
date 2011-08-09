@@ -13,7 +13,7 @@ namespace SecurityModule.ViewModels
             _user = newUser;
         }
 
-        private User _user;
+        User _user;
 
         string _name;
         public string Name

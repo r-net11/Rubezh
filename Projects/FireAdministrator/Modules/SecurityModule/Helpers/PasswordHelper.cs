@@ -7,7 +7,7 @@ namespace SecurityModule.Helpers
     {
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.RegisterAttached("Password", typeof(string), typeof(PasswordHelper), new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
         public static readonly DependencyProperty AttachProperty = DependencyProperty.RegisterAttached("Attach", typeof(bool), typeof(PasswordHelper), new PropertyMetadata(false, Attach));
-        private static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.RegisterAttached("IsUpdating", typeof(bool), typeof(PasswordHelper));
+        static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.RegisterAttached("IsUpdating", typeof(bool), typeof(PasswordHelper));
 
         public static string GetPassword(DependencyObject dp)
         {
@@ -29,17 +29,17 @@ namespace SecurityModule.Helpers
             dp.SetValue(AttachProperty, value);
         }
 
-        private static bool GetIsUpdating(DependencyObject dp)
+        static bool GetIsUpdating(DependencyObject dp)
         {
             return (bool) dp.GetValue(IsUpdatingProperty);
         }
 
-        private static void SetIsUpdating(DependencyObject dp, bool value)
+        static void SetIsUpdating(DependencyObject dp, bool value)
         {
             dp.SetValue(IsUpdatingProperty, value);
         }
 
-        private static void OnPasswordPropertyChanged(DependencyObject sender,
+        static void OnPasswordPropertyChanged(DependencyObject sender,
         DependencyPropertyChangedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
@@ -52,7 +52,7 @@ namespace SecurityModule.Helpers
             passwordBox.PasswordChanged += PasswordChanged;
         }
 
-        private static void Attach(DependencyObject sender,
+        static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
@@ -71,7 +71,7 @@ namespace SecurityModule.Helpers
             }
         }
 
-        private static void PasswordChanged(object sender, RoutedEventArgs e)
+        static void PasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
             SetIsUpdating(passwordBox, true);

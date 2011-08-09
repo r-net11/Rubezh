@@ -14,7 +14,7 @@ namespace FireMonitor.Services
 
         public bool IsAutorised { get; private set; }
 
-        private void OnSave(object sender, RoutedEventArgs e)
+        void OnSave(object sender, RoutedEventArgs e)
         {
             _info.Text = "Соединение с сервером";
 
@@ -35,7 +35,7 @@ namespace FireMonitor.Services
             Close();
         }
 
-        private void OnCancel(object sender, RoutedEventArgs e)
+        void OnCancel(object sender, RoutedEventArgs e)
         {
             IsAutorised = false;
             Close();

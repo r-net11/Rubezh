@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        private string _avc;
+        string _avc;
 
         public string Avc
         {

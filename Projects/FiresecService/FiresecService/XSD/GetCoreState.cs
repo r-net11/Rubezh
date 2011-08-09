@@ -22,9 +22,9 @@ namespace Firesec.CoreState
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class config
     {
-        private devType[] devField;
+        devType[] devField;
 
-        private string clsidField;
+        string clsidField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("dev", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -62,9 +62,9 @@ namespace Firesec.CoreState
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class devType
     {
-        private stateType[] stateField;
+        stateType[] stateField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("state", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -102,7 +102,7 @@ namespace Firesec.CoreState
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class stateType
     {
-        private string idField;
+        string idField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

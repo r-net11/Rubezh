@@ -22,7 +22,7 @@ namespace DeviceControls
 
         public string DriverId { get; set; }
 
-        private string _stateId;
+        string _stateId;
         public string StateId
         {
             get { return _stateId; }
@@ -33,7 +33,7 @@ namespace DeviceControls
             }
         }
 
-        private List<string> _additionalStates;
+        List<string> _additionalStates;
         public List<string> AdditionalStates
         {
             get { return _additionalStates; }
@@ -44,7 +44,7 @@ namespace DeviceControls
             }
         }
 
-        private ObservableCollection<Canvas> _stateCanvases;
+        ObservableCollection<Canvas> _stateCanvases;
         public ObservableCollection<Canvas> StateCanvases
         {
             get { return _stateCanvases; }
@@ -55,9 +55,9 @@ namespace DeviceControls
             }
         }
 
-        private List<StateViewModel> _stateViewModelList;
+        List<StateViewModel> _stateViewModelList;
 
-        private void Update()
+        void Update()
         {
             if (_stateViewModelList != null)
                 _stateViewModelList.ForEach(x => x.Dispose());
@@ -89,7 +89,7 @@ namespace DeviceControls
                 }
         }
 
-        private void UserControlSizeChanged(object sender, SizeChangedEventArgs e)
+        void UserControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
             _itemsControl.LayoutTransform = new ScaleTransform(ActualWidth / 500, ActualHeight / 500);
         }

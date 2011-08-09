@@ -13,7 +13,7 @@ namespace FireMonitor
 
         public bool IsLoggedIn { get; private set; }
 
-        private void OnConnect(object sender, RoutedEventArgs e)
+        void OnConnect(object sender, RoutedEventArgs e)
         {
             _info.Text = "Соединение с сервером";
 
@@ -36,7 +36,7 @@ namespace FireMonitor
             Close();
         }
 
-        private void OnCancel(object sender, RoutedEventArgs e)
+        void OnCancel(object sender, RoutedEventArgs e)
         {
             IsLoggedIn = false;
             Close();

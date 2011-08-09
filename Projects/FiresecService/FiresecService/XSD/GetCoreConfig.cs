@@ -22,21 +22,21 @@ namespace Firesec.CoreConfig
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class config
     {
-        private drvType[] drvField;
+        drvType[] drvField;
 
-        private secObjTypeType[] secObjTypeField;
+        secObjTypeType[] secObjTypeField;
 
-        private userGroupType[] userGroupField;
+        userGroupType[] userGroupField;
 
-        private userType[] userField;
+        userType[] userField;
 
-        private secGUIType[] secGUIField;
+        secGUIType[] secGUIField;
 
-        private zoneType[] zoneField;
+        zoneType[] zoneField;
 
-        private partType[] partField;
+        partType[] partField;
 
-        private devType[] devField;
+        devType[] devField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("drv", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -158,11 +158,11 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class drvType
     {
-        private string idxField;
+        string idxField;
 
-        private string nameField;
+        string nameField;
 
-        private string idField;
+        string idField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -214,7 +214,7 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class inZType
     {
-        private string idzField;
+        string idzField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -238,11 +238,11 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class dev_paramType
     {
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string valueField;
+        string valueField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -294,9 +294,9 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class propType
     {
-        private string nameField;
+        string nameField;
 
-        private string valueField;
+        string valueField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -334,21 +334,21 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class devType
     {
-        private propType[] propField;
+        propType[] propField;
 
-        private paramType[] paramField;
+        paramType[] paramField;
 
-        private devType[] devField;
+        devType[] devField;
 
-        private dev_paramType[] dev_paramField;
+        dev_paramType[] dev_paramField;
 
-        private inZType[] inZField;
+        inZType[] inZField;
 
-        private string drvField;
+        string drvField;
 
-        private string addrField;
+        string addrField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("prop", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -470,11 +470,11 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class paramType
     {
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string valueField;
+        string valueField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -526,21 +526,21 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class partType
     {
-        private partTypePinZ[] pinZField;
+        partTypePinZ[] pinZField;
 
-        private paramType[] paramField;
+        paramType[] paramField;
 
-        private string noField;
+        string noField;
 
-        private string idField;
+        string idField;
 
-        private string gidField;
+        string gidField;
 
-        private string nameField;
+        string nameField;
 
-        private string descField;
+        string descField;
 
-        private string typeField;
+        string typeField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("PinZ", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -663,7 +663,7 @@ namespace Firesec.CoreConfig
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class partTypePinZ
     {
-        private string pidzField;
+        string pidzField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -687,19 +687,19 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class zoneType
     {
-        private paramType[] paramField;
+        paramType[] paramField;
 
-        private string idxField;
+        string idxField;
 
-        private string noField;
+        string noField;
 
-        private string nameField;
+        string nameField;
 
-        private string descField;
+        string descField;
 
-        private string idZonesField;
+        string idZonesField;
 
-        private string remidZonesField;
+        string remidZonesField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("param", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -807,11 +807,11 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class secRightType
     {
-        private string actField;
+        string actField;
 
-        private string subjField;
+        string subjField;
 
-        private string deleteflagField;
+        string deleteflagField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -863,11 +863,11 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class secGUIType
     {
-        private paramType paramField;
+        paramType paramField;
 
-        private secRightType[] secRightField;
+        secRightType[] secRightField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -919,7 +919,7 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class grpType
     {
-        private string idxField;
+        string idxField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -943,21 +943,21 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class userType
     {
-        private paramType paramField;
+        paramType paramField;
 
-        private extSecurityType extSecurityField;
+        extSecurityType extSecurityField;
 
-        private grpType[] grpField;
+        grpType[] grpField;
 
-        private string idxField;
+        string idxField;
 
-        private string nameField;
+        string nameField;
 
-        private string fullNameField;
+        string fullNameField;
 
-        private string passwordField;
+        string passwordField;
 
-        private string builtinField;
+        string builtinField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -1079,7 +1079,7 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class extSecurityType
     {
-        private string remoteAccessField;
+        string remoteAccessField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
@@ -1103,13 +1103,13 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class userGroupType
     {
-        private paramType paramField;
+        paramType paramField;
 
-        private extSecurityType extSecurityField;
+        extSecurityType extSecurityField;
 
-        private string idxField;
+        string idxField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -1175,13 +1175,13 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class secActionType
     {
-        private paramType paramField;
+        paramType paramField;
 
-        private string idxField;
+        string idxField;
 
-        private string numField;
+        string numField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -1247,13 +1247,13 @@ namespace Firesec.CoreConfig
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class secObjTypeType
     {
-        private secActionType[] secActionField;
+        secActionType[] secActionField;
 
-        private string idxField;
+        string idxField;
 
-        private string nameField;
+        string nameField;
 
-        private string numField;
+        string numField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("secAction", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]

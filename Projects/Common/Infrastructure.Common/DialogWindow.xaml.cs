@@ -8,10 +8,10 @@ namespace Infrastructure.Common
 {
     public partial class DialogWindow : Window
     {
-        private FrameworkElement _title;
+        FrameworkElement _title;
 
-        private ICommand _helpContextCommand;
-        private int _helpTopicId;
+        ICommand _helpContextCommand;
+        int _helpTopicId;
 
         public DialogWindow()
         {
@@ -20,7 +20,7 @@ namespace Infrastructure.Common
         }
 
         // TODO: what we are doing here?
-        private void OnSourceInitialized(object sender, EventArgs e)
+        void OnSourceInitialized(object sender, EventArgs e)
         {
             UserControl userControl = FindUserControl(this);
             if (userControl != null)
@@ -39,7 +39,7 @@ namespace Infrastructure.Common
             }
         }
 
-        private static UserControl FindUserControl(DependencyObject obj)
+        static UserControl FindUserControl(DependencyObject obj)
         {
             UserControl result = null;
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
@@ -80,7 +80,7 @@ namespace Infrastructure.Common
             _helpTopicId = helpTopicId;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        void OnLoaded(object sender, RoutedEventArgs e)
         {
             _title = (FrameworkElement) Template.FindName("PART_Title", this);
             if (null != _title)
@@ -106,17 +106,17 @@ namespace Infrastructure.Common
             }
         }
 
-        private void OnCloseButtonClick(object sender, RoutedEventArgs e)
+        void OnCloseButtonClick(object sender, RoutedEventArgs e)
         {
             CloseContent();
         }
 
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -124,7 +124,7 @@ namespace Infrastructure.Common
             }
         }
 
-        private void CloseContent()
+        void CloseContent()
         {
             var content = Content as IDialogContent;
             if (content != null)

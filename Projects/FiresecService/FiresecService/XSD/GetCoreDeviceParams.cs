@@ -22,9 +22,9 @@ namespace Firesec.DeviceParams
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class config
     {
-        private devType[] devField;
+        devType[] devField;
 
-        private string clsidField;
+        string clsidField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("dev", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -62,9 +62,9 @@ namespace Firesec.DeviceParams
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class devType
     {
-        private dev_paramType[] dev_paramField;
+        dev_paramType[] dev_paramField;
 
-        private string nameField;
+        string nameField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("dev_param", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -102,11 +102,11 @@ namespace Firesec.DeviceParams
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class dev_paramType
     {
-        private string nameField;
+        string nameField;
 
-        private string typeField;
+        string typeField;
 
-        private string valueField;
+        string valueField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]

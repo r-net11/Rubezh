@@ -6,7 +6,7 @@ namespace Infrastructure.Common
 {
     public class NotifyPropertyChangedHelper
     {
-        private PropertyChangedEventHandler _propertyChangeHandler;
+        PropertyChangedEventHandler _propertyChangeHandler;
 
         public void Add(PropertyChangedEventHandler value)
         {

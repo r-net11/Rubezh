@@ -10,12 +10,12 @@ namespace PlansModule.ViewModels
             InitializeComponent();
         }
 
-        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
             _mouseOverRectangle.StrokeThickness = 1;
         }
 
-        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
             _mouseOverRectangle.StrokeThickness = 0;
         }

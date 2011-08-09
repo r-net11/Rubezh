@@ -23,7 +23,7 @@ namespace JournalModule.ViewModels
         {
             if (_journalFilter.IsLastDaysCountActive)
             {
-                return (DateTime.Now.Date - journalRecord.DeviceTime.Date).Days >= _journalFilter.LastDaysCount;
+                return (DateTime.Now.Date - journalRecord.DeviceTime.Date).Days < _journalFilter.LastDaysCount;
             }
 
             return true;
@@ -35,7 +35,8 @@ namespace JournalModule.ViewModels
             if (_journalFilter.Categories != null && _journalFilter.Categories.Count > 0)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                        x => x.DatabaseId == journalRecord.PanelDatabaseId + journalRecord.DeviceDatabaseId);
+                        x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
+                             x.DatabaseId == journalRecord.PanelDatabaseId);
 
                 if (retval = device != null)
                 {

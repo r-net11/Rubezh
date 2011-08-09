@@ -24,13 +24,13 @@ namespace FiresecService.XSD {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class NewDataSet : global::System.Data.DataSet {
         
-        private RCGroupPropertiesDataTable tableRCGroupProperties;
+        RCGroupPropertiesDataTable tableRCGroupProperties;
         
-        private deviceDataTable tabledevice;
+        deviceDataTable tabledevice;
         
-        private global::System.Data.DataRelation relationRCGroupProperties_device;
+        global::System.Data.DataRelation relationRCGroupProperties_device;
         
-        private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
+        global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -329,11 +329,11 @@ namespace FiresecService.XSD {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class RCGroupPropertiesDataTable : global::System.Data.TypedTableBase<RCGroupPropertiesRow> {
             
-            private global::System.Data.DataColumn columnAMTPreset;
+            global::System.Data.DataColumn columnAMTPreset;
             
-            private global::System.Data.DataColumn columnDevCount;
+            global::System.Data.DataColumn columnDevCount;
             
-            private global::System.Data.DataColumn columnRCGroupProperties_Id;
+            global::System.Data.DataColumn columnRCGroupProperties_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -611,15 +611,15 @@ namespace FiresecService.XSD {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class deviceDataTable : global::System.Data.TypedTableBase<deviceRow> {
             
-            private global::System.Data.DataColumn columnUID;
+            global::System.Data.DataColumn columnUID;
             
-            private global::System.Data.DataColumn columnDelayOn;
+            global::System.Data.DataColumn columnDelayOn;
             
-            private global::System.Data.DataColumn columnDelayOff;
+            global::System.Data.DataColumn columnDelayOff;
             
-            private global::System.Data.DataColumn columnInverse;
+            global::System.Data.DataColumn columnInverse;
             
-            private global::System.Data.DataColumn columnRCGroupProperties_Id;
+            global::System.Data.DataColumn columnRCGroupProperties_Id;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -919,7 +919,7 @@ namespace FiresecService.XSD {
         ///</summary>
         public partial class RCGroupPropertiesRow : global::System.Data.DataRow {
             
-            private RCGroupPropertiesDataTable tableRCGroupProperties;
+            RCGroupPropertiesDataTable tableRCGroupProperties;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1012,7 +1012,7 @@ namespace FiresecService.XSD {
         ///</summary>
         public partial class deviceRow : global::System.Data.DataRow {
             
-            private deviceDataTable tabledevice;
+            deviceDataTable tabledevice;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1179,9 +1179,9 @@ namespace FiresecService.XSD {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public class RCGroupPropertiesRowChangeEvent : global::System.EventArgs {
             
-            private RCGroupPropertiesRow eventRow;
+            RCGroupPropertiesRow eventRow;
             
-            private global::System.Data.DataRowAction eventAction;
+            global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -1213,9 +1213,9 @@ namespace FiresecService.XSD {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public class deviceRowChangeEvent : global::System.EventArgs {
             
-            private deviceRow eventRow;
+            deviceRow eventRow;
             
-            private global::System.Data.DataRowAction eventAction;
+            global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]

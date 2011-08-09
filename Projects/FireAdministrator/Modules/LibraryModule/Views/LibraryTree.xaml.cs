@@ -12,7 +12,7 @@ namespace LibraryModule.Views
             InitializeComponent();
         }
 
-        private void LibraryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        void LibraryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var treeView = sender as TreeView;
             if ((treeView.SelectedItem as DeviceViewModel) != null)
@@ -35,7 +35,7 @@ namespace LibraryModule.Views
             }
         }
 
-        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var treeView = (sender as TreeView);
             var contextMenu = treeView.ContextMenu;

@@ -5,9 +5,9 @@ namespace FireMonitor
 {
     public class LayoutService : ILayoutService
     {
-        private ShellView _shellView;
+        ShellView _shellView;
 
-        private ShellView Shell
+        ShellView Shell
         {
             get { return _shellView ?? (_shellView = ServiceFactory.Get<ShellView>()); }
         }
@@ -22,7 +22,7 @@ namespace FireMonitor
             Replace(null);
         }
 
-        private void Replace(IViewPart model)
+        void Replace(IViewPart model)
         {
             if (ActiveViewModel != null)
             {

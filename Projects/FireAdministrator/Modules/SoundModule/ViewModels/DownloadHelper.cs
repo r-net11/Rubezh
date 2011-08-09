@@ -42,7 +42,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        private static void LoadFile(string file, string destinationPath)
+        static void LoadFile(string file, string destinationPath)
         {
             Stream stream = FiresecManager.GetFile(file);
             FileStream destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write);
@@ -50,7 +50,7 @@ namespace SoundsModule.ViewModels
             destinationStream.Close();
         }
 
-        private static Dictionary<string, string> GetFileHash()
+        static Dictionary<string, string> GetFileHash()
         {
             Dictionary<string, string> hashTable = new Dictionary<string, string>();
             List<string> HashListSoundFiles = new List<string>();

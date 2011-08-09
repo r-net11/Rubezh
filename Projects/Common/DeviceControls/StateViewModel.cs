@@ -13,10 +13,10 @@ namespace DeviceControls
     {
         #region Private Fields
 
-        private readonly List<Frame> _frames;
-        private readonly List<Canvas> _canvases;
-        private int _tick;
-        private int _startTick;
+        readonly List<Frame> _frames;
+        readonly List<Canvas> _canvases;
+        int _tick;
+        int _startTick;
 
         #endregion
 

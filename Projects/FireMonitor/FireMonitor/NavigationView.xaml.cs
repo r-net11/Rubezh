@@ -29,7 +29,7 @@ namespace FireMonitor
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { _isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }

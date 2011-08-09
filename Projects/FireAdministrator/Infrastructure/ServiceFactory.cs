@@ -7,8 +7,8 @@ namespace Infrastructure
 {
     public class ServiceFactory
     {
-        private static IUnityContainer _container;
-        private static IUnityContainer Container
+        static IUnityContainer _container;
+        static IUnityContainer Container
         {
             get
             {

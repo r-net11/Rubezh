@@ -22,9 +22,9 @@ namespace Firesec.ReadEvents
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class document
     {
-        private journalType[] journalField;
+        journalType[] journalField;
 
-        private parametersType parametersField;
+        parametersType parametersField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ЖурналСобытий", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -62,29 +62,29 @@ namespace Firesec.ReadEvents
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class journalType
     {
-        private string iDEventsField;
+        string iDEventsField;
 
-        private string iDSubSystemField;
+        string iDSubSystemField;
 
-        private string dtField;
+        string dtField;
 
-        private string sysDtField;
+        string sysDtField;
 
-        private string zoneNameField;
+        string zoneNameField;
 
-        private string iDTypeEventsField;
+        string iDTypeEventsField;
 
-        private string eventDescField;
+        string eventDescField;
 
-        private string userInfoField;
+        string userInfoField;
 
-        private string iDDevicesField;
+        string iDDevicesField;
 
-        private string iDDevicesSourceField;
+        string iDDevicesSourceField;
 
-        private string cLC_DeviceSourceField;
+        string cLC_DeviceSourceField;
 
-        private string cLC_DeviceField;
+        string cLC_DeviceField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -262,15 +262,15 @@ namespace Firesec.ReadEvents
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class parametersType
     {
-        private string date_fromField;
+        string date_fromField;
 
-        private string date_toField;
+        string date_toField;
 
-        private string useSysDateField;
+        string useSysDateField;
 
-        private string eventFilterSetField;
+        string eventFilterSetField;
 
-        private string totalRecordsField;
+        string totalRecordsField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]

@@ -7,8 +7,8 @@ namespace Infrastructure.Common
     {
         #region Fields
 
-        private readonly Action _execute;
-        private readonly Predicate<object> _canExecute;
+        readonly Action _execute;
+        readonly Predicate<object> _canExecute;
 
         #endregion // Fields
 
@@ -63,8 +63,8 @@ namespace Infrastructure.Common
     {
         #region Fields
 
-        private readonly Action<T> _execute;
-        private readonly Predicate<T> _canExecute;
+        readonly Action<T> _execute;
+        readonly Predicate<T> _canExecute;
 
         #endregion
 

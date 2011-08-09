@@ -16,7 +16,8 @@ namespace JournalModule.ViewModels
         {
             _journalRecord = journalRecord;
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                x => x.DatabaseId == _journalRecord.PanelDatabaseId + _journalRecord.DeviceDatabaseId);
+                x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
+                     x.DatabaseId == _journalRecord.PanelDatabaseId);
 
             Initialize();
         }

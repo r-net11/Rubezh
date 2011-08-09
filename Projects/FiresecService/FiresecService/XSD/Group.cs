@@ -22,11 +22,11 @@ namespace FiresecService.XSD
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class RCGroupProperties
     {
-        private RCGroupPropertiesDevice[] deviceField;
+        RCGroupPropertiesDevice[] deviceField;
 
-        private string aMTPresetField;
+        string aMTPresetField;
 
-        private string devCountField;
+        string devCountField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("device", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -79,13 +79,13 @@ namespace FiresecService.XSD
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class RCGroupPropertiesDevice
     {
-        private string uIDField;
+        string uIDField;
 
-        private string delayOnField;
+        string delayOnField;
 
-        private string delayOffField;
+        string delayOffField;
 
-        private string inverseField;
+        string inverseField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -150,7 +150,7 @@ namespace FiresecService.XSD
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class NewDataSet
     {
-        private RCGroupProperties[] itemsField;
+        RCGroupProperties[] itemsField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RCGroupProperties")]

@@ -11,7 +11,7 @@ namespace JournalModule.Views
             InitializeComponent();
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var checkBox = sender as CheckBox;
             if (checkBox.IsChecked != null)
@@ -24,7 +24,7 @@ namespace JournalModule.Views
             }
         }
 
-        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        void CheckBox_Checked_1(object sender, RoutedEventArgs e)
         {
             var checkBox = sender as CheckBox;
             var archiveFilter = DataContext as ArchiveFilterViewModel;

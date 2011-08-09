@@ -11,7 +11,7 @@ namespace AlarmModule.Views
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             _mediaElement.Position = TimeSpan.FromSeconds(11);
             _mediaElement.Play();

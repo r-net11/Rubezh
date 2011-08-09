@@ -22,7 +22,7 @@ namespace Firesec.ZoneLogic
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class expr
     {
-        private clauseType[] clauseField;
+        clauseType[] clauseField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("clause", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -46,13 +46,13 @@ namespace Firesec.ZoneLogic
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class clauseType
     {
-        private string[] zoneField;
+        string[] zoneField;
 
-        private string joinOperatorField;
+        string joinOperatorField;
 
-        private string operationField;
+        string operationField;
 
-        private string stateField;
+        string stateField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("zone", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
