@@ -130,9 +130,9 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public State State
+        public StateType StateType
         {
-            get { return _deviceState.State; }
+            get { return _deviceState.StateType; }
         }
 
         string _failureType;
@@ -200,7 +200,7 @@ namespace DevicesModule.ViewModels
 
         public void Update()
         {
-            OnPropertyChanged("State");
+            OnPropertyChanged("StateType");
         }
 
         public bool CanShowOnPlan(object obj)

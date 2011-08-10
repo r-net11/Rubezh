@@ -12,9 +12,8 @@ namespace SoundsModule.ViewModels
             _soundPlayer = new SoundPlayer();
         }
 
-        static SoundPlayer _soundPlayer { get; set; }
-
-        static Thread _thread { get; set; }
+        static SoundPlayer _soundPlayer;
+        static Thread _thread;
 
         static void PlayBeepContinious(object freq)
         {

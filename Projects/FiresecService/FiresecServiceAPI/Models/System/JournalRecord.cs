@@ -37,6 +37,6 @@ namespace FiresecAPI.Models
         public string User { get; set; }
 
         [DataMember]
-        public State State { get; set; }
+        public StateType StateType { get; set; }
     }
 }

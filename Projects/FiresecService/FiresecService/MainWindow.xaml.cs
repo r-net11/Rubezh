@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using FiresecService;
+using FiresecAPI.Models;
 
 namespace FiresecServiceRunner
 {
@@ -13,6 +14,11 @@ namespace FiresecServiceRunner
 
         void Button_Click(object sender, RoutedEventArgs e)
         {
+            StateType stateType = StateType.Failure;
+            int x = (int)stateType;
+            StateType stateType2 = (StateType)4;
+
+
             FiresecManager.Connect("adm", "");
             FiresecServiceManager.Open();
         }

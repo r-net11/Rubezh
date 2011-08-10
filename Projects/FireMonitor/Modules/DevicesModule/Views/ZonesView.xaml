@@ -21,7 +21,7 @@
                         <Setter Property="Margin" Value="0"/>
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        <Setter Property="Background" Value="{Binding State, Converter={StaticResource StateToColorConverter}}"/>
+                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}"/>
                         <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="BorderBrush" Value="Red" />
                         <Style.Triggers>
@@ -37,7 +37,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                Background="{Binding State, Converter={StaticResource StateToColorConverter}}"
+                                Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
                                 ToolTip="{Binding Zone.Name}"
                                 Command="{Binding SelectCommand}">
                             <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -54,7 +54,7 @@
 
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
             <TextBlock Text="{Binding PresentationName}" />
-            <TextBlock Text="{Binding State}" />
+            <TextBlock Text="{Binding StateType}" />
         </StackPanel>
 
         <Grid Grid.Row="2">
@@ -74,7 +74,7 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
-                                        <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
                                         <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>

@@ -9,8 +9,8 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            State state = (State) value;
-            switch (state.StateType)
+            StateType stateType = (StateType)value;
+            switch (stateType)
             {
                 case StateType.Fire:
                     return Brushes.Red;

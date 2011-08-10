@@ -66,7 +66,7 @@ namespace DevicesModule.ViewModels
                 ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
                 if (zoneViewModel != null)
                 {
-                    zoneViewModel.State = zoneState.State;
+                    zoneViewModel.StateType = zoneState.StateType;
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
                     if (deviceViewModel != null)
                     {
                         deviceViewModel.Update();
-                        //deviceViewModel.MainState = deviceState.State;
+                        //deviceViewModel.MainState = deviceState.StateType;
                     }
                 }
             }
@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
         {
             ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
-            zoneViewModel.State = zoneState.State;
+            zoneViewModel.StateType = zoneState.StateType;
         }
 
         public void Select(string zoneNo)

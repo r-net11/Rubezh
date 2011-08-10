@@ -8,21 +8,39 @@ namespace FiresecAPI
 {
     public static class StateHelper
     {
-        public static List<StateType> AllStates
+        public static string StateTypeToString(StateType stateType)
         {
-            get
+            switch (stateType)
             {
-                List<StateType> states = new List<StateType>();
-                states.Add(StateType.Attention);
-                states.Add(StateType.Failure);
-                states.Add(StateType.Fire);
-                states.Add(StateType.Info);
-                states.Add(StateType.No);
-                states.Add(StateType.Norm);
-                states.Add(StateType.Off);
-                states.Add(StateType.Service);
-                states.Add(StateType.Unknown);
-                return states;
+                case StateType.Fire:
+                    return "Тревога";
+
+                case StateType.Attention:
+                    return "Внимание (предтревожное)";
+
+                case StateType.Failure:
+                    return "Неисправность";
+
+                case StateType.Service:
+                    return "Требуется обслуживание";
+
+                case StateType.Off:
+                    return "Обход устройств";
+
+                case StateType.Unknown:
+                    return "Неопределено";
+
+                case StateType.Info:
+                    return "Норма(*)";
+
+                case StateType.Norm:
+                    return "Норма";
+
+                case StateType.No:
+                    return "Нет состояния";
+
+                default:
+                    return "";
             }
         }
     }

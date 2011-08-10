@@ -46,14 +46,14 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(_elementSubPlanView);
         }
 
-        State _state;
-        public State State
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return _state; }
+            get { return _stateType; }
             set
             {
-                _state = value;
-                OnPropertyChanged("State");
+                _stateType = value;
+                OnPropertyChanged("StateType");
             }
         }
 
@@ -70,9 +70,9 @@ namespace PlansModule.ViewModels
         {
         }
 
-        public void Update(State state)
+        public void Update(StateType stateType)
         {
-            State = state;
+            StateType = stateType;
         }
     }
 }

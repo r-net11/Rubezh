@@ -38,7 +38,7 @@ namespace FiresecClient
         public void ZoneStateChanged(ZoneState newZoneState)
         {
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
-            zoneState.State = newZoneState.State;
+            zoneState.StateType = newZoneState.StateType;
             OnZoneStateChanged(zoneState.No);
         }
 

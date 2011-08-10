@@ -245,7 +245,7 @@ namespace PlansModule.ViewModels
                 var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.Name == subPlan.Name);
                 if (planViewModel != null)
                 {
-                    subPlan.State = planViewModel.State;
+                    subPlan.StateType = planViewModel.StateType;
                 }
             }
         }

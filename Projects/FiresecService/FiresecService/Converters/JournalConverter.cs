@@ -19,7 +19,7 @@ namespace FiresecService.Converters
             journalRecord.DeviceDatabaseId = innerJournalItem.IDDevices;
             journalRecord.PanelDatabaseId = innerJournalItem.IDDevicesSource;
             journalRecord.User = innerJournalItem.UserInfo;
-            journalRecord.State = new State() { Id = int.Parse(innerJournalItem.IDTypeEvents) };
+            journalRecord.StateType = (StateType)int.Parse(innerJournalItem.IDTypeEvents);
             journalRecord.User = innerJournalItem.UserInfo;
 
             return journalRecord;

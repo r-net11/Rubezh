@@ -30,9 +30,10 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Parameter> Parameters { get; set; }
 
-        public State State
+        public StateType StateType
         {
-            get { return new State() { Id = StateClassId }; }
+            get { return (StateType)StateClassId; }
+
         }
 
         public int StateClassId
@@ -67,7 +68,7 @@ namespace FiresecAPI.Models
 
         public bool IsDisabled
         {
-            get { return States.Any(x => ((x.IsActive) && (x.DriverState.State.StateType == StateType.Off))); }
+            get { return States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Off))); }
         }
 
         public void CopyFrom(DeviceState deviceState)

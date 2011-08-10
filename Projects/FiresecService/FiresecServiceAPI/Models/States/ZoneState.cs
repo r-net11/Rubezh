@@ -7,13 +7,13 @@ namespace FiresecAPI.Models
     {
         public ZoneState()
         {
-            State = new State();
+            StateType = StateType.No;
         }
 
         [DataMember]
         public string No { get; set; }
 
         [DataMember]
-        public State State { get; set; }
+        public StateType StateType { get; set; }
     }
 }

@@ -5,9 +5,9 @@ namespace FiresecAPI.Models
     [DataContract]
     public class DriverState
     {
-        public State State
+        public StateType StateType
         {
-            get { return new State() { Id = StateClassId }; }
+            get { return (StateType)StateClassId; }
         }
 
         [DataMember]

@@ -71,12 +71,12 @@ namespace JournalModule.ViewModels
 
         public StateType StateType
         {
-            get { return _journalRecord.State.StateType; }
+            get { return _journalRecord.StateType; }
         }
 
         public int ClassId
         {
-            get { return _journalRecord.State.Id; }
+            get { return (int)_journalRecord.StateType; }
         }
 
         public RelayCommand ShowPlanCommand { get; private set; }

@@ -8,8 +8,8 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            State state = (State) value;
-            string icon = StateToIcon(state);
+            StateType stateType = (StateType)value;
+            string icon = StateToIcon(stateType);
             if (icon != null)
             {
                 return "../Icons/" + icon + ".ico";
@@ -25,9 +25,9 @@ namespace DevicesModule.Converters
             throw new NotImplementedException();
         }
 
-        string StateToIcon(State state)
+        string StateToIcon(StateType stateType)
         {
-            switch (state.StateType)
+            switch (stateType)
             {
                 case StateType.Fire:
                     return "DS_Critical";

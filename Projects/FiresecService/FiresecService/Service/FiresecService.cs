@@ -186,10 +186,6 @@ namespace FiresecService
         public Stream GetFile(string filename)
         {
             string filePath = @"C:\Program Files\Firesec\Sounds\" + filename;
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
-
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 

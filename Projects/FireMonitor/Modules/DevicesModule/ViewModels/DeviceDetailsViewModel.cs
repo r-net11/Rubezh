@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -36,7 +37,7 @@ namespace DevicesModule.ViewModels
 
             if (_deviceControl != null)
             {
-                _deviceControl.StateId = deviceState.State.Id.ToString();
+                _deviceControl.StateId = StateHelper.StateTypeToString(deviceState.StateType);
             }
 
             OnPropertyChanged("DeviceControlContent");
@@ -50,7 +51,7 @@ namespace DevicesModule.ViewModels
                 _deviceControl.DriverId = _device.Driver.Id;
 
                 DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                _deviceControl.StateId = deviceState.State.Id.ToString();
+                _deviceControl.StateId = StateHelper.StateTypeToString(deviceState.StateType);
 
                 _deviceControl.Width = 50;
                 _deviceControl.Height = 50;
@@ -128,12 +129,12 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public State State
+        public StateType StateType
         {
             get
             {
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                return deviceState.State;
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                return deviceState.StateType;
             }
         }
 

@@ -9,7 +9,7 @@
 
     <Grid>
         <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
-                 ToolTip="{Binding PresentationName}" Fill="{Binding State, Converter={StaticResource StateToColorConverter}}"
+                 ToolTip="{Binding PresentationName}" Fill="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave">
             <Polygon.ContextMenu>
                 <ContextMenu>

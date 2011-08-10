@@ -50,14 +50,14 @@ namespace PlansModule.ViewModels
             }
         }
 
-        State _state;
-        public State State
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return _state; }
+            get { return _stateType; }
             set
             {
-                _state = value;
-                OnPropertyChanged("State");
+                _stateType = value;
+                OnPropertyChanged("StateType");
             }
         }
 
@@ -124,7 +124,7 @@ namespace PlansModule.ViewModels
             if (ZoneNo == zoneNo)
             {
                 var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-                State = zoneState.State;
+                StateType = zoneState.StateType;
             }
         }
     }

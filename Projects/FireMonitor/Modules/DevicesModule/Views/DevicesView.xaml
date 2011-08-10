@@ -28,7 +28,7 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
-                                        <Image Source="{Binding State, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
+                                        <Image Source="{Binding StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
                                         <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
@@ -86,7 +86,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
-                    <TextBlock Text="{Binding State}" />
+                    <TextBlock Text="{Binding StateType}" />
                 </StackPanel>
 
                 <ItemsControl ItemsSource="{Binding ParentStates}">

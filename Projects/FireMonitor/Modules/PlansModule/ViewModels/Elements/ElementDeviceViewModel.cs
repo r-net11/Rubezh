@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -106,7 +107,7 @@ namespace PlansModule.ViewModels
         {
             if (id == DeviceId)
             {
-                _elementDeviceView._deviceControl.StateId = _deviceState.State.Id.ToString();
+                _elementDeviceView._deviceControl.StateId = StateHelper.StateTypeToString(_deviceState.StateType);
                 _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
                     from state in _deviceState.States
                     where state.IsActive

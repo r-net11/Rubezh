@@ -46,7 +46,7 @@ namespace JournalModule.ViewModels
 
             if (retval && _journalFilter.Events != null && _journalFilter.Events.Count > 0)
             {
-                retval = _journalFilter.Events.Any(x => x.Id == journalRecord.State.Id);
+                retval = _journalFilter.Events.Any(x => x.Id == (int)journalRecord.StateType);
             }
 
             return retval;

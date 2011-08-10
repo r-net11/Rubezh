@@ -249,10 +249,10 @@ namespace FiresecService
                         }
                     }
 
-                    State newZoneState = new State() { Id = minZonePriority };
+                    StateType newZoneStateType = (StateType)minZonePriority;
 
-                    bool zoneChanged = (zoneState.State.Id != newZoneState.Id);
-                    zoneState.State = newZoneState;
+                    bool zoneChanged = (zoneState.StateType != newZoneStateType);
+                    zoneState.StateType = newZoneStateType;
 
                     if (zoneChanged)
                     {

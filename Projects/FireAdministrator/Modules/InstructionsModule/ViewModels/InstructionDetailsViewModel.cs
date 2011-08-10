@@ -33,7 +33,7 @@ namespace InstructionsModule.ViewModels
             Instruction = instruction;
             Name = instruction.Name;
             Text = instruction.Text;
-            State = instruction.StateType;
+            StateType = instruction.StateType;
             Title = "Редактирование инструкции";
         }
 
@@ -53,14 +53,14 @@ namespace InstructionsModule.ViewModels
             get { return null; }
         }
 
-        StateType _state;
-        public StateType State
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return _state; }
+            get { return _stateType; }
             set
             {
-                _state = value;
-                OnPropertyChanged("State");
+                _stateType = value;
+                OnPropertyChanged("StateType");
             }
         }
 
@@ -79,7 +79,7 @@ namespace InstructionsModule.ViewModels
         {
             Instruction.Name = Name;
             Instruction.Text = Text;
-            Instruction.StateType = State;
+            Instruction.StateType = StateType;
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);

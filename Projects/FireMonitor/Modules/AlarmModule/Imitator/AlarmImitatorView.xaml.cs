@@ -24,7 +24,7 @@ namespace AlarmModule.Imitator
 
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == device.ZoneNo);
-            zoneState.State = new State() { Id = state };
+            zoneState.StateType = (StateType)state;
             FiresecEventSubscriber.OnZoneStateChanged(zoneState.No);
         }
 

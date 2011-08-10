@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
 
             Zone = zone;
             ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
-            State = zoneState.State;
+            StateType = zoneState.StateType;
         }
 
         public Zone Zone { get; private set; }
@@ -31,14 +31,14 @@ namespace DevicesModule.ViewModels
             get { return Zone.No + "." + Zone.Name; }
         }
 
-        State state;
-        public State State
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return state; }
+            get { return _stateType; }
             set
             {
-                state = value;
-                OnPropertyChanged("State");
+                _stateType = value;
+                OnPropertyChanged("StateType");
             }
         }
     }

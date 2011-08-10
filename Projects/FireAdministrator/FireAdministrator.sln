@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiltersModule", "Modules\Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstructionsModule", "Modules\InstructionsModule\InstructionsModule.csproj", "{0F163243-0BCB-44D6-B849-4ED207B27027}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D663DF3D-C732-4D29-9258-F5C7DC53BD8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{FE37B6D4-73E5-40F2-A770-A974561430B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +197,16 @@ Global
 		{0F163243-0BCB-44D6-B849-4ED207B27027}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0F163243-0BCB-44D6-B849-4ED207B27027}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0F163243-0BCB-44D6-B849-4ED207B27027}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,5 +223,7 @@ Global
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {859F3A93-9454-4C26-971A-464C26E20B13}
 		{CA6164BD-CFB8-419E-982B-28D52DB86C81} = {5783E5FA-64EB-4C1C-9E94-D1314C0B1149}
 		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2} = {5783E5FA-64EB-4C1C-9E94-D1314C0B1149}
+		{D8D17C88-CFA0-485A-95BA-A966C02562C1} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
+		{FE37B6D4-73E5-40F2-A770-A974561430B8} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 	EndGlobalSection
 EndGlobal

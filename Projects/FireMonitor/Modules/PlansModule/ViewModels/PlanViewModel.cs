@@ -14,7 +14,7 @@ namespace PlansModule.ViewModels
     {
         public Plan _plan;
         public List<DeviceState> _deviceStates;
-        State _selfState;
+        StateType _selfState;
 
         public void Initialize(Plan plan, ObservableCollection<PlanViewModel> source)
         {
@@ -44,44 +44,44 @@ namespace PlansModule.ViewModels
             get { return _plan.Description; }
         }
 
-        State _state;
-        public State State
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return _state; }
+            get { return _stateType; }
             set
             {
-                _state = value;
+                _stateType = value;
                 ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(_plan.Name);
-                OnPropertyChanged("State");
+                OnPropertyChanged("StateType");
             }
         }
 
         public void UpdateSelfState()
         {
-            int minPriority = 7;
+            int minPriority = 8;
 
             foreach (var deviceState in _deviceStates)
             {
-                int priority = deviceState.State.Id;
+                int priority = (int)deviceState.StateType;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            _selfState = new State() { Id = minPriority };
+            _selfState = (StateType)minPriority;
 
             UpdateState();
         }
 
         public void UpdateState()
         {
-            int minPriority = _selfState.Id;
+            int minPriority = (int)_selfState;
 
             foreach (var planViewModel in Children)
             {
-                int priority = planViewModel.State.Id;
+                int priority = (int)planViewModel.StateType;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            State = new State() { Id = minPriority };
+            StateType = (StateType)minPriority;
 
             if (Parent != null)
             {
