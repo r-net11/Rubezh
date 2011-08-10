@@ -35,7 +35,7 @@ namespace AssadProcessor.Devices
 
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                var stateType = deviceState.State.StateType;
+                var stateType = deviceState.StateType;
                 var stateTypeCounter = _stateTypeCounters.FirstOrDefault(x => x.StateType == stateType);
                 if (stateTypeCounter.StateType == StateType.Norm)
                     continue;
@@ -71,7 +71,7 @@ namespace AssadProcessor.Devices
 
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                var stateType = deviceState.State.StateType;
+                var stateType = deviceState.StateType;
                 var stateTypeCounter = counters.FirstOrDefault(x => x.StateType == stateType);
                 stateTypeCounter.HasOne = true;
             }

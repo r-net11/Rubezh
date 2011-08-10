@@ -83,7 +83,7 @@ namespace AssadProcessor
                                 {
                                     ResetItem resetItem = new ResetItem();
                                     resetItem.DeviceId = resetDevice.Id;
-                                    resetItem.States = new List<string>() { commandName };
+                                    resetItem.StateNames = new List<string>() { commandName };
                                     FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                                 }
                             }
@@ -92,7 +92,7 @@ namespace AssadProcessor
                         {
                             ResetItem resetItem = new ResetItem();
                             resetItem.DeviceId = device.Id;
-                            resetItem.States = new List<string>() { commandName };
+                            resetItem.StateNames = new List<string>() { commandName };
                             FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                         }
                     }
@@ -112,7 +112,7 @@ namespace AssadProcessor
                     {
                         ResetItem resetItem = new ResetItem();
                         resetItem.DeviceId = device.Id;
-                        resetItem.States = new List<string>() { state.Name };
+                        resetItem.StateNames = new List<string>() { state.Name };
                         FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                     }
                 }

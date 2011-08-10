@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using FiresecAPI;
 
 namespace AssadProcessor.Devices
 {
@@ -68,7 +69,7 @@ namespace AssadProcessor.Devices
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
-                mainState.value = deviceState.State.ToString();
+                mainState.value = StateHelper.StateTypeToString(deviceState.StateType);
                 states.Add(mainState);
                 string str = " ";
                 switch (mainState.value)
@@ -204,7 +205,7 @@ namespace AssadProcessor.Devices
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
                 mainState.state = "Состояние";
-                mainState.value = deviceState.State.ToString();
+                mainState.value = StateHelper.StateTypeToString(deviceState.StateType);
                 states.Add(mainState);
 
                 foreach (var parameter in deviceState.Parameters)
