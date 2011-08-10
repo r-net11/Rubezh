@@ -9,12 +9,12 @@ namespace SoundsModule.ViewModels
     {
         static SoundPlayerHelper()
         {
-            SoundPlr = new SoundPlayer();
+            _soundPlayer = new SoundPlayer();
         }
 
-        static SoundPlayer SoundPlr { get; set; }
+        static SoundPlayer _soundPlayer { get; set; }
 
-        static Thread thread { get; set; }
+        static Thread _thread { get; set; }
 
         static void PlayBeepContinious(object freq)
         {
@@ -34,9 +34,9 @@ namespace SoundsModule.ViewModels
 
         static public void StopPlayPCSpeaker()
         {
-            if (thread != null)
+            if (_thread != null)
             {
-                thread.Abort();
+                _thread.Abort();
             }
         }
 
@@ -48,32 +48,32 @@ namespace SoundsModule.ViewModels
             }
             if (isContinious)
             {
-                thread = new Thread(PlayBeepContinious);
-                thread.Start((int)speaker);
+                _thread = new Thread(PlayBeepContinious);
+                _thread.Start((int)speaker);
             }
             else
             {
-                thread = new Thread(PlayBeep);
-                thread.Start((int)speaker);
+                _thread = new Thread(PlayBeep);
+                _thread.Start((int)speaker);
             }
         }
 
         public static void PlaySound(string SoundName, bool isContinious)
         {
-            SoundPlr.SoundLocation = DownloadHelper.CurrentDirectory + SoundName;
+            _soundPlayer.SoundLocation = DownloadHelper.CurrentDirectory + SoundName;
 
             if (!(string.IsNullOrWhiteSpace(SoundName)) && (!string.Equals(SoundName, DownloadHelper.DefaultName)))
             {
-                SoundPlr.Load();
-                if (SoundPlr.IsLoadCompleted)
+                _soundPlayer.Load();
+                if (_soundPlayer.IsLoadCompleted)
                 {
                     if (isContinious)
                     {
-                        SoundPlr.PlayLooping();
+                        _soundPlayer.PlayLooping();
                     }
                     else
                     {
-                        SoundPlr.Play();
+                        _soundPlayer.Play();
                     }
                 }
             }
@@ -81,7 +81,7 @@ namespace SoundsModule.ViewModels
 
         public static void StopPlaySound()
         {
-            SoundPlr.Stop();
+            _soundPlayer.Stop();
         }
     }
 }
