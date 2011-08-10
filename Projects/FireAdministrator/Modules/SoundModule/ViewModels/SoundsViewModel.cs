@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace SoundsModule.ViewModels
 {
@@ -17,10 +17,7 @@ namespace SoundsModule.ViewModels
             DownloadHelper.UpdateSound();
             IsNowPlaying = false;
             var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            if (sysConfSounds == null)
-            {
-                sysConfSounds = new List<FiresecAPI.Models.Sound>();
-            }
+            Sounds = new ObservableCollection<SoundViewModel>();
 
             if ((sysConfSounds != null) && (sysConfSounds.Count > 0))
             {
@@ -33,10 +30,10 @@ namespace SoundsModule.ViewModels
             {
                 foreach (var statetype in Enum.GetValues(typeof(StateType)))
                 {
-                    if ((StateType)statetype == StateType.No)
+                    if ((StateType) statetype == StateType.No)
                         continue;
                     Sound newSound = new Sound();
-                    newSound.StateType = (StateType)statetype;
+                    newSound.StateType = (StateType) statetype;
                     Sounds.Add(new SoundViewModel(newSound));
                 }
             }

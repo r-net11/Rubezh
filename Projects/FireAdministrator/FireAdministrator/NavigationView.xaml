@@ -13,78 +13,60 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Grid.Column="0">
+    <StackPanel>
         <TabControl Template="{StaticResource OutlookTab}">
 
             <TabItem IsSelected="{Binding IsDevicesSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Устройства" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Устройства" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsZonesSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Зоны" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Зоны" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsDerectonsSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Направления пожаротушения" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Направления пожаротушения" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsLibrarySelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Библиотека" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Библиотека" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsPlanSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Планы" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Планы" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsSecuritySelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Права" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Права" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsJournalSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Фильтры" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Фильтры" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsSoundsSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Звуки" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Звуки" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
             <TabItem IsSelected="{Binding IsInstructionsSelected}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Инструкции" FontWeight="Bold" />
-                    </StackPanel>
+                    <TextBlock Text="Инструкции" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
