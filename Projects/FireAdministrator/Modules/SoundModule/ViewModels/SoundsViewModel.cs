@@ -109,7 +109,6 @@ namespace SoundsModule.ViewModels
 
         public override void OnHide()
         {
-            base.OnHide();
             IsNowPlaying = false;
             SoundPlayerHelper.StopPlaySound();
             SoundPlayerHelper.StopPlayPCSpeaker();

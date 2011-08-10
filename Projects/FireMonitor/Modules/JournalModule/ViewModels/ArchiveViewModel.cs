@@ -26,30 +26,38 @@ namespace JournalModule.ViewModels
 
         void Read(Object stateInfo)
         {
-            int lastJournalId = 100;
-            while (true)
+            List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 300);
+            Parallel.ForEach(journalRecords, journalItem =>
             {
-                List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, lastJournalId);
-
-                if (journalRecords == null)
-                    break;
-
-                Parallel.ForEach(journalRecords, journalItem =>
-                {
-                    Dispatcher.Invoke((Action<JournalRecordViewModel>) Add, new JournalRecordViewModel(journalItem));
-                }
-                );
-
-                //if (journalItems.Count < 100)
-                //    break;
-
-                break;
-
-                if (journalRecords.Count > 0)
-                    lastJournalId = journalRecords[journalRecords.Count - 1].No - 1;
-                else
-                    lastJournalId--;
+                Dispatcher.Invoke((Action<JournalRecordViewModel>)Add, new JournalRecordViewModel(journalItem));
             }
+            );
+            return;
+
+            //int lastJournalId = 100;
+            //while (true)
+            //{
+            //    List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, lastJournalId);
+
+            //    if (journalRecords == null)
+            //        break;
+
+            //    Parallel.ForEach(journalRecords, journalItem =>
+            //    {
+            //        Dispatcher.Invoke((Action<JournalRecordViewModel>) Add, new JournalRecordViewModel(journalItem));
+            //    }
+            //    );
+
+            //    //if (journalItems.Count < 100)
+            //    //    break;
+
+            //    break;
+
+            //    if (journalRecords.Count > 0)
+            //        lastJournalId = journalRecords[journalRecords.Count - 1].No - 1;
+            //    else
+            //        lastJournalId--;
+            //}
         }
 
         void Add(JournalRecordViewModel journalItemViewModel)

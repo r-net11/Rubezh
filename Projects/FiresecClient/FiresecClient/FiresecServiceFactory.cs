@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
+using System.Diagnostics;
 
 namespace FiresecClient
 {
@@ -45,8 +46,15 @@ namespace FiresecClient
                 }
             }
 
+            _duplexChannelFactory.Faulted += new EventHandler(_duplexChannelFactory_Faulted);
+
             IFiresecService _firesecService = _duplexChannelFactory.CreateChannel();
             return _firesecService;
+        }
+
+        static void _duplexChannelFactory_Faulted(object sender, EventArgs e)
+        {
+            Trace.WriteLine("Channel fault");
         }
     }
 }

@@ -68,11 +68,11 @@ namespace AlarmModule.ViewModels
                 {
                     if (resetItems.Any(x => x.DeviceId == resetItem.DeviceId))
                     {
-                        foreach (string state in resetItem.States)
+                        foreach (string stateName in resetItem.StateNames)
                         {
-                            if (resetItem.States.Contains(state) == false)
+                            if (resetItem.StateNames.Contains(stateName) == false)
                             {
-                                resetItem.States.Add(state);
+                                resetItem.StateNames.Add(stateName);
                             }
                         }
                     }

@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
 
@@ -15,11 +18,19 @@ namespace FiresecClient
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-        static IFiresecService _firesecService;
+        static SafeFiresecService _firesecService;
+
+        static Thread _pingThread;
+
+        public static Action ConnectionLost;
+        public static Action ConnectionAppeared;
 
         public static bool Connect(string login, string password)
         {
-            _firesecService = FiresecServiceFactory.Create();
+            IFiresecService firesecService = FiresecServiceFactory.Create();
+            _firesecService = new SafeFiresecService(firesecService);
+            _firesecService.ConnectionLost = ConnectionLost;
+            _firesecService.ConnectionAppeared = ConnectionAppeared;
 
             _firesecService.Connect();
             Drivers = _firesecService.GetDrivers();
@@ -30,6 +41,10 @@ namespace FiresecClient
             Update();
 
             _loggedInUserName = login;
+
+            _pingThread = new Thread(PingWork);
+            _pingThread.Start();
+
             return true;
         }
 
@@ -48,7 +63,7 @@ namespace FiresecClient
 
                 foreach (var state in deviceState.States)
                 {
-                    var driverState = deviceState.Device.Driver.States.FirstOrDefault(x=>x.Code == state.Code);
+                    var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
                     state.DriverState = driverState;
                 }
 
@@ -99,6 +114,7 @@ namespace FiresecClient
         public static void Disconnect()
         {
             _firesecService.Disconnect();
+            _pingThread.Abort();
         }
 
         public static void SetConfiguration()
@@ -108,14 +124,14 @@ namespace FiresecClient
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
-        public static void AddToIgnoreList(List<string> ids)
+        public static void AddToIgnoreList(List<string> deviceIds)
         {
-            _firesecService.AddToIgnoreList(ids);
+            _firesecService.AddToIgnoreList(deviceIds);
         }
 
-        public static void RemoveFromIgnoreList(List<string> devicePaths)
+        public static void RemoveFromIgnoreList(List<string> deviceIds)
         {
-            _firesecService.RemoveFromIgnoreList(devicePaths);
+            _firesecService.RemoveFromIgnoreList(deviceIds);
         }
 
         public static void ResetStates(List<ResetItem> resetItems)
@@ -128,9 +144,9 @@ namespace FiresecClient
             _firesecService.AddUserMessage(message);
         }
 
-        public static void ExecuteCommand(string id, string methodName)
+        public static void ExecuteCommand(string deviceId, string methodName)
         {
-            _firesecService.ExecuteCommand(id, methodName);
+            _firesecService.ExecuteCommand(deviceId, methodName);
         }
 
         public static List<JournalRecord> ReadJournal(int startIndex, int count)
@@ -157,7 +173,7 @@ namespace FiresecClient
         {
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
             FileStream fileStream = new FileStream(fileName, FileMode.Open);
-            FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
+            FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
             fileStream.Close();
 
             Update();
@@ -170,5 +186,18 @@ namespace FiresecClient
             dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
             fileStream.Close();
         }
+
+        static void PingWork()
+        {
+            while (true)
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+                _firesecService.Ping();
+                Trace.WriteLine("Ping " + pingCount.ToString());
+                pingCount++;
+            }
+        }
+
+        static int pingCount = 0;
     }
 }

@@ -60,8 +60,9 @@ namespace JournalModule.ViewModels
             bool isFiltered = false;
             int startIndex = 0;
 
-            while (isFiltered == false &&
-                (journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount)) != null)
+            //while (isFiltered == false &&
+            //    (journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount)) != null)
+            journalRecords = FiresecManager.ReadJournal(startIndex, 300);
             {
                 foreach (var journalRecord in journalRecords)
                 {

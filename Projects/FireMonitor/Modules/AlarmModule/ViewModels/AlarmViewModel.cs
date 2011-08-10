@@ -153,7 +153,6 @@ namespace AlarmModule.ViewModels
             var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
 
             ResetItem resetItem = new ResetItem();
-            resetItem.States = new List<string>();
 
             if ((_alarm.AlarmType == AlarmType.Fire) || (_alarm.AlarmType == AlarmType.Attention) || (_alarm.AlarmType == AlarmType.Info))
             {
@@ -163,7 +162,7 @@ namespace AlarmModule.ViewModels
                 {
                     if ((state.IsActive) && (state.DriverState.StateClassId == AlarmTypeToClass(_alarm.AlarmType)) && (state.DriverState.IsManualReset))
                     {
-                        resetItem.States.Add(state.DriverState.Name);
+                        resetItem.StateNames.Add(state.DriverState.Name);
                     }
                 }
             }
@@ -175,7 +174,7 @@ namespace AlarmModule.ViewModels
                 {
                     if ((state.IsActive) && (state.DriverState.IsAutomatic) && (state.DriverState.IsManualReset))
                     {
-                        resetItem.States.Add(state.DriverState.Name);
+                        resetItem.StateNames.Add(state.DriverState.Name);
                     }
                 }
             }
@@ -183,7 +182,7 @@ namespace AlarmModule.ViewModels
             {
             }
 
-            if (resetItem.States.Count > 0)
+            if (resetItem.StateNames.Count > 0)
                 return resetItem;
             return null;
         }

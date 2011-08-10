@@ -50,9 +50,9 @@ namespace FiresecService
             FiresecManager.SetNewConfig();
         }
 
-        public void WriteConfiguration(string id)
+        public void WriteConfiguration(string deviceId)
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
@@ -110,10 +110,10 @@ namespace FiresecService
             return journalRecords;
         }
 
-        public void AddToIgnoreList(List<string> ids)
+        public void AddToIgnoreList(List<string> deviceIds)
         {
             List<string> devicePaths = new List<string>();
-            foreach (var id in ids)
+            foreach (var id in deviceIds)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
                 devicePaths.Add(device.PlaceInTree);
@@ -121,10 +121,10 @@ namespace FiresecService
             FiresecInternalClient.AddToIgnoreList(devicePaths);
         }
 
-        public void RemoveFromIgnoreList(List<string> ids)
+        public void RemoveFromIgnoreList(List<string> deviceIds)
         {
             List<string> devicePaths = new List<string>();
-            foreach (var id in ids)
+            foreach (var id in deviceIds)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
                 devicePaths.Add(device.PlaceInTree);
@@ -142,9 +142,9 @@ namespace FiresecService
             FiresecInternalClient.AddUserMessage(message);
         }
 
-        public void ExecuteCommand(string id, string methodName)
+        public void ExecuteCommand(string deviceId, string methodName)
         {
-            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 
@@ -191,6 +191,11 @@ namespace FiresecService
                 throw new FileNotFoundException("File was not found", Path.GetFileName(filePath));
 
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        }
+
+        public string Ping()
+        {
+            return "Pong";
         }
     }
 }

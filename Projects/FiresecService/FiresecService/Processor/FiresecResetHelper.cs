@@ -22,10 +22,10 @@ namespace FiresecService
 
                 List<Firesec.CoreState.stateType> innerStates = new List<Firesec.CoreState.stateType>();
 
-                foreach (var state in resetItem.States)
+                foreach (var stateName in resetItem.StateNames)
                 {
-                    var innerState = deviceState.States.First(x => x.DriverState.Name == state).DriverState;
-                    innerStates.Add(new Firesec.CoreState.stateType() { id = innerState.Id });
+                    var deviceDriverState = deviceState.States.First(x => x.DriverState.Name == stateName).DriverState;
+                    innerStates.Add(new Firesec.CoreState.stateType() { id = deviceDriverState.Id });
                 }
                 innerDevice.state = innerStates.ToArray();
                 innerDevices.Add(innerDevice);
@@ -33,7 +33,6 @@ namespace FiresecService
 
             Firesec.CoreState.config coreState = new Firesec.CoreState.config();
             coreState.dev = innerDevices.ToArray();
-
             FiresecInternalClient.ResetStates(coreState);
         }
     }

@@ -21,7 +21,16 @@ namespace FiresecAPI
         DeviceConfiguration GetDeviceConfiguration();
 
         [OperationContract]
+        void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
+
+        [OperationContract]
+        void WriteConfiguration(string deviceId);
+
+        [OperationContract]
         SystemConfiguration GetSystemConfiguration();
+
+        [OperationContract]
+        void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
         [OperationContract]
         SecurityConfiguration GetSecurityConfiguration();
@@ -33,22 +42,13 @@ namespace FiresecAPI
         DeviceConfigurationStates GetStates();
 
         [OperationContract]
-        void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
-
-        [OperationContract]
-        void WriteConfiguration(string id);
-
-        [OperationContract]
-        void SetSystemConfiguration(SystemConfiguration systemConfiguration);
-
-        [OperationContract]
         List<JournalRecord> ReadJournal(int startIndex, int count);
 
         [OperationContract]
-        void AddToIgnoreList(List<string> ids);
+        void AddToIgnoreList(List<string> deviceIds);
 
         [OperationContract]
-        void RemoveFromIgnoreList(List<string> ids);
+        void RemoveFromIgnoreList(List<string> deviceIds);
 
         [OperationContract]
         void ResetStates(List<ResetItem> resetItems);
@@ -57,7 +57,7 @@ namespace FiresecAPI
         void AddUserMessage(string message);
 
         [OperationContract]
-        void ExecuteCommand(string id, string methodName);
+        void ExecuteCommand(string deviceId, string methodName);
 
         [OperationContract]
         List<string> GetSoundsFileName();
@@ -67,5 +67,8 @@ namespace FiresecAPI
 
         [OperationContract]
         Stream GetFile(string filepath);
+
+        [OperationContract]
+        string Ping();
     }
 }

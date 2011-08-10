@@ -136,7 +136,6 @@ namespace FiresecService
             }
             catch (Exception e)
             {
-                ;
             }
         }
 
@@ -172,14 +171,7 @@ namespace FiresecService
                     }
                 }
 
-                if (hasOneActiveState)
-                {
-                    deviceState.ChangeEntities.StatesChanged = true;
-                }
-                else
-                {
-                    deviceState.ChangeEntities.StatesChanged = false;
-                }
+                deviceState.ChangeEntities.StatesChanged = hasOneActiveState;
             }
         }
 
@@ -217,31 +209,25 @@ namespace FiresecService
         {
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                int minPriority = 7;
+                int minStateClassId = 7;
 
                 foreach (var state in deviceState.States)
                 {
                     if (state.IsActive)
                     {
-                        if (minPriority > state.DriverState.StateClassId)
-                            minPriority = state.DriverState.StateClassId;
+                        if (minStateClassId > state.DriverState.StateClassId)
+                            minStateClassId = state.DriverState.StateClassId;
                     }
                 }
                 foreach (var state in deviceState.ParentStates)
                 {
-                    if (minPriority > state.DriverState.StateClassId)
+                    if (minStateClassId > state.DriverState.StateClassId)
                     {
-                        minPriority = state.DriverState.StateClassId;
+                        minStateClassId = state.DriverState.StateClassId;
                     }
                 }
-                if (deviceState.StateClassId != minPriority)
-                {
-                    deviceState.ChangeEntities.StateChanged = true;
-                }
-                else
-                {
-                    deviceState.ChangeEntities.StateChanged = false;
-                }
+
+                deviceState.ChangeEntities.StateChanged = (deviceState.StateClassId != minStateClassId);
             }
         }
 
@@ -265,15 +251,10 @@ namespace FiresecService
 
                     State newZoneState = new State() { Id = minZonePriority };
 
-                    bool ZoneChanged = false;
-
-                    if (zoneState.State.Id != newZoneState.Id)
-                    {
-                        ZoneChanged = true;
-                    }
+                    bool zoneChanged = (zoneState.State.Id != newZoneState.Id);
                     zoneState.State = newZoneState;
 
-                    if (ZoneChanged)
+                    if (zoneChanged)
                     {
                         CallbackManager.OnZoneStateChanged(zoneState);
                     }

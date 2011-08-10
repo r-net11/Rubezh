@@ -79,6 +79,7 @@
     <Compile Include="FiresecManager.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SafeFiresecService.cs" />
     <Compile Include="Validation\BaseError.cs" />
     <Compile Include="Validation\DeviceError.cs" />
     <Compile Include="Validation\ErrorLevel.cs" />

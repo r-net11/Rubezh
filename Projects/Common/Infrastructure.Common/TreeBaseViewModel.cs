@@ -14,15 +14,15 @@ namespace Infrastructure.Common
 
         public ObservableCollection<T> Source { get; set; }
 
-        bool isExpanded;
+        bool _isExpanded;
         public bool IsExpanded
         {
-            get { return isExpanded; }
+            get { return _isExpanded; }
             set
             {
-                isExpanded = value;
+                _isExpanded = value;
 
-                if (isExpanded)
+                if (_isExpanded)
                 {
                     ExpandChildren(this as T);
                 }
@@ -67,18 +67,12 @@ namespace Infrastructure.Common
 
         public bool HasChildren
         {
-            get
-            {
-                return (Children.Count > 0);
-            }
+            get { return (Children.Count > 0); }
         }
 
         public int Level
         {
-            get
-            {
-                return GetAllParents().Count();
-            }
+            get { return GetAllParents().Count(); }
         }
 
         public void ExpantToThis()
@@ -102,13 +96,13 @@ namespace Infrastructure.Common
 
         public T Parent { get; set; }
 
-        ObservableCollection<T> children;
+        ObservableCollection<T> _children;
         public ObservableCollection<T> Children
         {
-            get { return children; }
+            get { return _children; }
             set
             {
-                children = value;
+                _children = value;
                 OnPropertyChanged("Children");
             }
         }

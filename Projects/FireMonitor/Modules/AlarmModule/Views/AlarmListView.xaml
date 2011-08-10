@@ -2,20 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
-             xmlns:Converters="clr-namespace:AlarmModule.Converters">
+             xmlns:Converters="clr-namespace:AlarmModule.Converters"
+             xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons">
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" />
-        </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}"
+        
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
@@ -32,8 +31,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" />
-                                <Button Content="Сбросить" Command="{Binding ResetCommand}" />
+                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Margin="2" />
+                                <Button Content="Сбросить" Command="{Binding ResetCommand}" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -45,5 +44,11 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <XButtons:XButton Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" Background="DarkRed">
+                <TextBlock Text="Сбросить все" FontSize="12" />
+            </XButtons:XButton>
+        </StackPanel>
     </Grid>
 </UserControl>

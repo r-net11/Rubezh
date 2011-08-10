@@ -10,9 +10,6 @@ namespace FiresecService.Converters
         public static void Convert(Firesec.CoreConfig.config firesecConfig)
         {
             FiresecManager.SecurityConfiguration = new SecurityConfiguration();
-            FiresecManager.SecurityConfiguration.Users = new List<User>();
-            FiresecManager.SecurityConfiguration.UserGroups = new List<UserGroup>();
-            FiresecManager.SecurityConfiguration.Perimissions = new List<Perimission>();
 
             foreach (var firesecUser in FiresecManager.CoreConfig.user)
             {

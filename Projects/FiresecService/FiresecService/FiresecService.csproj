@@ -121,7 +121,6 @@
     <Compile Include="Processor\FiresecManager.cs" />
     <Compile Include="Processor\FiresecResetHelper.cs" />
     <Compile Include="Processor\SerializerHelper.cs" />
-    <Compile Include="Processor\SoundService.cs" />
     <Compile Include="Processor\Watcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

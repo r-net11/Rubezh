@@ -12,6 +12,7 @@ namespace FiresecService
         }
 
         static List<IFiresecCallback> _callbacks;
+        static List<IFiresecCallback> _failedCallbacks;
 
         public static void Add(IFiresecCallback callback)
         {
@@ -23,80 +24,88 @@ namespace FiresecService
             _callbacks.Remove(callback);
         }
 
+        static void Clean()
+        {
+            foreach (var failedCallback in _failedCallbacks)
+            {
+                _callbacks.Remove(failedCallback);
+            }
+        }
+
         public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
+            _failedCallbacks = new List<IFiresecCallback>();
+
             foreach (IFiresecCallback callback in _callbacks)
             {
                 try
                 {
-                    if (callback != null)
-                    {
-                        callback.NewJournalRecord(journalRecord);
-                    }
+                    callback.NewJournalRecord(journalRecord);
                 }
                 catch
                 {
-                    //callback = null;
-                    //callbacks.Remove(callback);
+                    _failedCallbacks.Add(callback);
                 }
             }
+
+            Clean();
         }
 
         public static void OnDeviceStateChanged(DeviceState deviceState)
         {
+            _failedCallbacks = new List<IFiresecCallback>();
+
             foreach (IFiresecCallback callback in _callbacks)
             {
                 try
                 {
-                    if (callback != null)
-                    {
-                        callback.DeviceStateChanged(deviceState);
-                    }
+                    callback.DeviceStateChanged(deviceState);
                 }
                 catch
                 {
-                    //callback = null;
-                    //callbacks.Remove(callback);
+                    _failedCallbacks.Add(callback);
                 }
             }
+
+            Clean();
         }
 
         public static void OnDeviceParametersChanged(DeviceState deviceState)
         {
+            _failedCallbacks = new List<IFiresecCallback>();
+
             foreach (IFiresecCallback callback in _callbacks)
             {
                 try
                 {
-                    if (callback != null)
-                    {
-                        callback.DeviceParametersChanged(deviceState);
-                    }
+                    callback.DeviceParametersChanged(deviceState);
                 }
                 catch
                 {
-                    //callback = null;
-                    //callbacks.Remove(callback);
+                    _failedCallbacks.Add(callback);
                 }
             }
+
+            Clean();
         }
 
         public static void OnZoneStateChanged(ZoneState zoneState)
         {
+            _failedCallbacks = new List<IFiresecCallback>();
+
             foreach (IFiresecCallback callback in _callbacks)
             {
                 try
                 {
-                    if (callback != null)
-                    {
-                        callback.ZoneStateChanged(zoneState);
-                    }
+                    callback.ZoneStateChanged(zoneState);
                 }
                 catch
                 {
-                    //callback = null;
-                    //callbacks.Remove(callback);
+                    _failedCallbacks.Add(callback);
                 }
             }
+
+            Clean();
         }
     }
 }
