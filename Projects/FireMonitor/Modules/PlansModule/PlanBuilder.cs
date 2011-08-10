@@ -3,7 +3,6 @@ using System.IO;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using PlansModule.Models;
 
 namespace PlansModule
 {

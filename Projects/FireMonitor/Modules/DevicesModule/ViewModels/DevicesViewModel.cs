@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -130,6 +131,7 @@ namespace DevicesModule.ViewModels
         }
 
         #region DeviceSection
+
         public List<DeviceViewModel> AllDevices;
 
         public void Select(string id)
@@ -141,6 +143,7 @@ namespace DevicesModule.ViewModels
             }
             SelectedDevice = deviceViewModel;
         }
+
         #endregion
     }
 }
