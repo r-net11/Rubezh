@@ -34,6 +34,7 @@ namespace InstructionsModule.ViewModels
         public ObservableCollection<InstructionViewModel> Instructions { get; set; }
 
         InstructionViewModel _selectedInstruction;
+
         public InstructionViewModel SelectedInstruction
         {
             get { return _selectedInstruction; }
@@ -45,6 +46,7 @@ namespace InstructionsModule.ViewModels
         }
 
         public RelayCommand AddCommand { get; private set; }
+
         void OnAdd()
         {
             InstructionDetailsViewModel instructionDetailsViewModel = new InstructionDetailsViewModel();
@@ -70,6 +72,7 @@ namespace InstructionsModule.ViewModels
         }
 
         public RelayCommand EditCommand { get; private set; }
+
         void OnEdit()
         {
             InstructionDetailsViewModel instructionDetailsViewModel = new InstructionDetailsViewModel();

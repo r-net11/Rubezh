@@ -17,5 +17,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public double Height { get; set; }
+
+        [DataMember]
+        public Plan Children { get; set; }
     }
 }

@@ -24,8 +24,8 @@ namespace LibraryModule.ViewModels
                 DeviceViewModels.Add(new DeviceViewModel(device));
             }
         }
-
         ObservableCollection<DeviceViewModel> _deviceViewModels;
+
         public ObservableCollection<DeviceViewModel> DeviceViewModels
         {
             get { return _deviceViewModels; }

@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using FiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
@@ -17,23 +18,35 @@ namespace PlansModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        bool _isNew;
-        public Plan Plan { get; private set; }
-
-        public void Initialize()
+        public PlanDetailsViewModel(PlanDetailsViewModel _Parent)
         {
-            _isNew = false;
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
+            _isNew = true;
             Plan = new Plan();
             Title = "Новый план";
+            if (_Parent != null) parent = _Parent;
+            else parent = null;
         }
 
-        public void Initialize(Plan plan)
+        bool _isNew;
+
+        public Plan Plan { get; private set; }
+
+        PlanDetailsViewModel parent;
+
+        public PlanDetailsViewModel Parent
+        {
+            get { return parent; }
+        }
+
+        public void Initialize(PlanDetailsViewModel _Parent)
         {
             _isNew = false;
-            Plan = plan;
-            Name = plan.Name;
-            Width = plan.Width;
-            Height = plan.Height;
+            Plan = _Parent.Plan;
+            Name = _Parent.Name;
+            Width = _Parent.Width;
+            Height = _Parent.Height;
             Title = "Редактирование плана";
         }
 
@@ -70,15 +83,33 @@ namespace PlansModule.ViewModels
             }
         }
 
+        ObservableCollection<PlanDetailsViewModel> _children;
+        
+        public ObservableCollection<PlanDetailsViewModel> Children
+        {
+            get { return _children; }
+            set
+            {
+                _children = value;
+                OnPropertyChanged("Children");
+            }
+        }
+
         void Save()
         {
             Plan.Name = Name;
             Plan.Height = Height;
             Plan.Width = Width;
-            if (_isNew)
+            Plan.Children = null;
+            if (parent != null)
             {
-                FiresecManager.SystemConfiguration.Plans.Add(Plan);
+                if (parent.Children == null) parent.Children = new ObservableCollection<PlanDetailsViewModel>();
+                parent.Children.Add(this);
             }
+        }
+        public void Update()
+        {
+            //OnPropertyChanged("Plan");
         }
 
         public RelayCommand SaveCommand { get; private set; }
@@ -93,5 +124,6 @@ namespace PlansModule.ViewModels
         {
             Close(false);
         }
+
     }
 }

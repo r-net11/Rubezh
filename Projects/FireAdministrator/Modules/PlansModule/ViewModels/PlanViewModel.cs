@@ -11,16 +11,14 @@ namespace PlansModule.ViewModels
     {
         public PlanViewModel(Plan plan)
         {
-            
             Plan = plan;
         }
 
         public Plan Plan { get; private set; }
-        
+
         public void Update()
         {
             OnPropertyChanged("Plan");
         }
-        
     }
 }

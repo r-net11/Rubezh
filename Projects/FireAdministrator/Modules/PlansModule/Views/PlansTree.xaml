@@ -1,26 +1,26 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlansTree"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+             xmlns:ViewModels="clr-namespace:PlansModule.ViewModels"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <TreeView >
-            <TreeView.Resources>
-
-                <HierarchicalDataTemplate ItemsSource="{Binding Plans}" DataType="{x:Type }">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
+        <TreeView ItemsSource="{Binding Plans}"
+                  SelectedItemChanged="TreeView_SelectedItemChanged"
+                  MouseLeftButtonDown="TreeView_MouseLeftButtonDown"
+                  >
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <WrapPanel Margin="0,3">
+                        <TextBlock Text="{Binding Name}"/>
+                    </WrapPanel>
                 </HierarchicalDataTemplate>
-            </TreeView.Resources>
-
+            </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить план" Command="{Binding AddCommand}"
-                              />
-                    <MenuItem Header="Удалить план" 
-                              />
-                    <MenuItem Header="Редактировать план" 
-                              />
+                    <MenuItem Header="Добавить план" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="Редактировать план" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="Удалить план" Command="{Binding RemoveCommand}"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
