@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class Plan
+    public class Plan_old
     {
         [DataMember]
         public string Name { get; set; }

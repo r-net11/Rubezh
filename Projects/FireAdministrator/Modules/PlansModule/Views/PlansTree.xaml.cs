@@ -20,15 +20,13 @@ namespace PlansModule.Views
             }
         }
 
-        private void TreeView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TreeView_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
             var treeView = sender as TreeView;
-            if (((treeView.SelectedItem as PlanDetailsViewModel) != null)&&(treeView.SelectedItem!=null))
+            if (((treeView.SelectedItem as PlanDetailsViewModel) != null) && (treeView.SelectedItem != null))
             {
                 (DataContext as PlansViewModel).SelectedPlan = null;
             }
-            
         }
     }
 }

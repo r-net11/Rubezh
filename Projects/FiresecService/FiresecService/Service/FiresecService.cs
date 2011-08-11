@@ -53,7 +53,7 @@ namespace FiresecService
 
         public void WriteConfiguration(string deviceId)
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
         }
 
@@ -77,7 +77,12 @@ namespace FiresecService
                 FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
                 fileStream.Close();
 
-            return FiresecManager.SystemConfiguration;
+                return FiresecManager.SystemConfiguration;
+            }
+            catch
+            {
+                return FiresecManager.SystemConfiguration;
+            }
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
@@ -141,7 +146,7 @@ namespace FiresecService
 
         public void ExecuteCommand(string deviceId, string methodName)
         {
-            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x=>x.Id == id);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 
