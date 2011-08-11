@@ -11,7 +11,7 @@ namespace AlarmModule.ViewModels
 {
     public static class AlarmPlayerHelper
     {
-       static AlarmPlayerHelper()
+        static AlarmPlayerHelper()
         {
             _soundPlayer = new SoundPlayer();
         }
@@ -104,4 +104,5 @@ namespace AlarmModule.ViewModels
             StopPlaySound();
             StopPlayPCSpeaker();
         }
+    }
 }

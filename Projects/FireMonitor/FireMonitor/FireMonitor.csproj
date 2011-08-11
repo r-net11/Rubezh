@@ -92,6 +92,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConnectionIndicatorView.xaml.cs">
       <DependentUpon>ConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
@@ -107,7 +110,7 @@
     <Compile Include="Services\PasswordView.xaml.cs">
       <DependentUpon>PasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShellView.xaml.cs">
+    <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\UserDialogService.cs" />
@@ -144,6 +147,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConnectionIndicatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShellView.xaml">
+    <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,21 +235,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Tree_Alarms.png" />
-    <Resource Include="Images\Tree_Equipment.png" />
-    <Resource Include="Images\Tree_Journal.png" />
-    <Resource Include="Images\Tree_Plans.png" />
-    <Resource Include="Images\Tree_Reports.png" />
-    <Resource Include="Images\Tree_Zones.png" />
+    <Resource Include="Views\Images\Tree_Alarms.png" />
+    <Resource Include="Views\Images\Tree_Equipment.png" />
+    <Resource Include="Views\Images\Tree_Journal.png" />
+    <Resource Include="Views\Images\Tree_Plans.png" />
+    <Resource Include="Views\Images\Tree_Reports.png" />
+    <Resource Include="Views\Images\Tree_Zones.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Ind_C-C.png" />
-    <Resource Include="Images\Ind_C-P.png" />
-    <Resource Include="Images\Ind_CxC.png" />
-    <Resource Include="Images\Ind_CxP.png" />
-    <Resource Include="Images\logo.png" />
-    <Resource Include="Images\mute.png" />
-    <Resource Include="Images\sound.png" />
+    <Resource Include="Views\Images\Ind_C-C.png" />
+    <Resource Include="Views\Images\Ind_C-P.png" />
+    <Resource Include="Views\Images\Ind_CxC.png" />
+    <Resource Include="Views\Images\Ind_CxP.png" />
+    <Resource Include="Views\Images\logo.png" />
+    <Resource Include="Views\Images\mute.png" />
+    <Resource Include="Views\Images\sound.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

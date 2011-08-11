@@ -6,11 +6,11 @@ using Microsoft.Practices.Prism.Modularity;
 
 namespace FiltersModule
 {
-    public class FiltersModule : IModule
+    public class FilterModule : IModule
     {
         static FiltersViewModel _filtersViewModel;
 
-        public FiltersModule()
+        public FilterModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
         }

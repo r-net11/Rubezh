@@ -19,7 +19,7 @@ namespace FireAdministrator
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            //FiltersModule.FiltersModule.Save();
+            FiltersModule.FilterModule.Save();
             SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
             DevicesModule.DevicesModule.HasChanges = false;
@@ -82,7 +82,7 @@ namespace FireAdministrator
         void OnValidate(object sender, RoutedEventArgs e)
         {
             DevicesModule.DevicesModule.Validate();
-            FiltersModule.FiltersModule.Validate();
+            FiltersModule.FilterModule.Validate();
         }
     }
 }

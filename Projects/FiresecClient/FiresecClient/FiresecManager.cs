@@ -23,15 +23,10 @@ namespace FiresecClient
 
         static Thread _pingThread;
 
-        public static Action ConnectionLost;
-        public static Action ConnectionAppeared;
-
         public static bool Connect(string login, string password)
         {
             IFiresecService firesecService = FiresecServiceFactory.Create();
             _firesecService = new SafeFiresecService(firesecService);
-            _firesecService.ConnectionLost = ConnectionLost;
-            _firesecService.ConnectionAppeared = ConnectionAppeared;
 
             _firesecService.Connect();
             Drivers = _firesecService.GetDrivers();
@@ -198,5 +193,10 @@ namespace FiresecClient
         }
 
         static int pingCount = 0;
+
+        public static void Reconnect(string userName)
+        {
+            _loggedInUserName = userName;
+        }
     }
 }

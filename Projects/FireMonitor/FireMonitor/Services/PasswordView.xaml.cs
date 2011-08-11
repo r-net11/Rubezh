@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using FiresecClient;
 
 namespace FireMonitor.Services
@@ -12,20 +13,49 @@ namespace FireMonitor.Services
             _login.Text = FiresecManager.CurrentUser.Name;
         }
 
+        public void InitializeReconnect()
+        {
+            _login.Text = "";
+            _login.IsEnabled = true;
+            _isReconnect = true;
+        }
+
+        bool _isReconnect;
+
         public bool IsAutorised { get; private set; }
+        public string UserName { get; private set; }
 
         void OnSave(object sender, RoutedEventArgs e)
         {
             _info.Text = "Соединение с сервером";
-
+            
             string login = _login.Text;
             string password = _pass.Text;
 
-            bool result = Check(password, FiresecManager.CurrentUser.PasswordHash);
+            string passwordHash = "";
+
+            if (_isReconnect)
+            {
+                var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == login);
+                if (user == null)
+                {
+                    IsAutorised = false;
+                    _info.Text = "Неправильное имя пользователя и пароль";
+                    return;
+                }
+                passwordHash = user.PasswordHash;
+            }
+            else
+            {
+                passwordHash = FiresecManager.CurrentUser.PasswordHash;
+            }
+
+            bool result = Check(password, passwordHash);
 
             if (result)
             {
                 IsAutorised = true;
+                UserName = login;
             }
             else
             {

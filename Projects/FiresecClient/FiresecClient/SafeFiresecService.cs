@@ -14,19 +14,31 @@ namespace FiresecClient
 
         IFiresecService _iFiresecService;
 
-        public Action ConnectionLost;
+        public static event Action ConnectionLost;
         void OnConnectionLost()
         {
+            if (_isConnected == false)
+                return;
+
             if (ConnectionLost != null)
                 ConnectionLost();
+
+            _isConnected = false;
         }
 
-        public Action ConnectionAppeared;
+        public static event Action ConnectionAppeared;
         void OnConnectionAppeared()
         {
+            if (_isConnected == true)
+                return;
+
             if (ConnectionAppeared != null)
                 ConnectionAppeared();
+
+            _isConnected = true;
         }
+
+        bool _isConnected = true;
 
         public void Connect()
         {
@@ -268,7 +280,9 @@ namespace FiresecClient
         {
             try
             {
-                return _iFiresecService.Ping();
+                var result = _iFiresecService.Ping();
+                OnConnectionAppeared();
+                return result;
             }
             catch
             {
