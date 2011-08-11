@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
             if ((timeoutProperty == null) || (timeoutProperty.Value == null))
                 Timeout = 0;
             else
-                Timeout = Convert.ToInt32(timeoutProperty.Value);
+                Timeout = int.Parse(timeoutProperty.Value);
         }
 
         Device _device;

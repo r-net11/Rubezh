@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.DeviceProperties;
@@ -78,7 +77,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 return from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                       orderby Convert.ToInt32(zone.No)
+                       orderby int.Parse(zone.No)
                        select zone;
             }
         }

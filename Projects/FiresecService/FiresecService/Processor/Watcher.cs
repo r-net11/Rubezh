@@ -52,7 +52,7 @@ namespace FiresecService
             Firesec.ReadEvents.document journal = FiresecInternalClient.ReadEvents(0, 1);
             if ((journal.Journal != null) && (journal.Journal.Count() > 0))
             {
-                LastEventId = Convert.ToInt32(journal.Journal[0].IDEvents);
+                LastEventId = int.Parse(journal.Journal[0].IDEvents);
             }
         }
 
@@ -66,13 +66,13 @@ namespace FiresecService
             {
                 foreach (var innerJournalItem in document.Journal)
                 {
-                    if (Convert.ToInt32(innerJournalItem.IDEvents) > LastEventId)
+                    if (int.Parse(innerJournalItem.IDEvents) > LastEventId)
                     {
                         var journalItem = JournalConverter.Convert(innerJournalItem);
                         CallbackManager.OnNewJournalRecord(journalItem);
                     }
                 }
-                LastEventId = Convert.ToInt32(document.Journal[0].IDEvents);
+                LastEventId = int.Parse(document.Journal[0].IDEvents);
             }
         }
 

@@ -14,7 +14,7 @@ namespace FiresecAPI.Models
 
         public PermissionType PermissionType
         {
-            get { return (PermissionType) Convert.ToInt32(Id); }
+            get { return (PermissionType) int.Parse(Id); }
         }
     }
 

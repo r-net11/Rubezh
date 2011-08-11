@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 
 namespace FiresecAPI
 {
@@ -27,13 +26,13 @@ namespace FiresecAPI
             }
             if (driver.IsDeviceOnShleif == false)
             {
-                return Convert.ToInt32(stringAddress);
+                return int.Parse(stringAddress);
             }
 
             var addresses = stringAddress.Split('.');
 
-            int shleifPart = System.Convert.ToInt32(addresses[0]);
-            int addressPart = System.Convert.ToInt32(addresses[1]);
+            int shleifPart = int.Parse(addresses[0]);
+            int addressPart = int.Parse(addresses[1]);
             int intAddress = shleifPart * 256 + addressPart;
 
             return intAddress;

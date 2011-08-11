@@ -61,7 +61,7 @@ namespace FiresecService.Converters
 
             driver.IsChildAddressReservedRange = (innerDriver.res_addr != null);
 
-            driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? System.Convert.ToInt32(innerDriver.res_addr) : 0;
+            driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
             driver.DisableAutoCreateChildren = (innerDriver.options != null) && (innerDriver.options.Contains("DisableAutoCreateChildren"));
 
             if (innerDriver.addrMask == "[0(1)-8(8)]")
@@ -72,16 +72,16 @@ namespace FiresecService.Converters
             if (innerDriver.addrMask == "[0(1)-8(8)]")
                 driver.MinAddress = 1;
             else
-                driver.MinAddress = System.Convert.ToInt32(innerDriver.ar_from);
+                driver.MinAddress = int.Parse(innerDriver.ar_from);
 
             if (innerDriver.addrMask == "[0(1)-8(8)]")
                 driver.MaxAddress = 8;
             else
-                driver.MaxAddress = System.Convert.ToInt32(innerDriver.ar_to);
+                driver.MaxAddress = int.Parse(innerDriver.ar_to);
 
             driver.IsAutoCreate = innerDriver.acr_enabled == "1";
-            driver.MinAutoCreateAddress = System.Convert.ToInt32(innerDriver.acr_from);
-            driver.MaxAutoCreateAddress = System.Convert.ToInt32(innerDriver.acr_to);
+            driver.MinAutoCreateAddress = int.Parse(innerDriver.acr_from);
+            driver.MaxAutoCreateAddress = int.Parse(innerDriver.acr_to);
             driver.HasAddressMask = innerDriver.addrMask != null;
 
             string imageSource;
@@ -314,7 +314,7 @@ namespace FiresecService.Converters
                     driverState.Id = innerState.id;
                     driverState.Name = innerState.name;
                     driverState.AffectChildren = innerState.affectChildren == "1" ? true : false;
-                    driverState.StateClassId = System.Convert.ToInt32(innerState.@class);
+                    driverState.StateClassId = int.Parse(innerState.@class);
                     driverState.IsManualReset = innerState.manualReset == "1" ? true : false;
                     driverState.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
                     driverState.IsAutomatic = innerState.type == "Auto" ? true : false;

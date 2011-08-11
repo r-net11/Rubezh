@@ -19,8 +19,8 @@ namespace FiresecService.Converters
 
                     pDUGroupDevice.DeviceUID = groupDevice.UID;
                     pDUGroupDevice.IsInversion = (groupDevice.Inverse == "1");
-                    pDUGroupDevice.OnDelay = System.Convert.ToInt32(groupDevice.DelayOn);
-                    pDUGroupDevice.OffDelay = System.Convert.ToInt32(groupDevice.DelayOff);
+                    pDUGroupDevice.OnDelay = int.Parse(groupDevice.DelayOn);
+                    pDUGroupDevice.OffDelay = int.Parse(groupDevice.DelayOff);
                     pDUGroupLogic.Devices.Add(pDUGroupDevice);
                 }
             }

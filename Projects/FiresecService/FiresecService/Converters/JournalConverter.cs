@@ -27,12 +27,12 @@ namespace FiresecService.Converters
 
         static DateTime ConvertTime(string firesecTime)
         {
-            int year = System.Convert.ToInt32(firesecTime.Substring(0, 4));
-            int month = System.Convert.ToInt32(firesecTime.Substring(4, 2));
-            int day = System.Convert.ToInt32(firesecTime.Substring(6, 2));
-            int hour = System.Convert.ToInt32(firesecTime.Substring(9, 2));
-            int minute = System.Convert.ToInt32(firesecTime.Substring(12, 2));
-            int secunde = System.Convert.ToInt32(firesecTime.Substring(15, 2));
+            int year = int.Parse(firesecTime.Substring(0, 4));
+            int month = int.Parse(firesecTime.Substring(4, 2));
+            int day = int.Parse(firesecTime.Substring(6, 2));
+            int hour = int.Parse(firesecTime.Substring(9, 2));
+            int minute = int.Parse(firesecTime.Substring(12, 2));
+            int secunde = int.Parse(firesecTime.Substring(15, 2));
 
             return new DateTime(year, month, day, hour, minute, secunde);
         }

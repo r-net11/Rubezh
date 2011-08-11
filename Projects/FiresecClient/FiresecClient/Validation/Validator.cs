@@ -34,7 +34,7 @@ namespace FiresecClient.Validation
                     ZoneErrors.Add(zoneError);
                 }
 
-                if (Convert.ToInt32(zone.DetectorCount) < FiresecManager.DeviceConfiguration.Devices.Count(x => x.ZoneNo == zone.No))
+                if (int.Parse(zone.DetectorCount) < FiresecManager.DeviceConfiguration.Devices.Count(x => x.ZoneNo == zone.No))
                 {
                     ZoneError zoneError = new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Normal);
                     ZoneErrors.Add(zoneError);

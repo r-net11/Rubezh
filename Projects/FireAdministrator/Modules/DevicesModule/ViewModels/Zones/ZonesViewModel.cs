@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
         {
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in FiresecManager.DeviceConfiguration.Zones
-                orderby (Convert.ToInt32(zone.No))
+                orderby (int.Parse(zone.No))
                 select new ZoneViewModel(zone));
 
             if (Zones.Count > 0)
@@ -65,7 +65,7 @@ namespace DevicesModule.ViewModels
         {
             Zone newZone = new Zone();
             newZone.Name = "Новая зона";
-            var maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select Convert.ToInt32(zone.No)).Max();
+            var maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
             newZone.No = (maxNo + 1).ToString();
 
             ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(newZone);

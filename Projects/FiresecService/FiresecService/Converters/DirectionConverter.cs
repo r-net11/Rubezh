@@ -18,7 +18,7 @@ namespace FiresecService.Converters
                     if (innerDirection.type == "direction")
                     {
                         Direction direction = new Direction();
-                        direction.Id = System.Convert.ToInt32(innerDirection.id);
+                        direction.Id = int.Parse(innerDirection.id);
                         direction.Gid = innerDirection.gid;
                         direction.Name = innerDirection.name;
                         direction.Description = innerDirection.desc;

@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 return from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                       orderby Convert.ToInt32(zone.No)
+                       orderby int.Parse(zone.No)
                        select new ZoneViewModel(zone);
             }
         }

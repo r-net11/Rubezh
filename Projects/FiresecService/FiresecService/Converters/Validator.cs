@@ -47,7 +47,7 @@
 //                int intDetectorCount = 0;
 //                try
 //                {
-//                    intDetectorCount = System.Convert.ToInt32(zone.DetectorCount);
+//                    intDetectorCount = int.Parse(zone.DetectorCount);
 //                }
 //                catch
 //                {
@@ -67,7 +67,7 @@
 //                int intEvacuationTime = 0;
 //                try
 //                {
-//                    intEvacuationTime = System.Convert.ToInt32(zone.EvacuationTime);
+//                    intEvacuationTime = int.Parse(zone.EvacuationTime);
 //                }
 //                catch
 //                {
@@ -164,7 +164,7 @@
 //            //                    int intAddress = 0;
 //            //                    try
 //            //                    {
-//            //                        intAddress = System.Convert.ToInt32(device.Address);
+//            //                        intAddress = int.Parse(device.Address);
 //            //                    }
 //            //                    catch
 //            //                    {
@@ -186,7 +186,7 @@
 //            //                    int intShleif;
 //            //                    try
 //            //                    {
-//            //                        intShleif = System.Convert.ToInt32(addresses[0]);
+//            //                        intShleif = int.Parse(addresses[0]);
 //            //                    }
 //            //                    catch
 //            //                    {
@@ -195,7 +195,7 @@
 //            //                    }
 //            //                    try
 //            //                    {
-//            //                        intAddress = System.Convert.ToInt32(addresses[1]);
+//            //                        intAddress = int.Parse(addresses[1]);
 //            //                    }
 //            //                    catch
 //            //                    {
@@ -231,7 +231,7 @@
 //            //            int intAddress = 0;
 //            //            try
 //            //            {
-//            //                intAddress = System.Convert.ToInt32(device.Address);
+//            //                intAddress = int.Parse(device.Address);
 //            //            }
 //            //            catch
 //            //            {
