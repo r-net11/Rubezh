@@ -48,7 +48,7 @@ namespace AlarmModule.ViewModels
                     currentDeviceState = deviceState;
                 }
             }
-            PlayAlarm(currentDeviceState.State.StateType);
+            PlayAlarm(currentDeviceState.StateType);
         }
     }
 }

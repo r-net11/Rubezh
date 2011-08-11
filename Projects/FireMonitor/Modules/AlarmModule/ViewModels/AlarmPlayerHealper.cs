@@ -11,7 +11,7 @@ namespace AlarmModule.ViewModels
 {
     public static class AlarmPlayerHelper
     {
-        static AlarmPlayerHelper()
+       static AlarmPlayerHelper()
         {
             _soundPlayer = new SoundPlayer();
         }
@@ -21,13 +21,13 @@ namespace AlarmModule.ViewModels
             get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
         }
 
-        static SoundPlayer SoundPlr { get; set; }
+        static SoundPlayer _soundPlayer;
 
-        static Thread thread { get; set; }
+        static Thread _thread;
 
         static void PlayBeepContinious(object freq)
         {
-            int frequency = (int) freq;
+            int frequency = (int)freq;
             while (true)
             {
                 Console.Beep(frequency, 1000);
@@ -37,7 +37,7 @@ namespace AlarmModule.ViewModels
 
         static void PlayBeep(object freq)
         {
-            int frequency = (int) freq;
+            int frequency = (int)freq;
             Console.Beep(frequency, 1000);
         }
 
@@ -69,7 +69,7 @@ namespace AlarmModule.ViewModels
 
         static void PlaySound(string SoundName, bool isContinious)
         {
-            SoundPlr.SoundLocation = CurrentDirectory + SoundName;
+            _soundPlayer.SoundLocation = CurrentDirectory + SoundName;
 
             if (!string.IsNullOrWhiteSpace(SoundName))
             {
@@ -104,5 +104,4 @@ namespace AlarmModule.ViewModels
             StopPlaySound();
             StopPlayPCSpeaker();
         }
-    }
 }

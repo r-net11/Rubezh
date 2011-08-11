@@ -14,11 +14,6 @@ namespace SoundsModule.ViewModels
 {
     public class SoundsViewModel : RegionViewModel
     {
-        public SoundsViewModel()
-        {
-
-        }
-
         public void Initialize()
         {
             DownloadHelper.UpdateSound();
