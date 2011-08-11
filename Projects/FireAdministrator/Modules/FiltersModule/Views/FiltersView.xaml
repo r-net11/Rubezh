@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FiltersModule.Views.FilterView"
+﻿<UserControl x:Class="FiltersModule.Views.FiltersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:FiltersModule.Converters"
@@ -9,26 +9,18 @@
 
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
-
-        <CollectionViewSource x:Key="SortedFilters" Source="{Binding FilterViewModels}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="JournalFilter.Name" Direction="Ascending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
     </UserControl.Resources>
+
     <DockPanel Margin="10, 20">
 
         <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
         <TextBlock DockPanel.Dock="Top" Text="" />
         <TextBlock DockPanel.Dock="Top" Margin="5, 0" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
 
-        <!--<DockPanel  DockPanel.Dock="Right" Margin="5" LastChildFill="False">
-            <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding CreateCommand}">Создать</Button>
-            <Button DockPanel.Dock="Top" Margin="0, 0, 0, 5" Command="{Binding EditCommand}">Изменить</Button>
-            <Button DockPanel.Dock="Top" Command="{Binding RemoveCommand}">Удалить</Button>
-        </DockPanel>-->
-
-        <ListBox ItemsSource="{Binding Source={StaticResource SortedFilters}}" SelectedItem="{Binding SelectedFilter}"
+        <ListBox ItemsSource="{Binding FilterViewModels,
+                                       Converter={StaticResource CollectionViewFactoryConverter},
+                                       ConverterParameter=JournalFilter.Name}"
+                 SelectedItem="{Binding SelectedFilter}"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -51,15 +43,18 @@
                                 <TextBlock Margin="2"
                                            Text="{Binding Name}" />
                                 <TextBlock Margin="2"
-                                           Text="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
+                                           Text="{Binding Events,
+                                           Converter={StaticResource EventsToStringConverter}}" />
                                 <TextBlock Margin="2"
-                                           Text="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
+                                           Text="{Binding Categories,
+                                           Converter={StaticResource CategoriesToStringConverter}}" />
                                 <WrapPanel Margin="2">
                                     <WrapPanel>
                                         <TextBlock Text="{Binding LastRecordsCount}" />
                                         <TextBlock Text=" последних" />
                                     </WrapPanel>
-                                    <WrapPanel Visibility="{Binding IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <WrapPanel Visibility="{Binding IsLastDaysCountActive,
+                                               Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock Text=" за " />
                                         <TextBlock Text="{Binding LastDaysCount}" />
                                         <TextBlock Text=" дней" />

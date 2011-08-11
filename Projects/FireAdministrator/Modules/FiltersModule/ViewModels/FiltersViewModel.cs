@@ -20,7 +20,8 @@ namespace FiltersModule.ViewModels
             FilterViewModels = new ObservableCollection<FilterViewModel>();
             if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters != null)
             {
-                foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
+                foreach (var filter in
+                    FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
                 {
                     FilterViewModels.Add(new FilterViewModel(filter));
                 }
@@ -45,7 +46,8 @@ namespace FiltersModule.ViewModels
         {
             if (SelectedFilter != null)
             {
-                FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter);
+                FilterDetailsViewModel filterDetailsViewModel =
+                    new FilterDetailsViewModel(SelectedFilter.JournalFilter);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
                 {
                     SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
@@ -66,10 +68,13 @@ namespace FiltersModule.ViewModels
         {
             if (FilterViewModels != null)
             {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters =
+                    new List<JournalFilter>();
+
                 foreach (var filterViewModel in FilterViewModels)
                 {
-                    FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterViewModel.JournalFilter);
+                    FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(
+                        filterViewModel.JournalFilter);
                 }
             }
         }

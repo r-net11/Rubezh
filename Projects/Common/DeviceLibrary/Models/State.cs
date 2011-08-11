@@ -14,7 +14,5 @@ namespace DeviceLibrary.Models
         public string Code { get; set; }
 
         public List<Frame> Frames { get; set; }
-
-        public bool isChecked;
     }
 }

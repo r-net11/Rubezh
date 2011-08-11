@@ -12,7 +12,8 @@
     </UserControl.Resources>
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <TreeView ItemsSource="{Binding DeviceViewModels,
+        <TreeView Name="treeView"
+                  ItemsSource="{Binding DeviceViewModels,
                                         Converter={StaticResource CollectionViewFactoryConverter},
                                         ConverterParameter=Name}"
                   SelectedItemChanged="LibraryTree_SelectedItemChanged"
@@ -49,9 +50,9 @@
                     <MenuItem Header="Добавить дополнительное состояние"
                               Command="{Binding SelectedDeviceViewModel.AddAdditionalStateCommand}" />
                     <MenuItem Header="Удалить устройство"
-                              Command="{Binding RemoveDeviceCommand}" />
+                              Command="Delete" />
                     <MenuItem Header="Удалить состояние"
-                              Command="{Binding SelectedDeviceViewModel.RemoveStateCommand}" />
+                              Command="Delete" />
                 </ContextMenu>
             </TreeView.ContextMenu>
 

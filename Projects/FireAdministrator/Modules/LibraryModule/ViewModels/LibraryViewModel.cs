@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using DeviceLibrary;
 using Infrastructure;
@@ -24,17 +23,8 @@ namespace LibraryModule.ViewModels
                 DeviceViewModels.Add(new DeviceViewModel(device));
             }
         }
-        ObservableCollection<DeviceViewModel> _deviceViewModels;
+        public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }
 
-        public ObservableCollection<DeviceViewModel> DeviceViewModels
-        {
-            get { return _deviceViewModels; }
-            set
-            {
-                _deviceViewModels = value;
-                OnPropertyChanged("DeviceViewModels");
-            }
-        }
 
         DeviceViewModel _selectedDeviceViewModel;
         public DeviceViewModel SelectedDeviceViewModel
@@ -47,23 +37,13 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public List<DeviceLibrary.Models.Device> GetModel()
-        {
-            var devices = new List<DeviceLibrary.Models.Device>();
-            foreach (var deviceViewModel in DeviceViewModels)
-            {
-                devices.Add(deviceViewModel.GetModel());
-            }
-
-            return devices;
-        }
-
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
             var addDeviceViewModel = new DeviceDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
+                LibraryManager.Devices.Add(addDeviceViewModel.SelectedItem.Device);
                 DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
             }
         }
@@ -78,6 +58,7 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
+                LibraryManager.Devices.Remove(SelectedDeviceViewModel.Device);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);
             }
         }
@@ -91,7 +72,6 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                LibraryManager.Devices = GetModel();
                 LibraryManager.Save();
             }
         }

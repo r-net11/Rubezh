@@ -98,7 +98,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" 
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto"
                                           ItemsSource="{Binding AvailableSpeakers}"
                                           SelectedItem="{Binding SpeakerType}" Margin="2" />
                             </DataTemplate>

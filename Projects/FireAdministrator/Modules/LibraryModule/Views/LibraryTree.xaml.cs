@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using LibraryModule.ViewModels;
 
 namespace LibraryModule.Views
@@ -10,17 +11,41 @@ namespace LibraryModule.Views
         public LibraryTree()
         {
             InitializeComponent();
+            CommandBinding DeleteCmdBinding = new CommandBinding(
+                ApplicationCommands.Delete,
+                DeleteCmdExecuted,
+                DeleteCmdCanExecute);
+
+            CommandBindings.Add(DeleteCmdBinding);
+        }
+
+        void DeleteCmdExecuted(object target, ExecutedRoutedEventArgs e)
+        {
+            if (treeView.SelectedItem is DeviceViewModel)
+            {
+                (DataContext as LibraryViewModel).RemoveDeviceCommand.Execute();
+            }
+            else if (treeView.SelectedItem is StateViewModel)
+            {
+                (DataContext as LibraryViewModel).SelectedDeviceViewModel.RemoveStateCommand.Execute();
+            }
+        }
+
+        void DeleteCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
 
         void LibraryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var treeView = sender as TreeView;
-            if ((treeView.SelectedItem as DeviceViewModel) != null)
+            if (treeView.SelectedItem is DeviceViewModel)
             {
                 (DataContext as LibraryViewModel).SelectedDeviceViewModel =
                     treeView.SelectedItem as DeviceViewModel;
+                (DataContext as LibraryViewModel).SelectedDeviceViewModel.SelectedStateViewModel = null;
             }
-            if ((treeView.SelectedItem as StateViewModel) != null)
+            if (treeView.SelectedItem is StateViewModel)
             {
                 var stateViewModel = treeView.SelectedItem as StateViewModel;
                 var library = (DataContext as LibraryViewModel);

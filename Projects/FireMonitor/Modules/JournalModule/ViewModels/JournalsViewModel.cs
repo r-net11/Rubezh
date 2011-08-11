@@ -16,7 +16,7 @@ namespace JournalModule.ViewModels
         {
             Journals = new List<FilteredJournalViewModel>();
             var defaulstFilter = new JournalFilter();
-            defaulstFilter.Name = "Все события";
+            defaulstFilter.Name = " Все события";
             defaulstFilter.LastRecordsCount = FilteredJournalViewModel.RecordsMaxCount;
             Journals.Add(new FilteredJournalViewModel(defaulstFilter));
             SelectedJournal = Journals[0];

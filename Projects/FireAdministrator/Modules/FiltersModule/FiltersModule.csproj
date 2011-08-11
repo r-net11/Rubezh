@@ -90,8 +90,8 @@
     <Compile Include="Views\FilterMenuView.xaml.cs">
       <DependentUpon>FilterMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FilterView.xaml.cs">
-      <DependentUpon>FilterView.xaml</DependentUpon>
+    <Compile Include="Views\FiltersView.xaml.cs">
+      <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FilterDetailsView.xaml.cs">
       <DependentUpon>FilterDetailsView.xaml</DependentUpon>
@@ -134,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FilterView.xaml">
+    <Page Include="Views\FiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

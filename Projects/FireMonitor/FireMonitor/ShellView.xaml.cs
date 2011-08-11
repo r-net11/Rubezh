@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows.Controls;
 using CustomWindow;
 using FiresecAPI.Models;
@@ -14,31 +13,10 @@ namespace FireMonitor
 {
     public partial class ShellView : EssentialWindow, INotifyPropertyChanged
     {
-        readonly Timer _realTimeDaemon;
-
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
-            _realTimeDaemon = new Timer(new TimerCallback(UpdateTime), null, 0, 1000);
-        }
-
-        string _realTime;
-        public string RealTime
-        {
-            get { return _realTime; }
-            private set
-            {
-                _realTime = value;
-                OnPropertyChanged("RealTime");
-            }
-        }
-
-        void UpdateTime(object obj)
-        {
-            Dispatcher.BeginInvoke((Action<string>) (x => RealTime = x),
-                                    System.Windows.Threading.DispatcherPriority.Send,
-                                    DateTime.Now.ToString());
         }
 
         protected override Decorator GetWindowButtonsPlaceholder()
@@ -87,14 +65,16 @@ namespace FireMonitor
 
         private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Logout) == false)
+            if (FiresecManager.CurrentPermissions.Any(
+                x => x.PermissionType == PermissionType.Oper_Logout) == false)
             {
                 MessageBox.Show("Нет прав для выхода из программы");
                 e.Cancel = true;
                 return;
             }
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
+            if (FiresecManager.CurrentPermissions.Any(
+                x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
             {
                 return;
             }

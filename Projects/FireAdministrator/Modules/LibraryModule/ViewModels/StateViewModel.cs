@@ -79,16 +79,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        ObservableCollection<FrameViewModel> _frameViewModels;
-        public ObservableCollection<FrameViewModel> FrameViewModels
-        {
-            get { return _frameViewModels; }
-            set
-            {
-                _frameViewModels = value;
-                OnPropertyChanged("FrameViewModels");
-            }
-        }
+        public ObservableCollection<FrameViewModel> FrameViewModels { get; private set; }
 
         FrameViewModel _selectedFrameViewModel;
         public FrameViewModel SelectedFrameViewModel
@@ -108,7 +99,8 @@ namespace LibraryModule.ViewModels
         }
 
         public static DeviceLibrary.Models.State GetDefaultStateWith(
-            string classId = DefaultClassId, string code = null)
+            string classId = DefaultClassId,
+            string code = null)
         {
             var state = new DeviceLibrary.Models.State();
             state.Class = classId;
@@ -118,22 +110,12 @@ namespace LibraryModule.ViewModels
             return state;
         }
 
-        public DeviceLibrary.Models.State GetModel()
-        {
-            State.Frames = new List<DeviceLibrary.Models.Frame>();
-            foreach (var frameViewModel in FrameViewModels)
-            {
-                State.Frames.Add(frameViewModel.Frame);
-            }
-
-            return State;
-        }
-
         public RelayCommand AddFrameCommand { get; private set; }
         void OnAddFrame()
         {
-            FrameViewModels.Add(
-                new FrameViewModel(FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count)));
+            var defaultFrame = FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count);
+            State.Frames.Add(defaultFrame);
+            FrameViewModels.Add(new FrameViewModel(defaultFrame));
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
@@ -152,6 +134,7 @@ namespace LibraryModule.ViewModels
 
                 if (result == MessageBoxResult.OK)
                 {
+                    State.Frames.Remove(SelectedFrameViewModel.Frame);
                     FrameViewModels.Remove(SelectedFrameViewModel);
                 }
             }

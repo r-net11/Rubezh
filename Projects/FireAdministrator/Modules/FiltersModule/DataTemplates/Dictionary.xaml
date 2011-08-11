@@ -4,7 +4,7 @@
                     xmlns:ViewModels="clr-namespace:FiltersModule.ViewModels">
 
     <DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
-        <Views:FilterView />
+        <Views:FiltersView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:FiltersMenuViewModel}">

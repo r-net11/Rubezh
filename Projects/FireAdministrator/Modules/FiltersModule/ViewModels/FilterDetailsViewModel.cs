@@ -28,19 +28,19 @@ namespace FiltersModule.ViewModels
             JournalFilter.LastDaysCount = journalFilter.LastDaysCount;
             JournalFilter.IsLastDaysCountActive = journalFilter.IsLastDaysCountActive;
 
-            for (var i = 0; i < EventViewModels.Count; ++i)
+            foreach (var eventViewModel in EventViewModels)
             {
-                if (journalFilter.Events.Any(x => x.Id == EventViewModels[i].Id))
+                if (journalFilter.Events.Any(x => x.Id == eventViewModel.Id))
                 {
-                    EventViewModels[i].IsChecked = true;
+                    eventViewModel.IsChecked = true;
                 }
             }
 
-            for (var i = 0; i < CategoryViewModels.Count; ++i)
+            foreach (var categoryViewModel in CategoryViewModels)
             {
-                if (journalFilter.Categories.Any(x => x.Id == CategoryViewModels[i].Id))
+                if (journalFilter.Categories.Any(x => x.Id == categoryViewModel.Id))
                 {
-                    CategoryViewModels[i].IsChecked = true;
+                    categoryViewModel.IsChecked = true;
                 }
             }
         }

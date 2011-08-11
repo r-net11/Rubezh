@@ -11,13 +11,15 @@ namespace LibraryModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
+        readonly Driver _driver;
+
         public DeviceViewModel(DeviceLibrary.Models.Device device)
         {
-            _device = device;
-            _driver = FiresecManager.Drivers.First(x => x.Id == _device.Id);
-            if (_device.States == null)
+            Device = device;
+            _driver = FiresecManager.Drivers.First(x => x.Id == Device.Id);
+            if (Device.States == null)
             {
-                SetDefaultStateTo(_device);
+                SetDefaultStateTo(Device);
             }
 
             RemoveStateCommand = new RelayCommand(OnRemoveState);
@@ -30,14 +32,13 @@ namespace LibraryModule.ViewModels
         void Initialize()
         {
             StateViewModels = new ObservableCollection<StateViewModel>();
-            foreach (var state in _device.States)
+            foreach (var state in Device.States)
             {
                 StateViewModels.Add(new StateViewModel(state, _driver));
             }
         }
 
-        readonly Driver _driver;
-        readonly DeviceLibrary.Models.Device _device;
+        public DeviceLibrary.Models.Device Device { get; private set; }
 
         public string Name
         {
@@ -51,19 +52,10 @@ namespace LibraryModule.ViewModels
 
         public string Id
         {
-            get { return _device.Id; }
+            get { return Device.Id; }
         }
 
-        ObservableCollection<StateViewModel> _stateViewModels;
-        public ObservableCollection<StateViewModel> StateViewModels
-        {
-            get { return _stateViewModels; }
-            set
-            {
-                _stateViewModels = value;
-                OnPropertyChanged("StateViewModels");
-            }
-        }
+        public ObservableCollection<StateViewModel> StateViewModels { get; private set; }
 
         StateViewModel _selectedStateViewModel;
         public StateViewModel SelectedStateViewModel
@@ -116,23 +108,13 @@ namespace LibraryModule.ViewModels
             return device;
         }
 
-        public DeviceLibrary.Models.Device GetModel()
-        {
-            _device.States = new List<DeviceLibrary.Models.State>();
-            foreach (var stateViewModel in StateViewModels)
-            {
-                _device.States.Add(stateViewModel.GetModel());
-            }
-
-            return _device;
-        }
-
         public RelayCommand AddStateCommand { get; private set; }
         void OnAddState()
         {
-            var addStateViewModel = new StateDetailsViewModel(_device);
+            var addStateViewModel = new StateDetailsViewModel(Device);
             if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
             {
+                Device.States.Add(addStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addStateViewModel.SelectedItem);
             }
         }
@@ -140,9 +122,10 @@ namespace LibraryModule.ViewModels
         public RelayCommand AddAdditionalStateCommand { get; private set; }
         void OnShowAdditionalStates()
         {
-            var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(_device);
+            var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(Device);
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
+                Device.States.Add(addAdditionalStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addAdditionalStateViewModel.SelectedItem);
             }
         }
@@ -163,6 +146,7 @@ namespace LibraryModule.ViewModels
 
                 if (dialogResult == MessageBoxResult.OK)
                 {
+                    Device.States.Remove(SelectedStateViewModel.State);
                     StateViewModels.Remove(SelectedStateViewModel);
                 }
             }
