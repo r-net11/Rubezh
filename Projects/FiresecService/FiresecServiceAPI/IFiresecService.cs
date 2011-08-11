@@ -60,13 +60,10 @@ namespace FiresecAPI
         void ExecuteCommand(string deviceId, string methodName);
 
         [OperationContract]
-        List<string> GetSoundsFileName();
+        Dictionary<string, string> GetHashAndNameFiles(string directory);
 
         [OperationContract]
-        Dictionary<string, string> GetHashAndNameSoundFiles();
-
-        [OperationContract]
-        Stream GetFile(string filepath);
+        Stream GetFile(string dirAndFileName);
 
         [OperationContract]
         string Ping();

@@ -32,10 +32,7 @@ namespace SoundsModule.ViewModels
 
         public string SoundName
         {
-            get
-            {
-                return Sound.SoundName;
-            }
+            get { return Sound.SoundName; }
             set
             {
                 Sound.SoundName = value;
@@ -64,16 +61,7 @@ namespace SoundsModule.ViewModels
 
         public List<string> AvailableSounds 
         {
-            get
-            {
-                List<string> fileNames = new List<string>();
-                fileNames.Add(DownloadHelper.DefaultName);
-                foreach (string str in Directory.GetFiles(DownloadHelper.CurrentDirectory))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
-                return fileNames;
-            }
+            get { return FiresecClient.FiresecManager.FileHelper.GetListSounds; }
         }
 
         public Array AvailableSpeakers
@@ -81,5 +69,9 @@ namespace SoundsModule.ViewModels
             get { return Enum.GetValues(typeof(SpeakerType)); }
         }
 
+        public string SoundFilePath
+        {
+            get { return FiresecClient.FiresecManager.FileHelper.GetFilePath(SoundName); }
+        }
     }
 }

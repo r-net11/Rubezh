@@ -17,6 +17,7 @@ namespace FiresecClient
         public static DeviceConfigurationStates DeviceStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
+        public static FileHelper FileHelper { get; private set; }
 
         static SafeFiresecService _firesecService;
 
@@ -39,6 +40,9 @@ namespace FiresecClient
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
             Update();
+
+            FileHelper = new FileHelper();
+            FileHelper.Sinchronize();
 
             _loggedInUserName = login;
 
@@ -154,14 +158,9 @@ namespace FiresecClient
             return _firesecService.ReadJournal(startIndex, count);
         }
 
-        public static List<string> GetSoundsFileName()
+        public static Dictionary<string, string> GetHashAndNameFiles(string directory)
         {
-            return _firesecService.GetSoundsFileName();
-        }
-
-        public static Dictionary<string, string> GetHashAndNameSoundFiles()
-        {
-            return _firesecService.GetHashAndNameSoundFiles();
+            return _firesecService.GetHashAndNameFiles(directory);
         }
 
         public static Stream GetFile(string filepath)

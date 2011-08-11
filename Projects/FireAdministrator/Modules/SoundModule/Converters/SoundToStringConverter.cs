@@ -4,20 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using FiresecAPI.Models;
-using SoundsModule.ViewModels;
 using System.IO;
 
 namespace SoundsModule.Converters
 {
     class SoundToStringConverter : IValueConverter
     {
+        const string DefaultName = "<не задано>";
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string Value = (string)value;
             switch (Value)
             {
                 case null:
-                    return DownloadHelper.DefaultName;
+                    return DefaultName;
                 default:
                     if (AvailableSounds.Any(x => x == Value))
                     {
@@ -25,7 +26,7 @@ namespace SoundsModule.Converters
                     }
                     else
                     {
-                        return DownloadHelper.DefaultName;
+                        return DefaultName;
                     }
             }
                     
@@ -36,7 +37,7 @@ namespace SoundsModule.Converters
             string Value = (string)value;
             switch (Value)
             {
-                case DownloadHelper.DefaultName:
+                case DefaultName:
                     return string.Empty;
                 default:
                     return Value;
@@ -46,16 +47,7 @@ namespace SoundsModule.Converters
 
         List<string> AvailableSounds
         {
-            get
-            {
-                List<string> fileNames = new List<string>();
-                fileNames.Add(DownloadHelper.DefaultName);
-                foreach (string str in Directory.GetFiles(DownloadHelper.CurrentDirectory))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
-                return fileNames;
-            }
+            get { return FiresecClient.FiresecManager.FileHelper.GetListSounds; }
         }
     }
 }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Media;
-using Infrastructure.Common;
-using System.Threading;
 using FiresecAPI.Models;
+using System.Threading;
+using System.Media;
 using System.IO;
 
-namespace SoundsModule.ViewModels
+namespace Common
 {
     public static class AlarmPlayerHelper
     {
@@ -17,29 +16,22 @@ namespace SoundsModule.ViewModels
             _soundPlayer = new SoundPlayer();
         }
 
-        static string CurrentDirectory
-        {
-            get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
-        }
-
         static SoundPlayer _soundPlayer;
 
         static Thread _thread;
 
-        static void PlayBeepContinious(object freq)
+        static int _frequency;
+
+        static bool _isContinious;
+
+        static void PlayBeep()
         {
-            int frequency = (int)freq;
-            while (true)
+            do
             {
-                Console.Beep(frequency, 1000);
+                Console.Beep(_frequency, 1000);
                 Thread.Sleep(500);
             }
-        }
-
-        static void PlayBeep(object freq)
-        {
-            int frequency = (int)freq;
-            Console.Beep(frequency, 1000);
+            while (_isContinious);
         }
 
         static void StopPlayPCSpeaker()
@@ -56,23 +48,17 @@ namespace SoundsModule.ViewModels
             {
                 return;
             }
-            if (isContinious)
-            {
-                _thread = new Thread(PlayBeepContinious);
-                _thread.Start((int)speaker);
-            }
-            else
-            {
-                _thread = new Thread(PlayBeep);
-                _thread.Start((int)speaker);
-            }
+            _frequency = (int)speaker;
+            _isContinious = isContinious;
+            _thread = new Thread(PlayBeep);
+            _thread.Start();
         }
 
-        static void PlaySound(string SoundName, bool isContinious)
+        static void PlaySound(string filePath, bool isContinious)
         {
-            _soundPlayer.SoundLocation = CurrentDirectory + SoundName;
+            _soundPlayer.SoundLocation = filePath;
 
-            if (!string.IsNullOrWhiteSpace(SoundName))
+            if (!string.IsNullOrWhiteSpace(filePath))
             {
                 _soundPlayer.Load();
                 if (_soundPlayer.IsLoadCompleted)
@@ -94,9 +80,9 @@ namespace SoundsModule.ViewModels
             _soundPlayer.Stop();
         }
 
-        public static void Play(string soundName, SpeakerType speakertype, bool isContinious)
+        public static void Play(string filePath, SpeakerType speakertype, bool isContinious)
         {
-            PlaySound(soundName, isContinious);
+            PlaySound(filePath, isContinious);
             PlayPCSpeaker(speakertype, isContinious);
         }
 

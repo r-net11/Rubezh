@@ -73,7 +73,7 @@ namespace FiresecService
             try
             {
                 DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Open);
+                FileStream fileStream = new FileStream("H:/SystemConfiguration.xml", FileMode.Open);
                 FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
                 fileStream.Close();
 
@@ -90,7 +90,7 @@ namespace FiresecService
             FiresecManager.SystemConfiguration = systemConfiguration;
 
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            FileStream fileStream = new FileStream("D:/SystemConfiguration.xml", FileMode.Create);
+            FileStream fileStream = new FileStream("H:/SystemConfiguration.xml", FileMode.Create);
             dataContractSerializer.WriteObject(fileStream, FiresecManager.SystemConfiguration);
             fileStream.Close();
         }
@@ -150,22 +150,12 @@ namespace FiresecService
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 
-        public List<string> GetSoundsFileName()
-        {
-            List<string> listSoungsFileName = new List<string>();
-            var soungsFileName = Directory.GetFiles(@"C:\Program Files\Firesec\Sounds");
-            foreach (string str in soungsFileName)
-            {
-                listSoungsFileName.Add(Path.GetFileName(str));
-            }
-            return listSoungsFileName;
-        }
-
-        public Dictionary<string, string> GetHashAndNameSoundFiles()
+        public Dictionary<string, string> GetHashAndNameFiles(string directory)
         {
             Dictionary<string, string> hashTable = new Dictionary<string, string>();
             List<string> HashListSoundFiles = new List<string>();
-            DirectoryInfo dir = new DirectoryInfo(@"C:\Program Files\Firesec\Sounds");
+            string currentDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
+            DirectoryInfo dir = new DirectoryInfo(currentDirectory);
             FileInfo[] files = dir.GetFiles();
             byte[] hash;
             StringBuilder sBuilder = new StringBuilder();
@@ -180,14 +170,15 @@ namespace FiresecService
                         sBuilder.Append(hash[i].ToString());
                     }
                 }
+                
                 hashTable.Add(sBuilder.ToString(), fInfo.Name);
             }
             return hashTable;
         }
 
-        public Stream GetFile(string filename)
+        public Stream GetFile(string dirNameAndFileName)
         {
-            string filePath = @"C:\Program Files\Firesec\Sounds\" + filename;
+            string filePath = Directory.GetCurrentDirectory() + @"\" + dirNameAndFileName;
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 

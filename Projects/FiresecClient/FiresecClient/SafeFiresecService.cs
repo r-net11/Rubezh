@@ -238,11 +238,11 @@ namespace FiresecClient
             }
         }
 
-        public List<string> GetSoundsFileName()
+        public Dictionary<string, string> GetHashAndNameFiles(string directory)
         {
             try
             {
-                return _iFiresecService.GetSoundsFileName();
+                return _iFiresecService.GetHashAndNameFiles(directory);
             }
             catch
             {
@@ -251,24 +251,11 @@ namespace FiresecClient
             return null;
         }
 
-        public Dictionary<string, string> GetHashAndNameSoundFiles()
+        public System.IO.Stream GetFile(string dirAndFileName)
         {
             try
             {
-                return _iFiresecService.GetHashAndNameSoundFiles();
-            }
-            catch
-            {
-                OnConnectionLost();
-            }
-            return null;
-        }
-
-        public System.IO.Stream GetFile(string filepath)
-        {
-            try
-            {
-                return _iFiresecService.GetFile(filepath);
+                return _iFiresecService.GetFile(dirAndFileName);
             }
             catch
             {

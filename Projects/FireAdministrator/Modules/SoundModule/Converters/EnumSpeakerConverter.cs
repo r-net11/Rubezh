@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoundsModule.ViewModels;
 using FiresecAPI.Models;
 using System.Windows.Data;
 
@@ -10,6 +9,8 @@ namespace SoundsModule.Converters
 {
     class EnumSpeakerConverter : IValueConverter
     {
+        string DefaultName = "<не задано>";
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Array Value = (Array)value;
@@ -20,7 +21,7 @@ namespace SoundsModule.Converters
                 switch ((SpeakerType)speakertype)
                 {
                     case SpeakerType.None:
-                        type = DownloadHelper.DefaultName;
+                        type = DefaultName;
                         break;
                     case SpeakerType.Alarm:
                         type = "Тревога";
@@ -29,7 +30,7 @@ namespace SoundsModule.Converters
                         type = "Внимание";
                         break;
                     default:
-                        type = DownloadHelper.DefaultName;
+                        type = DefaultName;
                         break;
                 }
                 speakerTypes.Add(type);

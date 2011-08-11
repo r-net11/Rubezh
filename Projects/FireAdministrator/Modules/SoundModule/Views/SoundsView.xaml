@@ -61,6 +61,8 @@
         <Converters:SpeakerTypeToStringConverter x:Key="SpeakerTypeToStringConverter" />
         <Converters:EnumSpeakerConverter x:Key="EnumSpeakerConverter" />
         <Converters:SoundToStringConverter x:Key="SoundToStringConverter" />
+        <Converters:SoundListConverter x:Key="SoundListConverter" />
+        
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -87,7 +89,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName, Converter={StaticResource SoundToStringConverter}}" Margin="2" />
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds, Converter={StaticResource SoundListConverter}}" SelectedItem="{Binding SoundName, Converter={StaticResource SoundToStringConverter}}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

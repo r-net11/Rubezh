@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Common;
 
 namespace SoundsModule.ViewModels
 {
@@ -16,7 +17,6 @@ namespace SoundsModule.ViewModels
     {
         public void Initialize()
         {
-            DownloadHelper.UpdateSound();
             IsNowPlaying = false;
             var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
             Sounds = new ObservableCollection<SoundViewModel>();
@@ -96,7 +96,8 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                AlarmPlayerHelper.Play(SelectedSound.SoundName, SelectedSound.SpeakerType, SelectedSound.IsContinious);
+                
+                AlarmPlayerHelper.Play(SelectedSound.SoundFilePath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {
                     IsNowPlaying = false;
