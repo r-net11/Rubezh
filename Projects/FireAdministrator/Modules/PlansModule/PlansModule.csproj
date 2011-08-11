@@ -75,6 +75,7 @@
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="ViewModels\TreeViewNew.cs" />
     <Compile Include="Views\PlanDetailsView.xaml.cs">
       <DependentUpon>PlanDetailsView.xaml</DependentUpon>
     </Compile>

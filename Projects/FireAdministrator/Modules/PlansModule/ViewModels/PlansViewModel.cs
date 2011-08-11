@@ -50,6 +50,7 @@ namespace PlansModule.ViewModels
             {
                 if (planDetailsViewModel.Parent == null)
                 {
+                    FiresecManager.SystemConfiguration.Plans.Add(planDetailsViewModel.Plan);
                     Plans.Add(planDetailsViewModel);
                 }
             }
@@ -67,16 +68,21 @@ namespace PlansModule.ViewModels
             bool res = false;
             if (level.Remove(SelectedPlan))
             {
+                FiresecManager.SystemConfiguration.Plans.Remove(SelectedPlan.Plan);
                 res = true;
             }
             else
             {
                 for (int i = 0; i < level.Count; i++)
                 {
-                    if (RemovePlan(level[i].Children))
+                    if (level[i].Children != null)
                     {
-                        res = true;
-                        break;
+                        if (RemovePlan(level[i].Children))
+                        {
+                            FiresecManager.SystemConfiguration.Plans.Remove(SelectedPlan.Plan);
+                            res = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -86,6 +92,7 @@ namespace PlansModule.ViewModels
         void OnRemove()
         {
             RemovePlan(Plans);
+            SelectedPlan = null;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -97,11 +104,12 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
-                EditPlan(Plans, planDetailsViewModel);
+                EditPlan(Plans, planDetailsViewModel, SelectedPlan);
+                SelectedPlan = null;
             }
         }
 
-        bool EditPlan(ObservableCollection<PlanDetailsViewModel> level, PlanDetailsViewModel _newPlan)
+        bool EditPlan(ObservableCollection<PlanDetailsViewModel> level, PlanDetailsViewModel _newPlan, PlanDetailsViewModel _oldPlan)
         {
             bool res = false;
             int index = level.IndexOf(SelectedPlan);
@@ -110,27 +118,29 @@ namespace PlansModule.ViewModels
                 level[index].Name = _newPlan.Name;
                 level[index].Height = _newPlan.Height;
                 level[index].Width = _newPlan.Width;
-                SelectedPlan = null;
                 res = true;
             }
             else
             {
                 for (int i = 0; i < level.Count; i++)
                 {
-                    index = level[i].Children.IndexOf(SelectedPlan);
-                    if (index != -1)
+                    if (level[i].Children != null)
                     {
-                        level[index].Name = _newPlan.Name;
-                        level[index].Height = _newPlan.Height;
-                        level[index].Width = _newPlan.Width;
-
-                        SelectedPlan = null;
-                        res = true;
-                        break;
-                    }
-                    else
-                    {
-                        EditPlan(level[i].Children, _newPlan);
+                        index = level[i].Children.IndexOf(SelectedPlan);
+                        if (index != -1)
+                        {
+                            ObservableCollection<PlanDetailsViewModel> _level = level[i].Children;
+                            index = level[i].Children.IndexOf(_oldPlan);
+                            _level[index].Name = _newPlan.Name;
+                            _level[index].Height = _newPlan.Height;
+                            _level[index].Width = _newPlan.Width;
+                            res = true;
+                            break;
+                        }
+                        else
+                        {
+                            EditPlan(level[i].Children, _newPlan, _oldPlan);
+                        }
                     }
                 }
             }

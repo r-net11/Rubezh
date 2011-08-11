@@ -6,8 +6,7 @@
     >
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
         <TreeView ItemsSource="{Binding Plans}"
-                  SelectedItemChanged="TreeView_SelectedItemChanged"
-                  MouseLeftButtonDown="TreeView_MouseLeftButtonDown"
+                  ContextMenuOpening="TreeView_ContextMenuOpening"
                   >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
@@ -16,6 +15,8 @@
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+
+            
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить план" Command="{Binding AddCommand}"/>
