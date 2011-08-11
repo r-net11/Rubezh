@@ -34,25 +34,11 @@ namespace SoundsModule.ViewModels
         {
             get
             {
-                if (AvailableSounds.Any(x => x == Sound.SoundName))
-                {
-                    return Sound.SoundName;
-                }
-                else
-                {
-                    return DownloadHelper.DefaultName;
-                }
+                return Sound.SoundName;
             }
             set
             {
-                if (value == DownloadHelper.DefaultName)
-                {
-                    Sound.SoundName = null;
-                }
-                else
-                {
-                    Sound.SoundName = value;
-                }
+                Sound.SoundName = value;
                 OnPropertyChanged("SoundName");
             }
         }
@@ -95,17 +81,5 @@ namespace SoundsModule.ViewModels
             get { return Enum.GetValues(typeof(SpeakerType)); }
         }
 
-        //public List<string> AvailableSpeakers 
-        //{
-            //get
-            //{
-            //    List<string> speakerType = new List<string>();
-            //    foreach (var speakertype in Enum.GetNames(typeof(SpeakerType)))
-            //    {
-            //        speakerType.Add(speakertype);
-            //    }
-            //    return speakerType;
-            //}
-        //}
     }
 }

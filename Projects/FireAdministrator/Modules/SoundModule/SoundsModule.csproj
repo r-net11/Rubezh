@@ -65,6 +65,7 @@
     <Compile Include="Converters\EnumSpeakerConverter.cs" />
     <Compile Include="Converters\SpeakerTypeToStringConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
+    <Compile Include="Converters\SoundToStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,7 +81,7 @@
     </Compile>
     <Compile Include="SoundsModule.cs" />
     <Compile Include="ViewModels\DownloadHelper.cs" />
-    <Compile Include="ViewModels\SoundPlayerHelper.cs" />
+    <Compile Include="ViewModels\AlarmPlayerHelper.cs" />
     <Compile Include="ViewModels\SoundsViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="Views\SoundsView.xaml.cs">

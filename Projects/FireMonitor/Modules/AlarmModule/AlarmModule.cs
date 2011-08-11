@@ -14,6 +14,7 @@ namespace AlarmModule
         {
             RegisterResources();
 
+            AlarmPlayViewModel alarmPlayViewModel = new AlarmPlayViewModel();
             AlarmGroupListViewModel alarmGroupListViewModel = new AlarmGroupListViewModel();
             ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
 

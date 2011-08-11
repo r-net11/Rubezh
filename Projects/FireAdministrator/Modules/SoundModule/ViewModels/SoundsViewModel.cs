@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Infrastructure.Common;
+using System.Media;
+using System.Security.Cryptography;
+using System.IO;
+using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
@@ -8,6 +14,11 @@ namespace SoundsModule.ViewModels
 {
     public class SoundsViewModel : RegionViewModel
     {
+        public SoundsViewModel()
+        {
+
+        }
+
         public void Initialize()
         {
             DownloadHelper.UpdateSound();
@@ -37,6 +48,7 @@ namespace SoundsModule.ViewModels
             SelectedSound = Sounds[0];
 
             PlaySoundCommand = new RelayCommand(OnPlaySound);
+
         }
 
         ObservableCollection<SoundViewModel> _sounds;
@@ -89,8 +101,7 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                SoundPlayerHelper.PlaySound(SelectedSound.SoundName, SelectedSound.IsContinious);
-                SoundPlayerHelper.PlayPCSpeaker(SelectedSound.SpeakerType, SelectedSound.IsContinious);
+                AlarmPlayerHelper.Play(SelectedSound.SoundName, SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {
                     IsNowPlaying = false;
@@ -98,16 +109,15 @@ namespace SoundsModule.ViewModels
             }
             else
             {
-                SoundPlayerHelper.StopPlaySound();
-                SoundPlayerHelper.StopPlayPCSpeaker();
+                AlarmPlayerHelper.Stop();
             }
         }
 
         public override void OnHide()
         {
+            base.OnHide();
             IsNowPlaying = false;
-            SoundPlayerHelper.StopPlaySound();
-            SoundPlayerHelper.StopPlayPCSpeaker();
+            AlarmPlayerHelper.Stop();
         }
     }
 }

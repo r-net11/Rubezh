@@ -1,19 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Media;
-using System.Threading;
+using System.IO;
 using FiresecAPI.Models;
+using System.Threading;
 
-namespace SoundsModule.ViewModels
+namespace AlarmModule.ViewModels
 {
-    public static class SoundPlayerHelper
+    public static class AlarmPlayerHelper
     {
-        static SoundPlayerHelper()
+        static AlarmPlayerHelper()
         {
             _soundPlayer = new SoundPlayer();
         }
 
-        static SoundPlayer _soundPlayer;
-        static Thread _thread;
+        static string CurrentDirectory
+        {
+            get { return Directory.GetCurrentDirectory() + @"\Sounds\"; }
+        }
+
+        static SoundPlayer SoundPlr { get; set; }
+
+        static Thread thread { get; set; }
 
         static void PlayBeepContinious(object freq)
         {
@@ -31,7 +41,7 @@ namespace SoundsModule.ViewModels
             Console.Beep(frequency, 1000);
         }
 
-        static public void StopPlayPCSpeaker()
+        static void StopPlayPCSpeaker()
         {
             if (_thread != null)
             {
@@ -39,7 +49,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public static void PlayPCSpeaker(SpeakerType speaker, bool isContinious)
+        static void PlayPCSpeaker(SpeakerType speaker, bool isContinious)
         {
             if (speaker == SpeakerType.None)
             {
@@ -57,11 +67,11 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public static void PlaySound(string SoundName, bool isContinious)
+        static void PlaySound(string SoundName, bool isContinious)
         {
-            _soundPlayer.SoundLocation = DownloadHelper.CurrentDirectory + SoundName;
+            SoundPlr.SoundLocation = CurrentDirectory + SoundName;
 
-            if (!(string.IsNullOrWhiteSpace(SoundName)) && (!string.Equals(SoundName, DownloadHelper.DefaultName)))
+            if (!string.IsNullOrWhiteSpace(SoundName))
             {
                 _soundPlayer.Load();
                 if (_soundPlayer.IsLoadCompleted)
@@ -78,9 +88,21 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public static void StopPlaySound()
+        static void StopPlaySound()
         {
             _soundPlayer.Stop();
+        }
+
+        public static void Play(string soundName, SpeakerType speakertype, bool isContinious)
+        {
+            PlaySound(soundName, isContinious);
+            PlayPCSpeaker(speakertype, isContinious);
+        }
+
+        public static void Stop()
+        {
+            StopPlaySound();
+            StopPlayPCSpeaker();
         }
     }
 }
