@@ -9,9 +9,16 @@
         </Grid.ColumnDefinitions>
 
         <Views:PlansTree Grid.Column="0" />
+        <StackPanel>
+            <ItemsControl >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
 
-        <Grid Grid.Column="1" Background="LightGray">
-            <TextBlock Text="Редактор планов"/>
-        </Grid>
+        <!-- <Views:PlanCanvasView Grid.Column="1" Background="LightGray" />-->
     </Grid>
 </UserControl>
