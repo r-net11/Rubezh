@@ -17,20 +17,16 @@ namespace PlansModule.ViewModels
 
         public void Initialize()
         {
-            if (FiresecManager.SystemConfiguration.Plans != null)
+            foreach (var plan in FiresecManager.SystemConfiguration.Plans)
             {
-                foreach (var plan in FiresecManager.SystemConfiguration.Plans)
-                {
-                    PlanDetailsViewModel planViewModel = new PlanDetailsViewModel();
-                    Plans.Add(planViewModel);
-                }
+                PlanDetailsViewModel planViewModel = new PlanDetailsViewModel();
+                Plans.Add(planViewModel);
             }
         }
 
-        public ObservableCollection<PlanDetailsViewModel> Plans { get; set; }
+        public ObservableCollection<PlanDetailsViewModel> Plans { get; private set; }
 
         PlanDetailsViewModel _selectedPlan;
-
         public PlanDetailsViewModel SelectedPlan
         {
             get { return _selectedPlan; }
@@ -62,6 +58,11 @@ namespace PlansModule.ViewModels
         }
 
         public RelayCommand RemoveCommand { get; private set; }
+        void OnRemove()
+        {
+            RemovePlan(Plans);
+            SelectedPlan = null;
+        }
 
         bool RemovePlan(ObservableCollection<PlanDetailsViewModel> level)
         {
@@ -89,14 +90,7 @@ namespace PlansModule.ViewModels
             return res;
         }
 
-        void OnRemove()
-        {
-            RemovePlan(Plans);
-            SelectedPlan = null;
-        }
-
         public RelayCommand EditCommand { get; private set; }
-
         void OnEdit()
         {
             PlanDetailsViewModel planDetailsViewModel = new PlanDetailsViewModel();

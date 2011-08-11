@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
-
-
 namespace PlansModule.ViewModels
 {
-
     public class PlanViewModel : BaseViewModel
     {
         public PlanViewModel(Plan plan)

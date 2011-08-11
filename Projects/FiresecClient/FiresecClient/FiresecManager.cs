@@ -37,7 +37,7 @@ namespace FiresecClient
             Update();
 
             FileHelper = new FileHelper();
-            FileHelper.Sinchronize();
+            FileHelper.Synchronize();
 
             _loggedInUserName = login;
 

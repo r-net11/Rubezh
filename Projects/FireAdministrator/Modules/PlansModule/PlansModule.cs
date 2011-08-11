@@ -19,6 +19,8 @@ namespace PlansModule
             CreateViewModels();
         }
 
+        static PlansViewModel _plansViewModel;
+
         void RegisterResources()
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
@@ -27,16 +29,14 @@ namespace PlansModule
 
         static void CreateViewModels()
         {
-            plansViewModel = new PlansViewModel();
+            _plansViewModel = new PlansViewModel();
             
         }
 
-        static PlansViewModel plansViewModel;
-
         static void OnShowPlans(string obj)
         {
-            plansViewModel.Initialize();
-            ServiceFactory.Layout.Show(plansViewModel);
+            _plansViewModel.Initialize();
+            ServiceFactory.Layout.Show(_plansViewModel);
         }
     }
 }

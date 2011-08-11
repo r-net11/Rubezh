@@ -21,7 +21,7 @@ namespace PlansModule.Views
             }
             else
             {
-                (DataContext as PlansViewModel).SelectedPlan =    treeView.SelectedItem as PlanDetailsViewModel;
+                (DataContext as PlansViewModel).SelectedPlan = treeView.SelectedItem as PlanDetailsViewModel;
             }
         }
     }

@@ -43,7 +43,6 @@ namespace SoundsModule.ViewModels
             SelectedSound = Sounds[0];
 
             PlaySoundCommand = new RelayCommand(OnPlaySound);
-
         }
 
         ObservableCollection<SoundViewModel> _sounds;
@@ -79,18 +78,6 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public void Save()
-        {
-            if (Sounds != null)
-            {
-                FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
-                foreach (var sound in Sounds)
-                {
-                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
-                }
-            }
-        }
-
         public RelayCommand PlaySoundCommand { get; private set; }
         void OnPlaySound()
         {
@@ -106,6 +93,18 @@ namespace SoundsModule.ViewModels
             else
             {
                 AlarmPlayerHelper.Stop();
+            }
+        }
+
+        public void Save()
+        {
+            if (Sounds != null)
+            {
+                FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
+                foreach (var sound in Sounds)
+                {
+                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
+                }
             }
         }
 

@@ -73,7 +73,7 @@ namespace FiresecService
             try
             {
                 DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                FileStream fileStream = new FileStream("H:/SystemConfiguration.xml", FileMode.Open);
+                FileStream fileStream = new FileStream("SystemConfiguration.xml", FileMode.Open);
                 FiresecManager.SystemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
                 fileStream.Close();
 
@@ -90,7 +90,7 @@ namespace FiresecService
             FiresecManager.SystemConfiguration = systemConfiguration;
 
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            FileStream fileStream = new FileStream("H:/SystemConfiguration.xml", FileMode.Create);
+            FileStream fileStream = new FileStream("SystemConfiguration.xml", FileMode.Create);
             dataContractSerializer.WriteObject(fileStream, FiresecManager.SystemConfiguration);
             fileStream.Close();
         }

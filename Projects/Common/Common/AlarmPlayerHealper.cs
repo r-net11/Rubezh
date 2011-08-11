@@ -17,11 +17,8 @@ namespace Common
         }
 
         static SoundPlayer _soundPlayer;
-
         static Thread _thread;
-
         static int _frequency;
-
         static bool _isContinious;
 
         static void PlayBeep()
@@ -56,10 +53,9 @@ namespace Common
 
         static void PlaySound(string filePath, bool isContinious)
         {
-            _soundPlayer.SoundLocation = filePath;
-
             if (!string.IsNullOrWhiteSpace(filePath))
             {
+                _soundPlayer.SoundLocation = filePath;
                 _soundPlayer.Load();
                 if (_soundPlayer.IsLoadCompleted)
                 {

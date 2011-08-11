@@ -21,32 +21,30 @@ namespace FiresecClient
             return Directory.GetCurrentDirectory() + @"\" + directory;
         }
 
-        void UpdateFiles(string directory)
+        void SynchronizeDirectory(string directory)
         {
-            DirectoryInfo filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
-            var HashTableFiles = new Dictionary<string, string>();
-            HashTableFiles = GetFileHash(directory);
-            var HashTableFilesFromServer = new Dictionary<string, string>();
-            HashTableFilesFromServer = FiresecManager.GetHashAndNameFiles(directory);
+            var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
+            var localDirectoryHash = GetDirectoryHash(directory);
+            var remoteDirectoryHash = FiresecManager.GetHashAndNameFiles(directory);
 
-            foreach (var kvp in HashTableFilesFromServer)
+            foreach (var remoteFileHash in remoteDirectoryHash)
             {
-                if (!HashTableFiles.ContainsKey(kvp.Key))
+                if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
                 {
-                    LoadFile(filesDirectory.Name + @"\" + kvp.Value, filesDirectory.FullName + @"\" + kvp.Value);
+                    DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, filesDirectory.FullName + @"\" + remoteFileHash.Value);
                 }
             }
 
-            foreach (var kvp in HashTableFiles)
+            foreach (var localFileHash in localDirectoryHash)
             {
-                if (!HashTableFilesFromServer.ContainsKey(kvp.Key))
+                if (remoteDirectoryHash.ContainsKey(localFileHash.Key) == false)
                 {
-                    File.Delete(filesDirectory.FullName + kvp.Value);
+                    File.Delete(filesDirectory.FullName + localFileHash.Value);
                 }
             }
         }
 
-        void LoadFile(string directoryAndFileName, string destinationPath)
+        void DownloadFile(string directoryAndFileName, string destinationPath)
         {
             Stream stream = FiresecManager.GetFile(directoryAndFileName);
             FileStream destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write);
@@ -54,7 +52,7 @@ namespace FiresecClient
             destinationStream.Close();
         }
 
-        Dictionary<string, string> GetFileHash(string directory)
+        Dictionary<string, string> GetDirectoryHash(string directory)
         {
             Dictionary<string, string> hashTable = new Dictionary<string, string>();
             List<string> HashListFiles = new List<string>();
@@ -88,11 +86,11 @@ namespace FiresecClient
             return fileNames;
         }
 
-        public void Sinchronize()
+        public void Synchronize()
         {
             foreach (var directory in _directoriesList)
             {
-                UpdateFiles(directory);
+                SynchronizeDirectory(directory);
             }
         }
 
