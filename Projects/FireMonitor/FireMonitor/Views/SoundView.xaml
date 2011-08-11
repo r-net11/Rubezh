@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="FireMonitor.SoundView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <Button Content="Sound" />
+        <XButtons:XButton Content="Sound" Margin="2" Padding="2" FontWeight="Black" Background="Black" />
     </Grid>
 </UserControl>

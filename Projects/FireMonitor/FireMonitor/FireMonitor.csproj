@@ -114,6 +114,9 @@
     <Compile Include="Views\SoundView.xaml.cs">
       <DependentUpon>SoundView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TimePresenterView.xaml.cs">
+      <DependentUpon>TimePresenterView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
@@ -165,7 +168,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimePresenterView.xaml">
+    <Page Include="Views\TimePresenterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Themes\OutlookBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -261,7 +267,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
