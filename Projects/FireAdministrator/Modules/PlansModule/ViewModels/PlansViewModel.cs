@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
-using PlansModule.ViewModels;
-
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -35,9 +29,7 @@ namespace PlansModule.ViewModels
 
         public ObservableCollection<PlanDetailsViewModel> Plans { get; set; }
 
-
         PlanDetailsViewModel _selectedPlan;
-
 
         public PlanDetailsViewModel SelectedPlan
         {
@@ -61,7 +53,6 @@ namespace PlansModule.ViewModels
                     Plans.Add(planDetailsViewModel);
                 }
             }
-
         }
 
         bool CanEditRemove(object obj)
@@ -73,10 +64,10 @@ namespace PlansModule.ViewModels
 
         bool RemovePlan(ObservableCollection<PlanDetailsViewModel> level)
         {
-            bool res=false;
+            bool res = false;
             if (level.Remove(SelectedPlan))
             {
-                res= true;
+                res = true;
             }
             else
             {
@@ -89,7 +80,7 @@ namespace PlansModule.ViewModels
                     }
                 }
             }
-                return res;
+            return res;
         }
 
         void OnRemove()
@@ -114,7 +105,7 @@ namespace PlansModule.ViewModels
         {
             bool res = false;
             int index = level.IndexOf(SelectedPlan);
-            if (index!=-1)
+            if (index != -1)
             {
                 level[index].Name = _newPlan.Name;
                 level[index].Height = _newPlan.Height;

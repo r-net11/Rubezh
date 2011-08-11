@@ -10,11 +10,13 @@ namespace JournalModule.ViewModels
 {
     public class FilteredJournalViewModel : RegionViewModel
     {
-        public static readonly int RecordsMaxCount = 100;
         readonly JournalFilterViewModel _journalFilter;
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
+            if (journalFilter == null)
+                throw new ArgumentNullException();
+
             Name = journalFilter.Name;
             _journalFilter = new JournalFilterViewModel(journalFilter);
 
@@ -32,16 +34,7 @@ namespace JournalModule.ViewModels
 
         public string Name { get; private set; }
 
-        ObservableCollection<JournalRecordViewModel> _journalRecords;
-        public ObservableCollection<JournalRecordViewModel> JournalRecords
-        {
-            get { return _journalRecords; }
-            set
-            {
-                _journalRecords = value;
-                OnPropertyChanged("JournalRecords");
-            }
-        }
+        public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
 
         JournalRecordViewModel _selectedRecord;
         public JournalRecordViewModel SelectedRecord
@@ -54,24 +47,26 @@ namespace JournalModule.ViewModels
             }
         }
 
+        public static int RecordsMaxCount
+        {
+            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
+        }
+
         void AplyFilter(Object stateInfo)
         {
             List<JournalRecord> journalRecords = null;
             bool isFiltered = false;
             int startIndex = 0;
-
-            //while (isFiltered == false &&
-            //    (journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount)) != null)
-            journalRecords = FiresecManager.ReadJournal(startIndex, 300);
+            do
             {
+                journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount);
                 foreach (var journalRecord in journalRecords)
                 {
                     if (isFiltered = FilterRecord(journalRecord))
                         break;
                 }
-
                 startIndex += RecordsMaxCount;
-            }
+            } while (isFiltered == false && journalRecords.Count == RecordsMaxCount);
         }
 
         bool FilterRecord(JournalRecord journalRecord)

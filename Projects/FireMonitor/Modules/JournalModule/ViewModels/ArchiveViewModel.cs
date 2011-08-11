@@ -29,7 +29,7 @@ namespace JournalModule.ViewModels
             List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 300);
             Parallel.ForEach(journalRecords, journalItem =>
             {
-                Dispatcher.Invoke((Action<JournalRecordViewModel>)Add, new JournalRecordViewModel(journalItem));
+                Dispatcher.Invoke((Action<JournalRecordViewModel>) Add, new JournalRecordViewModel(journalItem));
             }
             );
             return;
@@ -76,16 +76,7 @@ namespace JournalModule.ViewModels
             }
         }
 
-        ObservableCollection<JournalRecordViewModel> _journalRecords;
-        public ObservableCollection<JournalRecordViewModel> JournalRecords
-        {
-            get { return _journalRecords; }
-            set
-            {
-                _journalRecords = value;
-                OnPropertyChanged("JournalRecords");
-            }
-        }
+        public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
 
         JournalRecordViewModel _selectedItem;
         public JournalRecordViewModel SelectedItem

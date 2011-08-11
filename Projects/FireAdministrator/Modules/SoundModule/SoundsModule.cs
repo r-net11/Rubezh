@@ -38,7 +38,7 @@ namespace SoundsModule
             ServiceFactory.Layout.Show(soundsViewModel);
         }
 
-        public void Save()
+        public static void Save()
         {
             soundsViewModel.Save();
         }

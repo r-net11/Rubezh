@@ -8,7 +8,7 @@ namespace FiltersModule
 {
     public class FiltersModule : IModule
     {
-        static FiltersViewModel filtersViewModel;
+        static FiltersViewModel _filtersViewModel;
 
         public FiltersModule()
         {
@@ -29,13 +29,13 @@ namespace FiltersModule
 
         void CreateViewModels()
         {
-            filtersViewModel = new FiltersViewModel();
-            filtersViewModel.Initialize();
+            _filtersViewModel = new FiltersViewModel();
+            _filtersViewModel.Initialize();
         }
 
         static void OnShowJournal(string obj)
         {
-            ServiceFactory.Layout.Show(filtersViewModel);
+            ServiceFactory.Layout.Show(_filtersViewModel);
         }
 
         public static void Validate()
@@ -44,7 +44,7 @@ namespace FiltersModule
 
         public static void Save()
         {
-            filtersViewModel.Save();
+            _filtersViewModel.Save();
         }
     }
 }

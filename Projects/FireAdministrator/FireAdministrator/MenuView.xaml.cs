@@ -19,8 +19,8 @@ namespace FireAdministrator
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            //FiltersModule.FiltersModule.Save();
-            //SoundsModule.SoundsModule.Save();
+            FiltersModule.FiltersModule.Save();
+            SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
             DevicesModule.DevicesModule.HasChanges = false;
         }

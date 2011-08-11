@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
-using FiresecClient;
-using FiresecAPI;
-using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -18,26 +12,27 @@ namespace PlansModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public PlanDetailsViewModel(PlanDetailsViewModel _Parent)
+        public PlanDetailsViewModel(PlanDetailsViewModel parent)
         {
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
+            Title = "Новый план";
+
             _isNew = true;
             Plan = new Plan();
-            Title = "Новый план";
-            if (_Parent != null) parent = _Parent;
-            else parent = null;
+            if (parent != null) _parent = parent;
+            else _parent = null;
+
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         bool _isNew;
 
         public Plan Plan { get; private set; }
 
-        PlanDetailsViewModel parent;
-
+        PlanDetailsViewModel _parent;
         public PlanDetailsViewModel Parent
         {
-            get { return parent; }
+            get { return _parent; }
         }
 
         public void Initialize(PlanDetailsViewModel _Parent)
@@ -84,7 +79,6 @@ namespace PlansModule.ViewModels
         }
 
         ObservableCollection<PlanDetailsViewModel> _children;
-        
         public ObservableCollection<PlanDetailsViewModel> Children
         {
             get { return _children; }
@@ -101,12 +95,13 @@ namespace PlansModule.ViewModels
             Plan.Height = Height;
             Plan.Width = Width;
             Plan.Children = null;
-            if (parent != null)
+            if (_parent != null)
             {
-                if (parent.Children == null) parent.Children = new ObservableCollection<PlanDetailsViewModel>();
-                parent.Children.Add(this);
+                if (_parent.Children == null) _parent.Children = new ObservableCollection<PlanDetailsViewModel>();
+                _parent.Children.Add(this);
             }
         }
+
         public void Update()
         {
             //OnPropertyChanged("Plan");
@@ -124,6 +119,5 @@ namespace PlansModule.ViewModels
         {
             Close(false);
         }
-
     }
 }

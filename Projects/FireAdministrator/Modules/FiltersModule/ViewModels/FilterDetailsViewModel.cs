@@ -8,14 +8,13 @@ namespace FiltersModule.ViewModels
 {
     public class FilterDetailsViewModel : DialogContent
     {
-        public static readonly int maxCountRecords = 100;
         public static readonly int DefaultDaysCount = 10;
 
         public FilterDetailsViewModel()
         {
             Initialize();
 
-            JournalFilter.LastRecordsCount = maxCountRecords;
+            JournalFilter.LastRecordsCount = MaxCountRecords;
             JournalFilter.LastDaysCount = DefaultDaysCount;
         }
 
@@ -80,7 +79,7 @@ namespace FiltersModule.ViewModels
 
         public int MaxCountRecords
         {
-            get { return maxCountRecords; }
+            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
         }
 
         public ObservableCollection<Event> EventViewModels { get; private set; }

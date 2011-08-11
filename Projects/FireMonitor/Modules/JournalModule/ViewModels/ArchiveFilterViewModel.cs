@@ -8,7 +8,7 @@ namespace JournalModule.ViewModels
 {
     public class ArchiveFilterViewModel : DialogContent
     {
-        ObservableCollection<JournalRecordViewModel> _journalItems;
+        ObservableCollection<JournalRecordViewModel> _journalRecords;
 
         public ArchiveFilterViewModel()
         {
@@ -21,29 +21,29 @@ namespace JournalModule.ViewModels
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
         }
 
-        public void Initialize(ObservableCollection<JournalRecordViewModel> journalItems)
+        public void Initialize(ObservableCollection<JournalRecordViewModel> journalRecords)
         {
-            _journalItems = journalItems;
+            _journalRecords = journalRecords;
 
-            var stringJournalTypes = (from journalItem in _journalItems
+            var stringJournalTypes = (from journalItem in _journalRecords
                                       select journalItem.ClassId).Distinct();
 
             JournalTypes = (from journalType in stringJournalTypes
                             select new ClassViewModel(journalType)).ToList();
 
-            var stringJournalEvents = (from journalItem in _journalItems
+            var stringJournalEvents = (from journalItem in _journalRecords
                                        select journalItem.Description).Distinct();
 
             JournalEvents = new List<EventViewModel>();
             foreach (var journalEvent in stringJournalEvents)
             {
-                var jounalRecord = journalItems.First(x => x.Description == journalEvent);
+                var jounalRecord = journalRecords.First(x => x.Description == journalEvent);
                 JournalEvents.Add(new EventViewModel(jounalRecord.ClassId, jounalRecord.Description));
             }
         }
 
-        public List<ClassViewModel> JournalTypes { get; set; }
-        public List<EventViewModel> JournalEvents { get; set; }
+        public List<ClassViewModel> JournalTypes { get; private set; }
+        public List<EventViewModel> JournalEvents { get; private set; }
 
         bool _useSystemDate;
         public bool UseSystemDate
@@ -113,8 +113,8 @@ namespace JournalModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            var startDateTime = StartDate.Date + StartTime.TimeOfDay;
-            var endDateTime = EndDate.Date + EndTime.TimeOfDay;
+            //var startDateTime = StartDate.Date + StartTime.TimeOfDay;
+            //var endDateTime = EndDate.Date + EndTime.TimeOfDay;
             Close(true);
         }
 
