@@ -12,7 +12,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
-        <Views:EditFilterView />
+        <Views:FilterDetailsView />
     </DataTemplate>
 
 </ResourceDictionary>

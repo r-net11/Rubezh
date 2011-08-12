@@ -29,7 +29,7 @@ namespace FiltersModule.ViewModels
 
             foreach (var eventViewModel in EventViewModels)
             {
-                if (journalFilter.Events.Any(x => x.Id == eventViewModel.Id))
+                if (journalFilter.Events.Any(x => (int) x == eventViewModel.Id))
                 {
                     eventViewModel.IsChecked = true;
                 }
@@ -37,7 +37,7 @@ namespace FiltersModule.ViewModels
 
             foreach (var categoryViewModel in CategoryViewModels)
             {
-                if (journalFilter.Categories.Any(x => x.Id == categoryViewModel.Id))
+                if (journalFilter.Categories.Any(x => (int) x == categoryViewModel.Id))
                 {
                     categoryViewModel.IsChecked = true;
                 }
@@ -87,21 +87,21 @@ namespace FiltersModule.ViewModels
 
         public JournalFilter GetModel()
         {
-            JournalFilter.Events = new List<State>();
+            JournalFilter.Events = new List<StateType>();
             foreach (var eventViewModel in EventViewModels)
             {
                 if (eventViewModel.IsChecked)
                 {
-                    JournalFilter.Events.Add(new State() { Id = eventViewModel.Id });
+                    JournalFilter.Events.Add((StateType) eventViewModel.Id);
                 }
             }
 
-            JournalFilter.Categories = new List<DeviceCategory>();
+            JournalFilter.Categories = new List<DeviceCategoryType>();
             foreach (var categoryViewModel in CategoryViewModels)
             {
                 if (categoryViewModel.IsChecked)
                 {
-                    JournalFilter.Categories.Add(new DeviceCategory() { Id = categoryViewModel.Id });
+                    JournalFilter.Categories.Add((DeviceCategoryType) categoryViewModel.Id);
                 }
             }
 

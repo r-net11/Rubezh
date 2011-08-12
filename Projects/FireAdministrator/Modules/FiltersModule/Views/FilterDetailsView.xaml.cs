@@ -2,9 +2,9 @@
 
 namespace FiltersModule.Views
 {
-    public partial class EditFilterView : UserControl
+    public partial class FilterDetailsView : UserControl
     {
-        public EditFilterView()
+        public FilterDetailsView()
         {
             InitializeComponent();
         }

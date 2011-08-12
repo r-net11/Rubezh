@@ -2,12 +2,9 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:Converters="clr-namespace:Infrastructure.Common.Converters"
 					xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
-
     <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <Converters:IdToClassNameConverter x:Key="IdToClassNameConverter" />
     <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
-    <Converters:IdToDeviceCategoryNameConverter x:Key="IdToDeviceCategoryNameConverter" />
     <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
 
     <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>

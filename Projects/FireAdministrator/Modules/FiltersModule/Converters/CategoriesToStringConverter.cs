@@ -10,7 +10,7 @@ namespace FiltersModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var categories = value as List<DeviceCategory>;
+            var categories = value as List<DeviceCategoryType>;
             StringBuilder result = new StringBuilder();
 
             if (categories != null)
@@ -21,7 +21,7 @@ namespace FiltersModule.Converters
                     {
                         result.Append(" или ");
                     }
-                    result.Append(categories[i].DeviceCategoryName);
+                    result.Append(EnumsConverter.CategoryTypeToCategoryName(categories[i]));
                 }
             }
 

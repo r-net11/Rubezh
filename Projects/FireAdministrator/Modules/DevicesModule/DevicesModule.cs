@@ -47,7 +47,7 @@ namespace DevicesModule
 
         static void OnShowDevice(string id)
         {
-            if (string.IsNullOrEmpty(id) != null)
+            if (string.IsNullOrEmpty(id))
             {
                 devicesViewModel.Select(id);
             }

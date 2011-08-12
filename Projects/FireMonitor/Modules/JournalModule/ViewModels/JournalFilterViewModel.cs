@@ -7,23 +7,23 @@ namespace JournalModule.ViewModels
 {
     public class JournalFilterViewModel
     {
-        readonly JournalFilter _journalFilter;
+        public JournalFilter JournalFilter { get; private set; }
 
         public JournalFilterViewModel(JournalFilter journalFilter)
         {
-            _journalFilter = journalFilter;
+            JournalFilter = journalFilter;
         }
 
         public int RecordsCount
         {
-            get { return _journalFilter.LastRecordsCount; }
+            get { return JournalFilter.LastRecordsCount; }
         }
 
         public bool CheckDaysConstraint(JournalRecord journalRecord)
         {
-            if (_journalFilter.IsLastDaysCountActive)
+            if (JournalFilter.IsLastDaysCountActive)
             {
-                return (DateTime.Now.Date - journalRecord.DeviceTime.Date).Days < _journalFilter.LastDaysCount;
+                return (DateTime.Now.Date - journalRecord.DeviceTime.Date).Days < JournalFilter.LastDaysCount;
             }
 
             return true;
@@ -32,7 +32,7 @@ namespace JournalModule.ViewModels
         public bool FilterRecord(JournalRecord journalRecord)
         {
             bool retval = true;
-            if (_journalFilter.Categories != null && _journalFilter.Categories.Count > 0)
+            if (JournalFilter.Categories != null && JournalFilter.Categories.Count > 0)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
                         x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
@@ -40,13 +40,13 @@ namespace JournalModule.ViewModels
 
                 if (retval = device != null)
                 {
-                    retval = _journalFilter.Categories.Any(x => x.DeviceCategoryType == device.Driver.Category);
+                    retval = JournalFilter.Categories.Any(x => x == device.Driver.Category);
                 }
             }
 
-            if (retval && _journalFilter.Events != null && _journalFilter.Events.Count > 0)
+            if (retval && JournalFilter.Events != null && JournalFilter.Events.Count > 0)
             {
-                retval = _journalFilter.Events.Any(x => x.Id == (int)journalRecord.StateType);
+                retval = JournalFilter.Events.Any(x => x == journalRecord.StateType);
             }
 
             return retval;

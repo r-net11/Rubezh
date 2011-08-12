@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Threading.Tasks;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -27,11 +26,18 @@ namespace JournalModule.ViewModels
         void Read(Object stateInfo)
         {
             List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 300);
-            Parallel.ForEach(journalRecords, journalItem =>
+            foreach (var journalRecord in journalRecords)
             {
-                Dispatcher.Invoke((Action<JournalRecordViewModel>) Add, new JournalRecordViewModel(journalItem));
+                Dispatcher.Invoke(new Action(
+                    () => JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
             }
-            );
+            //Parallel.ForEach(journalRecords, journalRecord =>
+            //{
+            //Dispatcher.Invoke(new Action(
+            //    () => JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
+            //}
+            //);
+
             return;
 
             //int lastJournalId = 100;
@@ -58,11 +64,6 @@ namespace JournalModule.ViewModels
             //    else
             //        lastJournalId--;
             //}
-        }
-
-        void Add(JournalRecordViewModel journalItemViewModel)
-        {
-            JournalRecords.Add(journalItemViewModel);
         }
 
         bool _isFiltered;

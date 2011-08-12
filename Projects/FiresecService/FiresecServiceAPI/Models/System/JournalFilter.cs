@@ -21,9 +21,9 @@ namespace FiresecAPI.Models
         public bool IsLastDaysCountActive { get; set; }
 
         [DataMember]
-        public List<State> Events { get; set; }
+        public List<StateType> Events { get; set; }
 
         [DataMember]
-        public List<DeviceCategory> Categories { get; set; }
+        public List<DeviceCategoryType> Categories { get; set; }
     }
 }

@@ -50,16 +50,16 @@ namespace DevicesModule.ViewModels
                 SelectedSourceZone = SourceZones[0];
         }
 
-        ObservableCollection<ZoneViewModel> _sourceZones;
-        public ObservableCollection<ZoneViewModel> SourceZones
-        {
-            get { return _sourceZones; }
-            set
-            {
-                _sourceZones = value;
-                OnPropertyChanged("SourceZones");
-            }
-        }
+        //ObservableCollection<ZoneViewModel> _sourceZones;
+        public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
+        //{
+        //    get { return _sourceZones; }
+        //    set
+        //    {
+        //        _sourceZones = value;
+        //        OnPropertyChanged("SourceZones");
+        //    }
+        //}
 
         ZoneViewModel _selectedSourceZone;
         public ZoneViewModel SelectedSourceZone

@@ -60,8 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\EventsToStringConverter.cs" />
+    <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
+    <Compile Include="Converters\StateTypeToEventNameConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="JournalModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -91,8 +95,11 @@
     <Compile Include="Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FilteredJournalView.xaml.cs">
-      <DependentUpon>FilteredJournalView.xaml</DependentUpon>
+    <Compile Include="Views\JournalFilterView.xaml.cs">
+      <DependentUpon>JournalFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JournalView.xaml.cs">
+      <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
@@ -139,7 +146,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FilteredJournalView.xaml">
+    <Page Include="Views\JournalFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

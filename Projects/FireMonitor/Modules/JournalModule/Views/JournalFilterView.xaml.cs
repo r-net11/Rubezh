@@ -2,9 +2,9 @@
 
 namespace JournalModule.Views
 {
-    public partial class FilteredJournalView : UserControl
+    public partial class JournalFilterView : UserControl
     {
-        public FilteredJournalView()
+        public JournalFilterView()
         {
             InitializeComponent();
         }

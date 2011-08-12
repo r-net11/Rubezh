@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows.Data;
 using FiresecAPI.Models;
 
-namespace FiltersModule.Converters
+namespace JournalModule.Converters
 {
     public class EventsToStringConverter : IValueConverter
     {

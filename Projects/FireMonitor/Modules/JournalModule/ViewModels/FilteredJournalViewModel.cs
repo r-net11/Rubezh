@@ -10,15 +10,14 @@ namespace JournalModule.ViewModels
 {
     public class FilteredJournalViewModel : RegionViewModel
     {
-        readonly JournalFilterViewModel _journalFilter;
+        public JournalFilterViewModel JournalFilterViewModel { get; private set; }
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
             if (journalFilter == null)
                 throw new ArgumentNullException();
 
-            Name = journalFilter.Name;
-            _journalFilter = new JournalFilterViewModel(journalFilter);
+            JournalFilterViewModel = new JournalFilterViewModel(journalFilter);
 
             Initialize();
         }
@@ -32,7 +31,10 @@ namespace JournalModule.ViewModels
             ThreadPool.QueueUserWorkItem(new WaitCallback(AplyFilter));
         }
 
-        public string Name { get; private set; }
+        public string Name
+        {
+            get { return JournalFilterViewModel.JournalFilter.Name; }
+        }
 
         public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
 
@@ -49,7 +51,7 @@ namespace JournalModule.ViewModels
 
         public static int RecordsMaxCount
         {
-            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
+            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount * 3; }
         }
 
         void AplyFilter(Object stateInfo)
@@ -71,15 +73,15 @@ namespace JournalModule.ViewModels
 
         bool FilterRecord(JournalRecord journalRecord)
         {
-            if (_journalFilter.CheckDaysConstraint(journalRecord))
+            if (JournalFilterViewModel.CheckDaysConstraint(journalRecord))
             {
-                if (_journalFilter.FilterRecord(journalRecord))
+                if (JournalFilterViewModel.FilterRecord(journalRecord))
                 {
                     Dispatcher.Invoke(new Action(() =>
                         JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
                 }
 
-                return JournalRecords.Count >= _journalFilter.RecordsCount;
+                return JournalRecords.Count >= JournalFilterViewModel.RecordsCount;
             }
 
             return false;
@@ -98,10 +100,10 @@ namespace JournalModule.ViewModels
                     JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
             }
 
-            if (JournalRecords.Count > _journalFilter.RecordsCount)
+            if (JournalRecords.Count > JournalFilterViewModel.RecordsCount)
             {
                 Dispatcher.BeginInvoke(new Action(() =>
-                    JournalRecords.RemoveAt(_journalFilter.RecordsCount)), null);
+                    JournalRecords.RemoveAt(JournalFilterViewModel.RecordsCount)), null);
             }
         }
     }
