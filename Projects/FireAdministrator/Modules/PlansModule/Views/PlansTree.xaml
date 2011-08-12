@@ -6,7 +6,8 @@
     >
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
         <TreeView ItemsSource="{Binding Plans}"
-                  ContextMenuOpening="TreeView_ContextMenuOpening">
+                  ContextMenuOpening="TreeView_ContextMenuOpening"
+                  >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <WrapPanel Margin="0,3">
@@ -14,6 +15,7 @@
                     </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+
             
             <TreeView.ContextMenu>
                 <ContextMenu>

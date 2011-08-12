@@ -14,9 +14,9 @@ using System.Windows.Shapes;
 
 namespace PlansModule.Views
 {
-    public partial class PlanCanvasView : UserControl
+    public partial class PlansMenuView : UserControl
     {
-        public PlanCanvasView()
+        public PlansMenuView()
         {
             InitializeComponent();
         }

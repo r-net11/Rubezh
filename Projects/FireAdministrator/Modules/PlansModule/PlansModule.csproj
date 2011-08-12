@@ -71,10 +71,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\ChildrensViewModel.cs" />
+    <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="Views\PlanssMenuView.xaml.cs">
+      <DependentUpon>PlanssMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlanCanvasView.xaml.cs">
       <DependentUpon>PlanCanvasView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +125,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlanssMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\PlanCanvasView.xaml">
       <Generator>MSBuild:Compile</Generator>

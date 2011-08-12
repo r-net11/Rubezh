@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using PlansModule.ViewModels;
 using System.Windows.Input;
+
 namespace PlansModule.Views
 {
     public partial class PlansTree : UserControl
@@ -21,7 +22,7 @@ namespace PlansModule.Views
             }
             else
             {
-                (DataContext as PlansViewModel).SelectedPlan = treeView.SelectedItem as PlanDetailsViewModel;
+                (DataContext as PlansViewModel).SelectedPlan =    treeView.SelectedItem as PlanViewModel;
             }
         }
     }

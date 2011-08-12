@@ -1,7 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -12,22 +15,27 @@ namespace PlansModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-            Plans = new ObservableCollection<PlanDetailsViewModel>();
+            Plans = new ObservableCollection<PlanViewModel>();
         }
 
         public void Initialize()
         {
-            foreach (var plan in FiresecManager.SystemConfiguration.Plans)
+            if (FiresecManager.SystemConfiguration.Plans != null)
             {
-                PlanDetailsViewModel planViewModel = new PlanDetailsViewModel();
-                Plans.Add(planViewModel);
+                foreach (var plan in FiresecManager.SystemConfiguration.Plans)
+                {
+                    PlanViewModel planViewModel = new PlanViewModel(plan);
+                    Plans.Add(planViewModel);
+                }
             }
         }
 
-        public ObservableCollection<PlanDetailsViewModel> Plans { get; private set; }
+        public ObservableCollection<PlanViewModel> Plans { get; set; }
+        public ObservableCollection<PlanViewModel> Children { get; set; }
 
-        PlanDetailsViewModel _selectedPlan;
-        public PlanDetailsViewModel SelectedPlan
+        PlanViewModel _selectedPlan;
+
+        public PlanViewModel SelectedPlan
         {
             get { return _selectedPlan; }
             set
@@ -37,17 +45,56 @@ namespace PlansModule.ViewModels
             }
         }
 
+        bool Add(ObservableCollection<PlanViewModel> Plans, Plan parent, Plan child)
+        {
+            
+            bool res = false;
+            /*
+            int index = Plans.IndexOf(parent);
+            if (index != -1)
+            {
+                if (Plans[index].Plan.
+            }
+            */
+            return res;
+             
+        }
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            var planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan);
+            PlanDetailsViewModel planDetailsViewModel = null;
+            if (SelectedPlan != null)
+            {
+                planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
+                planDetailsViewModel.Initialize();
+            }
+            else
+            {
+                planDetailsViewModel = new PlanDetailsViewModel();
+                planDetailsViewModel.Initialize();
+            }
+            
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
-                if (planDetailsViewModel.Parent == null)
+                if (SelectedPlan == null)
                 {
-                    FiresecManager.SystemConfiguration.Plans.Add(planDetailsViewModel.Plan);
-                    Plans.Add(planDetailsViewModel);
+                    PlanViewModel planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
+                    Plans.Add(planViewModel);
+                }
+                else
+                {
+                    PlanViewModel planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
+                    int index = FiresecManager.SystemConfiguration.Plans.IndexOf(planDetailsViewModel.Parent);
+                    Plan parent = FiresecManager.SystemConfiguration.Plans[index];
+                    if (parent.Children == null) parent.Children = new ObservableCollection<Plan>();
+                    parent.Children.Add(planDetailsViewModel.Plan);
+                    index = Plans.IndexOf(SelectedPlan);
+                    PlanViewModel parentPlanViewModel = Plans[index];
+                    parentPlanViewModel.AddChildren(planViewModel);
+                    if (Children == null) Children = new ObservableCollection<PlanViewModel>();
+                    Children.Add(planViewModel);
+                    OnPropertyChanged("Plan");
                 }
             }
         }
@@ -58,16 +105,11 @@ namespace PlansModule.ViewModels
         }
 
         public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            RemovePlan(Plans);
-            SelectedPlan = null;
-        }
 
         bool RemovePlan(ObservableCollection<PlanDetailsViewModel> level)
         {
             bool res = false;
-            if (level.Remove(SelectedPlan))
+     /*       if (level.Remove(SelectedPlan))
             {
                 FiresecManager.SystemConfiguration.Plans.Remove(SelectedPlan.Plan);
                 res = true;
@@ -86,27 +128,34 @@ namespace PlansModule.ViewModels
                         }
                     }
                 }
-            }
+            }*/
             return res;
         }
 
+        void OnRemove()
+        {
+            //RemovePlan(Plans);
+            SelectedPlan = null;
+        }
+
         public RelayCommand EditCommand { get; private set; }
+
         void OnEdit()
         {
-            PlanDetailsViewModel planDetailsViewModel = new PlanDetailsViewModel();
+          /*  PlanDetailsViewModel planDetailsViewModel = new PlanDetailsViewModel();
             planDetailsViewModel.Initialize(SelectedPlan);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
                 EditPlan(Plans, planDetailsViewModel, SelectedPlan);
                 SelectedPlan = null;
-            }
+            }*/
         }
 
         bool EditPlan(ObservableCollection<PlanDetailsViewModel> level, PlanDetailsViewModel _newPlan, PlanDetailsViewModel _oldPlan)
         {
             bool res = false;
-            int index = level.IndexOf(SelectedPlan);
+       /*     int index = level.IndexOf(SelectedPlan);
             if (index != -1)
             {
                 level[index].Name = _newPlan.Name;
@@ -137,7 +186,7 @@ namespace PlansModule.ViewModels
                         }
                     }
                 }
-            }
+            }*/
             return res;
         }
 
