@@ -14,31 +14,19 @@ namespace FiresecClient
 
         IFiresecService _iFiresecService;
 
-        public static event Action ConnectionLost;
+        public Action ConnectionLost;
         void OnConnectionLost()
         {
-            if (_isConnected == false)
-                return;
-
             if (ConnectionLost != null)
                 ConnectionLost();
-
-            _isConnected = false;
         }
 
-        public static event Action ConnectionAppeared;
+        public Action ConnectionAppeared;
         void OnConnectionAppeared()
         {
-            if (_isConnected == true)
-                return;
-
             if (ConnectionAppeared != null)
                 ConnectionAppeared();
-
-            _isConnected = true;
         }
-
-        bool _isConnected = true;
 
         public void Connect()
         {
@@ -250,11 +238,11 @@ namespace FiresecClient
             }
         }
 
-        public Dictionary<string, string> GetDirectoryHash(string directory)
+        public List<string> GetSoundsFileName()
         {
             try
             {
-                return _iFiresecService.GetDirectoryHash(directory);
+                return _iFiresecService.GetSoundsFileName();
             }
             catch
             {
@@ -263,11 +251,24 @@ namespace FiresecClient
             return null;
         }
 
-        public System.IO.Stream GetFile(string dirAndFileName)
+        public Dictionary<string, string> GetHashAndNameSoundFiles()
         {
             try
             {
-                return _iFiresecService.GetFile(dirAndFileName);
+                return _iFiresecService.GetHashAndNameSoundFiles();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public System.IO.Stream GetFile(string filepath)
+        {
+            try
+            {
+                return _iFiresecService.GetFile(filepath);
             }
             catch
             {
@@ -280,9 +281,7 @@ namespace FiresecClient
         {
             try
             {
-                var result = _iFiresecService.Ping();
-                OnConnectionAppeared();
-                return result;
+                return _iFiresecService.Ping();
             }
             catch
             {

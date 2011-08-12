@@ -39,7 +39,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Selectors" />
     <Reference Include="System.Runtime.Serialization" />
@@ -63,12 +62,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
-    <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
-    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
@@ -142,19 +135,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="app.config" />
-    <None Include="DatabaseConverter\FiresecDbConverter.dbml.layout">
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
-    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="DatabaseConverter\FiresecDbConverter.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>FiresecDbConverter.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -207,9 +191,6 @@
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

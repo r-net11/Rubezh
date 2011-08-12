@@ -14,8 +14,7 @@ namespace LibraryModule.Views
             CommandBinding DeleteCmdBinding = new CommandBinding(
                 ApplicationCommands.Delete,
                 DeleteCmdExecuted,
-                (object sender, CanExecuteRoutedEventArgs e) => { e.CanExecute = true; }
-                );
+                DeleteCmdCanExecute);
 
             CommandBindings.Add(DeleteCmdBinding);
         }
@@ -32,19 +31,26 @@ namespace LibraryModule.Views
             }
         }
 
+        void DeleteCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
         void LibraryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var treeView = sender as TreeView;
             if (treeView.SelectedItem is DeviceViewModel)
             {
-                (DataContext as LibraryViewModel).SelectedDeviceViewModel = treeView.SelectedItem as DeviceViewModel;
+                (DataContext as LibraryViewModel).SelectedDeviceViewModel =
+                    treeView.SelectedItem as DeviceViewModel;
                 (DataContext as LibraryViewModel).SelectedDeviceViewModel.SelectedStateViewModel = null;
             }
             if (treeView.SelectedItem is StateViewModel)
             {
                 var stateViewModel = treeView.SelectedItem as StateViewModel;
                 var library = (DataContext as LibraryViewModel);
-                var parentDevice = library.DeviceViewModels.First(x => x.Id == stateViewModel.ParentDriver.Id);
+                var parentDevice =
+                    library.DeviceViewModels.First(x => x.Id == stateViewModel.ParentDriver.Id);
 
                 if (library.SelectedDeviceViewModel != parentDevice)
                 {
@@ -60,21 +66,25 @@ namespace LibraryModule.Views
             var contextMenu = treeView.ContextMenu;
             foreach (MenuItem item in contextMenu.Items)
             {
-                item.Visibility = Visibility.Collapsed;
+                item.Visibility =
+                    System.Windows.Visibility.Collapsed;
             }
             if (treeView.SelectedItem == null)
             {
-                (contextMenu.Items[0] as MenuItem).Visibility = Visibility.Visible;
+                (contextMenu.Items[0] as MenuItem).Visibility =
+                    System.Windows.Visibility.Visible;
             }
             if ((treeView.SelectedItem as StateViewModel) != null)
             {
-                (contextMenu.Items[contextMenu.Items.Count - 1] as MenuItem).Visibility = Visibility.Visible;
+                (contextMenu.Items[contextMenu.Items.Count - 1] as MenuItem).Visibility =
+                    System.Windows.Visibility.Visible;
             }
             if ((treeView.SelectedItem as DeviceViewModel) != null)
             {
                 for (var i = 0; i < contextMenu.Items.Count - 1; ++i)
                 {
-                    (contextMenu.Items[i] as MenuItem).Visibility = Visibility.Visible;
+                    (contextMenu.Items[i] as MenuItem).Visibility =
+                        System.Windows.Visibility.Visible;
                 }
             }
         }

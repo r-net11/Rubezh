@@ -19,7 +19,8 @@ namespace JournalModule.Views
                 bool isChecked = (bool) checkBox.IsChecked;
                 var archiveFilter = DataContext as ArchiveFilterViewModel;
                 var classId = (checkBox.DataContext as ClassViewModel).Id;
-                archiveFilter.JournalEvents.ForEach(x => { if (x.ClassId == classId) x.IsEnable = isChecked; });
+                archiveFilter.JournalEvents.ForEach(
+                    x => { if (x.ClassId == classId) x.IsEnable = isChecked; });
             }
         }
 

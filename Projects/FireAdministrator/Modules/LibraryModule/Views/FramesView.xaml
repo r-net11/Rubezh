@@ -7,7 +7,6 @@
             <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
         </ContextMenu>
     </UserControl.Resources>
-    
     <TabControl TabStripPlacement="Bottom"
                 ItemsSource="{Binding FrameViewModels}"
                 SelectedItem="{Binding SelectedFrameViewModel}"

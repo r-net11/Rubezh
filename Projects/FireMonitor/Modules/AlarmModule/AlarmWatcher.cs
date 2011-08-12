@@ -22,10 +22,19 @@ namespace AlarmModule
         {
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                deviceState.IsFire = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.CanResetOnPanel) && (x.DriverState.StateType == StateType.Fire)));
-                deviceState.IsAttention = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.CanResetOnPanel) && (x.DriverState.StateType == StateType.Attention)));
-                deviceState.IsInfo = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.CanResetOnPanel) && (x.DriverState.StateType == StateType.Info)));
-                deviceState.IsOff = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Off)));
+                if (deviceState.States == null)
+                    continue;
+
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                if (device.Driver.Category == DeviceCategoryType.Sensor)
+                {
+                    //bool isTest = deviceState.InnerStates.Any(x => ((x.IsActive) && (x.CanResetOnPanel) && (x.State.StateType == StateType.Info)));
+
+                    deviceState.IsFire = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Fire)));
+                    deviceState.IsAttention = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Attention)));
+                    deviceState.IsInfo = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Info) && (x.DriverState.Name == "Тест")));
+                    deviceState.IsOff = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Off)));
+                }
 
                 deviceState.IsFailure = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.IsManualReset) && (x.DriverState.StateType == StateType.Failure)));
                 deviceState.IsService = deviceState.States.Any(x => ((x.IsActive) && (x.DriverState.IsManualReset) && (x.DriverState.StateType == StateType.Service) && (x.DriverState.IsAutomatic) == false));

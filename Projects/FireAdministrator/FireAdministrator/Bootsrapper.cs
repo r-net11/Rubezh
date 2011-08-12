@@ -65,7 +65,7 @@ namespace FireAdministrator
             SecurityModule.SequrityModule sequrityModule = new SecurityModule.SequrityModule();
             sequrityModule.Initialize();
 
-            FiltersModule.FilterModule filtersModule = new FiltersModule.FilterModule();
+            FiltersModule.FiltersModule filtersModule = new FiltersModule.FiltersModule();
             filtersModule.Initialize();
 
             SoundsModule.SoundsModule soundsModule = new SoundsModule.SoundsModule();

@@ -11,7 +11,8 @@ namespace LibraryModule.ViewModels
             var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.Id);
             for (int classId = 0; classId < 9; ++classId)
             {
-                if (!device.States.Any(x => x.Class == classId.ToString() && x.Code == null))
+                if (!device.States.Any(x => x.Class == classId.ToString() &&
+                    x.Code == null))
                 {
                     Items.Add(
                         new StateViewModel(

@@ -16,10 +16,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-    <!--<StackPanel Orientation="Horizontal">
-            <Image Margin="15 5 20 5" Source="Images/mute.png" Width="24" Height="24" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.5"/>
-            <CheckBox Content="Звук" VerticalAlignment="Center" Foreground="White" />
-        </StackPanel>-->
+        <XButtons:XButton Content="Sound" Margin="2" Padding="2" FontWeight="Black" Background="Black" />
 
         <XButtons:XButton Name="SoundButton" Style="{StaticResource myStyle}" Margin="2" Padding="2" FontWeight="Black" Background="Black">
             <XButtons:XButton.Content>
