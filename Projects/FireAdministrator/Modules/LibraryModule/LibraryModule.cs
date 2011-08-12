@@ -8,7 +8,7 @@ namespace LibraryModule
 {
     public class LibraryModule : IModule
     {
-        static LibraryViewModel libraryViewModel;
+        static LibraryViewModel _libraryViewModel;
 
         public LibraryModule()
         {
@@ -30,13 +30,13 @@ namespace LibraryModule
 
         static void CreateViewModels()
         {
-            libraryViewModel = new LibraryViewModel();
-            libraryViewModel.Initialize();
+            _libraryViewModel = new LibraryViewModel();
+            _libraryViewModel.Initialize();
         }
 
         static void OnShowLibrary(string obj)
         {
-            ServiceFactory.Layout.Show(libraryViewModel);
+            ServiceFactory.Layout.Show(_libraryViewModel);
         }
     }
 }

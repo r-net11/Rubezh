@@ -22,7 +22,7 @@ namespace InstructionsModule.ViewModels
 
         public void Initialize()
         {
-            _isNew = true;
+            _isNew = false;
             Instruction = new Instruction();
             Title = "Новая инструкция";
         }

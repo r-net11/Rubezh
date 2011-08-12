@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Collections.ObjectModel;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
+    [Serializable]
     public class Plan
     {
         public Plan Parent { get; set; }
-        public ObservableCollection<Plan> Children { get; set; }
+        public List<Plan> Children { get; set; }
 
-        [DataMember]
+        [XmlAttribute]
         public string Name { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public string Caption { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public string Description { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public string BackgroundSource { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public bool ShowBackgroundImage { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public double Width { get; set; }
-        [DataMember]
+        [XmlAttribute]
         public double Height { get; set; }
 
         public List<ElementSubPlan> ElementSubPlans { get; set; }

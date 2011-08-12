@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FiresecClient;
 
 namespace FireMonitor
 {
@@ -19,6 +20,27 @@ namespace FireMonitor
         public ConnectionIndicatorView()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
+            SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
+        }
+
+        void SetConnectionState(string state)
+        {
+            _textBlock.Text = state;
+        }
+
+        void OnConnectionLost()
+        {
+            Dispatcher.Invoke(new Action<string>(SetConnectionState), "Потеря связи");
+        }
+
+        void OnConnectionAppeared()
+        {
+            Dispatcher.Invoke(new Action<string>(SetConnectionState), "0");
         }
     }
 }

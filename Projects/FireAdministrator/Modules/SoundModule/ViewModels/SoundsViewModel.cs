@@ -9,6 +9,7 @@ using System.IO;
 using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Common;
 
 namespace SoundsModule.ViewModels
 {
@@ -16,7 +17,6 @@ namespace SoundsModule.ViewModels
     {
         public void Initialize()
         {
-            DownloadHelper.UpdateSound();
             IsNowPlaying = false;
             var sounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
             if (sounds == null)
@@ -44,7 +44,6 @@ namespace SoundsModule.ViewModels
             SelectedSound = Sounds[0];
 
             PlaySoundCommand = new RelayCommand(OnPlaySound);
-
         }
 
         ObservableCollection<SoundViewModel> _sounds;
@@ -80,24 +79,13 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public void Save()
-        {
-            if (Sounds != null)
-            {
-                FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
-                foreach (var sound in Sounds)
-                {
-                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
-                }
-            }
-        }
-
         public RelayCommand PlaySoundCommand { get; private set; }
         void OnPlaySound()
         {
             if (IsNowPlaying)
             {
-                AlarmPlayerHelper.Play(SelectedSound.SoundName, SelectedSound.SpeakerType, SelectedSound.IsContinious);
+                string soundPath = FiresecClient.FiresecManager.FileHelper.GetFilePath(SelectedSound.SoundName);
+                AlarmPlayerHelper.Play(soundPath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {
                     IsNowPlaying = false;
@@ -108,6 +96,18 @@ namespace SoundsModule.ViewModels
                 AlarmPlayerHelper.Stop();
             }
             OnButtonContentChanged(IsNowPlaying);
+        }
+
+        public void Save()
+        {
+            if (Sounds != null)
+            {
+                FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
+                foreach (var sound in Sounds)
+                {
+                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
+                }
+            }
         }
 
         public override void OnHide()

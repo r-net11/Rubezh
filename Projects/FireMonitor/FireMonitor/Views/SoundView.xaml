@@ -19,6 +19,7 @@
         <XButtons:XButton Name="SoundButton" Style="{StaticResource myStyle}" Margin="2" Padding="2" 
                           FontWeight="Black" Background="Black"
                           Command="{Binding PlaySoundCommand}">
+        </StackPanel>-->
             <XButtons:XButton.Content>
                 <Image Source="/FireMonitor;component/Views/Images/sound.png" />
             </XButtons:XButton.Content>

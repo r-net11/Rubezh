@@ -32,10 +32,7 @@ namespace SoundsModule.ViewModels
 
         public string SoundName
         {
-            get
-            {
-                return Sound.SoundName;
-            }
+            get { return Sound.SoundName; }
             set
             {
                 Sound.SoundName = value;
@@ -65,16 +62,7 @@ namespace SoundsModule.ViewModels
 
         public List<string> AvailableSounds 
         {
-            get
-            {
-                List<string> fileNames = new List<string>();
-                fileNames.Add(DownloadHelper.DefaultName);
-                foreach (string str in Directory.GetFiles(DownloadHelper.CurrentDirectory))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
-                return fileNames;
-            }
+            get 
             {
                 var listSounds = new List<string>();
                 listSounds.Add("<нет>");
@@ -83,6 +71,9 @@ namespace SoundsModule.ViewModels
             }
         }
 
+        public List<string> AvailableSpeakers
+        {
+            get 
             {
                 var speakerTypes = new List<string>();
                 foreach (var speakertype in Enum.GetValues(typeof(SpeakerType)))
@@ -105,6 +96,7 @@ namespace SoundsModule.ViewModels
                 }
                 return speakerTypes; 
             }
+        }
 
         public const string DefaultName = "<нет>";
 

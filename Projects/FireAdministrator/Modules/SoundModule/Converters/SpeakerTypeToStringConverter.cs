@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
-using SoundsModule.ViewModels;
+using System.Collections.Generic;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
@@ -14,13 +14,13 @@ namespace SoundsModule.Converters
             switch (Value)
             {
                 case SpeakerType.None:
-                    return DownloadHelper.DefaultName;
+                    return SoundViewModel.DefaultName;
                 case SpeakerType.Alarm:
                     return "Тревога";
                 case SpeakerType.Attention:
                     return "Внимание";
                 default:
-                    return DownloadHelper.DefaultName;
+                    return SoundViewModel.DefaultName;
             }
         }
 

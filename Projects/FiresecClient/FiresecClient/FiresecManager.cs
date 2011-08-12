@@ -17,20 +17,16 @@ namespace FiresecClient
         public static DeviceConfigurationStates DeviceStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
+        public static FileHelper FileHelper { get; private set; }
 
         static SafeFiresecService _firesecService;
 
         static Thread _pingThread;
 
-        public static Action ConnectionLost;
-        public static Action ConnectionAppeared;
-
         public static bool Connect(string login, string password)
         {
             IFiresecService firesecService = FiresecServiceFactory.Create();
             _firesecService = new SafeFiresecService(firesecService);
-            _firesecService.ConnectionLost = ConnectionLost;
-            _firesecService.ConnectionAppeared = ConnectionAppeared;
 
             _firesecService.Connect();
             Drivers = _firesecService.GetDrivers();
@@ -39,6 +35,9 @@ namespace FiresecClient
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
             Update();
+
+            FileHelper = new FileHelper();
+            FileHelper.Synchronize();
 
             _loggedInUserName = login;
 
@@ -156,14 +155,9 @@ namespace FiresecClient
             return _firesecService.ReadJournal(startIndex, count);
         }
 
-        public static List<string> GetSoundsFileName()
+        public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
-            return _firesecService.GetSoundsFileName();
-        }
-
-        public static Dictionary<string, string> GetHashAndNameSoundFiles()
-        {
-            return _firesecService.GetHashAndNameSoundFiles();
+            return _firesecService.GetDirectoryHash(directory);
         }
 
         public static Stream GetFile(string filepath)
@@ -201,5 +195,10 @@ namespace FiresecClient
         }
 
         static int pingCount = 0;
+
+        public static void Reconnect(string userName)
+        {
+            _loggedInUserName = userName;
+        }
     }
 }
