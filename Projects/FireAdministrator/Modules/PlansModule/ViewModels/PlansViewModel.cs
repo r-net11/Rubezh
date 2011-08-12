@@ -87,7 +87,8 @@ namespace PlansModule.ViewModels
                     PlanViewModel planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
                     int index = FiresecManager.SystemConfiguration.Plans.IndexOf(planDetailsViewModel.Parent);
                     Plan parent = FiresecManager.SystemConfiguration.Plans[index];
-                    if (parent.Children == null) parent.Children = new ObservableCollection<Plan>();
+                    if (parent.Children == null)
+                        parent.Children = new List<Plan>();
                     parent.Children.Add(planDetailsViewModel.Plan);
                     index = Plans.IndexOf(SelectedPlan);
                     PlanViewModel parentPlanViewModel = Plans[index];
