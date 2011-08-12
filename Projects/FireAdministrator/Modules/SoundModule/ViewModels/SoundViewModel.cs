@@ -45,7 +45,8 @@ namespace SoundsModule.ViewModels
             get { return Sound.SpeakerType; }
             set 
             {
-                Sound.SpeakerType = value; 
+                Sound.SpeakerType = value;
+                OnPropertyChanged("SpeakerType");
             }
         }
 
@@ -65,19 +66,39 @@ namespace SoundsModule.ViewModels
             {
                 var listSounds = new List<string>();
                 listSounds.Add("<нет>");
-                listSounds.AddRange(FiresecClient.FiresecManager.FileHelper.GetListSounds);
+                listSounds.AddRange(FiresecClient.FiresecManager.FileHelper.SoundsList);
                 return listSounds;
             }
         }
 
-        public Array AvailableSpeakers
+        public List<string> AvailableSpeakers
         {
-            get { return Enum.GetValues(typeof(SpeakerType)); }
+            get 
+            {
+                var speakerTypes = new List<string>();
+                foreach (var speakertype in Enum.GetValues(typeof(SpeakerType)))
+                {
+                    switch ((SpeakerType)speakertype)
+                    {
+                        case SpeakerType.None:
+                            speakerTypes.Add(DefaultName);
+                            break;
+                        case SpeakerType.Alarm:
+                            speakerTypes.Add("Тревога");
+                            break;
+                        case SpeakerType.Attention:
+                            speakerTypes.Add("Внимание");
+                            break;
+                        default:
+                            speakerTypes.Add(DefaultName);
+                            break;
+                    }
+                }
+                return speakerTypes; 
+            }
         }
 
-        public string SoundFilePath
-        {
-            get { return FiresecClient.FiresecManager.FileHelper.GetFilePath(SoundName); }
-        }
+        public const string DefaultName = "<нет>";
+
     }
 }

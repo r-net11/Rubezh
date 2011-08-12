@@ -18,26 +18,27 @@ namespace SoundsModule.ViewModels
         public void Initialize()
         {
             IsNowPlaying = false;
-            var sysConfSounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            Sounds = new ObservableCollection<SoundViewModel>();
-
-            if ((sysConfSounds != null) && (sysConfSounds.Count > 0))
+            var sounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
+            if (sounds == null)
             {
-                foreach (var sound in sysConfSounds)
-                {
-                    Sounds.Add(new SoundViewModel(sound));
-                }
+                sounds = new List<Sound>();
             }
-            else
+
+            Sounds = new ObservableCollection<SoundViewModel>();
+            foreach (var statetype in Enum.GetValues(typeof(StateType)))
             {
-                foreach (var statetype in Enum.GetValues(typeof(StateType)))
+                if ((StateType)statetype == StateType.No)
+                    continue;
+                var newSound = new Sound();
+                newSound.StateType = (StateType)statetype;
+                foreach (var sound in sounds)
                 {
-                    if ((StateType) statetype == StateType.No)
-                        continue;
-                    Sound newSound = new Sound();
-                    newSound.StateType = (StateType) statetype;
-                    Sounds.Add(new SoundViewModel(newSound));
+                    if (sound.StateType == newSound.StateType)
+                    {
+                        newSound = sound;
+                    }
                 }
+                Sounds.Add(new SoundViewModel(newSound));
             }
 
             SelectedSound = Sounds[0];
@@ -83,8 +84,8 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                ///////
-                AlarmPlayerHelper.Play(SelectedSound.SoundFilePath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
+                string soundPath = FiresecClient.FiresecManager.FileHelper.GetFilePath(SelectedSound.SoundName);
+                AlarmPlayerHelper.Play(soundPath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {
                     IsNowPlaying = false;
@@ -94,6 +95,7 @@ namespace SoundsModule.ViewModels
             {
                 AlarmPlayerHelper.Stop();
             }
+            OnButtonContentChanged(IsNowPlaying);
         }
 
         public void Save()
@@ -113,6 +115,13 @@ namespace SoundsModule.ViewModels
             base.OnHide();
             IsNowPlaying = false;
             AlarmPlayerHelper.Stop();
+        }
+
+        public static event Action<bool> ButtonContentChanged;
+        public void OnButtonContentChanged(bool isNowPlaying)
+        {
+            if (ButtonContentChanged != null)
+                ButtonContentChanged(isNowPlaying);
         }
     }
 }

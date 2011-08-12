@@ -27,9 +27,6 @@ namespace FiresecClient
             var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
             var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
-            
-           
-           
 
             foreach (var remoteFileHash in remoteDirectoryHash)
             {
@@ -56,30 +53,6 @@ namespace FiresecClient
             destinationStream.Close();
         }
 
-        //Dictionary<string, string> GetFileHash(string directory)
-        //{
-        //    Dictionary<string, string> hashTable = new Dictionary<string, string>();
-        //    List<string> HashListFiles = new List<string>();
-        //    DirectoryInfo dir = new DirectoryInfo(CurrentDirectory(directory));
-        //    FileInfo[] files = dir.GetFiles();
-        //    byte[] hash;
-        //    StringBuilder sBuilder = new StringBuilder();
-        //    foreach (FileInfo fInfo in files)
-        //    {
-        //        sBuilder.Clear();
-        //        using (FileStream fileStream = fInfo.Open(FileMode.Open))
-        //        {
-        //            hash = MD5.Create().ComputeHash(fileStream);
-        //            for (int i = 0; i < hash.Length; i++)
-        //            {
-        //                sBuilder.Append(hash[i].ToString());
-        //            }
-        //        }
-        //        hashTable.Add(sBuilder.ToString(), fInfo.Name);
-        //    }
-        //    return hashTable;
-        //}
-        
         List<string> GetFileNamesList(string directory)
         {
             List<string> fileNames = new List<string>();
@@ -98,7 +71,7 @@ namespace FiresecClient
             }
         }
 
-        public List<string> GetListSounds
+        public List<string> SoundsList
         {
             get { return GetFileNamesList(_directoriesList[0]); }
         }

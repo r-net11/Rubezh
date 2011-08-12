@@ -12,7 +12,6 @@ namespace Common
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();
-            //List<string> HashListFiles = new List<string>();
             string currentDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
             var dir = new DirectoryInfo(currentDirectory);
             var files = dir.GetFiles();
@@ -29,7 +28,6 @@ namespace Common
                         sBuilder.Append(hash[i].ToString());
                     }
                 }
-
                 hashTable.Add(sBuilder.ToString(), fInfo.Name);
             }
             return hashTable;

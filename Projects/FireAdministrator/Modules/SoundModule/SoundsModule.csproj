@@ -62,7 +62,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\EnumSpeakerConverter.cs" />
     <Compile Include="Converters\SpeakerTypeToStringConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\SoundToStringConverter.cs" />
@@ -96,6 +95,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Buttons\Buttons.csproj">
+      <Project>{D8D17C88-CFA0-485A-95BA-A966C02562C1}</Project>
+      <Name>Buttons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
