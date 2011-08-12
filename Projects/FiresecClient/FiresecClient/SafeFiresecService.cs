@@ -250,11 +250,11 @@ namespace FiresecClient
             }
         }
 
-        public Dictionary<string, string> GetHashAndNameFiles(string directory)
+        public Dictionary<string, string> GetDirectoryHash(string directory)
         {
             try
             {
-                return _iFiresecService.GetHashAndNameFiles(directory);
+                return _iFiresecService.GetDirectoryHash(directory);
             }
             catch
             {

@@ -153,9 +153,9 @@ namespace FiresecClient
             return _firesecService.ReadJournal(startIndex, count);
         }
 
-        public static Dictionary<string, string> GetHashAndNameFiles(string directory)
+        public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
-            return _firesecService.GetHashAndNameFiles(directory);
+            return _firesecService.GetDirectoryHash(directory);
         }
 
         public static Stream GetFile(string filepath)

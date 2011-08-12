@@ -25,8 +25,8 @@ namespace Common
         {
             do
             {
-                Console.Beep(_frequency, 1000);
-                Thread.Sleep(500);
+                Console.Beep(_frequency, 600);
+                Thread.Sleep(1000);
             }
             while (_isContinious);
         }
@@ -47,7 +47,7 @@ namespace Common
             }
             _frequency = (int)speaker;
             _isContinious = isContinious;
-            _thread = new Thread(PlayBeep);
+            _thread = new Thread(PlayBeep) ;
             _thread.Start();
         }
 

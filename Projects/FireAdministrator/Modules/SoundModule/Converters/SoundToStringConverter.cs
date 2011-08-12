@@ -10,7 +10,7 @@ namespace SoundsModule.Converters
 {
     class SoundToStringConverter : IValueConverter
     {
-        const string DefaultName = "<не задано>";
+        const string DefaultName = "<нет>";
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

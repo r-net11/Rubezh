@@ -83,7 +83,7 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                
+                ///////
                 AlarmPlayerHelper.Play(SelectedSound.SoundFilePath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
                 if (!SelectedSound.IsContinious)
                 {

@@ -72,8 +72,6 @@
     <Compile Include="ViewModels\AlarmListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
-    <Compile Include="ViewModels\AlarmPlayerHealper.cs" />
-    <Compile Include="ViewModels\AlarmPlayViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\VideoViewModel.cs" />
     <Compile Include="Views\AlarmView.xaml.cs">

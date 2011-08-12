@@ -61,7 +61,13 @@ namespace SoundsModule.ViewModels
 
         public List<string> AvailableSounds 
         {
-            get { return FiresecClient.FiresecManager.FileHelper.GetListSounds; }
+            get 
+            {
+                var listSounds = new List<string>();
+                listSounds.Add("<нет>");
+                listSounds.AddRange(FiresecClient.FiresecManager.FileHelper.GetListSounds);
+                return listSounds;
+            }
         }
 
         public Array AvailableSpeakers

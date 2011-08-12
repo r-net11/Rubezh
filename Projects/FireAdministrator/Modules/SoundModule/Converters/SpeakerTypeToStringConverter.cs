@@ -6,7 +6,7 @@ namespace SoundsModule.Converters
 {
     class SpeakerTypeToStringConverter : IValueConverter
     {
-        string DefaultName = "<не задано>";
+        string DefaultName = "<нет>";
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

@@ -60,7 +60,7 @@ namespace FiresecAPI
         void ExecuteCommand(string deviceId, string methodName);
 
         [OperationContract]
-        Dictionary<string, string> GetHashAndNameFiles(string directory);
+        Dictionary<string, string> GetDirectoryHash(string directory);
 
         [OperationContract]
         Stream GetFile(string dirAndFileName);

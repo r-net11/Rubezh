@@ -5,8 +5,8 @@ namespace FiresecAPI.Models
     public enum SpeakerType
     {
         None = 0,
-        Alarm = 500,
-        Attention = 3000
+        Alarm = 200,
+        Attention = 50
     }
 
     [DataContract]
