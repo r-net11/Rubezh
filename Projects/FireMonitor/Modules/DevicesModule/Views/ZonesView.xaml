@@ -54,7 +54,7 @@
 
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
             <TextBlock Text="{Binding PresentationName}" />
-            <TextBlock Text="{Binding StateType}" />
+            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
         </StackPanel>
 
         <Grid Grid.Row="2">

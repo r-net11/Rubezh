@@ -25,6 +25,7 @@ namespace PlansModule.ViewModels
         Device _device;
         DeviceState _deviceState;
         ElementDeviceView _elementDeviceView;
+        public string DeviceId { get; private set; }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
@@ -43,11 +44,9 @@ namespace PlansModule.ViewModels
             if (_device != null)
             {
                 _elementDeviceView._deviceControl.DriverId = _device.Driver.Id;
-                OnDeviceStateChanged(elementDevice.Id);
+                OnDeviceStateChanged(DeviceId);
             }
         }
-
-        public string DeviceId { get; private set; }
 
         bool _isSelected;
         public bool IsSelected
@@ -63,10 +62,7 @@ namespace PlansModule.ViewModels
 
         public bool IsDisabled
         {
-            get
-            {
-                return _deviceState.IsDisabled;
-            }
+            get { return _deviceState.IsDisabled; }
         }
 
         public event Action Selected;
@@ -107,7 +103,7 @@ namespace PlansModule.ViewModels
         {
             if (id == DeviceId)
             {
-                _elementDeviceView._deviceControl.StateId = StateHelper.StateTypeToString(_deviceState.StateType);
+                _elementDeviceView._deviceControl.StateId = ((int)_deviceState.StateType).ToString();
                 _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
                     from state in _deviceState.States
                     where state.IsActive
@@ -139,9 +135,7 @@ namespace PlansModule.ViewModels
                 {
                     if (parameter.Visible)
                     {
-                        if (string.IsNullOrEmpty(parameter.Value))
-                            continue;
-                        if (parameter.Value == "<NULL>")
+                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
                             continue;
                         tooltip += parameter.Caption + " - " + parameter.Value + "\n";
                     }

@@ -10,7 +10,6 @@ namespace PlansModule.ViewModels
 {
     public class PlansViewModel : RegionViewModel
     {
-        public ObservableCollection<PlanViewModel> Plans { get; set; }
         public PlanDetailsViewModel PlanDetails { get; set; }
         public static PlansViewModel Current;
 
@@ -67,6 +66,8 @@ namespace PlansModule.ViewModels
                 OnPropertyChanged("MainCanvas");
             }
         }
+
+        public ObservableCollection<PlanViewModel> Plans { get; set; }
 
         PlanViewModel _selectedPlan;
         public PlanViewModel SelectedPlan

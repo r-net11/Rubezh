@@ -16,15 +16,14 @@ namespace DevicesModule.ViewModels
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
-            _deviceControlViewModel = new DeviceControlViewModel(_device);
+            DeviceControlViewModel = new DeviceControlViewModel(_device);
 
             Title = _device.Driver.ShortName + " " + _device.DottedAddress;
-            CloseCommand = new RelayCommand(OnClosing);
         }
 
         Device _device;
         DeviceControls.DeviceControl _deviceControl;
-        DeviceControlViewModel _deviceControlViewModel;
+        public DeviceControlViewModel DeviceControlViewModel { get; private set; }
 
         public Driver Driver
         {
@@ -50,8 +49,8 @@ namespace DevicesModule.ViewModels
                 _deviceControl = new DeviceControls.DeviceControl();
                 _deviceControl.DriverId = _device.Driver.Id;
 
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                _deviceControl.StateId = StateHelper.StateTypeToString(deviceState.StateType);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                _deviceControl.StateId = ((int)deviceState.StateType).ToString();
 
                 _deviceControl.Width = 50;
                 _deviceControl.Height = 50;
@@ -82,7 +81,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 List<string> selfStates = new List<string>();
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                     foreach (var state in deviceState.States)
                 {
                         if (state.IsActive)
@@ -97,7 +96,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 List<string> parentStates = new List<string>();
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
                     {
@@ -112,16 +111,15 @@ namespace DevicesModule.ViewModels
             get
             {
                 List<string> parameters = new List<string>();
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)
                     {
                         if (parameter.Visible)
                         {
-                            if (string.IsNullOrEmpty(parameter.Value))
+                            if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
                                 continue;
-                            if (parameter.Value == "<NULL>")
-                                continue;
+
                             parameters.Add(parameter.Caption + " - " + parameter.Value);
                         }
                     }
@@ -137,14 +135,5 @@ namespace DevicesModule.ViewModels
                 return deviceState.StateType;
             }
         }
-
-        public event Action Closing;
-        void OnClosing()
-        {
-            if (Closing != null)
-                Closing();
-        }
-
-        public RelayCommand CloseCommand { get; private set; }
     }
 }

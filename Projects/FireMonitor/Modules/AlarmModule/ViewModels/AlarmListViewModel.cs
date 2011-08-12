@@ -66,13 +66,14 @@ namespace AlarmModule.ViewModels
                 var resetItem = alarmViewModel.GetResetItem();
                 if (resetItem != null)
                 {
-                    if (resetItems.Any(x => x.DeviceId == resetItem.DeviceId))
+                    var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceId == resetItem.DeviceId);
+                    if (existringResetItem != null)
                     {
                         foreach (string stateName in resetItem.StateNames)
                         {
-                            if (resetItem.StateNames.Contains(stateName) == false)
+                            if (existringResetItem.StateNames.Contains(stateName) == false)
                             {
-                                resetItem.StateNames.Add(stateName);
+                                existringResetItem.StateNames.Add(stateName);
                             }
                         }
                     }

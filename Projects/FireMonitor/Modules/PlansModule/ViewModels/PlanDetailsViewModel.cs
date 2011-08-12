@@ -31,7 +31,7 @@ namespace PlansModule.ViewModels
 
         public void Initialize(Plan plan)
         {
-            this._plan = plan;
+            _plan = plan;
             DrawPlan();
             UpdateSubPlans();
             ResetView();
@@ -74,23 +74,24 @@ namespace PlansModule.ViewModels
                 Devices.Add(planDeviceViewModel);
             }
 
-            if (_plan.Caption == "Строение 2 - Этаж 2")
-            {
-                AddVideo();
-            }
-            if (_plan.Caption == "Строение 1 - Этаж 4")
-            {
-                AddPhone();
-            }
-            if (_plan.Caption == "Строение 1 - Этаж 5")
-            {
-                AddDoor();
-            }
+            //if (_plan.Caption == "Строение 2 - Этаж 2")
+            //{
+            //    AddVideo();
+            //}
+            //if (_plan.Caption == "Строение 1 - Этаж 4")
+            //{
+            //    AddPhone();
+            //}
+            //if (_plan.Caption == "Строение 1 - Этаж 5")
+            //{
+            //    AddDoor();
+            //}
 
             SelectedDevice = null;
             SelectedZone = null;
         }
 
+        #region Fake Objects
         void AddVideo()
         {
             Canvas cameraCanvas = new Canvas();
@@ -177,6 +178,7 @@ namespace PlansModule.ViewModels
             DoorViewModel doorViewModel = new DoorViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(doorViewModel);
         }
+        #endregion Fake Objects
 
         ElementDeviceViewModel _selectedDevice;
         public ElementDeviceViewModel SelectedDevice

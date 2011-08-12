@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        #region DeviceSection
+        #region DeviceSelection
 
         public List<DeviceViewModel> AllDevices;
 

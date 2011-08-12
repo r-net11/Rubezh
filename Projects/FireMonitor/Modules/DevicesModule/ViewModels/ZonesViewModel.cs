@@ -23,17 +23,15 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
+            Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
+                       orderby int.Parse(zone.No)
+                       select new ZoneViewModel(zone)).ToList();
+
+            if (Zones.Count > 0)
+            SelectedZone = Zones[0];
         }
 
-        public IEnumerable<ZoneViewModel> Zones
-        {
-            get
-            {
-                return from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                       orderby int.Parse(zone.No)
-                       select new ZoneViewModel(zone);
-            }
-        }
+        public List<ZoneViewModel> Zones { get; private set; }
 
         ZoneViewModel _selectedZone;
         public ZoneViewModel SelectedZone
@@ -97,7 +95,10 @@ namespace DevicesModule.ViewModels
 
         public void Select(string zoneNo)
         {
-            SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            if (string.IsNullOrEmpty(zoneNo) == false)
+            {
+                SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            }
         }
 
         void InitializeDevices()

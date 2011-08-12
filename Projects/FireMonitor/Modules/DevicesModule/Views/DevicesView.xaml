@@ -86,7 +86,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
-                    <TextBlock Text="{Binding StateType}" />
+                    <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                 </StackPanel>
 
                 <ItemsControl ItemsSource="{Binding ParentStates}">

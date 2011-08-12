@@ -63,6 +63,11 @@ namespace FiresecClient
 
                 foreach (var state in deviceState.States)
                 {
+                    if (state.IsActive)
+                    {
+                        ;
+                    }
+
                     var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
                     state.DriverState = driverState;
                 }
@@ -79,10 +84,7 @@ namespace FiresecClient
         static string _loggedInUserName;
         public static User CurrentUser
         {
-            get
-            {
-                return SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName);
-            }
+            get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName); }
         }
 
         public static List<Perimission> CurrentPermissions
@@ -193,7 +195,7 @@ namespace FiresecClient
             {
                 Thread.Sleep(TimeSpan.FromSeconds(1));
                 _firesecService.Ping();
-                Trace.WriteLine("Ping " + pingCount.ToString());
+                //Trace.WriteLine("Ping " + pingCount.ToString());
                 pingCount++;
             }
         }

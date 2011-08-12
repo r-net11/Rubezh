@@ -83,9 +83,11 @@ namespace DeviceControls
             else
                 foreach (var additionalStateId in AdditionalStates)
                 {
-                    var aState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
-                    if (aState == null) continue;
-                    _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
+                    var additionalState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
+                    if (additionalState != null)
+                    {
+                        _stateViewModelList.Add(new StateViewModel(additionalState, StateCanvases));
+                    }
                 }
         }
 

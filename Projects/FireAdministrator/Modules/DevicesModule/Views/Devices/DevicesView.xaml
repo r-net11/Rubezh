@@ -77,17 +77,20 @@
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
-                                    <TextBlock Text="{Binding PresentationName}" />
-                                    <StackPanel.Style>
-                                        <Style>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                                    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PresentationZone}" />
+                                    <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
+                                        <TextBlock Text="{Binding PresentationName}" />
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -96,6 +96,23 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string PresentationZone
+        {
+            get
+            {
+                if (Device.Driver.IsZoneDevice)
+                    return "Зона";
+
+                if (Device.Driver.IsZoneLogicDevice)
+                    return "Логика Зон";
+
+                if (Device.Driver.IsIndicatorDevice)
+                    return "Индикатор";
+
+                return "";
+            }
+        }
+
         public string ConnectedTo
         {
             get { return Device.ConnectedTo; }

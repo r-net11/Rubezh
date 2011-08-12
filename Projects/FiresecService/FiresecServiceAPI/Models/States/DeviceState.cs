@@ -40,7 +40,7 @@ namespace FiresecAPI.Models
         {
             get
             {
-                List<int> stateClassIds = new List<int>() { 8 };
+                List<int> stateClassIds = new List<int>() { 7 };
 
                 stateClassIds.AddRange(from DeviceDriverState deviceDriverState in States
                                        where deviceDriverState.IsActive

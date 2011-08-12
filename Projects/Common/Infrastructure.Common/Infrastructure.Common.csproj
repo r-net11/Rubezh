@@ -64,6 +64,7 @@
     <Compile Include="Converters\IdToClassNameConverter.cs" />
     <Compile Include="Converters\IdToDeviceCategoryNameConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="DialogContent.cs" />
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
@@ -95,6 +96,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

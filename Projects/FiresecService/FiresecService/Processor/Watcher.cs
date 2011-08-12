@@ -237,7 +237,7 @@ namespace FiresecService
             {
                 foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
                 {
-                    int minZonePriority = 8;
+                    int minZonePriority = 7;
                     foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                     {
                         if (device.ZoneNo == zoneState.No)
