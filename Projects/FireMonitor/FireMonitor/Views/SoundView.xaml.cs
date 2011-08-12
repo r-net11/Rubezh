@@ -14,19 +14,42 @@ using System.Windows.Shapes;
 using FiresecClient;
 using FiresecAPI.Models;
 using Common;
+using Infrastructure.Common;
+using System.ComponentModel;
 
 namespace FireMonitor
 {
-    public partial class SoundView : UserControl
+    public partial class SoundView : UserControl, INotifyPropertyChanged
     {
         public SoundView()
         {
             InitializeComponent();
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
+            _currentStateType = StateType.Norm;
+            IsSoundOn = true;
             DataContext = this;
+            PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
 
-        List<Sound> SysConfSounds
+        
+        StateType _currentStateType;
+        StateType CurrentStateType
+        {
+            get { return _currentStateType; }
+        }
+
+        bool _isSoundOn;
+        public bool IsSoundOn
+        {
+            get { return _isSoundOn; }
+            set 
+            {
+                _isSoundOn = value;
+                ButtonContentChanged(value);
+            }
+        }
+
+        List<Sound> Sounds
         {
             get { return new List<Sound>(FiresecClient.FiresecManager.SystemConfiguration.Sounds); }
         }
@@ -44,34 +67,71 @@ namespace FireMonitor
                     currentDeviceState = deviceState;
                 }
             }
-            PlayAlarm(currentDeviceState.StateType);
+            _currentStateType = currentDeviceState.StateType;
+            IsSoundOn = true;
+            PlayAlarm();
         }
 
-        public void PlayAlarm(StateType stateType)
+        public void PlayAlarm()
         {
-            if (SysConfSounds == null)
+            if (Sounds == null)
             {
                 return;
             }
-            foreach (var sound in SysConfSounds)
+            AlarmPlayerHelper.Play(@"H:\Rubezh\Projects\FireMonitor\FireMonitor\bin\Debug\Sounds\Sound1.wav", SpeakerType.None, true);
+            //foreach (var sound in Sounds)
+            //{
+            //    if (sound.StateType == CurrentStateType)
+            //    {
+            //        string soundPath = FiresecManager.FileHelper.GetFilePath(sound.SoundName);
+            //        AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
+            //        return;
+            //    }
+            //}
+        }
+
+        public void StopPlayAlarm()
+        {
+            AlarmPlayerHelper.Stop();
+        }
+
+        private void ButtonContentChanged(bool isNowPlaying)
+        {
+            if (IsSoundOn)
             {
-                if (sound.StateType == stateType)
-                {
-                    string soundPath = FiresecManager.FileHelper.GetFilePath(sound.SoundName);
-                    AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
-                    return;
-                }
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("Images/sound.png", UriKind.Relative));
+                SoundButton.Content = image;
+            }
+            else
+            {
+                Image image = new Image();
+                image.Source = new BitmapImage(new Uri("Images/mute.png", UriKind.Relative));
+                SoundButton.Content = image;
             }
         }
 
-        private void XButton_Checked(object sender, RoutedEventArgs e)
+        public RelayCommand PlaySoundCommand { get; private set; }
+        void OnPlaySound()
         {
-            Image image = new Image();
-            ImageSourceConverter convert = new ImageSourceConverter();
-            ImageSource imageSource = (ImageSource)convert.ConvertFromString("Images/mute.png");
-            image.Source = imageSource;
-            SoundButton.Content = image;
-            //SoundButton.Content = Image.SourceProperty("/FireMonitor;component/Images/mute.png");
+            if (IsSoundOn)
+            {
+                StopPlayAlarm();
+                IsSoundOn = false;
+            }
+            else
+            {
+                PlayAlarm();
+                IsSoundOn = true;
+            }
+            ButtonContentChanged(IsSoundOn);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }
