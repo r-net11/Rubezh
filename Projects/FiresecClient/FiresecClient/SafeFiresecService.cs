@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
+using System.ServiceModel;
 
 namespace FiresecClient
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
     public class SafeFiresecService : IFiresecService
     {
         public SafeFiresecService(IFiresecService iFiresecService)
@@ -283,6 +285,23 @@ namespace FiresecClient
                 var result = _iFiresecService.Ping();
                 OnConnectionAppeared();
                 return result;
+            }
+            catch(CommunicationObjectFaultedException e)
+            {
+                OnConnectionLost();
+            }
+            catch (InvalidOperationException ex)
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public string Test()
+        {
+            try
+            {
+                return _iFiresecService.Test();
             }
             catch
             {

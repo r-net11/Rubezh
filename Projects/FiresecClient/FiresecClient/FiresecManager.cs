@@ -44,6 +44,8 @@ namespace FiresecClient
             _pingThread = new Thread(PingWork);
             _pingThread.Start();
 
+            _firesecService.Test();
+
             return true;
         }
 
@@ -116,6 +118,7 @@ namespace FiresecClient
         {
             _firesecService.Disconnect();
             _pingThread.Abort();
+            FiresecServiceFactory.Dispose();
         }
 
         public static void SetConfiguration()
@@ -187,7 +190,7 @@ namespace FiresecClient
         {
             while (true)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(1));
+                Thread.Sleep(TimeSpan.FromSeconds(10));
                 _firesecService.Ping();
                 //Trace.WriteLine("Ping " + pingCount.ToString());
                 pingCount++;
@@ -199,6 +202,11 @@ namespace FiresecClient
         public static void Reconnect(string userName)
         {
             _loggedInUserName = userName;
+        }
+
+        public static void Test()
+        {
+            _firesecService.Test();
         }
     }
 }

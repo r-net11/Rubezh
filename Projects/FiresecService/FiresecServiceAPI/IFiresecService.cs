@@ -2,16 +2,17 @@
 using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
+using System;
 
 namespace FiresecAPI
 {
-    [ServiceContract(CallbackContract = typeof(IFiresecCallback))]
+    [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode=SessionMode.Required)]
     public interface IFiresecService
     {
-        [OperationContract]
+        [OperationContract(IsInitiating=true)]
         void Connect();
 
-        [OperationContract]
+        [OperationContract(IsTerminating=true)]
         void Disconnect();
 
         [OperationContract]
@@ -67,5 +68,9 @@ namespace FiresecAPI
 
         [OperationContract]
         string Ping();
+
+        [OperationContract]
+        [FaultContract(typeof(Exception))]
+        string Test();
     }
 }

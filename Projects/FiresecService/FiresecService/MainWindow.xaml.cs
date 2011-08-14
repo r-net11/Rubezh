@@ -10,15 +10,17 @@ namespace FiresecServiceRunner
         public MainWindow()
         {
             InitializeComponent();
+            Current = this;
+        }
+
+        public static MainWindow Current { get; private set; }
+        public static void AddMessage(string message)
+        {
+            Current._textBox.Text += message + "\n";
         }
 
         void Button_Click(object sender, RoutedEventArgs e)
         {
-            StateType stateType = StateType.Failure;
-            int x = (int)stateType;
-            StateType stateType2 = (StateType)4;
-
-
             FiresecManager.Connect("adm", "");
             FiresecServiceManager.Open();
         }

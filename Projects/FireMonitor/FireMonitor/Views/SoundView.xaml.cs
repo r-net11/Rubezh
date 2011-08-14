@@ -78,7 +78,7 @@ namespace FireMonitor
             {
                 return;
             }
-            AlarmPlayerHelper.Play(@"H:\Rubezh\Projects\FireMonitor\FireMonitor\bin\Debug\Sounds\Sound1.wav", SpeakerType.None, true);
+            //AlarmPlayerHelper.Play(@"H:\Rubezh\Projects\FireMonitor\FireMonitor\bin\Debug\Sounds\Sound1.wav", SpeakerType.None, true);
             //foreach (var sound in Sounds)
             //{
             //    if (sound.StateType == CurrentStateType)

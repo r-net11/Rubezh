@@ -11,12 +11,12 @@ using System.Text;
 using System.Security.Cryptography;
 using System;
 using Common;
+using FiresecServiceRunner;
 
 namespace FiresecService
-{
-    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single, MaxItemsInObjectGraph = 2147483647)]
-    public class FiresecService : IFiresecService
+{    
+    [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext=true, InstanceContextMode=InstanceContextMode.PerSession)]
+    public class FiresecService : IFiresecService, IDisposable
     {
         IFiresecCallback _currentCallback;
 
@@ -24,8 +24,12 @@ namespace FiresecService
         {
             _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
             CallbackManager.Add(_currentCallback);
+
+
+            MainWindow.AddMessage("Connected " + OperationContext.Current.SessionId);
         }
 
+        [OperationBehavior(ReleaseInstanceMode=ReleaseInstanceMode.AfterCall)]
         public void Disconnect()
         {
             CallbackManager.Remove(_currentCallback);
@@ -154,29 +158,6 @@ namespace FiresecService
         public Dictionary<string, string> GetDirectoryHash(string directory)
         {
             return HashHelper.GetDirectoryHash(directory);
-            
-            //Dictionary<string, string> hashTable = new Dictionary<string, string>();
-            //List<string> HashListSoundFiles = new List<string>();
-            //string currentDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
-            //DirectoryInfo dir = new DirectoryInfo(currentDirectory);
-            //FileInfo[] files = dir.GetFiles();
-            //byte[] hash;
-            //StringBuilder sBuilder = new StringBuilder();
-            //foreach (FileInfo fInfo in files)
-            //{
-            //    sBuilder.Clear();
-            //    using (FileStream fileStream = fInfo.Open(FileMode.Open))
-            //    {
-            //        hash = MD5.Create().ComputeHash(fileStream);
-            //        for (int i = 0; i < hash.Length; i++)
-            //        {
-            //            sBuilder.Append(hash[i].ToString());
-            //        }
-            //    }
-                
-            //    hashTable.Add(sBuilder.ToString(), fInfo.Name);
-            //}
-            //return hashTable;
         }
 
         public Stream GetFile(string dirNameAndFileName)
@@ -188,6 +169,17 @@ namespace FiresecService
         public string Ping()
         {
             return "Pong";
+        }
+
+        public void Dispose()
+        {
+            Disconnect();
+        }
+
+        public string Test()
+        {
+            //throw(new FaultException<Exception>(new Exception("Test"), new FaultReason("Test")));
+            return "Test";
         }
     }
 }

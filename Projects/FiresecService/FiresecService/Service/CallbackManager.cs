@@ -28,6 +28,7 @@ namespace FiresecService
         {
             foreach (var failedCallback in _failedCallbacks)
             {
+                FiresecServiceRunner.MainWindow.AddMessage("Callback error");
                 _callbacks.Remove(failedCallback);
             }
         }

@@ -9,6 +9,7 @@ namespace FiresecClient
     public static class FiresecServiceFactory
     {
         static FiresecEventSubscriber _firesecEventSubscriber;
+        static DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
 
         public static IFiresecService Create()
         {
@@ -32,7 +33,7 @@ namespace FiresecClient
             EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
-            DuplexChannelFactory<IFiresecService> _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
+            _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
 
             _duplexChannelFactory.Credentials.UserName.UserName = "login";
             _duplexChannelFactory.Credentials.UserName.Password = "pass";
@@ -48,8 +49,18 @@ namespace FiresecClient
 
             _duplexChannelFactory.Faulted += new EventHandler(_duplexChannelFactory_Faulted);
 
+            _duplexChannelFactory.Open();
+
             IFiresecService _firesecService = _duplexChannelFactory.CreateChannel();
             return _firesecService;
+        }
+
+        public static void Dispose()
+        {
+            if (_duplexChannelFactory.State == CommunicationState.Created)
+            {
+                _duplexChannelFactory.Close();
+            }
         }
 
         static void _duplexChannelFactory_Faulted(object sender, EventArgs e)

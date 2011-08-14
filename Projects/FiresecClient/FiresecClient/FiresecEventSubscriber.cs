@@ -2,9 +2,11 @@
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.ServiceModel;
 
 namespace FiresecClient
 {
+    [CallbackBehavior(ConcurrencyMode=ConcurrencyMode.Single)]
     public class FiresecEventSubscriber : IFiresecCallback
     {
         public void DeviceStateChanged(DeviceState newDeviceState)
