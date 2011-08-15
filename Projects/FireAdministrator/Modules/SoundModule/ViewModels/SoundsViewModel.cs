@@ -87,13 +87,10 @@ namespace SoundsModule.ViewModels
 
         public void Save()
         {
-            if (Sounds != null)
+            FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
+            foreach (var sound in Sounds)
             {
-                FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
-                foreach (var sound in Sounds)
-                {
-                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
-                }
+                FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
             }
         }
 
@@ -102,6 +99,5 @@ namespace SoundsModule.ViewModels
             IsNowPlaying = false;
             AlarmPlayerHelper.Stop();
         }
-
     }
 }

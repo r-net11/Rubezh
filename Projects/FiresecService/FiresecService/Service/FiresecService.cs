@@ -14,8 +14,8 @@ using Common;
 using FiresecServiceRunner;
 
 namespace FiresecService
-{    
-    [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext=true, InstanceContextMode=InstanceContextMode.PerSession)]
+{
+    [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true, InstanceContextMode = InstanceContextMode.PerSession)]
     public class FiresecService : IFiresecService, IDisposable
     {
         IFiresecCallback _currentCallback;
@@ -29,7 +29,7 @@ namespace FiresecService
             MainWindow.AddMessage("Connected " + OperationContext.Current.SessionId);
         }
 
-        [OperationBehavior(ReleaseInstanceMode=ReleaseInstanceMode.AfterCall)]
+        [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
         public void Disconnect()
         {
             CallbackManager.Remove(_currentCallback);
@@ -122,7 +122,7 @@ namespace FiresecService
             List<string> devicePaths = new List<string>();
             foreach (var id in deviceIds)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.Id == id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
                 devicePaths.Add(device.PlaceInTree);
             }
             FiresecInternalClient.AddToIgnoreList(devicePaths);
@@ -178,7 +178,8 @@ namespace FiresecService
 
         public string Test()
         {
-            //throw(new FaultException<Exception>(new Exception("Test"), new FaultReason("Test")));
+            //FiresecException fault = new FiresecException();
+            //throw new FaultException<FiresecException>(fault, new FaultReason("Test"));
             return "Test";
         }
     }

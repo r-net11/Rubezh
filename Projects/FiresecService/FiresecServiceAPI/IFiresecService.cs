@@ -70,7 +70,11 @@ namespace FiresecAPI
         string Ping();
 
         [OperationContract]
-        [FaultContract(typeof(Exception))]
+        [FaultContract(typeof(FiresecException))]
         string Test();
+    }
+
+    public class FiresecException : Exception
+    {
     }
 }

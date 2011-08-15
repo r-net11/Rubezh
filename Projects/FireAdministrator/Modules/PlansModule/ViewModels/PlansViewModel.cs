@@ -45,8 +45,7 @@ namespace PlansModule.ViewModels
 
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
-        {
-            
+        {   
             PlanDetailsViewModel planDetailsViewModel = null;
             if (SelectedPlan != null)
             {

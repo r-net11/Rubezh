@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}"
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}"
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Состояние" Width="1*">

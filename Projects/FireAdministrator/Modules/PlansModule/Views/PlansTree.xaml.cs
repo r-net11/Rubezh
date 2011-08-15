@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using PlansModule.ViewModels;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Views
 {
