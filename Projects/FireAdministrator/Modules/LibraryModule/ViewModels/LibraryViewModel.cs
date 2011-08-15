@@ -11,7 +11,9 @@ namespace LibraryModule.ViewModels
         public LibraryViewModel()
         {
             AddDeviceCommand = new RelayCommand(OnAddDevice);
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice);
+            RemoveDeviceCommand = new RelayCommand(
+                () => OnRemoveDevice(),
+                (x) => SelectedDeviceViewModel != null);
             SaveCommand = new RelayCommand(OnSave);
         }
 
@@ -23,8 +25,8 @@ namespace LibraryModule.ViewModels
                 DeviceViewModels.Add(new DeviceViewModel(device));
             }
         }
-        public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }
 
+        public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }
 
         DeviceViewModel _selectedDeviceViewModel;
         public DeviceViewModel SelectedDeviceViewModel

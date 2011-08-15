@@ -21,7 +21,9 @@ namespace LibraryModule.ViewModels
             }
             ParentDriver = parentDriver;
 
-            AddFrameCommand = new RelayCommand(OnAddFrame);
+            AddFrameCommand = new RelayCommand(
+                () => OnAddFrame(),
+                (x) => SelectedFrameViewModel != null && FrameViewModels.Count > 1);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
 
             Initialize();
@@ -121,22 +123,15 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            if (FrameViewModels.Count == 1)
-            {
-                MessageBox.Show("Невозможно удалить единственный кадр", "Ошибка");
-            }
-            else
-            {
-                var result = MessageBox.Show("Удалить выбранный кадр?",
-                                            "Окно подтверждения",
-                                            MessageBoxButton.OKCancel,
-                                            MessageBoxImage.Question);
+            var result = MessageBox.Show("Удалить выбранный кадр?",
+                                        "Окно подтверждения",
+                                        MessageBoxButton.OKCancel,
+                                        MessageBoxImage.Question);
 
-                if (result == MessageBoxResult.OK)
-                {
-                    State.Frames.Remove(SelectedFrameViewModel.Frame);
-                    FrameViewModels.Remove(SelectedFrameViewModel);
-                }
+            if (result == MessageBoxResult.OK)
+            {
+                State.Frames.Remove(SelectedFrameViewModel.Frame);
+                FrameViewModels.Remove(SelectedFrameViewModel);
             }
         }
     }

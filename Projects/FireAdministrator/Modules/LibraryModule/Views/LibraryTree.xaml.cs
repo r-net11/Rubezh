@@ -14,8 +14,7 @@ namespace LibraryModule.Views
             CommandBinding DeleteCmdBinding = new CommandBinding(
                 ApplicationCommands.Delete,
                 DeleteCmdExecuted,
-                (object sender, CanExecuteRoutedEventArgs e) => { e.CanExecute = true; }
-                );
+                DeleteCmdCanExecuted);
 
             CommandBindings.Add(DeleteCmdBinding);
         }
@@ -29,6 +28,19 @@ namespace LibraryModule.Views
             else if (treeView.SelectedItem is StateViewModel)
             {
                 (DataContext as LibraryViewModel).SelectedDeviceViewModel.RemoveStateCommand.Execute();
+            }
+        }
+
+        void DeleteCmdCanExecuted(object target, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = false;
+            if (treeView.SelectedItem is DeviceViewModel)
+            {
+                e.CanExecute = (DataContext as LibraryViewModel).RemoveDeviceCommand.CanExecute(null);
+            }
+            else if (treeView.SelectedItem is StateViewModel)
+            {
+                e.CanExecute = (DataContext as LibraryViewModel).SelectedDeviceViewModel.RemoveStateCommand.CanExecute(null);
             }
         }
 

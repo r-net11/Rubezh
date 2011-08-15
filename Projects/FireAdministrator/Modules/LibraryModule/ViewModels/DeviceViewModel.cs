@@ -22,7 +22,10 @@ namespace LibraryModule.ViewModels
                 SetDefaultStateTo(Device);
             }
 
-            RemoveStateCommand = new RelayCommand(OnRemoveState);
+            RemoveStateCommand = new RelayCommand(
+                () => OnRemoveState(),
+                (x) => SelectedStateViewModel != null &&
+                     SelectedStateViewModel.State.Class != StateViewModel.DefaultClassId);
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
 
@@ -133,22 +136,15 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
         {
-            if (SelectedStateViewModel.State.Class == StateViewModel.DefaultClassId)
-            {
-                MessageBox.Show("Невозможно удалить базовый рисунок");
-            }
-            else
-            {
-                var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
-                                                    "Окно подтверждения",
-                                                    MessageBoxButton.OKCancel,
-                                                    MessageBoxImage.Question);
+            var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
+                                                "Окно подтверждения",
+                                                MessageBoxButton.OKCancel,
+                                                MessageBoxImage.Question);
 
-                if (dialogResult == MessageBoxResult.OK)
-                {
-                    Device.States.Remove(SelectedStateViewModel.State);
-                    StateViewModels.Remove(SelectedStateViewModel);
-                }
+            if (dialogResult == MessageBoxResult.OK)
+            {
+                Device.States.Remove(SelectedStateViewModel.State);
+                StateViewModels.Remove(SelectedStateViewModel);
             }
         }
     }
