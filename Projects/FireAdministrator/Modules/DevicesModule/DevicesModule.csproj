@@ -75,6 +75,13 @@
     <Compile Include="Events\RemoveZoneEvent.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardDevicesViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardLevelsViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardLevelViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardUserDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardUsersMenuViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardUsersViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardUserViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
@@ -160,6 +167,21 @@
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Guard\GuardViewModel.cs" />
+    <Compile Include="Views\Guard\GuardDevicesView.xaml.cs">
+      <DependentUpon>GuardDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardLevelsView.xaml.cs">
+      <DependentUpon>GuardLevelsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardUserDetailsView.xaml.cs">
+      <DependentUpon>GuardUserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardUsersMenuView.xaml.cs">
+      <DependentUpon>GuardUsersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardUsersView.xaml.cs">
+      <DependentUpon>GuardUsersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Guard\GuardView.xaml.cs">
       <DependentUpon>GuardView.xaml</DependentUpon>
     </Compile>
@@ -279,6 +301,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Devices\PropertyDetails\ValveDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardLevelsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardUserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardUsersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -64,11 +64,6 @@ namespace FiresecClient
 
                 foreach (var state in deviceState.States)
                 {
-                    if (state.IsActive)
-                    {
-                        ;
-                    }
-
                     var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
                     state.DriverState = driverState;
                 }
@@ -124,7 +119,6 @@ namespace FiresecClient
         public static void SetConfiguration()
         {
             _firesecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
-            return;
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
@@ -192,7 +186,6 @@ namespace FiresecClient
             {
                 Thread.Sleep(TimeSpan.FromSeconds(10));
                 _firesecService.Ping();
-                //Trace.WriteLine("Ping " + pingCount.ToString());
                 pingCount++;
             }
         }

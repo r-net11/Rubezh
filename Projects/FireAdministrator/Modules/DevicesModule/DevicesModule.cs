@@ -15,6 +15,7 @@ namespace DevicesModule
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
+            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuard);
         }
 
         public void Initialize()
@@ -39,15 +40,19 @@ namespace DevicesModule
 
             directionsViewModel = new DirectionsViewModel();
             directionsViewModel.Initialize();
+
+            guardViewModel = new GuardViewModel();
+            guardViewModel.Initialize();
         }
 
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
         static DirectionsViewModel directionsViewModel;
+        static GuardViewModel guardViewModel;
 
         static void OnShowDevice(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id) == false)
             {
                 devicesViewModel.Select(id);
             }
@@ -56,13 +61,21 @@ namespace DevicesModule
 
         static void OnShowZone(string zoneNo)
         {
-            zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
+            if (string.IsNullOrEmpty(zoneNo) == false)
+            {
+                zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
+            }
             ServiceFactory.Layout.Show(zonesViewModel);
         }
 
-        static void OnShowDirections(string zoneNo)
+        static void OnShowDirections(string obj)
         {
             ServiceFactory.Layout.Show(directionsViewModel);
+        }
+
+        static void OnShowGuard(string obj)
+        {
+            ServiceFactory.Layout.Show(guardViewModel);
         }
 
         public static bool HasChanges { get; set; }

@@ -79,4 +79,12 @@
         <Views:GuardView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardUserDetailsViewModel}">
+        <Views:GuardUserDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardUsersMenuViewModel}">
+        <Views:GuardUsersMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>

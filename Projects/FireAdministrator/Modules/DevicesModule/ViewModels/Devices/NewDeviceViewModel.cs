@@ -112,7 +112,7 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            var deviceViewModel = new DeviceViewModel();
             deviceViewModel.Initialize(device, _parentDeviceViewModel.Source);
             deviceViewModel.Parent = parentDeviceViewModel;
             parentDeviceViewModel.Children.Add(deviceViewModel);

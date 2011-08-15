@@ -17,7 +17,7 @@ namespace FiresecService.Converters
                 {
                     if (innerDirection.type == "direction")
                     {
-                        Direction direction = new Direction();
+                        var direction = new Direction();
                         direction.Id = int.Parse(innerDirection.id);
                         direction.Gid = innerDirection.gid;
                         direction.Name = innerDirection.name;
@@ -45,14 +45,14 @@ namespace FiresecService.Converters
             }
         }
 
-        public static void ConvertBack(DeviceConfiguration currentConfiguration)
+        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            List<Firesec.CoreConfig.partType> innerDirections = new List<Firesec.CoreConfig.partType>();
+            var innerDirections = new List<Firesec.CoreConfig.partType>();
             int no = 0;
 
             foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
             {
-                Firesec.CoreConfig.partType innerDirection = new Firesec.CoreConfig.partType();
+                var innerDirection = new Firesec.CoreConfig.partType();
                 innerDirection.type = "direction";
                 innerDirection.no = no.ToString();
                 no++;
@@ -60,7 +60,7 @@ namespace FiresecService.Converters
                 innerDirection.gid = direction.Gid;
                 innerDirection.name = direction.Name;
 
-                List<Firesec.CoreConfig.partTypePinZ> zones = new List<Firesec.CoreConfig.partTypePinZ>();
+                var zones = new List<Firesec.CoreConfig.partTypePinZ>();
                 foreach (var zone in direction.Zones)
                 {
                     zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone });
@@ -69,13 +69,14 @@ namespace FiresecService.Converters
 
                 if ((direction.DeviceRm != null) || (direction.DeviceButton != null))
                 {
-                    List<paramType> innerDirectionParameters = new List<paramType>();
-                    paramType rmParameter = new paramType();
+                    var innerDirectionParameters = new List<paramType>();
+                    var rmParameter = new paramType();
                     rmParameter.name = "Device_RM";
                     rmParameter.type = "String";
                     rmParameter.value = direction.DeviceRm;
                     innerDirectionParameters.Add(rmParameter);
-                    paramType buttonParameter = new paramType();
+
+                    var buttonParameter = new paramType();
                     buttonParameter.name = "Device_AM";
                     buttonParameter.type = "String";
                     buttonParameter.value = direction.DeviceRm;

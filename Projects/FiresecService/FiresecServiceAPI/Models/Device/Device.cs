@@ -11,6 +11,10 @@ namespace FiresecAPI.Models
         {
             Properties = new List<Property>();
             Children = new List<Device>();
+            Properties = new List<Property>();
+            ZoneLogic = new ZoneLogic();
+            IndicatorLogic = new IndicatorLogic();
+            PDUGroupLogic = new PDUGroupLogic();
         }
 
         public Driver Driver { get; set; }

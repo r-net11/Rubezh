@@ -8,7 +8,7 @@ namespace FiresecService.Converters
     {
         public static IndicatorLogic Convert(LEDProperties lEDProperties)
         {
-            IndicatorLogic indicatorLogic = new IndicatorLogic();
+            var indicatorLogic = new IndicatorLogic();
 
             switch (lEDProperties.type)
             {
@@ -44,7 +44,7 @@ namespace FiresecService.Converters
 
         public static LEDProperties ConvertBack(IndicatorLogic indicatorLogic)
         {
-            LEDProperties lEDProperties = new LEDProperties();
+            var lEDProperties = new LEDProperties();
 
             switch (indicatorLogic.IndicatorLogicType)
             {

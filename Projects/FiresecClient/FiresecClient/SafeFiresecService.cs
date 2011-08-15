@@ -286,11 +286,15 @@ namespace FiresecClient
                 OnConnectionAppeared();
                 return result;
             }
-            catch(CommunicationObjectFaultedException e)
+            catch (CommunicationObjectFaultedException e)
             {
                 OnConnectionLost();
             }
             catch (InvalidOperationException ex)
+            {
+                OnConnectionLost();
+            }
+            catch (CommunicationException ce)
             {
                 OnConnectionLost();
             }

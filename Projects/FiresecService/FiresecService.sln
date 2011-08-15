@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService", "FiresecSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common\Common.csproj", "{FE37B6D4-73E5-40F2-A770-A974561430B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDirect", "FiresecDirect\FiresecDirect.csproj", "{BCC8C1F6-D562-469F-9420-E44CDE33B83F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FE37B6D4-73E5-40F2-A770-A974561430B8}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BCC8C1F6-D562-469F-9420-E44CDE33B83F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -65,6 +65,8 @@
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
     <Compile Include="Models\Device\IndicatorLogic.cs" />
     <Compile Include="Models\EnumsConverter.cs" />
+    <Compile Include="Models\Guard\GuardLevel.cs" />
+    <Compile Include="Models\Guard\GuardUser.cs" />
     <Compile Include="Models\Plans\ElementDevice.cs" />
     <Compile Include="Models\Plans\ElementSubPlan.cs" />
     <Compile Include="Models\Plans\ElementZone.cs" />

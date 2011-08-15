@@ -13,7 +13,7 @@ namespace FiresecService.Converters
 
             foreach (var firesecUser in FiresecManager.CoreConfig.user)
             {
-                User user = new User();
+                var user = new User();
                 user.Id = firesecUser.param.value;
                 user.Name = firesecUser.name;
                 user.FullName = firesecUser.fullName;
@@ -34,7 +34,7 @@ namespace FiresecService.Converters
 
             foreach (var firesecUserGroup in FiresecManager.CoreConfig.userGroup)
             {
-                UserGroup userGroup = new UserGroup();
+                var userGroup = new UserGroup();
                 userGroup.Id = firesecUserGroup.param.value;
                 userGroup.Name = firesecUserGroup.name;
                 FiresecManager.SecurityConfiguration.UserGroups.Add(userGroup);
@@ -43,7 +43,7 @@ namespace FiresecService.Converters
             var secObj = FiresecManager.CoreConfig.secObjType.FirstOrDefault(x => x.name == "Функции программы");
             foreach (var firesecPerimission in secObj.secAction)
             {
-                Perimission perimission = new Perimission();
+                var perimission = new Perimission();
                 perimission.Id = firesecPerimission.num;
                 perimission.Name = firesecPerimission.name;
                 FiresecManager.SecurityConfiguration.Perimissions.Add(perimission);
@@ -87,10 +87,10 @@ namespace FiresecService.Converters
         {
             int idx = 0;
 
-            List<userGroupType> internalGroups = new List<userGroupType>();
+            var internalGroups = new List<userGroupType>();
             foreach (var group in securityConfiguration.UserGroups)
             {
-                userGroupType internalGroup = new userGroupType();
+                var internalGroup = new userGroupType();
                 internalGroup.idx = idx.ToString();
                 idx++;
                 internalGroup.param = new Firesec.CoreConfig.paramType();
@@ -104,10 +104,10 @@ namespace FiresecService.Converters
             }
             FiresecManager.CoreConfig.userGroup = internalGroups.ToArray();
 
-            List<userType> internalUsers = new List<userType>();
+            var internalUsers = new List<userType>();
             foreach (var user in securityConfiguration.Users)
             {
-                userType internalUser = new userType();
+                var internalUser = new userType();
                 internalUser.idx = idx.ToString();
                 idx++;
                 internalUser.name = user.Name;
@@ -121,11 +121,11 @@ namespace FiresecService.Converters
                 internalUser.extSecurity = new extSecurityType();
                 internalUser.extSecurity.remoteAccess = "0";
 
-                List<grpType> internalUserGroups = new List<grpType>();
+                var internalUserGroups = new List<grpType>();
                 foreach (var group in user.Groups)
                 {
                     var firesecGroup = FiresecManager.CoreConfig.userGroup.FirstOrDefault(x => x.param.value == group);
-                    grpType internalUserGroup = new grpType();
+                    var internalUserGroup = new grpType();
                     internalUserGroup.idx = firesecGroup.idx;
                     internalUserGroups.Add(internalUserGroup);
                 }
@@ -152,7 +152,7 @@ namespace FiresecService.Converters
                 foreach (var permission in group.Permissions)
                 {
                     var internalPermission = FiresecManager.CoreConfig.secObjType[0].secAction.FirstOrDefault(x => x.num == permission);
-                    secRightType permissionBinding = new secRightType();
+                    var permissionBinding = new secRightType();
                     permissionBinding.deleteflag = "0";
                     permissionBinding.act = internalPermission.idx;
                     permissionBinding.subj = internalGroup.idx;
@@ -167,7 +167,7 @@ namespace FiresecService.Converters
                 foreach (var permission in user.Permissions)
                 {
                     var internalPermission = FiresecManager.CoreConfig.secObjType[0].secAction.FirstOrDefault(x => x.num == permission);
-                    secRightType permissionBinding = new secRightType();
+                    var permissionBinding = new secRightType();
                     permissionBinding.deleteflag = "0";
                     permissionBinding.act = internalPermission.idx;
                     permissionBinding.subj = internalUser.idx;
@@ -177,7 +177,7 @@ namespace FiresecService.Converters
                 foreach (var permission in user.RemovedPermissions)
                 {
                     var internalPermission = FiresecManager.CoreConfig.secObjType[0].secAction.FirstOrDefault(x => x.num == permission);
-                    secRightType permissionBinding = new secRightType();
+                    var permissionBinding = new secRightType();
                     permissionBinding.deleteflag = "1";
                     permissionBinding.act = internalPermission.idx; ;
                     permissionBinding.subj = internalUser.idx;

@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-    public partial class GuardView : UserControl
+    public partial class GuardUsersMenuView : UserControl
     {
-        public GuardView()
+        public GuardUsersMenuView()
         {
             InitializeComponent();
         }
