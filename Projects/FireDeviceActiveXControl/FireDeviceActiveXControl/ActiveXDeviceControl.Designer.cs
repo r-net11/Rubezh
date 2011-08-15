@@ -34,7 +34,7 @@
             // 
             // elementHost
             // 
-            this.elementHost.Location = new System.Drawing.Point(3, 3);
+            this.elementHost.Location = new System.Drawing.Point(0, 0);
             this.elementHost.Name = "elementHost";
             this.elementHost.Size = new System.Drawing.Size(174, 175);
             this.elementHost.TabIndex = 0;
@@ -48,6 +48,7 @@
             this.Controls.Add(this.elementHost);
             this.Name = "ActiveXDeviceControl";
             this.Size = new System.Drawing.Size(181, 181);
+            this.Load += new System.EventHandler(this.ActiveXDeviceControl_Load);
             this.ResumeLayout(false);
 
         }

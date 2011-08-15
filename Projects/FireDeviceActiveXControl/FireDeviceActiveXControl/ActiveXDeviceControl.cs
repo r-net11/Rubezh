@@ -25,36 +25,52 @@ namespace FireDeviceActiveXControl
     {
         public ActiveXDeviceControl()
         {
-            
             InitializeComponent();
-            FiresecManager.Connect("adm", "");
-            currentDeviceViewModel = new CurrentDeviceViewModel();
-            currentDeviceView = new CurrentDeviceView();
+        }
+
+        CurrentDeviceViewModel _currentDeviceViewModel;
+        CurrentDeviceView _currentDeviceView;
+
+        public string DeviceId { get; set; }
+
+        private void ActiveXDeviceControl_Load(object sender, EventArgs e)
+        {
+            StartFiresecClient();
+            InitializeCurrentDevice();
+        }
+
+        private void InitializeCurrentDevice()
+        {
+            _currentDeviceViewModel = new CurrentDeviceViewModel();
+            _currentDeviceView = new CurrentDeviceView();
+            _currentDeviceView.DataContext = _currentDeviceViewModel;
+            elementHost.Child = _currentDeviceView;
+
             if (!string.IsNullOrWhiteSpace(DeviceId))
             {
-                currentDeviceViewModel.Inicialize(DeviceId);
+
+                _currentDeviceViewModel.Inicialize(DeviceId);
             }
-            currentDeviceView.DataContext = currentDeviceViewModel;
-            elementHost.Child = currentDeviceView;
         }
 
-        CurrentDeviceViewModel currentDeviceViewModel;
-        CurrentDeviceView currentDeviceView;
-
-        public string _deviceId;
-        public string DeviceId
+        protected override void OnSizeChanged(EventArgs e)
         {
-            get { return _deviceId; }
-            set { _deviceId = value; }
+            base.OnSizeChanged(e);
+            elementHost.Width = Width;
+            elementHost.Height = Height;
         }
 
+        private void StartFiresecClient()
+        {
+            FiresecManager.Connect("adm", "");
+        }
+        
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
-            currentDeviceViewModel.SelectDevice();
-            DeviceId = currentDeviceViewModel.DeviceId;
-            //currentDeviceViewModel.InicializeDeviceControl();
+            _currentDeviceViewModel.SelectDevice();
+            DeviceId = _currentDeviceViewModel.DeviceId;
         }
-
+        
         #region ActiveX Control Registration
         ///	<summary>
         ///	Register the class as a	control	and	set	it's CodeBase entry
@@ -111,5 +127,7 @@ namespace FireDeviceActiveXControl
         }
 
         #endregion
+
+        
     }
 }

@@ -46,17 +46,8 @@ namespace SoundsModule.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
 
-        ObservableCollection<SoundViewModel> _sounds;
-        public ObservableCollection<SoundViewModel> Sounds
-        {
-            get { return _sounds; }
-            set
-            {
-                _sounds = value;
-                OnPropertyChanged("Sounds");
-            }
-        }
-
+        public ObservableCollection<SoundViewModel> Sounds { get; private set; }
+        
         SoundViewModel _selectedSound;
         public SoundViewModel SelectedSound
         {
@@ -84,18 +75,14 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                string soundPath = FiresecClient.FiresecManager.FileHelper.GetFilePath(SelectedSound.SoundName);
+                string soundPath = FiresecClient.FiresecManager.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
                 AlarmPlayerHelper.Play(soundPath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
-                if (!SelectedSound.IsContinious)
-                {
-                    IsNowPlaying = false;
-                }
+                IsNowPlaying = SelectedSound.IsContinious;
             }
             else
             {
                 AlarmPlayerHelper.Stop();
             }
-            OnButtonContentChanged(IsNowPlaying);
         }
 
         public void Save()
@@ -112,16 +99,9 @@ namespace SoundsModule.ViewModels
 
         public override void OnHide()
         {
-            base.OnHide();
             IsNowPlaying = false;
             AlarmPlayerHelper.Stop();
         }
 
-        public static event Action<bool> ButtonContentChanged;
-        public void OnButtonContentChanged(bool isNowPlaying)
-        {
-            if (ButtonContentChanged != null)
-                ButtonContentChanged(isNowPlaying);
-        }
     }
 }

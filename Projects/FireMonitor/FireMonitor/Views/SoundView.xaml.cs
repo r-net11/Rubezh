@@ -30,7 +30,6 @@ namespace FireMonitor
             DataContext = this;
             PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
-
         
         StateType _currentStateType;
         StateType CurrentStateType
@@ -45,7 +44,7 @@ namespace FireMonitor
             set 
             {
                 _isSoundOn = value;
-                ButtonContentChanged(value);
+                OnPropertyChanged("IsSoundOn");
             }
         }
 
@@ -57,17 +56,15 @@ namespace FireMonitor
         public void OnDeviceStateChanged(string deviceId)
         {
             var deviceStates = FiresecManager.DeviceStates.DeviceStates;
-            var currentDeviceState = deviceStates[0];
-            int minState = deviceStates[0].StateClassId;
+            var minState = StateType.Unknown;
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                if (deviceState.StateClassId < minState)
+                if (deviceState.StateType < minState)
                 {
-                    minState = deviceState.StateClassId;
-                    currentDeviceState = deviceState;
+                    minState = deviceState.StateType;
                 }
             }
-            _currentStateType = currentDeviceState.StateType;
+            _currentStateType = minState;
             IsSoundOn = true;
             PlayAlarm();
         }
@@ -76,39 +73,23 @@ namespace FireMonitor
         {
             if (Sounds == null)
             {
+                IsSoundOn = false;
                 return;
             }
-            //AlarmPlayerHelper.Play(@"H:\Rubezh\Projects\FireMonitor\FireMonitor\bin\Debug\Sounds\Sound1.wav", SpeakerType.None, true);
-            //foreach (var sound in Sounds)
-            //{
-            //    if (sound.StateType == CurrentStateType)
-            //    {
-            //        string soundPath = FiresecManager.FileHelper.GetFilePath(sound.SoundName);
-            //        AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
-            //        return;
-            //    }
-            //}
+            foreach (var sound in Sounds)
+            {
+                if (sound.StateType == CurrentStateType)
+                {
+                    string soundPath = FiresecManager.FileHelper.GetSoundFilePath(sound.SoundName);
+                    AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
+                    return;
+                }
+            }
         }
 
         public void StopPlayAlarm()
         {
             AlarmPlayerHelper.Stop();
-        }
-
-        private void ButtonContentChanged(bool isNowPlaying)
-        {
-            if (IsSoundOn)
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("Images/sound.png", UriKind.Relative));
-                SoundButton.Content = image;
-            }
-            else
-            {
-                Image image = new Image();
-                image.Source = new BitmapImage(new Uri("Images/mute.png", UriKind.Relative));
-                SoundButton.Content = image;
-            }
         }
 
         public RelayCommand PlaySoundCommand { get; private set; }
@@ -124,7 +105,6 @@ namespace FireMonitor
                 PlayAlarm();
                 IsSoundOn = true;
             }
-            ButtonContentChanged(IsSoundOn);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -7,17 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ContentControl Content="{Binding CurrentDeviceControl}" >
+        <ContentControl Content="{Binding CurrentDeviceControl}" Margin="0" 
+                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ContentControl.ContextMenu>
                 <ContextMenu>
-                    <TextBlock Name="txt1" Text="Добавить в список обхода устройств" />
-                    <TextBlock Name="txt2" Text="Отключить" />
-                    <TextBlock Name="txt3" Text="Свойства устройства" />
+                    <MenuItem Header="Добавить в список обхода устройств">
+                        
+                    </MenuItem>
+                    <MenuItem Header="Отключить">
+                        
+                    </MenuItem>
+                    <MenuItem Header="Свойства устройства" >
+                        <MenuItem Header="Import" Command="{Binding ShowPropertiesCommand}" />
+                    </MenuItem>
                 </ContextMenu>
             </ContentControl.ContextMenu>
             <ContentControl.ToolTip>
                 <ToolTip>
-                    <TextBlock Name="txtToolTip" Text="ToolTip" />
+                    <TextBlock Name="txtToolTip" Text="{Binding ToolTip}" />
                 </ToolTip>
             </ContentControl.ToolTip>
         </ContentControl>

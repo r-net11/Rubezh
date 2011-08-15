@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+            <DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"                      
                             >
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">

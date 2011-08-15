@@ -20,24 +20,14 @@ namespace SoundsModule.Converters
                 case SpeakerType.Attention:
                     return "Внимание";
                 default:
-                    return SoundViewModel.DefaultName;
+                    return "<нет>";
             }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var Value = (string)value;
-            switch (Value)
-            {
-                case SoundViewModel.DefaultName:
-                    return SpeakerType.None;
-                case "Тревога":
-                    return SpeakerType.Alarm;
-                case "Внимание":
-                    return SpeakerType.Attention;
-                default:
-                    return SpeakerType.None;
-            }
+            return (SpeakerType)value;
+            
         }
     }
 }

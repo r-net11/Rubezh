@@ -5,20 +5,19 @@ using System.Text;
 using System.Windows.Data;
 using FiresecAPI.Models;
 using System.IO;
+using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
 {
     class SoundToStringConverter : IValueConverter
     {
-        const string DefaultName = "<нет>";
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string Value = (string)value;
             switch (Value)
             {
                 case null:
-                    return DefaultName;
+                    return SoundViewModel.DefaultName;
                 default:
                     if (AvailableSounds.Any(x => x == Value))
                     {
@@ -26,7 +25,7 @@ namespace SoundsModule.Converters
                     }
                     else
                     {
-                        return DefaultName;
+                        return SoundViewModel.DefaultName;
                     }
             }
                     
@@ -37,12 +36,12 @@ namespace SoundsModule.Converters
             string Value = (string)value;
             switch (Value)
             {
-                case DefaultName:
+                case SoundViewModel.DefaultName:
                     return string.Empty;
                 default:
                     return Value;
             }
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         List<string> AvailableSounds

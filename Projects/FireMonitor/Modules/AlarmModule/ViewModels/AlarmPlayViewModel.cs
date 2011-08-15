@@ -38,16 +38,15 @@ namespace AlarmModule.ViewModels
         {
             var deviceStates = FiresecManager.DeviceStates.DeviceStates;
             var currentDeviceState = deviceStates[0];
-            int minState = deviceStates[0].StateClassId;
+            var minState = deviceStates[0].StateType;
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                if (deviceState.StateClassId < minState)
+                if (deviceState.StateType < minState)
                 {
-                    minState = deviceState.StateClassId;
-                    currentDeviceState = deviceState;
+                    minState = deviceState.StateType;
                 }
             }
-            _currentStateType = currentDeviceState.StateType;
+            _currentStateType = minState;
             PlayAlarm();
         }
 
@@ -62,7 +61,7 @@ namespace AlarmModule.ViewModels
                 if (sound.StateType == CurrentStateType)
                 {
                     _isContinious = sound.IsContinious;
-                    string soundPath = FiresecManager.FileHelper.GetFilePath(sound.SoundName);
+                    string soundPath = FiresecManager.FileHelper.GetSoundFilePath(sound.SoundName);
                     AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
                     return;
                 }

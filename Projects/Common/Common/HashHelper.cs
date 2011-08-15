@@ -12,23 +12,23 @@ namespace Common
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();
-            string currentDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
-            var dir = new DirectoryInfo(currentDirectory);
-            var files = dir.GetFiles();
+            string fullDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
+            var dirInfo = new DirectoryInfo(fullDirectory);
+            var fileInfos = dirInfo.GetFiles();
             byte[] hash;
-            var sBuilder = new StringBuilder();
-            foreach (var fInfo in files)
+            var stringBuilder = new StringBuilder();
+            foreach (var fileInfo in fileInfos)
             {
-                sBuilder.Clear();
-                using (FileStream fileStream = fInfo.Open(FileMode.Open))
+                stringBuilder.Clear();
+                using (FileStream fileStream = fileInfo.Open(FileMode.Open))
                 {
                     hash = MD5.Create().ComputeHash(fileStream);
                     for (int i = 0; i < hash.Length; i++)
                     {
-                        sBuilder.Append(hash[i].ToString());
+                        stringBuilder.Append(hash[i].ToString());
                     }
                 }
-                hashTable.Add(sBuilder.ToString(), fInfo.Name);
+                hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
             }
             return hashTable;
         }

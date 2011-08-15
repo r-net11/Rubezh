@@ -15,15 +15,7 @@ namespace SoundsModule.ViewModels
             Sound = sound;
         }
 
-        Sound _sound;
-        public Sound Sound
-        {
-            get { return _sound; }
-            set
-            {
-                _sound = value;
-            }
-        }
+        public Sound Sound { get; set; }
 
         public StateType StateType
         {
@@ -65,40 +57,20 @@ namespace SoundsModule.ViewModels
             get 
             {
                 var listSounds = new List<string>();
-                listSounds.Add("<нет>");
+                listSounds.Add(DefaultName); //TODO переделать на null!)
                 listSounds.AddRange(FiresecClient.FiresecManager.FileHelper.SoundsList);
                 return listSounds;
             }
         }
 
-        public List<string> AvailableSpeakers
+        public List<SpeakerType> AvailableSpeakers
         {
             get 
             {
-                var speakerTypes = new List<string>();
-                foreach (var speakertype in Enum.GetValues(typeof(SpeakerType)))
-                {
-                    switch ((SpeakerType)speakertype)
-                    {
-                        case SpeakerType.None:
-                            speakerTypes.Add(DefaultName);
-                            break;
-                        case SpeakerType.Alarm:
-                            speakerTypes.Add("Тревога");
-                            break;
-                        case SpeakerType.Attention:
-                            speakerTypes.Add("Внимание");
-                            break;
-                        default:
-                            speakerTypes.Add(DefaultName);
-                            break;
-                    }
-                }
-                return speakerTypes; 
+                return new List<SpeakerType>(Enum.GetValues(typeof(SpeakerType)).OfType<SpeakerType>());
             }
         }
 
         public const string DefaultName = "<нет>";
-
     }
 }

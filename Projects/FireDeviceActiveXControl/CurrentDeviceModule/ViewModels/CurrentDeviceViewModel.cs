@@ -8,6 +8,8 @@ using CurrentDeviceModule.Views;
 using DeviceControls;
 using FiresecClient;
 using System.Windows;
+using DevicesModule.ViewModels;
+using DevicesModule.Views;
 
 namespace CurrentDeviceModule.ViewModels
 {
@@ -15,55 +17,46 @@ namespace CurrentDeviceModule.ViewModels
     {
         public CurrentDeviceViewModel()
         {
-            
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
             CurrentDeviceControl = new DeviceControl();
-            Device = new Device();
+            CurrentDevice = new Device();
+            CurrentDeviceState = new DeviceState();
             IsCurrentDeviceSelected = false;
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
-        DeviceControl _deviceControl;
+        public void Inicialize(string deviceId)
+        {
+            DeviceId = deviceId;
+            CurrentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDeviceControl.DriverId = DriverId;
+            Update();
+            IsCurrentDeviceSelected = true;
+        }
+
+        DeviceControl _currentDeviceControl;
         public DeviceControl CurrentDeviceControl
         {
-            get { return _deviceControl; }
+            get { return _currentDeviceControl; }
             set
             {
-                _deviceControl = value;
+                _currentDeviceControl = value;
             }
         }
 
-        Device _device;
-        public Device Device
+        public Device CurrentDevice { get; private set; }
+        public DeviceState CurrentDeviceState { get; private set; }
+        public string DeviceId { get; set; }
+        
+        public StateType StateType
         {
-            get { return _device; }
-            private set 
-            {
-                _device = value;
-            }
-        }
-
-        public State State
-        {
-            get
-            {
-                DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
-                return deviceState.State;
-            }
-        }
-
-        string _deviceId;
-        public string DeviceId
-        {
-            get { return _deviceId; }
-            set 
-            {
-                _deviceId = value;
-            }
+            get { return CurrentDeviceState.StateType; }
         }
 
         public string DriverId
         {
-            get { return Device.Driver.Id; }
+            get { return CurrentDevice.Driver.Id; }
         }
 
         string _toolTip;
@@ -79,7 +72,7 @@ namespace CurrentDeviceModule.ViewModels
 
         public bool DriverCanDisable
         {
-            get { return Device.Driver.CanDisable; }
+            get { return CurrentDevice.Driver.CanDisable; }
         }
 
         bool _isCurrentDeviceSelected;
@@ -101,60 +94,52 @@ namespace CurrentDeviceModule.ViewModels
             if (!string.IsNullOrWhiteSpace(newDeviceTreeViewModel.DeviceId))
             {
                 DeviceId = string.Copy(newDeviceTreeViewModel.DeviceId);
-                IsCurrentDeviceSelected = true;
-                Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-                CurrentDeviceControl.DriverId = DriverId;
-                CurrentDeviceControl.StateId = State.Id.ToString();
+                Inicialize(DeviceId);
             }
         }
 
-        public void Inicialize(string deviceId)
+        public void UpdateToolTip()
         {
-            DeviceId = deviceId;
-            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            CurrentDeviceControl.DriverId = DriverId;
-            CurrentDeviceControl.StateId = State.Id.ToString();
-            IsCurrentDeviceSelected = true;
+            string str = "";
+            str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
+
+            if (CurrentDeviceState.ParentStringStates != null)
+                foreach (var parentState in CurrentDeviceState.ParentStringStates)
+                {
+                    str += parentState + "\n";
+                }
+
+            //if (deviceState.SelfStates != null)
+            //    foreach (var selfState in deviceState.SelfStates)
+            //    {
+            //        str += selfState + "\n";
+            //    }
+
+            if (CurrentDeviceState.Parameters != null)
+                foreach (var parameter in CurrentDeviceState.Parameters)
+                {
+                    if (parameter.Visible)
+                    {
+                        if (string.IsNullOrEmpty(parameter.Value))
+                            continue;
+                        if (parameter.Value == "<NULL>")
+                            continue;
+                        str += parameter.Caption + " - " + parameter.Value + "\n";
+                    }
+                }
+            ToolTip = str;
         }
 
-        public void InicializeDeviceControl()
+        public void UpdateContextMenu()
         {
-            CurrentDeviceControl.DriverId = DriverId;
-            CurrentDeviceControl.StateId = State.Id.ToString();
+
         }
-
-        //public void SetToolTip()
-        //{
-        //    DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
-        //    string str = "";
-        //    str = Device.Address + " - " + Device.Driver.ShortName + "\n";
-
-        //    if (deviceState.ParentStringStates != null)
-        //        foreach (var parentState in deviceState.ParentStringStates)
-        //        {
-        //            str += parentState + "\n";
-        //        }
-
-        //    if (deviceState.SelfStates != null)
-        //        foreach (var selfState in deviceState.SelfStates)
-        //        {
-        //            str += selfState + "\n";
-        //        }
-
-        //    if (deviceState.Parameters != null)
-        //        foreach (var parameter in deviceState.Parameters)
-        //        {
-        //            if (parameter.Visible)
-        //            {
-        //                if (string.IsNullOrEmpty(parameter.Value))
-        //                    continue;
-        //                if (parameter.Value == "<NULL>")
-        //                    continue;
-        //                str += parameter.Caption + " - " + parameter.Value + "\n";
-        //            }
-        //        }
-        //    ToolTip = str;
-        //}
+        
+        void Update()
+        {
+            UpdateToolTip();
+            CurrentDeviceControl.StateId = ((int)StateType).ToString();
+        }
 
         void OnDeviceStateChanged(string id)
         {
@@ -164,9 +149,13 @@ namespace CurrentDeviceModule.ViewModels
             }
         }
 
-        void Update()
+        public RelayCommand ShowPropertiesCommand { get; private set; }
+        public void OnShowProperties()
         {
-            //
+            DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel(DeviceId);
+            CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
+            deviceDetailsView.DataContext = deviceDetailsViewModel;
+            deviceDetailsView.ShowDialog();
         }
     }
 }

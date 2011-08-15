@@ -47,7 +47,7 @@ namespace FiresecClient
 
         void DownloadFile(string directoryAndFileName, string destinationPath)
         {
-            Stream stream = FiresecManager.GetFile(directoryAndFileName);
+            var stream = FiresecManager.GetFile(directoryAndFileName);
             FileStream destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write);
             stream.CopyTo(destinationStream);
             destinationStream.Close();
@@ -76,7 +76,7 @@ namespace FiresecClient
             get { return GetFileNamesList(_directoriesList[0]); }
         }
 
-        public string GetFilePath(string file)
+        public string GetSoundFilePath(string file)
         {
             if (string.IsNullOrWhiteSpace(file))
             {

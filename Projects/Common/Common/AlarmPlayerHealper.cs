@@ -47,7 +47,12 @@ namespace Common
             }
             _frequency = (int)speaker;
             _isContinious = isContinious;
-            _thread = new Thread(PlayBeep) ;
+
+            if (_thread != null)
+            {
+                _thread.Abort();
+            }
+            _thread = new Thread(PlayBeep);
             _thread.Start();
         }
 
@@ -86,6 +91,11 @@ namespace Common
         {
             StopPlaySound();
             StopPlayPCSpeaker();
+        }
+
+        public static void Dispose()
+        {
+            Stop();
         }
     }
 }
