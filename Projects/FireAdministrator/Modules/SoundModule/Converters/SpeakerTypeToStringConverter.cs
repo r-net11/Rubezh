@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
-using System.Collections.Generic;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
 {
-    class SpeakerTypeToStringConverter : IValueConverter
+    internal class SpeakerTypeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            SpeakerType Value = (SpeakerType)value;
+            SpeakerType Value = (SpeakerType) value;
             switch (Value)
             {
                 case SpeakerType.None:

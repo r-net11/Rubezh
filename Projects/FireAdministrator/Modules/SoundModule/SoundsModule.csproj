@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\SpeakerTypeToStringConverter.cs" />
-    <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\SoundToStringConverter.cs" />
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

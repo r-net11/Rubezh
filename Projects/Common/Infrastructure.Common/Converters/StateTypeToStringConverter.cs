@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using FiresecAPI.Models;
-using FiresecAPI;
 
 namespace Infrastructure.Common.Converters
 {
@@ -12,8 +7,7 @@ namespace Infrastructure.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType)value;
-            return StateHelper.StateTypeToString(stateType);
+            return FiresecAPI.Models.EnumsConverter.StateTypeToClassName((FiresecAPI.Models.StateType) value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

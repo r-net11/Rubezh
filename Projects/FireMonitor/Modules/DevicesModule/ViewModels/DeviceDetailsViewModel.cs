@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using System.Collections.Generic;
-using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -36,7 +34,7 @@ namespace DevicesModule.ViewModels
 
             if (_deviceControl != null)
             {
-                _deviceControl.StateId = StateHelper.StateTypeToString(deviceState.StateType);
+                _deviceControl.StateId = FiresecAPI.Models.EnumsConverter.StateTypeToClassName(deviceState.StateType);
             }
 
             OnPropertyChanged("DeviceControlContent");
@@ -50,7 +48,7 @@ namespace DevicesModule.ViewModels
                 _deviceControl.DriverId = _device.Driver.Id;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                _deviceControl.StateId = ((int)deviceState.StateType).ToString();
+                _deviceControl.StateId = ((int) deviceState.StateType).ToString();
 
                 _deviceControl.Width = 50;
                 _deviceControl.Height = 50;
@@ -82,10 +80,10 @@ namespace DevicesModule.ViewModels
             {
                 List<string> selfStates = new List<string>();
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                    foreach (var state in deviceState.States)
+                foreach (var state in deviceState.States)
                 {
-                        if (state.IsActive)
-                            selfStates.Add(state.DriverState.Name);
+                    if (state.IsActive)
+                        selfStates.Add(state.DriverState.Name);
                 }
                 return selfStates;
             }

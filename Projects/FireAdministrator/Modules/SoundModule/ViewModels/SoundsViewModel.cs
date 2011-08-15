@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Infrastructure.Common;
-using System.Media;
-using System.Security.Cryptography;
-using System.IO;
-using System;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Common;
 
 namespace SoundsModule.ViewModels
 {
@@ -27,10 +21,10 @@ namespace SoundsModule.ViewModels
             Sounds = new ObservableCollection<SoundViewModel>();
             foreach (var statetype in Enum.GetValues(typeof(StateType)))
             {
-                if ((StateType)statetype == StateType.No)
+                if ((StateType) statetype == StateType.No)
                     continue;
                 var newSound = new Sound();
-                newSound.StateType = (StateType)statetype;
+                newSound.StateType = (StateType) statetype;
                 foreach (var sound in sounds)
                 {
                     if (sound.StateType == newSound.StateType)
@@ -43,7 +37,10 @@ namespace SoundsModule.ViewModels
 
             SelectedSound = Sounds[0];
 
-            PlaySoundCommand = new RelayCommand(OnPlaySound);
+            PlaySoundCommand = new RelayCommand(
+                () => OnPlaySound(),
+                (x) => SelectedSound != null &&
+                       (SelectedSound.SoundName != null || SelectedSound.SpeakerType != SpeakerType.None));
         }
 
         public ObservableCollection<SoundViewModel> Sounds { get; private set; }
