@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -13,7 +14,8 @@ namespace PlansModule.ViewModels
             Title = "Новый план";
             Plan = new Plan();
             Parent = null;
-            Plan.Children = null;
+            //Plan.Children = null;
+            //Plan.Children = new System.Collections.Generic.List<FiresecAPI.Models.Plan>();
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -22,8 +24,9 @@ namespace PlansModule.ViewModels
         {
             Title = "Новый план";
             Plan = new Plan();
-            Plan.Children = null;
             Parent = parent;
+            if (parent.Children == null) parent.Children = new List<FiresecAPI.Models.Plan>();
+            parent.Children.Add(Plan);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -40,11 +43,19 @@ namespace PlansModule.ViewModels
             Height = plan.Height;
             Title = "Редактирование плана";
         }
-
+        public void Initialize(PlanViewModel plan)
+        {
+            _isNew = false;
+            Name = plan.Name;
+            Width = plan.Plan.Width;
+            Height = plan.Plan.Height;
+            Title = "Редактирование плана";
+        }
+        
         bool _isNew; 
         public Plan Plan { get; private set; }
         public Plan Parent { get; private set; }
-        
+
         string _name;
         public string Name
         {
@@ -92,10 +103,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void Update()
-        {
-            //OnPropertyChanged("Plan");
-        }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
