@@ -12,7 +12,9 @@ namespace LibraryModule.ViewModels
             Title = title;
             Items = new List<T>();
 
-            OkCommand = new RelayCommand(OnOk);
+            OkCommand = new RelayCommand(
+                () => OnOk(),
+                (x) => SelectedItem != null);
             CancelCommand = new RelayCommand(OnCancel);
         }
 

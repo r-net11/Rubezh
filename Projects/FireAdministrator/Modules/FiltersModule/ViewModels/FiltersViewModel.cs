@@ -11,8 +11,8 @@ namespace FiltersModule.ViewModels
         public FiltersViewModel()
         {
             CreateCommand = new RelayCommand(OnCreate);
-            EditCommand = new RelayCommand(OnEdit);
-            RemoveCommand = new RelayCommand(OnRemove);
+            EditCommand = new RelayCommand(() => OnEdit(), x => SelectedFilter != null);
+            RemoveCommand = new RelayCommand(() => OnRemove(), x => SelectedFilter != null);
         }
 
         public void Initialize()
@@ -34,7 +34,13 @@ namespace FiltersModule.ViewModels
         public RelayCommand CreateCommand { get; private set; }
         void OnCreate()
         {
-            FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel();
+            var existingNames = new List<string>();
+            foreach (var filterViewModel in FilterViewModels)
+            {
+                existingNames.Add(filterViewModel.JournalFilter.Name);
+            }
+            FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel(existingNames);
+
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
                 FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
@@ -44,24 +50,25 @@ namespace FiltersModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            if (SelectedFilter != null)
+            var existingNames = new List<string>();
+            foreach (var filterViewModel in FilterViewModels)
             {
-                FilterDetailsViewModel filterDetailsViewModel =
-                    new FilterDetailsViewModel(SelectedFilter.JournalFilter);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
-                {
-                    SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-                }
+                if (filterViewModel != SelectedFilter)
+                    existingNames.Add(filterViewModel.JournalFilter.Name);
+            }
+            FilterDetailsViewModel filterDetailsViewModel =
+                new FilterDetailsViewModel(SelectedFilter.JournalFilter, existingNames);
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
+            {
+                SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
             }
         }
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            if (SelectedFilter != null)
-            {
-                FilterViewModels.Remove(SelectedFilter);
-            }
+            FilterViewModels.Remove(SelectedFilter);
         }
 
         public void Save()

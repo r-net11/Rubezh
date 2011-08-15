@@ -9,6 +9,16 @@
         <Converters:CategoryTypeToCategoryNameConverter x:Key="CategoryTypeToCategoryNameConverter" />
 
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
+
+        <Style x:Key="textBoxInError" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <DockPanel Margin="10">
@@ -20,7 +30,8 @@
 
         <StackPanel>
             <TextBlock Margin="0,0,0,5" Text="Название представления:" />
-            <TextBox Text="{Binding JournalFilter.Name}" Margin="0,0,0,15" />
+            <TextBox Text="{Binding FilterName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource textBoxInError}" Margin="0,0,0,15" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
