@@ -32,11 +32,10 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
+
+                                <Button Content="{Binding PresentationZone}" Command="{Binding ChooseZonesCommand}" />
                                 
-                                <Button Content="Зоны" Command="{Binding ChooseZonesCommand}" />
-                                
-                                <TextBox Text="{Binding ZoneLevel.ZoneNo}" Margin="2" Width="100" />
-                                <Button Content="remove" Command="{Binding
+                                <Button Content="x" Command="{Binding
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 					                    Path=DataContext.RemoveCommand}"
                                         CommandParameter="{Binding}"

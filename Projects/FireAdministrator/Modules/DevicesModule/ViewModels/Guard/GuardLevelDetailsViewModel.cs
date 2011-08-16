@@ -58,16 +58,6 @@ namespace DevicesModule.ViewModels
 
         public ObservableCollection<ZoneLevelViewModel> ZoneLevels { get; private set; }
 
-        void Save()
-        {
-            GuardLevel.Name = Name;
-            GuardLevel.ZoneLevels = new List<ZoneLevel>();
-            foreach (var zoneLevelViewModel in ZoneLevels)
-            {
-                GuardLevel.ZoneLevels.Add(zoneLevelViewModel.ZoneLevel);
-            }
-        }
-
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
@@ -78,6 +68,16 @@ namespace DevicesModule.ViewModels
         void OnRemove(ZoneLevelViewModel zoneLevelViewModel)
         {
             ZoneLevels.Remove(zoneLevelViewModel);
+        }
+
+        void Save()
+        {
+            GuardLevel.Name = Name;
+            GuardLevel.ZoneLevels = new List<ZoneLevel>();
+            foreach (var zoneLevelViewModel in ZoneLevels)
+            {
+                GuardLevel.ZoneLevels.Add(zoneLevelViewModel.ZoneLevel);
+            }
         }
 
         public RelayCommand SaveCommand { get; private set; }

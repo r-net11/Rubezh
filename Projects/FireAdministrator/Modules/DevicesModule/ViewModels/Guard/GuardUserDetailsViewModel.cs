@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -11,6 +12,7 @@ namespace DevicesModule.ViewModels
     {
         public GuardUserDetailsViewModel()
         {
+            ChangeGuardLevelsCommand = new RelayCommand(OnChangeGuardLevels);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -101,6 +103,18 @@ namespace DevicesModule.ViewModels
             {
                 _canUnSetZone = value;
                 OnPropertyChanged("CanUnSetZone");
+            }
+        }
+
+        public RelayCommand ChangeGuardLevelsCommand { get; private set; }
+        void OnChangeGuardLevels()
+        {
+            var guardLevelsSelectationViewModel = new GuardLevelsSelectationViewModel();
+            guardLevelsSelectationViewModel.Initialize(GuardUser);
+            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardLevelsSelectationViewModel);
+            if (result)
+            {
+                //guardLevelsSelectationViewModel
             }
         }
 

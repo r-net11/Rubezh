@@ -5,6 +5,8 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
 using System.Windows;
+using Infrastructure;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -35,10 +37,31 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string PresentationZone
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ZoneLevel.ZoneNo) == false)
+                {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneLevel.ZoneNo);
+                    if (zone != null)
+                    {
+                        return zone.PresentationName;
+                    }
+                }
+                return null;
+            }
+        }
+
         public RelayCommand ChooseZonesCommand { get; private set; }
         void OnChooseZones()
         {
-            MessageBox.Show("Choose zones");
+            var guardZoneSelectationViewModel = new GuardZoneSelectationViewModel();
+            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardZoneSelectationViewModel);
+            if (result)
+            {
+                ZoneLevel.ZoneNo = guardZoneSelectationViewModel.SelectedZone.No;
+            }
         }
     }
 }

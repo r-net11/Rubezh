@@ -95,4 +95,12 @@
         <Views:GuardLevelsMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectationViewModel}">
+        <Views:GuardZoneSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsSelectationViewModel}">
+        <Views:GuardLevelsSelectationView />
+    </DataTemplate>
+
 </ResourceDictionary>

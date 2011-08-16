@@ -68,23 +68,19 @@
     <Compile Include="Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
-    <Compile Include="Events\AddDirectionEvent.cs" />
-    <Compile Include="Events\AddZoneEvent.cs" />
-    <Compile Include="Events\EditDirectionEvent.cs" />
-    <Compile Include="Events\EditZoneEvent.cs" />
-    <Compile Include="Events\RemoveDirectionEvent.cs" />
-    <Compile Include="Events\RemoveZoneEvent.cs" />
     <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardDevicesViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelDetailsViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelsMenuViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardLevelsSelectationViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelsViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUserDetailsViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUsersMenuViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUsersViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUserViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardZoneSelectationViewModel.cs" />
     <Compile Include="ViewModels\Guard\ZoneLevelViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorViewModel.cs" />
@@ -180,6 +176,9 @@
     <Compile Include="Views\Guard\GuardLevelsMenuView.xaml.cs">
       <DependentUpon>GuardLevelsMenuView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Guard\GuardLevelsSelectationView.xaml.cs">
+      <DependentUpon>GuardLevelsSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Guard\GuardLevelsView.xaml.cs">
       <DependentUpon>GuardLevelsView.xaml</DependentUpon>
     </Compile>
@@ -194,6 +193,9 @@
     </Compile>
     <Compile Include="Views\Guard\GuardView.xaml.cs">
       <DependentUpon>GuardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardZoneSelectationView.xaml.cs">
+      <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Validation\ValidationErrorsView.xaml.cs">
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
@@ -326,6 +328,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Guard\GuardLevelsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Guard\GuardLevelsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -343,6 +349,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Guard\GuardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardZoneSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
