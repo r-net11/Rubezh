@@ -14,11 +14,15 @@ namespace DevicesModule.ViewModels
             GuardUser = guardUser;
         }
 
-        public GuardUser GuardUser { get; private set; }
-
-        public void Update()
+        GuardUser _guardUser;
+        public GuardUser GuardUser
         {
-            OnPropertyChanged("GuardUser");
+            get { return _guardUser; }
+            set
+            {
+                _guardUser = value;
+                OnPropertyChanged("GuardUser");
+            }
         }
     }
 }

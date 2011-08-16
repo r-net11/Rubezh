@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
             GuardUsers = new ObservableCollection<GuardUserViewModel>();
             foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
             {
-                GuardUserViewModel guardUserViewModel = new GuardUserViewModel(guardUser);
+                var guardUserViewModel = new GuardUserViewModel(guardUser);
                 GuardUsers.Add(guardUserViewModel);
             }
         }
@@ -58,7 +58,7 @@ namespace DevicesModule.ViewModels
             var result = ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel);
             if (result)
             {
-                SelectedGuardUser.Update();
+                SelectedGuardUser.GuardUser = guardUserDetailsViewModel.GuardUser;
                 DevicesModule.HasChanges = true;
             }
         }

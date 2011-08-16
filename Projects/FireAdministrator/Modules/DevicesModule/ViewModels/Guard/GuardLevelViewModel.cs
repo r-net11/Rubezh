@@ -5,11 +5,11 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
 
-namespace DevicesModule.ViewModels.Guard
+namespace DevicesModule.ViewModels
 {
     public class GuardLevelViewModel : BaseViewModel
     {
-        public void Initialize(GuardLevel guardLevel)
+        public GuardLevelViewModel(GuardLevel guardLevel)
         {
             GuardLevel = guardLevel;
         }

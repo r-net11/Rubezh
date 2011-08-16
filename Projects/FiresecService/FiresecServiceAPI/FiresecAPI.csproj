@@ -67,6 +67,8 @@
     <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\Guard\GuardLevel.cs" />
     <Compile Include="Models\Guard\GuardUser.cs" />
+    <Compile Include="Models\Guard\ZoneActionType.cs" />
+    <Compile Include="Models\Guard\ZoneLevel.cs" />
     <Compile Include="Models\Plans\ElementDevice.cs" />
     <Compile Include="Models\Plans\ElementSubPlan.cs" />
     <Compile Include="Models\Plans\ElementZone.cs" />

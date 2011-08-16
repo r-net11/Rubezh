@@ -65,6 +65,7 @@
     <Compile Include="Converters\ColorIdToStringConverter.cs" />
     <Compile Include="Converters\GuardZoneTypeToStringConverter.cs" />
     <Compile Include="Converters\ValveActionConverter.cs" />
+    <Compile Include="Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Events\AddDirectionEvent.cs" />
@@ -76,12 +77,15 @@
     <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardDevicesViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardLevelDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Guard\GuardLevelsMenuViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelsViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardLevelViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUserDetailsViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUsersMenuViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUsersViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardUserViewModel.cs" />
+    <Compile Include="ViewModels\Guard\ZoneLevelViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
@@ -169,6 +173,12 @@
     <Compile Include="ViewModels\Guard\GuardViewModel.cs" />
     <Compile Include="Views\Guard\GuardDevicesView.xaml.cs">
       <DependentUpon>GuardDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardLevelDetailsView.xaml.cs">
+      <DependentUpon>GuardLevelDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Guard\GuardLevelsMenuView.xaml.cs">
+      <DependentUpon>GuardLevelsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Guard\GuardLevelsView.xaml.cs">
       <DependentUpon>GuardLevelsView.xaml</DependentUpon>
@@ -305,6 +315,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Guard\GuardDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardLevelDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Guard\GuardLevelsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

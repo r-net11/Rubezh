@@ -87,4 +87,12 @@
         <Views:GuardUsersMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardLevelDetailsViewModel}">
+        <Views:GuardLevelDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsMenuViewModel}">
+        <Views:GuardLevelsMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>

@@ -53,14 +53,14 @@ namespace PlansModule.ViewModels
 
             foreach (var elementSubPlan in _plan.ElementSubPlans)
             {
-                ElementSubPlanViewModel subPlanViewModel = new ElementSubPlanViewModel();
+                var subPlanViewModel = new ElementSubPlanViewModel();
                 subPlanViewModel.Initialize(elementSubPlan, _canvas);
                 SubPlans.Add(subPlanViewModel);
             }
 
             foreach (var elementZone in _plan.ElementZones)
             {
-                ElementZoneViewModel zonePlanViewModel = new ElementZoneViewModel();
+                var zonePlanViewModel = new ElementZoneViewModel();
                 zonePlanViewModel.Initialize(elementZone, _canvas);
                 zonePlanViewModel.Selected += () => { SelectedZone = zonePlanViewModel; };
                 Zones.Add(zonePlanViewModel);
@@ -68,7 +68,7 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
-                ElementDeviceViewModel planDeviceViewModel = new ElementDeviceViewModel();
+                var planDeviceViewModel = new ElementDeviceViewModel();
                 planDeviceViewModel.Initialize(elementDevice, _canvas);
                 planDeviceViewModel.Selected += () => { SelectedDevice = planDeviceViewModel; };
                 Devices.Add(planDeviceViewModel);
@@ -264,7 +264,7 @@ namespace PlansModule.ViewModels
 
         ImageBrush CreateBrush(string source)
         {
-            ImageBrush imageBrush = new ImageBrush();
+            var imageBrush = new ImageBrush();
             //Uri uri = new Uri(source);
             //imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;

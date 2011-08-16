@@ -12,7 +12,7 @@
                 <Views:GuardUsersView DataContext="{Binding GuardUsersViewModel}" />
             </TabItem>
 
-            <TabItem Header="Уровни доступа">
+            <TabItem Header="Уровни доступа" IsSelected="{Binding IsGuardLevelsSelected}" >
                 <Views:GuardLevelsView DataContext="{Binding GuardLevelsViewModel}"  />
             </TabItem>
         </TabControl>

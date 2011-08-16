@@ -43,9 +43,33 @@ namespace DevicesModule.ViewModels
                 }
                 else
                 {
-                    GuardUsersViewModel.OnHide();
+                    //GuardUsersViewModel.OnHide();
                 }
             }
+        }
+
+        bool _isGuardLevelsSelected;
+        public bool IsGuardLevelsSelected
+        {
+            get { return _isGuardLevelsSelected; }
+            set
+            {
+                _isGuardLevelsSelected = value;
+                OnPropertyChanged("IsGuardLevelsSelected");
+
+                if (value)
+                {
+                    GuardLevelsViewModel.OnShow();
+                }
+                else
+                {
+                    //GuardLevelsViewModel.OnHide();
+                }
+            }
+        }
+
+        public static void Save()
+        {
         }
     }
 }
