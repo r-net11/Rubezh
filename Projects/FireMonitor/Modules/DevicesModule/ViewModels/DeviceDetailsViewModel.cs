@@ -34,7 +34,7 @@ namespace DevicesModule.ViewModels
 
             if (_deviceControl != null)
             {
-                _deviceControl.StateId = FiresecAPI.Models.EnumsConverter.StateTypeToClassName(deviceState.StateType);
+                _deviceControl.StateType = deviceState.StateType;
             }
 
             OnPropertyChanged("DeviceControlContent");
@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
                 _deviceControl.DriverId = _device.Driver.Id;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
-                _deviceControl.StateId = ((int) deviceState.StateType).ToString();
+                _deviceControl.StateType = deviceState.StateType;
 
                 _deviceControl.Width = 50;
                 _deviceControl.Height = 50;

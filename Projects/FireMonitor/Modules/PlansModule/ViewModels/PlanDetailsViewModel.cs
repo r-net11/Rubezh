@@ -92,6 +92,7 @@ namespace PlansModule.ViewModels
         }
 
         #region Fake Objects
+
         void AddVideo()
         {
             Canvas cameraCanvas = new Canvas();
@@ -178,6 +179,7 @@ namespace PlansModule.ViewModels
             DoorViewModel doorViewModel = new DoorViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(doorViewModel);
         }
+
         #endregion Fake Objects
 
         ElementDeviceViewModel _selectedDevice;
@@ -263,8 +265,8 @@ namespace PlansModule.ViewModels
         ImageBrush CreateBrush(string source)
         {
             ImageBrush imageBrush = new ImageBrush();
-            Uri uri = new Uri(source);
-            imageBrush.ImageSource = new BitmapImage(uri);
+            //Uri uri = new Uri(source);
+            //imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
         }
     }

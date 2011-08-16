@@ -25,7 +25,7 @@ namespace LibraryModule.ViewModels
             RemoveStateCommand = new RelayCommand(
                 () => OnRemoveState(),
                 (x) => SelectedStateViewModel != null &&
-                     SelectedStateViewModel.State.Class != StateViewModel.DefaultClassId);
+                     SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType);
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
 
@@ -85,7 +85,7 @@ namespace LibraryModule.ViewModels
                     {
                         if (stateViewModel.IsAdditional &&
                             stateViewModel.IsChecked &&
-                            stateViewModel.State.Class == SelectedStateViewModel.State.Class)
+                            stateViewModel.State.StateType == SelectedStateViewModel.State.StateType)
                         {
                             canvasesPresenter.AddCanvacesFrom(stateViewModel.State);
                         }

@@ -9,7 +9,7 @@ namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public const string DefaultClassId = "8";
+        public const StateType DefaultStateType = StateType.Unknown;
 
         public StateViewModel(
             DeviceLibrary.Models.State state, FiresecAPI.Models.Driver parentDriver)
@@ -51,7 +51,7 @@ namespace LibraryModule.ViewModels
 
         public string ClassName
         {
-            get { return new State() { Id = int.Parse(State.Class) }.ToString(); }
+            get { return EnumsConverter.StateTypeToClassName(State.StateType); }
         }
 
         public string Name
@@ -101,11 +101,11 @@ namespace LibraryModule.ViewModels
         }
 
         public static DeviceLibrary.Models.State GetDefaultStateWith(
-            string classId = DefaultClassId,
+            StateType stateType = DefaultStateType,
             string code = null)
         {
             var state = new DeviceLibrary.Models.State();
-            state.Class = classId;
+            state.StateType = stateType;
             state.Code = code;
             SetDefaultFrameTo(state);
 

@@ -17,8 +17,8 @@
 
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding StateViewModels,
-                                        Converter={StaticResource CollectionViewFactoryConverter},
-                                        ConverterParameter=Name}">
+                                          Converter={StaticResource CollectionViewFactoryConverter},
+                                          ConverterParameter=Name}">
                     <WrapPanel Margin="0,3">
                         <Image Source="{Binding ImageSource}" Width="14" Margin="5,0" />
                         <TextBlock Text="{Binding Name}" />
@@ -27,8 +27,8 @@
                         <DataTemplate>
                             <WrapPanel>
                                 <CheckBox IsChecked="{Binding IsChecked}"
-                                      Visibility="{Binding IsAdditional,
-                                      Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                          Visibility="{Binding IsAdditional,
+                                          Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 <TextBlock Text="{Binding Name}"
                                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                             </WrapPanel>

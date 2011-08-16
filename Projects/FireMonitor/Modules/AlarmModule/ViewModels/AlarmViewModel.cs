@@ -153,13 +153,17 @@ namespace AlarmModule.ViewModels
 
             ResetItem resetItem = new ResetItem();
 
-            if ((_alarm.AlarmType == AlarmType.Fire) || (_alarm.AlarmType == AlarmType.Attention) || (_alarm.AlarmType == AlarmType.Info))
+            if (_alarm.AlarmType == AlarmType.Fire ||
+                _alarm.AlarmType == AlarmType.Attention ||
+                _alarm.AlarmType == AlarmType.Info)
             {
                 resetItem.DeviceId = parentDeviceState.Id;
 
                 foreach (var state in parentDeviceState.States)
                 {
-                    if ((state.IsActive) && (state.DriverState.StateClassId == AlarmTypeToClass(_alarm.AlarmType)) && (state.DriverState.IsManualReset))
+                    if (state.IsActive &&
+                        state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(_alarm.AlarmType) &&
+                        state.DriverState.IsManualReset)
                     {
                         resetItem.StateNames.Add(state.DriverState.Name);
                     }
@@ -184,24 +188,6 @@ namespace AlarmModule.ViewModels
             if (resetItem.StateNames.Count > 0)
                 return resetItem;
             return null;
-        }
-
-        int AlarmTypeToClass(AlarmType alarmType)
-        {
-            switch (alarmType)
-            {
-                case AlarmType.Fire:
-                    return 0;
-
-                case AlarmType.Attention:
-                    return 1;
-
-                case AlarmType.Info:
-                    return 6;
-
-                default:
-                    return 8;
-            }
         }
 
         void Close()

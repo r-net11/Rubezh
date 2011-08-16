@@ -5,11 +5,6 @@ namespace FiresecAPI.Models
     [DataContract]
     public class DriverState
     {
-        public StateType StateType
-        {
-            get { return (StateType)StateClassId; }
-        }
-
         [DataMember]
         public string Code { get; set; }
 
@@ -20,7 +15,7 @@ namespace FiresecAPI.Models
         public string Name { get; set; }
 
         [DataMember]
-        public int StateClassId { get; set; }
+        public StateType StateType { get; set; }
 
         [DataMember]
         public bool AffectChildren { get; set; }
@@ -40,7 +35,7 @@ namespace FiresecAPI.Models
             driverState.Id = Id;
             driverState.Name = Name;
             driverState.AffectChildren = AffectChildren;
-            driverState.StateClassId = StateClassId;
+            driverState.StateType = StateType;
             driverState.IsManualReset = IsManualReset;
             driverState.CanResetOnPanel = CanResetOnPanel;
             driverState.IsAutomatic = IsAutomatic;

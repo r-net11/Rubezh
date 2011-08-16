@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using FiresecAPI.Models;
 
 namespace DeviceLibrary.Models
 {
@@ -8,7 +9,7 @@ namespace DeviceLibrary.Models
     public class State
     {
         [XmlAttribute]
-        public string Class { get; set; }
+        public StateType StateType { get; set; }
 
         [XmlAttribute]
         public string Code { get; set; }

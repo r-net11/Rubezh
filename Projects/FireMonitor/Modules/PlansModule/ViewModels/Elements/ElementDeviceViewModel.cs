@@ -7,7 +7,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -103,11 +102,11 @@ namespace PlansModule.ViewModels
         {
             if (id == DeviceId)
             {
-                _elementDeviceView._deviceControl.StateId = ((int)_deviceState.StateType).ToString();
-                _elementDeviceView._deviceControl.AdditionalStates = new List<string>(
+                _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
+                _elementDeviceView._deviceControl.AdditionalStates = new List<StateType>(
                     from state in _deviceState.States
                     where state.IsActive
-                    select state.DriverState.Id);
+                    select state.DriverState.StateType);
 
                 UpdateTooltip();
             }

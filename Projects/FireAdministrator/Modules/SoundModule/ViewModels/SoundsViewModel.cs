@@ -19,12 +19,12 @@ namespace SoundsModule.ViewModels
             }
 
             Sounds = new ObservableCollection<SoundViewModel>();
-            foreach (var statetype in Enum.GetValues(typeof(StateType)))
+            foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
-                if ((StateType) statetype == StateType.No)
+                if (stateType == StateType.No)
                     continue;
                 var newSound = new Sound();
-                newSound.StateType = (StateType) statetype;
+                newSound.StateType = stateType;
                 foreach (var sound in sounds)
                 {
                     if (sound.StateType == newSound.StateType)
@@ -44,7 +44,7 @@ namespace SoundsModule.ViewModels
         }
 
         public ObservableCollection<SoundViewModel> Sounds { get; private set; }
-        
+
         SoundViewModel _selectedSound;
         public SoundViewModel SelectedSound
         {

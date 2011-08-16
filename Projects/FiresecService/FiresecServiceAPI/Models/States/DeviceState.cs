@@ -32,24 +32,18 @@ namespace FiresecAPI.Models
 
         public StateType StateType
         {
-            get { return (StateType)StateClassId; }
-
-        }
-
-        public int StateClassId
-        {
             get
             {
-                List<int> stateClassIds = new List<int>() { 7 };
+                List<StateType> stateTypes = new List<StateType>() { (StateType) 7 };
 
-                stateClassIds.AddRange(from DeviceDriverState deviceDriverState in States
-                                       where deviceDriverState.IsActive
-                                       select deviceDriverState.DriverState.StateClassId);
+                stateTypes.AddRange(from DeviceDriverState deviceDriverState in States
+                                    where deviceDriverState.IsActive
+                                    select deviceDriverState.DriverState.StateType);
 
-                stateClassIds.AddRange(from ParentDeviceState parentDeviceState in ParentStates
-                                       select parentDeviceState.DriverState.StateClassId);
+                stateTypes.AddRange(from ParentDeviceState parentDeviceState in ParentStates
+                                    select parentDeviceState.DriverState.StateType);
 
-                return stateClassIds.Min();
+                return stateTypes.Min();
             }
         }
 
@@ -68,7 +62,7 @@ namespace FiresecAPI.Models
 
         public bool IsDisabled
         {
-            get { return States.Any(x => ((x.IsActive) && (x.DriverState.StateType == StateType.Off))); }
+            get { return States.Any(x => x.IsActive && x.DriverState.StateType == StateType.Off); }
         }
 
         public void CopyFrom(DeviceState deviceState)
@@ -80,6 +74,7 @@ namespace FiresecAPI.Models
         }
 
         #region Automatic
+
         bool _isAutomaticOff = false;
         public bool IsAutomaticOff
         {
@@ -212,6 +207,7 @@ namespace FiresecAPI.Models
             if (AlarmRemoved != null)
                 AlarmRemoved(alarmType, id);
         }
+
         #endregion Automatic
 
         public event Action StateChanged;

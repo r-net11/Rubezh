@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DeviceLibrary;
+using FiresecAPI.Models;
 
 namespace DeviceControls
 {
@@ -17,24 +18,24 @@ namespace DeviceControls
 
             DataContext = this;
             StateCanvases = new ObservableCollection<Canvas>();
-            AdditionalStates = new List<string>();
+            AdditionalStates = new List<StateType>();
         }
 
         public string DriverId { get; set; }
 
-        string _stateId;
-        public string StateId
+        StateType _stateType;
+        public StateType StateType
         {
-            get { return _stateId; }
+            get { return _stateType; }
             set
             {
-                _stateId = value;
+                _stateType = value;
                 Update();
             }
         }
 
-        List<string> _additionalStates;
-        public List<string> AdditionalStates
+        List<StateType> _additionalStates;
+        public List<StateType> AdditionalStates
         {
             get { return _additionalStates; }
             set
@@ -68,14 +69,14 @@ namespace DeviceControls
                 return;
 
             StateCanvases = new ObservableCollection<Canvas>();
-            var state = device.States.FirstOrDefault(x => (x.Class == StateId) && (int.Parse(x.Class) >= 0));
+            var state = device.States.FirstOrDefault(x => x.StateType == StateType && (int) x.StateType >= 0);
             if (state != null)
             {
                 _stateViewModelList.Add(new StateViewModel(state, StateCanvases));
                 if (AdditionalStates == null) return;
                 foreach (var additionalStateId in AdditionalStates)
                 {
-                    var aState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
+                    var aState = device.States.FirstOrDefault(x => x.StateType == additionalStateId);
                     if (aState == null) continue;
                     _stateViewModelList.Add(new StateViewModel(aState, StateCanvases));
                 }
@@ -83,7 +84,7 @@ namespace DeviceControls
             else
                 foreach (var additionalStateId in AdditionalStates)
                 {
-                    var additionalState = device.States.FirstOrDefault(x => (x.Class == additionalStateId));
+                    var additionalState = device.States.FirstOrDefault(x => x.StateType == additionalStateId);
                     if (additionalState != null)
                     {
                         _stateViewModelList.Add(new StateViewModel(additionalState, StateCanvases));

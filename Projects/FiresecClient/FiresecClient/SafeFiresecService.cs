@@ -1,8 +1,8 @@
-﻿using FiresecAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models;
 using System.ServiceModel;
+using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FiresecClient
 {
@@ -286,15 +286,15 @@ namespace FiresecClient
                 OnConnectionAppeared();
                 return result;
             }
-            catch (CommunicationObjectFaultedException e)
+            catch (CommunicationObjectFaultedException)
             {
                 OnConnectionLost();
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 OnConnectionLost();
             }
-            catch (CommunicationException ce)
+            catch (CommunicationException)
             {
                 OnConnectionLost();
             }

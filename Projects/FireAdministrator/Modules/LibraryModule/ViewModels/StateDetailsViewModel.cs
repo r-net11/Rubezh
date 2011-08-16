@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using FiresecAPI.Models;
 
 namespace LibraryModule.ViewModels
 {
@@ -9,13 +11,11 @@ namespace LibraryModule.ViewModels
             Initialize("Добавить состояние");
 
             var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.Id);
-            for (int classId = 0; classId < 9; ++classId)
+            foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
-                if (!device.States.Any(x => x.Class == classId.ToString() && x.Code == null))
+                if (!device.States.Any(x => x.StateType == stateType && x.Code == null))
                 {
-                    Items.Add(
-                        new StateViewModel(
-                            StateViewModel.GetDefaultStateWith(classId.ToString()), driver));
+                    Items.Add(new StateViewModel(StateViewModel.GetDefaultStateWith(stateType), driver));
                 }
             }
         }

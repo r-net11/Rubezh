@@ -110,9 +110,7 @@ namespace FiresecService
                     }
                 }
             }
-            catch (Exception e)
-            {
-            }
+            catch (Exception) { }
         }
 
         public void OnStateChanged()
@@ -134,9 +132,7 @@ namespace FiresecService
                     }
                 }
             }
-            catch (Exception e)
-            {
-            }
+            catch (Exception) { }
         }
 
         void SetStates(Firesec.CoreState.config coreState)
@@ -209,25 +205,25 @@ namespace FiresecService
         {
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                int minStateClassId = 7;
+                StateType minStateClassId = StateType.Norm;
 
                 foreach (var state in deviceState.States)
                 {
                     if (state.IsActive)
                     {
-                        if (minStateClassId > state.DriverState.StateClassId)
-                            minStateClassId = state.DriverState.StateClassId;
+                        if (minStateClassId > state.DriverState.StateType)
+                            minStateClassId = state.DriverState.StateType;
                     }
                 }
                 foreach (var state in deviceState.ParentStates)
                 {
-                    if (minStateClassId > state.DriverState.StateClassId)
+                    if (minStateClassId > state.DriverState.StateType)
                     {
-                        minStateClassId = state.DriverState.StateClassId;
+                        minStateClassId = state.DriverState.StateType;
                     }
                 }
 
-                deviceState.ChangeEntities.StateChanged = (deviceState.StateClassId != minStateClassId);
+                deviceState.ChangeEntities.StateChanged = (deviceState.StateType != minStateClassId);
             }
         }
 
@@ -237,19 +233,19 @@ namespace FiresecService
             {
                 foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
                 {
-                    int minZonePriority = 7;
+                    StateType minZonePriority = StateType.Norm;
                     foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
                             var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
-                            if (deviceState.StateClassId < minZonePriority)
-                                minZonePriority = deviceState.StateClassId;
+                            if (deviceState.StateType < minZonePriority)
+                                minZonePriority = deviceState.StateType;
                         }
                     }
 
-                    StateType newZoneStateType = (StateType)minZonePriority;
+                    StateType newZoneStateType = (StateType) minZonePriority;
 
                     bool zoneChanged = (zoneState.StateType != newZoneStateType);
                     zoneState.StateType = newZoneStateType;

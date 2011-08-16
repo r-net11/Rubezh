@@ -97,5 +97,23 @@
                     return "";
             }
         }
+
+        public static StateType AlarmTypeToStateType(AlarmType alarmType)
+        {
+            switch (alarmType)
+            {
+                case AlarmType.Fire:
+                    return (StateType) 0;
+
+                case AlarmType.Attention:
+                    return (StateType) 1;
+
+                case AlarmType.Info:
+                    return (StateType) 6;
+
+                default:
+                    return (StateType) 8;
+            }
+        }
     }
 }

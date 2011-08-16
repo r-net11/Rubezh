@@ -85,9 +85,6 @@
     <Compile Include="Views\CanvacesView.xaml.cs">
       <DependentUpon>CanvacesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevicesView.xaml.cs">
-      <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\FramesView.xaml.cs">
       <DependentUpon>FramesView.xaml</DependentUpon>
     </Compile>
@@ -105,9 +102,6 @@
     </Compile>
     <Compile Include="Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StatesView.xaml.cs">
-      <DependentUpon>StatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
@@ -162,10 +156,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\FramesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,10 +177,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StateDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\StatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

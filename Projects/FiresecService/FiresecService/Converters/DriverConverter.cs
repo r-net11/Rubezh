@@ -314,7 +314,7 @@ namespace FiresecService.Converters
                     driverState.Id = innerState.id;
                     driverState.Name = innerState.name;
                     driverState.AffectChildren = innerState.affectChildren == "1" ? true : false;
-                    driverState.StateClassId = int.Parse(innerState.@class);
+                    driverState.StateType = (StateType) int.Parse(innerState.@class);
                     driverState.IsManualReset = innerState.manualReset == "1" ? true : false;
                     driverState.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
                     driverState.IsAutomatic = innerState.type == "Auto" ? true : false;

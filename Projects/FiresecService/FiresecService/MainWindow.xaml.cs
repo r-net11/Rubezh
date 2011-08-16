@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
-using FiresecService;
 using FiresecAPI.Models;
+using FiresecService;
 
 namespace FiresecServiceRunner
 {
@@ -35,9 +35,9 @@ namespace FiresecServiceRunner
             var deviceState2 = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId2);
             var deviceState3 = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId3);
 
-            deviceState.States.FirstOrDefault(x => x.DriverState.StateClassId == 0).IsActive = true;
-            deviceState2.States.FirstOrDefault(x => x.DriverState.StateClassId == 1).IsActive = true;
-            deviceState3.States.FirstOrDefault(x => x.DriverState.StateClassId == 2).IsActive = true;
+            deviceState.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Fire).IsActive = true;
+            deviceState2.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Attention).IsActive = true;
+            deviceState3.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Failure).IsActive = true;
 
             CallbackManager.OnDeviceStateChanged(deviceState);
             CallbackManager.OnDeviceStateChanged(deviceState2);
@@ -48,7 +48,6 @@ namespace FiresecServiceRunner
         {
             JournalDataConverter.Convert();
             JournalDataConverter.Select();
-
         }
     }
 }
