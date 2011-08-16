@@ -58,7 +58,7 @@ namespace AssadProcessor
                 var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
                 if (assadDevice != null)
                 {
-                    string eventName = StateHelper.StateTypeToString(journalRecord.StateType);
+                    string eventName = EnumsConverter.StateTypeToClassName(journalRecord.StateType);
                     assadDevice.FireEvent(eventName);
                 }
             }

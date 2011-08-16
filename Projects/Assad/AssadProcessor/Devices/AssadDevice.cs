@@ -69,7 +69,7 @@ namespace AssadProcessor.Devices
 
                 Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
                 mainState.state = "Состояние";
-                mainState.value = StateHelper.StateTypeToString(deviceState.StateType);
+                mainState.value = EnumsConverter.StateTypeToClassName(deviceState.StateType);
                 states.Add(mainState);
                 string str = " ";
                 switch (mainState.value)
@@ -205,7 +205,7 @@ namespace AssadProcessor.Devices
 
                 Assad.CPeventTypeState mainState = new Assad.CPeventTypeState();
                 mainState.state = "Состояние";
-                mainState.value = StateHelper.StateTypeToString(deviceState.StateType);
+                mainState.value = EnumsConverter.StateTypeToClassName(deviceState.StateType);
                 states.Add(mainState);
 
                 foreach (var parameter in deviceState.Parameters)

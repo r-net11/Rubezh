@@ -1,8 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
 using System.Xml.Serialization;
-using System.IO;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DeviveModelManager
 {
