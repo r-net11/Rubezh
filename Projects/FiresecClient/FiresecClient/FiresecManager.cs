@@ -28,7 +28,7 @@ namespace FiresecClient
             IFiresecService firesecService = FiresecServiceFactory.Create();
             _firesecService = new SafeFiresecService(firesecService);
 
-            _firesecService.Connect();
+            bool result = _firesecService.Connect(login, password);
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
             SecurityConfiguration = _firesecService.GetSecurityConfiguration();
@@ -46,7 +46,14 @@ namespace FiresecClient
 
             _firesecService.Test();
 
-            return true;
+            return result;
+        }
+
+        public static bool Reconnect(string login, string password)
+        {
+            bool result = _firesecService.Reconnect(login, password);
+            _loggedInUserName = login;
+            return result;
         }
 
         static void Update()
@@ -191,11 +198,6 @@ namespace FiresecClient
         }
 
         static int pingCount = 0;
-
-        public static void Reconnect(string userName)
-        {
-            _loggedInUserName = userName;
-        }
 
         public static void Test()
         {

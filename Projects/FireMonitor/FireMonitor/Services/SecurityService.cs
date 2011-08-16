@@ -18,7 +18,7 @@ namespace FireMonitor
             PasswordView passwordView = new PasswordView();
             passwordView.InitializeReconnect();
             passwordView.ShowDialog();
-            FiresecManager.Reconnect(passwordView.UserName);
+            FiresecManager.Reconnect(passwordView.UserName, "");
         }
     }
 }

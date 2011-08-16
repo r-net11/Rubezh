@@ -19,14 +19,30 @@ namespace FiresecService
     public class FiresecService : IFiresecService, IDisposable
     {
         IFiresecCallback _currentCallback;
+        string _userName;
 
-        public void Connect()
+        public bool Connect(string userName, string passwordHash)
         {
+            bool result = CheckLogin(userName, passwordHash);
+
             _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
             CallbackManager.Add(_currentCallback);
 
+            MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
 
-            MainWindow.AddMessage("Connected " + OperationContext.Current.SessionId);
+            return result;
+        }
+
+        public bool Reconnect(string userName, string passwordHash)
+        {
+            bool result = CheckLogin(userName, passwordHash);
+            return result;
+        }
+
+        bool CheckLogin(string userName, string passwordHash)
+        {
+            _userName = userName;
+            return true;
         }
 
         [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]

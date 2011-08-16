@@ -10,7 +10,10 @@ namespace FiresecAPI
     public interface IFiresecService
     {
         [OperationContract(IsInitiating=true)]
-        void Connect();
+        bool Connect(string userName, string passwordHash);
+
+        [OperationContract(IsInitiating = true)]
+        bool Reconnect(string userName, string passwordHash);
 
         [OperationContract(IsTerminating=true)]
         void Disconnect();

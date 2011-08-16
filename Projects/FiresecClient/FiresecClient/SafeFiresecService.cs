@@ -42,16 +42,30 @@ namespace FiresecClient
 
         bool _isConnected = true;
 
-        public void Connect()
+        public bool Connect(string userName, string passwordHash)
         {
             try
             {
-                _iFiresecService.Connect();
+                return _iFiresecService.Connect(userName, passwordHash);
             }
             catch
             {
                 OnConnectionLost();
             }
+            return false;
+        }
+
+        public bool Reconnect(string userName, string passwordHash)
+        {
+            try
+            {
+                return _iFiresecService.Reconnect(userName, passwordHash);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return false;
         }
 
         public void Disconnect()
