@@ -15,8 +15,9 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" >
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}"
-                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}" IsReadOnly="False">
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Sounds}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedSound}"
+                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
+                      Style="{StaticResource DataGridStyle}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Состояние" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -48,7 +49,8 @@
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Stretch" Width="Auto"
                                           ItemsSource="{Binding AvailableSpeakers}"
-                                          SelectedItem="{Binding SpeakerType, Converter={StaticResource SpeakerTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                          SelectedItem="{Binding SpeakerType, Converter={StaticResource SpeakerTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                          Margin="2">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ., Converter={StaticResource SpeakerTypeToStringConverter}}" />
@@ -70,7 +72,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <XButtons:XButton Name="SoundButton" Content="Проверка"  Margin="2" Padding="2" Height="30" Width="100"
+            <XButtons:XButton Name="SoundButton" Margin="2" Padding="2"
                               HorizontalAlignment="Left" Height="30" Width="100"
                               Content="{Binding IsNowPlaying, Converter={StaticResource BoolToStringConverter}}"
                               IsChecked="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
