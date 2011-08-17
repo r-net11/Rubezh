@@ -39,10 +39,24 @@ namespace FiresecDirect
             string coreConfig = Firesec.NativeFiresecClient.GetCoreConfig();
             textBox1.Text = coreConfig;
 
-            FileStream fileStream = new FileStream("D:/CoreConfig.txt", FileMode.Create);
-            StreamWriter streamWriter = new StreamWriter(fileStream);
+            var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create);
+            var streamWriter = new StreamWriter(fileStream);
             streamWriter.Write(coreConfig);
+            streamWriter.Close();
             fileStream.Close();
+        }
+
+        void OnGetPlans(object sender, RoutedEventArgs e)
+        {
+            string plans = Firesec.NativeFiresecClient.GetPlans();
+
+            var fileStream = new FileStream("D:/Plan.xml", FileMode.Create);
+            var streamWriter = new StreamWriter(fileStream);
+            streamWriter.Write(plans);
+            streamWriter.Close();
+            fileStream.Close();
+
+            textBox1.Text = plans;
         }
 
         void OnGetCoreState(object sender, RoutedEventArgs e)
@@ -52,7 +66,7 @@ namespace FiresecDirect
 
         void OnGetMetaData(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetMetaData();
+            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata();
         }
 
         void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)

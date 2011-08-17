@@ -45,15 +45,20 @@ namespace Firesec
             return ReadFromStream(stream);
         }
 
-        public static string GetCoreState()
+        public static string GetPlans()
         {
-            mscoree.IStream stream = Connectoin.GetCoreState();
+            return Connectoin.GetCoreAreasW();
+        }
+
+        public static string GetMetadata()
+        {
+            mscoree.IStream stream = Connectoin.GetMetaData();
             return ReadFromStream(stream);
         }
 
-        public static string GetMetaData()
+        public static string GetCoreState()
         {
-            mscoree.IStream stream = Connectoin.GetMetaData();
+            mscoree.IStream stream = Connectoin.GetCoreState();
             return ReadFromStream(stream);
         }
 

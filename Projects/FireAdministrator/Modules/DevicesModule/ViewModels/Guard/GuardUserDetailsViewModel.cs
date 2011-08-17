@@ -114,7 +114,7 @@ namespace DevicesModule.ViewModels
             var result = ServiceFactory.UserDialogs.ShowModalWindow(guardLevelsSelectationViewModel);
             if (result)
             {
-                //guardLevelsSelectationViewModel
+                GuardUser.GuardLevelNames = guardLevelsSelectationViewModel.GuardLevels;
             }
         }
 

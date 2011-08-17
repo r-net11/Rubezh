@@ -33,14 +33,19 @@ namespace Firesec
             return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig)) as string;
         }
 
-        public static string GetCoreState()
+        public static string GetPlans()
         {
-            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState)) as string;
+            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetPlans));
         }
 
         public static string GetMetaData()
         {
-            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetaData)) as string;
+            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetadata));
+        }
+
+        public static string GetCoreState()
+        {
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
         }
 
         public static string GetCoreDeviceParams()

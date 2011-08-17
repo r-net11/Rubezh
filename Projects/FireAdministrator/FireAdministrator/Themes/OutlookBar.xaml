@@ -5,41 +5,42 @@
         <ControlTemplate.Resources>
             <!-- To change the colour scheme of the Outlook Bar, change the colors of these brushes -->
             <SolidColorBrush x:Key="LabelHighlightBrush" Color= "#FFFFFF" />
-            <SolidColorBrush x:Key="CaptionBrush" Color= "#15428B" />
-            <SolidColorBrush x:Key="BorderBrush" Color="#6593CF" />
+            <SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
+            <SolidColorBrush x:Key="BorderBrush" Color="#343337" />
             <LinearGradientBrush x:Key="LabelBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#E3EFFF" Offset="0" />
                 <GradientStop Color="#AFD2FF" Offset="1" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="ButtonNormalBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#E3EFFF" Offset="0" />
-                <GradientStop Color="#C4DDFF" Offset="0.40625" />
-                <GradientStop Color="#ADD1FF" Offset="0.40625" />
-                <GradientStop Color="#C0DBFF" Offset="1" />
+                <GradientStop Color="#434247" Offset="0" />
+                <GradientStop Color="#383438" Offset="1" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="ButtonSelectedBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#FFD9AA" Offset="0" />
-                <GradientStop Color="#FFBB6E" Offset="0.40625" />
-                <GradientStop Color="#FFAB3F" Offset="0.40625" />
-                <GradientStop Color="#FEE17A" Offset="1" />
+                <GradientStop Color="#F2B352" Offset="0" />
+                <GradientStop Color="#DF8E2A" Offset="1" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="ButtonPressedBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#FFBD69" Offset="0" />
-                <GradientStop Color="#FFAC42" Offset="0.40625" />
-                <GradientStop Color="#FB8C3C" Offset="0.40625" />
-                <GradientStop Color="#FED364" Offset="1" />
+                <GradientStop Color="#DEA34B" Offset="0" />
+                <GradientStop Color="#C98226" Offset="1" />
             </LinearGradientBrush>
             <LinearGradientBrush x:Key="ButtonHoverBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#FFFEE4" Offset="0" />
-                <GradientStop Color="#FFE8A7" Offset="0.40625" />
-                <GradientStop Color="#FFD767" Offset="0.40625" />
-                <GradientStop Color="#FFE69E" Offset="1" />
+                <GradientStop Color="#F2B352" Offset="0" />
+                <GradientStop Color="#DF8E2A" Offset="1" />
             </LinearGradientBrush>
             <!-- This style sets the default template for a TabItem -->
             <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Padding" Value="12,2,12,2"/>
+                <Setter Property="Margin" Value="0 0 0 5"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource ButtonNormalBrush}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Border SnapsToDevicePixels="true" CornerRadius="3" MinHeight="32" x:Name="Bd" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+                                <ContentPresenter TextBlock.FontSize="8pt" TextBlock.FontFamily="Arial" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource CaptionBrush}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left"/>
+                            </Border>
                             <!-- These triggers control the background and text colour of the Outlook bar buttons when the are selected and/or hovered over -->
                             <ControlTemplate.Triggers>
                                 <MultiTrigger>
@@ -61,7 +62,7 @@
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
                                 <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="TextElement.Foreground" Value="Black" />
+                                    <Setter Property="TextElement.Foreground" Value="White" />
                                     <Setter Property="Background" Value="{StaticResource ButtonSelectedBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="False">
@@ -78,29 +79,27 @@
                                 </MultiTrigger>
                             </ControlTemplate.Triggers>
                             <!-- This defines the look of the individual TabItems -->
-                            <Grid Background="{TemplateBinding Background}" MinHeight="32" SnapsToDevicePixels="True">
+                            <!--<Grid Background="{TemplateBinding Background}" MinHeight="32" SnapsToDevicePixels="True">
                                 <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Top" Stretch="Fill" X2="1" SnapsToDevicePixels="True" />
                                 <ContentPresenter Margin="5,0,5,0" TextBlock.FontFamily="Tahoma" TextBlock.FontSize="8pt" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource CaptionBrush}" Content="{TemplateBinding Header}" VerticalAlignment="Center"/>
-                            </Grid>
+                            </Grid>-->
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
         </ControlTemplate.Resources>
         <!-- This is the template for the TabControl itself -->
-        <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True" >
-            <DockPanel>
-                <!-- This is the host panel that contains the tab items -->
-                <StackPanel DockPanel.Dock="Bottom" IsItemsHost="True" />
-                <!-- This is the label that appears at the top of the TabControl -->
-                <Grid Visibility="Collapsed" DockPanel.Dock="Top" MinHeight="28" Background="{StaticResource ButtonNormalBrush}"  SnapsToDevicePixels="True">
-                    <TextBlock FontFamily="Tahoma" Foreground="{StaticResource CaptionBrush}" VerticalAlignment="Center" Margin="5,0" FontSize="18" FontWeight="Bold" >Mail</TextBlock>
-                    <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
-                </Grid>
-                <!-- This is the selected content pane that appears in the Outlook Bar -->
-                <ContentPresenter Content="{TemplateBinding SelectedContent}" />
-            </DockPanel>
-        </Border>
+        <DockPanel>
+            <!-- This is the host panel that contains the tab items -->
+            <StackPanel DockPanel.Dock="Bottom" IsItemsHost="True" />
+            <!-- This is the label that appears at the top of the TabControl -->
+            <Grid Visibility="Collapsed" DockPanel.Dock="Top" MinHeight="28" Background="{StaticResource ButtonNormalBrush}"  SnapsToDevicePixels="True">
+                <TextBlock FontFamily="Tahoma" Foreground="{StaticResource CaptionBrush}" VerticalAlignment="Center" Margin="5,0" FontSize="18" FontWeight="Bold" >Mail</TextBlock>
+                <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
+            </Grid>
+            <!-- This is the selected content pane that appears in the Outlook Bar -->
+            <ContentPresenter Content="{TemplateBinding SelectedContent}" />
+        </DockPanel>
     </ControlTemplate>
 
 </ResourceDictionary>

@@ -6,10 +6,11 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Click="OnSetNewConfig" Content="SetNewConfig" Margin="1" />
                 <Button Click="OnGetCoreConfig" Content="GetCoreConfig" Margin="1" />
-                <Button Click="OnGetCoreState" Content="GetCoreState" Margin="1" />
                 <Button Click="OnGetMetaData" Content="GetMetadata" Margin="1" />
+                <Button Click="OnGetPlans" Content="GetPlans" Margin="1" />
+                <Button Click="OnSetNewConfig" Content="SetNewConfig" Margin="1" />
+                <Button Click="OnGetCoreState" Content="GetCoreState" Margin="1" />
                 <Button Click="OnGetCoreDeviceParams" Content="GetCoreDeviceParams" Margin="1" />
                 <Button Click="OnReadEvents" Content="ReadEvents" Margin="1" />
                 <Button Click="Button_Click_6" Content="Serialize metadata" Margin="1" />

@@ -26,16 +26,7 @@ namespace DevicesModule.ViewModels
             get { return new List<ZoneActionType>(Enum.GetValues(typeof(ZoneActionType)).Cast<ZoneActionType>()); }
         }
 
-        ZoneLevel _zoneLevel;
-        public ZoneLevel ZoneLevel
-        {
-            get { return _zoneLevel; }
-            set
-            {
-                _zoneLevel = value;
-                OnPropertyChanged("ZoneLevel");
-            }
-        }
+        public ZoneLevel ZoneLevel { get; private set; }
 
         public string PresentationZone
         {
@@ -61,6 +52,7 @@ namespace DevicesModule.ViewModels
             if (result)
             {
                 ZoneLevel.ZoneNo = guardZoneSelectationViewModel.SelectedZone.No;
+                OnPropertyChanged("PresentationZone");
             }
         }
     }

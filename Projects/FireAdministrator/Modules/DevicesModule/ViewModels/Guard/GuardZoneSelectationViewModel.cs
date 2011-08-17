@@ -14,11 +14,17 @@ namespace DevicesModule.ViewModels
         {
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+            Title = "Выбор зоны";
         }
 
         public List<Zone> Zones
         {
-            get { return FiresecManager.DeviceConfiguration.Zones; }
+            get
+            {
+                return (from Zone zone in FiresecManager.DeviceConfiguration.Zones
+                        where zone.ZoneType == "1"
+                          select zone).ToList();
+            }
         }
 
         Zone _selectedZone;
