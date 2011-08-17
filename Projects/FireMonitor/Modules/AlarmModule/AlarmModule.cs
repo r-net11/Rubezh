@@ -8,6 +8,8 @@ namespace AlarmModule
 {
     public class AlarmModule : IModule
     {
+        //Microsoft.Performance : Вероятно, поле 'AlarmModule._alarmWatcher' нигде не используется, или ему только присваивается значение.
+        //Используйте это поле или удалите его.
         AlarmWatcher _alarmWatcher;
 
         public void Initialize()
@@ -28,11 +30,12 @@ namespace AlarmModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        void ShowImitatorView()
+        static void ShowImitatorView()
         {
-            AlarmImitatorView alarmImitatorView = new AlarmImitatorView();
-            AlarmImitatorViewModel alarmImitatorViewModel = new AlarmImitatorViewModel();
-            alarmImitatorView.DataContext = alarmImitatorViewModel;
+            var alarmImitatorView = new AlarmImitatorView()
+            {
+                DataContext = new AlarmImitatorViewModel()
+            };
             alarmImitatorView.Show();
         }
     }

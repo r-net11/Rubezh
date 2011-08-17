@@ -130,5 +130,68 @@
                     return (StateType) 8;
             }
         }
+
+        public static string AlarmToString(AlarmType alarmType)
+        {
+            switch (alarmType)
+            {
+                case AlarmType.Attention:
+                    return "Внимание";
+
+                case AlarmType.Auto:
+                    return "Автоматика отключена";
+
+                case AlarmType.Failure:
+                    return "Неисправность";
+
+                case AlarmType.Fire:
+                    return "Пожар";
+
+                case AlarmType.Info:
+                    return "Информация";
+
+                case AlarmType.Off:
+                    return "Отключенное оборудование";
+
+                case AlarmType.Service:
+                    return "Требуется обслуживание";
+
+                default:
+                    return "";
+            }
+        }
+
+        public static string StateToIcon(StateType stateType)
+        {
+            switch (stateType)
+            {
+                case StateType.Fire:
+                    return "DS_Critical";
+
+                case StateType.Attention:
+                    return "DS_Warning";
+
+                case StateType.Failure:
+                    return "DS_Error";
+
+                case StateType.Service:
+                    return "DS_ServiceRequired";
+
+                case StateType.Off:
+                    return "DS_Mute";
+
+                case StateType.Unknown:
+                    return "DS_Unknown";
+
+                case StateType.Info:
+                    return "DS_Normal";
+
+                case StateType.Norm:
+                    return null;
+
+                default:
+                    return null;
+            }
+        }
     }
 }

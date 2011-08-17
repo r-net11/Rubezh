@@ -25,7 +25,7 @@ namespace CallModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        void CreateViewModels()
+        static void CreateViewModels()
         {
             callViewModel = new CallViewModel();
             callViewModel.Initialize();

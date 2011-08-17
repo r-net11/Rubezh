@@ -27,9 +27,7 @@ namespace AlarmModule.ViewModels
             Alarms = new ObservableCollection<AlarmViewModel>();
             foreach (var alarm in alarms)
             {
-                AlarmViewModel alarmViewModel = new AlarmViewModel();
-                alarmViewModel.Initialize(alarm);
-                Alarms.Add(alarmViewModel);
+                Alarms.Add(new AlarmViewModel(alarm));
             }
         }
 
@@ -94,17 +92,15 @@ namespace AlarmModule.ViewModels
 
         void OnAlarmAdded(Alarm alarm)
         {
-            if ((_alarmType == null) || (alarm.AlarmType == _alarmType))
+            if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
-                AlarmViewModel alarmViewModel = new AlarmViewModel();
-                alarmViewModel.Initialize(alarm);
-                Alarms.Insert(0, alarmViewModel);
+                Alarms.Insert(0, new AlarmViewModel(alarm));
             }
         }
 
         void OnResetAlarm(Alarm alarm)
         {
-            if ((_alarmType == null) || (alarm.AlarmType == _alarmType))
+            if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 var alarmViewModel = Alarms.FirstOrDefault(x => x._alarm.DeviceId == alarm.DeviceId);
                 Alarms.Remove(alarmViewModel);

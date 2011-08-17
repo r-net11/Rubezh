@@ -41,21 +41,25 @@ namespace FiresecClient
             }
         }
 
+        //Почему такое название? Ведь метод копирует содержимое одного файла в другой. Очевидное название CopyFile
+        //И если что-нибудь поменяется и по пути directoryAndFileName не будет файла, то по ходу все упадет
         void DownloadFile(string directoryAndFileName, string destinationPath)
         {
             var stream = FiresecManager.GetFile(directoryAndFileName);
-            FileStream destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write);
-            stream.CopyTo(destinationStream);
-            destinationStream.Close();
+            using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
+            {
+                stream.CopyTo(destinationStream);
+            }
         }
 
         List<string> GetFileNamesList(string directory)
         {
-            List<string> fileNames = new List<string>();
-            foreach (var str in Directory.GetFiles(CurrentDirectory(directory)))
+            var fileNames = new List<string>();
+            foreach (var str in Directory.EnumerateFiles(CurrentDirectory(directory)))
             {
                 fileNames.Add(Path.GetFileName(str));
             }
+
             return fileNames;
         }
 

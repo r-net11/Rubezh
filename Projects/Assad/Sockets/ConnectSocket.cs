@@ -174,7 +174,7 @@ namespace Socktes
         {
             create(this, null);
 
-            IPHostEntry he = Dns.Resolve(Host);
+            IPHostEntry he = Dns.GetHostEntry(Host);
             IPEndPoint ep = new IPEndPoint(he.AddressList[0], port);
 
             if (m_BlockingMode)
@@ -200,7 +200,7 @@ namespace Socktes
         {
             create(this, null);
 
-            IPHostEntry he = Dns.Resolve(Host);
+            IPHostEntry he = Dns.GetHostEntry(Host);
             IPEndPoint ep = new IPEndPoint(he.AddressList[0], port);
             RecieveEventArgs rv = new RecieveEventArgs();
 

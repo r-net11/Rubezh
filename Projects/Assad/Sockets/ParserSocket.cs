@@ -131,12 +131,11 @@ namespace Socktes
         private void m_Socket_recieve(object Sender, RecieveEventArgs e)
         {
             byte[] b = e.Data;
-            int j = e.Data.Length - 1;
-            for (int i = 0; i != e.Length; i++)
+            for (int i = 0; i < b.Length; ++i)
             {
-                b[j] = 0;
-                j--;
+                b[i] = 0;
             }
+
             Parse(b);
         }
     }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Common
 {
@@ -12,24 +10,26 @@ namespace Common
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();
-            string fullDirectory = Directory.GetCurrentDirectory() + @"\" + directory;
-            var dirInfo = new DirectoryInfo(fullDirectory);
-            var fileInfos = dirInfo.GetFiles();
-            byte[] hash;
             var stringBuilder = new StringBuilder();
-            foreach (var fileInfo in fileInfos)
+            byte[] hash = null;
+
+            var dirInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
+            foreach (var fileInfo in dirInfo.EnumerateFiles())
             {
-                stringBuilder.Clear();
-                using (FileStream fileStream = fileInfo.Open(FileMode.Open))
+                using (var fileStream = fileInfo.Open(FileMode.Open))
+                using (var md5Hash = MD5.Create())
                 {
-                    hash = MD5.Create().ComputeHash(fileStream);
-                    for (int i = 0; i < hash.Length; i++)
+                    hash = md5Hash.ComputeHash(fileStream);
+                    for (int i = 0; i < hash.Length; ++i)
                     {
-                        stringBuilder.Append(hash[i].ToString());
+                        stringBuilder.Append(hash[i].ToString("x2"));
                     }
                 }
+
                 hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
+                stringBuilder.Clear();
             }
+
             return hashTable;
         }
     }

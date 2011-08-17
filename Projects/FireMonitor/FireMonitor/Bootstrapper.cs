@@ -62,7 +62,7 @@ namespace FireMonitor
             App.Current.MainWindow.Show();
         }
 
-        void RegisterServices()
+        static void RegisterServices()
         {
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AssadProcessor.Devices
 {
@@ -46,7 +46,7 @@ namespace AssadProcessor.Devices
             foreach (var counter in _stateTypeCounters)
             {
                 Assad.DeviceTypeState state = new Assad.DeviceTypeState();
-                state.state = counter.State.StateType.ToString();
+                state.state = EnumsConverter.StateTypeToClassName(counter.StateType);
                 state.value = counter.HasOne ? "Есть" : "Нет";
                 states.Add(state);
             }
@@ -100,7 +100,7 @@ namespace AssadProcessor.Devices
             foreach (var stateTypeCounter in counters)
             {
                 Assad.CPeventTypeState AlarmState = new Assad.CPeventTypeState();
-                AlarmState.state = stateTypeCounter.State.ToString();
+                AlarmState.state = EnumsConverter.StateTypeToClassName(stateTypeCounter.StateType);
                 AlarmState.value = (stateTypeCounter.HasOne == true) ? "Есть" : "Нет";
                 states.Add(AlarmState);
             }
@@ -124,13 +124,11 @@ namespace AssadProcessor.Devices
     internal class StateTypeCounter
     {
         public StateType StateType { get; set; }
-        public State State { get; set; }
         public bool HasOne { get; set; }
 
         public StateTypeCounter(int i)
         {
-            State = new State() { Id = i };
-            StateType = State.StateType;
+            StateType = (StateType) i;
         }
     }
 }

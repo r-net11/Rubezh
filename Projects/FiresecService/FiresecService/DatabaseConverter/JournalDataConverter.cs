@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
@@ -12,42 +10,45 @@ namespace FiresecService
     {
         public static void Convert()
         {
-            FiresecDbConverterDataContext dataContext = new FiresecDbConverterDataContext();
-            dataContext.Journal.DeleteAllOnSubmit(from j in dataContext.Journal select j);
-
-            List<JournalRecord> journalRecords = ReadAllJournal();
-            journalRecords.Reverse();
-
-            foreach (var journalItem in journalRecords)
+            using (var dataContext = new FiresecDbConverterDataContext())
             {
-                Journal journal = new Journal();
+                dataContext.Journal.DeleteAllOnSubmit(from j in dataContext.Journal select j);
 
-                journal.DeviceTime = journalItem.DeviceTime;
-                journal.SystemTime = journalItem.SystemTime;
-                journal.ZoneName = journalItem.ZoneName;
-                journal.Description = journalItem.Description;
-                journal.DeviceName = journalItem.DeviceName;
-                journal.PanelName = journalItem.PanelName;
-                journal.DeviceDatabaseId = journalItem.DeviceDatabaseId;
-                journal.PanelDatabaseId = journalItem.PanelDatabaseId;
-                journal.UserName = journalItem.User;
-                journal.StateType = (int)journalItem.StateType;
+                List<JournalRecord> journalRecords = ReadAllJournal();
+                journalRecords.Reverse();
 
-                dataContext.Journal.InsertOnSubmit(journal);
+                foreach (var journalItem in journalRecords)
+                {
+                    Journal journal = new Journal()
+                    {
+                        DeviceTime = journalItem.DeviceTime,
+                        SystemTime = journalItem.SystemTime,
+                        ZoneName = journalItem.ZoneName,
+                        Description = journalItem.Description,
+                        DeviceName = journalItem.DeviceName,
+                        PanelName = journalItem.PanelName,
+                        DeviceDatabaseId = journalItem.DeviceDatabaseId,
+                        PanelDatabaseId = journalItem.PanelDatabaseId,
+                        UserName = journalItem.User,
+                        StateType = (int) journalItem.StateType
+                    };
+
+                    dataContext.Journal.InsertOnSubmit(journal);
+                }
+
+                dataContext.SubmitChanges();
             }
-
-            dataContext.SubmitChanges();
         }
 
         public static void Select()
         {
-            FiresecDbConverterDataContext dataContext = new FiresecDbConverterDataContext();
-
-            List<Journal> journals = (from journal in dataContext.Journal
-                           where journal.StateType == 6
-                           select journal).ToList();
-
-            return;
+            //CodeAnalizer ругался. Говорит ресурсы нужно освободить
+            using (var dataContext = new FiresecDbConverterDataContext())
+            {
+                List<Journal> journals = (from journal in dataContext.Journal
+                                          where journal.StateType == 6
+                                          select journal).ToList();
+            }
         }
 
         public static List<JournalRecord> ReadAllJournal()

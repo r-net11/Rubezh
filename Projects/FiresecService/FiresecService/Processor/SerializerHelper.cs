@@ -61,23 +61,31 @@ namespace FiresecService
         public static T Deserialize<T>(string input)
         {
             byte[] bytes = Encoding.Default.GetBytes(input);
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            T output = default(T);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            T output = (T) serializer.Deserialize(memoryStream);
-            memoryStream.Close();
+            using (var memoryStream = new MemoryStream(bytes))
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                output = (T) serializer.Deserialize(memoryStream);
+            }
+
             return output;
         }
 
         public static string Serialize<T>(T input)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            MemoryStream memoryStream = new MemoryStream();
-            serializer.Serialize(memoryStream, input);
-            byte[] bytes = memoryStream.ToArray();
-            memoryStream.Close();
+            var serializer = new XmlSerializer(typeof(T));
+            byte[] bytes = null;
+
+            using (var memoryStream = new MemoryStream())
+            {
+                serializer.Serialize(memoryStream, input);
+                bytes = memoryStream.ToArray();
+            }
+
             string output = Encoding.UTF8.GetString(bytes);
             output = output.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+
             return output;
         }
     }

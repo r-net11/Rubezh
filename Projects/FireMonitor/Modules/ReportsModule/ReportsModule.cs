@@ -25,7 +25,7 @@ namespace ReportsModule
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        void CreateViewModels()
+        static void CreateViewModels()
         {
             reportsViewModel = new ReportsViewModel();
             reportsViewModel.Initialize();

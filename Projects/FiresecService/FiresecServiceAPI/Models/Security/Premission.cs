@@ -1,11 +1,12 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
     [DataContract]
     public class Perimission
     {
+        //По моему тут наворочено как и в State было. Т.е. раз мы вместо State оставили StateType, то почему бы не быть последовательными
+
         [DataMember]
         public string Id { get; set; }
 
@@ -20,6 +21,7 @@ namespace FiresecAPI.Models
 
     public enum PermissionType
     {
+        //CodeAnalizer говорит что не положено без члена с нулевым значением. Предлагает добавить член None = 0
         Adm_ChangeConfigDb = 6,
         Adm_ChangeConfigDevices = 7,
         Adm_ChangeDevicesSoft = 8,

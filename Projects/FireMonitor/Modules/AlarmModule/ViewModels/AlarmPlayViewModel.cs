@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecClient;
-using FiresecAPI.Models;
 using Common;
 using Infrastructure.Common;
+using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AlarmModule.ViewModels
 {
-    class AlarmPlayViewModel
+    public class AlarmPlayViewModel
     {
         public AlarmPlayViewModel()
         {
@@ -30,7 +28,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        List<Sound> Sounds
+        static List<Sound> Sounds
         {
             get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
         }
@@ -72,7 +70,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        public void StopPlayAlarm()
+        static public void StopPlayAlarm()
         {
             AlarmPlayerHelper.Stop();
         }

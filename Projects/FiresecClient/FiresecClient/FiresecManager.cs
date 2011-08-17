@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -71,15 +70,13 @@ namespace FiresecClient
 
                 foreach (var state in deviceState.States)
                 {
-                    var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
-                    state.DriverState = driverState;
+                    state.DriverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
                 }
 
                 foreach (var parentState in deviceState.ParentStates)
                 {
                     parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == parentState.ParentDeviceId);
-                    var driverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
-                    parentState.DriverState = driverState;
+                    parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
                 }
             }
         }
@@ -94,13 +91,13 @@ namespace FiresecClient
         {
             get
             {
-                List<string> permissionIds = new List<string>();
+                var permissionIds = new List<string>();
 
                 foreach (var groupId in CurrentUser.Groups)
                 {
                     var group = SecurityConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
-
-                    permissionIds.AddRange(group.Permissions);
+                    if (group != null)
+                        permissionIds.AddRange(group.Permissions);
                 }
                 permissionIds.AddRange(CurrentUser.Permissions);
 
@@ -171,24 +168,27 @@ namespace FiresecClient
 
         public static void LoadFromFile(string fileName)
         {
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            FileStream fileStream = new FileStream(fileName, FileMode.Open);
-            FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
-            fileStream.Close();
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            using (var fileStream = new FileStream(fileName, FileMode.Open))
+            {
+                FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
+            }
 
             Update();
         }
 
         public static void SaveToFile(string fileName)
         {
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            FileStream fileStream = new FileStream(fileName, FileMode.Create);
-            dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
-            fileStream.Close();
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
+            }
         }
 
         static void PingWork()
         {
+            //Почему эта работа отдается потоку, а не таймеру? Не будет вечного цикла, усыпления и его не надо абортить. И зачем нужен pingCount
             while (true)
             {
                 Thread.Sleep(TimeSpan.FromSeconds(10));

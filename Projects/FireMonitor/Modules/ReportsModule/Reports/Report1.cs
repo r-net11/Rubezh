@@ -16,38 +16,47 @@ namespace ReportsModule.Reports
         {
             Initialize();
 
-            ReportDocument reportDocument = new ReportDocument();
-            StreamReader streamReader = new StreamReader(new FileStream(PathHelper.Report, FileMode.Open, FileAccess.Read));
-            reportDocument.XamlData = streamReader.ReadToEnd();
-            streamReader.Close();
+            var reportDocument = new ReportDocument();
+            using (var fileStream = new FileStream(PathHelper.Report, FileMode.Open, FileAccess.Read))
+            {
+                reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
+            }
 
             DataTable tableHeader = null;
             DataTable tableData = null;
+
+            // Microsoft.Performance : 'Report1.CreateReport()' объявляет переменную 'obj' типа 'object[]',
+            //которая никогда не используется или которой только присваивается значение. Используйте эту переменную, или удалите ее.
             object[] obj = null;
-            ReportData data = new ReportData();
 
-            tableHeader = new DataTable("Header");
-            tableData = new DataTable("Data");
+            var data = new ReportData();
 
-            tableHeader.Columns.Add();
-            tableHeader.Rows.Add(new object[] { "Устройство" });
-            tableHeader.Rows.Add(new object[] { "Количество" });
-            tableData.Columns.Add();
-            tableData.Columns.Add();
-            obj = new object[2];
-            foreach (var driverCounter in DriverCounters)
+            using (tableHeader = new DataTable("Header"))
+            using (tableData = new DataTable("Data"))
             {
-                tableData.Rows.Add(driverCounter.DriverName, driverCounter.Count);
+                tableHeader.Columns.Add();
+                tableHeader.Rows.Add(new object[] { "Устройство" });
+                tableHeader.Rows.Add(new object[] { "Количество" });
+                tableData.Columns.Add();
+                tableData.Columns.Add();
+                obj = new object[2];
+                foreach (var driverCounter in DriverCounters)
+                {
+                    tableData.Rows.Add(driverCounter.DriverName, driverCounter.Count);
+                }
+
+                data.DataTables.Add(tableHeader);
+                data.DataTables.Add(tableData);
             }
 
-            data.DataTables.Add(tableHeader);
-            data.DataTables.Add(tableData);
+            using (tableData = new DataTable("Total"))
+            {
+                tableData.Columns.Add();
+                tableData.Columns.Add();
+                tableData.Rows.Add("Всего", DriverCounters.Count.ToString());
 
-            tableData = new DataTable("Total");
-            tableData.Columns.Add();
-            tableData.Columns.Add();
-            tableData.Rows.Add("Всего", DriverCounters.Count.ToString());
-            data.DataTables.Add(tableData);
+                data.DataTables.Add(tableData);
+            }
 
             return reportDocument.CreateXpsDocument(data);
         }
@@ -58,14 +67,17 @@ namespace ReportsModule.Reports
 
             foreach (var driver in FiresecManager.Drivers)
             {
-                if ((driver.IsPlaceable) && (driver.ShortName != "Компьютер"))
+                if (driver.IsPlaceable && driver.ShortName != "Компьютер")
                 {
                     var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.Id == driver.Id);
-                    if (devices.Count > 0)
+                    if (devices != null && devices.Count > 0)
                     {
-                        DriverCounter driverCounter = new DriverCounter();
-                        driverCounter.DriverName = driver.ShortName;
-                        driverCounter.Count = devices.Count;
+                        var driverCounter = new DriverCounter()
+                        {
+                            DriverName = driver.ShortName,
+                            Count = devices.Count
+                        };
+
                         DriverCounters.Add(driverCounter);
                     }
                 }

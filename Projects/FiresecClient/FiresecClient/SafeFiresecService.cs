@@ -298,6 +298,7 @@ namespace FiresecClient
             {
                 var result = _iFiresecService.Ping();
                 OnConnectionAppeared();
+
                 return result;
             }
             catch (CommunicationObjectFaultedException)

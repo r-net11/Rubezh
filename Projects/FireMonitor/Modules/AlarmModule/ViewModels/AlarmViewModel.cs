@@ -11,7 +11,12 @@ namespace AlarmModule.ViewModels
 {
     public class AlarmViewModel : RegionViewModel
     {
-        public AlarmViewModel()
+        public AlarmViewModel(Alarm alarm)
+        {
+            _alarm = alarm;
+        }
+
+        public void Initialize()
         {
             ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
             ResetCommand = new RelayCommand(OnReset);
@@ -24,11 +29,6 @@ namespace AlarmModule.ViewModels
         }
 
         public Alarm _alarm;
-
-        public void Initialize(Alarm alarm)
-        {
-            _alarm = alarm;
-        }
 
         public AlarmType AlarmType
         {
@@ -151,7 +151,7 @@ namespace AlarmModule.ViewModels
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
             var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
 
-            ResetItem resetItem = new ResetItem();
+            var resetItem = new ResetItem();
 
             if (_alarm.AlarmType == AlarmType.Fire ||
                 _alarm.AlarmType == AlarmType.Attention ||
@@ -175,7 +175,7 @@ namespace AlarmModule.ViewModels
 
                 foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.DriverState.IsAutomatic) && (state.DriverState.IsManualReset))
+                    if (state.IsActive && state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
                     {
                         resetItem.StateNames.Add(state.DriverState.Name);
                     }
@@ -187,10 +187,11 @@ namespace AlarmModule.ViewModels
 
             if (resetItem.StateNames.Count > 0)
                 return resetItem;
+
             return null;
         }
 
-        void Close()
+        static void Close()
         {
             ServiceFactory.Layout.ShowAlarm(null);
         }

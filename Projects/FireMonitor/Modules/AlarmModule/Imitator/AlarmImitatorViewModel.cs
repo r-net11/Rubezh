@@ -57,7 +57,7 @@ namespace AlarmModule.Imitator
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
         }
 
-        void AddTestAlarms()
+        static void AddTestAlarms()
         {
             AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = " Сработал дымовой датчик ИП 212-64", Time = DateTime.Now.ToString() });
             AddTestAlarm(new Alarm() { AlarmType = AlarmType.Fire, Name = "Сработал ручной извещатель ИПР", Time = DateTime.Now.ToString() });
@@ -66,7 +66,7 @@ namespace AlarmModule.Imitator
             AddTestAlarm(new Alarm() { AlarmType = AlarmType.Info, Name = "Вход пользователя в систему", Time = DateTime.Now.ToString() });
         }
 
-        void AddTestAlarm(Alarm alarm)
+        static void AddTestAlarm(Alarm alarm)
         {
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
         }
