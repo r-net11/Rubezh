@@ -13,12 +13,9 @@ namespace AlarmModule.ViewModels
     {
         public AlarmPlayViewModel()
         {
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
-            CurrentStateType = StateType.No;
-            IsSoundOn = true;
-            DataContext = this;
-            OnDeviceStateChanged("");
-            PlaySoundCommand = new RelayCommand(OnPlaySound);
+            //FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
+            //CurrentStateType = StateType.No;
+            //IsSoundOn = true;
         }
 
         public StateType CurrentStateType { get; private set; }
@@ -30,7 +27,6 @@ namespace AlarmModule.ViewModels
             set
             {
                 _isSoundOn = value;
-                OnPropertyChanged("IsSoundOn");
             }
         }
 

@@ -18,6 +18,8 @@ namespace DevicesModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+            DeleteAllCommand = new RelayCommand(OnDeleteAll);
+            DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty);
             ZoneDevices = new ZoneDevicesViewModel();
         }
 
@@ -99,6 +101,33 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public RelayCommand DeleteAllCommand { get; private set; }
+        void OnDeleteAll()
+        {
+            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.Yes)
+            {
+                FiresecManager.DeviceConfiguration.Zones.Clear();
+                Zones.Clear();
+                DevicesModule.HasChanges = true;
+            }
+        }
+
+        public RelayCommand DeleteAllEmptyCommand { get; private set; }
+        void OnDeleteAllEmpty()
+        {
+            if (CanEditDelete(null))
+            {
+                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    //FiresecManager.DeviceConfiguration.Zones.RemoveAll();
+                    Zones.Remove(SelectedZone);
+                    DevicesModule.HasChanges = true;
+                }
+            }
+        }
+
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
@@ -114,7 +143,8 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             SelectedZone = SelectedZone;
-            ZonesMenuViewModel zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            ZonesMenuViewModel zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand,
+                DeleteAllCommand, DeleteAllEmptyCommand);
             ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
         }
 

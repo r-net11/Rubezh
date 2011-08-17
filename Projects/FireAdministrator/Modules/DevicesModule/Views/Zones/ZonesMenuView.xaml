@@ -16,5 +16,12 @@
             <Image Source="/DevicesModule;component/Images/Edit.png" Height="32" />
         </Button>
 
+        <Button Command="{Binding DeleteAllCommand}" ToolTip="Удалить все зоны">
+            <Image Source="/DevicesModule;component/Images/DeleteAll.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding DeleteAllEmpty}" ToolTip="Удалить все пустые зоны">
+            <Image Source="/DevicesModule;component/Images/DeleteAllEmpty.png" Height="32" />
+        </Button>
     </ToolBar>
 </UserControl>
