@@ -28,17 +28,19 @@ namespace SoundsModule.ViewModels
             set
             {
                 Sound.SoundName = value;
+                SoundsModule.HasChanged = true;
                 OnPropertyChanged("SoundName");
             }
         }
 
-        public SpeakerType SpeakerType
+        public BeeperType BeeperType
         {
-            get { return Sound.SpeakerType; }
+            get { return Sound.BeeperType; }
             set 
             {
-                Sound.SpeakerType = value;
-                OnPropertyChanged("SpeakerType");
+                Sound.BeeperType = value;
+                SoundsModule.HasChanged = true;
+                OnPropertyChanged("BeeperType");
             }
         }
 
@@ -48,6 +50,7 @@ namespace SoundsModule.ViewModels
             set
             {
                 Sound.IsContinious = value;
+                SoundsModule.HasChanged = true;
                 OnPropertyChanged("IsContinious");
             }
         }
@@ -63,11 +66,11 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public List<SpeakerType> AvailableSpeakers
+        public List<BeeperType> AvailableSpeakers
         {
             get 
             {
-                return new List<SpeakerType>(Enum.GetValues(typeof(SpeakerType)).OfType<SpeakerType>());
+                return new List<BeeperType>(Enum.GetValues(typeof(BeeperType)).OfType<BeeperType>());
             }
         }
 

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure;
+using System.Windows;
 
 namespace SoundsModule.ViewModels
 {
@@ -40,7 +42,7 @@ namespace SoundsModule.ViewModels
             PlaySoundCommand = new RelayCommand(
                 () => OnPlaySound(),
                 (x) => SelectedSound != null &&
-                       (SelectedSound.SoundName != null || SelectedSound.SpeakerType != SpeakerType.None));
+                       (SelectedSound.SoundName != null || SelectedSound.BeeperType != BeeperType.None));
         }
 
         public ObservableCollection<SoundViewModel> Sounds { get; private set; }
@@ -73,7 +75,7 @@ namespace SoundsModule.ViewModels
             if (IsNowPlaying)
             {
                 string soundPath = FiresecClient.FiresecManager.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
-                AlarmPlayerHelper.Play(soundPath, SelectedSound.SpeakerType, SelectedSound.IsContinious);
+                AlarmPlayerHelper.Play(soundPath, SelectedSound.BeeperType, SelectedSound.IsContinious);
                 IsNowPlaying = SelectedSound.IsContinious;
             }
             else

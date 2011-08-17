@@ -97,6 +97,21 @@
                     return "";
             }
         }
+        public static string BeeperTypeToBeeperName(BeeperType beeperType)
+        {
+            switch (beeperType)
+            {
+                case BeeperType.None:
+                    return "<нет>";
+                case BeeperType.Alarm:
+                    return "Тревога";
+                case BeeperType.Attention:
+                    return "Внимание";
+                default:
+                    return "<нет>";
+            }
+        }
+
 
         public static StateType AlarmTypeToStateType(AlarmType alarmType)
         {

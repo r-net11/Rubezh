@@ -63,6 +63,7 @@
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
+    <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="DialogContent.cs" />
     <Compile Include="DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>

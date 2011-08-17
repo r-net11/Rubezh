@@ -61,21 +61,46 @@ namespace FireAdministrator
 
         private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (DevicesModule.DevicesModule.HasChanges == false)
+            if ((DevicesModule.DevicesModule.HasChanges == false)
+                && (SoundsModule.SoundsModule.HasChanged == false))
             {
                 return;
             }
 
-            var result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
-            if (result == MessageBoxResult.Cancel)
+            MessageBoxResult result;
+
+            if (SoundsModule.SoundsModule.HasChanged)
             {
-                e.Cancel = true;
-                return;
+                result = MessageBox.Show("Настройки звуков изменены. Желаете сохранить изменения?",
+                    "Подтверждение", MessageBoxButton.YesNoCancel);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        SoundsModule.SoundsModule.HasChanged = false;
+                        SoundsModule.SoundsModule.Save();
+                        break;
+                    case MessageBoxResult.Cancel:
+                        e.Cancel = true;
+                        return;
+                    default:
+                        break;
+                }
             }
-            if (result == MessageBoxResult.Yes)
+
+            if (DevicesModule.DevicesModule.HasChanges)
             {
-                DevicesModule.DevicesModule.HasChanges = true;
+                result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
+                if (result == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                if (result == MessageBoxResult.Yes)
+                {
+                    DevicesModule.DevicesModule.HasChanges = true;
+                }
             }
+
         }
 
         private void EssentialWindow_Closed(object sender, System.EventArgs e)

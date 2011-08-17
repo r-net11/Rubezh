@@ -15,17 +15,14 @@ namespace FireMonitor
         {
             InitializeComponent();
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
-            _currentStateType = StateType.Norm;
+            CurrentStateType = StateType.No;
             IsSoundOn = true;
             DataContext = this;
+            OnDeviceStateChanged("");
             PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
-        
-        StateType _currentStateType;
-        StateType CurrentStateType
-        {
-            get { return _currentStateType; }
-        }
+
+        public StateType CurrentStateType { get; private set; }
 
         bool _isSoundOn;
         public bool IsSoundOn
@@ -40,13 +37,13 @@ namespace FireMonitor
 
         List<Sound> Sounds
         {
-            get { return new List<Sound>(FiresecClient.FiresecManager.SystemConfiguration.Sounds); }
+            get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
         }
 
         public void OnDeviceStateChanged(string deviceId)
         {
             var deviceStates = FiresecManager.DeviceStates.DeviceStates;
-            var minState = StateType.Unknown;
+            var minState = StateType.No;
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
                 if (deviceState.StateType < minState)
@@ -54,8 +51,11 @@ namespace FireMonitor
                     minState = deviceState.StateType;
                 }
             }
-            _currentStateType = minState;
-            IsSoundOn = true;
+            if (CurrentStateType != minState)
+            {
+                CurrentStateType = minState;
+                IsSoundOn = true;
+            }
             PlayAlarm();
         }
 
@@ -71,7 +71,7 @@ namespace FireMonitor
                 if (sound.StateType == CurrentStateType)
                 {
                     string soundPath = FiresecManager.FileHelper.GetSoundFilePath(sound.SoundName);
-                    AlarmPlayerHelper.Play(soundPath, sound.SpeakerType, sound.IsContinious);
+                    AlarmPlayerHelper.Play(soundPath, sound.BeeperType, sound.IsContinious);
                     return;
                 }
             }

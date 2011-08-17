@@ -4,7 +4,6 @@
              xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons"
              xmlns:Converters="clr-namespace:SoundsModule.Converters" >
     <UserControl.Resources>
-        <Converters:SpeakerTypeToStringConverter x:Key="SpeakerTypeToStringConverter" />
         <Converters:SoundToStringConverter x:Key="SoundToStringConverter" />
         <Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
     </UserControl.Resources>
@@ -42,18 +41,18 @@
                     <DataGridTemplateColumn Header="PC Speaker" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SpeakerType, Converter={StaticResource SpeakerTypeToStringConverter}}" />
+                                <TextBlock Text="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Stretch" Width="Auto"
                                           ItemsSource="{Binding AvailableSpeakers}"
-                                          SelectedItem="{Binding SpeakerType, Converter={StaticResource SpeakerTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
                                           Margin="2">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource SpeakerTypeToStringConverter}}" />
+                                            <TextBlock Text="{Binding ., Converter={StaticResource BeeperTypeToStringConverter}}" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>

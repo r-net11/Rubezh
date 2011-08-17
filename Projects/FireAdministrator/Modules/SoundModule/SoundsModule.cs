@@ -3,6 +3,9 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
 using SoundsModule.ViewModels;
+using SoundsModule.Views;
+using System.ComponentModel;
+using System.Windows;
 
 namespace SoundsModule
 {
@@ -10,6 +13,7 @@ namespace SoundsModule
     {
         public SoundsModule()
         {
+            HasChanged = false;
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
         }
 
@@ -32,6 +36,7 @@ namespace SoundsModule
         }
 
         static SoundsViewModel soundsViewModel;
+        public static bool HasChanged { get; set; }
 
         static void OnShowSounds(string obj)
         {

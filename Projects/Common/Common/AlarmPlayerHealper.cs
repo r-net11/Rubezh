@@ -39,9 +39,9 @@ namespace Common
             }
         }
 
-        static void PlayPCSpeaker(SpeakerType speaker, bool isContinious)
+        static void PlayPCSpeaker(BeeperType speaker, bool isContinious)
         {
-            if (speaker == SpeakerType.None)
+            if (speaker == BeeperType.None)
             {
                 return;
             }
@@ -81,7 +81,7 @@ namespace Common
             _soundPlayer.Stop();
         }
 
-        public static void Play(string filePath, SpeakerType speakertype, bool isContinious)
+        public static void Play(string filePath, BeeperType speakertype, bool isContinious)
         {
             PlaySound(filePath, isContinious);
             PlayPCSpeaker(speakertype, isContinious);

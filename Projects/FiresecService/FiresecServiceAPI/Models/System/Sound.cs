@@ -2,7 +2,7 @@
 
 namespace FiresecAPI.Models
 {
-    public enum SpeakerType
+    public enum BeeperType
     {
         None = 0,
         Alarm = 200,
@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
         public string SoundName { get; set; }
 
         [DataMember]
-        public SpeakerType SpeakerType { get; set; }
+        public BeeperType BeeperType { get; set; }
 
         [DataMember]
         public bool IsContinious { get; set; }

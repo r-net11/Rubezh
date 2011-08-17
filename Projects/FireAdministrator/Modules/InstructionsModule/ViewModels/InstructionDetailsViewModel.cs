@@ -75,6 +75,29 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        int _NoZone;
+        public int NoZone
+        {
+            get { return _NoZone; }
+            set
+            {
+                _NoZone = value;
+                OnPropertyChanged("NoZone");
+            }
+        }
+        public List<int> NoZones
+        {
+            get 
+            {
+                return 
+                    (new List<int>(from zone in FiresecManager.DeviceConfiguration.Zones
+                                   orderby (int.Parse(zone.No))
+                                   select (int.Parse(zone.No))));
+            }
+        }
+
+
+
         void Save()
         {
             Instruction.Name = Name;
