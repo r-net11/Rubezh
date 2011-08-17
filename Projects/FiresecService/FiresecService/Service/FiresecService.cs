@@ -103,6 +103,24 @@ namespace FiresecService
             }
         }
 
+        public PlansConfiguration GetPlansConfiguration()
+        {
+            FiresecManager.PlansConfiguration = new PlansConfiguration();
+            try
+            {
+                DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+                FileStream fileStream = new FileStream("PlansConfiguration.xml", FileMode.Open);
+                FiresecManager.PlansConfiguration = (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
+                fileStream.Close();
+
+                return FiresecManager.PlansConfiguration;
+            }
+            catch
+            {
+                return FiresecManager.PlansConfiguration;
+            }
+        }
+
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             FiresecManager.SystemConfiguration = systemConfiguration;
@@ -112,6 +130,16 @@ namespace FiresecService
             {
                 dataContractSerializer.WriteObject(fileStream, FiresecManager.SystemConfiguration);
             }
+        }
+
+        public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
+        {
+            FiresecManager.PlansConfiguration = plansConfiguration;
+
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+            FileStream fileStream = new FileStream("PlansConfiguration.xml", FileMode.Create);
+            dataContractSerializer.WriteObject(fileStream, FiresecManager.PlansConfiguration);
+            fileStream.Close();
         }
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)

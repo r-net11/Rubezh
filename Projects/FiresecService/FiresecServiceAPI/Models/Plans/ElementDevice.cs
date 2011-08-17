@@ -1,18 +1,24 @@
-﻿using System.Xml.Serialization;
+﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace FiresecAPI.Models
 {
     public class ElementDevice
     {
-        [XmlAttribute]
+        [DataMember]
+        //[XmlAttribute]
         public double Left { get; set; }
-        [XmlAttribute]
+        [DataMember]
+        //[XmlAttribute]
         public double Top { get; set; }
-        [XmlAttribute]
+        [DataMember]
+        //[XmlAttribute]
         public double Width { get; set; }
-        [XmlAttribute]
+        [DataMember]
+        //[XmlAttribute]
         public double Height { get; set; }
-        [XmlAttribute]
+        [DataMember]
+        //[XmlAttribute]
         public string Id { get; set; }
     }
 }

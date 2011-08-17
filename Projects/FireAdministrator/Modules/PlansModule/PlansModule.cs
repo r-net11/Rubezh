@@ -28,14 +28,13 @@ namespace PlansModule
         static void CreateViewModels()
         {
             plansViewModel = new PlansViewModel();
-            
+            plansViewModel.Initialize();
         }
 
         static PlansViewModel plansViewModel;
 
         static void OnShowPlans(string obj)
         {
-            plansViewModel.Initialize();
             ServiceFactory.Layout.Show(plansViewModel);
         }
     }

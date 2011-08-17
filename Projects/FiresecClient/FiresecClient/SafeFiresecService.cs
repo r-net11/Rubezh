@@ -130,6 +130,32 @@ namespace FiresecClient
             }
         }
 
+        public PlansConfiguration GetPlansConfiguration()
+        {
+            try
+            {
+                return _iFiresecService.GetPlansConfiguration();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
+        {
+            try
+            {
+                _iFiresecService.SetPlansConfiguration(plansConfiguration);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+
         public SystemConfiguration GetSystemConfiguration()
         {
             try

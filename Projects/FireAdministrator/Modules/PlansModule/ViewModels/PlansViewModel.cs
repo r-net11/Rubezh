@@ -16,13 +16,16 @@ namespace PlansModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
+//            plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+//            PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
         }
 
         public void Initialize()
         {
-            if (FiresecManager.SystemConfiguration.Plans != null)
+            if (FiresecManager.PlansConfiguration.Plans != null)
             {
-                foreach (Plan plan in FiresecManager.SystemConfiguration.Plans)
+                
+                foreach (Plan plan in FiresecManager.PlansConfiguration.Plans)
                 {
                     PlanViewModel planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);
@@ -31,6 +34,7 @@ namespace PlansModule.ViewModels
                         BuildTree(plan.Children, planViewModel);
                     }
                 }
+                SelectedPlan = Plans[0];
             }
         }
         public void BuildTree(List<Plan> _plans, PlanViewModel parent)
@@ -47,7 +51,7 @@ namespace PlansModule.ViewModels
 
             }
         }
-
+        
         public ObservableCollection<PlanViewModel> _plans;
         public ObservableCollection<PlanViewModel> Plans 
         {
@@ -116,7 +120,7 @@ namespace PlansModule.ViewModels
             bool res = false;
             if (_plans.Remove(SelectedPlan))
             {
-                FiresecManager.SystemConfiguration.Plans.Remove(SelectedPlan.Plan);
+                FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
                 res = true;
             }
             else
@@ -124,7 +128,7 @@ namespace PlansModule.ViewModels
                 foreach(PlanViewModel plan in _plans){
                     if (_plans.Remove(_selectedPlan))
                     {
-                        FiresecManager.SystemConfiguration.Plans.Remove(SelectedPlan.Plan);
+                        FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
                         res = true;
                         break;
                     }
@@ -140,6 +144,13 @@ namespace PlansModule.ViewModels
         void OnRemove()
         {
             RemovePlan(Plans, SelectedPlan);
+            Plan plan = SelectedPlan.Plan.Parent;
+            plan.Children.Remove(SelectedPlan.Plan);
+            while (plan.Parent != null) plan = plan.Parent;
+            int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
+            FiresecManager.PlansConfiguration.Plans[index] = plan;
+            SelectedPlan.Update();
+            //SelectedPlan = null;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -151,24 +162,23 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
-                //int index = FiresecManager.SystemConfiguration.Plans.IndexOf(SelectedPlan.Plan);
-                //FiresecManager.SystemConfiguration.Plans[index].Name = planDetailsViewModel.Plan.Name;
-                int index = 0;
-                foreach (PlanViewModel plan in Plans)
-                {
-                    FiresecManager.SystemConfiguration.Plans[index].Name = plan.Plan.Name;
-                    index++;
-                }
+                SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name; 
+                Plan plan = SelectedPlan.Plan;
+                while (plan.Parent != null) plan = plan.Parent;
+                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
+                FiresecManager.PlansConfiguration.Plans[index] = plan;
                 SelectedPlan.Update();
-                SelectedPlan = null;
+                //SelectedPlan = null;
             }
         }
 
 
         public override void OnShow()
         {
+            //SelectedPlan = SelectedPlan;
             PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
-            ServiceFactory.Layout.ShowMenu(plansContextMenuViewModel);
+            PlansMenuViewModel plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
         }
 
         public override void OnHide()

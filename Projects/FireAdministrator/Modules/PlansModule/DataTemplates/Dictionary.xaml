@@ -7,6 +7,10 @@
         <Views:PlansView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
+        <Views:PlansMenuView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PlanDetailsViewModel}">
         <Views:PlanDetailsView />
     </DataTemplate>

@@ -99,15 +99,16 @@ namespace PlansModule.ViewModels
             {
                 Plan plan = Plan;
                 while (plan.Parent != null) plan = plan.Parent;
-                if (FiresecManager.SystemConfiguration.Plans == null) FiresecManager.SystemConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
-                int index = FiresecManager.SystemConfiguration.Plans.IndexOf(plan);
+
+                if (FiresecManager.PlansConfiguration.Plans == null) FiresecManager.PlansConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
+                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
                 if (index == -1)
                 {
-                    FiresecManager.SystemConfiguration.Plans.Add(plan);
+                    FiresecManager.PlansConfiguration.Plans.Add(plan);
                 }
                 else
                 {
-                    FiresecManager.SystemConfiguration.Plans[index] = plan;
+                    FiresecManager.PlansConfiguration.Plans[index] = plan;
                 }
             }
         }
@@ -116,8 +117,13 @@ namespace PlansModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Save();
-            Close(true);
+            if (Name != null)
+            {
+                Save();
+                Close(true);
+            }
+            else Close(false);
+
         }
 
         public RelayCommand CancelCommand { get; private set; }

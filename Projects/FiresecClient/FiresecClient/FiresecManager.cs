@@ -15,6 +15,7 @@ namespace FiresecClient
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceStates { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
+        public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
         public static FileHelper FileHelper { get; private set; }
 
@@ -30,6 +31,7 @@ namespace FiresecClient
             bool result = _firesecService.Connect(login, password);
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
+            PlansConfiguration = _firesecService.GetPlansConfiguration();
             SecurityConfiguration = _firesecService.GetSecurityConfiguration();
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
             DeviceStates = _firesecService.GetStates();
@@ -123,6 +125,7 @@ namespace FiresecClient
         public static void SetConfiguration()
         {
             _firesecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+            _firesecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 

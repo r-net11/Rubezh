@@ -77,8 +77,8 @@
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
-    <Compile Include="Views\PlanssMenuView.xaml.cs">
-      <DependentUpon>PlanssMenuView.xaml</DependentUpon>
+    <Compile Include="Views\PlansMenuView.xaml.cs">
+      <DependentUpon>PlansMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlanCanvasView.xaml.cs">
       <DependentUpon>PlanCanvasView.xaml</DependentUpon>
@@ -126,7 +126,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlanssMenuView.xaml">
+    <Page Include="Views\PlansMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

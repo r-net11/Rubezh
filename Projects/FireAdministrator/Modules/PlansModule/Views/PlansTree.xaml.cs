@@ -24,5 +24,15 @@ namespace PlansModule.Views
                 (DataContext as PlansViewModel).SelectedPlan =    treeView.SelectedItem as PlanViewModel;
             }
         }
+
+        private void TreeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            var treeView = sender as TreeView;
+            if (treeView.SelectedItem is PlanViewModel)
+            {
+                (DataContext as PlansViewModel).SelectedPlan = treeView.SelectedItem as PlanViewModel;
+            }
+
+        }
     }
 }

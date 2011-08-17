@@ -265,8 +265,8 @@ namespace PlansModule.ViewModels
         ImageBrush CreateBrush(string source)
         {
             var imageBrush = new ImageBrush();
-            //Uri uri = new Uri(source);
-            //imageBrush.ImageSource = new BitmapImage(uri);
+            Uri uri = new Uri(source);
+            imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
         }
     }

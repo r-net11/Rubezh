@@ -37,6 +37,12 @@ namespace FiresecAPI
         void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
         [OperationContract]
+        PlansConfiguration GetPlansConfiguration();
+
+        [OperationContract]
+        void SetPlansConfiguration(PlansConfiguration plansConfiguration);
+
+        [OperationContract]
         SecurityConfiguration GetSecurityConfiguration();
 
         [OperationContract]

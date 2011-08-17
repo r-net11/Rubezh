@@ -18,6 +18,19 @@ namespace PlansModule
         {
             try
             {
+                /*
+                XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
+                StreamReader reader = new StreamReader(PathHelper.Plans);
+                Plan plan = (Plan)deserializer.Deserialize(reader);
+                reader.Close();
+
+                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
+                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
+                dcs.WriteObject(xdw, plan);
+                xdw.Close();
+
+                */
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
                 FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
                 XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());

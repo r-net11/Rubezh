@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 
-namespace InstructionsModule.ViewModels
+namespace PlansModule.ViewModels
 {
-    public class InstructionsMenuViewModel
+    public class PlansMenuViewModel
     {
-        public InstructionsMenuViewModel(RelayCommand addCommand, RelayCommand editCommand, RelayCommand removeCommand)
+        public PlansMenuViewModel(RelayCommand addCommand, RelayCommand editCommand, RelayCommand removeCommand)
         {
             AddCommand = addCommand;
             RemoveCommand = removeCommand;
