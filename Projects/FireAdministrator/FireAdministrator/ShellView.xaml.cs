@@ -2,15 +2,36 @@
 using System.Windows;
 using Infrastructure.Common;
 using FiresecClient;
+using CustomWindow;
+using System.Windows.Controls;
 
 namespace FireAdministrator
 {
-    public partial class ShellView : Window, INotifyPropertyChanged
+    public partial class ShellView : EssentialWindow, INotifyPropertyChanged
     {
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        protected override Decorator GetWindowButtonsPlaceholder()
+        {
+            return WindowButtonsPlaceholder;
+        }
+
+        private void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            if (this.Width + e.HorizontalChange > 10)
+                this.Width += e.HorizontalChange;
+            if (this.Height + e.VerticalChange > 10)
+                this.Height += e.VerticalChange;
         }
 
         public IViewPart MainContent
@@ -38,7 +59,7 @@ namespace FireAdministrator
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
             if (DevicesModule.DevicesModule.HasChanges == false)
             {
@@ -57,7 +78,7 @@ namespace FireAdministrator
             }
         }
 
-        private void Window_Closed(object sender, System.EventArgs e)
+        private void EssentialWindow_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
         }
