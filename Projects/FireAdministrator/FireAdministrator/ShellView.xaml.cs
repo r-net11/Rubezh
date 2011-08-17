@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using FiresecClient;
 using CustomWindow;
 using System.Windows.Controls;
+using Common;
 
 namespace FireAdministrator
 {
@@ -61,6 +62,8 @@ namespace FireAdministrator
 
         private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
+            AlarmPlayerHelper.Dispose();
+
             if ((DevicesModule.DevicesModule.HasChanges == false)
                 && (SoundsModule.SoundsModule.HasChanged == false))
             {
@@ -100,7 +103,6 @@ namespace FireAdministrator
                     DevicesModule.DevicesModule.HasChanges = true;
                 }
             }
-
         }
 
         private void EssentialWindow_Closed(object sender, System.EventArgs e)

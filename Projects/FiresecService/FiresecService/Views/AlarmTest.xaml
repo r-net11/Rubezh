@@ -1,0 +1,28 @@
+﻿<Window x:Class="FiresecService.Views.AlarmTest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <RadioButton Checked="rbDevice_Checked"  Name="rbDevice" GroupName="Device" IsChecked="True"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" >
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType0" GroupName="StateType" Content="Fire" IsChecked="True" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType1" GroupName="StateType" Content="Attention" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType2" GroupName="StateType" Content="Failure" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType3" GroupName="StateType" Content="Service" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType4" GroupName="StateType" Content="Off" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType5" GroupName="StateType" Content="Unknown" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType6" GroupName="StateType" Content="Info" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType7" GroupName="StateType" Content="Norm" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType8" GroupName="StateType" Content="No" FontSize="14"/>
+        </StackPanel>
+    </Grid>
+</Window>

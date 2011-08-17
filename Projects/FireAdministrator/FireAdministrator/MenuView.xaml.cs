@@ -22,6 +22,7 @@ namespace FireAdministrator
             FiltersModule.FilterModule.Save();
             SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
+            SoundsModule.SoundsModule.HasChanged = false;
             DevicesModule.DevicesModule.HasChanges = false;
         }
 

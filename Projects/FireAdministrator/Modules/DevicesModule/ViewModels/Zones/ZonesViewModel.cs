@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,8 +19,8 @@ namespace DevicesModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-            DeleteAllCommand = new RelayCommand(OnDeleteAll);
-            DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty);
+            DeleteAllCommand = new RelayCommand(OnDeleteAll, CanDeleteAll);
+            DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
             ZoneDevices = new ZoneDevicesViewModel();
         }
 
@@ -65,14 +66,18 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            Zone newZone = new Zone();
+            var newZone = new Zone();
             newZone.Name = "Новая зона";
-            var maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
+            var maxNo = 0;
+            if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
+            {
+                maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
+            }
+
             newZone.No = (maxNo + 1).ToString();
 
-            ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(newZone);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-            if (result)
+            var zoneDetailsViewModel = new ZoneDetailsViewModel(newZone);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.Zones.Add(newZone);
                 ZoneViewModel zoneViewModel = new ZoneViewModel(newZone);
@@ -86,6 +91,11 @@ namespace DevicesModule.ViewModels
             return SelectedZone != null;
         }
 
+        bool CanDeleteAll(object obj)
+        {
+            return Zones.Count != 0;
+        }
+
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
@@ -96,6 +106,10 @@ namespace DevicesModule.ViewModels
                 {
                     FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
                     Zones.Remove(SelectedZone);
+                    ZoneDevices.DropDevicesZoneNo();
+                    ZoneDevices.Clear();
+                    if (Zones.Count > 0)
+                        SelectedZone = Zones[0];
                     DevicesModule.HasChanges = true;
                 }
             }
@@ -104,25 +118,46 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllCommand { get; private set; }
         void OnDeleteAll()
         {
-            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
-            if (dialogResult == MessageBoxResult.Yes)
+            if (CanDeleteAll(null))
             {
-                FiresecManager.DeviceConfiguration.Zones.Clear();
-                Zones.Clear();
-                DevicesModule.HasChanges = true;
+                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    FiresecManager.DeviceConfiguration.Zones.Clear();
+                    Zones.Clear();
+                    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+                    {
+                        device.ZoneNo = null;
+                    }
+                    ZoneDevices.Clear();
+                    DevicesModule.HasChanges = true;
+                }
             }
         }
 
         public RelayCommand DeleteAllEmptyCommand { get; private set; }
         void OnDeleteAllEmpty()
         {
-            if (CanEditDelete(null))
+            if (CanDeleteAll(null))
             {
                 var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", "Подтверждение", MessageBoxButton.YesNo);
                 if (dialogResult == MessageBoxResult.Yes)
                 {
-                    //FiresecManager.DeviceConfiguration.Zones.RemoveAll();
-                    Zones.Remove(SelectedZone);
+                    var devices = FiresecManager.DeviceConfiguration.Devices;
+                    var emptyZones = new List<ZoneViewModel>();
+                    foreach (var zone in Zones)
+                    {
+                        var findDevice = devices.FirstOrDefault(x => ((x.Driver.IsZoneDevice) && (x.ZoneNo == zone.No)));
+                        if (findDevice == null)
+                        {
+                            emptyZones.Add(zone);
+                        }
+                    }
+                    foreach (var emptyZone in emptyZones)
+                    {
+                        FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
+                        Zones.Remove(emptyZone);
+                    }
                     DevicesModule.HasChanges = true;
                 }
             }

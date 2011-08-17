@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Windows.Controls;
+using Common;
 
 namespace FireMonitor
 {
@@ -65,6 +66,8 @@ namespace FireMonitor
 
         private void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
+            AlarmPlayerHelper.Dispose();
+
             if (FiresecManager.CurrentPermissions.Any(
                 x => x.PermissionType == PermissionType.Oper_Logout) == false)
             {

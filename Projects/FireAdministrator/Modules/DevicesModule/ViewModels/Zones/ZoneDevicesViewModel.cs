@@ -98,6 +98,22 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public void Clear()
+        {
+            Devices.Clear();
+            AvailableDevices.Clear();
+            SelectedDevice = null;
+            SelectedAvailableDevice = null;
+        }
+
+        public void DropDevicesZoneNo()
+        {
+            foreach (var device in Devices)
+            {
+                device.Device.ZoneNo = null;
+            }
+        }
+
         ObservableCollection<DeviceViewModel> _devices;
         public ObservableCollection<DeviceViewModel> Devices
         {
