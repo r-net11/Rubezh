@@ -11,9 +11,7 @@ namespace LibraryModule.ViewModels
         public LibraryViewModel()
         {
             AddDeviceCommand = new RelayCommand(OnAddDevice);
-            RemoveDeviceCommand = new RelayCommand(
-                () => OnRemoveDevice(),
-                (x) => SelectedDeviceViewModel != null);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             SaveCommand = new RelayCommand(OnSave);
         }
 
@@ -65,6 +63,11 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        bool CanRemoveDevice(object obj)
+        {
+            return SelectedDeviceViewModel != null;
+        }
+
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
@@ -80,7 +83,7 @@ namespace LibraryModule.ViewModels
 
         public override void OnShow()
         {
-            LibraryMenuViewModel libraryMenuViewModel = new LibraryMenuViewModel(SaveCommand);
+            var libraryMenuViewModel = new LibraryMenuViewModel(SaveCommand);
             ServiceFactory.Layout.ShowMenu(libraryMenuViewModel);
         }
 

@@ -24,7 +24,7 @@ namespace FiltersModule.Views
 
         void DeleteCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = (DataContext as FiltersViewModel).RemoveCommand.CanExecute(null);
         }
     }
 }

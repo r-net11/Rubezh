@@ -16,8 +16,7 @@ namespace LibraryModule.ViewModels
                     !driver.IsIgnore &&
                     !LibraryManager.Devices.Any(x => x.Id == driver.Id))
                 {
-                    Items.Add(
-                        new DeviceViewModel(DeviceViewModel.GetDefaultDriverWith(driver.Id)));
+                    Items.Add(new DeviceViewModel(DeviceViewModel.GetDefaultDriverWith(driver.Id)));
                 }
             }
         }

@@ -103,10 +103,10 @@ namespace PlansModule.ViewModels
             if (id == DeviceId)
             {
                 _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
-                _elementDeviceView._deviceControl.AdditionalStates = new List<StateType>(
+                _elementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
                     from state in _deviceState.States
                     where state.IsActive
-                    select state.DriverState.StateType);
+                    select state.DriverState.Code);
 
                 UpdateTooltip();
             }

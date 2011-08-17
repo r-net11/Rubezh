@@ -9,7 +9,7 @@ namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public const StateType DefaultStateType = StateType.Unknown;
+        public const StateType DefaultStateType = StateType.No;
 
         public StateViewModel(
             DeviceLibrary.Models.State state, FiresecAPI.Models.Driver parentDriver)
@@ -21,10 +21,8 @@ namespace LibraryModule.ViewModels
             }
             ParentDriver = parentDriver;
 
-            AddFrameCommand = new RelayCommand(
-                () => OnAddFrame(),
-                (x) => SelectedFrameViewModel != null && FrameViewModels.Count > 1);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrame);
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
 
             Initialize();
         }
@@ -133,6 +131,11 @@ namespace LibraryModule.ViewModels
                 State.Frames.Remove(SelectedFrameViewModel.Frame);
                 FrameViewModels.Remove(SelectedFrameViewModel);
             }
+        }
+
+        bool CanRemoveFrame(object obj)
+        {
+            return SelectedFrameViewModel != null && FrameViewModels.Count > 1;
         }
     }
 }

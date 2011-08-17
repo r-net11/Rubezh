@@ -22,12 +22,9 @@ namespace LibraryModule.ViewModels
                 SetDefaultStateTo(Device);
             }
 
-            RemoveStateCommand = new RelayCommand(
-                () => OnRemoveState(),
-                (x) => SelectedStateViewModel != null &&
-                     SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType);
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
+            RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 
             Initialize();
         }
@@ -68,31 +65,41 @@ namespace LibraryModule.ViewModels
             {
                 _selectedStateViewModel = value;
                 OnPropertyChanged("SelectedStateViewModel");
-                OnPropertyChanged("CanvasesPresenter");
+                OnPropertyChanged("DeviceControl");
             }
         }
 
-        public CanvasesPresenter CanvasesPresenter
+        public DeviceControls.DeviceControl DeviceControl
         {
             get
             {
                 if (SelectedStateViewModel == null) return null;
 
-                var canvasesPresenter = new CanvasesPresenter(SelectedStateViewModel.State);
-                if (!SelectedStateViewModel.IsAdditional)
+                var deviceControl = new DeviceControls.DeviceControl();
+                deviceControl.DriverId = Device.Id;
+                var additionalStateCodes = new List<string>();
+
+                if (SelectedStateViewModel.IsAdditional)
                 {
-                    foreach (var stateViewModel in StateViewModels)
-                    {
-                        if (stateViewModel.IsAdditional &&
-                            stateViewModel.IsChecked &&
-                            stateViewModel.State.StateType == SelectedStateViewModel.State.StateType)
-                        {
-                            canvasesPresenter.AddCanvacesFrom(stateViewModel.State);
-                        }
-                    }
+                    additionalStateCodes.Add(SelectedStateViewModel.State.Code);
+                    deviceControl.AdditionalStateCodes = additionalStateCodes;
+
+                    return deviceControl;
                 }
 
-                return canvasesPresenter;
+                deviceControl.StateType = SelectedStateViewModel.State.StateType;
+                foreach (var stateViewModel in StateViewModels)
+                {
+                    if (stateViewModel.IsAdditional &&
+                        stateViewModel.IsChecked &&
+                        stateViewModel.State.StateType == SelectedStateViewModel.State.StateType)
+                    {
+                        additionalStateCodes.Add(stateViewModel.State.Code);
+                    }
+                }
+                deviceControl.AdditionalStateCodes = additionalStateCodes;
+
+                return deviceControl;
             }
         }
 
@@ -146,6 +153,12 @@ namespace LibraryModule.ViewModels
                 Device.States.Remove(SelectedStateViewModel.State);
                 StateViewModels.Remove(SelectedStateViewModel);
             }
+        }
+
+        bool CanRemoveState(object obj)
+        {
+            return SelectedStateViewModel != null &&
+                   SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType;
         }
     }
 }

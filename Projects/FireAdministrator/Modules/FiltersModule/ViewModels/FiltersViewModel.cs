@@ -11,8 +11,8 @@ namespace FiltersModule.ViewModels
         public FiltersViewModel()
         {
             CreateCommand = new RelayCommand(OnCreate);
-            EditCommand = new RelayCommand(() => OnEdit(), x => SelectedFilter != null);
-            RemoveCommand = new RelayCommand(() => OnRemove(), x => SelectedFilter != null);
+            EditCommand = new RelayCommand(OnEdit, CanEdit);
+            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
         }
 
         public void Initialize()
@@ -28,6 +28,7 @@ namespace FiltersModule.ViewModels
             }
         }
 
+        public bool HasChanges { get; set; }
         public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }
         public FilterViewModel SelectedFilter { get; set; }
 
@@ -44,6 +45,7 @@ namespace FiltersModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
                 FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
+                HasChanges = true;
             }
         }
 
@@ -62,13 +64,25 @@ namespace FiltersModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
                 SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
+                HasChanges = true;
             }
+        }
+
+        bool CanEdit(object obj)
+        {
+            return SelectedFilter != null;
         }
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
             FilterViewModels.Remove(SelectedFilter);
+            HasChanges = true;
+        }
+
+        bool CanRemove(object obj)
+        {
+            return SelectedFilter != null;
         }
 
         public void Save()

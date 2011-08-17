@@ -30,27 +30,27 @@ namespace Firesec
 
         public static string GetCoreConfig()
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig));
+            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig)) as string;
         }
 
         public static string GetCoreState()
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
+            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState)) as string;
         }
 
         public static string GetMetaData()
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetaData));
+            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetaData)) as string;
         }
 
         public static string GetCoreDeviceParams()
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreDeviceParams));
+            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreDeviceParams)) as string;
         }
 
         public static string ReadEvents(int fromId, int limit)
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegateIntInt(NativeFiresecClient.ReadEvents), fromId, limit);
+            return control.Dispatcher.Invoke(new StringDelegateIntInt(NativeFiresecClient.ReadEvents), fromId, limit) as string;
         }
 
         public static void SetNewConfig(string coreConfig)
@@ -58,9 +58,9 @@ namespace Firesec
             control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.SetNewConfig), coreConfig);
         }
 
-        public static void DeviceWriteConfig(string coreConfig, string DevicePath)
+        public static void DeviceWriteConfig(string coreConfig, string devicePath)
         {
-            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceWriteConfig), coreConfig, DevicePath);
+            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceWriteConfig), coreConfig, devicePath);
         }
 
         public static void ResetStates(string states)

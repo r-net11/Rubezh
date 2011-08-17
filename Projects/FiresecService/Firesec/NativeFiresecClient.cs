@@ -72,9 +72,9 @@ namespace Firesec
             Connectoin.SetNewConfig(coreConfig);
         }
 
-        public static void DeviceWriteConfig(string coreConfig, string DevicePath)
+        public static void DeviceWriteConfig(string coreConfig, string devicePath)
         {
-            Connectoin.DeviceWriteConfig(coreConfig, DevicePath);
+            Connectoin.DeviceWriteConfig(coreConfig, devicePath);
         }
 
         public static void ResetStates(string states)
@@ -168,9 +168,8 @@ namespace Firesec
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ;
             }
 
             return stringBuilder.ToString();

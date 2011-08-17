@@ -81,9 +81,8 @@
     <Compile Include="ViewModels\AdditionalStateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
-    <Compile Include="Model\CanvacesPresenter.cs" />
-    <Compile Include="Views\CanvacesView.xaml.cs">
-      <DependentUpon>CanvacesView.xaml</DependentUpon>
+    <Compile Include="Views\DeviceControlView.xaml.cs">
+      <DependentUpon>DeviceControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FramesView.xaml.cs">
       <DependentUpon>FramesView.xaml</DependentUpon>
@@ -152,7 +151,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CanvacesView.xaml">
+    <Page Include="Views\DeviceControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -29,7 +29,7 @@
             <Views:FramesView Grid.Row="1" Grid.Column="0"
                 DataContext="{Binding SelectedStateViewModel}" />
 
-            <Views:CanvacesView Grid.Row="1" Grid.Column="1" />
+            <Views:DeviceControlView Grid.Row="1" Grid.Column="1" />
         </Grid>
     </Grid>
 </UserControl>

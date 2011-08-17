@@ -13,7 +13,7 @@ namespace Infrastructure.Common
             return urlString;
         }
 
-        internal static Uri ComposeResourceUri(Assembly callingAssembly, string resourcePath)
+        public static Uri ComposeResourceUri(Assembly callingAssembly, string resourcePath)
         {
             string urlString = string.Format("{0}{1}", InitialiPath(resourcePath, callingAssembly.FullName), resourcePath);
 

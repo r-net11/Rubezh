@@ -2,9 +2,9 @@
 
 namespace LibraryModule.Views
 {
-    public partial class CanvacesView : UserControl
+    public partial class DeviceControlView : UserControl
     {
-        public CanvacesView()
+        public DeviceControlView()
         {
             InitializeComponent();
         }
