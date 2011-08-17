@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
@@ -8,17 +13,19 @@ namespace PlansModule
 {
     public static class PlanLoader
     {
+        //DataContractSerializer dcs
         public static Plan Load()
         {
             try
             {
-                XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                StreamReader reader = new StreamReader(PathHelper.Plans);
-                Plan plan = (Plan) deserializer.Deserialize(reader);
+                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
+                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                Plan plan = (Plan)dcs.ReadObject(reader);
                 reader.Close();
                 return plan;
             }
-            catch
+            catch 
             {
                 return null;
             }
@@ -57,11 +64,28 @@ namespace PlansModule
             plan.Children.Add(new Plan());
             plan.Children[0].Name = "subPlan1";
             plan.Children[0].Caption = "Plan 2";
+/*
+                 XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
+                StreamReader reader = new StreamReader(PathHelper.Plans);
+                Plan plan = (Plan)deserializer.Deserialize(reader);
+                reader.Close();
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Plan));
-            StreamWriter writer = new StreamWriter("D:/Plans.xml");
-            serializer.Serialize(writer, plan);
-            writer.Close();
+                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
+                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
+                dcs.WriteObject(xdw, plan);
+                xdw.Close();
+                 
+                
+                
+                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
+                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                Plan plan = (Plan)dcs.ReadObject(reader);
+                reader.Close();
+
+ * */
+
         }
     }
 }
