@@ -14,8 +14,6 @@ namespace PlansModule.ViewModels
             Title = "Новый план";
             Plan = new Plan();
             Parent = null;
-            //Plan.Children = null;
-            //Plan.Children = new System.Collections.Generic.List<FiresecAPI.Models.Plan>();
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -24,9 +22,9 @@ namespace PlansModule.ViewModels
         {
             Title = "Новый план";
             Plan = new Plan();
-            Parent = parent;
             if (parent.Children == null) parent.Children = new List<FiresecAPI.Models.Plan>();
             parent.Children.Add(Plan);
+            Plan.Parent = parent;
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -99,7 +97,18 @@ namespace PlansModule.ViewModels
             Plan.Width = Width;
             if (_isNew)
             {
-                FiresecManager.SystemConfiguration.Plans.Add(Plan);
+                Plan plan = Plan;
+                while (plan.Parent != null) plan = plan.Parent;
+                if (FiresecManager.SystemConfiguration.Plans == null) FiresecManager.SystemConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
+                int index = FiresecManager.SystemConfiguration.Plans.IndexOf(plan);
+                if (index == -1)
+                {
+                    FiresecManager.SystemConfiguration.Plans.Add(plan);
+                }
+                else
+                {
+                    FiresecManager.SystemConfiguration.Plans[index] = plan;
+                }
             }
         }
 

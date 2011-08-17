@@ -8,6 +8,7 @@ namespace FiresecAPI.Models
     public class Plan
     {
         public Plan Parent { get; set; }
+        [DataMember]
         public List<Plan> Children { get; set; }
 
         [DataMember]
@@ -24,9 +25,11 @@ namespace FiresecAPI.Models
         public double Width { get; set; }
         [DataMember]
         public double Height { get; set; }
-
+        [DataMember]
         public List<ElementSubPlan> ElementSubPlans { get; set; }
+        [DataMember]
         public List<ElementZone> ElementZones { get; set; }
+        [DataMember]
         public List<ElementDevice> ElementDevices { get; set; }
     }
 }

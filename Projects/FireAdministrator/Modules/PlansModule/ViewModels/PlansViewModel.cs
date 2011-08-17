@@ -18,6 +18,36 @@ namespace PlansModule.ViewModels
             Plans = new ObservableCollection<PlanViewModel>();
         }
 
+        public void Initialize()
+        {
+            if (FiresecManager.SystemConfiguration.Plans != null)
+            {
+                foreach (Plan plan in FiresecManager.SystemConfiguration.Plans)
+                {
+                    PlanViewModel planViewModel = new PlanViewModel(plan);
+                    Plans.Add(planViewModel);
+                    if (plan.Children != null)
+                    {
+                        BuildTree(plan.Children, planViewModel);
+                    }
+                }
+            }
+        }
+        public void BuildTree(List<Plan> _plans, PlanViewModel parent)
+        {
+            foreach (Plan plan in _plans)
+            {
+                PlanViewModel planViewModel = new PlanViewModel(plan);
+                planViewModel.AddChild(parent, planViewModel);
+                plan.Parent = parent.Plan;
+                if (plan.Children != null)
+                {
+                    BuildTree(plan.Children, planViewModel);
+                }
+
+            }
+        }
+
         public ObservableCollection<PlanViewModel> _plans;
         public ObservableCollection<PlanViewModel> Plans 
         {
@@ -121,8 +151,14 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
-                int index = FiresecManager.SystemConfiguration.Plans.IndexOf(SelectedPlan.Plan);
-                FiresecManager.SystemConfiguration.Plans[index].Name = planDetailsViewModel.Plan.Name;
+                //int index = FiresecManager.SystemConfiguration.Plans.IndexOf(SelectedPlan.Plan);
+                //FiresecManager.SystemConfiguration.Plans[index].Name = planDetailsViewModel.Plan.Name;
+                int index = 0;
+                foreach (PlanViewModel plan in Plans)
+                {
+                    FiresecManager.SystemConfiguration.Plans[index].Name = plan.Plan.Name;
+                    index++;
+                }
                 SelectedPlan.Update();
                 SelectedPlan = null;
             }
