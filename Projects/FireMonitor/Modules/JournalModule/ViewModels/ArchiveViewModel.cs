@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -25,11 +23,11 @@ namespace JournalModule.ViewModels
 
         void Read(Object stateInfo)
         {
-            List<JournalRecord> journalRecords = FiresecManager.ReadJournal(0, 300);
+            var journalRecords = FiresecManager.ReadJournal(0, 300);
             foreach (var journalRecord in journalRecords)
             {
-                Dispatcher.Invoke(new Action(
-                    () => JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
+                Dispatcher.Invoke(new Action(() =>
+                    JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
             }
             //Parallel.ForEach(journalRecords, journalRecord =>
             //{
@@ -79,21 +77,21 @@ namespace JournalModule.ViewModels
 
         public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
 
-        JournalRecordViewModel _selectedItem;
-        public JournalRecordViewModel SelectedItem
+        JournalRecordViewModel _selectedRecord;
+        public JournalRecordViewModel SelectedRecord
         {
-            get { return _selectedItem; }
+            get { return _selectedRecord; }
             set
             {
-                _selectedItem = value;
-                OnPropertyChanged("SelectedItem");
+                _selectedRecord = value;
+                OnPropertyChanged("SelectedRecord");
             }
         }
 
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            ArchiveFilterViewModel filterViewModel = new ArchiveFilterViewModel();
+            var filterViewModel = new ArchiveFilterViewModel();
             filterViewModel.Initialize(JournalRecords);
             ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
         }

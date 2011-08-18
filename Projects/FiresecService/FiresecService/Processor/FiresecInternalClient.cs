@@ -57,9 +57,9 @@ namespace FiresecService
         {
             var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfig.config>(coreConfig);
 
-            using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
             {
-                StreamWriter streamWriter = new StreamWriter(fileStream);
+                var streamWriter = new StreamWriter(fileStream);
                 streamWriter.Write(stringConfig);
             }
         }
@@ -67,11 +67,10 @@ namespace FiresecService
         public static Firesec.CoreConfig.config LoadConfigFromFile(string fileName)
         {
             Firesec.CoreConfig.config coreConfig = null;
-            using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
+            using (var fileStream = new FileStream(fileName, FileMode.Open))
             {
-                StreamReader streamReader = new StreamReader(fileStream);
-                var stringConfig = streamReader.ReadToEnd();
-                coreConfig = SerializerHelper.Deserialize<Firesec.CoreConfig.config>(stringConfig);
+                var streamReader = new StreamReader(fileStream);
+                coreConfig = SerializerHelper.Deserialize<Firesec.CoreConfig.config>(streamReader.ReadToEnd());
             }
 
             return coreConfig;

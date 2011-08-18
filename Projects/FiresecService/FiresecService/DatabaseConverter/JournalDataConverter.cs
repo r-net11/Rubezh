@@ -42,7 +42,6 @@ namespace FiresecService
 
         public static void Select()
         {
-            //CodeAnalizer ругался. Говорит ресурсы нужно освободить
             using (var dataContext = new FiresecDbConverterDataContext())
             {
                 List<Journal> journals = (from journal in dataContext.Journal

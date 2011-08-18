@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using Infrastructure.Common;
-using FiresecClient;
-using CustomWindow;
 using System.Windows.Controls;
 using Common;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace FireAdministrator
 {
@@ -60,52 +59,67 @@ namespace FireAdministrator
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        private void EssentialWindow_Closing(object sender, CancelEventArgs e)
+        void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
             AlarmPlayerHelper.Dispose();
 
-            if ((DevicesModule.DevicesModule.HasChanges == false)
-                && (SoundsModule.SoundsModule.HasChanged == false))
+            if (DevicesModule.DevicesModule.HasChanges || SoundsModule.SoundsModule.HasChanged ||
+                FiltersModule.FilterModule.HasChanged)
             {
-                return;
-            }
-
-            MessageBoxResult result;
-
-            if (SoundsModule.SoundsModule.HasChanged)
-            {
-                result = MessageBox.Show("Настройки звуков изменены. Желаете сохранить изменения?",
-                    "Подтверждение", MessageBoxButton.YesNoCancel);
-                switch (result)
+                MessageBoxResult result;
+                if (DevicesModule.DevicesModule.HasChanges)
                 {
-                    case MessageBoxResult.Yes:
-                        SoundsModule.SoundsModule.HasChanged = false;
-                        SoundsModule.SoundsModule.Save();
-                        break;
-                    case MessageBoxResult.Cancel:
+                    result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
+                    if (result == MessageBoxResult.Cancel)
+                    {
                         e.Cancel = true;
                         return;
-                    default:
-                        break;
+                    }
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        DevicesModule.DevicesModule.HasChanges = true;
+                    }
                 }
-            }
 
-            if (DevicesModule.DevicesModule.HasChanges)
-            {
-                result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
-                if (result == MessageBoxResult.Cancel)
+                if (SoundsModule.SoundsModule.HasChanged)
                 {
-                    e.Cancel = true;
-                    return;
+                    result = MessageBox.Show("Настройки звуков изменены. Желаете сохранить изменения?",
+                        "Подтверждение", MessageBoxButton.YesNoCancel);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            SoundsModule.SoundsModule.HasChanged = false;
+                            SoundsModule.SoundsModule.Save();
+                            break;
+
+                        case MessageBoxResult.Cancel:
+                            e.Cancel = true;
+                            return;
+                    }
                 }
-                if (result == MessageBoxResult.Yes)
+
+                if (FiltersModule.FilterModule.HasChanged)
                 {
-                    DevicesModule.DevicesModule.HasChanges = true;
+                    result = MessageBox.Show("Фильтры журнала изменены. Желаете сохранить изменения?",
+                        "Подтверждение", MessageBoxButton.YesNoCancel);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            FiltersModule.FilterModule.HasChanged = false;
+                            FiltersModule.FilterModule.Save();
+                            break;
+
+                        case MessageBoxResult.Cancel:
+                            e.Cancel = true;
+                            return;
+                    }
                 }
             }
+            MessageBox.Show(@"I promise I will not ship slow code. Speed is a feature I care about. Every day I will pay attention to the performance of my code. I will regularly and
+            methodically measure its speed and size. I will learn, build, or buy the tools I need to do this. It's my responsibility.");
         }
 
-        private void EssentialWindow_Closed(object sender, System.EventArgs e)
+        void EssentialWindow_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
         }
