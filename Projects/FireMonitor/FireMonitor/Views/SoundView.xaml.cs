@@ -20,6 +20,7 @@ namespace FireMonitor
             DataContext = this;
             //OnDeviceStateChanged("");
             PlaySoundCommand = new RelayCommand(OnPlaySound);
+            AlarmPlayUpdate += new Action(OnAlarmPlayUpdate);
         }
 
         public StateType CurrentStateType { get; private set; }
@@ -70,7 +71,7 @@ namespace FireMonitor
             {
                 if (sound.StateType == CurrentStateType)
                 {
-                    string soundPath = FiresecManager.FileHelper.GetSoundFilePath(sound.SoundName);
+                    string soundPath = FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName);
                     AlarmPlayerHelper.Play(soundPath, sound.BeeperType, sound.IsContinious);
                     return;
                 }
@@ -102,6 +103,32 @@ namespace FireMonitor
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void CheckDeviceStateType()
+        {
+            var deviceStates = FiresecManager.DeviceStates.DeviceStates;
+            var minState = StateType.No;
+            foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+            {
+                if (deviceState.StateType < minState)
+                {
+                    minState = deviceState.StateType;
+                }
+            }
+            if (CurrentStateType != minState)
+            {
+                CurrentStateType = minState;
+                IsSoundOn = true;
+            }
+            PlayAlarm();
+        }
+
+        public static event Action AlarmPlayUpdate;
+        static void OnAlarmPlayUpdate()
+        {
+            if (AlarmPlayUpdate != null)
+                AlarmPlayUpdate();
         }
     }
 }

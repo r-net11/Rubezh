@@ -44,7 +44,7 @@
                             <Views:TimePresenterView Grid.Row="1" Margin="10 15 0 0"  />
 
                             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Views:SoundView />
+                                <Views:SoundView x:Name="soundView"/>
                                 <Views:ConnectionIndicatorView />
                                 <Views:UserView />
                             </StackPanel>

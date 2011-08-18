@@ -292,6 +292,19 @@ namespace FiresecClient
             }
         }
 
+        public List<string> GetFileNamesList(string directory)
+        {
+            try
+            {
+                return _iFiresecService.GetFileNamesList(directory);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
         public Dictionary<string, string> GetDirectoryHash(string directory)
         {
             try

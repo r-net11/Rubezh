@@ -4,23 +4,34 @@ using Common;
 
 namespace FiresecClient
 {
-    public class FileHelper
+    public static class FileHelper
     {
-        public FileHelper()
+        static FileHelper()
         {
-            _directoriesList = new List<string>() { "Sounds" };
+            _directoriesList = new List<string>() { "Sounds", "Icons" };
         }
 
-        List<string> _directoriesList;
+        static List<string> _directoriesList;
 
-        string CurrentDirectory(string directory)
+        static string CurrentDirectory(string directory)
         {
             return Directory.GetCurrentDirectory() + @"\" + directory;
         }
 
-        void SynchronizeDirectory(string directory)
+        static void SynchronizeDirectory(string directory)
         {
             var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
+
+            var remoteFileNamesList = FiresecManager.GetFileNamesList(directory);
+            var localFileNamesList = GetFileNamesList(directory);
+            foreach (var localFileName in localFileNamesList)
+            {
+                if (remoteFileNamesList.Contains(localFileName) == false)
+                {
+                    File.Delete(filesDirectory.Name + @"\" + localFileName);
+                }
+            }
+            
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
             var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
 
@@ -28,22 +39,19 @@ namespace FiresecClient
             {
                 if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
                 {
+                    if (File.Exists(filesDirectory.FullName + @"\" + remoteFileHash.Value))
+                    {
+                        File.Delete(filesDirectory.FullName + @"\" + remoteFileHash.Value);
+                    }
                     DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, filesDirectory.FullName + @"\" + remoteFileHash.Value);
                 }
             }
 
-            foreach (var localFileHash in localDirectoryHash)
-            {
-                if (remoteDirectoryHash.ContainsKey(localFileHash.Key) == false)
-                {
-                    File.Delete(filesDirectory.FullName + localFileHash.Value);
-                }
-            }
         }
 
         //Почему такое название? Ведь метод копирует содержимое одного файла в другой. Очевидное название CopyFile
         //И если что-нибудь поменяется и по пути directoryAndFileName не будет файла, то по ходу все упадет
-        void DownloadFile(string directoryAndFileName, string destinationPath)
+        static void DownloadFile(string directoryAndFileName, string destinationPath)
         {
             var stream = FiresecManager.GetFile(directoryAndFileName);
             using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
@@ -52,7 +60,7 @@ namespace FiresecClient
             }
         }
 
-        List<string> GetFileNamesList(string directory)
+        static List<string> GetFileNamesList(string directory)
         {
             var fileNames = new List<string>();
             foreach (var str in Directory.EnumerateFiles(CurrentDirectory(directory)))
@@ -63,7 +71,7 @@ namespace FiresecClient
             return fileNames;
         }
 
-        public void Synchronize()
+        public static void Synchronize()
         {
             foreach (var directory in _directoriesList)
             {
@@ -71,20 +79,32 @@ namespace FiresecClient
             }
         }
 
-        public List<string> SoundsList
+        public static List<string> SoundsList
         {
             get { return GetFileNamesList(_directoriesList[0]); }
         }
 
-        public string GetSoundFilePath(string file)
+        public static string GetIconFilePath(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(file))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 return null;
             }
             else
             {
-                return CurrentDirectory(_directoriesList[0]) + @"\" + file;
+                return CurrentDirectory(_directoriesList[1]) + @"\" + fileName;
+            }
+        }
+
+        public static string GetSoundFilePath(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return null;
+            }
+            else
+            {
+                return CurrentDirectory(_directoriesList[0]) + @"\" + fileName;
             }
         }
     }

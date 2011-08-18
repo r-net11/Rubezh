@@ -203,30 +203,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Critical.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Error.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Mute.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Normal.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_ServiceRequired.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_ServiceRequired_old.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Unknown.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Warning.ico" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -34,7 +34,11 @@ namespace PlansModule.ViewModels
                         BuildTree(plan.Children, planViewModel);
                     }
                 }
-                SelectedPlan = Plans[0];
+                // Добавил проверку на пустой список
+                if (Plans.Count > 0)
+                {
+                    SelectedPlan = Plans[0];
+                }
             }
         }
         public void BuildTree(List<Plan> _plans, PlanViewModel parent)

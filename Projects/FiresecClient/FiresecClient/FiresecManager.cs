@@ -17,7 +17,6 @@ namespace FiresecClient
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
-        public static FileHelper FileHelper { get; private set; }
 
         static SafeFiresecService _firesecService;
 
@@ -37,9 +36,6 @@ namespace FiresecClient
             DeviceStates = _firesecService.GetStates();
             Update();
 
-            FileHelper = new FileHelper();
-            FileHelper.Synchronize();
-
             _loggedInUserName = login;
 
             _pingThread = new Thread(PingWork);
@@ -47,6 +43,7 @@ namespace FiresecClient
 
             _firesecService.Test();
 
+            
             return result;
         }
 
@@ -59,6 +56,8 @@ namespace FiresecClient
 
         static void Update()
         {
+            FileHelper.Synchronize();
+
             DeviceConfiguration.Update();
 
             foreach (var device in DeviceConfiguration.Devices)
@@ -157,6 +156,11 @@ namespace FiresecClient
         public static List<JournalRecord> ReadJournal(int startIndex, int count)
         {
             return _firesecService.ReadJournal(startIndex, count);
+        }
+
+        public static List<string> GetFileNamesList(string directory)
+        {
+            return _firesecService.GetFileNamesList(directory);
         }
 
         public static Dictionary<string, string> GetDirectoryHash(string directory)

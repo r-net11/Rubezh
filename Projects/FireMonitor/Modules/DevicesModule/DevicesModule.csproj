@@ -105,9 +105,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\DS_Unknown.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,15 +151,6 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\DS_Critical.ico" />
-    <Resource Include="Icons\DS_Error.ico" />
-    <Resource Include="Icons\DS_Mute.ico" />
-    <Resource Include="Icons\DS_Normal.ico" />
-    <Resource Include="Icons\DS_ServiceRequired.ico" />
-    <Resource Include="Icons\DS_ServiceRequired_old.ico" />
-    <Resource Include="Icons\DS_Warning.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

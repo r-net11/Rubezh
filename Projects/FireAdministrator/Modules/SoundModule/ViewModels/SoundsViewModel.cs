@@ -74,7 +74,7 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying)
             {
-                string soundPath = FiresecClient.FiresecManager.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
+                string soundPath = FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
                 AlarmPlayerHelper.Play(soundPath, SelectedSound.BeeperType, SelectedSound.IsContinious);
                 IsNowPlaying = SelectedSound.IsContinious;
             }

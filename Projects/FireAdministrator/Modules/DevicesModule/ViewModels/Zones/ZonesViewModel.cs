@@ -153,11 +153,15 @@ namespace DevicesModule.ViewModels
                             emptyZones.Add(zone);
                         }
                     }
+
                     foreach (var emptyZone in emptyZones)
                     {
                         FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
                         Zones.Remove(emptyZone);
                     }
+
+                    if (Zones.Count > 0)
+                        SelectedZone = Zones[0];
                     DevicesModule.HasChanges = true;
                 }
             }

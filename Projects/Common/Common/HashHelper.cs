@@ -26,7 +26,10 @@ namespace Common
                     }
                 }
 
-                hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
+                if (hashTable.ContainsKey(stringBuilder.ToString()) == false)
+                {
+                    hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
+                }
                 stringBuilder.Clear();
             }
 

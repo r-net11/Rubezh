@@ -46,7 +46,7 @@ namespace SoundsModule.Converters
 
         List<string> AvailableSounds
         {
-            get { return FiresecClient.FiresecManager.FileHelper.SoundsList; }
+            get { return FiresecClient.FileHelper.SoundsList; }
         }
     }
 }

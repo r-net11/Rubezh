@@ -14,7 +14,7 @@
             <RadioButton Checked="rbDevice_Checked"  Name="rbDevice" GroupName="Device" IsChecked="True"/>
         </StackPanel>
         <StackPanel Grid.Column="1" >
-            <RadioButton Checked="rbStateType_Checked" Name="rbStateType0" GroupName="StateType" Content="Fire" IsChecked="True" FontSize="14"/>
+            <RadioButton Checked="rbStateType_Checked" Name="rbStateType0" GroupName="StateType" Content="Fire" FontSize="14"/>
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType1" GroupName="StateType" Content="Attention" FontSize="14"/>
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType2" GroupName="StateType" Content="Failure" FontSize="14"/>
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType3" GroupName="StateType" Content="Service" FontSize="14"/>

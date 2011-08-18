@@ -57,7 +57,7 @@ namespace FireMonitor
             InitializeFiresecClient();
 
             InitializeKnownModules();
-
+            
             App.Current.MainWindow = (Window) this.Shell;
             App.Current.MainWindow.Show();
         }
@@ -89,6 +89,7 @@ namespace FireMonitor
 
             CallModule.CallModule callModule = new CallModule.CallModule();
             callModule.Initialize();
+
         }
 
         void InitializeFiresecClient()

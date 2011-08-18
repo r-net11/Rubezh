@@ -63,7 +63,7 @@ namespace AlarmModule.ViewModels
             {
                 if (sound.StateType == CurrentStateType)
                 {
-                    string soundPath = FiresecManager.FileHelper.GetSoundFilePath(sound.SoundName);
+                    string soundPath = FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName);
                     AlarmPlayerHelper.Play(soundPath, sound.BeeperType, sound.IsContinious);
                     return;
                 }

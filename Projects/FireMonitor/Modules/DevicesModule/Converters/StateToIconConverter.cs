@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DevicesModule.Converters
 {
@@ -12,7 +13,7 @@ namespace DevicesModule.Converters
             string icon = EnumsConverter.StateToIcon(stateType);
             if (icon != null)
             {
-                return "../Icons/" + icon + ".ico";
+                return  FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
             }
             else
             {

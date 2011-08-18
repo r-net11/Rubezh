@@ -198,14 +198,25 @@ namespace FiresecService
             FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
         }
 
+        public List<string> GetFileNamesList(string directory)
+        {
+            string path = Directory.GetCurrentDirectory() + @"\" + directory;
+            var fileNames = new List<string>();
+            foreach (var str in Directory.EnumerateFiles(path))
+            {
+                fileNames.Add(Path.GetFileName(str));
+            }
+            return fileNames;
+        }
+
         public Dictionary<string, string> GetDirectoryHash(string directory)
         {
             return HashHelper.GetDirectoryHash(directory);
         }
 
-        public Stream GetFile(string dirNameAndFileName)
+        public Stream GetFile(string directoryNameAndFileName)
         {
-            string filePath = Directory.GetCurrentDirectory() + @"\" + dirNameAndFileName;
+            string filePath = Directory.GetCurrentDirectory() + @"\" + directoryNameAndFileName;
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 
