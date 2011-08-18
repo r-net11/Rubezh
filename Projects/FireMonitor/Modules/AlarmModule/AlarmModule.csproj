@@ -116,13 +116,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Buttons\Buttons.csproj">
-      <Project>{D8D17C88-CFA0-485A-95BA-A966C02562C1}</Project>
-      <Name>Buttons</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
@@ -135,10 +135,6 @@
     <ProjectReference Include="..\..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Controls\Controls.csproj">
-      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
-      <Name>Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

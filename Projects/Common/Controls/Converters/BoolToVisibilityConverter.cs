@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace Infrastructure.Common.Converters
+namespace Controls
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

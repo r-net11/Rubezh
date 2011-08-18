@@ -58,10 +58,10 @@ namespace DevicesModule.ViewModels
 
         void OnZoneStateChanged(string zoneNo)
         {
-            ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+            var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             if (zoneState != null)
             {
-                ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+                var zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
                 if (zoneViewModel != null)
                 {
                     zoneViewModel.StateType = zoneState.StateType;
@@ -71,12 +71,12 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
             if (deviceState != null)
             {
                 if (Devices != null)
                 {
-                    DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+                    var deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
                     if (deviceViewModel != null)
                     {
                         deviceViewModel.Update();
@@ -88,8 +88,8 @@ namespace DevicesModule.ViewModels
 
         void OnZoneStateChangedEvent(string zoneNo)
         {
-            ZoneState zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-            ZoneViewModel zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+            var zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
             zoneViewModel.StateType = zoneState.StateType;
         }
 
@@ -106,7 +106,7 @@ namespace DevicesModule.ViewModels
             if (SelectedZone == null)
                 return;
 
-            HashSet<Device> devices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -138,7 +138,7 @@ namespace DevicesModule.ViewModels
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);

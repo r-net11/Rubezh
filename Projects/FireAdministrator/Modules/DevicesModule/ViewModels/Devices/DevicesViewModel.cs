@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            var deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = parentDeviceViewModel;
             deviceViewModel.Initialize(device, Devices);
 
@@ -197,7 +197,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
-            DevicesMenuViewModel devicesMenuViewModel = new DevicesMenuViewModel(CopyCommand, CutCommand, PasteCommand);
+            var devicesMenuViewModel = new DevicesMenuViewModel(CopyCommand, CutCommand, PasteCommand);
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }
 

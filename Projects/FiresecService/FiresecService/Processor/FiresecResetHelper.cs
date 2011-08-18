@@ -8,7 +8,7 @@ namespace FiresecService
     {
         public static void ResetMany(List<ResetItem> resetItems)
         {
-            List<Firesec.CoreState.devType> innerDevices = new List<Firesec.CoreState.devType>();
+            var innerDevices = new List<Firesec.CoreState.devType>();
 
             foreach (var resetItem in resetItems)
             {
@@ -17,10 +17,10 @@ namespace FiresecService
 
                 var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == resetItem.DeviceId);
 
-                Firesec.CoreState.devType innerDevice = new Firesec.CoreState.devType();
+                var innerDevice = new Firesec.CoreState.devType();
                 innerDevice.name = deviceState.PlaceInTree;
 
-                List<Firesec.CoreState.stateType> innerStates = new List<Firesec.CoreState.stateType>();
+                var innerStates = new List<Firesec.CoreState.stateType>();
 
                 foreach (var stateName in resetItem.StateNames)
                 {
@@ -31,7 +31,7 @@ namespace FiresecService
                 innerDevices.Add(innerDevice);
             }
 
-            Firesec.CoreState.config coreState = new Firesec.CoreState.config();
+            var coreState = new Firesec.CoreState.config();
             coreState.dev = innerDevices.ToArray();
             FiresecInternalClient.ResetStates(coreState);
         }

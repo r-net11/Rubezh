@@ -14,7 +14,7 @@ namespace FireAdministrator
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif
 
-            Bootsrapper bootstrapper = new Bootsrapper();
+            var bootstrapper = new Bootsrapper();
             bootstrapper.Run();
         }
 

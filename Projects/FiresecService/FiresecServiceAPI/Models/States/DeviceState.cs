@@ -34,7 +34,7 @@ namespace FiresecAPI.Models
         {
             get
             {
-                List<StateType> stateTypes = new List<StateType>() { (StateType) 7 };
+                var stateTypes = new List<StateType>() { (StateType) 7 };
 
                 stateTypes.AddRange(from DeviceDriverState deviceDriverState in States
                                     where deviceDriverState.IsActive
@@ -51,7 +51,7 @@ namespace FiresecAPI.Models
         {
             get
             {
-                List<string> parentStringStates = new List<string>();
+                var parentStringStates = new List<string>();
                 foreach (var parentDeviceState in ParentStates)
                 {
                     parentStringStates.Add(parentDeviceState.ParentDevice.Driver.ShortName + " - " + parentDeviceState.DriverState.Name);

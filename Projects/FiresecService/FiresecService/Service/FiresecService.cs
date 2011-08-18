@@ -174,7 +174,8 @@ namespace FiresecService
                 dataContractSerializer.WriteObject(fileStream, plansConfiguration);
             }
 
-            FiresecManager.PlansConfiguration = plansConfiguration;
+            var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+            var fileStream = new FileStream("PlansConfiguration.xml", FileMode.Create);
         }
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)

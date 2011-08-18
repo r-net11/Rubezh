@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Infrastructure.Common.Converters
+namespace Controls
 {
     /// <summary>
     /// Creates a CollectionView for databinding to a HierarchicalTemplate ItemSource

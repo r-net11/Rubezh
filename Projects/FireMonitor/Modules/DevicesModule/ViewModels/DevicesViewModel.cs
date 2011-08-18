@@ -87,7 +87,7 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            var deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
             if (deviceViewModel != null)
             {
                 deviceViewModel.Update();
@@ -113,7 +113,7 @@ namespace DevicesModule.ViewModels
 
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            var deviceViewModel = new DeviceViewModel();
             deviceViewModel.Parent = parentDeviceViewModel;
             deviceViewModel.Initialize(device, Devices);
             AllDevices.Add(deviceViewModel);

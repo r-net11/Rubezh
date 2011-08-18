@@ -183,7 +183,7 @@ namespace FiresecAPI.Models
 
         public Device Copy(bool fullCopy)
         {
-            Device newDevice = new Device();
+            var newDevice = new Device();
             newDevice.Driver = Driver;
             newDevice.IntAddress = IntAddress;
             newDevice.Description = Description;
@@ -200,7 +200,7 @@ namespace FiresecAPI.Models
                 newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
                 foreach (var clause in ZoneLogic.Clauses)
                 {
-                    Clause newClause = new Clause();
+                    var newClause = new Clause();
                     newClause.State = clause.State;
                     newClause.Operation = clause.Operation;
                     newClause.Zones = clause.Zones.ToList();
@@ -208,10 +208,10 @@ namespace FiresecAPI.Models
                 }
             }
 
-            List<Property> copyProperties = new List<Property>();
+            var copyProperties = new List<Property>();
             foreach (var property in Properties)
             {
-                Property copyProperty = new Property();
+                var copyProperty = new Property();
                 copyProperty.Name = property.Name;
                 copyProperty.Value = property.Value;
                 copyProperties.Add(copyProperty);
@@ -221,7 +221,7 @@ namespace FiresecAPI.Models
             newDevice.Children = new List<Device>();
             foreach (var childDevice in Children)
             {
-                Device newChildDevice = childDevice.Copy(fullCopy);
+                var newChildDevice = childDevice.Copy(fullCopy);
                 newChildDevice.Parent = newDevice;
                 newDevice.Children.Add(newChildDevice);
             }

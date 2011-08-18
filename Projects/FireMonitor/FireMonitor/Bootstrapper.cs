@@ -14,20 +14,20 @@ namespace FireMonitor
     {
         public Bootstrapper()
         {
-            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            Application.Current.Resources.MergedDictionaries.Add(rd);
+            //var resourceDictionary = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            //Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
         }
 
         protected override System.Windows.DependencyObject CreateShell()
         {
-            ShellView shellView = new ShellView();
+            var shellView = new ShellView();
             ServiceFactory.RegisterInstance(shellView);
             return shellView;
         }
 
         public static bool Connect()
         {
-            LoginView loginScreen = new LoginView();
+            var loginScreen = new LoginView();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false)
             {
@@ -72,22 +72,22 @@ namespace FireMonitor
 
         void InitializeKnownModules()
         {
-            DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
+            var devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();
 
-            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
+            var plansModule = new PlansModule.PlansModule();
             plansModule.Initialize();
 
-            JournalModule.JournalModule journalModule = new JournalModule.JournalModule();
+            var journalModule = new JournalModule.JournalModule();
             journalModule.Initialize();
 
-            AlarmModule.AlarmModule alarmModule = new AlarmModule.AlarmModule();
+            var alarmModule = new AlarmModule.AlarmModule();
             alarmModule.Initialize();
 
-            ReportsModule.ReportsModule reportsModule = new ReportsModule.ReportsModule();
+            var reportsModule = new ReportsModule.ReportsModule();
             reportsModule.Initialize();
 
-            CallModule.CallModule callModule = new CallModule.CallModule();
+            var callModule = new CallModule.CallModule();
             callModule.Initialize();
 
         }

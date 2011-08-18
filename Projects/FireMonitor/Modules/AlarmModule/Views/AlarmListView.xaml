@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
              xmlns:Converters="clr-namespace:AlarmModule.Converters"
-             xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons">
+             xmlns:XButtons="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />

@@ -142,7 +142,7 @@ namespace Firesec
 
         static string ReadFromStream(mscoree.IStream stream)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
 
             try
             {
@@ -151,13 +151,13 @@ namespace Firesec
                     byte* unsafeBytes = stackalloc byte[1024];
                     while (true)
                     {
-                        IntPtr _intPtr = new IntPtr(unsafeBytes);
+                        var _intPtr = new IntPtr(unsafeBytes);
                         uint bytesRead = 0;
                         stream.Read(_intPtr, 1024, out bytesRead);
                         if (bytesRead == 0)
                             break;
 
-                        byte[] bytes = new byte[bytesRead];
+                        var bytes = new byte[bytesRead];
                         for (int i = 0; i < bytesRead; ++i)
                         {
                             bytes[i] = unsafeBytes[i];

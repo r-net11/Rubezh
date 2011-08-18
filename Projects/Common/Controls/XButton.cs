@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace Buttons
+namespace Controls
 {
-    public class XButton : ToggleButton
+    public class XButton : Button
     {
         public static readonly DependencyProperty CornerRadiusProperty =
             Border.CornerRadiusProperty.AddOwner(typeof(XButton));

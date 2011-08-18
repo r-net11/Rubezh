@@ -85,7 +85,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> selfStates = new List<string>();
+                var selfStates = new List<string>();
                 foreach (var state in _deviceState.States)
                 {
                     if (state.IsActive)
@@ -99,7 +99,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> parentStates = new List<string>();
+                var parentStates = new List<string>();
                 if (_deviceState.ParentStringStates != null)
                     foreach (var parentState in _deviceState.ParentStringStates)
                     {
@@ -113,7 +113,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> parameters = new List<string>();
+                var parameters = new List<string>();
                 if (_deviceState.Parameters != null)
                     foreach (var parameter in _deviceState.Parameters)
                     {

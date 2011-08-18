@@ -25,7 +25,7 @@ namespace InstructionsModule.ViewModels
             {
                 foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
                 {
-                    InstructionViewModel instructionViewModel = new InstructionViewModel(instruction);
+                    var instructionViewModel = new InstructionViewModel(instruction);
                     Instructions.Add(instructionViewModel);
                 }
             }
@@ -48,12 +48,12 @@ namespace InstructionsModule.ViewModels
 
         void OnAdd()
         {
-            InstructionDetailsViewModel instructionDetailsViewModel = new InstructionDetailsViewModel();
+            var instructionDetailsViewModel = new InstructionDetailsViewModel();
             instructionDetailsViewModel.Initialize();
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel);
             if (result)
             {
-                InstructionViewModel instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
+                var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
                 Instructions.Add(instructionViewModel);
             }
         }
@@ -74,7 +74,7 @@ namespace InstructionsModule.ViewModels
 
         void OnEdit()
         {
-            InstructionDetailsViewModel instructionDetailsViewModel = new InstructionDetailsViewModel();
+            var instructionDetailsViewModel = new InstructionDetailsViewModel();
             instructionDetailsViewModel.Initialize(SelectedInstruction.Instruction);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel);
             if (result)
@@ -85,7 +85,7 @@ namespace InstructionsModule.ViewModels
 
         public override void OnShow()
         {
-            InstructionsMenuViewModel instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
         }
 

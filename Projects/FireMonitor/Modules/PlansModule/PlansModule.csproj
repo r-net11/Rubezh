@@ -128,6 +128,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
       <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
       <Name>DeviceControls</Name>
@@ -147,10 +151,6 @@
     <ProjectReference Include="..\..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Controls\Controls.csproj">
-      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
-      <Name>Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>

@@ -82,7 +82,7 @@ namespace DevicesModule
 
         public static void Validate()
         {
-            ValidationErrorsViewModel validationErrorsViewModel = new ValidationErrorsViewModel();
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
             ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
         }
     }

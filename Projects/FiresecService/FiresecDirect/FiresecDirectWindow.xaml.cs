@@ -18,13 +18,13 @@ namespace FiresecDirect
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            StreamReader reader = new StreamReader("SetNewConfig.xml");
+            var reader = new StreamReader("SetNewConfig.xml");
             string message = reader.ReadToEnd();
             reader.Close();
 
             //byte[] bytes = Encoding.UTF8.GetBytes(message);
-            //MemoryStream memoryStream = new MemoryStream(bytes);
-            //XmlSerializer serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
+            //var memoryStream = new MemoryStream(bytes);
+            //var serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
             //Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
             //memoryStream.Close();
 

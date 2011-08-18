@@ -102,7 +102,7 @@ namespace FiresecService.Converters
             {
                 foreach (var innerProperty in innerDevice.prop)
                 {
-                    device.Properties.Add(new Property()
+                    var deviceProperty = new Property();
                     {
                         Name = innerProperty.name,
                         Value = innerProperty.value
@@ -196,7 +196,7 @@ namespace FiresecService.Converters
 
         static void AddInnerDevice(Device parentDevice, Firesec.CoreConfig.devType parentInnerDevice)
         {
-            List<Firesec.CoreConfig.devType> childInnerDevices = new List<Firesec.CoreConfig.devType>();
+            var childInnerDevices = new List<Firesec.CoreConfig.devType>();
 
             foreach (var device in parentDevice.Children)
             {
@@ -246,7 +246,7 @@ namespace FiresecService.Converters
                         if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
                             string.IsNullOrEmpty(deviceProperty.Value) == false)
                         {
-                            var property = new Firesec.CoreConfig.propType()
+                            var property = new Firesec.CoreConfig.propType();
                             {
                                 name = deviceProperty.Name,
                                 value = deviceProperty.Value

@@ -19,7 +19,7 @@ namespace FiresecService
 
                 foreach (var journalItem in journalRecords)
                 {
-                    dataContext.Journal.InsertOnSubmit(new Journal()
+                    var journal = new Journal()
                     {
                         DeviceTime = journalItem.DeviceTime,
                         SystemTime = journalItem.SystemTime,

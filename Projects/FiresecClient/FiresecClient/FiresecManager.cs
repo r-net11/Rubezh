@@ -62,6 +62,11 @@ namespace FiresecClient
 
             DeviceConfiguration.Update();
 
+            foreach (var driver in Drivers)
+            {
+                driver.ImageSource = FileHelper.GetIconFilePath(driver.ImageSource) + ".ico";
+            }
+
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.DriverId);

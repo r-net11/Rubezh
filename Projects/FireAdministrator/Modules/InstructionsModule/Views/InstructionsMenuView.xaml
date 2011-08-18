@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="InstructionsModule.Views.InstructionsMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ToolBar Background="Transparent">
+    
+    <ToolBar Background="Transparent" Height="50">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить">
             <Image Source="/DevicesModule;component/Images/Add.png" Height="32" />
         </Button>

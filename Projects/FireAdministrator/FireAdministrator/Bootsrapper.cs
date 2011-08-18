@@ -12,14 +12,14 @@ namespace FireAdministrator
     {
         protected override System.Windows.DependencyObject CreateShell()
         {
-            ShellView shellView = new ShellView();
+            var shellView = new ShellView();
             ServiceFactory.RegisterInstance(shellView);
             return shellView;
         }
 
         protected override void InitializeShell()
         {
-            LoginScreen loginScreen = new LoginScreen();
+            var loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false)
             {
@@ -35,8 +35,8 @@ namespace FireAdministrator
 
             RegisterServices();
 
-            ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Infrastructure.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            Application.Current.Resources.MergedDictionaries.Add(rd);
+            //var resourceDictionary = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            //Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
             InitializeKnownModules();
 
@@ -53,25 +53,25 @@ namespace FireAdministrator
 
         void InitializeKnownModules()
         {
-            DevicesModule.DevicesModule devicesModule = new DevicesModule.DevicesModule();
+            var devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();
 
-            LibraryModule.LibraryModule libraryModule = new LibraryModule.LibraryModule();
+            var libraryModule = new LibraryModule.LibraryModule();
             libraryModule.Initialize();
 
-            PlansModule.PlansModule plansModule = new PlansModule.PlansModule();
+            var plansModule = new PlansModule.PlansModule();
             plansModule.Initialize();
 
-            SecurityModule.SequrityModule sequrityModule = new SecurityModule.SequrityModule();
+            var sequrityModule = new SecurityModule.SequrityModule();
             sequrityModule.Initialize();
 
-            FiltersModule.FilterModule filtersModule = new FiltersModule.FilterModule();
+            var filtersModule = new FiltersModule.FilterModule();
             filtersModule.Initialize();
 
-            SoundsModule.SoundsModule soundsModule = new SoundsModule.SoundsModule();
+            var soundsModule = new SoundsModule.SoundsModule();
             soundsModule.Initialize();
 
-            InstructionsModule.InstructionsModule instructionsModule = new InstructionsModule.InstructionsModule();
+            var instructionsModule = new InstructionsModule.InstructionsModule();
             instructionsModule.Initialize();
         }
     }

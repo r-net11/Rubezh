@@ -74,7 +74,7 @@ namespace FiresecService.Converters
 
         public static Firesec.ZoneLogic.expr ConvertBack(ZoneLogic zoneLogic)
         {
-            Firesec.ZoneLogic.expr innerZoneLogic = new Firesec.ZoneLogic.expr();
+            var innerZoneLogic = new Firesec.ZoneLogic.expr();
 
             var innerClauses = new List<clauseType>();
             foreach (var clause in zoneLogic.Clauses)

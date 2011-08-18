@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
 
         public Parameter Copy()
         {
-            Parameter parameter = new Parameter();
+            var parameter = new Parameter();
             parameter.Name = Name;
             parameter.Caption = Caption;
             parameter.Visible = Visible;

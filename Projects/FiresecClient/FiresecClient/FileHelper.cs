@@ -31,7 +31,7 @@ namespace FiresecClient
                     File.Delete(filesDirectory.Name + @"\" + localFileName);
                 }
             }
-            
+
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
             var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
 
@@ -92,10 +92,7 @@ namespace FiresecClient
             {
                 return null;
             }
-            else
-            {
-                return CurrentDirectory(_directoriesList[1]) + @"\" + fileName;
-            }
+            return CurrentDirectory(_directoriesList[1]) + @"\" + fileName;
         }
 
         public static string GetSoundFilePath(string fileName)
@@ -104,10 +101,7 @@ namespace FiresecClient
             {
                 return null;
             }
-            else
-            {
-                return CurrentDirectory(_directoriesList[0]) + @"\" + fileName;
-            }
+            return CurrentDirectory(_directoriesList[0]) + @"\" + fileName;
         }
     }
 }

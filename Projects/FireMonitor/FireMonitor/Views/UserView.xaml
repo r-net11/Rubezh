@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="FireMonitor.UserView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons">
+             xmlns:XButtons="clr-namespace:Controls;assembly=Controls">
     <Grid>
         <XButtons:XButton Command="{Binding ChangeUserCommand}" Height="30" Margin="2" Background="DarkRed" >
             <TextBlock Text="Сменить пользователя" FontSize="12" Margin="4" />

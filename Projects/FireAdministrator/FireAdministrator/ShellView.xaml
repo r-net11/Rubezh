@@ -47,7 +47,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Views:MenuView Grid.Column="0" />
-                                <ContentControl Grid.Column="1" Name="_menu" />
+                                <ContentControl Grid.Column="1" Name="_menu" Height="50" />
                             </Grid>
                         </Grid>
                     </Grid>

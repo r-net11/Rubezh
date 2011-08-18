@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 
         void deviceState_StateChanged()
         {
-            DeviceState deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
 
             if (_deviceControl != null)
             {
@@ -78,7 +78,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> selfStates = new List<string>();
+                var selfStates = new List<string>();
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 foreach (var state in deviceState.States)
                 {
@@ -93,7 +93,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> parentStates = new List<string>();
+                var parentStates = new List<string>();
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> parameters = new List<string>();
+                var parameters = new List<string>();
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)

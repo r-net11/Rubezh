@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Data;
 
-namespace Infrastructure.Common.Converters
+namespace Controls
 {
-    public class LevelToMarginConverter : IValueConverter
+    public class StateTypeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            int level = (int) value;
-            return new Thickness(level * 20, 0, 0, 0);
+            return FiresecAPI.Models.EnumsConverter.StateTypeToClassName((FiresecAPI.Models.StateType) value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

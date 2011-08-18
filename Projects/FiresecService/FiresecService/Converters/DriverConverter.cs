@@ -12,7 +12,7 @@ namespace FiresecService.Converters
 
         public static Driver Convert(configDrv innerDriver)
         {
-            var driver = new Driver()
+            var driver = new Driver();
             {
                 Id = innerDriver.id,
                 Name = innerDriver.name,
@@ -96,9 +96,9 @@ namespace FiresecService.Converters
                 imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
             }
 
-            driver.ImageSource = @"C:/Program Files/Firesec/Icons/" + imageSource + ".ico";
+            driver.ImageSource = imageSource;
 
-            driver.HasImage = driver.ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico";
+            driver.HasImage = driver.ImageSource != @"Device_Device";
             driver.IsZoneDevice = !(innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0");
             driver.IsZoneLogicDevice = (innerDriver.options != null && innerDriver.options.Contains("ExtendedZoneLogic"));
             driver.CanDisable = (innerDriver.options != null && innerDriver.options.Contains("Ignorable"));
@@ -196,7 +196,7 @@ namespace FiresecService.Converters
                 driver.DriverName = driverData.Name;
             }
 
-            List<configDrv> AllChildren = new List<configDrv>();
+            var AllChildren = new List<configDrv>();
             foreach (var childDriver in Metadata.drv)
             {
                 var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
@@ -241,7 +241,7 @@ namespace FiresecService.Converters
                     if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
                         continue;
 
-                    DriverProperty driverProperty = new DriverProperty();
+                    var driverProperty = new DriverProperty();
                     driverProperty.Name = internalProperty.name;
                     driverProperty.Caption = internalProperty.caption;
                     driverProperty.Default = internalProperty.@default;
@@ -253,7 +253,7 @@ namespace FiresecService.Converters
                     {
                         foreach (var firesecParameter in internalProperty.param)
                         {
-                            driverProperty.Parameters.Add(new DriverPropertyParameter()
+                            var driverPropertyParameter = new DriverPropertyParameter();
                             {
                                 Name = firesecParameter.name,
                                 Value = firesecParameter.value
@@ -299,7 +299,7 @@ namespace FiresecService.Converters
             {
                 foreach (var innerParameter in innerDriver.paramInfo)
                 {
-                    driver.Parameters.Add(new Parameter()
+                    var parameter = new Parameter();
                     {
                         Name = innerParameter.name,
                         Caption = innerParameter.caption,
@@ -313,7 +313,7 @@ namespace FiresecService.Converters
             {
                 foreach (var innerState in innerDriver.state)
                 {
-                    driver.States.Add(new DriverState()
+                    var driverState = new DriverState();
                     {
                         Id = innerState.id,
                         Name = innerState.name,

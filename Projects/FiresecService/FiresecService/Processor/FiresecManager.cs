@@ -23,7 +23,7 @@ namespace FiresecService
             {
                 BuildDeviceTree();
                 DeviceConfiguration.Update();
-                Watcher watcher = new Watcher();
+                var watcher = new Watcher();
                 watcher.Start();
             }
             return result;

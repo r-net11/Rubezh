@@ -188,7 +188,7 @@ namespace FiresecService
                         {
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
-                                ParentDeviceState parentDeviceState = new ParentDeviceState();
+                                var parentDeviceState = new ParentDeviceState();
                                 parentDeviceState.ParentDeviceId = deviceState.Id;
                                 parentDeviceState.Code = state.Code;
                                 parentDeviceState.DriverState = state.DriverState;
@@ -245,7 +245,7 @@ namespace FiresecService
                         }
                     }
 
-                    StateType newZoneStateType = (StateType) minZonePriority;
+                    var newZoneStateType = (StateType)minZonePriority;
 
                     bool zoneChanged = (zoneState.StateType != newZoneStateType);
                     zoneState.StateType = newZoneStateType;

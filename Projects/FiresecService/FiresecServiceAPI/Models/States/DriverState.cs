@@ -31,7 +31,7 @@ namespace FiresecAPI.Models
 
         public DriverState Copy()
         {
-            DriverState driverState = new DriverState();
+            var driverState = new DriverState();
             driverState.Id = Id;
             driverState.Name = Name;
             driverState.AffectChildren = AffectChildren;

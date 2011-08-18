@@ -172,7 +172,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanEditDelete(null))
             {
-                ZoneDetailsViewModel zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
+                var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
                 SelectedZone.Update();
                 DevicesModule.HasChanges = true;
@@ -182,8 +182,7 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             SelectedZone = SelectedZone;
-            ZonesMenuViewModel zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand,
-                DeleteAllCommand, DeleteAllEmptyCommand);
+            var zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand, DeleteAllCommand, DeleteAllEmptyCommand);
             ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
         }
 
