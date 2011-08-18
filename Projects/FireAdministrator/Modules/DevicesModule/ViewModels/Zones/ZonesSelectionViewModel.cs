@@ -21,11 +21,11 @@ namespace DevicesModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public List<GuardLevel> GuardLevels { get; private set; }
+        public List<string> GuardLevelNames { get; private set; }
 
-        public void Initialize(List<GuardLevel> guardLevels)
+        public void Initialize(List<string> guardLevelNames)
         {
-            GuardLevels = guardLevels;
+            GuardLevelNames = guardLevelNames;
             TargetGuardLevels = new ObservableCollection<GuardLevelViewModel>();
             SourceGuardLevels = new ObservableCollection<GuardLevelViewModel>();
 
@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
             {
                 GuardLevelViewModel guardLevelViewModel = new GuardLevelViewModel(guardLevel);
 
-                if (GuardLevels.Contains(guardLevel.No))
+                if (GuardLevelNames.Contains(guardLevel.Name))
                 {
                     TargetGuardLevels.Add(guardLevelViewModel);
                 }
@@ -137,10 +137,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            GuardLevels = new List<string>();
+            GuardLevelNames = new List<string>();
             foreach (var zoneViewModel in TargetGuardLevels)
             {
-                GuardLevels.Add(zoneViewModel.No);
+                GuardLevelNames.Add(zoneViewModel.GuardLevel.Name);
             }
 
             Close(true);

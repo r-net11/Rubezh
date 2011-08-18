@@ -19,8 +19,7 @@
                 <DataGrid ItemsSource="{Binding TargetLevels}" SelectedItem="{Binding SelectedTargetLevel}"
                          ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -36,8 +35,7 @@
                 <DataGrid ItemsSource="{Binding SourceLevels}" SelectedItem="{Binding SelectedSourceLevel}"
                          ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

@@ -106,6 +106,26 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string PresentationLevels
+        {
+            get
+            {
+                string presentationNames = "";
+                if (GuardUser.GuardLevelNames.Count > 0)
+                {
+                presentationNames = GuardUser.GuardLevelNames[0];
+                }
+                if (GuardUser.GuardLevelNames.Count > 1)
+                {
+                    for(int i = 1; i < GuardUser.GuardLevelNames.Count; i++)
+                    {
+                        presentationNames += ", " +  GuardUser.GuardLevelNames[i];
+                    }
+                }
+                return presentationNames;
+            }
+        }
+
         public RelayCommand ChangeGuardLevelsCommand { get; private set; }
         void OnChangeGuardLevels()
         {
@@ -115,6 +135,7 @@ namespace DevicesModule.ViewModels
             if (result)
             {
                 GuardUser.GuardLevelNames = guardLevelsSelectationViewModel.GuardLevels;
+                OnPropertyChanged("PresentationLevels");
             }
         }
 

@@ -23,7 +23,27 @@
                 <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" />
                 <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" />
                 <TextBlock Text="Уровни доступа" Margin="2" />
-                <Button Content="Изменить уровни доступа" Command="{Binding ChangeGuardLevelsCommand}" Margin="2"/>
+
+                <Button Command="{Binding ChangeGuardLevelsCommand}" Margin="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding PresentationLevels}" Margin="2" />
+                        <TextBlock Margin="2">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="{x:Null}">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора уровней доступа" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора уровней доступа" />
+                                    </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                
             </StackPanel>
         </Grid>
         

@@ -102,7 +102,7 @@ namespace DevicesModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
             if (result)
             {
-                Zones = zonesSelectionViewModel.GuardLevels;
+                Zones = zonesSelectionViewModel.GuardLevelNames;
                 Update();
             }
         }

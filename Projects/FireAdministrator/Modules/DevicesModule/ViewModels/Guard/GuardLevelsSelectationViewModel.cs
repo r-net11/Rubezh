@@ -30,8 +30,8 @@ namespace DevicesModule.ViewModels
         public void Initialize(GuardUser guardUser)
         {
             GuardLevels = guardUser.GuardLevelNames;
-            TargetGuardLevels = new ObservableCollection<GuardLevelViewModel>();
-            SourceGuardLevels = new ObservableCollection<GuardLevelViewModel>();
+            TargetLevels = new ObservableCollection<GuardLevelViewModel>();
+            SourceLevels = new ObservableCollection<GuardLevelViewModel>();
 
             foreach (var guardLevel in FiresecManager.DeviceConfiguration.GuardLevels)
             {
@@ -39,110 +39,110 @@ namespace DevicesModule.ViewModels
 
                 if (GuardLevels.Contains(guardLevel.Name))
                 {
-                    TargetGuardLevels.Add(guardLevelViewModel);
+                    TargetLevels.Add(guardLevelViewModel);
                 }
                 else
                 {
-                    SourceGuardLevels.Add(guardLevelViewModel);
+                    SourceLevels.Add(guardLevelViewModel);
                 }
             }
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetLevels.Count > 0)
+                SelectedTargetLevel = TargetLevels[0];
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceLevels.Count > 0)
+                SelectedSourceLevel = SourceLevels[0];
         }
 
-        public ObservableCollection<GuardLevelViewModel> SourceGuardLevels { get; private set; }
+        public ObservableCollection<GuardLevelViewModel> SourceLevels { get; private set; }
 
-        GuardLevelViewModel _selectedSourceGuardLevel;
-        public GuardLevelViewModel SelectedSourceGuardLevel
+        GuardLevelViewModel _selectedSourceLevel;
+        public GuardLevelViewModel SelectedSourceLevel
         {
-            get { return _selectedSourceGuardLevel; }
+            get { return _selectedSourceLevel; }
             set
             {
-                _selectedSourceGuardLevel = value;
-                OnPropertyChanged("SelectedSourceGuardLevel");
+                _selectedSourceLevel = value;
+                OnPropertyChanged("SelectedSourceLevel");
             }
         }
 
-        public ObservableCollection<GuardLevelViewModel> TargetGuardLevels { get; private set; }
+        public ObservableCollection<GuardLevelViewModel> TargetLevels { get; private set; }
 
-        GuardLevelViewModel _selectedTargetGuardLevel;
-        public GuardLevelViewModel SelectedTargetGuardLevel
+        GuardLevelViewModel _selectedTargetLevel;
+        public GuardLevelViewModel SelectedTargetLevel
         {
-            get { return _selectedTargetGuardLevel; }
+            get { return _selectedTargetLevel; }
             set
             {
-                _selectedTargetGuardLevel = value;
-                OnPropertyChanged("SelectedTargetGuardLevel");
+                _selectedTargetLevel = value;
+                OnPropertyChanged("SelectedTargetLevel");
             }
         }
 
         public RelayCommand AddOneCommand { get; private set; }
         void OnAddOne()
         {
-            TargetGuardLevels.Add(SelectedSourceGuardLevel);
-            SelectedTargetGuardLevel = SelectedSourceGuardLevel;
-            SourceGuardLevels.Remove(SelectedSourceGuardLevel);
+            TargetLevels.Add(SelectedSourceLevel);
+            SelectedTargetLevel = SelectedSourceLevel;
+            SourceLevels.Remove(SelectedSourceLevel);
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceLevels.Count > 0)
+                SelectedSourceLevel = SourceLevels[0];
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
         void OnRemoveOne()
         {
-            SourceGuardLevels.Add(SelectedTargetGuardLevel);
-            SelectedSourceGuardLevel = SelectedTargetGuardLevel;
-            TargetGuardLevels.Remove(SelectedTargetGuardLevel);
+            SourceLevels.Add(SelectedTargetLevel);
+            SelectedSourceLevel = SelectedTargetLevel;
+            TargetLevels.Remove(SelectedTargetLevel);
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetLevels.Count > 0)
+                SelectedTargetLevel = TargetLevels[0];
         }
 
         public RelayCommand AddAllCommand { get; private set; }
         void OnAddAll()
         {
-            foreach (var zoneViewModel in SourceGuardLevels)
+            foreach (var zoneViewModel in SourceLevels)
             {
-                TargetGuardLevels.Add(zoneViewModel);
+                TargetLevels.Add(zoneViewModel);
             }
-            SourceGuardLevels.Clear();
+            SourceLevels.Clear();
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetLevels.Count > 0)
+                SelectedTargetLevel = TargetLevels[0];
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
         void OnRemoveAll()
         {
-            foreach (var zoneViewModel in TargetGuardLevels)
+            foreach (var zoneViewModel in TargetLevels)
             {
-                SourceGuardLevels.Add(zoneViewModel);
+                SourceLevels.Add(zoneViewModel);
             }
-            TargetGuardLevels.Clear();
+            TargetLevels.Clear();
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceLevels.Count > 0)
+                SelectedSourceLevel = SourceLevels[0];
         }
 
         bool CanAdd(object obj)
         {
-            return SelectedSourceGuardLevel != null;
+            return SelectedSourceLevel != null;
         }
 
         bool CanRemove(object obj)
         {
-            return SelectedTargetGuardLevel != null;
+            return SelectedTargetLevel != null;
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
             GuardLevels = new List<string>();
-            foreach (var zoneViewModel in TargetGuardLevels)
+            foreach (var zoneViewModel in TargetLevels)
             {
                 GuardLevels.Add(zoneViewModel.GuardLevel.Name);
             }

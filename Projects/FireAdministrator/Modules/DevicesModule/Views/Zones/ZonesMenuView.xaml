@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:XButtons="clr-namespace:Buttons;assembly=Buttons">
 
-    <ToolBar Background="Transparent">
+    <ToolBar Background="Transparent" ToolBarTray.IsLocked="True">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить">
             <Image Source="/DevicesModule;component/Images/Add.png" Height="32" />
         </Button>
@@ -23,5 +23,6 @@
         <Button Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны">
             <Image Source="/DevicesModule;component/Images/DeleteAllEmpty.png" Height="32" />
         </Button>
+
     </ToolBar>
 </UserControl>
