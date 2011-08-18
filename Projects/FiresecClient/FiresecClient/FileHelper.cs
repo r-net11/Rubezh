@@ -63,11 +63,13 @@ namespace FiresecClient
         static List<string> GetFileNamesList(string directory)
         {
             var fileNames = new List<string>();
-            foreach (var str in Directory.EnumerateFiles(CurrentDirectory(directory)))
+            if (Directory.Exists(CurrentDirectory(directory)))
             {
-                fileNames.Add(Path.GetFileName(str));
+                foreach (var str in Directory.EnumerateFiles(CurrentDirectory(directory)))
+                {
+                    fileNames.Add(Path.GetFileName(str));
+                }
             }
-
             return fileNames;
         }
 

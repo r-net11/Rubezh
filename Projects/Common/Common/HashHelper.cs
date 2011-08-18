@@ -12,27 +12,32 @@ namespace Common
             var hashTable = new Dictionary<string, string>();
             var stringBuilder = new StringBuilder();
             byte[] hash = null;
-
-            var dirInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
-            foreach (var fileInfo in dirInfo.EnumerateFiles())
+            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\" + directory))
             {
-                using (var fileStream = fileInfo.Open(FileMode.Open))
-                using (var md5Hash = MD5.Create())
+                var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
+                foreach (var fileInfo in directoryInfo.EnumerateFiles())
                 {
-                    hash = md5Hash.ComputeHash(fileStream);
-                    for (int i = 0; i < hash.Length; ++i)
+                    using (var fileStream = fileInfo.Open(FileMode.Open))
+                    using (var md5Hash = MD5.Create())
                     {
-                        stringBuilder.Append(hash[i].ToString("x2"));
+                        hash = md5Hash.ComputeHash(fileStream);
+                        for (int i = 0; i < hash.Length; ++i)
+                        {
+                            stringBuilder.Append(hash[i].ToString("x2"));
+                        }
+                        for (int i = 0; i < fileInfo.Name.Length; ++i)
+                        {
+                            stringBuilder.Append(fileInfo.Name[i]);
+                        }
                     }
-                }
 
-                if (hashTable.ContainsKey(stringBuilder.ToString()) == false)
-                {
-                    hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
+                    if (hashTable.ContainsKey(stringBuilder.ToString()) == false)
+                    {
+                        hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
+                    }
+                    stringBuilder.Clear();
                 }
-                stringBuilder.Clear();
             }
-
             return hashTable;
         }
     }

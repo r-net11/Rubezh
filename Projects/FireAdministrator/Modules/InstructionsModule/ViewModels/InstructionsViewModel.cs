@@ -34,7 +34,6 @@ namespace InstructionsModule.ViewModels
         public ObservableCollection<InstructionViewModel> Instructions { get; set; }
 
         InstructionViewModel _selectedInstruction;
-
         public InstructionViewModel SelectedInstruction
         {
             get { return _selectedInstruction; }

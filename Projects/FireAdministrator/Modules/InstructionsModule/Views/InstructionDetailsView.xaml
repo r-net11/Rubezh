@@ -36,8 +36,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Content="Выбрать Зоны" Command="{Binding SaveCommand}" Width="100" Margin="2" />
-            <Button Grid.Column="1" Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
+            <Button Grid.Column="0" Content="Настройка зон" Command="{Binding SaveCommand}" Width="115" Margin="2" />
+            <Button Grid.Column="1" Content="Выбор устройств" Command="{Binding SaveCommand}" Width="115" Margin="2" />
         </Grid>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">

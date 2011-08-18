@@ -202,9 +202,12 @@ namespace FiresecService
         {
             string path = Directory.GetCurrentDirectory() + @"\" + directory;
             var fileNames = new List<string>();
-            foreach (var str in Directory.EnumerateFiles(path))
+            if (Directory.Exists(path))
             {
-                fileNames.Add(Path.GetFileName(str));
+                foreach (var str in Directory.EnumerateFiles(path))
+                {
+                    fileNames.Add(Path.GetFileName(str));
+                }
             }
             return fileNames;
         }

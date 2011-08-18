@@ -73,6 +73,7 @@
     <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
     <Compile Include="ViewModels\InstructionsViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
+    <Compile Include="ViewModels\InstructionZonesViewModel.cs" />
     <Compile Include="Views\InstructionDetailsView.xaml.cs">
       <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +109,10 @@
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DevicesModule\DevicesModule.csproj">
+      <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
+      <Name>DevicesModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
