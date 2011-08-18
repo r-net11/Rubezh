@@ -6,14 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" SizeToContent="WidthAndHeight">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel>
-            <RadioButton Checked="rbDevice_Checked"  Name="rbDevice" GroupName="Device" IsChecked="True"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" >
+        <StackPanel >
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType0" GroupName="StateType" Content="Fire" FontSize="14"/>
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType1" GroupName="StateType" Content="Attention" FontSize="14"/>
             <RadioButton Checked="rbStateType_Checked" Name="rbStateType2" GroupName="StateType" Content="Failure" FontSize="14"/>
