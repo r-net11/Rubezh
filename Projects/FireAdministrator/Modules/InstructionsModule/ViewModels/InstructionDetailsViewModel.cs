@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using FiresecAPI;
+using InstructionsModule.Views;
+using Infrastructure;
 
 namespace InstructionsModule.ViewModels
 {
@@ -15,6 +17,7 @@ namespace InstructionsModule.ViewModels
         {
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+            SetZoneCommand = new RelayCommand(OnSetZoneCommand);
         }
 
         bool _isNew;
@@ -38,7 +41,7 @@ namespace InstructionsModule.ViewModels
             StateType = instruction.StateType;
             Title = "Редактирование инструкции";
             InstructionZonesViewModel = new InstructionZonesViewModel();
-            InstructionZonesViewModel.Inicialized(Instruction);
+            InstructionZonesViewModel.Inicialize(Instruction);
         }
 
         string _name;
@@ -79,20 +82,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        
-        //public List<int> NoZones
-        //{
-        //    get 
-        //    {
-        //        return 
-        //            (new List<int>(from zone in FiresecManager.DeviceConfiguration.Zones
-        //                           orderby (int.Parse(zone.No))
-        //                           select (int.Parse(zone.No))));
-        //    }
-        //}
-
-
-
         void Save()
         {
             Instruction.Name = Name;
@@ -101,6 +90,20 @@ namespace InstructionsModule.ViewModels
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
+            }
+        }
+
+        public RelayCommand SetZoneCommand { get; private set; }
+        void OnSetZoneCommand()
+        {
+            Instruction.Name = Name;
+            Instruction.Text = Text;
+            Instruction.StateType = StateType.Fire;
+            InstructionZonesViewModel.Inicialize(Instruction);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(InstructionZonesViewModel);
+            if (result)
+            {
+                
             }
         }
 
