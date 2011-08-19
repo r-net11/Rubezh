@@ -8,14 +8,14 @@ namespace FireMonitor
     {
         public bool Check()
         {
-            PasswordView passwordView = new PasswordView();
+            var passwordView = new PasswordView();
             passwordView.ShowDialog();
             return passwordView.IsAutorised;
         }
 
         public void ChangeUser()
         {
-            PasswordView passwordView = new PasswordView();
+            var passwordView = new PasswordView();
             passwordView.InitializeReconnect();
             passwordView.ShowDialog();
             FiresecManager.Reconnect(passwordView.UserName, "");

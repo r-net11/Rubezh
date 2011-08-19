@@ -25,7 +25,7 @@ namespace PlansModule.ViewModels
             {
                 foreach (Plan plan in FiresecManager.PlansConfiguration.Plans)
                 {
-                    PlanViewModel planViewModel = new PlanViewModel(plan);
+                    var planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);
                     if (plan.Children != null)
                     {
@@ -100,12 +100,12 @@ namespace PlansModule.ViewModels
             {
                 if (SelectedPlan == null)
                 {
-                    PlanViewModel planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
+                    var planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
                     Plans.Add(planViewModel);
                 }
                 else
                 {
-                    PlanViewModel planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
+                    var planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
                     planViewModel.AddChild(SelectedPlan, planViewModel);
                 }
             }
@@ -161,13 +161,13 @@ namespace PlansModule.ViewModels
 
         void OnEdit()
         {
-            PlanDetailsViewModel planDetailsViewModel = new PlanDetailsViewModel();
+            var planDetailsViewModel = new PlanDetailsViewModel();
             planDetailsViewModel.Initialize(SelectedPlan.Plan);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
                 SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
-                Plan plan = SelectedPlan.Plan;
+                var plan = SelectedPlan.Plan;
                 while (plan.Parent != null) plan = plan.Parent;
                 int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
                 FiresecManager.PlansConfiguration.Plans[index] = plan;
@@ -179,8 +179,8 @@ namespace PlansModule.ViewModels
         public override void OnShow()
         {
             //SelectedPlan = SelectedPlan;
-            PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
-            PlansMenuViewModel plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
         }
 

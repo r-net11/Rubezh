@@ -30,13 +30,13 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" Margin="2" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" Margin="2" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" Margin="2" />
 
-                        <TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding No}" />
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Name}" />
-                        <TextBox Grid.Row="2" Grid.Column="1" Margin="2" Text="{Binding Description}" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
                     </Grid>
                 </TabItem>
 
@@ -48,8 +48,8 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Назначение зоны" />
-                        <ComboBox Grid.Row="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}">
+                        <TextBlock Grid.Row="0" Text="Назначение зоны" Margin="2" />
+                        <ComboBox Grid.Row="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource ZoneTypeToStringConverter}}" />
@@ -61,19 +61,19 @@
 
                             <Grid Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <StackPanel>
-                                    <TextBlock Text="Число датчиков для формирования сигнала Пожар" />
-                                    <extToolkit:IntegerUpDown Value="{Binding DetectorCount}" Minimum="1" />
-                                    <TextBlock Text="Время эвакуации, сек(если указано, то при получении события о" />
-                                    <TextBlock Text="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
-                                    <extToolkit:IntegerUpDown Value="{Binding EvacuationTime}" Minimum="0" />
+                                    <TextBlock Text="Число датчиков для формирования сигнала Пожар" Margin="2" />
+                                    <extToolkit:IntegerUpDown Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
+                                    <TextBlock Text="Время эвакуации, сек(если указано, то при получении события о" Margin="2" />
+                                    <TextBlock Text="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Margin="2" />
+                                    <extToolkit:IntegerUpDown Value="{Binding EvacuationTime}" Minimum="0" Margin="2" />
                                 </StackPanel>
                             </Grid>
 
                             <Grid Visibility="{Binding IsGuardZone, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <StackPanel>
-                                    <TextBlock Text="Вид зоны" />
+                                    <TextBlock Text="Вид зоны" Margin="2" />
 
-                                    <ComboBox ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}">
+                                    <ComboBox ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}" Margin="2">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ., Converter={StaticResource GuardZoneTypeToStringConverter}}" />
@@ -81,11 +81,11 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
 
-                                    <CheckBox Content="Тихая тревога" IsChecked="{Binding Skipped}" />
-                                    <TextBlock Text="Входная/выходная задержка, сек" />
-                                    <extToolkit:IntegerUpDown Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" />
-                                    <TextBlock Text="Автоперевзятие, сек" />
-                                    <extToolkit:IntegerUpDown Value="{Binding AutoSet}" Minimum="0" />
+                                    <CheckBox Content="Тихая тревога" IsChecked="{Binding Skipped}" Margin="2" />
+                                    <TextBlock Text="Входная/выходная задержка, сек" Margin="2" />
+                                    <extToolkit:IntegerUpDown Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" Margin="2" />
+                                    <TextBlock Text="Автоперевзятие, сек" Margin="2" />
+                                    <extToolkit:IntegerUpDown Value="{Binding AutoSet}" Minimum="0" Margin="2" />
                                 </StackPanel>
                             </Grid>
 

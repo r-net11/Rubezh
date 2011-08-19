@@ -9,7 +9,7 @@ namespace FiltersModule.Views
         public FiltersView()
         {
             InitializeComponent();
-            CommandBinding DeleteCmdBinding = new CommandBinding(
+            var DeleteCmdBinding = new CommandBinding(
                 ApplicationCommands.Delete,
                 DeleteCmdExecuted,
                 DeleteCmdCanExecute);

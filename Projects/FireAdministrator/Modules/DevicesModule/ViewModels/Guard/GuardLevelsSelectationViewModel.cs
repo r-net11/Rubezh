@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var guardLevel in FiresecManager.DeviceConfiguration.GuardLevels)
             {
-                GuardLevelViewModel guardLevelViewModel = new GuardLevelViewModel(guardLevel);
+                var guardLevelViewModel = new GuardLevelViewModel(guardLevel);
 
                 if (GuardLevels.Contains(guardLevel.Name))
                 {

@@ -63,29 +63,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var newZone = new Zone();
-            newZone.Name = "Новая зона";
-            var maxNo = 0;
-            if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
-            {
-                maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
-            }
-
-            newZone.No = (maxNo + 1).ToString();
-
-            var zoneDetailsViewModel = new ZoneDetailsViewModel(newZone);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
-            {
-                FiresecManager.DeviceConfiguration.Zones.Add(newZone);
-                ZoneViewModel zoneViewModel = new ZoneViewModel(newZone);
-                Zones.Add(zoneViewModel);
-                DevicesModule.HasChanges = true;
-            }
-        }
-
         bool CanEditDelete(object obj)
         {
             return SelectedZone != null;
@@ -93,7 +70,21 @@ namespace DevicesModule.ViewModels
 
         bool CanDeleteAll(object obj)
         {
-            return Zones.Count != 0;
+            return Zones.Count > 0;
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            var zoneDetailsViewModel = new ZoneDetailsViewModel();
+            zoneDetailsViewModel.Initialize();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+            {
+                FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel._zone);
+                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel._zone);
+                Zones.Add(zoneViewModel);
+                DevicesModule.HasChanges = true;
+            }
         }
 
         public RelayCommand DeleteCommand { get; private set; }
@@ -111,6 +102,23 @@ namespace DevicesModule.ViewModels
                     if (Zones.Count > 0)
                         SelectedZone = Zones[0];
                     DevicesModule.HasChanges = true;
+                }
+            }
+        }
+
+        public RelayCommand EditCommand { get; private set; }
+        void OnEdit()
+        {
+            if (CanEditDelete(null))
+            {
+                var zoneDetailsViewModel = new ZoneDetailsViewModel();
+                zoneDetailsViewModel.Initialize(SelectedZone.Zone);
+                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
+                if (result)
+                    {
+                    SelectedZone.Zone = zoneDetailsViewModel._zone;
+                SelectedZone.Update();
+                DevicesModule.HasChanges = true;
                 }
             }
         }
@@ -164,18 +172,6 @@ namespace DevicesModule.ViewModels
                         SelectedZone = Zones[0];
                     DevicesModule.HasChanges = true;
                 }
-            }
-        }
-
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            if (CanEditDelete(null))
-            {
-                var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-                SelectedZone.Update();
-                DevicesModule.HasChanges = true;
             }
         }
 

@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
@@ -33,7 +34,7 @@ namespace PlansModule.ViewModels
         {
             Plan rootPlan = PlanLoader.Load();
 
-            PlanViewModel planTreeItemViewModel = new ViewModels.PlanViewModel();
+            var planTreeItemViewModel = new ViewModels.PlanViewModel();
             planTreeItemViewModel.Parent = null;
             planTreeItemViewModel.Initialize(rootPlan, Plans);
             planTreeItemViewModel.IsExpanded = true;
@@ -46,7 +47,7 @@ namespace PlansModule.ViewModels
             if (parentPlan.Children != null)
                 foreach (var plan in parentPlan.Children)
                 {
-                    PlanViewModel planTreeItemViewModel = new ViewModels.PlanViewModel();
+                    var planTreeItemViewModel = new ViewModels.PlanViewModel();
                     planTreeItemViewModel.Parent = parentPlanTreeItem;
                     parentPlanTreeItem.Children.Add(planTreeItemViewModel);
                     planTreeItemViewModel.Initialize(plan, Plans);
@@ -97,6 +98,11 @@ namespace PlansModule.ViewModels
                     break;
                 }
             }
+        }
+
+        public bool CanZoom
+        {
+            get { return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_ShowPlans); }
         }
     }
 }

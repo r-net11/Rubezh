@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<string> actions = new List<string>() { "0", "1" };
+                var actions = new List<string>() { "0", "1" };
                 return actions;
             }
         }

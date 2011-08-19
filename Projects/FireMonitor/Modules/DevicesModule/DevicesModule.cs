@@ -53,7 +53,7 @@ namespace DevicesModule
 
         static void OnShowDeviceDetails(string deviceId)
         {
-            DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel(deviceId);
+            var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceId);
             ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
         }
     }

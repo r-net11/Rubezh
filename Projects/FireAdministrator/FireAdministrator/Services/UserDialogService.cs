@@ -8,7 +8,7 @@ namespace FireAdministrator
     {
         public bool ShowWindow(IDialogContent model)
         {
-            DialogWindow dialog = new DialogWindow();
+            var dialog = new DialogWindow();
             dialog.SetContent(model);
 
             dialog.Show();
@@ -24,13 +24,13 @@ namespace FireAdministrator
         {
             try
             {
-                DialogWindow dialog = new DialogWindow
+                var dialog = new DialogWindow
                 {
                     Owner = parentWindow,
                 };
                 dialog.SetContent(model);
 
-                //KeyBinding helpKeyBinding = new KeyBinding(ApplicationHelp.Current.HelpCommand, new KeyGesture(Key.F1));
+                //var helpKeyBinding = new KeyBinding(ApplicationHelp.Current.HelpCommand, new KeyGesture(Key.F1));
                 //dialog.InputBindings.Add(helpKeyBinding);
 
                 //if (model is IHelpContent)

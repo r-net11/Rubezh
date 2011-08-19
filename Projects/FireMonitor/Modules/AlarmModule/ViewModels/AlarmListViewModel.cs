@@ -62,7 +62,7 @@ namespace AlarmModule.ViewModels
         public RelayCommand ResetAllCommand { get; private set; }
         void OnResetAll()
         {
-            List<ResetItem> resetItems = new List<ResetItem>();
+            var resetItems = new List<ResetItem>();
 
             foreach (var alarmViewModel in Alarms)
             {

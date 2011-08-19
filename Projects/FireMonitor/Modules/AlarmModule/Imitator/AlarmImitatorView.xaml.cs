@@ -81,7 +81,7 @@ namespace AlarmModule.Imitator
 
         void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            Alarm alarm = new Alarm();
+            var alarm = new Alarm();
             alarm.AlarmType = AlarmType.Auto;
             alarm.DeviceId = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:7/1E045AD6-66F9-4F0B-901C-68C46C89E8DA:1.24";
             alarm.Name = "Автоматика задвижки отключена";

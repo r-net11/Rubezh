@@ -11,7 +11,7 @@ namespace JournalModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var events = value as List<StateType>;
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
 
             if (events != null)
             {

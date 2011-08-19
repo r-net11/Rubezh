@@ -91,13 +91,13 @@ namespace SecurityModule.ViewModels
         public RelayCommand AddUserCommand { get; private set; }
         void OnAddUser()
         {
-            User newUser = new User();
-            NewUserViewModel newUserViewModel = new NewUserViewModel(newUser);
+            var newUser = new User();
+            var newUserViewModel = new NewUserViewModel(newUser);
             var result = ServiceFactory.UserDialogs.ShowModalWindow(newUserViewModel);
             if (result)
             {
                 _usersList.Add(newUser);
-                UserViewModel userViewModel = new UserViewModel(newUser);
+                var userViewModel = new UserViewModel(newUser);
                 Users.Add(userViewModel);
             }
         }

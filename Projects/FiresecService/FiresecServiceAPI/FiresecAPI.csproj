@@ -66,6 +66,12 @@
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
     <Compile Include="Models\Device\IndicatorLogic.cs" />
+    <Compile Include="Models\Zone\Clause.cs" />
+    <Compile Include="Models\Zone\GuardZoneType.cs" />
+    <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />
+    <Compile Include="Models\Zone\ZoneLogicOperation.cs" />
+    <Compile Include="Models\Zone\ZoneLogicState.cs" />
+    <Compile Include="Models\Zone\ZoneType.cs" />
     <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\Guard\GuardLevel.cs" />
     <Compile Include="Models\Guard\GuardUser.cs" />
@@ -108,8 +114,8 @@
     <Compile Include="Models\States\State.cs" />
     <Compile Include="Models\Security\User.cs" />
     <Compile Include="Models\Security\UserGroup.cs" />
-    <Compile Include="Models\Device\Zone.cs" />
-    <Compile Include="Models\Device\ZoneLogic.cs" />
+    <Compile Include="Models\Zone\Zone.cs" />
+    <Compile Include="Models\Zone\ZoneLogic.cs" />
     <Compile Include="Models\States\ZoneState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

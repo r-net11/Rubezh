@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
+using System.Linq;
 
 namespace DevicesModule.ViewModels
 {
@@ -25,18 +27,9 @@ namespace DevicesModule.ViewModels
             SelectedOperation = clause.Operation;
         }
 
-        public ObservableCollection<ZoneLogicState> States
+        public List<ZoneLogicState> States
         {
-            get
-            {
-                ObservableCollection<ZoneLogicState> _states = new ObservableCollection<ZoneLogicState>();
-                _states.Add(ZoneLogicState.AutomaticOn);
-                _states.Add(ZoneLogicState.Alarm);
-                _states.Add(ZoneLogicState.Fre);
-                _states.Add(ZoneLogicState.Warning);
-                _states.Add(ZoneLogicState.MPTOn);
-                return _states;
-            }
+            get { return Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList(); }
         }
 
         public ObservableCollection<ZoneLogicOperation> Operations
@@ -97,7 +90,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-            ZonesSelectionViewModel zonesSelectionViewModel = new ZonesSelectionViewModel();
+            var zonesSelectionViewModel = new ZonesSelectionViewModel();
             zonesSelectionViewModel.Initialize(Zones);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
             if (result)

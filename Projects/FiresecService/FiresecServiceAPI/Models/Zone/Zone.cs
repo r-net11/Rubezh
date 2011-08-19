@@ -5,6 +5,16 @@ namespace FiresecAPI.Models
     [DataContract]
     public class Zone
     {
+        public Zone()
+        {
+            ZoneType = ZoneType.Fire;
+            GuardZoneType = GuardZoneType.Ordinary;
+            DetectorCount = "2";
+            EvacuationTime = "0";
+            AutoSet = "0";
+            Delay = "0";
+        }
+
         [DataMember]
         public string No { get; set; }
 
@@ -15,7 +25,7 @@ namespace FiresecAPI.Models
         public string Description { get; set; }
 
         [DataMember]
-        public string ZoneType { get; set; }
+        public ZoneType ZoneType { get; set; }
 
         [DataMember]
         public string DetectorCount { get; set; }
@@ -33,7 +43,7 @@ namespace FiresecAPI.Models
         public bool Skipped { get; set; }
 
         [DataMember]
-        public string GuardZoneType { get; set; }
+        public GuardZoneType GuardZoneType { get; set; }
 
         public string PresentationName
         {

@@ -43,9 +43,10 @@ namespace FiresecClient
             _pingThread = new Thread(PingWork);
             _pingThread.Start();
 
+            Timer timer = new Timer(new TimerCallback(TimerWork));
+
             _firesecService.Test();
 
-            
             return result;
         }
 
@@ -212,11 +213,13 @@ namespace FiresecClient
             {
                 Thread.Sleep(TimeSpan.FromSeconds(10));
                 _firesecService.Ping();
-                pingCount++;
             }
         }
 
-        static int pingCount = 0;
+        static void TimerWork(object obj)
+        {
+            ;
+        }
 
         public static void Test()
         {

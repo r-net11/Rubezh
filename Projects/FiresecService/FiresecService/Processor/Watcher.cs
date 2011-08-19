@@ -56,8 +56,6 @@ namespace FiresecService
             }
         }
 
-        // ДОБАВИТЬ ПРОВЕРКУ - ЕСЛИ В ВЫЧИТАННЫХ 100 СОБЫТИЯХ ВСЕ СОБЫТИЯ НОВЫЕ, ТО ВЫЧИТАТЬ И ВТОРУЮ СОТНЮ
-
         void OnNewEvent()
         {
             var document = FiresecInternalClient.ReadEvents(0, 100);
@@ -233,22 +231,27 @@ namespace FiresecService
             {
                 foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
                 {
-                    StateType minZonePriority = StateType.Norm;
+                    var zoneHasDevices = false;
+                    StateType minZoneStateType = StateType.Norm;
                     foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                     {
                         if (device.ZoneNo == zoneState.No)
                         {
+                            zoneHasDevices = true;
                             var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
-                            if (deviceState.StateType < minZonePriority)
-                                minZonePriority = deviceState.StateType;
+                            if (deviceState.StateType < minZoneStateType)
+                                minZoneStateType = deviceState.StateType;
                         }
                     }
 
-                    var newZoneStateType = (StateType)minZonePriority;
+                    if (zoneHasDevices == false)
+                    {
+                        minZoneStateType = StateType.Unknown;
+                    }
 
-                    bool zoneChanged = (zoneState.StateType != newZoneStateType);
-                    zoneState.StateType = newZoneStateType;
+                    bool zoneChanged = (zoneState.StateType != minZoneStateType);
+                    zoneState.StateType = minZoneStateType;
 
                     if (zoneChanged)
                     {

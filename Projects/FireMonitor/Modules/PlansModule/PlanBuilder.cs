@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Xml;
-using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using System.Windows.Media;
@@ -23,16 +19,15 @@ namespace PlansModule
             try
             {
                 /*
-                XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                StreamReader reader = new StreamReader(PathHelper.Plans);
+                var deserializer = new XmlSerializer(typeof(Plan));
+                var reader = new StreamReader(PathHelper.Plans);
                 Plan plan = (Plan)deserializer.Deserialize(reader);
                 reader.Close();
 
 
 
-                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                var xdw = XmlDictionaryWriter.CreateTextWriter(fs);
                 FileStream fs = new FileStream(@"D:/del/Plans_new180811.xml", FileMode.Create);
-                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
                 */
@@ -92,7 +87,7 @@ namespace PlansModule
 
         static void CreateDemoData()
         {
-            Plan plan = new Plan();
+            var plan = new Plan();
             plan.Name = "rootPlan";
             plan.BackgroundSource = "D:/picture6.jpg";
             plan.Caption = "cap";

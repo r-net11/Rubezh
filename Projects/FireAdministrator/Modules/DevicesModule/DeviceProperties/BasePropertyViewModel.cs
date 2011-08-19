@@ -41,7 +41,7 @@ namespace DevicesModule.DeviceProperties
             }
             else
             {
-                Property newProperty = new Property();
+                var newProperty = new Property();
                 newProperty.Name = _driverProperty.Name;
                 newProperty.Value = Value;
                 _device.Properties.Add(newProperty);

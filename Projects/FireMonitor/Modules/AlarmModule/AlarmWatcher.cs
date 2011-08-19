@@ -60,7 +60,7 @@ namespace AlarmModule
 
         void DeviceState_AlarmRemoved(AlarmType alarmType, string id)
         {
-            Alarm alarm = new Alarm()
+            var alarm = new Alarm()
             {
                 AlarmType = alarmType,
                 DeviceId = id

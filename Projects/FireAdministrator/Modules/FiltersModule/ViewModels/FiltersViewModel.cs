@@ -40,7 +40,7 @@ namespace FiltersModule.ViewModels
             {
                 existingNames.Add(filterViewModel.JournalFilter.Name);
             }
-            FilterDetailsViewModel filterDetailsViewModel = new FilterDetailsViewModel(existingNames);
+            var filterDetailsViewModel = new FilterDetailsViewModel(existingNames);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {

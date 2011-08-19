@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
 {
@@ -7,13 +8,13 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string stringType = (string) value;
-            switch (stringType)
+            ZoneType zoneType = (ZoneType)value;
+            switch (zoneType)
             {
-                case "0":
+                case ZoneType.Fire:
                     return "Пожарная";
 
-                case "1":
+                case ZoneType.Guard:
                     return "Охранная";
             }
             return "";

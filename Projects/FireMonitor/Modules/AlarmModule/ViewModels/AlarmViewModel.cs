@@ -133,13 +133,13 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowVideoCommand { get; private set; }
         void OnShowVideo()
         {
-            VideoViewModel videoViewModel = new VideoViewModel();
+            var videoViewModel = new VideoViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
         }
 
         void Reset()
         {
-            List<ResetItem> resetItems = new List<ResetItem>();
+            var resetItems = new List<ResetItem>();
             resetItems.Add(GetResetItem());
             FiresecManager.ResetStates(resetItems);
         }

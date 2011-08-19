@@ -148,7 +148,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ChooseRmCommand { get; private set; }
         void OnChooseRm()
         {
-            DirectionDeviceSelectorViewModel directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
+            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
             directionDeviceSelectorViewModel.Initialize(Direction, true);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
             if (result)
@@ -160,7 +160,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ChooseButtonCommand { get; private set; }
         void OnChooseButton()
         {
-            DirectionDeviceSelectorViewModel directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
+            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
             directionDeviceSelectorViewModel.Initialize(Direction, false);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
             if (result)

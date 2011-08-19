@@ -14,8 +14,6 @@ namespace FireMonitor
     {
         public Bootstrapper()
         {
-            //var resourceDictionary = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            //Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
         }
 
         protected override System.Windows.DependencyObject CreateShell()

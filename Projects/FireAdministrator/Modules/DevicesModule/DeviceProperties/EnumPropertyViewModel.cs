@@ -24,7 +24,7 @@ namespace DevicesModule.DeviceProperties
         {
             get
             {
-                List<string> values = new List<string>();
+                var values = new List<string>();
                 foreach (var propertyParameter in _driverProperty.Parameters)
                 {
                     values.Add(propertyParameter.Name);

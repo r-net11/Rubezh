@@ -20,7 +20,7 @@ namespace FiresecClient.Validation
                 {
                     if (string.IsNullOrEmpty(device.ZoneNo))
                     {
-                        DeviceError deviceError = new DeviceError(device, "Устройство должно относиться к зоне", ErrorLevel.Normal);
+                        var deviceError = new DeviceError(device, "Устройство должно относиться к зоне", ErrorLevel.Normal);
                         DeviceErrors.Add(deviceError);
                     }
                 }
@@ -30,13 +30,13 @@ namespace FiresecClient.Validation
             {
                 if (FiresecManager.DeviceConfiguration.Zones.Count(x => x.No == zone.No) > 1)
                 {
-                    ZoneError zoneError = new ZoneError(zone, "Зона с таким номером уже существует", ErrorLevel.Normal);
+                    var zoneError = new ZoneError(zone, "Зона с таким номером уже существует", ErrorLevel.Normal);
                     ZoneErrors.Add(zoneError);
                 }
 
                 if (int.Parse(zone.DetectorCount) < FiresecManager.DeviceConfiguration.Devices.Count(x => x.ZoneNo == zone.No))
                 {
-                    ZoneError zoneError = new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Normal);
+                    var zoneError = new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Normal);
                     ZoneErrors.Add(zoneError);
                 }
             }

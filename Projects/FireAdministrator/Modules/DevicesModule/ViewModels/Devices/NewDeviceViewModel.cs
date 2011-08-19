@@ -73,7 +73,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<Device> childAddressSystemDevices = new List<Device>();
+                var childAddressSystemDevices = new List<Device>();
                 AddChildAddressSystemDevice(childAddressSystemDevices, ParentAddressSystemDevice);
                 return childAddressSystemDevices;
             }
@@ -86,7 +86,7 @@ namespace DevicesModule.ViewModels
 
         int GetNewAddress()
         {
-            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
+            var avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = -1;
             for (int i = 0; i < avaliableAddresses.Count; ++i)

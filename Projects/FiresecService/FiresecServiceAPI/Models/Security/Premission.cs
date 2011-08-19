@@ -21,7 +21,6 @@ namespace FiresecAPI.Models
 
     public enum PermissionType
     {
-        //CodeAnalizer говорит что не положено без члена с нулевым значением. Предлагает добавить член None = 0
         Adm_ChangeConfigDb = 6,
         Adm_ChangeConfigDevices = 7,
         Adm_ChangeDevicesSoft = 8,

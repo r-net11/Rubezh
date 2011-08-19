@@ -22,7 +22,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Состояние" Binding="{Binding StateType}" Width="*" />
+            <DataGridTextColumn Header="Состояние" Binding="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

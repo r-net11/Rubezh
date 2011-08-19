@@ -13,7 +13,7 @@ namespace FiresecClient
 
         public static IFiresecService Create()
         {
-            NetTcpBinding binding = new NetTcpBinding();
+            var binding = new NetTcpBinding();
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.MaxConnections = 10;
             binding.OpenTimeout = TimeSpan.FromMinutes(10);
@@ -30,7 +30,7 @@ namespace FiresecClient
 
             binding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
 
-            EndpointAddress endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
+            var endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);

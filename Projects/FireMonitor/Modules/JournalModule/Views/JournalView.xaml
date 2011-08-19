@@ -74,12 +74,6 @@
                         </WrapPanel>
                     </StackPanel>
                 </Border>
-
-                <WrapPanel Grid.Row="2" Grid.ColumnSpan="2">
-                    <Button Content="Показать на плане" Command="{Binding ShowPlanCommand}" Margin="3" />
-                    <Button Content="Показать в дереве" Command="{Binding ShowTreeCommand}" Margin="3" />
-                    <Button Content="Показать зону" Command="{Binding ShowZoneCommand}" Margin="3" />
-                </WrapPanel>
             </Grid>
         </Border>
 

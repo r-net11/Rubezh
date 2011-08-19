@@ -73,7 +73,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanEdit(null))
             {
-                DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
+                var directionDetailsViewModel = new DirectionDetailsViewModel();
                 directionDetailsViewModel.Initialize(SelectedDirection.Direction);
                 var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
                 if (result)
@@ -87,13 +87,13 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            DirectionDetailsViewModel directionDetailsViewModel = new DirectionDetailsViewModel();
+            var directionDetailsViewModel = new DirectionDetailsViewModel();
             directionDetailsViewModel.Initialize();
             var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
             if (result)
             {
                 FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);
-                DirectionViewModel directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
+                var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
                 Directions.Add(directionViewModel);
                 DevicesModule.HasChanges = true;
             }
@@ -101,7 +101,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
-            DirectionsMenuViewModel directionsMenuViewModel = new DirectionsMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            var directionsMenuViewModel = new DirectionsMenuViewModel(AddCommand, DeleteCommand, EditCommand);
             ServiceFactory.Layout.ShowMenu(directionsMenuViewModel);
         }
 

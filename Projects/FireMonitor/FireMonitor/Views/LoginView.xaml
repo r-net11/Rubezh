@@ -30,7 +30,7 @@
         <TextBlock Grid.Row="1" Name="_info" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-            <XButtons:XButton Content="Ok" Click="OnConnect" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
+            <XButtons:XButton Content="Ok" Click="OnConnect" IsDefault="True" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
             <XButtons:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />
         </StackPanel>
     </Grid>

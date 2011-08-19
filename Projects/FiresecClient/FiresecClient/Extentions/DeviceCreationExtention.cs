@@ -7,7 +7,7 @@ namespace FiresecClient
     {
         public static Device AddChild(this Device parentDevice, Driver newDriver, int newAddress)
         {
-            Device device = new Device();
+            var device = new Device();
             device.DriverId = newDriver.Id;
             device.Driver = newDriver;
             device.IntAddress = newAddress;
@@ -26,7 +26,7 @@ namespace FiresecClient
 
                 for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
                 {
-                    Device childDevice = new Device();
+                    var childDevice = new Device();
                     childDevice.DriverId = autoCreateDriver.Id;
                     childDevice.Driver = autoCreateDriver;
                     childDevice.IntAddress = i;

@@ -7,7 +7,7 @@ namespace DevicesModule.ViewModels
     {
         public static List<int> GetAvaliableAddresses(Driver driver, Device device)
         {
-            List<int> avaliableAddresses = new List<int>();
+            var avaliableAddresses = new List<int>();
 
             if (device.Driver.IsChildAddressReservedRange)
             {
@@ -86,7 +86,7 @@ namespace DevicesModule.ViewModels
 
         static List<int> GetReservedAddresses(Driver driver, Device device)
         {
-            List<int> reservedAddresses = new List<int>();
+            var reservedAddresses = new List<int>();
             foreach (var childDevice in device.Children)
             {
                 if (childDevice.Driver.IsChildAddressReservedRange)

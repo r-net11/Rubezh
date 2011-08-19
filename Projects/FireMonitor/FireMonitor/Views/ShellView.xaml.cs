@@ -68,16 +68,14 @@ namespace FireMonitor
         {
             AlarmPlayerHelper.Dispose();
 
-            if (FiresecManager.CurrentPermissions.Any(
-                x => x.PermissionType == PermissionType.Oper_Logout) == false)
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Logout) == false)
             {
                 MessageBox.Show("Нет прав для выхода из программы");
                 e.Cancel = true;
                 return;
             }
 
-            if (FiresecManager.CurrentPermissions.Any(
-                x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
+            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
             {
                 return;
             }

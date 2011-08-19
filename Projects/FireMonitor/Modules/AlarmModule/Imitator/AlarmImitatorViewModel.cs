@@ -50,7 +50,7 @@ namespace AlarmModule.Imitator
         public RelayCommand CreateCommand { get; private set; }
         void OnCreate()
         {
-            Alarm alarm = new Alarm();
+            var alarm = new Alarm();
             alarm.AlarmType = AlarmType;
             alarm.Name = Name;
 

@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 return (from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                        where zone.ZoneType == "1"
+                        where zone.ZoneType == ZoneType.Guard
                           select zone).ToList();
             }
         }

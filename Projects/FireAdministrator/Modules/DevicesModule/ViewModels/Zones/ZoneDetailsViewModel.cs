@@ -3,17 +3,47 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public class ZoneDetailsViewModel : DialogContent
     {
-        public ZoneDetailsViewModel(Zone zone)
+        public ZoneDetailsViewModel()
         {
-            Title = "Свойства зоны";
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+        }
 
+        public Zone _zone;
+        bool _isNew;
+
+        public void Initialize()
+        {
+            _isNew = true;
+            Title = "Новая зона";
+
+            var newZone = new Zone();
+            newZone.Name = "Новая зона";
+            var maxNo = 0;
+            if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
+            {
+                maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
+            }
+            newZone.No = (maxNo + 1).ToString();
+
+            CopyProperties(newZone);
+        }
+
+        public void Initialize(Zone zone)
+        {
+            Title = "Редактирование зоны";
+            _isNew = true;
+            CopyProperties(zone);
+        }
+
+        void CopyProperties(Zone zone)
+        {
             _zone = zone;
             ZoneType = zone.ZoneType;
             Name = zone.Name;
@@ -27,21 +57,13 @@ namespace DevicesModule.ViewModels
             GuardZoneType = zone.GuardZoneType;
         }
 
-        Zone _zone;
-
-        public List<string> AvailableZoneTypes
+        public List<ZoneType> AvailableZoneTypes
         {
-            get
-            {
-                List<string> values = new List<string>();
-                values.Add("0");
-                values.Add("1");
-                return values;
-            }
+            get { return Enum.GetValues(typeof(ZoneType)).Cast<ZoneType>().ToList(); }
         }
 
-        string _zoneType;
-        public string ZoneType
+        ZoneType _zoneType;
+        public ZoneType ZoneType
         {
             get { return _zoneType; }
             set
@@ -123,7 +145,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return (GuardZoneType != "0");
+                return (GuardZoneType != GuardZoneType.Ordinary);
             }
         }
 
@@ -149,20 +171,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public List<string> AvailableGuardZoneTypes
+        public List<GuardZoneType> AvailableGuardZoneTypes
         {
-            get
-            {
-                List<string> values = new List<string>();
-                values.Add("0");
-                values.Add("1");
-                values.Add("2");
-                return values;
-            }
+            get { return Enum.GetValues(typeof(GuardZoneType)).Cast<GuardZoneType>().ToList(); }
         }
 
-        string _guardZoneType;
-        public string GuardZoneType
+        GuardZoneType _guardZoneType;
+        public GuardZoneType GuardZoneType
         {
             get { return _guardZoneType; }
             set
@@ -177,7 +192,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return ZoneType == "0";
+                return ZoneType == ZoneType.Fire;
             }
         }
 
@@ -185,7 +200,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return ZoneType == "1";
+                return ZoneType == ZoneType.Guard;
             }
         }
 

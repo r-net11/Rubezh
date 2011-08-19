@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<Device> childAddressSystemDevices = new List<Device>();
+                var childAddressSystemDevices = new List<Device>();
                 AddChildAddressSystemDevice(childAddressSystemDevices, ParentAddressSystemDevice);
                 return childAddressSystemDevices;
             }
@@ -107,7 +107,7 @@ namespace DevicesModule.ViewModels
 
         void UpdateAddressRange()
         {
-            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
+            var avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = -1;
             for (int i = 0; i < avaliableAddresses.Count; ++i)
@@ -151,7 +151,7 @@ namespace DevicesModule.ViewModels
             int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
             int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
 
-            List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
+            var avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             if (startAddress < endAddress)
             {
@@ -197,7 +197,7 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            DeviceViewModel deviceViewModel = new DeviceViewModel();
+            var deviceViewModel = new DeviceViewModel();
             deviceViewModel.Initialize(device, _parentDeviceViewModel.Source);
             deviceViewModel.Parent = parentDeviceViewModel;
             parentDeviceViewModel.Children.Add(deviceViewModel);

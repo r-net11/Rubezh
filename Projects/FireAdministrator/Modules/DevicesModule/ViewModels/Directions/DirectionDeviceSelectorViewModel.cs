@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
         {
             string driverName = isRm ? "Релейный исполнительный модуль РМ-1" : "Кнопка разблокировки автоматики ШУЗ в направлении";
 
-            HashSet<Device> devices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -40,7 +40,7 @@ namespace DevicesModule.ViewModels
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);

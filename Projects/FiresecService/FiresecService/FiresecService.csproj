@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\GuardUserConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
+    <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
     <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
     <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
       <AutoGen>True</AutoGen>

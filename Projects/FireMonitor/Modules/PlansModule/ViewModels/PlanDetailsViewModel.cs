@@ -95,8 +95,8 @@ namespace PlansModule.ViewModels
 
         void AddVideo()
         {
-            Canvas cameraCanvas = new Canvas();
-            Rectangle rectangle = new Rectangle();
+            var cameraCanvas = new Canvas();
+            var rectangle = new Rectangle();
             rectangle.Width = 60;
             rectangle.Height = 30;
             rectangle.Fill = Brushes.DarkGray;
@@ -105,7 +105,7 @@ namespace PlansModule.ViewModels
             rectangle.ToolTip = "Камера 1";
             rectangle.MouseDown += new System.Windows.Input.MouseButtonEventHandler(camera_MouseDown);
 
-            Polygon polygon = new Polygon();
+            var polygon = new Polygon();
             polygon.Fill = Brushes.DarkGray;
             polygon.Stroke = Brushes.Black;
             polygon.StrokeThickness = 3;
@@ -116,7 +116,7 @@ namespace PlansModule.ViewModels
 
             cameraCanvas.Children.Add(rectangle);
             cameraCanvas.Children.Add(polygon);
-            ScaleTransform scaleTransform = new ScaleTransform();
+            var scaleTransform = new ScaleTransform();
             scaleTransform.ScaleX = 0.5;
             scaleTransform.ScaleY = 0.5;
             cameraCanvas.RenderTransform = scaleTransform;
@@ -128,16 +128,16 @@ namespace PlansModule.ViewModels
 
         void camera_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            VideoViewModel videoViewModel = new VideoViewModel();
+            var videoViewModel = new VideoViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
         }
 
         void AddPhone()
         {
-            Image image = new Image();
+            var image = new Image();
             image.Width = 30;
             image.Height = 30;
-            BitmapImage bitmapImage = new BitmapImage();
+            var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri("D:/phone.png");
             bitmapImage.EndInit();
@@ -152,16 +152,16 @@ namespace PlansModule.ViewModels
 
         void phone_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            PhoneViewModel phoneViewModel = new PhoneViewModel();
+            var phoneViewModel = new PhoneViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(phoneViewModel);
         }
 
         void AddDoor()
         {
-            Image image = new Image();
+            var image = new Image();
             image.Width = 50;
             image.Height = 52;
-            BitmapImage bitmapImage = new BitmapImage();
+            var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri("D:/door.png");
             bitmapImage.EndInit();
@@ -176,7 +176,7 @@ namespace PlansModule.ViewModels
 
         void door_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            DoorViewModel doorViewModel = new DoorViewModel();
+            var doorViewModel = new DoorViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(doorViewModel);
         }
 

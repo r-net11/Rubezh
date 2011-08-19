@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
+                var zoneViewModel = new ZoneViewModel(zone);
                 if (direction.Zones.Contains(zone.No))
                 {
                     Zones.Add(zoneViewModel);

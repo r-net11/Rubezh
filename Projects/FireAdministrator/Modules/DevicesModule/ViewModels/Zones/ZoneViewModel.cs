@@ -5,7 +5,7 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
-        public Zone Zone { get; private set; }
+        public Zone Zone { get; set; }
 
         public ZoneViewModel(Zone zone)
         {

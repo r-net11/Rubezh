@@ -64,7 +64,7 @@ namespace DevicesModule.ViewModels
 
         void InitializeDevices()
         {
-            HashSet<Device> devices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -88,7 +88,7 @@ namespace DevicesModule.ViewModels
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);
@@ -169,7 +169,7 @@ namespace DevicesModule.ViewModels
 
             foreach (Zone zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                ZoneViewModel zoneViewModel = new ZoneViewModel(zone);
+                var zoneViewModel = new ZoneViewModel(zone);
 
                 if (Zones.Contains(zone.No))
                 {
@@ -292,18 +292,7 @@ namespace DevicesModule.ViewModels
 
         public List<IndicatorColorType> Colors
         {
-            get
-            {
-                List<IndicatorColorType> colors = new List<IndicatorColorType>();
-                colors.Add(IndicatorColorType.None);
-                colors.Add(IndicatorColorType.Red);
-                colors.Add(IndicatorColorType.Green);
-                colors.Add(IndicatorColorType.Orange);
-                colors.Add(IndicatorColorType.RedBlink);
-                colors.Add(IndicatorColorType.GreenBlink);
-                colors.Add(IndicatorColorType.OrangeBlink);
-                return colors;
-            }
+            get { return Enum.GetValues(typeof(IndicatorColorType)).Cast<IndicatorColorType>().ToList(); }
         }
 
         IndicatorColorType _onColor;

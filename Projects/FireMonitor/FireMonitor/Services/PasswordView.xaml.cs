@@ -76,7 +76,7 @@ namespace FireMonitor.Services
             var md5CrytoProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
             byte[] bs = System.Text.Encoding.UTF8.GetBytes(password);
             bs = md5CrytoProvider.ComputeHash(bs);
-            System.Text.StringBuilder s = new System.Text.StringBuilder();
+            var s = new System.Text.StringBuilder();
             foreach (byte b in bs)
             {
                 s.Append(b.ToString("x2").ToLower());

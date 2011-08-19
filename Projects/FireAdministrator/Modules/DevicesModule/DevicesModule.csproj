@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\Guard\GuardUserViewModel.cs" />
     <Compile Include="ViewModels\Guard\GuardZoneSelectationViewModel.cs" />
     <Compile Include="ViewModels\Guard\ZoneLevelViewModel.cs" />
+    <Compile Include="ViewModels\Validation\ErrorEntityType.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorsViewModel.cs" />
     <Compile Include="ViewModels\Validation\ValidationErrorViewModel.cs" />
     <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">

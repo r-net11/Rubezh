@@ -121,7 +121,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogic()
         {
-            ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
+            var zoneLogicViewModel = new ZoneLogicViewModel();
             zoneLogicViewModel.Initialize(Device);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
             if (result)
@@ -133,7 +133,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowIndicatorLogicCommand { get; private set; }
         void OnShowIndicatorLogic()
         {
-            IndicatorDetailsViewModel indicatorDetailsViewModel = new IndicatorDetailsViewModel();
+            var indicatorDetailsViewModel = new IndicatorDetailsViewModel();
             indicatorDetailsViewModel.Initialize(Device);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
             if (result)
@@ -152,7 +152,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanAdd(null))
             {
-                NewDeviceViewModel newDeviceViewModel = new NewDeviceViewModel(this);
+                var newDeviceViewModel = new NewDeviceViewModel(this);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
                 if (result)
                 {
@@ -166,7 +166,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanAdd(null))
             {
-                NewDeviceRangeViewModel newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
+                var newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
                 if (result)
                 {
@@ -230,7 +230,7 @@ namespace DevicesModule.ViewModels
                     break;
 
                 case "Задвижка":
-                    ValveDetailsViewModel valveDetailsViewModel = new ValveDetailsViewModel(Device);
+                    var valveDetailsViewModel = new ValveDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
                     break;
 
@@ -238,12 +238,12 @@ namespace DevicesModule.ViewModels
                 case "Жокей-насос":
                 case "Компрессор":
                 case "Насос компенсации утечек":
-                    PumpDetailsViewModel pumpDetailsViewModel = new PumpDetailsViewModel(Device);
+                    var pumpDetailsViewModel = new PumpDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
                     break;
 
                 case "Группа":
-                    GroupDetailsViewModel groupDetailsViewModel = new GroupDetailsViewModel(Device);
+                    var groupDetailsViewModel = new GroupDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
                     break;
             }

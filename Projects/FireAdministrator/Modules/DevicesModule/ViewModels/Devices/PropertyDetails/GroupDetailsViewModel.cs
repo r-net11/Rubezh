@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var groupDevice in _device.PDUGroupLogic.Devices)
             {
-                GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
+                var groupDeviceViewModel = new GroupDeviceViewModel();
                 groupDeviceViewModel.Initialize(groupDevice);
                 Devices.Add(groupDeviceViewModel);
             }
@@ -45,7 +45,7 @@ namespace DevicesModule.ViewModels
 
         void InitializeAvailableDevices()
         {
-            HashSet<Device> devices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -68,7 +68,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, AvailableDevices);
                 deviceViewModel.IsExpanded = true;
                 AvailableDevices.Add(deviceViewModel);
@@ -150,7 +150,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            GroupDeviceViewModel groupDeviceViewModel = new GroupDeviceViewModel();
+            var groupDeviceViewModel = new GroupDeviceViewModel();
             groupDeviceViewModel.Initialize(SelectedAvailableDevice.Device);
             Devices.Add(groupDeviceViewModel);
             InitializeAvailableDevices();
@@ -180,7 +180,7 @@ namespace DevicesModule.ViewModels
             _device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т");
             foreach (var device in Devices)
             {
-                PDUGroupDevice pDUGroupDevice = new PDUGroupDevice();
+                var pDUGroupDevice = new PDUGroupDevice();
 
                 if (device.Device.UID == null)
                 {

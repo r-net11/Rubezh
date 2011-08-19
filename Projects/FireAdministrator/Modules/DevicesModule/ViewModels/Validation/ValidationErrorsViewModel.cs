@@ -15,19 +15,19 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                List<ValidationErrorViewModel> errors = new List<ValidationErrorViewModel>();
+                var errors = new List<ValidationErrorViewModel>();
 
                 Validator.Validate();
 
                 foreach (var deviceValidationError in Validator.DeviceErrors)
                 {
-                    ValidationErrorViewModel validationErrorViewModel = new ValidationErrorViewModel(deviceValidationError);
+                    var validationErrorViewModel = new ValidationErrorViewModel(deviceValidationError);
                     errors.Add(validationErrorViewModel);
                 }
 
                 foreach (var zoneValidationError in Validator.ZoneErrors)
                 {
-                    ValidationErrorViewModel validationErrorViewModel = new ValidationErrorViewModel(zoneValidationError);
+                    var validationErrorViewModel = new ValidationErrorViewModel(zoneValidationError);
                     errors.Add(validationErrorViewModel);
                 }
 

@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
             Clauses = new ObservableCollection<ClauseViewModel>();
             foreach (var clause in device.ZoneLogic.Clauses)
             {
-                ClauseViewModel clauseViewModel = new ClauseViewModel();
+                var clauseViewModel = new ClauseViewModel();
                 clauseViewModel.Initialize(clause);
                 Clauses.Add(clauseViewModel);
             }
@@ -57,8 +57,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            ClauseViewModel clauseViewModel = new ClauseViewModel();
-            Clause clause = new Clause();
+            var clauseViewModel = new ClauseViewModel();
+            var clause = new Clause();
             clause.Operation = ZoneLogicOperation.All;
             clause.State = ZoneLogicState.AutomaticOn;
             clauseViewModel.Initialize(clause);
@@ -76,12 +76,12 @@ namespace DevicesModule.ViewModels
 
         void Save()
         {
-            ZoneLogic zoneLogic = new ZoneLogic();
+            var zoneLogic = new ZoneLogic();
             foreach (var clauseViewModel in Clauses)
             {
                 if (clauseViewModel.Zones.Count > 0)
                 {
-                    Clause clause = new Clause();
+                    var clause = new Clause();
                     clause.State = clauseViewModel.SelectedState;
                     clause.Operation = clauseViewModel.SelectedOperation;
                     clause.Zones = clauseViewModel.Zones;

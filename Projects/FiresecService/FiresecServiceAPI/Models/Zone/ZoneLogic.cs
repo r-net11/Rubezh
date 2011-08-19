@@ -87,43 +87,4 @@ namespace FiresecAPI.Models
             return stringZoneLogic;
         }
     }
-
-    [DataContract]
-    public class Clause
-    {
-        public Clause()
-        {
-            Zones = new List<string>();
-        }
-
-        [DataMember]
-        public ZoneLogicState State { get; set; }
-
-        [DataMember]
-        public ZoneLogicOperation Operation { get; set; }
-
-        [DataMember]
-        public List<string> Zones { get; set; }
-    }
-
-    public enum ZoneLogicOperation
-    {
-        All,
-        Any
-    }
-
-    public enum ZoneLogicState
-    {
-        AutomaticOn,
-        Alarm,
-        Fre,
-        Warning,
-        MPTOn
-    }
-
-    public enum ZoneLogicJoinOperator
-    {
-        And,
-        Or
-    }
 }

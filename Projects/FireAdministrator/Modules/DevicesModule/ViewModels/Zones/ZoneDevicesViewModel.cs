@@ -23,8 +23,8 @@ namespace DevicesModule.ViewModels
         {
             _zoneNo = zoneNo;
 
-            HashSet<Device> devices = new HashSet<Device>();
-            HashSet<Device> availableDevices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
+            var availableDevices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -62,7 +62,7 @@ namespace DevicesModule.ViewModels
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);
@@ -81,7 +81,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in availableDevices)
             {
-                DeviceViewModel deviceViewModel = new DeviceViewModel();
+                var deviceViewModel = new DeviceViewModel();
                 deviceViewModel.Initialize(device, AvailableDevices);
                 deviceViewModel.IsExpanded = true;
                 AvailableDevices.Add(deviceViewModel);
@@ -200,7 +200,7 @@ namespace DevicesModule.ViewModels
         {
             if (CanShowZoneLogic(null))
             {
-                ZoneLogicViewModel zoneLogicViewModel = new ZoneLogicViewModel();
+                var zoneLogicViewModel = new ZoneLogicViewModel();
                 zoneLogicViewModel.Initialize(SelectedDevice.Device);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
                 if (result)

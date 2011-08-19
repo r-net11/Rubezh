@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
 {
@@ -7,16 +8,16 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string stringType = (string) value;
-            switch (stringType)
+            GuardZoneType guardZoneType = (GuardZoneType)value;
+            switch (guardZoneType)
             {
-                case "0":
+                case GuardZoneType.Ordinary:
                     return "Обычная";
 
-                case "1":
+                case GuardZoneType.Passby:
                     return "Проходная";
 
-                case "2":
+                case GuardZoneType.Delay:
                     return "С задержкой входа/выхода";
             }
             return "";

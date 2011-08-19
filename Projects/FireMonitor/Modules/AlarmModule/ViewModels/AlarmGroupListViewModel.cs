@@ -33,7 +33,7 @@ namespace AlarmModule.ViewModels
                 alarms.AddRange(alarmGroupViewModel.Alarms);
             }
 
-            AlarmListViewModel alarmListViewModel = new AlarmListViewModel();
+            var alarmListViewModel = new AlarmListViewModel();
             alarmListViewModel.Initialize(alarms, null);
             ServiceFactory.Layout.Show(alarmListViewModel);
         }

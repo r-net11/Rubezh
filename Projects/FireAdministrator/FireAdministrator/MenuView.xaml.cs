@@ -56,7 +56,7 @@ namespace FireAdministrator
 
         void OnLoadFromFile(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openDialog = new OpenFileDialog();
+            var openDialog = new OpenFileDialog();
             openDialog.Filter = "firesec2 files|*.fsc2";
             if (openDialog.ShowDialog().Value)
             {
@@ -72,7 +72,7 @@ namespace FireAdministrator
 
         void OnSaveToFile(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
+            var saveDialog = new SaveFileDialog();
             saveDialog.Filter = "firesec2 files|*.fsc2";
             if (saveDialog.ShowDialog().Value)
             {
