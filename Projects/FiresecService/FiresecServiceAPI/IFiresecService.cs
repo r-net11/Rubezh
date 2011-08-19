@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
-using System;
 
 namespace FiresecAPI
 {
-    [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode=SessionMode.Required)]
+    [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
     public interface IFiresecService
     {
-        [OperationContract(IsInitiating=true)]
+        [OperationContract(IsInitiating = true)]
         bool Connect(string userName, string passwordHash);
 
         [OperationContract(IsInitiating = true)]
         bool Reconnect(string userName, string passwordHash);
 
-        [OperationContract(IsTerminating=true)]
+        [OperationContract(IsTerminating = true)]
         void Disconnect();
 
         [OperationContract]
@@ -35,6 +35,12 @@ namespace FiresecAPI
 
         [OperationContract]
         void SetSystemConfiguration(SystemConfiguration systemConfiguration);
+
+        [OperationContract]
+        DeviceLibraryConfiguration GetDeviceLibraryConfiguration();
+
+        [OperationContract]
+        void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration);
 
         [OperationContract]
         PlansConfiguration GetPlansConfiguration();

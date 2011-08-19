@@ -101,10 +101,6 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DeviceLibrary\DeviceLibrary.csproj">
-      <Project>{CA6164BD-CFB8-419E-982B-28D52DB86C81}</Project>
-      <Name>DeviceLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

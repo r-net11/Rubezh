@@ -14,6 +14,7 @@ namespace FiresecClient
         public static List<Driver> Drivers { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceStates { get; set; }
+        public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
@@ -30,6 +31,7 @@ namespace FiresecClient
             bool result = _firesecService.Connect(login, password);
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
+            DeviceLibraryConfiguration = _firesecService.GetDeviceLibraryConfiguration();
             PlansConfiguration = _firesecService.GetPlansConfiguration();
             SecurityConfiguration = _firesecService.GetSecurityConfiguration();
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
@@ -126,6 +128,11 @@ namespace FiresecClient
             _firesecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
             _firesecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
+        }
+
+        public static void SetDeviceLibraryConfiguration()
+        {
+            _firesecService.SetDeviceLibraryConfiguration(DeviceLibraryConfiguration);
         }
 
         public static void AddToIgnoreList(List<string> deviceIds)

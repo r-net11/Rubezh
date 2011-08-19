@@ -15,6 +15,9 @@ namespace FiresecService
     [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true, InstanceContextMode = InstanceContextMode.PerSession)]
     public class FiresecService : IFiresecService, IDisposable
     {
+        readonly static string SystemConfigurationFileName = "SystemConfiguration.xml";
+        readonly static string DeviceLibraryConfigurationFileName = "DeviceLibrary.xml";
+        readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
         IFiresecCallback _currentCallback;
         string _userName;
 
@@ -31,8 +34,7 @@ namespace FiresecService
 
         public bool Reconnect(string userName, string passwordHash)
         {
-            bool result = CheckLogin(userName, passwordHash);
-            return result;
+            return CheckLogin(userName, passwordHash);
         }
 
         bool CheckLogin(string userName, string passwordHash)
@@ -90,7 +92,7 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                using (var fileStream = new FileStream("SystemConfiguration.xml", FileMode.Open))
+                using (var fileStream = new FileStream(SystemConfigurationFileName, FileMode.Open))
                 {
                     FiresecManager.SystemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
@@ -103,15 +105,36 @@ namespace FiresecService
             }
         }
 
+        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
+        {
+            FiresecManager.DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
+            try
+            {
+                var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+                using (var fileStream = new FileStream(DeviceLibraryConfigurationFileName, FileMode.Open))
+                {
+                    FiresecManager.DeviceLibraryConfiguration =
+                        (DeviceLibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
+                }
+
+                return FiresecManager.DeviceLibraryConfiguration;
+            }
+            catch
+            {
+                return FiresecManager.DeviceLibraryConfiguration;
+            }
+        }
+
         public PlansConfiguration GetPlansConfiguration()
         {
             FiresecManager.PlansConfiguration = new PlansConfiguration();
             try
             {
-                DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-                FileStream fileStream = new FileStream("PlansConfiguration.xml", FileMode.Open);
-                FiresecManager.PlansConfiguration = (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
-                fileStream.Close();
+                var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+                using (var fileStream = new FileStream(PlansConfigurationFileName, FileMode.Open))
+                {
+                    FiresecManager.PlansConfiguration = (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
+                }
 
                 return FiresecManager.PlansConfiguration;
             }
@@ -123,39 +146,51 @@ namespace FiresecService
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
-            FiresecManager.SystemConfiguration = systemConfiguration;
-
             var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            using (var fileStream = new FileStream("SystemConfiguration.xml", FileMode.Create))
+            using (var fileStream = new FileStream(SystemConfigurationFileName, FileMode.Create))
             {
-                dataContractSerializer.WriteObject(fileStream, FiresecManager.SystemConfiguration);
+                dataContractSerializer.WriteObject(fileStream, systemConfiguration);
             }
+
+            FiresecManager.SystemConfiguration = systemConfiguration;
+        }
+
+        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
+        {
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+            using (var fileStream = new FileStream(DeviceLibraryConfigurationFileName, FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, deviceLibraryConfiguration);
+            }
+
+            FiresecManager.DeviceLibraryConfiguration = deviceLibraryConfiguration;
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
-            FiresecManager.PlansConfiguration = plansConfiguration;
+            var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+            using (var fileStream = new FileStream(PlansConfigurationFileName, FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, plansConfiguration);
+            }
 
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-            FileStream fileStream = new FileStream("PlansConfiguration.xml", FileMode.Create);
-            dataContractSerializer.WriteObject(fileStream, FiresecManager.PlansConfiguration);
-            fileStream.Close();
+            FiresecManager.PlansConfiguration = plansConfiguration;
         }
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)
         {
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
-            var journalItems = new List<JournalRecord>();
+            var journalRecords = new List<JournalRecord>();
 
-            if (internalJournal != null && internalJournal.Journal != null)
+            if (internalJournal != null && internalJournal.Journal != null && internalJournal.Journal.Length > 0)
             {
-                foreach (var innerJournalItem in internalJournal.Journal)
+                foreach (var innerJournalRecord in internalJournal.Journal)
                 {
-                    journalItems.Add(JournalConverter.Convert(innerJournalItem));
+                    journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
                 }
             }
 
-            return journalItems;
+            return journalRecords;
         }
 
         public void AddToIgnoreList(List<string> deviceIds)
@@ -195,7 +230,10 @@ namespace FiresecService
         public void ExecuteCommand(string deviceId, string methodName)
         {
             var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
-            FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
+            if (device != null)
+            {
+                FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
+            }
         }
 
         public List<string> GetFileNamesList(string directory)
@@ -219,7 +257,7 @@ namespace FiresecService
 
         public Stream GetFile(string directoryNameAndFileName)
         {
-            string filePath = Directory.GetCurrentDirectory() + @"\" + directoryNameAndFileName;
+            var filePath = Directory.GetCurrentDirectory() + @"\" + dirNameAndFileName;
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 

@@ -15,10 +15,13 @@ namespace FiresecService.Converters
             {
                 foreach (var innerZone in firesecConfig.zone)
                 {
-                    var zone = new Zone();
-                    zone.Name = innerZone.name;
-                    zone.No = innerZone.no;
-                    zone.Description = innerZone.desc;
+                    var zone = new Zone()
+                    {
+                        Name = innerZone.name,
+                        No = innerZone.no,
+                        Description = innerZone.desc
+                    };
+
                     if (innerZone.param != null)
                     {
                         var zoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "ZoneType");
@@ -60,76 +63,86 @@ namespace FiresecService.Converters
             var innerZones = new List<Firesec.CoreConfig.zoneType>();
             foreach (var zone in deviceConfiguration.Zones)
             {
-                var innerZone = new Firesec.CoreConfig.zoneType();
-                innerZone.name = zone.Name;
-                innerZone.idx = zone.No;
-                innerZone.no = zone.No;
-                if (!string.IsNullOrEmpty(zone.Description))
+                var innerZone = new Firesec.CoreConfig.zoneType()
+                {
+                    name = zone.Name,
+                    idx = zone.No,
+                    no = zone.No
+                };
+
+                if (string.IsNullOrEmpty(zone.Description) == false)
                     innerZone.desc = zone.Description;
 
                 var zoneParams = new List<Firesec.CoreConfig.paramType>();
 
-                if (!string.IsNullOrEmpty(zone.ZoneType))
+                if (string.IsNullOrEmpty(zone.ZoneType) == false)
                 {
-                    var ZoneTypeParam = new Firesec.CoreConfig.paramType();
-                    ZoneTypeParam.name = "ZoneType";
-                    ZoneTypeParam.type = "Int";
-                    ZoneTypeParam.value = zone.ZoneType;
-                    zoneParams.Add(ZoneTypeParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "ZoneType",
+                        type = "Int",
+                        value = zone.ZoneType
+                    });
                 }
 
-                if (!string.IsNullOrEmpty(zone.DetectorCount))
+                if (string.IsNullOrEmpty(zone.DetectorCount) == false)
                 {
-                    var DetectorCountParam = new Firesec.CoreConfig.paramType();
-                    DetectorCountParam.name = "FireDeviceCount";
-                    DetectorCountParam.type = "Int";
-                    DetectorCountParam.value = zone.DetectorCount;
-                    zoneParams.Add(DetectorCountParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "FireDeviceCount",
+                        type = "Int",
+                        value = zone.DetectorCount
+                    });
                 }
 
-                if (!string.IsNullOrEmpty(zone.EvacuationTime))
+                if (string.IsNullOrEmpty(zone.EvacuationTime) == false)
                 {
-                    var EvacuationTimeZoneParam = new Firesec.CoreConfig.paramType();
-                    EvacuationTimeZoneParam.name = "ExitTime";
-                    EvacuationTimeZoneParam.type = "SmallInt";
-                    EvacuationTimeZoneParam.value = zone.EvacuationTime;
-                    zoneParams.Add(EvacuationTimeZoneParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "ExitTime",
+                        type = "SmallInt",
+                        value = zone.EvacuationTime
+                    });
                 }
 
-                if (!string.IsNullOrEmpty(zone.AutoSet))
+                if (string.IsNullOrEmpty(zone.AutoSet) == false)
                 {
-                    var AutoSetParam = new Firesec.CoreConfig.paramType();
-                    AutoSetParam.name = "AutoSet";
-                    AutoSetParam.type = "Int";
-                    AutoSetParam.value = zone.AutoSet;
-                    zoneParams.Add(AutoSetParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "AutoSet",
+                        type = "Int",
+                        value = zone.AutoSet
+                    });
                 }
 
-                if (!string.IsNullOrEmpty(zone.Delay))
+                if (string.IsNullOrEmpty(zone.Delay) == false)
                 {
-                    var DelaytParam = new Firesec.CoreConfig.paramType();
-                    DelaytParam.name = "Delay";
-                    DelaytParam.type = "Int";
-                    DelaytParam.value = zone.Delay;
-                    zoneParams.Add(DelaytParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "Delay",
+                        type = "Int",
+                        value = zone.Delay
+                    });
                 }
 
                 if (true)
                 {
-                    var GuardZoneTypeParam = new Firesec.CoreConfig.paramType();
-                    GuardZoneTypeParam.name = "Skipped";
-                    GuardZoneTypeParam.type = "Int";
-                    GuardZoneTypeParam.value = zone.Skipped ? "1" : "0";
-                    zoneParams.Add(GuardZoneTypeParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "Skipped",
+                        type = "Int",
+                        value = zone.Skipped ? "1" : "0"
+                    });
                 }
 
-                if (!string.IsNullOrEmpty(zone.GuardZoneType))
+                if (string.IsNullOrEmpty(zone.GuardZoneType) == false)
                 {
-                    var GuardZoneTypeParam = new Firesec.CoreConfig.paramType();
-                    GuardZoneTypeParam.name = "GuardZoneType";
-                    GuardZoneTypeParam.type = "Int";
-                    GuardZoneTypeParam.value = zone.GuardZoneType;
-                    zoneParams.Add(GuardZoneTypeParam);
+                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    {
+                        name = "GuardZoneType",
+                        type = "Int",
+                        value = zone.GuardZoneType
+                    });
                 }
 
                 if (zoneParams.Count > 0)

@@ -14,15 +14,16 @@ namespace FiresecService
         {
             host = new ServiceHost(typeof(FiresecService));
 
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.MaxBufferPoolSize = Int32.MaxValue;
-            binding.MaxConnections = 1000;
-            binding.OpenTimeout = TimeSpan.FromMinutes(10);
-            binding.ListenBacklog = 10;
-            binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
-            binding.MaxBufferSize = Int32.MaxValue;
-            binding.MaxReceivedMessageSize = Int32.MaxValue;
-            binding.MaxBufferPoolSize = Int32.MaxValue;
+            NetTcpBinding binding = new NetTcpBinding()
+            {
+                MaxReceivedMessageSize = Int32.MaxValue,
+                MaxBufferPoolSize = Int32.MaxValue,
+                MaxBufferSize = Int32.MaxValue,
+                MaxConnections = 1000,
+                OpenTimeout = TimeSpan.FromMinutes(10),
+                ReceiveTimeout = TimeSpan.FromMinutes(10),
+                ListenBacklog = 10,
+            };
             binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;

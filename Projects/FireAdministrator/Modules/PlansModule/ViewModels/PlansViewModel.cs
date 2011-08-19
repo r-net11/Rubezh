@@ -4,7 +4,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -16,15 +15,14 @@ namespace PlansModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
-//            plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
-//            PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            //            plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            //            PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
         }
 
         public void Initialize()
         {
             if (FiresecManager.PlansConfiguration.Plans != null)
             {
-                
                 foreach (Plan plan in FiresecManager.PlansConfiguration.Plans)
                 {
                     PlanViewModel planViewModel = new PlanViewModel(plan);
@@ -39,8 +37,10 @@ namespace PlansModule.ViewModels
                 {
                     SelectedPlan = Plans[0];
                 }
+                }
             }
         }
+
         public void BuildTree(List<Plan> _plans, PlanViewModel parent)
         {
             foreach (Plan plan in _plans)
@@ -52,18 +52,18 @@ namespace PlansModule.ViewModels
                 {
                     BuildTree(plan.Children, planViewModel);
                 }
-
             }
         }
-        
+
         public ObservableCollection<PlanViewModel> _plans;
-        public ObservableCollection<PlanViewModel> Plans 
+        public ObservableCollection<PlanViewModel> Plans
         {
             get
             {
                 return _plans;
             }
-            set{
+            set
+            {
                 _plans = value;
                 OnPropertyChanged("Plans");
             }
@@ -83,7 +83,7 @@ namespace PlansModule.ViewModels
 
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
-        {   
+        {
             PlanDetailsViewModel planDetailsViewModel = null;
             if (SelectedPlan != null)
             {
@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
                 planDetailsViewModel = new PlanDetailsViewModel();
                 planDetailsViewModel.Initialize();
             }
-            
+
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
@@ -129,7 +129,8 @@ namespace PlansModule.ViewModels
             }
             else
             {
-                foreach(PlanViewModel plan in _plans){
+                foreach (PlanViewModel plan in _plans)
+                {
                     if (_plans.Remove(_selectedPlan))
                     {
                         FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
@@ -166,7 +167,7 @@ namespace PlansModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
             if (result)
             {
-                SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name; 
+                SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
                 Plan plan = SelectedPlan.Plan;
                 while (plan.Parent != null) plan = plan.Parent;
                 int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
@@ -175,7 +176,6 @@ namespace PlansModule.ViewModels
                 //SelectedPlan = null;
             }
         }
-
 
         public override void OnShow()
         {

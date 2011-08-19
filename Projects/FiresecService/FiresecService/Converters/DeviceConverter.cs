@@ -33,8 +33,11 @@ namespace FiresecService.Converters
             {
                 foreach (var innerDevice in parentInnerDevice.dev)
                 {
-                    var device = new Device();
-                    device.Parent = parentDevice;
+                    var device = new Device()
+                    {
+                        Parent = parentDevice
+                    };
+
                     parentDevice.Children.Add(device);
                     SetInnerDevice(device, innerDevice);
                     FiresecManager.DeviceConfiguration.Devices.Add(device);
@@ -46,18 +49,21 @@ namespace FiresecService.Converters
 
         static DeviceState CreateDeviceState(Device device)
         {
-            var deviceState = new DeviceState();
-            deviceState.ChangeEntities = new ChangeEntities();
-            deviceState.Id = device.Id;
-            deviceState.PlaceInTree = device.PlaceInTree;
+            var deviceState = new DeviceState()
+            {
+                ChangeEntities = new ChangeEntities(),
+                Id = device.Id,
+                PlaceInTree = device.PlaceInTree
+            };
 
             deviceState.States = new List<DeviceDriverState>();
             foreach (var driverState in device.Driver.States)
             {
-                var deviceDriverState = new DeviceDriverState();
-                deviceDriverState.DriverState = driverState;
-                deviceDriverState.Code = driverState.Code;
-                deviceState.States.Add(deviceDriverState);
+                deviceState.States.Add(new DeviceDriverState()
+                {
+                    DriverState = driverState,
+                    Code = driverState.Code
+                });
             }
 
             deviceState.Parameters = new List<Parameter>();
@@ -96,10 +102,11 @@ namespace FiresecService.Converters
             {
                 foreach (var innerProperty in innerDevice.prop)
                 {
-                    Property deviceProperty = new Property();
-                    deviceProperty.Name = innerProperty.name;
-                    deviceProperty.Value = innerProperty.value;
-                    device.Properties.Add(deviceProperty);
+                    device.Properties.Add(new Property()
+                    {
+                        Name = innerProperty.name,
+                        Value = innerProperty.value
+                    });
                 }
             }
 
@@ -179,7 +186,7 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            var rootDevice = deviceConfiguration.RootDevice;
+            Device rootDevice = deviceConfiguration.RootDevice;
             Firesec.CoreConfig.devType rootInnerDevice = DeviceToInnerDevice(rootDevice);
             AddInnerDevice(rootDevice, rootInnerDevice);
 
@@ -216,7 +223,7 @@ namespace FiresecService.Converters
 
             if (device.ZoneNo != null)
             {
-                List<Firesec.CoreConfig.inZType> zones = new List<Firesec.CoreConfig.inZType>();
+                var zones = new List<Firesec.CoreConfig.inZType>();
                 zones.Add(new Firesec.CoreConfig.inZType() { idz = device.ZoneNo });
                 innerDevice.inZ = zones.ToArray();
             }
@@ -228,19 +235,23 @@ namespace FiresecService.Converters
 
         static List<Firesec.CoreConfig.propType> AddProperties(Device device)
         {
-            List<Firesec.CoreConfig.propType> propertyList = new List<Firesec.CoreConfig.propType>();
+            var propertyList = new List<Firesec.CoreConfig.propType>();
 
             if (device.Driver.DriverName != "Компьютер")
             {
-                if ((device.Properties != null) && (device.Properties.Count > 0))
+                if (device.Properties != null && device.Properties.Count > 0)
                 {
                     foreach (var deviceProperty in device.Properties)
                     {
-                        if ((string.IsNullOrEmpty(deviceProperty.Name) == false) && (string.IsNullOrEmpty(deviceProperty.Value)) == false)
+                        if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
+                            string.IsNullOrEmpty(deviceProperty.Value) == false)
                         {
-                            Firesec.CoreConfig.propType property = new Firesec.CoreConfig.propType();
-                            property.name = deviceProperty.Name;
-                            property.value = deviceProperty.Value;
+                            var property = new Firesec.CoreConfig.propType()
+                            {
+                                name = deviceProperty.Name,
+                                value = deviceProperty.Value
+                            };
+
                             propertyList.Add(property);
                         }
                     }

@@ -9,15 +9,16 @@ namespace FiresecService.Converters
     {
         public static ZoneLogic Convert(Firesec.ZoneLogic.expr innerZoneLogic)
         {
-            ZoneLogic zoneLogic = new ZoneLogic();
+            var zoneLogic = new ZoneLogic();
 
-            if ((innerZoneLogic != null) && (innerZoneLogic.clause != null))
+            if (innerZoneLogic != null && innerZoneLogic.clause != null && innerZoneLogic.clause.Length > 0)
             {
                 foreach (var innerClause in innerZoneLogic.clause)
                 {
-                    Clause clause = new Clause();
-
-                    clause.Zones = innerClause.zone.ToList();
+                    var clause = new Clause()
+                    {
+                        Zones = innerClause.zone.ToList()
+                    };
 
                     switch (innerClause.state)
                     {
@@ -75,11 +76,10 @@ namespace FiresecService.Converters
         {
             Firesec.ZoneLogic.expr innerZoneLogic = new Firesec.ZoneLogic.expr();
 
-            List<clauseType> innerClauses = new List<clauseType>();
+            var innerClauses = new List<clauseType>();
             foreach (var clause in zoneLogic.Clauses)
             {
-                clauseType innerClause = new clauseType();
-
+                var innerClause = new clauseType();
                 switch (clause.State)
                 {
                     case ZoneLogicState.AutomaticOn:

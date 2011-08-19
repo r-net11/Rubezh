@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
-namespace DeviceLibrary.Models
+namespace FiresecAPI.Models.DeviceLibrary
 {
     [DataContract]
-    [Serializable]
     public class Device
     {
         [DataMember]
-        [XmlAttribute]
         public string Id { get; set; }
 
         [DataMember]

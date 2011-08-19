@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using DeviceLibrary;
 using FiresecClient;
 
 namespace LibraryModule.ViewModels
@@ -14,7 +13,7 @@ namespace LibraryModule.ViewModels
             {
                 if (driver.IsPlaceable &&
                     !driver.IsIgnore &&
-                    !LibraryManager.Devices.Any(x => x.Id == driver.Id))
+                    !FiresecManager.DeviceLibraryConfiguration.Devices.Any(x => x.Id == driver.Id))
                 {
                     Items.Add(new DeviceViewModel(DeviceViewModel.GetDefaultDriverWith(driver.Id)));
                 }

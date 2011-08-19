@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Common;
+using CustomWindow;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -20,13 +21,13 @@ namespace FireAdministrator
             return WindowButtonsPlaceholder;
         }
 
-        private void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
                 this.DragMove();
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             if (this.Width + e.HorizontalChange > 10)
                 this.Width += e.HorizontalChange;

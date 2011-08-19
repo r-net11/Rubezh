@@ -155,7 +155,6 @@ namespace FiresecClient
             }
         }
 
-
         public SystemConfiguration GetSystemConfiguration()
         {
             try
@@ -174,6 +173,31 @@ namespace FiresecClient
             try
             {
                 _iFiresecService.SetSystemConfiguration(systemConfiguration);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
+        {
+            try
+            {
+                return _iFiresecService.GetDeviceLibraryConfiguration();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
+        {
+            try
+            {
+                _iFiresecService.SetDeviceLibraryConfiguration(deviceLibraryConfiguration);
             }
             catch
             {

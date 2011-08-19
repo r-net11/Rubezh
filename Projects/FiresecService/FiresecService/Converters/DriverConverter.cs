@@ -12,11 +12,17 @@ namespace FiresecService.Converters
 
         public static Driver Convert(configDrv innerDriver)
         {
-            Driver driver = new Driver();
-            driver.Id = innerDriver.id;
-            driver.Name = innerDriver.name;
-            driver.ShortName = innerDriver.shortName; ;
-            driver.HasAddress = innerDriver.ar_no_addr != "1";
+            var driver = new Driver()
+            {
+                Id = innerDriver.id,
+                Name = innerDriver.name,
+                ShortName = innerDriver.shortName,
+                HasAddress = innerDriver.ar_no_addr != "1",
+                IsAutoCreate = innerDriver.acr_enabled == "1",
+                MinAutoCreateAddress = int.Parse(innerDriver.acr_from),
+                MaxAutoCreateAddress = int.Parse(innerDriver.acr_to),
+                HasAddressMask = innerDriver.addrMask != null
+            };
 
             driver.CanEditAddress = true;
             if (innerDriver.ar_no_addr != null)
@@ -50,19 +56,19 @@ namespace FiresecService.Converters
                 }
             }
 
-            driver.IsDeviceOnShleif = ((innerDriver.addrMask != null) && ((innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]") || (innerDriver.addrMask == "[0(1)-8(30)]")));
+            driver.IsDeviceOnShleif = (innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]"));
 
             driver.HasShleif = driver.ShleifCount == 0 ? false : true;
 
             if (innerDriver.name == "Насосная Станция")
                 driver.UseParentAddressSystem = false;
             else
-                driver.UseParentAddressSystem = ((innerDriver.options != null) && (innerDriver.options.Contains("UseParentAddressSystem")));
+                driver.UseParentAddressSystem = (innerDriver.options != null && innerDriver.options.Contains("UseParentAddressSystem"));
 
             driver.IsChildAddressReservedRange = (innerDriver.res_addr != null);
 
             driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
-            driver.DisableAutoCreateChildren = (innerDriver.options != null) && (innerDriver.options.Contains("DisableAutoCreateChildren"));
+            driver.DisableAutoCreateChildren = innerDriver.options != null && innerDriver.options.Contains("DisableAutoCreateChildren");
 
             if (innerDriver.addrMask == "[0(1)-8(8)]")
                 driver.IsRangeEnabled = true;
@@ -79,11 +85,6 @@ namespace FiresecService.Converters
             else
                 driver.MaxAddress = int.Parse(innerDriver.ar_to);
 
-            driver.IsAutoCreate = innerDriver.acr_enabled == "1";
-            driver.MinAutoCreateAddress = int.Parse(innerDriver.acr_from);
-            driver.MaxAutoCreateAddress = int.Parse(innerDriver.acr_to);
-            driver.HasAddressMask = innerDriver.addrMask != null;
-
             string imageSource;
             if (string.IsNullOrEmpty(innerDriver.dev_icon) == false)
             {
@@ -98,10 +99,10 @@ namespace FiresecService.Converters
             driver.ImageSource = @"C:/Program Files/Firesec/Icons/" + imageSource + ".ico";
 
             driver.HasImage = driver.ImageSource != @"C:/Program Files/Firesec/Icons/Device_Device.ico";
-            driver.IsZoneDevice = !((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0"));
-            driver.IsZoneLogicDevice = ((innerDriver.options != null) && (innerDriver.options.Contains("ExtendedZoneLogic")));
-            driver.CanDisable = (innerDriver.options != null) && (innerDriver.options.Contains("Ignorable"));
-            driver.IsPlaceable = (innerDriver.options != null) && (innerDriver.options.Contains("Placeable"));
+            driver.IsZoneDevice = !(innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0");
+            driver.IsZoneLogicDevice = (innerDriver.options != null && innerDriver.options.Contains("ExtendedZoneLogic"));
+            driver.CanDisable = (innerDriver.options != null && innerDriver.options.Contains("Ignorable"));
+            driver.IsPlaceable = (innerDriver.options != null && innerDriver.options.Contains("Placeable"));
             driver.IsIndicatorDevice = (innerDriver.name == "Индикатор");
             driver.CanControl = (driver.DriverName == "Задвижка");
 
@@ -118,7 +119,7 @@ namespace FiresecService.Converters
                     break;
             }
 
-            driver.IsOutDevice = (innerDriver.options != null) && (innerDriver.options.Contains("OutDevice"));
+            driver.IsOutDevice = (innerDriver.options != null && innerDriver.options.Contains("OutDevice"));
 
             switch (innerDriver.cat)
             {
@@ -189,7 +190,7 @@ namespace FiresecService.Converters
 
             driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);
-            var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id) && (x.IgnoreLevel < 2));
+            var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
             if (driverData != null)
             {
                 driver.DriverName = driverData.Name;
@@ -199,9 +200,9 @@ namespace FiresecService.Converters
             foreach (var childDriver in Metadata.drv)
             {
                 var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-                if ((childClass.parent != null) && (childClass.parent.Any(x => x.clsid == innerDriver.clsid)))
+                if (childClass.parent != null && childClass.parent.Any(x => x.clsid == innerDriver.clsid))
                 {
-                    if ((childDriver.lim_parent != null) && (childDriver.lim_parent != innerDriver.id))
+                    if (childDriver.lim_parent != null && childDriver.lim_parent != innerDriver.id)
                         continue;
 
                     AllChildren.Add(childDriver);
@@ -210,7 +211,7 @@ namespace FiresecService.Converters
 
             driver.Children = new List<string>(
                 from configDrv childInnerDriver in AllChildren
-                where (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == childInnerDriver.id)).IgnoreLevel == 0)
+                where (DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id).IgnoreLevel == 0)
                 select childInnerDriver.id);
 
             driver.AvaliableChildren = new List<string>(
@@ -237,14 +238,14 @@ namespace FiresecService.Converters
                 {
                     if (internalProperty.hidden == "1")
                         continue;
-                    if ((internalProperty.caption == "Заводской номер") || (internalProperty.caption == "Версия микропрограммы"))
+                    if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
                         continue;
 
                     DriverProperty driverProperty = new DriverProperty();
                     driverProperty.Name = internalProperty.name;
                     driverProperty.Caption = internalProperty.caption;
                     driverProperty.Default = internalProperty.@default;
-                    driverProperty.Visible = ((internalProperty.hidden == "0") && (internalProperty.showOnlyInState == "0"));
+                    driverProperty.Visible = (internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0");
                     driverProperty.IsHidden = (internalProperty.hidden == "1");
 
                     driverProperty.Parameters = new List<DriverPropertyParameter>();
@@ -252,10 +253,11 @@ namespace FiresecService.Converters
                     {
                         foreach (var firesecParameter in internalProperty.param)
                         {
-                            DriverPropertyParameter driverPropertyParameter = new DriverPropertyParameter();
-                            driverPropertyParameter.Name = firesecParameter.name;
-                            driverPropertyParameter.Value = firesecParameter.value;
-                            driverProperty.Parameters.Add(driverPropertyParameter);
+                            driverProperty.Parameters.Add(new DriverPropertyParameter()
+                            {
+                                Name = firesecParameter.name,
+                                Value = firesecParameter.value
+                            });
                         }
                     }
 
@@ -297,11 +299,12 @@ namespace FiresecService.Converters
             {
                 foreach (var innerParameter in innerDriver.paramInfo)
                 {
-                    Parameter parameter = new Parameter();
-                    parameter.Name = innerParameter.name;
-                    parameter.Caption = innerParameter.caption;
-                    parameter.Visible = ((innerParameter.hidden == "0") && (innerParameter.showOnlyInState == "0"));
-                    driver.Parameters.Add(parameter);
+                    driver.Parameters.Add(new Parameter()
+                    {
+                        Name = innerParameter.name,
+                        Caption = innerParameter.caption,
+                        Visible = (innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0")
+                    });
                 }
             }
 
@@ -310,16 +313,17 @@ namespace FiresecService.Converters
             {
                 foreach (var innerState in innerDriver.state)
                 {
-                    DriverState driverState = new DriverState();
-                    driverState.Id = innerState.id;
-                    driverState.Name = innerState.name;
-                    driverState.AffectChildren = innerState.affectChildren == "1" ? true : false;
-                    driverState.StateType = (StateType) int.Parse(innerState.@class);
-                    driverState.IsManualReset = innerState.manualReset == "1" ? true : false;
-                    driverState.CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false;
-                    driverState.IsAutomatic = innerState.type == "Auto" ? true : false;
-                    driverState.Code = innerState.code;
-                    driver.States.Add(driverState);
+                    driver.States.Add(new DriverState()
+                    {
+                        Id = innerState.id,
+                        Name = innerState.name,
+                        AffectChildren = innerState.affectChildren == "1" ? true : false,
+                        StateType = (StateType) int.Parse(innerState.@class),
+                        IsManualReset = innerState.manualReset == "1" ? true : false,
+                        CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
+                        IsAutomatic = innerState.type == "Auto" ? true : false,
+                        Code = innerState.code
+                    });
                 }
             }
 

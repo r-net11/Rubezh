@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 using DeviceLibrary.Models;
 using Infrastructure.Common;
 
@@ -12,30 +12,31 @@ namespace DeviceLibrary
 
         static LibraryManager()
         {
-            Load();
+            Devices = new List<Device>();
+            GetDeviceLibraryConfiguration();
         }
 
-        static void Load()
+        static void GetDeviceLibraryConfiguration()
         {
-            using (var fileStream =
-                new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            var deviceLibraryConfiguration = new DeviceLibraryConfiguration();
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+
+            using (var fileStream = new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Open))
             {
-                var serializer = new XmlSerializer(typeof(DeviceManager));
-                var deviceManager = (DeviceManager) serializer.Deserialize(fileStream);
-                Devices = deviceManager.Devices;
+                deviceLibraryConfiguration = (DeviceLibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
             }
+            Devices = deviceLibraryConfiguration.Devices;
         }
 
-        public static void Save()
+        public static void SetDeviceLibraryConfiguration()
         {
-            var deviceManager = new DeviceManager();
-            deviceManager.Devices = Devices;
+            var deviceLibraryConfiguration = new DeviceLibraryConfiguration();
+            deviceLibraryConfiguration.Devices = Devices;
 
-            using (var fileStream =
-                new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Create, FileAccess.Write, FileShare.Write))
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+            using (var fileStream = new FileStream(PathHelper.DeviceLibraryFileName, FileMode.Create))
             {
-                var serializer = new XmlSerializer(typeof(DeviceManager));
-                serializer.Serialize(fileStream, deviceManager);
+                dataContractSerializer.WriteObject(fileStream, deviceLibraryConfiguration);
             }
         }
     }

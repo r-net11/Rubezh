@@ -62,6 +62,7 @@
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\ChangeEntities.cs" />
+    <Compile Include="Models\Configuration\DeviceLibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
     <Compile Include="Models\Device\IndicatorLogic.cs" />
@@ -70,6 +71,9 @@
     <Compile Include="Models\Guard\GuardUser.cs" />
     <Compile Include="Models\Guard\ZoneActionType.cs" />
     <Compile Include="Models\Guard\ZoneLevel.cs" />
+    <Compile Include="Models\DeviceLibrary\Device.cs" />
+    <Compile Include="Models\DeviceLibrary\Frame.cs" />
+    <Compile Include="Models\DeviceLibrary\State.cs" />
     <Compile Include="Models\Plans\ElementDevice.cs" />
     <Compile Include="Models\Plans\ElementSubPlan.cs" />
     <Compile Include="Models\Plans\ElementZone.cs" />

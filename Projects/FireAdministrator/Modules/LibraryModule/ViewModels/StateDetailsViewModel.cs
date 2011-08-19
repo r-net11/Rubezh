@@ -6,7 +6,7 @@ namespace LibraryModule.ViewModels
 {
     public class StateDetailsViewModel : DetailsBaseViewModel<StateViewModel>
     {
-        public StateDetailsViewModel(DeviceLibrary.Models.Device device)
+        public StateDetailsViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
         {
             Initialize("Добавить состояние");
 

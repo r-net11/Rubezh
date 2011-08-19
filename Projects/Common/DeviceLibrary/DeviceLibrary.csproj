@@ -43,6 +43,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,7 +59,7 @@
   <ItemGroup>
     <Compile Include="LibraryManager.cs" />
     <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\DeviceManager.cs" />
+    <Compile Include="Models\DeviceLibraryConfiguration.cs" />
     <Compile Include="Models\Frame.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

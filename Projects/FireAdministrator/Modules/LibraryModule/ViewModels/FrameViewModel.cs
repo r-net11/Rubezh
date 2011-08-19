@@ -11,14 +11,14 @@ namespace LibraryModule.ViewModels
         public static readonly int defaultDuration = 300;
         public static readonly int defaultLayer = 0;
 
-        public FrameViewModel(DeviceLibrary.Models.Frame frame)
+        public FrameViewModel(FiresecAPI.Models.DeviceLibrary.Frame frame)
         {
             Frame = frame;
 
             ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
-        public DeviceLibrary.Models.Frame Frame { get; private set; }
+        public FiresecAPI.Models.DeviceLibrary.Frame Frame { get; private set; }
 
         public Canvas XamlOfImage
         {
@@ -35,9 +35,9 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public static DeviceLibrary.Models.Frame GetDefaultFrameWith(int id)
+        public static FiresecAPI.Models.DeviceLibrary.Frame GetDefaultFrameWith(int id)
         {
-            var frame = new DeviceLibrary.Models.Frame();
+            var frame = new FiresecAPI.Models.DeviceLibrary.Frame();
             frame.Duration = defaultDuration;
             frame.Id = id;
             frame.Layer = defaultLayer;

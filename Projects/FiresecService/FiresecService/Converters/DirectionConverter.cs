@@ -17,11 +17,13 @@ namespace FiresecService.Converters
                 {
                     if (innerDirection.type == "direction")
                     {
-                        var direction = new Direction();
-                        direction.Id = int.Parse(innerDirection.id);
-                        direction.Gid = innerDirection.gid;
-                        direction.Name = innerDirection.name;
-                        direction.Description = innerDirection.desc;
+                        var direction = new Direction()
+                        {
+                            Id = int.Parse(innerDirection.id),
+                            Gid = innerDirection.gid,
+                            Name = innerDirection.name,
+                            Description = innerDirection.desc
+                        };
 
                         if (innerDirection.PinZ != null)
                         {
@@ -52,13 +54,15 @@ namespace FiresecService.Converters
 
             foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
             {
-                var innerDirection = new Firesec.CoreConfig.partType();
-                innerDirection.type = "direction";
-                innerDirection.no = no.ToString();
-                no++;
-                innerDirection.id = direction.Id.ToString();
-                innerDirection.gid = direction.Gid;
-                innerDirection.name = direction.Name;
+                var innerDirection = new Firesec.CoreConfig.partType()
+                {
+                    type = "direction",
+                    no = no.ToString(),
+                    id = direction.Id.ToString(),
+                    gid = direction.Gid,
+                    name = direction.Name
+                };
+                ++no;
 
                 var zones = new List<Firesec.CoreConfig.partTypePinZ>();
                 foreach (var zone in direction.Zones)
@@ -67,20 +71,23 @@ namespace FiresecService.Converters
                 }
                 innerDirection.PinZ = zones.ToArray();
 
-                if ((direction.DeviceRm != null) || (direction.DeviceButton != null))
+                if (direction.DeviceRm != null || direction.DeviceButton != null)
                 {
                     var innerDirectionParameters = new List<paramType>();
-                    var rmParameter = new paramType();
-                    rmParameter.name = "Device_RM";
-                    rmParameter.type = "String";
-                    rmParameter.value = direction.DeviceRm;
-                    innerDirectionParameters.Add(rmParameter);
+                    innerDirectionParameters.Add(new paramType()
+                    {
+                        name = "Device_RM",
+                        type = "String",
+                        value = direction.DeviceRm
+                    });
 
-                    var buttonParameter = new paramType();
-                    buttonParameter.name = "Device_AM";
-                    buttonParameter.type = "String";
-                    buttonParameter.value = direction.DeviceRm;
-                    innerDirectionParameters.Add(buttonParameter);
+                    innerDirectionParameters.Add(new paramType()
+                    {
+                        name = "Device_AM",
+                        type = "String",
+                        value = direction.DeviceRm
+                    });
+
                     innerDirection.param = innerDirectionParameters.ToArray();
                 }
 

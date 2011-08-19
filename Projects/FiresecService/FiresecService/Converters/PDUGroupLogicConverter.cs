@@ -11,16 +11,17 @@ namespace FiresecService.Converters
             var pDUGroupLogic = new PDUGroupLogic();
 
             pDUGroupLogic.AMTPreset = (rCGroupProperties.AMTPreset == "1");
-            if ((rCGroupProperties != null) && (rCGroupProperties.device != null))
+            if (rCGroupProperties != null && rCGroupProperties.device != null)
             {
                 foreach (var groupDevice in rCGroupProperties.device)
                 {
-                    var pDUGroupDevice = new PDUGroupDevice();
-                    pDUGroupDevice.DeviceUID = groupDevice.UID;
-                    pDUGroupDevice.IsInversion = (groupDevice.Inverse == "1");
-                    pDUGroupDevice.OnDelay = int.Parse(groupDevice.DelayOn);
-                    pDUGroupDevice.OffDelay = int.Parse(groupDevice.DelayOff);
-                    pDUGroupLogic.Devices.Add(pDUGroupDevice);
+                    pDUGroupLogic.Devices.Add(new PDUGroupDevice()
+                    {
+                        DeviceUID = groupDevice.UID,
+                        IsInversion = (groupDevice.Inverse == "1"),
+                        OnDelay = int.Parse(groupDevice.DelayOn),
+                        OffDelay = int.Parse(groupDevice.DelayOff)
+                    });
                 }
             }
 
@@ -31,19 +32,20 @@ namespace FiresecService.Converters
         {
             var rCGroupProperties = new RCGroupProperties();
 
-            if ((pDUGroupLogic != null) && (pDUGroupLogic.Devices.Count > 0))
+            if (pDUGroupLogic != null && pDUGroupLogic.Devices.Count > 0)
             {
                 rCGroupProperties.DevCount = pDUGroupLogic.Devices.Count.ToString();
                 rCGroupProperties.AMTPreset = pDUGroupLogic.AMTPreset ? "1" : "0";
                 var groupDevices = new List<RCGroupPropertiesDevice>();
                 foreach (var device in pDUGroupLogic.Devices)
                 {
-                    var groupDevice = new RCGroupPropertiesDevice();
-                    groupDevice.UID = device.DeviceUID;
-                    groupDevice.Inverse = device.IsInversion ? "1" : "0";
-                    groupDevice.DelayOn = device.OnDelay.ToString();
-                    groupDevice.DelayOff = device.OffDelay.ToString();
-                    groupDevices.Add(groupDevice);
+                    groupDevices.Add(new RCGroupPropertiesDevice()
+                    {
+                        UID = device.DeviceUID,
+                        Inverse = device.IsInversion ? "1" : "0",
+                        DelayOn = device.OnDelay.ToString(),
+                        DelayOff = device.OffDelay.ToString()
+                    });
                 }
                 rCGroupProperties.device = groupDevices.ToArray();
             }

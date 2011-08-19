@@ -1,23 +1,17 @@
-﻿using System;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace DeviceLibrary.Models
+namespace FiresecAPI.Models.DeviceLibrary
 {
     [DataContract]
-    [Serializable]
     public class Frame
     {
         [DataMember]
-        [XmlAttribute]
         public int Id { get; set; }
 
         [DataMember]
-        [XmlAttribute]
         public int Duration { get; set; }
 
         [DataMember]
-        [XmlAttribute]
         public int Layer { get; set; }
 
         [DataMember]

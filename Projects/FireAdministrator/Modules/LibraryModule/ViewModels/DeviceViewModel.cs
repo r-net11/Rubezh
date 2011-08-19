@@ -13,7 +13,7 @@ namespace LibraryModule.ViewModels
     {
         readonly Driver _driver;
 
-        public DeviceViewModel(DeviceLibrary.Models.Device device)
+        public DeviceViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
         {
             Device = device;
             _driver = FiresecManager.Drivers.First(x => x.Id == Device.Id);
@@ -38,7 +38,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public DeviceLibrary.Models.Device Device { get; private set; }
+        public FiresecAPI.Models.DeviceLibrary.Device Device { get; private set; }
 
         public string Name
         {
@@ -103,15 +103,15 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public static void SetDefaultStateTo(DeviceLibrary.Models.Device device)
+        public static void SetDefaultStateTo(FiresecAPI.Models.DeviceLibrary.Device device)
         {
-            device.States = new List<DeviceLibrary.Models.State>();
+            device.States = new List<FiresecAPI.Models.DeviceLibrary.State>();
             device.States.Add(StateViewModel.GetDefaultStateWith());
         }
 
-        public static DeviceLibrary.Models.Device GetDefaultDriverWith(string id)
+        public static FiresecAPI.Models.DeviceLibrary.Device GetDefaultDriverWith(string id)
         {
-            var device = new DeviceLibrary.Models.Device();
+            var device = new FiresecAPI.Models.DeviceLibrary.Device();
             device.Id = id;
             SetDefaultStateTo(device);
 

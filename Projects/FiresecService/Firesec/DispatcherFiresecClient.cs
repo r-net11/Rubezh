@@ -19,8 +19,7 @@ namespace Firesec
 
         public static bool Connect(string login, string password)
         {
-            var result = (bool) control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
-            return result;
+            return (bool) control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
         }
 
         public static void Disconnect()

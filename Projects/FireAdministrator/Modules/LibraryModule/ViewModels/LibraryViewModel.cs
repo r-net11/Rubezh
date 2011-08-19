@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using DeviceLibrary;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 
@@ -18,7 +18,11 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            foreach (var device in LibraryManager.Devices)
+            if (FiresecManager.DeviceLibraryConfiguration.Devices == null ||
+                FiresecManager.DeviceLibraryConfiguration.Devices.Count == 0)
+                return;
+
+            foreach (var device in FiresecManager.DeviceLibraryConfiguration.Devices)
             {
                 DeviceViewModels.Add(new DeviceViewModel(device));
             }
@@ -43,7 +47,7 @@ namespace LibraryModule.ViewModels
             var addDeviceViewModel = new DeviceDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                LibraryManager.Devices.Add(addDeviceViewModel.SelectedItem.Device);
+                FiresecManager.DeviceLibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.Device);
                 DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
             }
         }
@@ -58,7 +62,7 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                LibraryManager.Devices.Remove(SelectedDeviceViewModel.Device);
+                FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.Device);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);
             }
         }
@@ -77,14 +81,45 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                LibraryManager.Save();
+                //foreach (var dev in FiresecManager.DeviceLibraryConfiguration.Devices)
+                //{
+                //    var dev_ = new FiresecAPI.Models.DeviceLibrary.Device()
+                //    {
+                //        Id = dev.Id,
+                //        States = new System.Collections.Generic.List<FiresecAPI.Models.DeviceLibrary.State>()
+                //    };
+
+                //    foreach (var state in dev.States)
+                //    {
+                //        var state_ = new FiresecAPI.Models.DeviceLibrary.State()
+                //        {
+                //            Code = state.Code,
+                //            StateType = state.StateType,
+                //            Frames = new System.Collections.Generic.List<FiresecAPI.Models.DeviceLibrary.Frame>()
+                //        };
+
+                //        foreach (var frame in state.Frames)
+                //        {
+                //            state_.Frames.Add(new FiresecAPI.Models.DeviceLibrary.Frame()
+                //            {
+                //                Id = frame.Id,
+                //                Duration = frame.Duration,
+                //                Layer = frame.Layer,
+                //                Image = frame.Image
+                //            });
+                //        }
+
+                //        dev_.States.Add(state_);
+                //    }
+                //    FiresecManager.DeviceLibraryConfiguration.Devices.Add(dev_);
+                //}
+                FiresecManager.SetDeviceLibraryConfiguration();
             }
         }
 
         public override void OnShow()
         {
-            var libraryMenuViewModel = new LibraryMenuViewModel(SaveCommand);
-            ServiceFactory.Layout.ShowMenu(libraryMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new LibraryMenuViewModel(SaveCommand));
         }
 
         public override void OnHide()

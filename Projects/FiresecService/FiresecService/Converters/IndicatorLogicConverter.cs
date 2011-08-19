@@ -29,7 +29,7 @@ namespace FiresecService.Converters
                 }
             }
 
-            if ((lEDProperties.device != null) && (lEDProperties.device.Count() > 0))
+            if (lEDProperties.device != null && lEDProperties.device.Count() > 0)
             {
                 var indicatorDevice = lEDProperties.device[0];
                 indicatorLogic.DeviceUID = indicatorDevice.UID;
