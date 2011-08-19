@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
             List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = -1;
-            for (int i = 0; i < avaliableAddresses.Count; i++)
+            for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
                 if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
                     maxIndex = i;

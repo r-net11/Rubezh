@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -70,15 +71,13 @@ namespace ReportsModule.Reports
                 if (driver.IsPlaceable && driver.ShortName != "Компьютер")
                 {
                     var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.Id == driver.Id);
-                    if (devices != null && devices.Count > 0)
+                    if (devices.IsNotNullOrEmpry())
                     {
-                        var driverCounter = new DriverCounter()
+                        DriverCounters.Add(new DriverCounter()
                         {
                             DriverName = driver.ShortName,
                             Count = devices.Count
-                        };
-
-                        DriverCounters.Add(driverCounter);
+                        });
                     }
                 }
             }

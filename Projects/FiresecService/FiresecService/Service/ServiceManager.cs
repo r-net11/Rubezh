@@ -12,6 +12,8 @@ namespace FiresecService
 
         public static void Open()
         {
+            if (host != null)
+                return;
             host = new ServiceHost(typeof(FiresecService));
 
             NetTcpBinding binding = new NetTcpBinding()

@@ -110,7 +110,7 @@ namespace DevicesModule.ViewModels
             List<int> avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
 
             int maxIndex = -1;
-            for (int i = 0; i < avaliableAddresses.Count; i++)
+            for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
                 if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == avaliableAddresses[i]))
                     maxIndex = i;
@@ -166,7 +166,7 @@ namespace DevicesModule.ViewModels
                 ;
             }
 
-            for (int i = 0; i < avaliableAddresses.Count(); i++)
+            for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
                 int address = avaliableAddresses[i];
 
@@ -181,10 +181,10 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            for (int i = 0; i < avaliableAddresses.Count(); i++)
+            for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
                 int address = avaliableAddresses[i];
-                if ((address >= startAddress) && (address <= endAddress))
+                if (address >= startAddress && address <= endAddress)
                 {
                     Device device = _parent.AddChild(SelectedDriver, address);
                     AddDevice(device, _parentDeviceViewModel);

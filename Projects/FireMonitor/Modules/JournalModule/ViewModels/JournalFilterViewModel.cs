@@ -32,7 +32,7 @@ namespace JournalModule.ViewModels
         public bool FilterRecord(JournalRecord journalRecord)
         {
             bool retval = true;
-            if (JournalFilter.Categories != null && JournalFilter.Categories.Count > 0)
+            if (JournalFilter.Categories.IsNotNullOrEmpry())
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
                         x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
@@ -44,7 +44,7 @@ namespace JournalModule.ViewModels
                 }
             }
 
-            if (retval && JournalFilter.Events != null && JournalFilter.Events.Count > 0)
+            if (retval && JournalFilter.Events.IsNotNullOrEmpry())
             {
                 retval = JournalFilter.Events.Any(x => x == journalRecord.StateType);
             }

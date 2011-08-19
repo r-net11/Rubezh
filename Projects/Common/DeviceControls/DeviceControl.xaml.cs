@@ -42,7 +42,7 @@ namespace DeviceControls
             {
                 _additionalStateCodes = value;
 
-                if (_additionalStateCodes != null && _additionalStateCodes.Count > 0)
+                if (_additionalStateCodes.IsNotNullOrEmpry())
                     Update();
             }
         }
@@ -62,7 +62,7 @@ namespace DeviceControls
 
         void Update()
         {
-            if (_stateViewModelList != null && _stateViewModelList.Count > 0)
+            if (_stateViewModelList.IsNotNullOrEmpry())
                 _stateViewModelList.ForEach(x => x.Dispose());
             _stateViewModelList = new List<StateViewModel>();
 
@@ -75,7 +75,7 @@ namespace DeviceControls
             if (state != null)
                 _stateViewModelList.Add(new StateViewModel(state, StateCanvases));
 
-            if (AdditionalStateCodes != null && AdditionalStateCodes.Count > 0)
+            if (AdditionalStateCodes.IsNotNullOrEmpry())
                 foreach (var additionalStateCode in AdditionalStateCodes)
                 {
                     var aState = device.States.FirstOrDefault(x => x.Code == additionalStateCode);

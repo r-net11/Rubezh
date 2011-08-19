@@ -41,25 +41,23 @@ namespace Firesec
         public static string GetCoreConfig()
         {
             //return Connectoin.GetCoreConfigW();
-            mscoree.IStream stream = Connectoin.GetCoreConfig();
-            return ReadFromStream(stream);
+            return ReadFromStream(Connectoin.GetCoreConfig());
         }
 
         public static string GetPlans()
         {
-            return Connectoin.GetCoreAreasW();
+            return ReadFromStream(Connectoin.GetCoreState());
         }
 
         public static string GetMetadata()
         {
-            mscoree.IStream stream = Connectoin.GetMetaData();
+            return ReadFromStream(Connectoin.GetMetaData());
             return ReadFromStream(stream);
         }
 
         public static string GetCoreState()
         {
             mscoree.IStream stream = Connectoin.GetCoreState();
-            return ReadFromStream(stream);
         }
 
         public static string GetCoreDeviceParams()
@@ -92,18 +90,15 @@ namespace Firesec
             Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
         }
 
+        //Refactored by Badaev Andrei. See how it was in file histoty
         static string ConvertDeviceList(List<string> devicePaths)
         {
-            string separator = "\r\n";
-            string devices = "";
+            var devicePatsString = new StringBuilder();
             foreach (string device in devicePaths)
             {
-                devices += device + separator;
+                devicePatsString.Append(device + Environment.NewLine);
             }
-            if (devices.EndsWith(separator))
-                devices = devices.Remove(devices.LastIndexOf(separator));
-
-            return devices;
+            return devicePatsString.ToString().TrimEnd();
         }
 
         public static void AddToIgnoreList(List<string> devicePaths)
@@ -164,12 +159,11 @@ namespace Firesec
                             break;
 
                         byte[] bytes = new byte[bytesRead];
-                        for (int i = 0; i < bytesRead; i++)
+                        for (int i = 0; i < bytesRead; ++i)
                         {
                             bytes[i] = unsafeBytes[i];
                         }
-                        string part = Encoding.Default.GetString(bytes);
-                        stringBuilder.Append(part);
+                        stringBuilder.Append(Encoding.Default.GetString(bytes));
                     }
                 }
             }

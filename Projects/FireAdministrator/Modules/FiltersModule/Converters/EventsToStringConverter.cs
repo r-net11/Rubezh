@@ -11,21 +11,20 @@ namespace FiltersModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var events = value as List<StateType>;
-            StringBuilder result = new StringBuilder();
-
-            if (events != null)
+            if (events.IsNotNullOrEmpry())
             {
-                for (var i = 0; i < events.Count; ++i)
-                {
-                    if (i > 0)
-                    {
-                        result.Append(" или ");
-                    }
-                    result.Append(EnumsConverter.StateTypeToEventName(events[i]));
-                }
-            }
+                var delimString = " или ";
+                var result = new StringBuilder();
 
-            return result.ToString();
+                foreach (var event_ in events)
+                {
+                    result.Append(EnumsConverter.StateTypeToEventName(event_));
+                    result.Append(delimString);
+                }
+
+                return result.ToString().Remove(result.Length - delimString.Length);
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

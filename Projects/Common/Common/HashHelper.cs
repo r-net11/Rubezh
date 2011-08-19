@@ -7,6 +7,7 @@ namespace Common
 {
     public static class HashHelper
     {
+        //Refactored by Badaev Andrei. See how it was in file history
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();

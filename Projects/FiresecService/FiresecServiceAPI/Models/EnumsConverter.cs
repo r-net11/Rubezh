@@ -1,7 +1,14 @@
-﻿namespace FiresecAPI.Models
+﻿using System.Collections;
+
+namespace FiresecAPI.Models
 {
     public static class EnumsConverter
     {
+        public static bool IsNotNullOrEmpry(this ICollection collection)
+        {
+            return collection != null && collection.Count > 0;
+        }
+
         public static string StateTypeToClassName(StateType stateType)
         {
             switch (stateType)
@@ -97,6 +104,7 @@
                     return "";
             }
         }
+
         public static string BeeperTypeToBeeperName(BeeperType beeperType)
         {
             switch (beeperType)
@@ -111,7 +119,6 @@
                     return "<нет>";
             }
         }
-
 
         public static StateType AlarmTypeToStateType(AlarmType alarmType)
         {

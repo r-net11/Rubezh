@@ -11,21 +11,21 @@ namespace FiltersModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var categories = value as List<DeviceCategoryType>;
-            StringBuilder result = new StringBuilder();
 
-            if (categories != null)
+            if (categories.IsNotNullOrEmpry())
             {
-                for (var i = 0; i < categories.Count; ++i)
-                {
-                    if (i > 0)
-                    {
-                        result.Append(" или ");
-                    }
-                    result.Append(EnumsConverter.CategoryTypeToCategoryName(categories[i]));
-                }
-            }
+                var delimString = " или ";
+                var result = new StringBuilder();
 
-            return result.ToString();
+                foreach (var category in categories)
+                {
+                    result.Append(EnumsConverter.CategoryTypeToCategoryName(category));
+                    result.Append(delimString);
+                }
+
+                return result.ToString().Remove(result.Length - delimString.Length);
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

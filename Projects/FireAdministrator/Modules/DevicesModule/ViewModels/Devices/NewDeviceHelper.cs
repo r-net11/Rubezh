@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
             if (device.Driver.IsChildAddressReservedRange)
             {
                 int range = device.Driver.ChildAddressReserveRangeCount;
-                for (int i = device.IntAddress + 1; i < device.IntAddress + range; i++)
+                for (int i = device.IntAddress + 1; i < device.IntAddress + range; ++i)
                 {
                     if (i % 256 == 0)
                     {
@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 
             if (driver.IsRangeEnabled)
             {
-                for (int i = driver.MinAddress; i <= driver.MaxAddress; i++)
+                for (int i = driver.MinAddress; i <= driver.MaxAddress; ++i)
                 {
                     avaliableAddresses.Add(i);
                 }
@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
 
                 List<int> reservedAddresses = GetReservedAddresses(driver, device);
 
-                for (int i = 257; i <= shleifCount * 256 + 255; i++)
+                for (int i = 257; i <= shleifCount * 256 + 255; ++i)
                 {
                     if (reservedAddresses.Contains(i))
                         continue;
@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
                 if (childDevice.Driver.IsChildAddressReservedRange)
                 {
                     int range = childDevice.Driver.ChildAddressReserveRangeCount;
-                    for (int i = childDevice.IntAddress + 1; i < childDevice.IntAddress + range; i++)
+                    for (int i = childDevice.IntAddress + 1; i < childDevice.IntAddress + range; ++i)
                     {
                         if (i % 256 == 0)
                         {
@@ -103,6 +103,7 @@ namespace DevicesModule.ViewModels
                     }
                 }
             }
+
             return reservedAddresses;
         }
     }

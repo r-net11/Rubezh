@@ -25,7 +25,7 @@ namespace PlansModule.ViewModels
         {
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
-            if (Plans.Count > 0)
+            if (Plans.IsNotNullOrEmpry())
                 SelectedPlan = Plans[0];
         }
 
