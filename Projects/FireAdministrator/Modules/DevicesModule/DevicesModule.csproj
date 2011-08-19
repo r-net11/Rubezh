@@ -60,32 +60,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\ClauseOperationToStringConverter.cs" />
-    <Compile Include="Converters\ClauseStateToStringConverter.cs" />
-    <Compile Include="Converters\ColorIdToStringConverter.cs" />
-    <Compile Include="Converters\GuardZoneTypeToStringConverter.cs" />
-    <Compile Include="Converters\ValveActionConverter.cs" />
-    <Compile Include="Converters\ZoneActionToStringConverter.cs" />
-    <Compile Include="Converters\ZoneTypeToStringConverter.cs" />
+    <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
+    <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
+    <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
+    <Compile Include="Guard\Converters\GuardZoneTypeToStringConverter.cs" />
+    <Compile Include="Devices\Converters\ValveActionConverter.cs" />
+    <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
+    <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
-    <Compile Include="ViewModels\Devices\PropertyDetails\GroupDeviceViewModel.cs" />
-    <Compile Include="ViewModels\Directions\DirectionDeviceSelectorViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardDevicesViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardLevelDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardLevelsMenuViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardLevelsSelectationViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardLevelsViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardLevelViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardUserDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardUsersMenuViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardUsersViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardUserViewModel.cs" />
-    <Compile Include="ViewModels\Guard\GuardZoneSelectationViewModel.cs" />
-    <Compile Include="ViewModels\Guard\ZoneLevelViewModel.cs" />
-    <Compile Include="ViewModels\Validation\ErrorEntityType.cs" />
-    <Compile Include="ViewModels\Validation\ValidationErrorsViewModel.cs" />
-    <Compile Include="ViewModels\Validation\ValidationErrorViewModel.cs" />
-    <Compile Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml.cs">
+    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDeviceViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardDevicesViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardLevelDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardLevelsMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardLevelsSelectationViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardLevelsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardLevelViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardUserDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardUsersMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardUsersViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardUserViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneSelectationViewModel.cs" />
+    <Compile Include="Guard\ViewModels\ZoneLevelViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
+    <Compile Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -101,122 +101,122 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="DeviceProperties\BasePropertyViewModel.cs" />
-    <Compile Include="DeviceProperties\BoolPropertyViewModel.cs" />
-    <Compile Include="DeviceProperties\EnumPropertyViewModel.cs" />
-    <Compile Include="DeviceProperties\PropertiesViewModel.cs" />
-    <Compile Include="DeviceProperties\StringPropertyViewModel.cs" />
-    <Compile Include="ViewModels\Devices\DevicesMenuViewModel.cs" />
-    <Compile Include="ViewModels\Devices\DriversView.xaml.cs">
+    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DriversView.xaml.cs">
       <DependentUpon>DriversView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Devices\NewDeviceHelper.cs" />
-    <Compile Include="ViewModels\Devices\NewDeviceRangeViewModel.cs" />
-    <Compile Include="ViewModels\Devices\PropertyDetails\GroupDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Devices\PropertyDetails\PumpDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Devices\PropertyDetails\ValveDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Directions\DirectionsMenuViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ClauseViewModel.cs" />
-    <Compile Include="ViewModels\Devices\DevicesViewModel.cs" />
-    <Compile Include="ViewModels\Devices\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\Directions\DirectionDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Directions\DirectionsViewModel.cs" />
-    <Compile Include="ViewModels\Directions\DirectionViewModel.cs" />
-    <Compile Include="ViewModels\Devices\PropertyDetails\IndicatorDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Devices\NewDeviceViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZonesMenuViewModel.cs" />
-    <Compile Include="Views\Devices\DevicesMenuView.xaml.cs">
+    <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceRangeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\IndicatorDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
+    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directions\DirectionDeviceSelectorView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionDeviceSelectorView.xaml.cs">
       <DependentUpon>DirectionDeviceSelectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directions\DirectionDetailsView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionDetailsView.xaml.cs">
       <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\PropertiesView.xaml.cs">
+    <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Zones\ZoneDetailsViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZoneDevicesViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZonesSelectionViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZoneLogicViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZonesViewModel.cs" />
-    <Compile Include="ViewModels\Zones\ZoneViewModel.cs" />
-    <Compile Include="Views\Devices\DevicesView.xaml.cs">
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesSelectionViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directions\DirectionsMenuView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionsMenuView.xaml.cs">
       <DependentUpon>DirectionsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Directions\DirectionsView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\PropertyDetails\IndicatorDetailsView.xaml.cs">
+    <Compile Include="Devices\Views\PropertyDetails\IndicatorDetailsView.xaml.cs">
       <DependentUpon>IndicatorDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\NewDeviceView.xaml.cs">
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\NewDeviceRangeView.xaml.cs">
+    <Compile Include="Devices\Views\NewDeviceRangeView.xaml.cs">
       <DependentUpon>NewDeviceRangeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\PropertyDetails\PumpDetailsView.xaml.cs">
+    <Compile Include="Devices\Views\PropertyDetails\PumpDetailsView.xaml.cs">
       <DependentUpon>PumpDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Devices\PropertyDetails\ValveDetailsView.xaml.cs">
+    <Compile Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml.cs">
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Guard\GuardViewModel.cs" />
-    <Compile Include="Views\Guard\GuardDevicesView.xaml.cs">
+    <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
+    <Compile Include="Guard\Views\GuardDevicesView.xaml.cs">
       <DependentUpon>GuardDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardLevelDetailsView.xaml.cs">
+    <Compile Include="Guard\Views\GuardLevelDetailsView.xaml.cs">
       <DependentUpon>GuardLevelDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardLevelsMenuView.xaml.cs">
+    <Compile Include="Guard\Views\GuardLevelsMenuView.xaml.cs">
       <DependentUpon>GuardLevelsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardLevelsSelectationView.xaml.cs">
+    <Compile Include="Guard\Views\GuardLevelsSelectationView.xaml.cs">
       <DependentUpon>GuardLevelsSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardLevelsView.xaml.cs">
+    <Compile Include="Guard\Views\GuardLevelsView.xaml.cs">
       <DependentUpon>GuardLevelsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardUserDetailsView.xaml.cs">
+    <Compile Include="Guard\Views\GuardUserDetailsView.xaml.cs">
       <DependentUpon>GuardUserDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardUsersMenuView.xaml.cs">
+    <Compile Include="Guard\Views\GuardUsersMenuView.xaml.cs">
       <DependentUpon>GuardUsersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardUsersView.xaml.cs">
+    <Compile Include="Guard\Views\GuardUsersView.xaml.cs">
       <DependentUpon>GuardUsersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardView.xaml.cs">
+    <Compile Include="Guard\Views\GuardView.xaml.cs">
       <DependentUpon>GuardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Guard\GuardZoneSelectationView.xaml.cs">
+    <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
       <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Validation\ValidationErrorsView.xaml.cs">
+    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZoneDetailsView.xaml.cs">
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZoneDevicesView.xaml.cs">
+    <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZonesMenuView.xaml.cs">
+    <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZonesSelectionView.xaml.cs">
+    <Compile Include="Zones\Views\ZonesSelectionView.xaml.cs">
       <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZoneLogicView.xaml.cs">
+    <Compile Include="Zones\Views\ZoneLogicView.xaml.cs">
       <DependentUpon>ZoneLogicView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Zones\ZonesView.xaml.cs">
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -257,131 +257,147 @@
     <Resource Include="Images\Paste.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\Dictionary.xaml">
+    <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\PropertyDetails\GroupDetailsView.xaml">
+    <Page Include="Devices\ViewModels\DriversView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewModels\Devices\DriversView.xaml">
+    <Page Include="Devices\Views\DevicesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\DevicesMenuView.xaml">
+    <Page Include="Directions\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Directions\Views\DirectionDeviceSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Directions\DirectionDeviceSelectorView.xaml">
+    <Page Include="Directions\Views\DirectionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Directions\DirectionDetailsView.xaml">
+    <Page Include="Devices\Views\PropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\PropertiesView.xaml">
+    <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\DevicesView.xaml">
+    <Page Include="Directions\Views\DirectionsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Directions\DirectionsMenuView.xaml">
+    <Page Include="Directions\Views\DirectionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Directions\DirectionsView.xaml">
+    <Page Include="Devices\Views\PropertyDetails\IndicatorDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\PropertyDetails\IndicatorDetailsView.xaml">
+    <Page Include="Devices\Views\NewDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\NewDeviceView.xaml">
+    <Page Include="Devices\Views\NewDeviceRangeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\NewDeviceRangeView.xaml">
+    <Page Include="Devices\Views\PropertyDetails\PumpDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\PropertyDetails\PumpDetailsView.xaml">
+    <Page Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Devices\PropertyDetails\ValveDetailsView.xaml">
+    <Page Include="Guard\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardDevicesView.xaml">
+    <Page Include="Guard\Views\GuardLevelDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardLevelDetailsView.xaml">
+    <Page Include="Guard\Views\GuardLevelsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardLevelsMenuView.xaml">
+    <Page Include="Guard\Views\GuardLevelsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardLevelsSelectationView.xaml">
+    <Page Include="Guard\Views\GuardLevelsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardLevelsView.xaml">
+    <Page Include="Guard\Views\GuardUserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardUserDetailsView.xaml">
+    <Page Include="Guard\Views\GuardUsersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardUsersMenuView.xaml">
+    <Page Include="Guard\Views\GuardUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardUsersView.xaml">
+    <Page Include="Guard\Views\GuardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardView.xaml">
+    <Page Include="Guard\Views\GuardZoneSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Guard\GuardZoneSelectationView.xaml">
+    <Page Include="Validation\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Validation\Views\ValidationErrorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Validation\ValidationErrorsView.xaml">
+    <Page Include="Zones\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Zones\ZoneDetailsView.xaml">
+    <Page Include="Zones\Views\ZoneDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Zones\ZoneDevicesView.xaml">
+    <Page Include="Zones\Views\ZonesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Zones\ZonesMenuView.xaml">
+    <Page Include="Zones\Views\ZonesSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Zones\ZonesSelectionView.xaml">
+    <Page Include="Zones\Views\ZoneLogicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Zones\ZoneLogicView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Zones\ZonesView.xaml">
+    <Page Include="Zones\Views\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -401,6 +417,7 @@
   <ItemGroup>
     <Resource Include="Images\LeftArrow.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

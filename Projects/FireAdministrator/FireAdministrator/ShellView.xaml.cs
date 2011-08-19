@@ -116,8 +116,6 @@ namespace FireAdministrator
                     }
                 }
             }
-            MessageBox.Show(@"I promise I will not ship slow code. Speed is a feature I care about. Every day I will pay attention to the performance of my code. I will regularly and
-            methodically measure its speed and size. I will learn, build, or buy the tools I need to do this. It's my responsibility.");
         }
 
         void EssentialWindow_Closed(object sender, System.EventArgs e)
