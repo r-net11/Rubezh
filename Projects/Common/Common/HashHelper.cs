@@ -5,17 +5,18 @@ using System.Text;
 
 namespace Common
 {
+    //Refactored by Badaev Andrei.
     public static class HashHelper
     {
-        //Refactored by Badaev Andrei. See how it was in file history
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();
             var stringBuilder = new StringBuilder();
             byte[] hash = null;
-            if (Directory.Exists(Directory.GetCurrentDirectory() + @"\" + directory))
+
+            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
+            if (directoryInfo.Exists)
             {
-                var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
                 {
                     using (var fileStream = fileInfo.Open(FileMode.Open))
@@ -26,10 +27,7 @@ namespace Common
                         {
                             stringBuilder.Append(hash[i].ToString("x2"));
                         }
-                        for (int i = 0; i < fileInfo.Name.Length; ++i)
-                        {
-                            stringBuilder.Append(fileInfo.Name[i]);
-                        }
+                        stringBuilder.Append(fileInfo.Name);
                     }
 
                     if (hashTable.ContainsKey(stringBuilder.ToString()) == false)
@@ -39,6 +37,7 @@ namespace Common
                     stringBuilder.Clear();
                 }
             }
+
             return hashTable;
         }
     }

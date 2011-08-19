@@ -37,7 +37,6 @@ namespace PlansModule.ViewModels
                 {
                     SelectedPlan = Plans[0];
                 }
-                }
             }
         }
 
