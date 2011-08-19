@@ -257,7 +257,7 @@ namespace FiresecService
 
         public Stream GetFile(string directoryNameAndFileName)
         {
-            var filePath = Directory.GetCurrentDirectory() + @"\" + dirNameAndFileName;
+            var filePath = Directory.GetCurrentDirectory() + @"\" + directoryNameAndFileName;
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 

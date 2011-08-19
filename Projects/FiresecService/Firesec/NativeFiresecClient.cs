@@ -46,18 +46,17 @@ namespace Firesec
 
         public static string GetPlans()
         {
-            return ReadFromStream(Connectoin.GetCoreState());
+            return Connectoin.GetCoreAreasW();
         }
 
         public static string GetMetadata()
         {
             return ReadFromStream(Connectoin.GetMetaData());
-            return ReadFromStream(stream);
         }
 
         public static string GetCoreState()
         {
-            mscoree.IStream stream = Connectoin.GetCoreState();
+            return ReadFromStream(Connectoin.GetCoreState());
         }
 
         public static string GetCoreDeviceParams()
