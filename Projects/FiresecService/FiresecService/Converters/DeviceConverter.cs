@@ -102,11 +102,11 @@ namespace FiresecService.Converters
             {
                 foreach (var innerProperty in innerDevice.prop)
                 {
-                    var deviceProperty = new Property();
+                    var deviceProperty = new Property()
                     {
                         Name = innerProperty.name,
                         Value = innerProperty.value
-                    });
+                    };
                 }
             }
 
@@ -246,7 +246,7 @@ namespace FiresecService.Converters
                         if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
                             string.IsNullOrEmpty(deviceProperty.Value) == false)
                         {
-                            var property = new Firesec.CoreConfig.propType();
+                            var property = new Firesec.CoreConfig.propType()
                             {
                                 name = deviceProperty.Name,
                                 value = deviceProperty.Value

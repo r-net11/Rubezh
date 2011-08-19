@@ -12,7 +12,7 @@ namespace FiresecService.Converters
 
         public static Driver Convert(configDrv innerDriver)
         {
-            var driver = new Driver();
+            var driver = new Driver()
             {
                 Id = innerDriver.id,
                 Name = innerDriver.name,
@@ -253,11 +253,11 @@ namespace FiresecService.Converters
                     {
                         foreach (var firesecParameter in internalProperty.param)
                         {
-                            var driverPropertyParameter = new DriverPropertyParameter();
+                            var driverPropertyParameter = new DriverPropertyParameter()
                             {
                                 Name = firesecParameter.name,
                                 Value = firesecParameter.value
-                            });
+                            };
                         }
                     }
 
@@ -299,12 +299,12 @@ namespace FiresecService.Converters
             {
                 foreach (var innerParameter in innerDriver.paramInfo)
                 {
-                    var parameter = new Parameter();
+                    var parameter = new Parameter()
                     {
                         Name = innerParameter.name,
                         Caption = innerParameter.caption,
                         Visible = (innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0")
-                    });
+                    };
                 }
             }
 
@@ -313,7 +313,7 @@ namespace FiresecService.Converters
             {
                 foreach (var innerState in innerDriver.state)
                 {
-                    var driverState = new DriverState();
+                    var driverState = new DriverState()
                     {
                         Id = innerState.id,
                         Name = innerState.name,
@@ -323,7 +323,7 @@ namespace FiresecService.Converters
                         CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
                         IsAutomatic = innerState.type == "Auto" ? true : false,
                         Code = innerState.code
-                    });
+                    };
                 }
             }
 

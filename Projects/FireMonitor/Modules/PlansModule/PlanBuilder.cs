@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Controls;
-using System.Runtime.Serialization.Formatters;
 
 namespace PlansModule
 {

@@ -31,7 +31,7 @@ namespace FiresecService
                         PanelDatabaseId = journalItem.PanelDatabaseId,
                         UserName = journalItem.User,
                         StateType = (int) journalItem.StateType
-                    });
+                    };
                 }
 
                 dataContext.SubmitChanges();
