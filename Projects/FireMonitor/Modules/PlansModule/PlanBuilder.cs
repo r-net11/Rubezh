@@ -8,12 +8,16 @@ using System.Xml;
 using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Controls;
+using System.Runtime.Serialization.Formatters;
 
 namespace PlansModule
 {
     public static class PlanLoader
     {
-        //DataContractSerializer dcs
         public static Plan Load()
         {
             try
@@ -24,22 +28,64 @@ namespace PlansModule
                 Plan plan = (Plan)deserializer.Deserialize(reader);
                 reader.Close();
 
+
+
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
+                FileStream fs = new FileStream(@"D:/del/Plans_new180811.xml", FileMode.Create);
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
-
                 */
+
+
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
                 FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
-                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
                 Plan plan = (Plan)dcs.ReadObject(reader);
                 reader.Close();
+
+                /*
+                List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
+                colors.Add(System.Windows.Media.Colors.Red);
+                colors.Add(System.Windows.Media.Colors.Blue);
+                colors.Add(System.Windows.Media.Colors.Green);
+                BitmapPalette myPalette = new BitmapPalette(colors);
+                BitmapSource bitmap = new BitmapImage();
+                
+                bitmap = BitmapSource.Create(plan.pixelWidth, plan.pixelHeight, plan.dpiX, plan.dpiY,
+                    plan.pixelFormat, plan.palette, plan.pixels, plan.stride);
+                
+                Uri uri = new Uri(PathHelper.Data+ plan.BackgroundSource);
+
+                BitmapSource bitmap = new BitmapImage(uri);
+                int bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
+                int pixelWidth = bitmap.PixelWidth;
+                int pixelHeight = bitmap.PixelHeight;
+                int stride = bytesPerPixel * pixelWidth;
+                int pixelCount = pixelWidth * pixelHeight;
+                var pixelBytes = new byte[pixelCount * bytesPerPixel];
+                bitmap.CopyPixels(pixelBytes, stride,0);
+
+                plan.pixelWidth = pixelWidth;
+                plan.pixelHeight = pixelHeight;
+                plan.dpiX = 96;
+                plan.dpiY = 96;
+                plan.pixelFormat = bitmap.Format;
+                plan.palette = bitmap.Palette;
+                plan.pixels = pixelBytes;
+                plan.stride = stride;
+
+                DataContractSerializer dcs_out = new DataContractSerializer(typeof(Plan));
+                FileStream fs_out= new FileStream(@"D:/del/Plans_new190811.xml", FileMode.Create);
+                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs_out);
+                dcs.WriteObject(xdw, plan);
+                xdw.Close();
+                */
                 return plan;
             }
-            catch 
+            catch (Exception ex)
             {
+                string msg = ex.Message;
                 return null;
             }
         }
@@ -77,27 +123,27 @@ namespace PlansModule
             plan.Children.Add(new Plan());
             plan.Children[0].Name = "subPlan1";
             plan.Children[0].Caption = "Plan 2";
-/*
-                 XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                StreamReader reader = new StreamReader(PathHelper.Plans);
-                Plan plan = (Plan)deserializer.Deserialize(reader);
-                reader.Close();
+            /*
+                             XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
+                            StreamReader reader = new StreamReader(PathHelper.Plans);
+                            Plan plan = (Plan)deserializer.Deserialize(reader);
+                            reader.Close();
 
-                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
-                XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
-                dcs.WriteObject(xdw, plan);
-                xdw.Close();
+                            DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                            FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
+                            XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
+                            dcs.WriteObject(xdw, plan);
+                            xdw.Close();
                  
                 
                 
-                DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
-                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-                Plan plan = (Plan)dcs.ReadObject(reader);
-                reader.Close();
+                            DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                            FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
+                            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+                            Plan plan = (Plan)dcs.ReadObject(reader);
+                            reader.Close();
 
- * */
+             * */
 
         }
     }
