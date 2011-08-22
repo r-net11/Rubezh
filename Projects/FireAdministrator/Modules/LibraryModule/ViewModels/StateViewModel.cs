@@ -30,10 +30,7 @@ namespace LibraryModule.ViewModels
         void Initialize()
         {
             FrameViewModels = new ObservableCollection<FrameViewModel>();
-            foreach (var frame in State.Frames)
-            {
-                FrameViewModels.Add(new FrameViewModel(frame));
-            }
+            State.Frames.ForEach(frame => FrameViewModels.Add(new FrameViewModel(frame)));
             SelectedFrameViewModel = FrameViewModels[0];
         }
 

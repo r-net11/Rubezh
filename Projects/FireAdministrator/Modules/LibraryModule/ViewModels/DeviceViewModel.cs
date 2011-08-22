@@ -32,10 +32,7 @@ namespace LibraryModule.ViewModels
         void Initialize()
         {
             StateViewModels = new ObservableCollection<StateViewModel>();
-            foreach (var state in Device.States)
-            {
-                StateViewModels.Add(new StateViewModel(state, _driver));
-            }
+            Device.States.ForEach(state => StateViewModels.Add(new StateViewModel(state, _driver)));
         }
 
         public FiresecAPI.Models.DeviceLibrary.Device Device { get; private set; }
@@ -75,8 +72,10 @@ namespace LibraryModule.ViewModels
             {
                 if (SelectedStateViewModel == null) return null;
 
-                var deviceControl = new DeviceControls.DeviceControl();
-                deviceControl.DriverId = Device.Id;
+                var deviceControl = new DeviceControls.DeviceControl()
+                {
+                    DriverId = Device.Id
+                };
                 var additionalStateCodes = new List<string>();
 
                 if (SelectedStateViewModel.IsAdditional)

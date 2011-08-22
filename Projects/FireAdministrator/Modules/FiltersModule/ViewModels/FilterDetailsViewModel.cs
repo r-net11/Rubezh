@@ -16,69 +16,65 @@ namespace FiltersModule.ViewModels
         {
             Initialize(existingNames);
 
-            JournalFilter.LastRecordsCount = MaxCountRecords;
-            JournalFilter.LastDaysCount = DefaultDaysCount;
+            JournalFilter = new JournalFilter()
+            {
+                LastRecordsCount = MaxCountRecords,
+                LastDaysCount = DefaultDaysCount
+            };
         }
 
         public FilterDetailsViewModel(JournalFilter journalFilter, List<string> existingNames)
         {
             Initialize(existingNames);
 
-            JournalFilter.Name = journalFilter.Name;
-            JournalFilter.LastRecordsCount = journalFilter.LastRecordsCount;
-            JournalFilter.LastDaysCount = journalFilter.LastDaysCount;
-            JournalFilter.IsLastDaysCountActive = journalFilter.IsLastDaysCountActive;
-
-            foreach (var eventViewModel in EventViewModels)
+            JournalFilter = new JournalFilter()
             {
-                if (journalFilter.Events.Any(x => (int) x == eventViewModel.Id))
-                {
-                    eventViewModel.IsChecked = true;
-                }
-            }
+                Name = journalFilter.Name,
+                LastRecordsCount = journalFilter.LastRecordsCount,
+                LastDaysCount = journalFilter.LastDaysCount,
+                IsLastDaysCountActive = journalFilter.IsLastDaysCountActive
+            };
 
-            foreach (var categoryViewModel in CategoryViewModels)
-            {
-                if (journalFilter.Categories.Any(x => (int) x == categoryViewModel.Id))
-                {
-                    categoryViewModel.IsChecked = true;
-                }
-            }
+            EventViewModels.Where(
+                eventViewModel => journalFilter.Events.Any(
+                    x => (int) x == eventViewModel.Id)).All(x => x.IsChecked = true);
+
+            CategoryViewModels.Where(
+                categoryViewModel => journalFilter.Categories.Any(
+                    x => (int) x == categoryViewModel.Id)).All(x => x.IsChecked = true);
         }
 
         void Initialize(List<string> existingNames)
         {
+            Title = "Настройка представления";
+
             _existingNames = existingNames;
             if (_existingNames == null)
                 _existingNames = new List<string>();
 
-            JournalFilter = new JournalFilter();
-            Title = "Настройка представления";
-
-            EventViewModels = new ObservableCollection<Event>()
+            EventViewModels = new ObservableCollection<EventViewModel>()
             {
-                new Event(0),
-                new Event(1),
-                new Event(2),
-                new Event(3),
-                new Event(4),
-                new Event(6),
-                new Event(7),
-            };
-            CategoryViewModels = new ObservableCollection<Category>()
-            {
-                new Category(0),
-                new Category(1),
-                new Category(2),
-                new Category(3),
-                new Category(4),
-                new Category(5),
-                new Category(6),
+                new EventViewModel(0),
+                new EventViewModel(1),
+                new EventViewModel(2),
+                new EventViewModel(3),
+                new EventViewModel(4),
+                new EventViewModel(6),
+                new EventViewModel(7),
             };
 
-            OkCommand = new RelayCommand(
-                () => OnOk(),
-                (x) => this["FilterName"] == null);
+            CategoryViewModels = new ObservableCollection<CategoryViewModel>()
+            {
+                new CategoryViewModel(0),
+                new CategoryViewModel(1),
+                new CategoryViewModel(2),
+                new CategoryViewModel(3),
+                new CategoryViewModel(4),
+                new CategoryViewModel(5),
+                new CategoryViewModel(6),
+            };
+
+            OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
@@ -100,28 +96,16 @@ namespace FiltersModule.ViewModels
             get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
         }
 
-        public ObservableCollection<Event> EventViewModels { get; private set; }
-        public ObservableCollection<Category> CategoryViewModels { get; private set; }
+        public ObservableCollection<EventViewModel> EventViewModels { get; private set; }
+        public ObservableCollection<CategoryViewModel> CategoryViewModels { get; private set; }
 
         public JournalFilter GetModel()
         {
-            JournalFilter.Events = new List<StateType>();
-            foreach (var eventViewModel in EventViewModels)
-            {
-                if (eventViewModel.IsChecked)
-                {
-                    JournalFilter.Events.Add((StateType) eventViewModel.Id);
-                }
-            }
+            JournalFilter.Events =
+                EventViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<StateType>().ToList();
 
-            JournalFilter.Categories = new List<DeviceCategoryType>();
-            foreach (var categoryViewModel in CategoryViewModels)
-            {
-                if (categoryViewModel.IsChecked)
-                {
-                    JournalFilter.Categories.Add((DeviceCategoryType) categoryViewModel.Id);
-                }
-            }
+            JournalFilter.Categories =
+                CategoryViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<DeviceCategoryType>().ToList();
 
             return JournalFilter;
         }
@@ -131,6 +115,11 @@ namespace FiltersModule.ViewModels
         {
             JournalFilter.Name = JournalFilter.Name.Trim();
             Close(true);
+        }
+
+        bool CanOk(object obj)
+        {
+            return this["FilterName"] == null;
         }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -154,7 +143,7 @@ namespace FiltersModule.ViewModels
                 }
 
                 var name = FilterName.Trim();
-                if (_existingNames.Count > 0 &&
+                if (_existingNames.IsNotNullOrEmpry() &&
                     _existingNames.Any(x => x == name))
                 {
                     return "Фильтр с таким именем уже существует";

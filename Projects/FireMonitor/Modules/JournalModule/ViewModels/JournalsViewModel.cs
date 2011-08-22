@@ -15,16 +15,17 @@ namespace JournalModule.ViewModels
 
         void Initialize()
         {
-            var defaulstFilter = new JournalFilter();
-            defaulstFilter.Name = " Все события";
-            defaulstFilter.LastRecordsCount = FilteredJournalViewModel.RecordsMaxCount;
+            var defaulstFilter = new JournalFilter()
+            {
+                Name = " Все события",
+                LastRecordsCount = FilteredJournalViewModel.RecordsMaxCount
+            };
+
             Journals.Add(new FilteredJournalViewModel(defaulstFilter));
             SelectedJournal = Journals[0];
 
-            foreach (var journalFilter in FiresecManager.SystemConfiguration.JournalFilters)
-            {
-                Journals.Add(new FilteredJournalViewModel(journalFilter));
-            }
+            FiresecManager.SystemConfiguration.JournalFilters.ForEach(
+                journalFilter => Journals.Add(new FilteredJournalViewModel(journalFilter)));
         }
 
         public List<FilteredJournalViewModel> Journals { get; private set; }

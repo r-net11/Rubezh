@@ -74,11 +74,6 @@ namespace JournalModule.ViewModels
             get { return _journalRecord.StateType; }
         }
 
-        public int ClassId
-        {
-            get { return (int)_journalRecord.StateType; }
-        }
-
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {

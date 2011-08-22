@@ -10,36 +10,32 @@ namespace JournalModule.ViewModels
     {
         ObservableCollection<JournalRecordViewModel> _journalRecords;
 
-        public ArchiveFilterViewModel()
+        public ArchiveFilterViewModel(ObservableCollection<JournalRecordViewModel> journalRecords)
+        {
+            _journalRecords = journalRecords;
+            Initialize();
+        }
+
+        public void Initialize()
         {
             Title = "Фильтр журнала";
+
+            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
+
+            JournalTypes = _journalRecords.Select(
+                journalRecord => journalRecord.StateType).Distinct().Select(
+                stateType => new ClassViewModel(stateType)).ToList();
+
+            JournalEvents = _journalRecords.Select(
+                journalRecord => journalRecord.Description).Distinct().Select(
+                description => new EventViewModel(
+                    _journalRecords.First(journalRecord => journalRecord.Description == description).StateType,
+                    description)
+                    ).ToList();
 
             ClearCommand = new RelayCommand(OnClear);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
-
-            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
-        }
-
-        public void Initialize(ObservableCollection<JournalRecordViewModel> journalRecords)
-        {
-            _journalRecords = journalRecords;
-
-            var stringJournalTypes = (from journalItem in _journalRecords
-                                      select journalItem.ClassId).Distinct();
-
-            JournalTypes = (from journalType in stringJournalTypes
-                            select new ClassViewModel(journalType)).ToList();
-
-            var stringJournalEvents = (from journalItem in _journalRecords
-                                       select journalItem.Description).Distinct();
-
-            JournalEvents = new List<EventViewModel>();
-            foreach (var journalEvent in stringJournalEvents)
-            {
-                var jounalRecord = journalRecords.First(x => x.Description == journalEvent);
-                JournalEvents.Add(new EventViewModel(jounalRecord.ClassId, jounalRecord.Description));
-            }
         }
 
         public List<ClassViewModel> JournalTypes { get; private set; }

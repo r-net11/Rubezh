@@ -1,16 +1,26 @@
-﻿using Infrastructure.Common;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
     public class ClassViewModel : BaseViewModel
     {
-        public ClassViewModel(int id)
+        public ClassViewModel(StateType stateType)
         {
-            Id = id;
-            IsEnable = false;
+            Id = (int) stateType;
         }
 
         public int Id { get; private set; }
-        public bool? IsEnable { get; set; }
+
+        bool? _isEnable = false;
+        public bool? IsEnable
+        {
+            get { return _isEnable; }
+            set
+            {
+                _isEnable = value;
+                OnPropertyChanged("IsEnable");
+            }
+        }
     }
 }

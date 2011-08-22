@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using JournalModule.ViewModels;
 
@@ -19,7 +20,7 @@ namespace JournalModule.Views
                 bool isChecked = (bool) checkBox.IsChecked;
                 var archiveFilter = DataContext as ArchiveFilterViewModel;
                 var classId = (checkBox.DataContext as ClassViewModel).Id;
-                archiveFilter.JournalEvents.ForEach(x => { if (x.ClassId == classId) x.IsEnable = isChecked; });
+                archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => (x.IsEnable = isChecked) == isChecked);
             }
         }
 
@@ -28,12 +29,8 @@ namespace JournalModule.Views
             var checkBox = sender as CheckBox;
             var archiveFilter = DataContext as ArchiveFilterViewModel;
             var classId = (checkBox.DataContext as EventViewModel).ClassId;
-            if (archiveFilter.JournalEvents.TrueForAll(
-                x =>
-                {
-                    if (x.ClassId == classId) return x.IsEnable == checkBox.IsChecked;
-                    return true;
-                }))
+
+            if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => x.IsEnable == checkBox.IsChecked))
             {
                 archiveFilter.JournalTypes.Find(x => x.Id == classId).IsEnable = checkBox.IsChecked;
             }

@@ -36,8 +36,6 @@ namespace JournalModule.ViewModels
             //}
             //);
 
-            return;
-
             //int lastJournalId = 100;
             //while (true)
             //{
@@ -91,8 +89,7 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            var filterViewModel = new ArchiveFilterViewModel();
-            filterViewModel.Initialize(JournalRecords);
+            var filterViewModel = new ArchiveFilterViewModel(JournalRecords);
             ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
         }
     }

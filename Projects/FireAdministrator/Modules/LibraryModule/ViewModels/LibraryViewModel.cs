@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,13 +19,10 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            if (FiresecManager.DeviceLibraryConfiguration.Devices == null ||
-                FiresecManager.DeviceLibraryConfiguration.Devices.Count == 0)
-                return;
-
-            foreach (var device in FiresecManager.DeviceLibraryConfiguration.Devices)
+            if (FiresecManager.DeviceLibraryConfiguration.Devices.IsNotNullOrEmpry())
             {
-                DeviceViewModels.Add(new DeviceViewModel(device));
+                FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(
+                    device => DeviceViewModels.Add(new DeviceViewModel(device)));
             }
         }
 
@@ -81,38 +79,6 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                //foreach (var dev in FiresecManager.DeviceLibraryConfiguration.Devices)
-                //{
-                //    var dev_ = new FiresecAPI.Models.DeviceLibrary.Device()
-                //    {
-                //        Id = dev.Id,
-                //        States = new System.Collections.Generic.List<FiresecAPI.Models.DeviceLibrary.State>()
-                //    };
-
-                //    foreach (var state in dev.States)
-                //    {
-                //        var state_ = new FiresecAPI.Models.DeviceLibrary.State()
-                //        {
-                //            Code = state.Code,
-                //            StateType = state.StateType,
-                //            Frames = new System.Collections.Generic.List<FiresecAPI.Models.DeviceLibrary.Frame>()
-                //        };
-
-                //        foreach (var frame in state.Frames)
-                //        {
-                //            state_.Frames.Add(new FiresecAPI.Models.DeviceLibrary.Frame()
-                //            {
-                //                Id = frame.Id,
-                //                Duration = frame.Duration,
-                //                Layer = frame.Layer,
-                //                Image = frame.Image
-                //            });
-                //        }
-
-                //        dev_.States.Add(state_);
-                //    }
-                //    FiresecManager.DeviceLibraryConfiguration.Devices.Add(dev_);
-                //}
                 FiresecManager.SetDeviceLibraryConfiguration();
             }
         }

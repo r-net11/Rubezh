@@ -2,9 +2,9 @@
 
 namespace FiltersModule.ViewModels
 {
-    public class Event : BaseViewModel
+    public class EventViewModel : BaseViewModel
     {
-        public Event(int id)
+        public EventViewModel(int id)
         {
             Id = id;
         }

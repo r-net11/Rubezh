@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,19 +11,17 @@ namespace FiltersModule.ViewModels
         public FiltersViewModel()
         {
             CreateCommand = new RelayCommand(OnCreate);
-            EditCommand = new RelayCommand(OnEdit, CanEdit);
-            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+            EditCommand = new RelayCommand(OnEdit, CanEditOrRemove);
+            RemoveCommand = new RelayCommand(OnRemove, CanEditOrRemove);
         }
 
         public void Initialize()
         {
             FilterViewModels = new ObservableCollection<FilterViewModel>();
-            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters != null)
+            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpry())
             {
-                foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
-                {
-                    FilterViewModels.Add(new FilterViewModel(filter));
-                }
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(
+                    journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
             }
         }
 
@@ -34,11 +32,7 @@ namespace FiltersModule.ViewModels
         public RelayCommand CreateCommand { get; private set; }
         void OnCreate()
         {
-            var existingNames = new List<string>();
-            foreach (var filterViewModel in FilterViewModels)
-            {
-                existingNames.Add(filterViewModel.JournalFilter.Name);
-            }
+            var existingNames = FilterViewModels.Select(x => x.JournalFilter.Name).ToList();
             var filterDetailsViewModel = new FilterDetailsViewModel(existingNames);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
@@ -51,12 +45,8 @@ namespace FiltersModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var existingNames = new List<string>();
-            foreach (var filterViewModel in FilterViewModels)
-            {
-                if (filterViewModel != SelectedFilter)
-                    existingNames.Add(filterViewModel.JournalFilter.Name);
-            }
+            var existingNames = FilterViewModels.Where(x => x != SelectedFilter).
+                Select(x => x.JournalFilter.Name).ToList();
             var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter, existingNames);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
@@ -66,7 +56,7 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        bool CanEdit(object obj)
+        bool CanEditOrRemove(object obj)
         {
             return SelectedFilter != null;
         }
@@ -78,28 +68,18 @@ namespace FiltersModule.ViewModels
             HasChanges = true;
         }
 
-        bool CanRemove(object obj)
-        {
-            return SelectedFilter != null;
-        }
-
         public void Save()
         {
-            if (FilterViewModels != null)
+            if (FilterViewModels.IsNotNullOrEmpry())
             {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
-
-                foreach (var filterViewModel in FilterViewModels)
-                {
-                    FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterViewModel.JournalFilter);
-                }
+                    FilterViewModels.Select(x => x.JournalFilter).ToList();
             }
         }
 
         public override void OnShow()
         {
-            FiltersMenuViewModel filtersMenuViewModel =
-                new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand);
+            var filtersMenuViewModel = new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
         }
 

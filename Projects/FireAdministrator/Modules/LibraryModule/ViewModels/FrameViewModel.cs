@@ -14,7 +14,6 @@ namespace LibraryModule.ViewModels
         public FrameViewModel(FiresecAPI.Models.DeviceLibrary.Frame frame)
         {
             Frame = frame;
-
             ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
@@ -24,26 +23,20 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                try
-                {
-                    return ImageConverters.Xml2Canvas(Frame.Image, Frame.Layer);
-                }
-                catch
-                {
-                    return ImageConverters.Xml2Canvas(errorFrame, Frame.Layer);
-                }
+                try { return ImageConverters.Xml2Canvas(Frame.Image, Frame.Layer); }
+                catch { return ImageConverters.Xml2Canvas(errorFrame, Frame.Layer); }
             }
         }
 
         public static FiresecAPI.Models.DeviceLibrary.Frame GetDefaultFrameWith(int id)
         {
-            var frame = new FiresecAPI.Models.DeviceLibrary.Frame();
-            frame.Duration = defaultDuration;
-            frame.Id = id;
-            frame.Layer = defaultLayer;
-            frame.Image = emptyFrame;
-
-            return frame;
+            return new FiresecAPI.Models.DeviceLibrary.Frame()
+            {
+                Duration = defaultDuration,
+                Id = id,
+                Layer = defaultLayer,
+                Image = emptyFrame
+            };
         }
 
         public RelayCommand ImportSvgCommand { get; private set; }

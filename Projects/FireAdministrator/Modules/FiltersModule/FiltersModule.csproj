@@ -83,8 +83,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\Category.cs" />
-    <Compile Include="ViewModels\Event.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
     <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
