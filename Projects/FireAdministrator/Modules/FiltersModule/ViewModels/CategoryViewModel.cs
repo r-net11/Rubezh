@@ -1,15 +1,16 @@
-﻿using Infrastructure.Common;
+﻿using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace FiltersModule.ViewModels
 {
     public class CategoryViewModel : BaseViewModel
     {
-        public CategoryViewModel(int id)
+        public CategoryViewModel(DeviceCategoryType id)
         {
             Id = id;
         }
 
-        public int Id { get; private set; }
+        public DeviceCategoryType Id { get; private set; }
         public bool IsChecked { get; set; }
     }
 }

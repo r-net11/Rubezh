@@ -37,11 +37,11 @@ namespace FiltersModule.ViewModels
 
             EventViewModels.Where(
                 eventViewModel => journalFilter.Events.Any(
-                    x => (int) x == eventViewModel.Id)).All(x => x.IsChecked = true);
+                    x => x == eventViewModel.Id)).All(x => x.IsChecked = true);
 
             CategoryViewModels.Where(
                 categoryViewModel => journalFilter.Categories.Any(
-                    x => (int) x == categoryViewModel.Id)).All(x => x.IsChecked = true);
+                    x => x == categoryViewModel.Id)).All(x => x.IsChecked = true);
         }
 
         void Initialize(List<string> existingNames)
@@ -52,27 +52,18 @@ namespace FiltersModule.ViewModels
             if (_existingNames == null)
                 _existingNames = new List<string>();
 
-            EventViewModels = new ObservableCollection<EventViewModel>()
+            EventViewModels = new ObservableCollection<EventViewModel>();
+            foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
-                new EventViewModel(0),
-                new EventViewModel(1),
-                new EventViewModel(2),
-                new EventViewModel(3),
-                new EventViewModel(4),
-                new EventViewModel(6),
-                new EventViewModel(7),
-            };
+                if (string.IsNullOrEmpty(EnumsConverter.StateTypeToEventName(stateType)) == false)
+                    EventViewModels.Add(new EventViewModel(stateType));
+            }
 
-            CategoryViewModels = new ObservableCollection<CategoryViewModel>()
+            CategoryViewModels = new ObservableCollection<CategoryViewModel>();
+            foreach (DeviceCategoryType deviceCategoryType in Enum.GetValues(typeof(DeviceCategoryType)))
             {
-                new CategoryViewModel(0),
-                new CategoryViewModel(1),
-                new CategoryViewModel(2),
-                new CategoryViewModel(3),
-                new CategoryViewModel(4),
-                new CategoryViewModel(5),
-                new CategoryViewModel(6),
-            };
+                CategoryViewModels.Add(new CategoryViewModel(deviceCategoryType));
+            }
 
             OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
