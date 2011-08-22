@@ -4,7 +4,7 @@ namespace FiresecAPI.Models
 {
     public static class EnumsConverter
     {
-        public static bool IsNotNullOrEmpry(this ICollection collection)
+        public static bool IsNotNullOrEmpty(this ICollection collection)
         {
             return collection != null && collection.Count > 0;
         }

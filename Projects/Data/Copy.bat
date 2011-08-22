@@ -1,10 +1,16 @@
 @echo off
 set dataPath=%cd%
-set soundsPath=%cd%\Sounds
 set iconsPath=%cd%\Icons
+set deviceLibraryPath=%cd%\DeviceLibrary.xml
+set plansConfig=%cd%\PlansConfiguration.xml
 chdir ..
-chdir FiresecService\FiresecService\bin\Debug
-set destinationSoundPath=%cd%\Sounds\
-set destinationIconsPath=%cd%\Icons\
-xcopy %iconsPath% %destinationIconsPath% /E /Q /K
-xcopy %soundsPath% %destinationSoundPath% /E /Q /K
+chdir FiresecService\FiresecService\bin\Debug 
+set destinationSoundPath=%cd%\Configuration\Sounds\
+set destinationIconsPath=%cd%\Configuration\Icons\
+set dest=%cd%\Configuration\
+xcopy %iconsPath% %destinationIconsPath% /E /Q /K /Y
+xcopy "C:\Program Files\Firesec\Icons\*.*" %destinationIconsPath% /E /Q /K /Y
+xcopy "C:\Program Files\Firesec\Sounds\*.*" %destinationSoundPath% /E /Q /K /Y
+xcopy %plansConfig% %dest% /E /Q /K /Y
+xcopy %deviceLibraryPath% %dest% /E /Q /K /Y
+

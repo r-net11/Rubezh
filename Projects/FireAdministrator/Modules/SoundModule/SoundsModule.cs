@@ -35,7 +35,7 @@ namespace SoundsModule
         static void CreateViewModels()
         {
             _soundsViewModel = new SoundsViewModel();
-            _soundsViewModel.Initialize();
+            _soundsViewModel.Inicialize();
         }
 
         static void OnShowSounds(string obj)

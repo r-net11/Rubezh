@@ -12,7 +12,7 @@ namespace FiltersModule.Converters
         {
             var categories = value as List<DeviceCategoryType>;
 
-            if (categories.IsNotNullOrEmpry())
+            if (categories.IsNotNullOrEmpty())
             {
                 var delimString = " или ";
                 var result = new StringBuilder();

@@ -12,7 +12,8 @@ namespace Controls
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return (FiresecAPI.Models.StateType) value;
+            //throw new NotImplementedException();
         }
     }
 }

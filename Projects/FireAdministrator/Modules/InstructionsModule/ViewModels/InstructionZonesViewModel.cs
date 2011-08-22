@@ -25,7 +25,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        string _instructionName;
         Instruction _instruction;
 
         string _text;
@@ -82,6 +81,8 @@ namespace InstructionsModule.ViewModels
 
         public ObservableCollection<Zone> AvailableZones { get; set; }
 
+        public ObservableCollection<InstructionZoneViewModel> Zones { get; set; } 
+
         Zone _selectedAvailableZone;
         public Zone SelectedAvailableZone
         {
@@ -90,17 +91,6 @@ namespace InstructionsModule.ViewModels
             {
                 _selectedAvailableZone = value;
                 OnPropertyChanged("SelectedAvailableZone");
-            }
-        }
-
-        ObservableCollection<InstructionZoneViewModel> _zones;
-        public ObservableCollection<InstructionZoneViewModel> Zones
-        {
-            get { return _zones; }
-            set
-            {
-                _zones = value;
-                OnPropertyChanged("Zones");
             }
         }
 
@@ -115,11 +105,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public void SaveInstruction()
-        {
-            
-        }
-
         public bool CanAddAvailableZone(object obj)
         {
             return (SelectedAvailableZone != null);
@@ -128,6 +113,11 @@ namespace InstructionsModule.ViewModels
         public bool CanRemoveZone(object obj)
         {
             return (SelectedZone != null);
+        }
+
+        public void SaveInstruction()
+        {
+
         }
 
         public RelayCommand AddZoneCommand { get; private set; }
@@ -171,9 +161,12 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddInstructionCommand { get; private set; }
         void OnAddInstruction()
         {
-            if (SelectedZone != null)
+            foreach (var zone in Zones)
             {
-                SelectedZone.Text = Text;
+                if (zone.IsChecked)
+                {
+                    zone.Text = Text;
+                }
             }
         }
     }

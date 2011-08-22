@@ -34,7 +34,14 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}"
-                                          SelectedItem="{Binding SoundName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                          SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, 
+                                    UpdateSourceTrigger=PropertyChanged}" Margin="2">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
@@ -72,10 +79,29 @@
 
         <Grid Grid.Row="1">
             <XButtons:XButton Name="SoundButton" Margin="2" Padding="2"
-                              HorizontalAlignment="Left" Height="30" Width="100"
-                              Content="{Binding IsNowPlaying, Converter={StaticResource BoolToStringConverter}}"
-                              IsEnabled="{Binding IsNowPlaying, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              FontWeight="Black" Background="Black" Command="{Binding PlaySoundCommand}" />
+                              HorizontalAlignment="Left" Height="30" Width="100" 
+                              Content="Проверка"
+                              
+                              FontWeight="Black" Background="Black" Command="{Binding PlaySoundCommand}">
+                <XButtons:XButton.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="XButtons:XButton.Content"
+                                            Value="Остановить" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
+                                <DataTrigger.Setters>
+                                    <Setter Property="XButtons:XButton.Content"
+                                            Value="Проверка" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </XButtons:XButton.Style>
+            </XButtons:XButton>
         </Grid>
     </Grid>
 </UserControl>

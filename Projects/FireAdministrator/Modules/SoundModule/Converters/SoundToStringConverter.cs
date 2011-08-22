@@ -33,15 +33,7 @@ namespace SoundsModule.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string Value = (string)value;
-            switch (Value)
-            {
-                case SoundViewModel.DefaultName:
-                    return string.Empty;
-                default:
-                    return Value;
-            }
-            throw new NotImplementedException();
+            return value;
         }
 
         List<string> AvailableSounds

@@ -52,7 +52,7 @@ namespace InstructionsModule.ViewModels
 
         public List<StateType> AvailableStates
         {
-            get { return null; }
+            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
         }
 
         StateType _stateType;
@@ -93,7 +93,7 @@ namespace InstructionsModule.ViewModels
         {
             Instruction.Name = Name;
             Instruction.Text = Text;
-            Instruction.StateType = StateType.Fire;
+            Instruction.StateType = StateType;
             InstructionZonesViewModel.Inicialize(Instruction);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(InstructionZonesViewModel);
             if (result)

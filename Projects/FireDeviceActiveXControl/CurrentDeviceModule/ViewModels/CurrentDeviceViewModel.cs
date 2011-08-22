@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
-using FiresecAPI.Models;
+using FiresecAPI.Models.DeviceLibrary;
 using CurrentDeviceModule.Views;
 using DeviceControls;
 using FiresecClient;
@@ -20,7 +20,7 @@ namespace CurrentDeviceModule.ViewModels
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
             CurrentDeviceControl = new DeviceControl();
             CurrentDevice = new Device();
-            CurrentDeviceState = new DeviceState();
+            //CurrentDeviceState = new DeviceState();
             IsCurrentDeviceSelected = false;
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
@@ -28,9 +28,10 @@ namespace CurrentDeviceModule.ViewModels
         public void Inicialize(string deviceId)
         {
             DeviceId = deviceId;
-            CurrentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
-            CurrentDeviceControl.DriverId = DriverId;
+            CurrentDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            var CurrentDevice2 = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            //CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            //CurrentDeviceControl.DriverId = DriverId;
             Update();
             IsCurrentDeviceSelected = true;
         }
@@ -46,18 +47,18 @@ namespace CurrentDeviceModule.ViewModels
         }
 
         public Device CurrentDevice { get; private set; }
-        public DeviceState CurrentDeviceState { get; private set; }
+        //public DeviceState CurrentDeviceState { get; private set; }
         public string DeviceId { get; set; }
         
-        public StateType StateType
-        {
-            get { return CurrentDeviceState.StateType; }
-        }
+        //public StateType StateType
+        //{
+        //    get { return CurrentDeviceState.StateType; }
+        //}
 
-        public string DriverId
-        {
-            get { return CurrentDevice.Driver.Id; }
-        }
+        //public string DriverId
+        //{
+        //    get { return CurrentDevice.Driver.Id; }
+        //}
 
         string _toolTip;
         public string ToolTip
@@ -70,10 +71,10 @@ namespace CurrentDeviceModule.ViewModels
             }
         }
 
-        public bool DriverCanDisable
-        {
-            get { return CurrentDevice.Driver.CanDisable; }
-        }
+        //public bool DriverCanDisable
+        //{
+        //    get { return CurrentDevice.Driver.CanDisable; }
+        //}
 
         bool _isCurrentDeviceSelected;
         public bool IsCurrentDeviceSelected
@@ -100,14 +101,14 @@ namespace CurrentDeviceModule.ViewModels
 
         public void UpdateToolTip()
         {
-            string str = "";
-            str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
+            //string str = "";
+            //str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
 
-            if (CurrentDeviceState.ParentStringStates != null)
-                foreach (var parentState in CurrentDeviceState.ParentStringStates)
-                {
-                    str += parentState + "\n";
-                }
+            //if (CurrentDeviceState.ParentStringStates != null)
+            //    foreach (var parentState in CurrentDeviceState.ParentStringStates)
+            //    {
+            //        str += parentState + "\n";
+            //    }
 
             //if (deviceState.SelfStates != null)
             //    foreach (var selfState in deviceState.SelfStates)
@@ -115,19 +116,19 @@ namespace CurrentDeviceModule.ViewModels
             //        str += selfState + "\n";
             //    }
 
-            if (CurrentDeviceState.Parameters != null)
-                foreach (var parameter in CurrentDeviceState.Parameters)
-                {
-                    if (parameter.Visible)
-                    {
-                        if (string.IsNullOrEmpty(parameter.Value))
-                            continue;
-                        if (parameter.Value == "<NULL>")
-                            continue;
-                        str += parameter.Caption + " - " + parameter.Value + "\n";
-                    }
-                }
-            ToolTip = str;
+            //if (CurrentDeviceState.Parameters != null)
+            //    foreach (var parameter in CurrentDeviceState.Parameters)
+            //    {
+            //        if (parameter.Visible)
+            //        {
+            //            if (string.IsNullOrEmpty(parameter.Value))
+            //                continue;
+            //            if (parameter.Value == "<NULL>")
+            //                continue;
+            //            str += parameter.Caption + " - " + parameter.Value + "\n";
+            //        }
+            //    }
+            //ToolTip = str;
         }
 
         public void UpdateContextMenu()
@@ -138,7 +139,14 @@ namespace CurrentDeviceModule.ViewModels
         void Update()
         {
             UpdateToolTip();
-            CurrentDeviceControl.StateId = ((int)StateType).ToString();
+            
+            var additionalStateCodes = new List<string>();
+            foreach (var state in CurrentDevice.States)
+            {
+                additionalStateCodes.Add(state.Code);
+            }
+
+            CurrentDeviceControl.AdditionalStateCodes = additionalStateCodes;
         }
 
         void OnDeviceStateChanged(string id)

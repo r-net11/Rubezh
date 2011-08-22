@@ -60,7 +60,7 @@ namespace SoundsModule.ViewModels
             get 
             {
                 var listSounds = new List<string>();
-                listSounds.Add(DefaultName); //TODO переделать на null!)
+                listSounds.Add(string.Empty); 
                 listSounds.AddRange(FiresecClient.FileHelper.SoundsList);
                 return listSounds;
             }

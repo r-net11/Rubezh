@@ -11,7 +11,7 @@ namespace FiltersModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var events = value as List<StateType>;
-            if (events.IsNotNullOrEmpry())
+            if (events.IsNotNullOrEmpty())
             {
                 var delimString = " или ";
                 var result = new StringBuilder();

@@ -11,14 +11,13 @@ namespace SoundsModule.ViewModels
 {
     public class SoundsViewModel : RegionViewModel
     {
-        public void Initialize()
+        public SoundsViewModel()
+        {
+            PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
+        }
+        public void Inicialize()
         {
             IsNowPlaying = false;
-            var sounds = FiresecClient.FiresecManager.SystemConfiguration.Sounds;
-            if (sounds == null)
-            {
-                sounds = new List<Sound>();
-            }
 
             Sounds = new ObservableCollection<SoundViewModel>();
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
@@ -28,22 +27,20 @@ namespace SoundsModule.ViewModels
 
                 var newSound = new Sound();
                 newSound.StateType = stateType;
-                foreach (var sound in sounds)
+                if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
                 {
-                    if (sound.StateType == newSound.StateType)
+                    foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.Sounds)
                     {
-                        newSound = sound;
+                        if (sound.StateType == newSound.StateType)
+                        {
+                            newSound = sound;
+                        }
                     }
                 }
                 Sounds.Add(new SoundViewModel(newSound));
             }
 
             SelectedSound = Sounds[0];
-
-            PlaySoundCommand = new RelayCommand(
-                () => OnPlaySound(),
-                (x) => SelectedSound != null &&
-                       (SelectedSound.SoundName != null || SelectedSound.BeeperType != BeeperType.None));
         }
 
         public ObservableCollection<SoundViewModel> Sounds { get; private set; }
@@ -70,10 +67,17 @@ namespace SoundsModule.ViewModels
             }
         }
 
+        bool CanPlaySound(object obj)
+        {
+            return ((IsNowPlaying)||(SelectedSound != null && 
+                ((string.IsNullOrEmpty(SelectedSound.SoundName) == false) || 
+                SelectedSound.BeeperType != BeeperType.None)));
+        }
+
         public RelayCommand PlaySoundCommand { get; private set; }
         void OnPlaySound()
         {
-            if (IsNowPlaying)
+            if (IsNowPlaying == false)
             {
                 string soundPath = FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
                 AlarmPlayerHelper.Play(soundPath, SelectedSound.BeeperType, SelectedSound.IsContinious);
@@ -82,6 +86,7 @@ namespace SoundsModule.ViewModels
             else
             {
                 AlarmPlayerHelper.Stop();
+                IsNowPlaying = false;
             }
         }
 

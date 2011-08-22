@@ -67,53 +67,24 @@ namespace FireAdministrator
             if (DevicesModule.DevicesModule.HasChanges || SoundsModule.SoundsModule.HasChanged ||
                 FiltersModule.FilterModule.HasChanged)
             {
-                MessageBoxResult result;
-                if (DevicesModule.DevicesModule.HasChanges)
+                var result = MessageBox.Show("Настройки изменены. Желаете сохранить изменения?", "Подтверждение", MessageBoxButton.YesNoCancel);
+
+                switch (result)
                 {
-                    result = MessageBox.Show("Сохранить конфигурацию?", "Выход", MessageBoxButton.YesNoCancel);
-                    if (result == MessageBoxResult.Cancel)
-                    {
+                    case MessageBoxResult.Yes:
+                        DevicesModule.DevicesModule.HasChanges = false;
+                        
+                        SoundsModule.SoundsModule.HasChanged = false;
+                        SoundsModule.SoundsModule.Save();
+                        
+                        FiltersModule.FilterModule.HasChanged = false;
+                        FiltersModule.FilterModule.Save();
+                        return;
+                    case MessageBoxResult.No:
+                        return;
+                    case MessageBoxResult.Cancel:
                         e.Cancel = true;
                         return;
-                    }
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        DevicesModule.DevicesModule.HasChanges = true;
-                    }
-                }
-
-                if (SoundsModule.SoundsModule.HasChanged)
-                {
-                    result = MessageBox.Show("Настройки звуков изменены. Желаете сохранить изменения?",
-                        "Подтверждение", MessageBoxButton.YesNoCancel);
-                    switch (result)
-                    {
-                        case MessageBoxResult.Yes:
-                            SoundsModule.SoundsModule.HasChanged = false;
-                            SoundsModule.SoundsModule.Save();
-                            break;
-
-                        case MessageBoxResult.Cancel:
-                            e.Cancel = true;
-                            return;
-                    }
-                }
-
-                if (FiltersModule.FilterModule.HasChanged)
-                {
-                    result = MessageBox.Show("Фильтры журнала изменены. Желаете сохранить изменения?",
-                        "Подтверждение", MessageBoxButton.YesNoCancel);
-                    switch (result)
-                    {
-                        case MessageBoxResult.Yes:
-                            FiltersModule.FilterModule.HasChanged = false;
-                            FiltersModule.FilterModule.Save();
-                            break;
-
-                        case MessageBoxResult.Cancel:
-                            e.Cancel = true;
-                            return;
-                    }
                 }
             }
         }

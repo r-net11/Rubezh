@@ -58,7 +58,7 @@ namespace Common
 
         static void PlaySound(string filePath, bool isContinious)
         {
-            if (!string.IsNullOrWhiteSpace(filePath))
+            if (File.Exists(filePath))
             {
                 _soundPlayer.SoundLocation = filePath;
                 _soundPlayer.Load();
