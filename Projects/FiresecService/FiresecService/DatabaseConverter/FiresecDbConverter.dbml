@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Persons" Class="FiresecDbConverterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\sqlexpress;Initial Catalog=Persons;Integrated Security=True" SettingsObjectName="FiresecService.Properties.Settings" SettingsPropertyName="PersonsConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Firesec" Class="FiresecDbConverterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\sqlexpress;Initial Catalog=Firesec;Integrated Security=True" SettingsObjectName="FiresecService.Properties.Settings" SettingsPropertyName="FiresecConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Journal" Member="Journal">
     <Type Name="Journal">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

@@ -31,25 +31,25 @@ namespace JournalModule.ViewModels
 
         public bool FilterRecord(JournalRecord journalRecord)
         {
-            bool retval = true;
+            bool result = true;
             if (JournalFilter.Categories.IsNotNullOrEmpry())
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
                         x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
                              x.DatabaseId == journalRecord.PanelDatabaseId);
 
-                if (retval = device != null)
+                if (result = device != null)
                 {
-                    retval = JournalFilter.Categories.Any(x => x == device.Driver.Category);
+                    result = JournalFilter.Categories.Any(x => x == device.Driver.Category);
                 }
             }
 
-            if (retval && JournalFilter.Events.IsNotNullOrEmpry())
+            if (result && JournalFilter.Events.IsNotNullOrEmpry())
             {
-                retval = JournalFilter.Events.Any(x => x == journalRecord.StateType);
+                result = JournalFilter.Events.Any(x => x == journalRecord.StateType);
             }
 
-            return retval;
+            return result;
         }
     }
 }

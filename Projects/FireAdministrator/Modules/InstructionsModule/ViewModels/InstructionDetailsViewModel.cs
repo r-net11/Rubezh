@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI;
-using InstructionsModule.Views;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
@@ -27,19 +22,19 @@ namespace InstructionsModule.ViewModels
         public void Initialize()
         {
             _isNew = false;
-            Instruction = new Instruction();
             Title = "Новая инструкция";
+            Instruction = new Instruction();
             InstructionZonesViewModel = new InstructionZonesViewModel();
         }
 
         public void Initialize(Instruction instruction)
         {
             _isNew = false;
+            Title = "Редактирование инструкции";
             Instruction = instruction;
             Name = instruction.Name;
             Text = instruction.Text;
             StateType = instruction.StateType;
-            Title = "Редактирование инструкции";
             InstructionZonesViewModel = new InstructionZonesViewModel();
             InstructionZonesViewModel.Inicialize(Instruction);
         }

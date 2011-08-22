@@ -10,6 +10,7 @@ namespace JournalModule
     {
         static JournalsViewModel _journalsViewModel;
         static ArchiveViewModel _archiveViewModel;
+
         public JournalModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);

@@ -25,6 +25,7 @@ namespace SoundsModule.ViewModels
             {
                 if (stateType == StateType.No)
                     continue;
+
                 var newSound = new Sound();
                 newSound.StateType = stateType;
                 foreach (var sound in sounds)

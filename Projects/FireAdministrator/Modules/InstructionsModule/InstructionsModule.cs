@@ -12,7 +12,7 @@ namespace InstructionsModule
 {
     public class InstructionsModule : IModule
     {
-        static InstructionsViewModel instructionsViewModel;
+        static InstructionsViewModel _instructionsViewModel;
 
         public InstructionsModule()
         {
@@ -33,13 +33,13 @@ namespace InstructionsModule
 
         void CreateViewModels()
         {
-            instructionsViewModel = new InstructionsViewModel();
+            _instructionsViewModel = new InstructionsViewModel();
         }
 
         static void OnShowInstructions(string obj)
         {
-            instructionsViewModel.Initialize();
-            ServiceFactory.Layout.Show(instructionsViewModel);
+            _instructionsViewModel.Initialize();
+            ServiceFactory.Layout.Show(_instructionsViewModel);
         }
     }
 }

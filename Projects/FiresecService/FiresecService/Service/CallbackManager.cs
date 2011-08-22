@@ -37,7 +37,7 @@ namespace FiresecService
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
-            foreach (IFiresecCallback callback in _callbacks)
+            foreach (var callback in _callbacks)
             {
                 try
                 {
@@ -56,7 +56,7 @@ namespace FiresecService
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
-            foreach (IFiresecCallback callback in _callbacks)
+            foreach (var callback in _callbacks)
             {
                 try
                 {
@@ -75,7 +75,7 @@ namespace FiresecService
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
-            foreach (IFiresecCallback callback in _callbacks)
+            foreach (var callback in _callbacks)
             {
                 try
                 {
@@ -94,7 +94,7 @@ namespace FiresecService
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
-            foreach (IFiresecCallback callback in _callbacks)
+            foreach (var callback in _callbacks)
             {
                 try
                 {

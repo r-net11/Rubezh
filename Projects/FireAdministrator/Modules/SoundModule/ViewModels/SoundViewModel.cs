@@ -28,8 +28,8 @@ namespace SoundsModule.ViewModels
             set
             {
                 Sound.SoundName = value;
-                SoundsModule.HasChanged = true;
                 OnPropertyChanged("SoundName");
+                SoundsModule.HasChanged = true;
             }
         }
 
@@ -39,8 +39,8 @@ namespace SoundsModule.ViewModels
             set 
             {
                 Sound.BeeperType = value;
-                SoundsModule.HasChanged = true;
                 OnPropertyChanged("BeeperType");
+                SoundsModule.HasChanged = true;
             }
         }
 
@@ -50,8 +50,8 @@ namespace SoundsModule.ViewModels
             set
             {
                 Sound.IsContinious = value;
-                SoundsModule.HasChanged = true;
                 OnPropertyChanged("IsContinious");
+                SoundsModule.HasChanged = true;
             }
         }
 

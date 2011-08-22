@@ -23,6 +23,9 @@ namespace SoundsModule
             CreateViewModels();
         }
 
+        static SoundsViewModel _soundsViewModel;
+        public static bool HasChanged { get; set; }
+
         void RegisterResources()
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
@@ -31,21 +34,18 @@ namespace SoundsModule
 
         static void CreateViewModels()
         {
-            soundsViewModel = new SoundsViewModel();
-            soundsViewModel.Initialize();
+            _soundsViewModel = new SoundsViewModel();
+            _soundsViewModel.Initialize();
         }
-
-        static SoundsViewModel soundsViewModel;
-        public static bool HasChanged { get; set; }
 
         static void OnShowSounds(string obj)
         {
-            ServiceFactory.Layout.Show(soundsViewModel);
+            ServiceFactory.Layout.Show(_soundsViewModel);
         }
 
         public static void Save()
         {
-            soundsViewModel.Save();
+            _soundsViewModel.Save();
         }
     }
 }

@@ -10,11 +10,11 @@ namespace JournalModule.ViewModels
         public JournalsViewModel()
         {
             Initialize();
+            Journals = new List<FilteredJournalViewModel>();
         }
 
         void Initialize()
         {
-            Journals = new List<FilteredJournalViewModel>();
             var defaulstFilter = new JournalFilter();
             defaulstFilter.Name = " Все события";
             defaulstFilter.LastRecordsCount = FilteredJournalViewModel.RecordsMaxCount;

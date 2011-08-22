@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
@@ -45,7 +41,6 @@ namespace InstructionsModule.ViewModels
         }
 
         public RelayCommand AddCommand { get; private set; }
-
         void OnAdd()
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();
@@ -71,7 +66,6 @@ namespace InstructionsModule.ViewModels
         }
 
         public RelayCommand EditCommand { get; private set; }
-
         void OnEdit()
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();

@@ -32,6 +32,8 @@ namespace FiresecService
                         UserName = journalItem.User,
                         StateType = (int) journalItem.StateType
                     };
+
+                    dataContext.Journal.InsertOnSubmit(journal);
                 }
 
                 dataContext.SubmitChanges();

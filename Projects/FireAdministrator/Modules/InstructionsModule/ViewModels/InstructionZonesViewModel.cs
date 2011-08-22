@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
 using FiresecAPI.Models;
-using Infrastructure.Common;
-using DevicesModule.ViewModels;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
@@ -14,11 +10,11 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionZonesViewModel()
         {
-            //Команды
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddAvailableZone);
             RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
             AddInstructionCommand = new RelayCommand(OnAddInstruction);
         }
+
         public void Inicialize(Instruction instruction)
         {
             _instruction = instruction;
@@ -31,8 +27,6 @@ namespace InstructionsModule.ViewModels
 
         string _instructionName;
         Instruction _instruction;
-
-        
 
         string _text;
         public string Text 
