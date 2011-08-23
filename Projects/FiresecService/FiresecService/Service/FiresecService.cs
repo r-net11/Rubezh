@@ -8,6 +8,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using FiresecService.DatabaseConverter;
 using FiresecServiceRunner;
 
 namespace FiresecService
@@ -185,7 +186,7 @@ namespace FiresecService
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
             var journalRecords = new List<JournalRecord>();
 
-            if (internalJournal != null && internalJournal.Journal != null && internalJournal.Journal.Length > 0)
+            if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
                 foreach (var innerJournalRecord in internalJournal.Journal)
                 {
@@ -194,6 +195,17 @@ namespace FiresecService
             }
 
             return journalRecords;
+        }
+
+        public List<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        {
+            var filteredJournal = new List<JournalRecord>();
+            using (var dataContext = new FiresecDbConverterDataContext())
+            {
+                filteredJournal = dataContext.Journal.Cast<JournalRecord>().ToList();
+            }
+
+            return filteredJournal;
         }
 
         public void AddToIgnoreList(List<string> deviceIds)

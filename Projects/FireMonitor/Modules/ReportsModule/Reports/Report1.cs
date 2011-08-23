@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
-using FiresecAPI.Models;
+using Common;
 using FiresecClient;
 using Infrastructure.Common;
 

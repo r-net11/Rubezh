@@ -51,7 +51,7 @@ namespace JournalModule.ViewModels
 
         public static int RecordsMaxCount
         {
-            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
+            get { return new JournalFilter().LastRecordsCount; }
         }
 
         void AplyFilter(Object stateInfo)

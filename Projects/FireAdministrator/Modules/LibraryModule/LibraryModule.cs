@@ -31,12 +31,13 @@ namespace LibraryModule
         static void CreateViewModels()
         {
             _libraryViewModel = new LibraryViewModel();
-            _libraryViewModel.Initialize();
         }
 
         static void OnShowLibrary(string obj)
         {
             ServiceFactory.Layout.Show(_libraryViewModel);
         }
+
+        public static bool HasChanges { get; set; }
     }
 }

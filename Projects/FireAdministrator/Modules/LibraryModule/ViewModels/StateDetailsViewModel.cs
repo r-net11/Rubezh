@@ -7,8 +7,9 @@ namespace LibraryModule.ViewModels
     public class StateDetailsViewModel : DetailsBaseViewModel<StateViewModel>
     {
         public StateDetailsViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
+            : base()
         {
-            Initialize("Добавить состояние");
+            Title = "Добавить состояние";
 
             var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.Id);
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))

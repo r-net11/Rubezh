@@ -6,8 +6,9 @@ namespace LibraryModule.ViewModels
     public class DeviceDetailsViewModel : DetailsBaseViewModel<DeviceViewModel>
     {
         public DeviceDetailsViewModel()
+            : base()
         {
-            Initialize("Добавить устройство");
+            Title = "Добавить устройство";
 
             foreach (var driver in FiresecManager.Drivers)
             {

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Windows;
-using FiresecAPI.Models;
+﻿using System.Windows;
 using FiresecService;
 using FiresecService.Views;
 
@@ -26,13 +24,13 @@ namespace FiresecServiceRunner
             FiresecServiceManager.Open();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var alarmTest = new AlarmTest();
             alarmTest.Show();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        void Button_Click_2(object sender, RoutedEventArgs e)
         {
             ConfigurationConverter.Convert();
             JournalDataConverter.Convert();

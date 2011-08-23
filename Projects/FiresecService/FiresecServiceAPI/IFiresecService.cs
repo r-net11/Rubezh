@@ -60,6 +60,9 @@ namespace FiresecAPI
         [OperationContract]
         List<JournalRecord> ReadJournal(int startIndex, int count);
 
+        //[OperationContract]
+        //List<JournalRecord> GetFilteredJournal(JournalFilter journalFilter);
+
         [OperationContract]
         void AddToIgnoreList(List<string> deviceIds);
 

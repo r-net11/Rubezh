@@ -19,6 +19,32 @@ namespace LibraryModule.ViewModels
 
         public FiresecAPI.Models.DeviceLibrary.Frame Frame { get; private set; }
 
+        public int Layer
+        {
+            get { return Frame.Layer; }
+            set
+            {
+                if (value != Frame.Layer)
+                {
+                    Frame.Layer = value;
+                    LibraryModule.HasChanges = true;
+                }
+            }
+        }
+
+        public int Duration
+        {
+            get { return Frame.Duration; }
+            set
+            {
+                if (value != Frame.Duration)
+                {
+                    Frame.Duration = value;
+                    LibraryModule.HasChanges = true;
+                }
+            }
+        }
+
         public Canvas XamlOfImage
         {
             get
@@ -49,6 +75,7 @@ namespace LibraryModule.ViewModels
             {
                 Frame.Image = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
                 OnPropertyChanged("XamlOfImage");
+                LibraryModule.HasChanges = true;
             }
         }
     }

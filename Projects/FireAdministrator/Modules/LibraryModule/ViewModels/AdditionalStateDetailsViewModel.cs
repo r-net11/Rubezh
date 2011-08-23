@@ -5,8 +5,9 @@ namespace LibraryModule.ViewModels
     public class AdditionalStateDetailsViewModel : DetailsBaseViewModel<StateViewModel>
     {
         public AdditionalStateDetailsViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
+            : base()
         {
-            Initialize("Добавить дополнительное состояние");
+            Title = "Добавить дополнительное состояние";
 
             var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.Id);
             foreach (var state in driver.States)

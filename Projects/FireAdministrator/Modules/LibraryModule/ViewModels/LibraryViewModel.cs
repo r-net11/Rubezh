@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using FiresecAPI.Models;
+using Common;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,19 +11,16 @@ namespace LibraryModule.ViewModels
     {
         public LibraryViewModel()
         {
-            AddDeviceCommand = new RelayCommand(OnAddDevice);
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-            SaveCommand = new RelayCommand(OnSave);
-        }
-
-        public void Initialize()
-        {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
             if (FiresecManager.DeviceLibraryConfiguration.Devices.IsNotNullOrEmpty())
             {
                 FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(
                     device => DeviceViewModels.Add(new DeviceViewModel(device)));
             }
+
+            AddDeviceCommand = new RelayCommand(OnAddDevice);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
+            SaveCommand = new RelayCommand(OnSave);
         }
 
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }
@@ -47,6 +44,7 @@ namespace LibraryModule.ViewModels
             {
                 FiresecManager.DeviceLibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.Device);
                 DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
+                LibraryModule.HasChanges = true;
             }
         }
 
@@ -62,6 +60,7 @@ namespace LibraryModule.ViewModels
             {
                 FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.Device);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);
+                LibraryModule.HasChanges = true;
             }
         }
 

@@ -15,7 +15,7 @@ namespace LibraryModule
                 File.Exists(xslFileName) == false) return null;
 
             var xslt = new XslCompiledTransform();
-            XsltSettings settings = new XsltSettings(true, true);
+            var settings = new XsltSettings(true, true);
             xslt.Load(xslFileName, settings, new XmlUrlResolver());
 
             var xamlOfSvg = new StringBuilder();

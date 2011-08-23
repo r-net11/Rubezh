@@ -5,11 +5,8 @@ namespace LibraryModule.ViewModels
 {
     public abstract class DetailsBaseViewModel<T> : Infrastructure.Common.DialogContent
     {
-        public DetailsBaseViewModel() { }
-
-        protected virtual void Initialize(string title)
+        public DetailsBaseViewModel()
         {
-            Title = title;
             Items = new List<T>();
 
             OkCommand = new RelayCommand(OnOk, OnCanOk);

@@ -22,17 +22,12 @@ namespace LibraryModule.ViewModels
                 SetDefaultStateTo(Device);
             }
 
-            AddStateCommand = new RelayCommand(OnAddState);
-            AddAdditionalStateCommand = new RelayCommand(OnShowAdditionalStates);
-            RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
             StateViewModels = new ObservableCollection<StateViewModel>();
             Device.States.ForEach(state => StateViewModels.Add(new StateViewModel(state, _driver)));
+
+            AddStateCommand = new RelayCommand(OnAddState);
+            AddAdditionalStateCommand = new RelayCommand(OnAddAdditionalState);
+            RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
         }
 
         public FiresecAPI.Models.DeviceLibrary.Device Device { get; private set; }
@@ -125,17 +120,19 @@ namespace LibraryModule.ViewModels
             {
                 Device.States.Add(addStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addStateViewModel.SelectedItem);
+                LibraryModule.HasChanges = true;
             }
         }
 
         public RelayCommand AddAdditionalStateCommand { get; private set; }
-        void OnShowAdditionalStates()
+        void OnAddAdditionalState()
         {
             var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(Device);
             if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
             {
                 Device.States.Add(addAdditionalStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addAdditionalStateViewModel.SelectedItem);
+                LibraryModule.HasChanges = true;
             }
         }
 
@@ -151,6 +148,7 @@ namespace LibraryModule.ViewModels
             {
                 Device.States.Remove(SelectedStateViewModel.State);
                 StateViewModels.Remove(SelectedStateViewModel);
+                LibraryModule.HasChanges = true;
             }
         }
 

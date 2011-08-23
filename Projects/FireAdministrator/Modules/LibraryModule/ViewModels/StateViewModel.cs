@@ -21,17 +21,12 @@ namespace LibraryModule.ViewModels
             }
             ParentDriver = parentDriver;
 
-            AddFrameCommand = new RelayCommand(OnAddFrame);
-            RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
             FrameViewModels = new ObservableCollection<FrameViewModel>();
             State.Frames.ForEach(frame => FrameViewModels.Add(new FrameViewModel(frame)));
             SelectedFrameViewModel = FrameViewModels[0];
+
+            AddFrameCommand = new RelayCommand(OnAddFrame);
+            RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
         }
 
         public FiresecAPI.Models.DeviceLibrary.State State { get; private set; }
@@ -46,7 +41,7 @@ namespace LibraryModule.ViewModels
 
         public string ClassName
         {
-            get { return EnumsConverter.StateTypeToClassName(State.StateType); }
+            get { return EnumsConverter.StateTypeToLibraryStateName(State.StateType); }
         }
 
         public string Name
@@ -113,6 +108,7 @@ namespace LibraryModule.ViewModels
             var defaultFrame = FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count);
             State.Frames.Add(defaultFrame);
             FrameViewModels.Add(new FrameViewModel(defaultFrame));
+            LibraryModule.HasChanges = true;
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
@@ -127,6 +123,7 @@ namespace LibraryModule.ViewModels
             {
                 State.Frames.Remove(SelectedFrameViewModel.Frame);
                 FrameViewModels.Remove(SelectedFrameViewModel);
+                LibraryModule.HasChanges = true;
             }
         }
 

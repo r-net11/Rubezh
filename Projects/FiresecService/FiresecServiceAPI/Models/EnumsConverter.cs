@@ -1,14 +1,7 @@
-﻿using System.Collections;
-
-namespace FiresecAPI.Models
+﻿namespace FiresecAPI.Models
 {
     public static class EnumsConverter
     {
-        public static bool IsNotNullOrEmpty(this ICollection collection)
-        {
-            return collection != null && collection.Count > 0;
-        }
-
         public static string StateTypeToClassName(StateType stateType)
         {
             switch (stateType)
@@ -39,6 +32,42 @@ namespace FiresecAPI.Models
 
                 case StateType.No:
                     return "Нет состояния";
+
+                default:
+                    return "";
+            }
+        }
+
+        public static string StateTypeToLibraryStateName(StateType stateType)
+        {
+            switch (stateType)
+            {
+                case StateType.Fire:
+                    return "Тревога";
+
+                case StateType.Attention:
+                    return "Внимание (предтревожное)";
+
+                case StateType.Failure:
+                    return "Неисправность";
+
+                case StateType.Service:
+                    return "Требуется обслуживание";
+
+                case StateType.Off:
+                    return "Обход устройств";
+
+                case StateType.Unknown:
+                    return "Неопределено";
+
+                case StateType.Info:
+                    return "Норма(*)";
+
+                case StateType.Norm:
+                    return "Норма";
+
+                case StateType.No:
+                    return "Базовый рисунок";
 
                 default:
                     return "";

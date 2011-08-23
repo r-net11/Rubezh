@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 
