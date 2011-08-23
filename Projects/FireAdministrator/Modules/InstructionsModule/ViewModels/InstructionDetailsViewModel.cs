@@ -140,7 +140,9 @@ namespace InstructionsModule.ViewModels
         public RelayCommand SelectDeviceCommand { get; private set; }
         void OnSelectDeviceCommand()
         {
-            
+            var instructionDevicesViewModel = new InstructionDevicesViewModel();
+            instructionDevicesViewModel.Inicialize(Instruction);
+            ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel);
         }
 
         public RelayCommand SaveCommand { get; private set; }

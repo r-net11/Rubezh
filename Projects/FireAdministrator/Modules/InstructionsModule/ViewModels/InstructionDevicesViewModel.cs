@@ -10,12 +10,89 @@ namespace InstructionsModule.ViewModels
         public InstructionDevicesViewModel()
         {
             AddDeviceCommand = new RelayCommand(OnAddDevice, CanAddAvailableDevice);
-            RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveDevice);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             AddAllDeviceCommand = new RelayCommand(OnAddAllDevice, CanAddAllAvailableDevice);
             RemoveAllDeviceCommand = new RelayCommand(OnRemoveAllDevice, CanRemoveAllDevice);
             SaveCommand = new RelayCommand(OnSave, CanSaveInstruction);
             CancelCommand = new RelayCommand(OnCancel);
         }
+
+        public void Inicialize(Instruction instruction)
+        {
+            _instruction = instruction;
+            InicializeDevices();
+            if (InstructionDevices.IsNotNullOrEmpty())
+            {
+                SelectedInstructionDevice = InstructionDevices[0];
+            }
+        }
+
+        void InicializeDevices()
+        {
+            //AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            BuildTree();
+
+            //var instructionDevices = new List<Device>();
+
+            //InstructionDevices = new ObservableCollection<DeviceViewModel>();
+            //if (_instruction.InstructionDevices.IsNotNullOrEmpty())
+            //{
+            //    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            //    {
+            //        if (_instruction.InstructionDevices.Contains(device.DriverId))
+            //        {
+            //            instructionDevices.Add(device);
+            //        }
+            //    }
+
+            //    foreach (var device in instructionDevices)
+            //    {
+            //        var deviceViewModel = new DeviceViewModel();
+            //        deviceViewModel.Initialize(device, InstructionDevices);
+            //        deviceViewModel.IsExpanded = true;
+            //        InstructionDevices.Add(deviceViewModel);
+            //    }
+
+            //    foreach (var device in InstructionDevices)
+            //    {
+            //        if (device.Device.Parent != null)
+            //        {
+            //            var parent = InstructionDevices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+            //            device.Parent = parent;
+            //            parent.Children.Add(device);
+            //        }
+            //    }
+            //}
+
+            
+        }
+
+        void BuildTree()
+        {
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            var device = FiresecManager.DeviceConfiguration.RootDevice;
+            AddDevice(device, null);
+        }
+
+        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+        {
+            var deviceViewModel = new DeviceViewModel();
+            deviceViewModel.Parent = parentDeviceViewModel;
+            deviceViewModel.Initialize(device, AvailableDevices);
+
+            var indexOf = AvailableDevices.IndexOf(parentDeviceViewModel);
+            AvailableDevices.Insert(indexOf + 1, deviceViewModel);
+
+            foreach (var childDevice in device.Children)
+            {
+                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+                deviceViewModel.Children.Add(childDeviceViewModel);
+            }
+
+            return deviceViewModel;
+        }
+
+        Instruction _instruction;
 
         public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
 
@@ -91,9 +168,9 @@ namespace InstructionsModule.ViewModels
         {
             if (CanRemoveAllDevice(null))
             {
-                foreach (var instructionZone in InstructionDevices)
+                foreach (var instructionDevice in InstructionDevices)
                 {
-                    AvailableDevices.Add(instructionZone);
+                    AvailableDevices.Add(instructionDevice);
                 }
                 InstructionDevices.Clear();
                 SelectedInstructionDevice = null;
@@ -104,8 +181,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand RemoveZoneCommand { get; private set; }
-        void OnRemoveZone()
+        public RelayCommand RemoveDeviceCommand { get; private set; }
+        void OnRemoveDevice()
         {
             if (CanRemoveDevice(null))
             {
