@@ -19,8 +19,4 @@
         <Views:AdditionalStateDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LibraryMenuViewModel}">
-        <Views:LibraryMenuView />
-    </DataTemplate>
-
 </ResourceDictionary>

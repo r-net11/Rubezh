@@ -36,10 +36,10 @@
                     <WrapPanel DockPanel.Dock="Bottom">
                         <Label Content="Слой: " />
                         <ExtToolkit:IntegerUpDown IsEditable="False"
-                                                  Text="{Binding Layer, UpdateSourceTrigger=PropertyChanged}" />
+                                                  Text="{Binding Layer, Mode=TwoWay}" />
                         <Label  Content=" Длительность: " />
                         <ExtToolkit:IntegerUpDown IsEditable="False" Increment="100"
-                                                  Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" />
+                                                  Text="{Binding Duration, Mode=TwoWay}" />
                         <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
                     </WrapPanel>
 

@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="LibraryModule.Views.LibraryMenuView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ToolBar Background="Transparent">
-        <Button Command="{Binding SaveCommand}" ToolTip="Сохранить изменения">
-            <Image Source="/FireAdministrator;component/Images/Save.png" Height="32" />
-        </Button>
-    </ToolBar>
-</UserControl>

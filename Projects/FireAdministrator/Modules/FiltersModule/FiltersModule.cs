@@ -42,11 +42,6 @@ namespace FiltersModule
         {
         }
 
-        public static void Save()
-        {
-            _filtersViewModel.Save();
-        }
-
-        public static bool HasChanges { get; set; }
+        public static bool HasChanged { get; set; }
     }
 }

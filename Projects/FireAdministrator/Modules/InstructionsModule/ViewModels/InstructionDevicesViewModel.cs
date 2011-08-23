@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Common;
 using DevicesModule.ViewModels;
-using FiresecClient;
-using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
@@ -76,7 +71,6 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddAllDeviceCommand { get; private set; }
         void OnAddAllDevice()
         {
-
             if (CanAddAllAvailableDevice(null))
             {
                 foreach (var availableDevices in AvailableDevices)
@@ -139,7 +133,7 @@ namespace InstructionsModule.ViewModels
         {
             Close(false);
         }
-        
+
         //void BuildTree()
         //{
         //    Devices = new ObservableCollection<DeviceViewModel>();

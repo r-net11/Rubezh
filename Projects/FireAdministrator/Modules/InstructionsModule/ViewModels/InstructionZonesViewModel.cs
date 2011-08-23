@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using DevicesModule.ViewModels;
-using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
@@ -115,7 +116,6 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddAllZoneCommand { get; private set; }
         void OnAddAllZone()
         {
-            
             if (CanAddAllAvailableZone(null))
             {
                 foreach (var availableZone in AvailableZones)
@@ -179,7 +179,7 @@ namespace InstructionsModule.ViewModels
         {
             Close(false);
         }
-        
+
         public void SaveInstruction()
         {
             if (_instruction.InstructionZones.IsNotNullOrEmpty())
@@ -197,4 +197,3 @@ namespace InstructionsModule.ViewModels
         }
     }
 }
-

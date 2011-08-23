@@ -13,7 +13,7 @@ namespace SoundsModule
     {
         public SoundsModule()
         {
-            HasChanged = false;
+            HasChanges = false;
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
         }
 
@@ -36,7 +36,7 @@ namespace SoundsModule
         }
 
         static SoundsViewModel soundsViewModel;
-        public static bool HasChanged { get; set; }
+        public static bool HasChanges { get; set; }
 
         static void OnShowSounds(string obj)
         {

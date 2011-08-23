@@ -131,14 +131,10 @@ namespace FiresecClient
 
         public static void SetConfiguration()
         {
-            _firesecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
-            _firesecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
-            _firesecService.SetDeviceConfiguration(DeviceConfiguration);
-        }
-
-        public static void SetDeviceLibraryConfiguration()
-        {
+            _firesecService.SetSystemConfiguration(SystemConfiguration);
+            _firesecService.SetPlansConfiguration(PlansConfiguration);
             _firesecService.SetDeviceLibraryConfiguration(DeviceLibraryConfiguration);
+            _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
         public static void AddToIgnoreList(List<string> deviceIds)

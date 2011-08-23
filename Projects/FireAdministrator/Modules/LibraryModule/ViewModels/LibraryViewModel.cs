@@ -20,8 +20,18 @@ namespace LibraryModule.ViewModels
 
             AddDeviceCommand = new RelayCommand(OnAddDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-            SaveCommand = new RelayCommand(OnSave);
+            //Swap();
         }
+
+        //void Swap()
+        //{
+        //    var device = DeviceViewModels.First(x => x.Name == "Задвижка");
+        //    var st1 = device.StateViewModels.First(x => x.AdditionalName == "Автоматика включена");
+        //    var st2 = device.StateViewModels.First(x => x.AdditionalName == "Ход на закрытие");
+        //    var tmp = st1.FrameViewModels[0].Frame.Image;
+        //    st1.FrameViewModels[0].Frame.Image = st2.FrameViewModels[0].Frame.Image;
+        //    st2.FrameViewModels[0].Frame.Image = tmp;
+        //}
 
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }
 
@@ -67,29 +77,6 @@ namespace LibraryModule.ViewModels
         bool CanRemoveDevice(object obj)
         {
             return SelectedDeviceViewModel != null;
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            var result = MessageBox.Show("Вы уверены что хотите сохранить все изменения на диск?",
-                                         "Окно подтверждения", MessageBoxButton.OKCancel,
-                                         MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.OK)
-            {
-                FiresecManager.SetDeviceLibraryConfiguration();
-            }
-        }
-
-        public override void OnShow()
-        {
-            ServiceFactory.Layout.ShowMenu(new LibraryMenuViewModel(SaveCommand));
-        }
-
-        public override void OnHide()
-        {
-            ServiceFactory.Layout.ShowMenu(null);
         }
     }
 }

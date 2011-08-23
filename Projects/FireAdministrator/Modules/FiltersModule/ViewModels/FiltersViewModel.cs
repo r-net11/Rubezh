@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using Common;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.Generic;
 
 namespace FiltersModule.ViewModels
 {
@@ -37,7 +35,7 @@ namespace FiltersModule.ViewModels
             {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
-                FilterModule.HasChanges = true;
+                FilterModule.HasChanged = true;
             }
         }
 
@@ -50,7 +48,7 @@ namespace FiltersModule.ViewModels
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-                FilterModule.HasChanges = true;
+                FilterModule.HasChanged = true;
             }
         }
 
@@ -64,16 +62,7 @@ namespace FiltersModule.ViewModels
         {
             FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
             FilterViewModels.Remove(SelectedFilter);
-            FilterModule.HasChanges = true;
-        }
-
-        public void Save()
-        {
-            if (FilterViewModels.IsNotNullOrEmpty())
-            {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters =
-                    FilterViewModels.Select(x => x.JournalFilter).ToList();
-            }
+            FilterModule.HasChanged = true;
         }
 
         public override void OnShow()
