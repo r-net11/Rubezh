@@ -21,6 +21,11 @@ namespace FiresecService
         IFiresecCallback _currentCallback;
         string _userName;
 
+        string ConfigurationDirectory(string FileNameOrDirectory)
+        {
+            return (Directory.GetCurrentDirectory() + @"\Configuration\" + FileNameOrDirectory);
+        }
+
         public bool Connect(string userName, string passwordHash)
         {
             bool result = CheckLogin(userName, passwordHash);
@@ -111,7 +116,7 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
-                using (var fileStream = new FileStream(DeviceLibraryConfigurationFileName, FileMode.Open))
+                using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
                 {
                     FiresecManager.DeviceLibraryConfiguration =
                         (DeviceLibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
@@ -131,7 +136,7 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-                using (var fileStream = new FileStream(PlansConfigurationFileName, FileMode.Open))
+                using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
                 {
                     FiresecManager.PlansConfiguration = (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
@@ -158,7 +163,7 @@ namespace FiresecService
         public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
-            using (var fileStream = new FileStream(DeviceLibraryConfigurationFileName, FileMode.Create))
+            using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
             {
                 dataContractSerializer.WriteObject(fileStream, deviceLibraryConfiguration);
             }
@@ -169,7 +174,7 @@ namespace FiresecService
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-            using (var fileStream = new FileStream(PlansConfigurationFileName, FileMode.Create))
+            using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
             {
                 dataContractSerializer.WriteObject(fileStream, plansConfiguration);
             }
@@ -236,16 +241,7 @@ namespace FiresecService
 
         public List<string> GetFileNamesList(string directory)
         {
-            string path = Directory.GetCurrentDirectory() + @"\" + directory;
-            var fileNames = new List<string>();
-            if (Directory.Exists(path))
-            {
-                foreach (var str in Directory.EnumerateFiles(path))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
-            }
-            return fileNames;
+            return HashHelper.GetFileNamesList(directory);
         }
 
         public Dictionary<string, string> GetDirectoryHash(string directory)
@@ -255,7 +251,7 @@ namespace FiresecService
 
         public Stream GetFile(string directoryNameAndFileName)
         {
-            var filePath = Directory.GetCurrentDirectory() + @"\" + directoryNameAndFileName;
+            var filePath = ConfigurationDirectory(directoryNameAndFileName);
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 

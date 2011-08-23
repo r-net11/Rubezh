@@ -14,7 +14,7 @@ namespace Common
             var stringBuilder = new StringBuilder();
             byte[] hash = null;
 
-            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\" + directory);
+            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Configuration\" + directory);
             if (directoryInfo.Exists)
             {
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
@@ -39,6 +39,20 @@ namespace Common
             }
 
             return hashTable;
+        }
+
+        public static List<string> GetFileNamesList(string directory)
+        {
+            var fileNames = new List<string>();
+            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Configuration\" + directory);
+            if (directoryInfo.Exists)
+            {
+                foreach (var fileInfo in directoryInfo.EnumerateFiles())
+                {
+                    fileNames.Add(fileInfo.Name);
+                }
+            }
+            return fileNames;
         }
     }
 }

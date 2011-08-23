@@ -134,7 +134,7 @@ namespace FiltersModule.ViewModels
                 }
 
                 var name = FilterName.Trim();
-                if (_existingNames.IsNotNullOrEmpry() &&
+                if (_existingNames.IsNotNullOrEmpty() &&
                     _existingNames.Any(x => x == name))
                 {
                     return "Фильтр с таким именем уже существует";

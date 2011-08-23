@@ -15,7 +15,7 @@ namespace FiresecClient
 
         static string CurrentDirectory(string directory)
         {
-            return Directory.GetCurrentDirectory() + @"\" + directory;
+            return Directory.GetCurrentDirectory() + @"\Configuration\" + directory;
         }
 
         static void SynchronizeDirectory(string directory)
@@ -28,29 +28,32 @@ namespace FiresecClient
             {
                 if (remoteFileNamesList.Contains(localFileName) == false)
                 {
-                    File.Delete(filesDirectory.Name + @"\" + localFileName);
+                    File.Delete(filesDirectory.FullName + @"\" + localFileName);
                 }
             }
 
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
             var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
 
-            foreach (var remoteFileHash in remoteDirectoryHash)
+            if (remoteDirectoryHash != null)
             {
-                if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
+                foreach (var remoteFileHash in remoteDirectoryHash)
                 {
-                    if (File.Exists(filesDirectory.FullName + @"\" + remoteFileHash.Value))
+                    if (localDirectoryHash != null)
                     {
-                        File.Delete(filesDirectory.FullName + @"\" + remoteFileHash.Value);
+                        if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
+                        {
+                            if (File.Exists(filesDirectory.FullName + @"\" + remoteFileHash.Value))
+                            {
+                                File.Delete(filesDirectory.FullName + @"\" + remoteFileHash.Value);
+                            }
+                            DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, filesDirectory.FullName + @"\" + remoteFileHash.Value);
+                        }
                     }
-                    DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, filesDirectory.FullName + @"\" + remoteFileHash.Value);
                 }
             }
-
         }
 
-        //Почему такое название? Ведь метод копирует содержимое одного файла в другой. Очевидное название CopyFile
-        //И если что-нибудь поменяется и по пути directoryAndFileName не будет файла, то по ходу все упадет
         static void DownloadFile(string directoryAndFileName, string destinationPath)
         {
             var stream = FiresecManager.GetFile(directoryAndFileName);

@@ -71,7 +71,7 @@ namespace ReportsModule.Reports
                 if (driver.IsPlaceable && driver.ShortName != "Компьютер")
                 {
                     var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.Id == driver.Id);
-                    if (devices.IsNotNullOrEmpry())
+                    if (devices.IsNotNullOrEmpty())
                     {
                         DriverCounters.Add(new DriverCounter()
                         {

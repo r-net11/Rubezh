@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace FiltersModule.ViewModels
 {
@@ -18,7 +19,7 @@ namespace FiltersModule.ViewModels
         public void Initialize()
         {
             FilterViewModels = new ObservableCollection<FilterViewModel>();
-            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpry())
+            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpty())
             {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(
                     journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
@@ -70,7 +71,7 @@ namespace FiltersModule.ViewModels
 
         public void Save()
         {
-            if (FilterViewModels.IsNotNullOrEmpry())
+            if (FilterViewModels.IsNotNullOrEmpty())
             {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
                     FilterViewModels.Select(x => x.JournalFilter).ToList();

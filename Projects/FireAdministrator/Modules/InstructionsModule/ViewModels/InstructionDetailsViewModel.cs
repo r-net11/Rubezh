@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace InstructionsModule.ViewModels
 {

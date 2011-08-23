@@ -19,7 +19,7 @@ namespace LibraryModule.ViewModels
         public void Initialize()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            if (FiresecManager.DeviceLibraryConfiguration.Devices.IsNotNullOrEmpry())
+            if (FiresecManager.DeviceLibraryConfiguration.Devices.IsNotNullOrEmpty())
             {
                 FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(
                     device => DeviceViewModels.Add(new DeviceViewModel(device)));
