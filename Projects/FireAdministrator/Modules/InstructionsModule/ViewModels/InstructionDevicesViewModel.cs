@@ -2,6 +2,8 @@
 using Common;
 using DevicesModule.ViewModels;
 using Infrastructure.Common;
+using FiresecAPI.Models;
+using FiresecClient;
 
 namespace InstructionsModule.ViewModels
 {

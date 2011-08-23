@@ -24,7 +24,7 @@ namespace FireAdministrator
 
             SoundsModule.SoundsModule.HasChanges = false;
             DevicesModule.DevicesModule.HasChanges = false;
-            FiltersModule.FilterModule.HasChanged = false;
+            FiltersModule.FilterModule.HasChanges = false;
             LibraryModule.LibraryModule.HasChanges = false;
         }
 

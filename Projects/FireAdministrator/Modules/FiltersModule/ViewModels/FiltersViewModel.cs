@@ -35,7 +35,7 @@ namespace FiltersModule.ViewModels
             {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
-                FilterModule.HasChanged = true;
+                FilterModule.HasChanges = true;
             }
         }
 
@@ -48,7 +48,7 @@ namespace FiltersModule.ViewModels
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-                FilterModule.HasChanged = true;
+                FilterModule.HasChanges = true;
             }
         }
 
@@ -62,7 +62,7 @@ namespace FiltersModule.ViewModels
         {
             FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
             FilterViewModels.Remove(SelectedFilter);
-            FilterModule.HasChanged = true;
+            FilterModule.HasChanges = true;
         }
 
         public override void OnShow()

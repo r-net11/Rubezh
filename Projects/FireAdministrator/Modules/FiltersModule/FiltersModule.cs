@@ -42,6 +42,6 @@ namespace FiltersModule
         {
         }
 
-        public static bool HasChanged { get; set; }
+        public static bool HasChanges { get; set; }
     }
 }
