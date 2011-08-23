@@ -11,21 +11,21 @@ namespace JournalModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var events = value as List<StateType>;
-            var result = new StringBuilder();
-
-            if (events != null)
+            if (events.IsNotNullOrEmpty())
             {
-                for (var i = 0; i < events.Count; ++i)
+                var delimString = " или ";
+                var result = new StringBuilder();
+
+                foreach (var event_ in events)
                 {
-                    if (i > 0)
-                    {
-                        result.Append(" или ");
-                    }
-                    result.Append(EnumsConverter.StateTypeToEventName(events[i]));
+                    result.Append(EnumsConverter.StateTypeToEventName(event_));
+                    result.Append(delimString);
                 }
+
+                return result.ToString().Remove(result.Length - delimString.Length);
             }
 
-            return result.ToString();
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

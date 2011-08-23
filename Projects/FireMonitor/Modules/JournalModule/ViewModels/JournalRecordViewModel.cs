@@ -24,9 +24,9 @@ namespace JournalModule.ViewModels
 
         void Initialize()
         {
-            ShowPlanCommand = new RelayCommand(OnShowPlan, (o) => _device != null);
-            ShowTreeCommand = new RelayCommand(OnShowTree, (o) => _device != null);
-            ShowZoneCommand = new RelayCommand(OnShowZone, (o) => _device != null);
+            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
+            ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
+            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
         }
 
         public int Id
@@ -80,16 +80,31 @@ namespace JournalModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
         }
 
+        bool CanShowPlan(object obj)
+        {
+            return _device != null;
+        }
+
         public RelayCommand ShowTreeCommand { get; private set; }
         void OnShowTree()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
         }
 
+        bool CanShowTree(object obj)
+        {
+            return _device != null;
+        }
+
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_device.ZoneNo);
+        }
+
+        bool CanShowZone(object obj)
+        {
+            return _device != null;
         }
     }
 }

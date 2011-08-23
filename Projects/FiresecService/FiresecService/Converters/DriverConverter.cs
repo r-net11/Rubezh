@@ -253,11 +253,11 @@ namespace FiresecService.Converters
                     {
                         foreach (var firesecParameter in internalProperty.param)
                         {
-                            var driverPropertyParameter = new DriverPropertyParameter()
+                            driverProperty.Parameters.Add(new DriverPropertyParameter()
                             {
                                 Name = firesecParameter.name,
                                 Value = firesecParameter.value
-                            };
+                            });
                         }
                     }
 
@@ -299,12 +299,12 @@ namespace FiresecService.Converters
             {
                 foreach (var innerParameter in innerDriver.paramInfo)
                 {
-                    var parameter = new Parameter()
+                    driver.Parameters.Add(new Parameter()
                     {
                         Name = innerParameter.name,
                         Caption = innerParameter.caption,
                         Visible = (innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0")
-                    };
+                    });
                 }
             }
 
@@ -313,7 +313,7 @@ namespace FiresecService.Converters
             {
                 foreach (var innerState in innerDriver.state)
                 {
-                    var driverState = new DriverState()
+                    driver.States.Add(new DriverState()
                     {
                         Id = innerState.id,
                         Name = innerState.name,
@@ -323,7 +323,7 @@ namespace FiresecService.Converters
                         CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
                         IsAutomatic = innerState.type == "Auto" ? true : false,
                         Code = innerState.code
-                    };
+                    });
                 }
             }
 

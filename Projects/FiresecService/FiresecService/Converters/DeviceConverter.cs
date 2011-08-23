@@ -102,11 +102,11 @@ namespace FiresecService.Converters
             {
                 foreach (var innerProperty in innerDevice.prop)
                 {
-                    var deviceProperty = new Property()
+                    device.Properties.Add(new Property()
                     {
                         Name = innerProperty.name,
                         Value = innerProperty.value
-                    };
+                    });
                 }
             }
 
@@ -246,13 +246,11 @@ namespace FiresecService.Converters
                         if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
                             string.IsNullOrEmpty(deviceProperty.Value) == false)
                         {
-                            var property = new Firesec.CoreConfig.propType()
+                            propertyList.Add(new Firesec.CoreConfig.propType()
                             {
                                 name = deviceProperty.Name,
                                 value = deviceProperty.Value
-                            };
-
-                            propertyList.Add(property);
+                            });
                         }
                     }
                 }
@@ -265,8 +263,7 @@ namespace FiresecService.Converters
                     var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
                     if (zoneLogicProperty == null)
                     {
-                        zoneLogicProperty = new Firesec.CoreConfig.propType();
-                        propertyList.Add(zoneLogicProperty);
+                        propertyList.Add(new Firesec.CoreConfig.propType());
                     }
 
                     var zoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);

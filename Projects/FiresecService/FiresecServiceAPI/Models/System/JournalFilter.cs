@@ -6,7 +6,11 @@ namespace FiresecAPI.Models
     [DataContract]
     public class JournalFilter
     {
-        public static readonly int MaxRecordsCount = 100;
+        public JournalFilter()
+        {
+            LastRecordsCount = 100;
+            LastDaysCount = 10;
+        }
 
         [DataMember]
         public string Name { get; set; }

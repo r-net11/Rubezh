@@ -19,7 +19,7 @@ namespace FiresecService
 
                 foreach (var journalItem in journalRecords)
                 {
-                    var journal = new Journal()
+                    dataContext.Journal.InsertOnSubmit(new Journal()
                     {
                         DeviceTime = journalItem.DeviceTime,
                         SystemTime = journalItem.SystemTime,
@@ -31,9 +31,7 @@ namespace FiresecService
                         PanelDatabaseId = journalItem.PanelDatabaseId,
                         UserName = journalItem.User,
                         StateType = (int) journalItem.StateType
-                    };
-
-                    dataContext.Journal.InsertOnSubmit(journal);
+                    });
                 }
 
                 dataContext.SubmitChanges();

@@ -66,7 +66,6 @@ namespace FiresecService.Converters
                                 case "2":
                                     zone.GuardZoneType = GuardZoneType.Delay;
                                     break;
-
                             }
                         }
                     }
@@ -93,12 +92,12 @@ namespace FiresecService.Converters
 
                 var zoneParams = new List<Firesec.CoreConfig.paramType>();
 
-                var ZoneTypeParam = new Firesec.CoreConfig.paramType();
-                ZoneTypeParam.name = "ZoneType";
-                ZoneTypeParam.type = "Int";
-                ZoneTypeParam.value = (zone.ZoneType == ZoneType.Fire) ? "0" : "1";
-                zoneParams.Add(ZoneTypeParam);
-                //});
+                zoneParams.Add(new Firesec.CoreConfig.paramType()
+                {
+                    name = "ZoneType",
+                    type = "Int",
+                    value = (zone.ZoneType == ZoneType.Fire) ? "0" : "1"
+                });
 
                 if (string.IsNullOrEmpty(zone.DetectorCount) == false)
                 {

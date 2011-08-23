@@ -12,20 +12,18 @@ namespace FiltersModule.ViewModels
     {
         public static readonly int DefaultDaysCount = 10;
 
-        public FilterDetailsViewModel(List<string> existingNames)
+        public FilterDetailsViewModel()
         {
-            Initialize(existingNames);
+            Title = "Добавить фильтр";
 
-            JournalFilter = new JournalFilter()
-            {
-                LastRecordsCount = MaxCountRecords,
-                LastDaysCount = DefaultDaysCount
-            };
+            JournalFilter = new JournalFilter();
+
+            Initialize();
         }
 
-        public FilterDetailsViewModel(JournalFilter journalFilter, List<string> existingNames)
+        public FilterDetailsViewModel(JournalFilter journalFilter)
         {
-            Initialize(existingNames);
+            Title = "Редактировать фильтр";
 
             JournalFilter = new JournalFilter()
             {
@@ -34,6 +32,8 @@ namespace FiltersModule.ViewModels
                 LastDaysCount = journalFilter.LastDaysCount,
                 IsLastDaysCountActive = journalFilter.IsLastDaysCountActive
             };
+
+            Initialize();
 
             EventViewModels.Where(
                 eventViewModel => journalFilter.Events.Any(
@@ -44,11 +44,11 @@ namespace FiltersModule.ViewModels
                     x => x == categoryViewModel.Id)).All(x => x.IsChecked = true);
         }
 
-        void Initialize(List<string> existingNames)
+        void Initialize()
         {
-            Title = "Настройка представления";
+            _existingNames = FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.
+                Where(journalFilter => journalFilter.Name != JournalFilter.Name).Select(journalFilter => journalFilter.Name).ToList();
 
-            _existingNames = existingNames;
             if (_existingNames == null)
                 _existingNames = new List<string>();
 
@@ -82,9 +82,9 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        public int MaxCountRecords
+        public int RecordsMaxCount
         {
-            get { return FiresecAPI.Models.JournalFilter.MaxRecordsCount; }
+            get { return new JournalFilter().LastRecordsCount; }
         }
 
         public ObservableCollection<EventViewModel> EventViewModels { get; private set; }

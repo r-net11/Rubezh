@@ -26,34 +26,31 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        public bool HasChanges { get; set; }
         public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }
         public FilterViewModel SelectedFilter { get; set; }
 
         public RelayCommand CreateCommand { get; private set; }
         void OnCreate()
         {
-            var existingNames = FilterViewModels.Select(x => x.JournalFilter.Name).ToList();
-            var filterDetailsViewModel = new FilterDetailsViewModel(existingNames);
-
+            var filterDetailsViewModel = new FilterDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
-                HasChanges = true;
+                FilterModule.HasChanges = true;
             }
         }
 
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var existingNames = FilterViewModels.Where(x => x != SelectedFilter).
-                Select(x => x.JournalFilter.Name).ToList();
-            var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter, existingNames);
-
+            var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter);
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-                HasChanges = true;
+                FilterModule.HasChanges = true;
             }
         }
 
@@ -65,15 +62,16 @@ namespace FiltersModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
+            FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
             FilterViewModels.Remove(SelectedFilter);
-            HasChanges = true;
+            FilterModule.HasChanges = true;
         }
 
         public void Save()
         {
             if (FilterViewModels.IsNotNullOrEmpty())
             {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters = new List<JournalFilter>();
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters =
                     FilterViewModels.Select(x => x.JournalFilter).ToList();
             }
         }

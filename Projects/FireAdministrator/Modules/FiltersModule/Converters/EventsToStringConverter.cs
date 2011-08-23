@@ -24,6 +24,7 @@ namespace FiltersModule.Converters
 
                 return result.ToString().Remove(result.Length - delimString.Length);
             }
+
             return null;
         }
 

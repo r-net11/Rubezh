@@ -24,6 +24,7 @@ namespace FireAdministrator
             FiresecManager.SetConfiguration();
             SoundsModule.SoundsModule.HasChanged = false;
             DevicesModule.DevicesModule.HasChanges = false;
+            FiltersModule.FilterModule.HasChanges = false;
         }
 
         void OnCreateNew(object sender, RoutedEventArgs e)

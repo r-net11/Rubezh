@@ -53,9 +53,9 @@
                         </ItemsControl>
                     </GroupBox>
                     <GroupBox Header="количество записей" Padding="5" Margin="0,5,5,0"
-                                  HorizontalContentAlignment="Center">
+                              HorizontalContentAlignment="Center">
                         <WrapPanel>
-                            <ExtToolkit:IntegerUpDown Minimum="1" Maximum="{Binding MaxCountRecords}"
+                            <ExtToolkit:IntegerUpDown Minimum="1" Maximum="{Binding RecordsMaxCount}"
                                                       Value="{Binding JournalFilter.LastRecordsCount}" />
                             <TextBlock Margin="5,5,0,5" Text="последних дней" />
                         </WrapPanel>

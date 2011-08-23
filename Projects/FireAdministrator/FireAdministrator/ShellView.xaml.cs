@@ -65,7 +65,7 @@ namespace FireAdministrator
             AlarmPlayerHelper.Dispose();
 
             if (DevicesModule.DevicesModule.HasChanges || SoundsModule.SoundsModule.HasChanged ||
-                FiltersModule.FilterModule.HasChanged)
+                FiltersModule.FilterModule.HasChanges)
             {
                 var result = MessageBox.Show("Настройки изменены. Желаете сохранить изменения?", "Подтверждение", MessageBoxButton.YesNoCancel);
 
