@@ -32,14 +32,14 @@ namespace DevicesModule.ViewModels
             get { return Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList(); }
         }
 
-        public ObservableCollection<ZoneLogicOperation> Operations
+        public List<ZoneLogicOperation> Operations
         {
             get
             {
-                ObservableCollection<ZoneLogicOperation> _operations = new ObservableCollection<ZoneLogicOperation>();
-                _operations.Add(ZoneLogicOperation.All);
-                _operations.Add(ZoneLogicOperation.Any);
-                return _operations;
+                var operations = new List<ZoneLogicOperation>();
+                operations.Add(ZoneLogicOperation.All);
+                operations.Add(ZoneLogicOperation.Any);
+                return operations;
             }
         }
 
@@ -48,13 +48,11 @@ namespace DevicesModule.ViewModels
             get
             {
                 string presenrationZones = "";
-                foreach (var zone in Zones)
+                for (int i = 0; i < Zones.Count; i++)
                 {
-                    presenrationZones += zone + ",";
-                }
-                if (presenrationZones.EndsWith(","))
-                {
-                    presenrationZones = presenrationZones.Remove(presenrationZones.Length - 1, 1);
+                    if (i > 0)
+                        presenrationZones += ",";
+                    presenrationZones += Zones[i] + ",";
                 }
                 return presenrationZones;
             }
@@ -82,11 +80,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void Update()
-        {
-            OnPropertyChanged("PresenrationZones");
-        }
-
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
@@ -95,8 +88,8 @@ namespace DevicesModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
             if (result)
             {
-                Zones = zonesSelectionViewModel.GuardLevelNames;
-                Update();
+                Zones = zonesSelectionViewModel.Zones;
+                OnPropertyChanged("PresenrationZones");
             }
         }
     }

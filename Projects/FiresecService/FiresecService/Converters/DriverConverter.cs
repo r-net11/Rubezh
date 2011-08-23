@@ -56,16 +56,16 @@ namespace FiresecService.Converters
                 }
             }
 
-            driver.IsDeviceOnShleif = (innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]"));
+            driver.IsDeviceOnShleif = innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]");
 
             driver.HasShleif = driver.ShleifCount == 0 ? false : true;
 
             if (innerDriver.name == "Насосная Станция")
                 driver.UseParentAddressSystem = false;
             else
-                driver.UseParentAddressSystem = (innerDriver.options != null && innerDriver.options.Contains("UseParentAddressSystem"));
+                driver.UseParentAddressSystem = innerDriver.options != null && innerDriver.options.Contains("UseParentAddressSystem");
 
-            driver.IsChildAddressReservedRange = (innerDriver.res_addr != null);
+            driver.IsChildAddressReservedRange = innerDriver.res_addr != null;
 
             driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
             driver.DisableAutoCreateChildren = innerDriver.options != null && innerDriver.options.Contains("DisableAutoCreateChildren");
@@ -99,12 +99,12 @@ namespace FiresecService.Converters
             driver.ImageSource = imageSource;
 
             driver.HasImage = driver.ImageSource != @"Device_Device";
-            driver.IsZoneDevice = !(innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0");
-            driver.IsZoneLogicDevice = (innerDriver.options != null && innerDriver.options.Contains("ExtendedZoneLogic"));
-            driver.CanDisable = (innerDriver.options != null && innerDriver.options.Contains("Ignorable"));
-            driver.IsPlaceable = (innerDriver.options != null && innerDriver.options.Contains("Placeable"));
-            driver.IsIndicatorDevice = (innerDriver.name == "Индикатор");
-            driver.CanControl = (driver.DriverName == "Задвижка");
+            driver.IsZoneDevice = ((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0")) == false;
+            driver.IsZoneLogicDevice = innerDriver.options != null && innerDriver.options.Contains("ExtendedZoneLogic");
+            driver.CanDisable = innerDriver.options != null && innerDriver.options.Contains("Ignorable");
+            driver.IsPlaceable = innerDriver.options != null && innerDriver.options.Contains("Placeable");
+            driver.IsIndicatorDevice = innerDriver.name == "Индикатор";
+            driver.CanControl = driver.DriverName == "Задвижка";
 
             driver.IsBUtton = false;
             switch (driver.DriverName)
@@ -119,7 +119,7 @@ namespace FiresecService.Converters
                     break;
             }
 
-            driver.IsOutDevice = (innerDriver.options != null && innerDriver.options.Contains("OutDevice"));
+            driver.IsOutDevice = innerDriver.options != null && innerDriver.options.Contains("OutDevice");
 
             switch (innerDriver.cat)
             {
@@ -229,7 +229,7 @@ namespace FiresecService.Converters
                 select childInnerDriver.id);
             }
 
-            driver.CanAddChildren = (driver.AvaliableChildren.Count > 0);
+            driver.CanAddChildren = driver.AvaliableChildren.Count > 0;
 
             driver.Properties = new List<DriverProperty>();
             if (innerDriver.propInfo != null)
@@ -245,8 +245,8 @@ namespace FiresecService.Converters
                     driverProperty.Name = internalProperty.name;
                     driverProperty.Caption = internalProperty.caption;
                     driverProperty.Default = internalProperty.@default;
-                    driverProperty.Visible = (internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0");
-                    driverProperty.IsHidden = (internalProperty.hidden == "1");
+                    driverProperty.Visible = internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0";
+                    driverProperty.IsHidden = internalProperty.hidden == "1";
 
                     driverProperty.Parameters = new List<DriverPropertyParameter>();
                     if (internalProperty.param != null)
@@ -258,6 +258,7 @@ namespace FiresecService.Converters
                                 Name = firesecParameter.name,
                                 Value = firesecParameter.value
                             });
+                            driverProperty.Parameters.Add(driverPropertyParameter);
                         }
                     }
 
@@ -303,8 +304,9 @@ namespace FiresecService.Converters
                     {
                         Name = innerParameter.name,
                         Caption = innerParameter.caption,
-                        Visible = (innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0")
+                        Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0"
                     });
+                    driver.Parameters.Add(parameter);
                 }
             }
 
@@ -324,6 +326,7 @@ namespace FiresecService.Converters
                         IsAutomatic = innerState.type == "Auto" ? true : false,
                         Code = innerState.code
                     });
+                    driver.States.Add(driverState);
                 }
             }
 

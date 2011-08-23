@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
         {
             Title = "Настройка логики зон";
             AddCommand = new RelayCommand(OnAdd);
-            RemoveCommand = new RelayCommand(OnRemove);
+            RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -27,9 +27,6 @@ namespace DevicesModule.ViewModels
                 clauseViewModel.Initialize(clause);
                 Clauses.Add(clauseViewModel);
             }
-
-            if (Clauses.Count > 0)
-                SelectedClause = Clauses[0];
         }
 
         ObservableCollection<ClauseViewModel> _clauses;
@@ -40,17 +37,6 @@ namespace DevicesModule.ViewModels
             {
                 _clauses = value;
                 OnPropertyChanged("Clauses");
-            }
-        }
-
-        ClauseViewModel _selectedClause;
-        public ClauseViewModel SelectedClause
-        {
-            get { return _selectedClause; }
-            set
-            {
-                _selectedClause = value;
-                OnPropertyChanged("SelectedClause");
             }
         }
 
@@ -65,13 +51,10 @@ namespace DevicesModule.ViewModels
             Clauses.Add(clauseViewModel);
         }
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
+        public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
+        void OnRemove(ClauseViewModel clauseViewModel)
         {
-            if (SelectedClause != null)
-            {
-                Clauses.Remove(SelectedClause);
-            }
+            Clauses.Remove(clauseViewModel);
         }
 
         void Save()

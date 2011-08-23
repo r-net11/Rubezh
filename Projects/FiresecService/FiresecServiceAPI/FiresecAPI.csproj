@@ -67,7 +67,9 @@
     <Compile Include="Models\Configuration\DeviceLibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
-    <Compile Include="Models\Device\IndicatorLogic.cs" />
+    <Compile Include="Models\Device\Indicator\IndicatorColorType.cs" />
+    <Compile Include="Models\Device\Indicator\IndicatorLogic.cs" />
+    <Compile Include="Models\Device\Indicator\IndicatorLogicType.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />

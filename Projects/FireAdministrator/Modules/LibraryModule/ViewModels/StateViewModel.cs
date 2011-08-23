@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System;
 
 namespace LibraryModule.ViewModels
 {

@@ -16,51 +16,53 @@
 
         <Grid Grid.Row="0">
             <StackPanel>
-                <TextBlock Text="Название" Margin="2" />
-                <TextBox Text="{Binding Name}" Margin="2" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Название" Width="100" Margin="2" />
+                    <TextBox Text="{Binding Name}" Width="200" Margin="2" />
+                </StackPanel>
 
-                <Button Content="Добавить зону" Command="{Binding AddCommand}" />
+                <Button Content="Добавить зону" Command="{Binding AddCommand}" Width="100" Margin="2" HorizontalAlignment="Left" />
 
                 <ItemsControl ItemsSource="{Binding ZoneLevels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Действие с зоной" Margin="2" />
-                                
-                                <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" Margin="2">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource ZoneActionToStringConverter}}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
 
-                                <Button Command="{Binding ChooseZonesCommand}" Margin="2">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding PresentationZone}" Margin="2" />
-                                        <TextBlock Margin="2">
-                                            <TextBlock.Style>
-                                                <Style>
-                                                    <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
-                                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны" />
-                                                    </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                
+                                    <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" Width="150" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource ZoneActionToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
 
-                                <TextBlock Text="Зона" Margin="2" />
+                                    <Button Command="{Binding ChooseZonesCommand}" Margin="2">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding PresentationZone}" Margin="2" />
+                                            <TextBlock Margin="2">
+                                                <TextBlock.Style>
+                                                    <Style>
+                                                        <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
+                                                            <Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны" />
+                                                        </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Button>
 
-                                <Button Content="x" Command="{Binding
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
+                                </StackPanel>
+
+                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="X" Margin="2" ToolTip="Удалить"
+                                        Command="{Binding
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 					                    Path=DataContext.RemoveCommand}"
-                                        CommandParameter="{Binding}"
-                                        Margin="2" ToolTip="Удалить" />
-                            </StackPanel>
+                                        CommandParameter="{Binding}" />
+                                
+                            </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

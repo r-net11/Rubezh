@@ -18,41 +18,62 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-            <Button Content="Удалить" Command="{Binding RemoveCommand}" Width="100" />
-            <Button Content="Добавть" Command="{Binding AddCommand}" Width="100" />
+            <Button Content="Добавить" Command="{Binding AddCommand}" Width="100" />
         </StackPanel>
         <Grid Grid.Row="1">
-            <DataGrid ItemsSource="{Binding Clauses}" SelectedItem="{Binding SelectedClause}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Состояние" Binding="{Binding SelectedState, Converter={StaticResource ClauseStateToStringConverter}}" />
-                    <DataGridTextColumn Header="Операция" Binding="{Binding SelectedOperation, Converter={StaticResource ClauseOperationToStringConverter}}" />
-                    <DataGridTextColumn Header="Зоны" Binding="{Binding PresenrationZones}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
+
+            <ItemsControl ItemsSource="{Binding Clauses}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Margin="2">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+
+                                <ComboBox ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Width="150">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseStateToStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}" Width="150">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationToStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <Button Command="{Binding ShowZonesCommand}" Margin="2">
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <TextBlock Text="{Binding PresenrationZones}" MaxWidth="200" />
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style>
+                                                    <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding PresenrationZones}" Value="">
+                                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                                    </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+                            <Button DockPanel.Dock="Right" Content="X" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
+                                        Command="{Binding
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
+					                    Path=DataContext.RemoveCommand}"
+                                        CommandParameter="{Binding}" />
+
+                        </DockPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
         </Grid>
-
-        <StackPanel Grid.Row="2" DataContext="{Binding SelectedClause}" Orientation="Horizontal" Margin="2">
-            <ComboBox ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ., Converter={StaticResource ClauseStateToStringConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationToStringConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Button Command="{Binding ShowZonesCommand}" MinWidth="100">
-                <TextBlock Text="{Binding PresenrationZones}" />
-            </Button>
-        </StackPanel>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />

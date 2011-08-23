@@ -6,6 +6,9 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels.Devices
 {
+    //DriversView driversView = new DriversView();
+    //driversView.ShowDialog();
+
     public partial class DriversView : Window
     {
         public DriversView()
@@ -14,7 +17,7 @@ namespace DevicesModule.ViewModels.Devices
 
             DataContext = this;
 
-            List<string> nullStates = new List<string>();
+            var nullStates = new List<string>();
 
             foreach (var driver in Drivers)
             {
@@ -26,6 +29,8 @@ namespace DevicesModule.ViewModels.Devices
                     }
                 }
             }
+
+            var xxx = Drivers.FirstOrDefault(x => x.DriverName == "Группа");
         }
 
         public IEnumerable<Driver> Drivers

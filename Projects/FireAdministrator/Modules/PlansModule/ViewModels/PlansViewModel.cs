@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
         {
             if (FiresecManager.PlansConfiguration.Plans != null)
             {
-                foreach (Plan plan in FiresecManager.PlansConfiguration.Plans)
+                foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
                     var planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);
@@ -42,9 +42,9 @@ namespace PlansModule.ViewModels
 
         public void BuildTree(List<Plan> _plans, PlanViewModel parent)
         {
-            foreach (Plan plan in _plans)
+            foreach (var plan in _plans)
             {
-                PlanViewModel planViewModel = new PlanViewModel(plan);
+                var planViewModel = new PlanViewModel(plan);
                 planViewModel.AddChild(parent, planViewModel);
                 plan.Parent = parent.Plan;
                 if (plan.Children != null)
@@ -128,7 +128,7 @@ namespace PlansModule.ViewModels
             }
             else
             {
-                foreach (PlanViewModel plan in _plans)
+                foreach (var plan in _plans)
                 {
                     if (_plans.Remove(_selectedPlan))
                     {

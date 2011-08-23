@@ -8,14 +8,17 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            ZoneLogicOperation operation = (ZoneLogicOperation) value;
-            switch (operation)
+            if (value is ZoneLogicOperation)
             {
-                case ZoneLogicOperation.All:
-                    return "во всех зонах из";
+                ZoneLogicOperation operation = (ZoneLogicOperation)value;
+                switch (operation)
+                {
+                    case ZoneLogicOperation.All:
+                        return "во всех зонах из";
 
-                case ZoneLogicOperation.Any:
-                    return "в любой зонах из";
+                    case ZoneLogicOperation.Any:
+                        return "в любой зонах из";
+                }
             }
             return "";
         }

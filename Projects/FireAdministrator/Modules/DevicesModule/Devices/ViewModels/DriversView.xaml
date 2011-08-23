@@ -3,22 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DriversView" Height="900" Width="1100">
     <Grid>
-        <DataGrid ItemsSource="{Binding Drivers}" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="name" Binding="{Binding _driver.name}" />
-                <DataGridTextColumn Header="childAddrMask" Binding="{Binding _driver.childAddrMask}" />
-                <DataGridTextColumn Header="addrMask" Binding="{Binding _driver.addrMask}" />
-                <DataGridTextColumn Header="ar_enabled" Binding="{Binding _driver.ar_enabled}" />
-                <DataGridTextColumn Header="ar_from" Binding="{Binding _driver.ar_from}" />
-                <DataGridTextColumn Header="ar_to" Binding="{Binding _driver.ar_to}" />
-                <DataGridTextColumn Header="acr_enabled" Binding="{Binding _driver.acr_enabled}" />
-                <DataGridTextColumn Header="acr_from" Binding="{Binding _driver.acr_from}" />
-                <DataGridTextColumn Header="acr_to" Binding="{Binding _driver.acr_to}" />
-                <DataGridTextColumn Header="ar_no_addr" Binding="{Binding _driver.ar_no_addr}" />
-                <DataGridTextColumn Header="addrGroup" Binding="{Binding _driver.addrGroup}" />
-                <DataGridTextColumn Header="parentInAddr" Binding="{Binding _driver.parentInAddr}" />
-
-            </DataGrid.Columns>
+        <DataGrid ItemsSource="{Binding Drivers}" AutoGenerateColumns="True">
         </DataGrid>
     </Grid>
 </Window>

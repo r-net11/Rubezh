@@ -36,6 +36,8 @@
                                                 <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
                                                 <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
                                                 <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
+                                                <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
+                                                          Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
@@ -79,18 +81,6 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <TextBlock Text="{Binding PresentationZone}" />
-                                    <StackPanel Orientation="Horizontal" DataContext="{Binding Zone}">
-                                        <TextBlock Text="{Binding PresentationName}" />
-                                        <StackPanel.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </StackPanel.Style>
-                                    </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

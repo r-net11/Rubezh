@@ -8,23 +8,26 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            ZoneLogicState state = (ZoneLogicState) value;
-            switch (state)
+            if (value is ZoneLogicState)
             {
-                case ZoneLogicState.AutomaticOn:
-                    return "Включение автоматики";
+                ZoneLogicState state = (ZoneLogicState)value;
+                switch (state)
+                {
+                    case ZoneLogicState.AutomaticOn:
+                        return "Включение автоматики";
 
-                case ZoneLogicState.Alarm:
-                    return "Тревога";
+                    case ZoneLogicState.Alarm:
+                        return "Тревога";
 
-                case ZoneLogicState.Fre:
-                    return "Пожар";
+                    case ZoneLogicState.Fre:
+                        return "Пожар";
 
-                case ZoneLogicState.Warning:
-                    return "Внимание";
+                    case ZoneLogicState.Warning:
+                        return "Внимание";
 
-                case ZoneLogicState.MPTOn:
-                    return "Включение модуля пожаротушения";
+                    case ZoneLogicState.MPTOn:
+                        return "Включение модуля пожаротушения";
+                }
             }
             return "";
         }

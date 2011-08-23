@@ -71,6 +71,12 @@ namespace FiresecClient
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.DriverId);
+
+                if ((device.Driver.IsIndicatorDevice) || (device.IndicatorLogic != null))
+                {
+                    var indicatorDevice = DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == device.IndicatorLogic.DeviceUID);
+                    device.IndicatorLogic.Device = indicatorDevice;
+                }
             }
 
             foreach (var deviceState in DeviceStates.DeviceStates)

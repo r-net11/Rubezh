@@ -71,8 +71,8 @@ namespace LibraryModule.ViewModels
                 {
                     DriverId = Device.Id
                 };
-                var additionalStateCodes = new List<string>();
 
+                var additionalStateCodes = new List<string>();
                 if (SelectedStateViewModel.IsAdditional)
                 {
                     additionalStateCodes.Add(SelectedStateViewModel.State.Code);

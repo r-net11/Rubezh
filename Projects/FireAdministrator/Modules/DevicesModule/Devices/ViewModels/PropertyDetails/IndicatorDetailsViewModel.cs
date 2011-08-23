@@ -167,7 +167,7 @@ namespace DevicesModule.ViewModels
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (Zone zone in FiresecManager.DeviceConfiguration.Zones)
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
 
@@ -374,6 +374,7 @@ namespace DevicesModule.ViewModels
                     SelectedDevice.Device.UID = uid;
                 }
 
+                _device.IndicatorLogic.Device = SelectedDevice.Device;
                 _device.IndicatorLogic.DeviceUID = SelectedDevice.Device.UID;
                 _device.IndicatorLogic.OnColor = OnColor;
                 _device.IndicatorLogic.OffColor = OffColor;

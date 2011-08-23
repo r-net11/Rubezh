@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿ ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
     {
         public ZonesSelectionViewModel()
         {
-            Title = "Выбор уровней доступа";
+            Title = "Выбор зон";
 
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
@@ -21,126 +21,135 @@ namespace DevicesModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public List<string> GuardLevelNames { get; private set; }
+        public List<string> Zones { get; private set; }
 
-        public void Initialize(List<string> guardLevelNames)
+        public void Initialize(List<string> zones)
         {
-            GuardLevelNames = guardLevelNames;
-            TargetGuardLevels = new ObservableCollection<GuardLevelViewModel>();
-            SourceGuardLevels = new ObservableCollection<GuardLevelViewModel>();
+            Zones = zones;
+            TargetZones = new ObservableCollection<ZoneViewModel>();
+            SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (GuardLevel guardLevel in FiresecManager.DeviceConfiguration.GuardLevels)
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                var guardLevelViewModel = new GuardLevelViewModel(guardLevel);
+                var zoneViewModel = new ZoneViewModel(zone);
 
-                if (GuardLevelNames.Contains(guardLevel.Name))
+                if (Zones.Contains(zone.No))
                 {
-                    TargetGuardLevels.Add(guardLevelViewModel);
+                    TargetZones.Add(zoneViewModel);
                 }
                 else
                 {
-                    SourceGuardLevels.Add(guardLevelViewModel);
+                    SourceZones.Add(zoneViewModel);
                 }
             }
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetZones.Count > 0)
+                SelectedTargetZone = TargetZones[0];
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceZones.Count > 0)
+                SelectedSourceZone = SourceZones[0];
         }
 
-        public ObservableCollection<GuardLevelViewModel> SourceGuardLevels { get; private set; }
+        public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
 
-        GuardLevelViewModel _selectedSourceGuardLevel;
-        public GuardLevelViewModel SelectedSourceGuardLevel
+        ZoneViewModel _selectedSourceZone;
+        public ZoneViewModel SelectedSourceZone
         {
-            get { return _selectedSourceGuardLevel; }
+            get { return _selectedSourceZone; }
             set
             {
-                _selectedSourceGuardLevel = value;
-                OnPropertyChanged("SelectedSourceGuardLevel");
+                _selectedSourceZone = value;
+                OnPropertyChanged("SelectedSourceZone");
             }
         }
 
-        public ObservableCollection<GuardLevelViewModel> TargetGuardLevels { get; private set; }
-
-        GuardLevelViewModel _selectedTargetGuardLevel;
-        public GuardLevelViewModel SelectedTargetGuardLevel
+        ObservableCollection<ZoneViewModel> _targetZones;
+        public ObservableCollection<ZoneViewModel> TargetZones
         {
-            get { return _selectedTargetGuardLevel; }
+            get { return _targetZones; }
             set
             {
-                _selectedTargetGuardLevel = value;
-                OnPropertyChanged("SelectedTargetGuardLevel");
+                _targetZones = value;
+                OnPropertyChanged("TargetZones");
+            }
+        }
+
+        ZoneViewModel _selectedTargetZone;
+        public ZoneViewModel SelectedTargetZone
+        {
+            get { return _selectedTargetZone; }
+            set
+            {
+                _selectedTargetZone = value;
+                OnPropertyChanged("SelectedTargetZone");
             }
         }
 
         public RelayCommand AddOneCommand { get; private set; }
         void OnAddOne()
         {
-            TargetGuardLevels.Add(SelectedSourceGuardLevel);
-            SelectedTargetGuardLevel = SelectedSourceGuardLevel;
-            SourceGuardLevels.Remove(SelectedSourceGuardLevel);
+            TargetZones.Add(SelectedSourceZone);
+            SelectedTargetZone = SelectedSourceZone;
+            SourceZones.Remove(SelectedSourceZone);
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceZones.Count > 0)
+                SelectedSourceZone = SourceZones[0];
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
         void OnRemoveOne()
         {
-            SourceGuardLevels.Add(SelectedTargetGuardLevel);
-            SelectedSourceGuardLevel = SelectedTargetGuardLevel;
-            TargetGuardLevels.Remove(SelectedTargetGuardLevel);
+            SourceZones.Add(SelectedTargetZone);
+            SelectedSourceZone = SelectedTargetZone;
+            TargetZones.Remove(SelectedTargetZone);
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetZones.Count > 0)
+                SelectedTargetZone = TargetZones[0];
         }
 
         public RelayCommand AddAllCommand { get; private set; }
         void OnAddAll()
         {
-            foreach (var zoneViewModel in SourceGuardLevels)
+            foreach (var zoneViewModel in SourceZones)
             {
-                TargetGuardLevels.Add(zoneViewModel);
+                TargetZones.Add(zoneViewModel);
             }
-            SourceGuardLevels.Clear();
+            SourceZones.Clear();
 
-            if (TargetGuardLevels.Count > 0)
-                SelectedTargetGuardLevel = TargetGuardLevels[0];
+            if (TargetZones.Count > 0)
+                SelectedTargetZone = TargetZones[0];
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
         void OnRemoveAll()
         {
-            foreach (var zoneViewModel in TargetGuardLevels)
+            foreach (var zoneViewModel in TargetZones)
             {
-                SourceGuardLevels.Add(zoneViewModel);
+                SourceZones.Add(zoneViewModel);
             }
-            TargetGuardLevels.Clear();
+            TargetZones.Clear();
 
-            if (SourceGuardLevels.Count > 0)
-                SelectedSourceGuardLevel = SourceGuardLevels[0];
+            if (SourceZones.Count > 0)
+                SelectedSourceZone = SourceZones[0];
         }
 
         bool CanAdd(object obj)
         {
-            return SelectedSourceGuardLevel != null;
+            return SelectedSourceZone != null;
         }
 
         bool CanRemove(object obj)
         {
-            return SelectedTargetGuardLevel != null;
+            return SelectedTargetZone != null;
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            GuardLevelNames = new List<string>();
-            foreach (var zoneViewModel in TargetGuardLevels)
+            Zones = new List<string>();
+            foreach (var zoneViewModel in TargetZones)
             {
-                GuardLevelNames.Add(zoneViewModel.GuardLevel.Name);
+                Zones.Add(zoneViewModel.No);
             }
 
             Close(true);

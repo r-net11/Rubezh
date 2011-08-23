@@ -19,20 +19,25 @@ namespace FiresecAPI.Models
 
         public override string ToString()
         {
-            string stringZoneLogic = " ";
+            string stringZoneLogic = "";
 
             if (Clauses.Count > 0)
             {
-                foreach (var clause in Clauses)
+                for (int i = 0; i < Clauses.Count; i++)
                 {
-                    switch (JoinOperator)
+                    var clause = Clauses[i];
+
+                    if (i > 0)
                     {
-                        case ZoneLogicJoinOperator.And:
-                            stringZoneLogic += " и ";
-                            break;
-                        case ZoneLogicJoinOperator.Or:
-                            stringZoneLogic += " или ";
-                            break;
+                        switch (JoinOperator)
+                        {
+                            case ZoneLogicJoinOperator.And:
+                                stringZoneLogic += " и ";
+                                break;
+                            case ZoneLogicJoinOperator.Or:
+                                stringZoneLogic += " или ";
+                                break;
+                        }
                     }
 
                     string stringState = "";

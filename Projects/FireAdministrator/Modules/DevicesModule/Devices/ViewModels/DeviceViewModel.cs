@@ -101,13 +101,29 @@ namespace DevicesModule.ViewModels
             get
             {
                 if (Device.Driver.IsZoneDevice)
-                    return "Зона";
+                {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+                    if (zone != null)
+                    {
+                        return zone.PresentationName;
+                    }
+                }
 
                 if (Device.Driver.IsZoneLogicDevice)
-                    return "Логика Зон";
+                {
+                    if (Device.ZoneLogic != null)
+                    {
+                        return Device.ZoneLogic.ToString();
+                    }
+                }
 
                 if (Device.Driver.IsIndicatorDevice)
-                    return "Индикатор";
+                {
+                    if (Device.IndicatorLogic != null)
+                    {
+                        return Device.IndicatorLogic.ToString();
+                    }
+                }
 
                 return "";
             }
