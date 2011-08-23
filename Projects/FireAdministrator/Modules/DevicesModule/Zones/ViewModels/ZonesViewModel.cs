@@ -95,7 +95,7 @@ namespace DevicesModule.ViewModels
                 var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
                 if (dialogResult == MessageBoxResult.Yes)
                 {
-                    FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
+                    //FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
                     Zones.Remove(SelectedZone);
                     ZoneDevices.DropDevicesZoneNo();
                     ZoneDevices.Clear();
@@ -115,10 +115,10 @@ namespace DevicesModule.ViewModels
                 zoneDetailsViewModel.Initialize(SelectedZone.Zone);
                 bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
                 if (result)
-                    {
+                {
                     SelectedZone.Zone = zoneDetailsViewModel._zone;
-                SelectedZone.Update();
-                DevicesModule.HasChanges = true;
+                    SelectedZone.Update();
+                    DevicesModule.HasChanges = true;
                 }
             }
         }

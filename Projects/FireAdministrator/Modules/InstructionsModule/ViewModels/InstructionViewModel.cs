@@ -31,19 +31,9 @@ namespace InstructionsModule.ViewModels
             get { return Instruction.Text; }
         }
 
-        public List<InstructionZone> InstructionZones
+        public InstructionType InstructionType
         {
-            get { return Instruction.InstructionZones; }
-        }
-
-        public Dictionary<string, string> InstructionDevices
-        {
-            get { return Instruction.InstructionDevices; }
-        }
-
-        public Cover InstructionCover
-        {
-            get { return Instruction.Cover; }
+            get { return Instruction.InstructionType; }
         }
 
         public void Update()

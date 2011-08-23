@@ -12,77 +12,88 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}"
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Список всех зон:" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Список зон для инструкции:" />
+            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" 
                   CellStyle="{StaticResource DataGridCellStyle}" 
                   Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
+                    <!--<DataGridTemplateColumn Header="Выбор" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
                 <XButtons:XButton Grid.Column="1" Name="btnAddZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddZoneCommand}">
                     <XButtons:XButton.Content>
                         <Image Source="/DevicesModule;component/Images/RigthArrow.png" />
                     </XButtons:XButton.Content>
+                    <XButtons:XButton.ToolTip>
+                        <TextBlock Text="Добавить зону" />
+                    </XButtons:XButton.ToolTip>
+                </XButtons:XButton>
+                <XButtons:XButton Grid.Column="1" Name="btnAddAllZone" FontWeight="Black" Background="Black"
+                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddAllZoneCommand}">
+                    <XButtons:XButton.Content>
+                        <Image Source="/DevicesModule;component/Images/RigthArrow.png" />
+                    </XButtons:XButton.Content>
+                    <XButtons:XButton.ToolTip>
+                        <TextBlock Text="Добавить все зоны" />
+                    </XButtons:XButton.ToolTip>
                 </XButtons:XButton>
                 <XButtons:XButton Grid.Column="1" Name="btnRemoveZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveZoneCommand}">
                     <XButtons:XButton.Content>
                         <Image Source="/DevicesModule;component/Images/LeftArrow.png" />
                     </XButtons:XButton.Content>
+                    <XButtons:XButton.ToolTip>
+                        <TextBlock Text="Удалить зону" />
+                    </XButtons:XButton.ToolTip>
+                </XButtons:XButton>
+                <XButtons:XButton Grid.Column="1" Name="btnRemoveAllZone" FontWeight="Black" Background="Black"
+                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveAllZoneCommand}">
+                    <XButtons:XButton.Content>
+                        <Image Source="/DevicesModule;component/Images/LeftArrow.png" />
+                    </XButtons:XButton.Content>
+                    <XButtons:XButton.ToolTip>
+                        <TextBlock Text="Удалить все зоны" />
+                    </XButtons:XButton.ToolTip>
                 </XButtons:XButton>
             </StackPanel>
-            <DataGrid Grid.Column="2" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
+            <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="False"
                   CellStyle="{StaticResource DataGridCellStyle}" 
                   Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding ZoneNo}" />
-                    <DataGridTextColumn Header="Инструкция" Width="2*" Binding="{Binding Text}" />
-                    <DataGridTextColumn Header="Назначение" Width="2*" />
-                    <DataGridTemplateColumn Header="Выбор" Width="1*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
+                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            
-            <StackPanel Grid.Column="0" Orientation="Vertical">
-                <Label Content="Текст инструкции:" />
-                <TextBox Name="txtInstruction" Text="{Binding Text}"/>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <XButtons:XButton Grid.Column="1" Name="btnAddInstruction" FontWeight="Black" Background="Black"
-                              Width="30" Height="25" VerticalAlignment="Center" Command="{Binding AddInstructionCommand}">
-                        <XButtons:XButton.Content>
-                            <Image Source="/DevicesModule;component/Images/Add.png" />
-                        </XButtons:XButton.Content>
-                    </XButtons:XButton>
-                    <XButtons:XButton Grid.Column="1" Name="btnDeleteInstruction" FontWeight="Black" Background="Black"
-                              Width="30" Height="25" VerticalAlignment="Center">
-                        <XButtons:XButton.Content>
-                            <Image Source="/DevicesModule;component/Images/Delete.png" />
-                        </XButtons:XButton.Content>
-                    </XButtons:XButton>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <XButtons:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
+                              Width="80" Height="30" VerticalAlignment="Center" 
+                              Command="{Binding SaveCommand}" Content="OK"/>
+            <XButtons:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
+                              Width="80" Height="30" VerticalAlignment="Center" 
+                              Command="{Binding CancelCommand}" Content="Отмена"/>
+        </StackPanel>
     </Grid>
 </UserControl>

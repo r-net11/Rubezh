@@ -79,6 +79,7 @@ namespace FireAdministrator
                         
                         FiltersModule.FilterModule.HasChanged = false;
                         FiltersModule.FilterModule.Save();
+                        FiresecManager.SetConfiguration();
                         return;
                     case MessageBoxResult.No:
                         return;

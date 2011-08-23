@@ -55,7 +55,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\StateTypeToStringConverter.cs" />
+    <Compile Include="Converters\InstructionTypeToStringConverter.cs" />
     <Compile Include="InstructionsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -71,13 +71,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\InstructionDevicesViewModel.cs" />
     <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
     <Compile Include="ViewModels\InstructionsViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\InstructionZonesViewModel.cs" />
-    <Compile Include="ViewModels\InstructionZoneViewModel.cs" />
     <Compile Include="Views\InstructionDetailsView.xaml.cs">
       <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InstructionsDevicesView.xaml.cs">
+      <DependentUpon>InstructionsDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InstructionsMenuView.xaml.cs">
       <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
@@ -131,6 +134,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\InstructionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InstructionsDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

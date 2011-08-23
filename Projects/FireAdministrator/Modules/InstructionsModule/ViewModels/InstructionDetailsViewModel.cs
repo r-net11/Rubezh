@@ -14,19 +14,18 @@ namespace InstructionsModule.ViewModels
         {
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
-            SetZoneCommand = new RelayCommand(OnSetZoneCommand);
+            SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelectZone);
+            SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelectDevice);
         }
 
         bool _isNew;
         public Instruction Instruction { get; private set; }
-        public InstructionZonesViewModel InstructionZonesViewModel { get; private set; }
 
         public void Initialize()
         {
             _isNew = false;
             Title = "Новая инструкция";
             Instruction = new Instruction();
-            InstructionZonesViewModel = new InstructionZonesViewModel();
         }
 
         public void Initialize(Instruction instruction)
@@ -37,8 +36,7 @@ namespace InstructionsModule.ViewModels
             Name = instruction.Name;
             Text = instruction.Text;
             StateType = instruction.StateType;
-            InstructionZonesViewModel = new InstructionZonesViewModel();
-            InstructionZonesViewModel.Inicialize(Instruction);
+            InstructionType = instruction.InstructionType;
         }
 
         string _name;
@@ -57,6 +55,11 @@ namespace InstructionsModule.ViewModels
             get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
         }
 
+        public List<InstructionType> AvailableInstructionsType
+        {
+            get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
+        }
+
         StateType _stateType;
         public StateType StateType
         {
@@ -65,6 +68,17 @@ namespace InstructionsModule.ViewModels
             {
                 _stateType = value;
                 OnPropertyChanged("StateType");
+            }
+        }
+
+        InstructionType _instructionType;
+        public InstructionType InstructionType
+        {
+            get { return _instructionType; }
+            set
+            {
+                _instructionType = value;
+                OnPropertyChanged("InstructionType");
             }
         }
 
@@ -84,24 +98,49 @@ namespace InstructionsModule.ViewModels
             Instruction.Name = Name;
             Instruction.Text = Text;
             Instruction.StateType = StateType;
+            Instruction.InstructionType = InstructionType;
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
             }
         }
 
-        public RelayCommand SetZoneCommand { get; private set; }
-        void OnSetZoneCommand()
+        bool CanSelectZone(object obj)
         {
-            Instruction.Name = Name;
-            Instruction.Text = Text;
-            Instruction.StateType = StateType;
-            InstructionZonesViewModel.Inicialize(Instruction);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(InstructionZonesViewModel);
-            if (result)
+            if (InstructionType == InstructionType.Zone)
             {
-                
+                return true;
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool CanSelectDevice(object obj)
+        {
+            if (InstructionType == InstructionType.Device)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public RelayCommand SelectZoneCommand { get; private set; }
+        void OnSelectZoneCommand()
+        {
+            var instructionZonesViewModel = new InstructionZonesViewModel();
+            instructionZonesViewModel.Inicialize(Instruction);
+            ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
+        }
+
+        public RelayCommand SelectDeviceCommand { get; private set; }
+        void OnSelectDeviceCommand()
+        {
+            
         }
 
         public RelayCommand SaveCommand { get; private set; }

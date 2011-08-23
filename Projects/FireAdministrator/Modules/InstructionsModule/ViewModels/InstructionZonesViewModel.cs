@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using DevicesModule.ViewModels;
+using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
@@ -12,112 +14,84 @@ namespace InstructionsModule.ViewModels
         {
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddAvailableZone);
             RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
-            AddInstructionCommand = new RelayCommand(OnAddInstruction);
+            AddAllZoneCommand = new RelayCommand(OnAddAllZone, CanAddAllAvailableZone);
+            RemoveAllZoneCommand = new RelayCommand(OnRemoveAllZone, CanRemoveAllZone);
+            SaveCommand = new RelayCommand(OnSave, CanSaveInstruction);
+            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public void Inicialize(Instruction instruction)
         {
             _instruction = instruction;
-            UpdateAvailableZonesAndZones();
-            if (Zones.Count > 0)
+            InicializeZones();
+            if (InstructionZones.Count > 0)
             {
-                SelectedZone = Zones[0];
+                SelectedInstructionZone = InstructionZones[0];
             }
         }
 
         Instruction _instruction;
 
-        string _text;
-        public string Text 
+        void InicializeZones()
         {
-            get
-            {
-                return _text;
-            }
-            set
-            {
-                _text = value;
-                OnPropertyChanged("Text");
-            }
-        }
+            InstructionZones = new ObservableCollection<ZoneViewModel>();
+            AvailableZones = new ObservableCollection<ZoneViewModel>();
 
-        void UpdateAvailableZonesAndZones()
-        {
-            Zones = new ObservableCollection<InstructionZoneViewModel>();
-            AvailableZones = new ObservableCollection<Zone>();
-            var instructionZone = new InstructionZone();
-            if (_instruction.InstructionZones == null)
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+                var zoneViewModel = new ZoneViewModel(zone);
+                AvailableZones.Add(zoneViewModel);
+                if (_instruction.InstructionZones.IsNotNullOrEmpty())
                 {
-                    AvailableZones.Add(zone);
-                }
-            }
-            else
-            {
-                foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
-                {
-                    instructionZone = _instruction.InstructionZones.FirstOrDefault(x => x.ZoneNo == zone.No);
+                    var instructionZone = _instruction.InstructionZones.FirstOrDefault(x => x == zoneViewModel.No);
                     if (instructionZone != null)
                     {
-                        Zones.Add(new InstructionZoneViewModel(instructionZone));
-                    }
-                    else
-                    {
-                        AvailableZones.Add(zone);
+                        InstructionZones.Add(zoneViewModel);
                     }
                 }
             }
-            
-            if (Zones.Count > 0)
+
+            if (InstructionZones.IsNotNullOrEmpty())
             {
-                SelectedZone = Zones[0];
+                SelectedInstructionZone = InstructionZones[0];
             }
-            if (AvailableZones.Count > 0)
+            if (AvailableZones.IsNotNullOrEmpty())
             {
                 SelectedAvailableZone = AvailableZones[0];
             }
         }
 
-        public ObservableCollection<Zone> AvailableZones { get; set; }
+        public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
 
-        public ObservableCollection<InstructionZoneViewModel> Zones { get; set; } 
+        public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
 
-        Zone _selectedAvailableZone;
-        public Zone SelectedAvailableZone
-        {
-            get { return _selectedAvailableZone; }
-            set
-            {
-                _selectedAvailableZone = value;
-                OnPropertyChanged("SelectedAvailableZone");
-            }
-        }
+        public ZoneViewModel SelectedAvailableZone { get; set; }
 
-        InstructionZoneViewModel _selectedZone;
-        public InstructionZoneViewModel SelectedZone
-        {
-            get { return _selectedZone; }
-            set
-            {
-                _selectedZone = value;
-                OnPropertyChanged("SelectedZone");
-            }
-        }
+        public ZoneViewModel SelectedInstructionZone { get; set; }
 
         public bool CanAddAvailableZone(object obj)
         {
             return (SelectedAvailableZone != null);
         }
 
-        public bool CanRemoveZone(object obj)
+        public bool CanAddAllAvailableZone(object obj)
         {
-            return (SelectedZone != null);
+            return (AvailableZones.IsNotNullOrEmpty());
         }
 
-        public void SaveInstruction()
+        public bool CanRemoveZone(object obj)
         {
+            return (SelectedInstructionZone != null);
+        }
 
+        public bool CanRemoveAllZone(object obj)
+        {
+            return (InstructionZones.IsNotNullOrEmpty());
+        }
+
+        public bool CanSaveInstruction(object obj)
+        {
+            return (InstructionZones.IsNotNullOrEmpty());
         }
 
         public RelayCommand AddZoneCommand { get; private set; }
@@ -125,16 +99,52 @@ namespace InstructionsModule.ViewModels
         {
             if (CanAddAvailableZone(null))
             {
-                var instructionZoneViewModel = new InstructionZoneViewModel(SelectedAvailableZone);
-                Zones.Add(instructionZoneViewModel);
+                InstructionZones.Add(SelectedAvailableZone);
                 AvailableZones.Remove(SelectedAvailableZone);
                 if (AvailableZones.Count != 0)
                 {
                     SelectedAvailableZone = AvailableZones[0];
                 }
-                if (Zones.Count != 0)
+                if (InstructionZones.Count != 0)
                 {
-                    SelectedZone = Zones[0];
+                    SelectedInstructionZone = InstructionZones[0];
+                }
+            }
+        }
+
+        public RelayCommand AddAllZoneCommand { get; private set; }
+        void OnAddAllZone()
+        {
+            
+            if (CanAddAllAvailableZone(null))
+            {
+                foreach (var availableZone in AvailableZones)
+                {
+                    InstructionZones.Add(availableZone);
+                }
+                AvailableZones.Clear();
+                SelectedAvailableZone = null;
+                if (InstructionZones.IsNotNullOrEmpty())
+                {
+                    SelectedInstructionZone = InstructionZones[0];
+                }
+            }
+        }
+
+        public RelayCommand RemoveAllZoneCommand { get; private set; }
+        void OnRemoveAllZone()
+        {
+            if (CanRemoveAllZone(null))
+            {
+                foreach (var instructionZone in InstructionZones)
+                {
+                    AvailableZones.Add(instructionZone);
+                }
+                InstructionZones.Clear();
+                SelectedInstructionZone = null;
+                if (AvailableZones.IsNotNullOrEmpty())
+                {
+                    SelectedAvailableZone = AvailableZones[0];
                 }
             }
         }
@@ -144,77 +154,47 @@ namespace InstructionsModule.ViewModels
         {
             if (CanRemoveZone(null))
             {
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == SelectedZone.ZoneNo);
-                AvailableZones.Add(zone);
-                Zones.Remove(SelectedZone);
+                AvailableZones.Add(SelectedInstructionZone);
+                InstructionZones.Remove(SelectedInstructionZone);
                 if (AvailableZones.Count != 0)
                 {
                     SelectedAvailableZone = AvailableZones[0];
                 }
-                if (Zones.Count != 0)
+                if (InstructionZones.Count != 0)
                 {
-                    SelectedZone = Zones[0];
+                    SelectedInstructionZone = InstructionZones[0];
                 }
             }
         }
 
-        public RelayCommand AddInstructionCommand { get; private set; }
-        void OnAddInstruction()
+        public RelayCommand SaveCommand { get; private set; }
+        void OnSave()
         {
-            foreach (var zone in Zones)
+            SaveInstruction();
+            Close(false);
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        void OnCancel()
+        {
+            Close(false);
+        }
+        
+        public void SaveInstruction()
+        {
+            if (_instruction.InstructionZones.IsNotNullOrEmpty())
             {
-                if (zone.IsChecked)
-                {
-                    zone.Text = Text;
-                }
+                _instruction.InstructionZones.Clear();
             }
+            else
+            {
+                _instruction.InstructionZones = new List<string>();
+            }
+            var instructionZones = new List<string>(
+                from zone in InstructionZones
+                select zone.No);
+            _instruction.InstructionZones.AddRange(instructionZones);
         }
     }
 }
 
-//void InicializeDevicesSelectedZone()
-//{
-//    var availableDevices = new List<Device>();
-//    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-//    {
-//        if (device.Driver.IsZoneDevice)
-//        {
-//            if (device.ZoneNo == SelectedZone.ZoneNo)
-//            {
-//                device.AllParents.ForEach(x => { availableDevices.Add(x); });
-//                availableDevices.Add(device);
-//            }
-//        }
-//    }
-
-//    DevicesSelectedZone = new ObservableCollection<DeviceViewModel>();
-//    foreach (var device in availableDevices)
-//    {
-//        DeviceViewModel deviceViewModel = new DeviceViewModel();
-//        deviceViewModel.Initialize(device, DevicesSelectedZone);
-//        deviceViewModel.IsExpanded = true;
-//        DevicesSelectedZone.Add(deviceViewModel);
-//    }
-
-//    foreach (var device in DevicesSelectedZone)
-//    {
-//        if (device.Device.Parent != null)
-//        {
-//            var parent = DevicesSelectedZone.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
-//            device.Parent = parent;
-//            parent.Children.Add(device);
-//        }
-//    }
-//}
-//public ObservableCollection<DeviceViewModel> DevicesSelectedZone { get; set; }
-
-//DeviceViewModel _selectedDeviceZone;
-//public DeviceViewModel SelectedDeviceZone
-//{
-//    get { return _selectedDeviceZone; }
-//    set
-//    {
-//        _selectedDeviceZone = value;
-//        OnPropertyChanged("SelectedDeviceZone");
-//    }
-//}

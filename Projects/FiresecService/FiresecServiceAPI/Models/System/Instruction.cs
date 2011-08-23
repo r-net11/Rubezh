@@ -6,26 +6,11 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    public enum Cover
+    public enum InstructionType
     {
         All, 
-        Any
-    }
-
-    [DataContract]
-    public class InstructionZone
-    {
-        [DataMember]
-        public string ZoneNo { get; set; }
-
-        [DataMember]
-        public string Text { get; set; }
-
-        [DataMember]
-        public Cover Cover { get; set; }
-
-        [DataMember]
-        public Dictionary<string, string> InstructionDevices { get; set; }
+        Zone,
+        Device
     }
 
     [DataContract]
@@ -38,15 +23,15 @@ namespace FiresecAPI.Models
         public StateType StateType { get; set; }
 
         [DataMember]
+        public InstructionType InstructionType { get; set; }
+
+        [DataMember]
         public string Text { get; set; }
 
         [DataMember]
-        public List<InstructionZone> InstructionZones { get; set; }
+        public List<string> InstructionZones { get; set; }
 
         [DataMember]
-        public Dictionary<string, string> InstructionDevices { get; set; }
-
-        [DataMember]
-        public Cover Cover;
+        public List<string> InstructionDevices { get; set; }
     }
 }
