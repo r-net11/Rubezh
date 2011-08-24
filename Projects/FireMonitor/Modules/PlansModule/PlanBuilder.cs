@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Xml;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Windows.Media.Imaging;
 
 namespace PlansModule
 {
@@ -34,8 +35,8 @@ namespace PlansModule
                 XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
                 Plan plan = (Plan)dcs.ReadObject(reader);
                 reader.Close();
-
                 /*
+                
                 List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
                 colors.Add(System.Windows.Media.Colors.Red);
                 colors.Add(System.Windows.Media.Colors.Blue);
@@ -65,13 +66,13 @@ namespace PlansModule
                 plan.palette = bitmap.Palette;
                 plan.pixels = pixelBytes;
                 plan.stride = stride;
-
+                */
                 DataContractSerializer dcs_out = new DataContractSerializer(typeof(Plan));
                 FileStream fs_out= new FileStream(@"D:/del/Plans_new190811.xml", FileMode.Create);
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs_out);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
-                */
+                
                 return plan;
             }
             catch (Exception ex)
