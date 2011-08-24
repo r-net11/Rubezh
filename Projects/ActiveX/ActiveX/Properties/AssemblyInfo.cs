@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("FireDeviceActiveXControl")]
+[assembly: AssemblyTitle("ActiveX")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("*")]
-[assembly: AssemblyProduct("FireDeviceActiveXControl")]
+[assembly: AssemblyProduct("ActiveX")]
 [assembly: AssemblyCopyright("Copyright © * 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

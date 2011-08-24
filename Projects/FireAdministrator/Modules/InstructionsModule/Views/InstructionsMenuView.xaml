@@ -7,12 +7,16 @@
             <Image Source="/DevicesModule;component/Images/Add.png" Height="32" />
         </Button>
 
+        <Button Command="{Binding RemoveCommand}" ToolTip="Удалить">
+            <Image Source="/DevicesModule;component/Images/Delete.png" Height="32" />
+        </Button>
+        
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать">
             <Image Source="/DevicesModule;component/Images/Edit.png" Height="32" />
         </Button>
 
-        <Button Command="{Binding RemoveCommand}" ToolTip="Удалить">
-            <Image Source="/DevicesModule;component/Images/Delete.png" Height="32" />
+        <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все инструкции">
+            <Image Source="/DevicesModule;component/Images/DeleteAll.png" Height="32" />
         </Button>
 
     </ToolBar>

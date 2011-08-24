@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common;
-using FiresecAPI.Models.DeviceLibrary;
 using CurrentDeviceModule.Views;
 using DeviceControls;
 using FiresecClient;
 using System.Windows;
 using DevicesModule.ViewModels;
 using DevicesModule.Views;
+using FiresecAPI.Models;
 
 namespace CurrentDeviceModule.ViewModels
 {
@@ -20,7 +20,6 @@ namespace CurrentDeviceModule.ViewModels
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
             CurrentDeviceControl = new DeviceControl();
             CurrentDevice = new Device();
-            //CurrentDeviceState = new DeviceState();
             IsCurrentDeviceSelected = false;
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
@@ -28,10 +27,9 @@ namespace CurrentDeviceModule.ViewModels
         public void Inicialize(string deviceId)
         {
             DeviceId = deviceId;
-            CurrentDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            var CurrentDevice2 = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            //CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
-            //CurrentDeviceControl.DriverId = DriverId;
+            CurrentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDeviceControl.DriverId = DriverId;
             Update();
             IsCurrentDeviceSelected = true;
         }
@@ -47,18 +45,18 @@ namespace CurrentDeviceModule.ViewModels
         }
 
         public Device CurrentDevice { get; private set; }
-        //public DeviceState CurrentDeviceState { get; private set; }
+        public DeviceState CurrentDeviceState { get; private set; }
         public string DeviceId { get; set; }
-        
-        //public StateType StateType
-        //{
-        //    get { return CurrentDeviceState.StateType; }
-        //}
 
-        //public string DriverId
-        //{
-        //    get { return CurrentDevice.Driver.Id; }
-        //}
+        public StateType StateType
+        {
+            get { return CurrentDeviceState.StateType; }
+        }
+
+        public string DriverId
+        {
+            get { return CurrentDevice.Driver.Id; }
+        }
 
         string _toolTip;
         public string ToolTip
@@ -70,11 +68,6 @@ namespace CurrentDeviceModule.ViewModels
                 OnPropertyChanged("ToolTip");
             }
         }
-
-        //public bool DriverCanDisable
-        //{
-        //    get { return CurrentDevice.Driver.CanDisable; }
-        //}
 
         bool _isCurrentDeviceSelected;
         public bool IsCurrentDeviceSelected
@@ -139,14 +132,7 @@ namespace CurrentDeviceModule.ViewModels
         void Update()
         {
             UpdateToolTip();
-            
-            var additionalStateCodes = new List<string>();
-            foreach (var state in CurrentDevice.States)
-            {
-                additionalStateCodes.Add(state.Code);
-            }
-
-            CurrentDeviceControl.AdditionalStateCodes = additionalStateCodes;
+            CurrentDeviceControl.StateType = StateType;
         }
 
         void OnDeviceStateChanged(string id)

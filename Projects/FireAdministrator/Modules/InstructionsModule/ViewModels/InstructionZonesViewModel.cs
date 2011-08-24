@@ -11,6 +11,7 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionZonesViewModel : DialogContent
     {
+
         public InstructionZonesViewModel()
         {
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddAvailableZone);
@@ -19,36 +20,45 @@ namespace InstructionsModule.ViewModels
             RemoveAllZoneCommand = new RelayCommand(OnRemoveAllZone, CanRemoveAllZone);
             SaveCommand = new RelayCommand(OnSave, CanSaveInstruction);
             CancelCommand = new RelayCommand(OnCancel);
+
+            InstructionZones = new ObservableCollection<ZoneViewModel>();
+            AvailableZones = new ObservableCollection<ZoneViewModel>();
+            InstructionZonesList = new List<string>();
         }
 
-        public void Inicialize(Instruction instruction)
+        public void Inicialize(List<string> instructionDetailsList)
         {
-            _instruction = instruction;
+            if (instructionDetailsList.IsNotNullOrEmpty())
+            {
+                InstructionZonesList = new List<string>(instructionDetailsList);
+            }
             InicializeZones();
-            if (InstructionZones.Count > 0)
+            if (InstructionZones.IsNotNullOrEmpty())
             {
                 SelectedInstructionZone = InstructionZones[0];
             }
         }
 
-        Instruction _instruction;
-
         void InicializeZones()
         {
-            InstructionZones = new ObservableCollection<ZoneViewModel>();
-            AvailableZones = new ObservableCollection<ZoneViewModel>();
-
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
-                AvailableZones.Add(zoneViewModel);
-                if (_instruction.InstructionZones.IsNotNullOrEmpty())
+                if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = _instruction.InstructionZones.FirstOrDefault(x => x == zoneViewModel.No);
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
                     if (instructionZone != null)
                     {
                         InstructionZones.Add(zoneViewModel);
                     }
+                    else
+                    {
+                        AvailableZones.Add(zoneViewModel);
+                    }
+                }
+                else
+                {
+                    AvailableZones.Add(zoneViewModel);
                 }
             }
 
@@ -62,12 +72,10 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        public List<string> InstructionZonesList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
-
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
-
         public ZoneViewModel SelectedAvailableZone { get; set; }
-
         public ZoneViewModel SelectedInstructionZone { get; set; }
 
         public bool CanAddAvailableZone(object obj)
@@ -102,11 +110,11 @@ namespace InstructionsModule.ViewModels
             {
                 InstructionZones.Add(SelectedAvailableZone);
                 AvailableZones.Remove(SelectedAvailableZone);
-                if (AvailableZones.Count != 0)
+                if (AvailableZones.IsNotNullOrEmpty())
                 {
                     SelectedAvailableZone = AvailableZones[0];
                 }
-                if (InstructionZones.Count != 0)
+                if (InstructionZones.IsNotNullOrEmpty())
                 {
                     SelectedInstructionZone = InstructionZones[0];
                 }
@@ -156,11 +164,11 @@ namespace InstructionsModule.ViewModels
             {
                 AvailableZones.Add(SelectedInstructionZone);
                 InstructionZones.Remove(SelectedInstructionZone);
-                if (AvailableZones.Count != 0)
+                if (AvailableZones.IsNotNullOrEmpty())
                 {
                     SelectedAvailableZone = AvailableZones[0];
                 }
-                if (InstructionZones.Count != 0)
+                if (InstructionZones.IsNotNullOrEmpty())
                 {
                     SelectedInstructionZone = InstructionZones[0];
                 }
@@ -170,8 +178,8 @@ namespace InstructionsModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            SaveInstruction();
-            Close(false);
+            Save();
+            Close(true);
         }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -180,20 +188,12 @@ namespace InstructionsModule.ViewModels
             Close(false);
         }
 
-        public void SaveInstruction()
+        public void Save()
         {
-            if (_instruction.InstructionZones.IsNotNullOrEmpty())
-            {
-                _instruction.InstructionZones.Clear();
-            }
-            else
-            {
-                _instruction.InstructionZones = new List<string>();
-            }
             var instructionZones = new List<string>(
                 from zone in InstructionZones
                 select zone.No);
-            _instruction.InstructionZones.AddRange(instructionZones);
+            InstructionZonesList = instructionZones;
         }
     }
 }

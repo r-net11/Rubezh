@@ -12,6 +12,9 @@ namespace DevicesModule.ViewModels
     {
         public ZoneDevicesViewModel()
         {
+            Devices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
@@ -59,7 +62,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            Devices = new ObservableCollection<DeviceViewModel>();
+            Devices.Clear();
             foreach (var device in devices)
             {
                 var deviceViewModel = new DeviceViewModel();
@@ -78,7 +81,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices.Clear();
             foreach (var device in availableDevices)
             {
                 var deviceViewModel = new DeviceViewModel();

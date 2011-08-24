@@ -15,15 +15,15 @@ using CurrentDeviceModule.Views;
 using FiresecClient;
 using System.Windows;
 
-namespace FireDeviceActiveXControl
+namespace ActiveX
 {
     [ClassInterface(ClassInterfaceType.None)]
     [PropertyTab(typeof(System.Windows.Forms.Form))]
     [Guid("03B7A288-90FB-47D2-8B2A-2CEADDD13367")]
     [ComVisible(true)]
-    public partial class ActiveXDeviceControl : UserControl, ISpecifyPropertyPages
+    public partial class ActiveX : UserControl, ISpecifyPropertyPages
     {
-        public ActiveXDeviceControl()
+        public ActiveX()
         {
             InitializeComponent();
         }

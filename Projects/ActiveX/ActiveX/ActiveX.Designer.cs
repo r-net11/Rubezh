@@ -1,6 +1,6 @@
-﻿namespace FireDeviceActiveXControl
+﻿namespace ActiveX
 {
-    partial class ActiveXDeviceControl
+    partial class ActiveX
     {
         /// <summary> 
         /// Требуется переменная конструктора.
@@ -46,7 +46,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.elementHost);
-            this.Name = "ActiveXDeviceControl";
+            this.Name = "ActiveX";
             this.Size = new System.Drawing.Size(181, 181);
             this.Load += new System.EventHandler(this.ActiveXDeviceControl_Load);
             this.ResumeLayout(false);

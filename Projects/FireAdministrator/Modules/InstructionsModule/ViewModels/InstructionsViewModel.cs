@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecClient;
+using Common;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
@@ -11,13 +13,14 @@ namespace InstructionsModule.ViewModels
         {
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Instructions = new ObservableCollection<InstructionViewModel>();
         }
 
         public void Initialize()
         {
-            if (FiresecManager.SystemConfiguration.Instructions != null)
+            if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
             {
                 foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
                 {
@@ -50,6 +53,7 @@ namespace InstructionsModule.ViewModels
             {
                 var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
                 Instructions.Add(instructionViewModel);
+                InstructionsModule.HasChanges = true;
             }
         }
 
@@ -58,11 +62,30 @@ namespace InstructionsModule.ViewModels
             return SelectedInstruction != null;
         }
 
+        bool CanRemoveAll(object obj)
+        {
+            return (Instructions.IsNotNullOrEmpty());
+        }
+
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
             FiresecManager.SystemConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
             Instructions.Remove(SelectedInstruction);
+            if (Instructions.IsNotNullOrEmpty())
+            {
+                SelectedInstruction = Instructions[0];
+            }
+            InstructionsModule.HasChanges = true;
+        }
+
+        public RelayCommand RemoveAllCommand { get; private set; }
+        void OnRemoveAll()
+        {
+            SelectedInstruction = null;
+            Instructions.Clear();
+            FiresecManager.SystemConfiguration.Instructions.Clear();
+            InstructionsModule.HasChanges = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -74,12 +97,13 @@ namespace InstructionsModule.ViewModels
             if (result)
             {
                 SelectedInstruction.Update();
+                InstructionsModule.HasChanges = true;
             }
         }
 
         public override void OnShow()
         {
-            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand, RemoveAllCommand);
             ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
         }
 

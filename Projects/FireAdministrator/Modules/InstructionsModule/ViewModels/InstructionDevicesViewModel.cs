@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using Common;
+using System.Linq;
 using DevicesModule.ViewModels;
 using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
@@ -11,6 +13,10 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionDevicesViewModel()
         {
+            InstructionDevices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            InstructionDevicesList = new List<string>();
+
             AddDeviceCommand = new RelayCommand(OnAddDevice, CanAddAvailableDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             AddAllDeviceCommand = new RelayCommand(OnAddAllDevice, CanAddAllAvailableDevice);
@@ -19,94 +25,185 @@ namespace InstructionsModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public void Inicialize(Instruction instruction)
+        public void Inicialize(List<string> instructionDetailsList)
         {
-            _instruction = instruction;
-            InicializeDevices();
+            if (instructionDetailsList.IsNotNullOrEmpty())
+            {
+                InstructionDevicesList = new List<string>(instructionDetailsList);
+            }
+            else
+            {
+                InstructionDevicesList = new List<string>();
+            }
+
+            UpdateDevices();
+        }
+
+        public List<string> InstructionDevicesList { get; set; }
+
+        void UpdateDevices()
+        {
+            var availableDevices = new HashSet<Device>();
+            var instructionDevices = new HashSet<Device>();
+
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                if (device.Driver.IsZoneDevice)
+                {
+                    if (InstructionDevicesList.Contains(device.Id))
+                    {
+                        device.AllParents.ForEach(x => { instructionDevices.Add(x); });
+                        instructionDevices.Add(device);
+                    }
+                    else
+                    {
+                        device.AllParents.ForEach(x => { availableDevices.Add(x); });
+                        availableDevices.Add(device);
+                    }
+                }
+
+                if (device.Driver.IsZoneLogicDevice)
+                {
+                    if (device.ZoneLogic != null)
+                    {
+                        foreach (var clause in device.ZoneLogic.Clauses)
+                        {
+                            if (InstructionDevicesList.Contains(device.Id))
+                            {
+                                device.AllParents.ForEach(x => { instructionDevices.Add(x); });
+                                instructionDevices.Add(device);
+                            }
+                            else
+                            {
+                                device.AllParents.ForEach(x => { availableDevices.Add(x); });
+                                availableDevices.Add(device);
+                            }
+                        }
+                    }
+                }
+            }
+
+            InstructionDevices.Clear();
+            BuildTree(instructionDevices, InstructionDevices);
+
+            AvailableDevices.Clear();
+            BuildTree(availableDevices, AvailableDevices);
+
             if (InstructionDevices.IsNotNullOrEmpty())
             {
+                CollapseChild(InstructionDevices[0]);
+                ExpandChild(InstructionDevices[0]);
                 SelectedInstructionDevice = InstructionDevices[0];
             }
-        }
-
-        void InicializeDevices()
-        {
-            //AvailableDevices = new ObservableCollection<DeviceViewModel>();
-            BuildTree();
-
-            //var instructionDevices = new List<Device>();
-
-            //InstructionDevices = new ObservableCollection<DeviceViewModel>();
-            //if (_instruction.InstructionDevices.IsNotNullOrEmpty())
-            //{
-            //    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            //    {
-            //        if (_instruction.InstructionDevices.Contains(device.DriverId))
-            //        {
-            //            instructionDevices.Add(device);
-            //        }
-            //    }
-
-            //    foreach (var device in instructionDevices)
-            //    {
-            //        var deviceViewModel = new DeviceViewModel();
-            //        deviceViewModel.Initialize(device, InstructionDevices);
-            //        deviceViewModel.IsExpanded = true;
-            //        InstructionDevices.Add(deviceViewModel);
-            //    }
-
-            //    foreach (var device in InstructionDevices)
-            //    {
-            //        if (device.Device.Parent != null)
-            //        {
-            //            var parent = InstructionDevices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
-            //            device.Parent = parent;
-            //            parent.Children.Add(device);
-            //        }
-            //    }
-            //}
-
-            
-        }
-
-        void BuildTree()
-        {
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
-            var device = FiresecManager.DeviceConfiguration.RootDevice;
-            AddDevice(device, null);
-        }
-
-        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
-        {
-            var deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Parent = parentDeviceViewModel;
-            deviceViewModel.Initialize(device, AvailableDevices);
-
-            var indexOf = AvailableDevices.IndexOf(parentDeviceViewModel);
-            AvailableDevices.Insert(indexOf + 1, deviceViewModel);
-
-            foreach (var childDevice in device.Children)
+            else
             {
-                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-                deviceViewModel.Children.Add(childDeviceViewModel);
+                SelectedInstructionDevice = null;
             }
 
-            return deviceViewModel;
+            if (AvailableDevices.IsNotNullOrEmpty())
+            {
+                CollapseChild(AvailableDevices[0]);
+                ExpandChild(AvailableDevices[0]);
+                SelectedAvailableDevice = AvailableDevices[0];
+            }
+            else
+            {
+                SelectedAvailableDevice = null;
+            }
         }
 
-        Instruction _instruction;
+        void BuildTree(HashSet<Device> hashSetDevices, ObservableCollection<DeviceViewModel> devices)
+        {
+            foreach (var device in hashSetDevices)
+            {
+                var deviceViewModel = new DeviceViewModel();
+                deviceViewModel.Initialize(device, devices);
+                deviceViewModel.IsExpanded = true;
+                devices.Add(deviceViewModel);
+            }
 
-        public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
+            foreach (var device in devices)
+            {
+                if (device.Device.Parent != null)
+                {
+                    var parent = devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    device.Parent = parent;
+                    parent.Children.Add(device);
+                }
+            }
+        }
 
-        public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
+        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        {
+            parentDeviceViewModel.IsExpanded = false;
 
-        public DeviceViewModel SelectedAvailableDevice { get; set; }
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
+            {
+                CollapseChild(deviceViewModel);
+            }
+        }
 
-        public DeviceViewModel SelectedInstructionDevice { get; set; }
+        void ExpandChild(DeviceViewModel parentDeviceViewModel)
+        {
+            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+            {
+                parentDeviceViewModel.IsExpanded = true;
+                foreach (var deviceViewModel in parentDeviceViewModel.Children)
+                {
+                    ExpandChild(deviceViewModel);
+                }
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> _availableDevices;
+        public ObservableCollection<DeviceViewModel> AvailableDevices
+        {
+            get { return _availableDevices; }
+            set
+            {
+                _availableDevices = value;
+                OnPropertyChanged("AvailableDevices");
+            }
+        }
+
+        ObservableCollection<DeviceViewModel> _instructionDevices;
+        public ObservableCollection<DeviceViewModel> InstructionDevices
+        {
+            get { return _instructionDevices; }
+            set
+            {
+                _instructionDevices = value;
+                OnPropertyChanged("InstructionDevices");
+            }
+        }
+
+        DeviceViewModel _selectedAvailableDevice;
+        public DeviceViewModel SelectedAvailableDevice 
+        {
+            get { return _selectedAvailableDevice; }
+            set
+            {
+                _selectedAvailableDevice = value;
+                OnPropertyChanged("SelectedAvailableDevice");
+            }
+        }
+
+        DeviceViewModel _selectedInstructionDevice;
+        public DeviceViewModel SelectedInstructionDevice
+        {
+            get { return _selectedInstructionDevice; }
+            set
+            {
+                _selectedInstructionDevice = value;
+                OnPropertyChanged("SelectedInstructionDevice");
+            }
+        }
 
         public bool CanAddAvailableDevice(object obj)
         {
-            return (SelectedAvailableDevice != null);
+            return ((SelectedAvailableDevice != null)&&
+                (SelectedAvailableDevice.Driver.IsZoneDevice ||
+                SelectedAvailableDevice.Driver.IsZoneLogicDevice));
         }
 
         public bool CanAddAllAvailableDevice(object obj)
@@ -116,7 +213,9 @@ namespace InstructionsModule.ViewModels
 
         public bool CanRemoveDevice(object obj)
         {
-            return (SelectedInstructionDevice != null);
+            return ((SelectedInstructionDevice != null) &&
+                (SelectedInstructionDevice.Driver.IsZoneDevice ||
+                SelectedInstructionDevice.Driver.IsZoneLogicDevice));
         }
 
         public bool CanRemoveAllDevice(object obj)
@@ -134,16 +233,8 @@ namespace InstructionsModule.ViewModels
         {
             if (CanAddAvailableDevice(null))
             {
-                InstructionDevices.Add(SelectedAvailableDevice);
-                AvailableDevices.Remove(SelectedAvailableDevice);
-                if (AvailableDevices.Count != 0)
-                {
-                    SelectedAvailableDevice = AvailableDevices[0];
-                }
-                if (InstructionDevices.Count != 0)
-                {
-                    SelectedInstructionDevice = InstructionDevices[0];
-                }
+                InstructionDevicesList.Add(SelectedAvailableDevice.Id);
+                UpdateDevices();
             }
         }
 
@@ -154,14 +245,12 @@ namespace InstructionsModule.ViewModels
             {
                 foreach (var availableDevices in AvailableDevices)
                 {
-                    InstructionDevices.Add(availableDevices);
+                    if ((availableDevices.Driver.IsZoneDevice) || (availableDevices.Driver.IsZoneLogicDevice))
+                    {
+                        InstructionDevicesList.Add(availableDevices.Id);
+                    }
                 }
-                AvailableDevices.Clear();
-                SelectedAvailableDevice = null;
-                if (InstructionDevices.IsNotNullOrEmpty())
-                {
-                    SelectedInstructionDevice = InstructionDevices[0];
-                }
+                UpdateDevices();
             }
         }
 
@@ -170,16 +259,8 @@ namespace InstructionsModule.ViewModels
         {
             if (CanRemoveAllDevice(null))
             {
-                foreach (var instructionDevice in InstructionDevices)
-                {
-                    AvailableDevices.Add(instructionDevice);
-                }
-                InstructionDevices.Clear();
-                SelectedInstructionDevice = null;
-                if (AvailableDevices.IsNotNullOrEmpty())
-                {
-                    SelectedAvailableDevice = AvailableDevices[0];
-                }
+                InstructionDevicesList.Clear();
+                UpdateDevices();
             }
         }
 
@@ -188,23 +269,15 @@ namespace InstructionsModule.ViewModels
         {
             if (CanRemoveDevice(null))
             {
-                AvailableDevices.Add(SelectedInstructionDevice);
-                InstructionDevices.Remove(SelectedInstructionDevice);
-                if (AvailableDevices.Count != 0)
-                {
-                    SelectedAvailableDevice = AvailableDevices[0];
-                }
-                if (InstructionDevices.Count != 0)
-                {
-                    SelectedInstructionDevice = InstructionDevices[0];
-                }
+                InstructionDevicesList.Remove(SelectedInstructionDevice.Id);
+                UpdateDevices();
             }
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Close(false);
+            Close(true);
         }
 
         public RelayCommand CancelCommand { get; private set; }
@@ -212,52 +285,5 @@ namespace InstructionsModule.ViewModels
         {
             Close(false);
         }
-
-        //void BuildTree()
-        //{
-        //    Devices = new ObservableCollection<DeviceViewModel>();
-        //    var device = FiresecManager.DeviceConfiguration.RootDevice;
-        //    AddDevice(device, null);
-        //}
-
-        //DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
-        //{
-        //    var deviceViewModel = new DeviceViewModel();
-        //    deviceViewModel.Parent = parentDeviceViewModel;
-        //    deviceViewModel.Initialize(device, Devices);
-
-        //    var indexOf = Devices.IndexOf(parentDeviceViewModel);
-        //    Devices.Insert(indexOf + 1, deviceViewModel);
-
-        //    foreach (var childDevice in device.Children)
-        //    {
-        //        var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-        //        deviceViewModel.Children.Add(childDeviceViewModel);
-        //    }
-
-        //    return deviceViewModel;
-        //}
-
-        //void CollapseChild(DeviceViewModel parentDeviceViewModel)
-        //{
-        //    parentDeviceViewModel.IsExpanded = false;
-
-        //    foreach (var deviceViewModel in parentDeviceViewModel.Children)
-        //    {
-        //        CollapseChild(deviceViewModel);
-        //    }
-        //}
-
-        //void ExpandChild(DeviceViewModel parentDeviceViewModel)
-        //{
-        //    if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
-        //    {
-        //        parentDeviceViewModel.IsExpanded = true;
-        //        foreach (var deviceViewModel in parentDeviceViewModel.Children)
-        //        {
-        //            ExpandChild(deviceViewModel);
-        //        }
-        //    }
-        //}
     }
 }

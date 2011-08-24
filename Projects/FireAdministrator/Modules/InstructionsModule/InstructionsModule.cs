@@ -12,11 +12,10 @@ namespace InstructionsModule
 {
     public class InstructionsModule : IModule
     {
-        static InstructionsViewModel _instructionsViewModel;
-
         public InstructionsModule()
         {
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(OnShowInstructions);
+            HasChanges = false;
         }
 
         public void Initialize()
@@ -34,11 +33,15 @@ namespace InstructionsModule
         void CreateViewModels()
         {
             _instructionsViewModel = new InstructionsViewModel();
+            _instructionsViewModel.Initialize();
         }
+
+        static InstructionsViewModel _instructionsViewModel;
+        public static bool HasChanges { get; set; }
 
         static void OnShowInstructions(string obj)
         {
-            _instructionsViewModel.Initialize();
+            
             ServiceFactory.Layout.Show(_instructionsViewModel);
         }
     }

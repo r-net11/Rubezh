@@ -19,13 +19,13 @@ namespace FireAdministrator
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            SoundsModule.SoundsModule.Save();
             FiresecManager.SetConfiguration();
 
             SoundsModule.SoundsModule.HasChanges = false;
             DevicesModule.DevicesModule.HasChanges = false;
             FiltersModule.FilterModule.HasChanges = false;
             LibraryModule.LibraryModule.HasChanges = false;
+            InstructionsModule.InstructionsModule.HasChanges = false;
         }
 
         void OnCreateNew(object sender, RoutedEventArgs e)

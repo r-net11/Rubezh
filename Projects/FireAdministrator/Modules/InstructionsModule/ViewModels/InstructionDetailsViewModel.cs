@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Common;
 using FiresecAPI.Models;
 using System.Linq;
 using FiresecClient;
@@ -12,7 +13,7 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionDetailsViewModel()
         {
-            SaveCommand = new RelayCommand(OnSave);
+            SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
             SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelectZone);
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelectDevice);
@@ -23,9 +24,10 @@ namespace InstructionsModule.ViewModels
 
         public void Initialize()
         {
-            _isNew = false;
+            _isNew = true;
             Title = "Новая инструкция";
             Instruction = new Instruction();
+            InstructionDetailsList = new List<string>();
         }
 
         public void Initialize(Instruction instruction)
@@ -37,6 +39,18 @@ namespace InstructionsModule.ViewModels
             Text = instruction.Text;
             StateType = instruction.StateType;
             InstructionType = instruction.InstructionType;
+            switch (InstructionType)
+            {
+                case InstructionType.Zone:
+                    InstructionDetailsList = new List<string>(Instruction.InstructionZones);
+                    break;
+                case InstructionType.Device:
+                    InstructionDetailsList = new List<string>(Instruction.InstructionDevices);
+                    break;
+                default:
+                    InstructionDetailsList = new List<string>();
+                    break;
+            }
         }
 
         string _name;
@@ -50,11 +64,11 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        public List<string> InstructionDetailsList { get; set; }
         public List<StateType> AvailableStates
         {
             get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
         }
-
         public List<InstructionType> AvailableInstructionsType
         {
             get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
@@ -82,6 +96,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        
+
         string _text;
         public string Text
         {
@@ -99,50 +115,63 @@ namespace InstructionsModule.ViewModels
             Instruction.Text = Text;
             Instruction.StateType = StateType;
             Instruction.InstructionType = InstructionType;
+            switch (InstructionType)
+            {
+                case InstructionType.Device:
+                    Instruction.InstructionDevices = InstructionDetailsList;
+                    break;
+                case InstructionType.Zone:
+                    Instruction.InstructionZones = InstructionDetailsList;
+                    break;
+                default:
+                    break;
+            }
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
+                InstructionsModule.HasChanges = true;
             }
         }
 
         bool CanSelectZone(object obj)
         {
-            if (InstructionType == InstructionType.Zone)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (InstructionType == InstructionType.Zone);
         }
 
         bool CanSelectDevice(object obj)
         {
-            if (InstructionType == InstructionType.Device)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (InstructionType == InstructionType.Device);
+        }
+
+        bool CanSave(object obj)
+        {
+            return (((CanSelectZone(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+                ((CanSelectDevice(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+                (InstructionType == InstructionType.All));
         }
 
         public RelayCommand SelectZoneCommand { get; private set; }
         void OnSelectZoneCommand()
         {
             var instructionZonesViewModel = new InstructionZonesViewModel();
-            instructionZonesViewModel.Inicialize(Instruction);
-            ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
+            instructionZonesViewModel.Inicialize(InstructionDetailsList);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
+            if (result)
+            {
+                InstructionDetailsList = instructionZonesViewModel.InstructionZonesList;
+            }
         }
 
         public RelayCommand SelectDeviceCommand { get; private set; }
         void OnSelectDeviceCommand()
         {
             var instructionDevicesViewModel = new InstructionDevicesViewModel();
-            instructionDevicesViewModel.Inicialize(Instruction);
-            ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel);
+            instructionDevicesViewModel.Inicialize(InstructionDetailsList);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel);
+            if (result)
+            {
+                InstructionDetailsList = instructionDevicesViewModel.InstructionDevicesList;
+            }
         }
 
         public RelayCommand SaveCommand { get; private set; }

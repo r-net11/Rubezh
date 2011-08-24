@@ -90,15 +90,6 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public void Save()
-        {
-            FiresecClient.FiresecManager.SystemConfiguration.Sounds = new List<FiresecAPI.Models.Sound>();
-            foreach (var sound in Sounds)
-            {
-                FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(sound.Sound);
-            }
-        }
-
         public override void OnHide()
         {
             IsNowPlaying = false;

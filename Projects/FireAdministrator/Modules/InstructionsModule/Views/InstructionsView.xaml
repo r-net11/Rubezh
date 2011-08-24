@@ -1,11 +1,19 @@
 ﻿<UserControl x:Class="InstructionsModule.Views.InstructionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:InstructionsModule.Converters" >
+    <UserControl.Resources>
+        <Converters:InstructionTypeToStringConverter  x:Key="InstructionTypeToStringConverter" />
+    </UserControl.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}" 
                       ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Instruction.Name}" Width="*" />
+                <DataGridTextColumn Header="Название" Binding="{Binding Instruction.Name}" Width="1*" />
+                <DataGridTextColumn Header="Тип инструкции"  Width="1*"
+                                    Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
+                <DataGridTextColumn Header="Состояние" Width="1*"
+                                    Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

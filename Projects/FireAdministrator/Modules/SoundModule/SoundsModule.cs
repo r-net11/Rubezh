@@ -31,21 +31,16 @@ namespace SoundsModule
 
         static void CreateViewModels()
         {
-            soundsViewModel = new SoundsViewModel();
-            soundsViewModel.Inicialize();
+            _soundsViewModel = new SoundsViewModel();
+            _soundsViewModel.Inicialize();
         }
 
-        static SoundsViewModel soundsViewModel;
+        static SoundsViewModel _soundsViewModel;
         public static bool HasChanges { get; set; }
 
         static void OnShowSounds(string obj)
         {
-            ServiceFactory.Layout.Show(soundsViewModel);
-        }
-
-        public static void Save()
-        {
-            soundsViewModel.Save();
+            ServiceFactory.Layout.Show(_soundsViewModel);
         }
     }
 }

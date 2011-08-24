@@ -65,20 +65,21 @@ namespace FireAdministrator
             AlarmPlayerHelper.Dispose();
 
             if (DevicesModule.DevicesModule.HasChanges || SoundsModule.SoundsModule.HasChanges ||
-                FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges)
+                FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges ||
+                InstructionsModule.InstructionsModule.HasChanges)
             {
                 var result = MessageBox.Show("Настройки изменены. Желаете сохранить изменения?", "Подтверждение", MessageBoxButton.YesNoCancel);
 
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        SoundsModule.SoundsModule.Save();
                         FiresecManager.SetConfiguration();
 
                         SoundsModule.SoundsModule.HasChanges = false;
                         DevicesModule.DevicesModule.HasChanges = false;
                         FiltersModule.FilterModule.HasChanges = false;
                         LibraryModule.LibraryModule.HasChanges = false;
+                        InstructionsModule.InstructionsModule.HasChanges = false;
                         return;
                     case MessageBoxResult.No:
                         return;
