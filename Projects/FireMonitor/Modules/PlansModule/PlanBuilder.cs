@@ -67,12 +67,13 @@ namespace PlansModule
                 plan.pixels = pixelBytes;
                 plan.stride = stride;
                 */
+                /*
                 DataContractSerializer dcs_out = new DataContractSerializer(typeof(Plan));
                 FileStream fs_out= new FileStream(@"D:/del/Plans_new190811.xml", FileMode.Create);
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs_out);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
-                
+                */
                 return plan;
             }
             catch (Exception ex)
