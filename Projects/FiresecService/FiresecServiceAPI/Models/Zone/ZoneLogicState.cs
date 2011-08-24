@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FiresecAPI.Models
+﻿namespace FiresecAPI.Models
 {
     public enum ZoneLogicState
     {
-        AutomaticOn,
-        Alarm,
-        Fre,
-        Warning,
-        MPTOn
+        Fire = 0,
+        Attention = 1,
+        MPTAutomaticOn = 2,
+        MPTOn = 3,
+        //zsExitDelay_Unused = 4,
+        Alarm = 5,
+        GuardSet = 6,
+        GuardUnSet = 7,
+        PCN = 8,
+        Lamp = 9,
+        Failure = 10,
+        AM1TOn = 11
     }
 }

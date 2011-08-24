@@ -10,24 +10,8 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneLogicState)
             {
-                ZoneLogicState state = (ZoneLogicState)value;
-                switch (state)
-                {
-                    case ZoneLogicState.AutomaticOn:
-                        return "Включение автоматики";
-
-                    case ZoneLogicState.Alarm:
-                        return "Тревога";
-
-                    case ZoneLogicState.Fre:
-                        return "Пожар";
-
-                    case ZoneLogicState.Warning:
-                        return "Внимание";
-
-                    case ZoneLogicState.MPTOn:
-                        return "Включение модуля пожаротушения";
-                }
+                ZoneLogicState zoneLogicState = (ZoneLogicState)value;
+                return EnumsConverter.ZoneLogicStateToString(zoneLogicState);
             }
             return "";
         }

@@ -258,7 +258,6 @@ namespace FiresecService.Converters
                                 Name = firesecParameter.name,
                                 Value = firesecParameter.value
                             });
-                            driverProperty.Parameters.Add(driverPropertyParameter);
                         }
                     }
 
@@ -306,7 +305,6 @@ namespace FiresecService.Converters
                         Caption = innerParameter.caption,
                         Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "0"
                     });
-                    driver.Parameters.Add(parameter);
                 }
             }
 
@@ -326,7 +324,6 @@ namespace FiresecService.Converters
                         IsAutomatic = innerState.type == "Auto" ? true : false,
                         Code = innerState.code
                     });
-                    driver.States.Add(driverState);
                 }
             }
 

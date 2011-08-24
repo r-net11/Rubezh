@@ -15,33 +15,13 @@ namespace FiresecService.Converters
             {
                 foreach (var innerClause in innerZoneLogic.clause)
                 {
-                    var clause = new Clause()
+                    var clause = new Clause();
+                    if (innerClause.zone != null)
                     {
-                        Zones = innerClause.zone.ToList()
-                    };
-
-                    switch (innerClause.state)
-                    {
-                        case "0":
-                            clause.State = ZoneLogicState.AutomaticOn;
-                            break;
-
-                        case "1":
-                            clause.State = ZoneLogicState.Alarm;
-                            break;
-
-                        case "2":
-                            clause.State = ZoneLogicState.Fre;
-                            break;
-
-                        case "5":
-                            clause.State = ZoneLogicState.Warning;
-                            break;
-
-                        case "6":
-                            clause.State = ZoneLogicState.MPTOn;
-                            break;
+                        clause.Zones = innerClause.zone.ToList();
                     }
+
+                    clause.State = (ZoneLogicState)int.Parse(innerClause.state);
 
                     switch (innerClause.operation)
                     {
@@ -80,28 +60,8 @@ namespace FiresecService.Converters
             foreach (var clause in zoneLogic.Clauses)
             {
                 var innerClause = new clauseType();
-                switch (clause.State)
-                {
-                    case ZoneLogicState.AutomaticOn:
-                        innerClause.state = "0";
-                        break;
 
-                    case ZoneLogicState.Alarm:
-                        innerClause.state = "1";
-                        break;
-
-                    case ZoneLogicState.Fre:
-                        innerClause.state = "2";
-                        break;
-
-                    case ZoneLogicState.Warning:
-                        innerClause.state = "5";
-                        break;
-
-                    case ZoneLogicState.MPTOn:
-                        innerClause.state = "6";
-                        break;
-                }
+                innerClause.state = ((int)clause.State).ToString();
 
                 switch (clause.Operation)
                 {

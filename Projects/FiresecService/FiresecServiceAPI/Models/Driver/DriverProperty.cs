@@ -32,23 +32,4 @@ namespace FiresecAPI.Models
         [DataMember]
         public DriverPropertyTypeEnum DriverPropertyType { get; set; }
     }
-
-    [DataContract]
-    public class DriverPropertyParameter
-    {
-        [DataMember]
-        public string Name { get; set; }
-
-        [DataMember]
-        public string Value { get; set; }
-    }
-
-    public enum DriverPropertyTypeEnum
-    {
-        EnumType,
-        StringType,
-        IntType,
-        ByteType,
-        BoolType
-    }
 }

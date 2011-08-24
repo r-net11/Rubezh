@@ -46,7 +46,7 @@ namespace DevicesModule.ViewModels
             var clauseViewModel = new ClauseViewModel();
             var clause = new Clause();
             clause.Operation = ZoneLogicOperation.All;
-            clause.State = ZoneLogicState.AutomaticOn;
+            clause.State = ZoneLogicState.Fire;
             clauseViewModel.Initialize(clause);
             Clauses.Add(clauseViewModel);
         }

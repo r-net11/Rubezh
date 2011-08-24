@@ -40,29 +40,7 @@ namespace FiresecAPI.Models
                         }
                     }
 
-                    string stringState = "";
-                    switch (clause.State)
-                    {
-                        case ZoneLogicState.AutomaticOn:
-                            stringState = "Включение автоматики";
-                            break;
-
-                        case ZoneLogicState.Alarm:
-                            stringState = "Тревога";
-                            break;
-
-                        case ZoneLogicState.Fre:
-                            stringState = "Пожар";
-                            break;
-
-                        case ZoneLogicState.Warning:
-                            stringState = "Внимание";
-                            break;
-
-                        case ZoneLogicState.MPTOn:
-                            stringState = "Включение модуля пожаротушения";
-                            break;
-                    }
+                    string stringState = EnumsConverter.ZoneLogicStateToString(clause.State);
 
                     string stringOperation = "";
                     switch (clause.Operation)

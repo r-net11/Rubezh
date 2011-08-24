@@ -229,5 +229,50 @@
                     return null;
             }
         }
+
+        public static string ZoneLogicStateToString(ZoneLogicState zoneLogicState)
+        {
+            switch (zoneLogicState)
+            {
+                case ZoneLogicState.Fire:
+                    return "Пожар";
+
+                case ZoneLogicState.Attention:
+                    return "Внимание";
+
+                case ZoneLogicState.MPTAutomaticOn:
+                    return "Включение автоматики МПТ";
+
+                case ZoneLogicState.MPTOn:
+                    return "Включение модуля пожаротушения";
+
+                //case ZoneLogicState.zsExitDelay_Unused:
+                //    return "Не используется";
+
+                case ZoneLogicState.Alarm:
+                    return "Тревога";
+
+                case ZoneLogicState.GuardSet:
+                    return "Поставлен на охрану";
+
+                case ZoneLogicState.GuardUnSet:
+                    return "Снят с охраны";
+
+                case ZoneLogicState.PCN:
+                    return "ПЦН";
+
+                case ZoneLogicState.Lamp:
+                    return "Лампа";
+
+                case ZoneLogicState.Failure:
+                    return "Неисправность прибора";
+
+                case ZoneLogicState.AM1TOn:
+                    return "Сработка АМ1-Т";
+
+                default:
+                    return null;
+            }
+        }
     }
 }
