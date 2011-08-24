@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models.DeviceLibrary
+namespace FiresecAPI.Models
 {
     [DataContract]
-    public class State
+    public class LibraryState
     {
         [DataMember]
         public StateType StateType { get; set; }
@@ -13,6 +13,6 @@ namespace FiresecAPI.Models.DeviceLibrary
         public string Code { get; set; }
 
         [DataMember]
-        public List<Frame> Frames { get; set; }
+        public List<LibraryFrame> Frames { get; set; }
     }
 }

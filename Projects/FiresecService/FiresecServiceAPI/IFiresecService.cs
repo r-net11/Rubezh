@@ -37,10 +37,10 @@ namespace FiresecAPI
         void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
         [OperationContract]
-        DeviceLibraryConfiguration GetDeviceLibraryConfiguration();
+        LibraryConfiguration GetLibraryConfiguration();
 
         [OperationContract]
-        void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration);
+        void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration);
 
         [OperationContract]
         PlansConfiguration GetPlansConfiguration();

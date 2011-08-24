@@ -13,10 +13,10 @@ namespace LibraryModule.ViewModels
     {
         readonly Driver _driver;
 
-        public DeviceViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
+        public DeviceViewModel(LibraryDevice device)
         {
             Device = device;
-            _driver = FiresecManager.Drivers.First(x => x.Id == Device.Id);
+            _driver = FiresecManager.Drivers.First(x => x.Id == Device.DriverId);
             if (Device.States == null)
             {
                 SetDefaultStateTo(Device);
@@ -30,7 +30,7 @@ namespace LibraryModule.ViewModels
             RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
         }
 
-        public FiresecAPI.Models.DeviceLibrary.Device Device { get; private set; }
+        public LibraryDevice Device { get; private set; }
 
         public string Name
         {
@@ -44,7 +44,7 @@ namespace LibraryModule.ViewModels
 
         public string Id
         {
-            get { return Device.Id; }
+            get { return Device.DriverId; }
         }
 
         public ObservableCollection<StateViewModel> StateViewModels { get; private set; }
@@ -69,7 +69,7 @@ namespace LibraryModule.ViewModels
 
                 var deviceControl = new DeviceControls.DeviceControl()
                 {
-                    DriverId = Device.Id
+                    DriverId = Device.DriverId
                 };
 
                 var additionalStateCodes = new List<string>();
@@ -97,16 +97,16 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public static void SetDefaultStateTo(FiresecAPI.Models.DeviceLibrary.Device device)
+        public static void SetDefaultStateTo(LibraryDevice device)
         {
-            device.States = new List<FiresecAPI.Models.DeviceLibrary.State>();
+            device.States = new List<LibraryState>();
             device.States.Add(StateViewModel.GetDefaultStateWith());
         }
 
-        public static FiresecAPI.Models.DeviceLibrary.Device GetDefaultDriverWith(string id)
+        public static LibraryDevice GetDefaultDriverWith(string driverId)
         {
-            var device = new FiresecAPI.Models.DeviceLibrary.Device();
-            device.Id = id;
+            var device = new LibraryDevice();
+            device.DriverId = driverId;
             SetDefaultStateTo(device);
 
             return device;

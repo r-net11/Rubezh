@@ -180,11 +180,11 @@ namespace FiresecClient
             }
         }
 
-        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
+        public LibraryConfiguration GetLibraryConfiguration()
         {
             try
             {
-                return _iFiresecService.GetDeviceLibraryConfiguration();
+                return _iFiresecService.GetLibraryConfiguration();
             }
             catch
             {
@@ -193,11 +193,11 @@ namespace FiresecClient
             return null;
         }
 
-        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
+        public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
             try
             {
-                _iFiresecService.SetDeviceLibraryConfiguration(deviceLibraryConfiguration);
+                _iFiresecService.SetLibraryConfiguration(libraryConfiguration);
             }
             catch
             {

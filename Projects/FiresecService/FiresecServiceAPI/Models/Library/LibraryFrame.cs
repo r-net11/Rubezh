@@ -1,9 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models.DeviceLibrary
+namespace FiresecAPI.Models
 {
     [DataContract]
-    public class Frame
+    public class LibraryFrame
     {
         [DataMember]
         public int Id { get; set; }

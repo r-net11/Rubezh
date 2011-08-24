@@ -12,9 +12,9 @@ namespace LibraryModule.ViewModels
         public LibraryViewModel()
         {
             DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            if (FiresecManager.DeviceLibraryConfiguration.Devices.IsNotNullOrEmpty())
+            if (FiresecManager.LibraryConfiguration.Devices.IsNotNullOrEmpty())
             {
-                FiresecManager.DeviceLibraryConfiguration.Devices.ForEach(
+                FiresecManager.LibraryConfiguration.Devices.ForEach(
                     device => DeviceViewModels.Add(new DeviceViewModel(device)));
             }
 
@@ -52,7 +52,7 @@ namespace LibraryModule.ViewModels
             var addDeviceViewModel = new DeviceDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
             {
-                FiresecManager.DeviceLibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.Device);
+                FiresecManager.LibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.Device);
                 DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
                 LibraryModule.HasChanges = true;
             }
@@ -68,7 +68,7 @@ namespace LibraryModule.ViewModels
 
             if (result == MessageBoxResult.OK)
             {
-                FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.Device);
+                FiresecManager.LibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.Device);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);
                 LibraryModule.HasChanges = true;
             }

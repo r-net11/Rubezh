@@ -67,7 +67,7 @@ namespace DeviceControls
                 _stateViewModelList.ForEach(x => x.Dispose());
             _stateViewModelList = new List<StateViewModel>();
 
-            var device = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.Id == DriverId);
+            var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
             if (device == null)
                 return;
 

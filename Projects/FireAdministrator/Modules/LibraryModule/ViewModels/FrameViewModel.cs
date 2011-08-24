@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using FiresecAPI.Models;
 using Infrastructure.Common;
 using Microsoft.Win32;
 
@@ -11,13 +12,13 @@ namespace LibraryModule.ViewModels
         public static readonly int defaultDuration = 300;
         public static readonly int defaultLayer = 0;
 
-        public FrameViewModel(FiresecAPI.Models.DeviceLibrary.Frame frame)
+        public FrameViewModel(LibraryFrame frame)
         {
             Frame = frame;
             ImportSvgCommand = new RelayCommand(OnImportSvg);
         }
 
-        public FiresecAPI.Models.DeviceLibrary.Frame Frame { get; private set; }
+        public LibraryFrame Frame { get; private set; }
 
         public int Layer
         {
@@ -54,9 +55,9 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public static FiresecAPI.Models.DeviceLibrary.Frame GetDefaultFrameWith(int id)
+        public static LibraryFrame GetDefaultFrameWith(int id)
         {
-            return new FiresecAPI.Models.DeviceLibrary.Frame()
+            return new LibraryFrame()
             {
                 Duration = defaultDuration,
                 Id = id,

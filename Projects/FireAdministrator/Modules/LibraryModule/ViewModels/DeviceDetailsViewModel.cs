@@ -14,7 +14,7 @@ namespace LibraryModule.ViewModels
             {
                 if (driver.IsPlaceable &&
                     !driver.IsIgnore &&
-                    !FiresecManager.DeviceLibraryConfiguration.Devices.Any(x => x.Id == driver.Id))
+                    !FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == driver.Id))
                 {
                     Items.Add(new DeviceViewModel(DeviceViewModel.GetDefaultDriverWith(driver.Id)));
                 }

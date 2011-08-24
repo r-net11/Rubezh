@@ -10,7 +10,7 @@ namespace FiresecService
         public static List<Driver> Drivers { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceConfigurationStates { get; set; }
-        public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
+        public static LibraryConfiguration LibraryConfiguration { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }

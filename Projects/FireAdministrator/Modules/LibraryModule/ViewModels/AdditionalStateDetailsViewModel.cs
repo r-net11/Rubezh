@@ -1,15 +1,16 @@
 ﻿using System.Linq;
+using FiresecAPI.Models;
 
 namespace LibraryModule.ViewModels
 {
     public class AdditionalStateDetailsViewModel : DetailsBaseViewModel<StateViewModel>
     {
-        public AdditionalStateDetailsViewModel(FiresecAPI.Models.DeviceLibrary.Device device)
+        public AdditionalStateDetailsViewModel(LibraryDevice device)
             : base()
         {
             Title = "Добавить дополнительное состояние";
 
-            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.Id);
+            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.DriverId);
             foreach (var state in driver.States)
             {
                 if (state.Name != null &&

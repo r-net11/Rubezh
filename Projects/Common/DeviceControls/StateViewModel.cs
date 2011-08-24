@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using FiresecAPI.Models;
 
 namespace DeviceControls
 {
@@ -11,14 +12,14 @@ namespace DeviceControls
     {
         #region Private Fields
 
-        readonly List<FiresecAPI.Models.DeviceLibrary.Frame> _frames;
+        readonly List<LibraryFrame> _frames;
         readonly List<Canvas> _canvases;
         int _tick;
         int _startTick;
 
         #endregion
 
-        public StateViewModel(FiresecAPI.Models.DeviceLibrary.State state, ICollection<Canvas> stateCanvases)
+        public StateViewModel(LibraryState state, ICollection<Canvas> stateCanvases)
         {
             _canvases = new List<Canvas>();
             _frames = state.Frames;

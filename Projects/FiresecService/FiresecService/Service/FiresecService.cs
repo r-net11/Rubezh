@@ -111,23 +111,22 @@ namespace FiresecService
             }
         }
 
-        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
+        public LibraryConfiguration GetLibraryConfiguration()
         {
-            FiresecManager.DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
+            FiresecManager.LibraryConfiguration = new LibraryConfiguration();
             try
             {
-                var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+                var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
                 {
-                    FiresecManager.DeviceLibraryConfiguration =
-                        (DeviceLibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    FiresecManager.LibraryConfiguration = (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
-                return FiresecManager.DeviceLibraryConfiguration;
+                return FiresecManager.LibraryConfiguration;
             }
             catch
             {
-                return FiresecManager.DeviceLibraryConfiguration;
+                return FiresecManager.LibraryConfiguration;
             }
         }
 
@@ -161,15 +160,15 @@ namespace FiresecService
             FiresecManager.SystemConfiguration = systemConfiguration;
         }
 
-        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
+        public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
-            var dataContractSerializer = new DataContractSerializer(typeof(DeviceLibraryConfiguration));
+            var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
             using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
             {
-                dataContractSerializer.WriteObject(fileStream, deviceLibraryConfiguration);
+                dataContractSerializer.WriteObject(fileStream, libraryConfiguration);
             }
 
-            FiresecManager.DeviceLibraryConfiguration = deviceLibraryConfiguration;
+            FiresecManager.LibraryConfiguration = libraryConfiguration;
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)

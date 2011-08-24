@@ -12,8 +12,7 @@ namespace LibraryModule.ViewModels
     {
         public const StateType DefaultStateType = StateType.No;
 
-        public StateViewModel(
-            FiresecAPI.Models.DeviceLibrary.State state, FiresecAPI.Models.Driver parentDriver)
+        public StateViewModel(LibraryState state, Driver parentDriver)
         {
             State = state;
             if (state.Frames == null)
@@ -30,8 +29,8 @@ namespace LibraryModule.ViewModels
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
         }
 
-        public FiresecAPI.Models.DeviceLibrary.State State { get; private set; }
-        public FiresecAPI.Models.Driver ParentDriver { get; private set; }
+        public LibraryState State { get; private set; }
+        public Driver ParentDriver { get; private set; }
 
         public bool IsChecked { get; set; }
 
@@ -85,17 +84,17 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public static void SetDefaultFrameTo(FiresecAPI.Models.DeviceLibrary.State state)
+        public static void SetDefaultFrameTo(LibraryState state)
         {
-            state.Frames = new List<FiresecAPI.Models.DeviceLibrary.Frame>();
+            state.Frames = new List<LibraryFrame>();
             state.Frames.Add(FrameViewModel.GetDefaultFrameWith(state.Frames.Count));
         }
 
-        public static FiresecAPI.Models.DeviceLibrary.State GetDefaultStateWith(
+        public static LibraryState GetDefaultStateWith(
             StateType stateType = DefaultStateType,
             string code = null)
         {
-            var state = new FiresecAPI.Models.DeviceLibrary.State();
+            var state = new LibraryState();
             state.StateType = stateType;
             state.Code = code;
             SetDefaultFrameTo(state);

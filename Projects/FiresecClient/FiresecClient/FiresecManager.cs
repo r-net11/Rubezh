@@ -14,7 +14,7 @@ namespace FiresecClient
         public static List<Driver> Drivers { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
         public static DeviceConfigurationStates DeviceStates { get; set; }
-        public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
+        public static LibraryConfiguration LibraryConfiguration { get; set; }
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
@@ -31,7 +31,7 @@ namespace FiresecClient
             bool result = _firesecService.Connect(login, password);
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
-            DeviceLibraryConfiguration = _firesecService.GetDeviceLibraryConfiguration();
+            LibraryConfiguration = _firesecService.GetLibraryConfiguration();
             PlansConfiguration = _firesecService.GetPlansConfiguration();
             SecurityConfiguration = _firesecService.GetSecurityConfiguration();
             DeviceConfiguration = _firesecService.GetDeviceConfiguration();
@@ -139,7 +139,42 @@ namespace FiresecClient
         {
             _firesecService.SetSystemConfiguration(SystemConfiguration);
             _firesecService.SetPlansConfiguration(PlansConfiguration);
-            _firesecService.SetDeviceLibraryConfiguration(DeviceLibraryConfiguration);
+
+            //LibraryConfiguration = new FiresecAPI.Models.LibraryConfiguration();
+            //foreach (var device in DeviceLibraryConfiguration.Devices)
+            //{
+            //    var ldevice = new LibraryDevice()
+            //    {
+            //        DriverId = device.Id,
+            //        States = new List<LibraryState>()
+            //    };
+
+            //    foreach (var state in device.States)
+            //    {
+            //        var lstate = new LibraryState()
+            //        {
+            //            Code = state.Code,
+            //            StateType = state.StateType,
+            //            Frames = new List<LibraryFrame>()
+            //        };
+            //        foreach (var frame in state.Frames)
+            //        {
+            //            lstate.Frames.Add(new LibraryFrame()
+            //            {
+            //                Duration = frame.Duration,
+            //                Id = frame.Id,
+            //                Image = frame.Image,
+            //                Layer = frame.Layer
+            //            });
+            //        }
+
+            //        ldevice.States.Add(lstate);
+            //    }
+
+            //    LibraryConfiguration.Devices.Add(ldevice);
+            //}
+
+            _firesecService.SetLibraryConfiguration(LibraryConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
