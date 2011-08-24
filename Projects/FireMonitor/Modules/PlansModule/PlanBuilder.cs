@@ -6,6 +6,10 @@ using System.Xml;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Reflection;
+using System.Windows.Controls;
+
 
 namespace PlansModule
 {
@@ -15,71 +19,47 @@ namespace PlansModule
         {
             try
             {
-                /*
-                var deserializer = new XmlSerializer(typeof(Plan));
-                var reader = new StreamReader(PathHelper.Plans);
-                Plan plan = (Plan)deserializer.Deserialize(reader);
-                reader.Close();
-
-
-
-                var xdw = XmlDictionaryWriter.CreateTextWriter(fs);
-                FileStream fs = new FileStream(@"D:/del/Plans_new180811.xml", FileMode.Create);
-                dcs.WriteObject(xdw, plan);
-                xdw.Close();
-                */
-
-
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
                 FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
                 XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
                 Plan plan = (Plan)dcs.ReadObject(reader);
                 reader.Close();
-                /*
                 
-                List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
-                colors.Add(System.Windows.Media.Colors.Red);
-                colors.Add(System.Windows.Media.Colors.Blue);
-                colors.Add(System.Windows.Media.Colors.Green);
-                BitmapPalette myPalette = new BitmapPalette(colors);
-                BitmapSource bitmap = new BitmapImage();
-                
-                bitmap = BitmapSource.Create(plan.pixelWidth, plan.pixelHeight, plan.dpiX, plan.dpiY,
-                    plan.pixelFormat, plan.palette, plan.pixels, plan.stride);
-                
-                Uri uri = new Uri(PathHelper.Data+ plan.BackgroundSource);
+                Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
+                byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
+                plan.Pixels = imageInfo;
 
-                BitmapSource bitmap = new BitmapImage(uri);
-                int bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
-                int pixelWidth = bitmap.PixelWidth;
-                int pixelHeight = bitmap.PixelHeight;
-                int stride = bytesPerPixel * pixelWidth;
-                int pixelCount = pixelWidth * pixelHeight;
-                var pixelBytes = new byte[pixelCount * bytesPerPixel];
-                bitmap.CopyPixels(pixelBytes, stride,0);
+                ConvertPathToArray(plan.Children);
 
-                plan.pixelWidth = pixelWidth;
-                plan.pixelHeight = pixelHeight;
-                plan.dpiX = 96;
-                plan.dpiY = 96;
-                plan.pixelFormat = bitmap.Format;
-                plan.palette = bitmap.Palette;
-                plan.pixels = pixelBytes;
-                plan.stride = stride;
-                */
-                /*
                 DataContractSerializer dcs_out = new DataContractSerializer(typeof(Plan));
-                FileStream fs_out= new FileStream(@"D:/del/Plans_new190811.xml", FileMode.Create);
+                FileStream fs_out = new FileStream(@"D:/del/Plans_new240811.xml", FileMode.Create);
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs_out);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
-                */
+                
                 return plan;
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
                 return null;
+            }
+        }
+
+        static void ConvertPathToArray(List<Plan> Plans)
+        {
+            foreach (Plan plan in Plans)
+            {
+                if (plan.BackgroundSource != null)
+                {
+                    Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
+                    byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
+                    plan.Pixels = imageInfo;
+                }
+                if (plan.Children != null)
+                {
+                    ConvertPathToArray(plan.Children);
+                }
             }
         }
 

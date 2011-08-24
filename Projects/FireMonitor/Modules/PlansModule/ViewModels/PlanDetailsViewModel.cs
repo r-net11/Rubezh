@@ -10,6 +10,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
+using System.IO;
+
 
 namespace PlansModule.ViewModels
 {
@@ -264,10 +266,30 @@ namespace PlansModule.ViewModels
 
         ImageBrush CreateBrush(string source)
         {
+            /*
             var imageBrush = new ImageBrush();
             Uri uri = new Uri(source);
             imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
+            */
+            
+            var imageBrush = new ImageBrush();
+            if (_plan.Pixels != null)
+            {
+                BitmapImage image;
+                using (MemoryStream imageStream = new MemoryStream(_plan.Pixels))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = imageStream;
+                    image.EndInit();
+                }
+
+                imageBrush.ImageSource = image;
+            }
+            return imageBrush;
+             
         }
     }
 }

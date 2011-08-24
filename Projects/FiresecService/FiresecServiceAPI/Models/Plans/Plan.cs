@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace FiresecAPI.Models
 {
@@ -27,6 +30,9 @@ namespace FiresecAPI.Models
         public bool ShowBackgroundImage { get; set; }
 
         [DataMember]
+        public byte[] Pixels { get; set; }
+
+        [DataMember]
         public double Width { get; set; }
 
         [DataMember]
@@ -40,5 +46,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<ElementDevice> ElementDevices { get; set; }
+
     }
 }
