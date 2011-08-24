@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
             <Button Content="Добавить" Command="{Binding AddCommand}" Width="100" />
@@ -35,8 +36,9 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-
-                                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}" Width="150">
+                                
+                                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}" Width="150"
+                                          Visibility="{Binding CanSelectOperation, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationToStringConverter}}" />
@@ -44,7 +46,8 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
 
-                                <Button Command="{Binding ShowZonesCommand}" Margin="2">
+                                <Button Command="{Binding ShowZonesCommand}" Margin="2"
+                                        Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <TextBlock Text="{Binding PresenrationZones}" MaxWidth="200" />
                                         <TextBlock>
@@ -62,6 +65,25 @@
                                 </Button>
                             </StackPanel>
 
+                            <Button Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Command="{Binding SelectDeviceCommand}">
+                                <StackPanel Orientation="Horizontal" Margin="2">
+                                    <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" Margin="2" />
+                                    <TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="2" />
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
+                                                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройства" />
+                                                </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Button>
+                            
                             <Button DockPanel.Dock="Right" Content="X" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
                                         Command="{Binding
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
@@ -75,7 +97,13 @@
             
         </Grid>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Grid Grid.Row="4">
+            <CheckBox Content="К РМ подключено светозвуковое оповещение(Таким РМ можно одновременно управлять с прибора)"
+                      Visibility="{Binding IsRm, Converter={StaticResource BoolToVisibilityConverter}}"
+                      IsChecked="{Binding IsRmWithTablo}" />
+        </Grid>
+        
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
         </StackPanel>

@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System;
+using DevicesModule.Zones.Events;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,10 +12,12 @@ namespace DevicesModule.ViewModels
         public ZoneLogicViewModel()
         {
             Title = "Настройка логики зон";
-            AddCommand = new RelayCommand(OnAdd);
+            AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+
+            ServiceFactory.Events.GetEvent<BlockClauseAddingEvent>().Subscribe(OnBlockClauseEvent);
         }
 
         Device _device;
@@ -24,20 +29,37 @@ namespace DevicesModule.ViewModels
             foreach (var clause in device.ZoneLogic.Clauses)
             {
                 var clauseViewModel = new ClauseViewModel();
-                clauseViewModel.Initialize(clause);
+                clauseViewModel.Initialize(_device, clause);
                 Clauses.Add(clauseViewModel);
             }
         }
 
-        ObservableCollection<ClauseViewModel> _clauses;
-        public ObservableCollection<ClauseViewModel> Clauses
+        public bool IsRm
         {
-            get { return _clauses; }
+            get { return _device.Driver.DriverName == "Релейный исполнительный модуль РМ-1"; }
+        }
+
+        public bool IsRmWithTablo
+        {
+            get { return _device.IsRmAlarmDevice; }
             set
             {
-                _clauses = value;
-                OnPropertyChanged("Clauses");
+                _device.IsRmAlarmDevice = value;
             }
+        }
+
+        public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
+
+        bool _isBlocked = false;
+        void OnBlockClauseEvent(bool isBlocked)
+        {
+            _isBlocked = isBlocked;
+            //Clauses.
+        }
+
+        public bool CanAdd(object obj)
+        {
+            return _isBlocked != true;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -47,7 +69,7 @@ namespace DevicesModule.ViewModels
             var clause = new Clause();
             clause.Operation = ZoneLogicOperation.All;
             clause.State = ZoneLogicState.Fire;
-            clauseViewModel.Initialize(clause);
+            clauseViewModel.Initialize(_device, clause);
             Clauses.Add(clauseViewModel);
         }
 
@@ -68,6 +90,13 @@ namespace DevicesModule.ViewModels
                     clause.State = clauseViewModel.SelectedState;
                     clause.Operation = clauseViewModel.SelectedOperation;
                     clause.Zones = clauseViewModel.Zones;
+                    if (clauseViewModel.SelectedDevice != null)
+                    {
+                        if (clauseViewModel.SelectedDevice.UID == null)
+                            clauseViewModel.SelectedDevice.UID = Guid.NewGuid().ToString();
+
+                        clause.DeviceUID = clauseViewModel.SelectedDevice.UID;
+                    }
                     zoneLogic.Clauses.Add(clause);
                 }
             }

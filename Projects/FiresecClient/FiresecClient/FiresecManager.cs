@@ -29,6 +29,7 @@ namespace FiresecClient
             _firesecService = new SafeFiresecService(firesecService);
 
             bool result = _firesecService.Connect(login, password);
+            FileHelper.Synchronize();
             Drivers = _firesecService.GetDrivers();
             SystemConfiguration = _firesecService.GetSystemConfiguration();
             LibraryConfiguration = _firesecService.GetLibraryConfiguration();
@@ -59,8 +60,6 @@ namespace FiresecClient
 
         static void Update()
         {
-            FileHelper.Synchronize();
-
             DeviceConfiguration.Update();
 
             foreach (var driver in Drivers)
@@ -76,6 +75,17 @@ namespace FiresecClient
                 {
                     var indicatorDevice = DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == device.IndicatorLogic.DeviceUID);
                     device.IndicatorLogic.Device = indicatorDevice;
+                }
+
+                if (device.Driver.IsZoneLogicDevice)
+                {
+                    foreach (var clause in device.ZoneLogic.Clauses)
+                    {
+                        if (clause.DeviceUID != null)
+                        {
+                            clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
+                        }
+                    }
                 }
             }
 

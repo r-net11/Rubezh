@@ -120,6 +120,7 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
+    <Compile Include="Zones\Events\BlockClauseAddingEvent.cs" />
     <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\IndicatorDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
@@ -210,6 +212,9 @@
     </Compile>
     <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
       <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml.cs">
+      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>
@@ -394,6 +399,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Zones\Views\ZoneDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

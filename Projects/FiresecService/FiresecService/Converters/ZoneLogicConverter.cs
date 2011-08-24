@@ -45,6 +45,11 @@ namespace FiresecService.Converters
                             break;
                     }
 
+                    if (innerClause.device != null)
+                    {
+                        clause.DeviceUID = innerClause.device[0].UID;
+                    }
+
                     zoneLogic.Clauses.Add(clause);
                 }
             }
@@ -83,6 +88,13 @@ namespace FiresecService.Converters
                     case ZoneLogicJoinOperator.Or:
                         innerClause.joinOperator = "or";
                         break;
+                }
+
+                if (clause.DeviceUID != null)
+                {
+                    innerClause.device = new deviceType[0];
+                    innerClause.device[0] = new deviceType();
+                    innerClause.device[0].UID = clause.DeviceUID;
                 }
 
                 innerClause.zone = clause.Zones.ToArray();

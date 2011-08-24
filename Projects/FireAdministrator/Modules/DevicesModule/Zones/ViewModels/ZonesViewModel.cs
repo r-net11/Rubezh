@@ -90,88 +90,76 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            if (CanEditDelete(null))
+            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.Yes)
             {
-                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    //FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
-                    Zones.Remove(SelectedZone);
-                    ZoneDevices.DropDevicesZoneNo();
-                    ZoneDevices.Clear();
-                    if (Zones.Count > 0)
-                        SelectedZone = Zones[0];
-                    DevicesModule.HasChanges = true;
-                }
+                //FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
+                Zones.Remove(SelectedZone);
+                ZoneDevices.DropDevicesZoneNo();
+                ZoneDevices.Clear();
+                if (Zones.Count > 0)
+                    SelectedZone = Zones[0];
+                DevicesModule.HasChanges = true;
             }
         }
 
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            if (CanEditDelete(null))
+            var zoneDetailsViewModel = new ZoneDetailsViewModel();
+            zoneDetailsViewModel.Initialize(SelectedZone.Zone);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
+            if (result)
             {
-                var zoneDetailsViewModel = new ZoneDetailsViewModel();
-                zoneDetailsViewModel.Initialize(SelectedZone.Zone);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-                if (result)
-                {
-                    SelectedZone.Zone = zoneDetailsViewModel._zone;
-                    SelectedZone.Update();
-                    DevicesModule.HasChanges = true;
-                }
+                SelectedZone.Zone = zoneDetailsViewModel._zone;
+                SelectedZone.Update();
+                DevicesModule.HasChanges = true;
             }
         }
 
         public RelayCommand DeleteAllCommand { get; private set; }
         void OnDeleteAll()
         {
-            if (CanDeleteAll(null))
+            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.Yes)
             {
-                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
-                if (dialogResult == MessageBoxResult.Yes)
+                FiresecManager.DeviceConfiguration.Zones.Clear();
+                Zones.Clear();
+                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                 {
-                    FiresecManager.DeviceConfiguration.Zones.Clear();
-                    Zones.Clear();
-                    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-                    {
-                        device.ZoneNo = null;
-                    }
-                    ZoneDevices.Clear();
-                    DevicesModule.HasChanges = true;
+                    device.ZoneNo = null;
                 }
+                ZoneDevices.Clear();
+                DevicesModule.HasChanges = true;
             }
         }
 
         public RelayCommand DeleteAllEmptyCommand { get; private set; }
         void OnDeleteAllEmpty()
         {
-            if (CanDeleteAll(null))
+            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.Yes)
             {
-                var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", "Подтверждение", MessageBoxButton.YesNo);
-                if (dialogResult == MessageBoxResult.Yes)
+                var devices = FiresecManager.DeviceConfiguration.Devices;
+                var emptyZones = new List<ZoneViewModel>();
+                foreach (var zone in Zones)
                 {
-                    var devices = FiresecManager.DeviceConfiguration.Devices;
-                    var emptyZones = new List<ZoneViewModel>();
-                    foreach (var zone in Zones)
+                    var findDevice = devices.FirstOrDefault(x => ((x.Driver.IsZoneDevice) && (x.ZoneNo == zone.No)));
+                    if (findDevice == null)
                     {
-                        var findDevice = devices.FirstOrDefault(x => ((x.Driver.IsZoneDevice) && (x.ZoneNo == zone.No)));
-                        if (findDevice == null)
-                        {
-                            emptyZones.Add(zone);
-                        }
+                        emptyZones.Add(zone);
                     }
-
-                    foreach (var emptyZone in emptyZones)
-                    {
-                        FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
-                        Zones.Remove(emptyZone);
-                    }
-
-                    if (Zones.Count > 0)
-                        SelectedZone = Zones[0];
-                    DevicesModule.HasChanges = true;
                 }
+
+                foreach (var emptyZone in emptyZones)
+                {
+                    FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
+                    Zones.Remove(emptyZone);
+                }
+
+                if (Zones.Count > 0)
+                    SelectedZone = Zones[0];
+                DevicesModule.HasChanges = true;
             }
         }
 

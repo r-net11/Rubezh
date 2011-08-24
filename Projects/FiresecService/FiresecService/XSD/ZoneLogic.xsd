@@ -4,10 +4,15 @@
   <xs:complexType name="clauseType">
     <xs:sequence>
       <xs:element name="zone" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="device" type="deviceType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="joinOperator" type="xs:string" />
     <xs:attribute name="operation" type="xs:string" />
     <xs:attribute name="state" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="deviceType">
+    <xs:attribute name="UID" type="xs:string" />
   </xs:complexType>
 
   <!-- Root Element -->

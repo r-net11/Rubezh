@@ -2,17 +2,17 @@
 {
     public enum ZoneLogicState
     {
-        Fire = 0,
-        Attention = 1,
-        MPTAutomaticOn = 2,
-        MPTOn = 3,
+        Fire = 2,
+        Attention = 5,
+        MPTAutomaticOn = 0,
+        MPTOn = 6,
         //zsExitDelay_Unused = 4,
-        Alarm = 5,
-        GuardSet = 6,
-        GuardUnSet = 7,
-        PCN = 8,
-        Lamp = 9,
-        Failure = 10,
+        Alarm = 1,
+        GuardSet = 7,
+        GuardUnSet = 8,
+        PCN = 9,
+        Lamp = 10,
+        Failure = 3,
         AM1TOn = 11
     }
 }

@@ -169,12 +169,9 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (CanAdd(null))
-            {
-                SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
-                Initialize(_zoneNo);
-                DevicesModule.HasChanges = true;
-            }
+            SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
+            Initialize(_zoneNo);
+            DevicesModule.HasChanges = true;
         }
 
         public bool CanRemove(object obj)
@@ -185,12 +182,9 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            if (CanRemove(null))
-            {
-                SelectedDevice.Device.ZoneNo = null;
-                Initialize(_zoneNo);
-                DevicesModule.HasChanges = true;
-            }
+            SelectedDevice.Device.ZoneNo = null;
+            Initialize(_zoneNo);
+            DevicesModule.HasChanges = true;
         }
 
         public bool CanShowZoneLogic(object obj)
@@ -201,15 +195,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogic()
         {
-            if (CanShowZoneLogic(null))
+            var zoneLogicViewModel = new ZoneLogicViewModel();
+            zoneLogicViewModel.Initialize(SelectedDevice.Device);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+            if (result)
             {
-                var zoneLogicViewModel = new ZoneLogicViewModel();
-                zoneLogicViewModel.Initialize(SelectedDevice.Device);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
-                if (result)
-                {
-                    DevicesModule.HasChanges = true;
-                }
+                DevicesModule.HasChanges = true;
             }
         }
     }

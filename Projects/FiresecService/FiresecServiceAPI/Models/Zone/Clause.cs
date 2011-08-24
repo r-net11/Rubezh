@@ -9,7 +9,10 @@ namespace FiresecAPI.Models
         public Clause()
         {
             Zones = new List<string>();
+            Operation = ZoneLogicOperation.Any;
         }
+
+        public Device Device { get; set; }
 
         [DataMember]
         public ZoneLogicState State { get; set; }
@@ -19,5 +22,22 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<string> Zones { get; set; }
+
+        [DataMember]
+        public string DeviceUID { get; set; }
+
+        public bool CanSelectOperation
+        {
+            get
+            {
+                return (State == ZoneLogicState.Fire) ||
+                    (State == ZoneLogicState.Attention) ||
+                    (State == ZoneLogicState.MPTAutomaticOn) ||
+                    (State == ZoneLogicState.MPTOn) ||
+                    (State == ZoneLogicState.Alarm) ||
+                    (State == ZoneLogicState.GuardSet) ||
+                    (State == ZoneLogicState.GuardUnSet);
+            }
+        }
     }
 }

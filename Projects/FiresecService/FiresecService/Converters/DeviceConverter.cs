@@ -110,6 +110,8 @@ namespace FiresecService.Converters
                 }
             }
 
+            device.IsRmAlarmDevice = device.Properties.Any(x => x.Name == "IsAlarmDevice");
+
             device.Description = innerDevice.name;
 
             SetPlaceInTree(device);
@@ -253,6 +255,15 @@ namespace FiresecService.Converters
                             });
                         }
                     }
+                }
+            }
+
+            if (device.IsRmAlarmDevice)
+            {
+                var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "IsAlarmDevice");
+                if (zoneLogicProperty == null)
+                {
+                    propertyList.Add(new Firesec.CoreConfig.propType() { name = "IsAlarmDevice", value = "1" });
                 }
             }
 

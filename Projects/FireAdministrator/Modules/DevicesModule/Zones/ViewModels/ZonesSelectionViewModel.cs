@@ -1,4 +1,5 @@
-﻿ ﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -23,7 +24,7 @@ namespace DevicesModule.ViewModels
 
         public List<string> Zones { get; private set; }
 
-        public void Initialize(List<string> zones)
+        public void Initialize(Device device, List<string> zones, ZoneLogicState zoneLogicState)
         {
             Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
@@ -31,6 +32,50 @@ namespace DevicesModule.ViewModels
 
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
+                var zoneTypeFilter = ZoneType.Fire;
+
+                switch (zoneLogicState)
+                {
+                    case ZoneLogicState.Alarm:
+                    case ZoneLogicState.GuardSet:
+                    case ZoneLogicState.GuardUnSet:
+                    case ZoneLogicState.PCN:
+                    case ZoneLogicState.Lamp:
+                        zoneTypeFilter = ZoneType.Guard;
+                        break;
+                }
+
+                if (zone.ZoneType != zoneTypeFilter)
+                    continue;
+
+                if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
+                {
+                    var canAdd = false;
+                    var mptDevices = device.Parent.Children.FindAll(x=>x.Driver.DriverName == "Модуль пожаротушения");
+                    if (mptDevices != null)
+                    {
+                        foreach(var mptDevice in mptDevices)
+                        {
+                            if (mptDevice.ZoneNo == zone.No)
+                                canAdd = true;
+                        }
+                    }
+                    if (canAdd == false)
+                        continue;
+                }
+
+                if ((device.Parent.Driver.DriverName == "Прибор Рубеж-2ОП") || (device.Parent.Driver.DriverName == "USB Рубеж-2ОП"))
+                {
+                    var canAdd = false;
+                    foreach (var guardDevice in device.Parent.Children)
+                    {
+                        if (guardDevice.ZoneNo == zone.No)
+                            canAdd = true;
+                    }
+                    if (canAdd == false)
+                        continue;
+                }
+
                 var zoneViewModel = new ZoneViewModel(zone);
 
                 if (Zones.Contains(zone.No))

@@ -54,6 +54,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public string UID { get; set; }
 
+        [DataMember]
+        public bool IsRmAlarmDevice { get; set; }
+
         public string AddressFullPath
         {
             get

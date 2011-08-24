@@ -17,57 +17,70 @@ namespace FiresecAPI.Models
         [DataMember]
         public ZoneLogicJoinOperator JoinOperator { get; set; }
 
+
         public override string ToString()
         {
-            string stringZoneLogic = "";
+            string result = "";
 
-            if (Clauses.Count > 0)
+            for (int i = 0; i < Clauses.Count; i++)
             {
-                for (int i = 0; i < Clauses.Count; i++)
+                var clause = Clauses[i];
+
+                if (i > 0)
                 {
-                    var clause = Clauses[i];
-
-                    if (i > 0)
+                    switch (JoinOperator)
                     {
-                        switch (JoinOperator)
-                        {
-                            case ZoneLogicJoinOperator.And:
-                                stringZoneLogic += " и ";
-                                break;
-                            case ZoneLogicJoinOperator.Or:
-                                stringZoneLogic += " или ";
-                                break;
-                        }
-                    }
-
-                    string stringState = EnumsConverter.ZoneLogicStateToString(clause.State);
-
-                    string stringOperation = "";
-                    switch (clause.Operation)
-                    {
-                        case ZoneLogicOperation.All:
-                            stringOperation = "во всех зонах из";
+                        case ZoneLogicJoinOperator.And:
+                            result += " и ";
                             break;
-
-                        case ZoneLogicOperation.Any:
-                            stringOperation = "в любой зонах из";
+                        case ZoneLogicJoinOperator.Or:
+                            result += " или ";
                             break;
                     }
-
-                    stringZoneLogic += "состояние " + stringState + " " + stringOperation + " [";
-
-                    foreach (var zoneNo in clause.Zones)
-                    {
-                        stringZoneLogic += zoneNo + ", ";
-                    }
-                    if (stringZoneLogic.EndsWith(", "))
-                        stringZoneLogic = stringZoneLogic.Remove(stringZoneLogic.Length - 2);
-
-                    stringZoneLogic += "]";
                 }
+
+                if (clause.DeviceUID != null)
+                {
+                    result += "Сработка устройства " + clause.Device.Address + " - " + clause.Device.Driver.Name;
+                    continue;
+                }
+
+                if (clause.State == ZoneLogicState.Failure)
+                {
+                    result += "состояние неисправность прибора";
+                    continue;
+                }
+
+                //if (clause.CanSelectOperation)
+                //{
+                    result += "состояние " + EnumsConverter.ZoneLogicStateToString(clause.State);
+                //}
+
+                string stringOperation = "";
+                switch (clause.Operation)
+                {
+                    case ZoneLogicOperation.All:
+                        stringOperation = "во всех зонах из";
+                        break;
+
+                    case ZoneLogicOperation.Any:
+                        stringOperation = "в любой зонах из";
+                        break;
+                }
+
+                result += " " + stringOperation + " [";
+
+                for (int j = 0; j < clause.Zones.Count; j++)
+                {
+                    if (j > 0)
+                        result += ", ";
+                    result += clause.Zones[j];
+                }
+
+                result += "]";
             }
 
-            return stringZoneLogic;
+            return result;
         }
     }
 }
