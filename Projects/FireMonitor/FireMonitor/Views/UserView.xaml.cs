@@ -17,7 +17,7 @@ namespace FireMonitor
         public RelayCommand ChangeUserCommand { get; private set; }
         void OnChangeUser()
         {
-            ServiceFactory.Get<ISecurityService>().ChangeUser();
+            ServiceFactory.Get<ISecurityService>().ReConnect();
         }
     }
 }

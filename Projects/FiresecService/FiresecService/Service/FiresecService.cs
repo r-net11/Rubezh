@@ -31,10 +31,13 @@ namespace FiresecService
         {
             bool result = CheckLogin(userName, passwordHash);
 
-            _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-            CallbackManager.Add(_currentCallback);
+            if (result)
+            {
+                _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+                CallbackManager.Add(_currentCallback);
+                MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
+            }
 
-            MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
             return result;
         }
 

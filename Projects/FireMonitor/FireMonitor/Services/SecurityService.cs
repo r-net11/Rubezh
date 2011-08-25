@@ -1,27 +1,30 @@
-﻿using FireMonitor.Services;
-using Infrastructure;
-using FiresecClient;
+﻿using Infrastructure;
 
 namespace FireMonitor
 {
     public class SecurityService : ISecurityService
     {
-        public bool Check()
+        public bool Connect()
         {
-            var passwordView = new PasswordView();
-            passwordView.ShowDialog();
-            return passwordView.IsAutorised;
+            return Connect(LoginView.PasswordViewType.Connect);
         }
 
-        public void ChangeUser()
+        public bool ReConnect()
         {
-            var passwordView = new PasswordView();
-            passwordView.InitializeReconnect();
-            var result = passwordView.ShowDialog();
-            if (result == true)
-            {
-                FiresecManager.Reconnect(passwordView.UserName, "");
-            }
+            return Connect(LoginView.PasswordViewType.Reconnect);
+        }
+
+        public bool Validate()
+        {
+            return Connect(LoginView.PasswordViewType.Validate);
+        }
+
+        bool Connect(LoginView.PasswordViewType passwordViewType)
+        {
+            var loginView = new LoginView();
+            loginView.Initialize(passwordViewType);
+            loginView.ShowDialog();
+            return loginView.IsConnected;
         }
     }
 }

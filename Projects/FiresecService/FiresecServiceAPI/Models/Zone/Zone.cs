@@ -15,6 +15,8 @@ namespace FiresecAPI.Models
             Delay = "0";
         }
 
+        public string ShapeId { get; set; }
+
         [DataMember]
         public string No { get; set; }
 

@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace FiresecAPI.Models
 {
     [DataContract]
     public class Plan
     {
+        public Plan()
+        {
+            Children = new List<Plan>();
+            ElementSubPlans = new List<ElementSubPlan>();
+            ElementZones = new List<ElementZone>();
+            ElementDevices = new List<ElementDevice>();
+        }
+
         public Plan Parent { get; set; }
 
         [DataMember]
@@ -46,6 +51,5 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<ElementDevice> ElementDevices { get; set; }
-
     }
 }

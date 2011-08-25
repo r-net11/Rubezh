@@ -25,6 +25,8 @@ namespace PlansModule.ViewModels
 
         public void Initialize()
         {
+            return;
+
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
             if (Plans.IsNotNullOrEmpty())

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
+    [DataContract]
     public class ElementZone
     {
         [DataMember]

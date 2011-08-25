@@ -22,6 +22,11 @@ namespace FiresecService.Converters
                         Description = innerZone.desc
                     };
 
+                    if (innerZone.shape != null)
+                    {
+                        zone.ShapeId = innerZone.shape[0].id;
+                    }
+
                     if (innerZone.param != null)
                     {
                         var zoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "ZoneType");
@@ -53,20 +58,7 @@ namespace FiresecService.Converters
                         var guardZoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
                         if (guardZoneTypeParam != null)
                         {
-                            switch (guardZoneTypeParam.value)
-                            {
-                                case "0":
-                                    zone.GuardZoneType = GuardZoneType.Ordinary;
-                                    break;
-
-                                case "1":
-                                    zone.GuardZoneType = GuardZoneType.Passby;
-                                    break;
-
-                                case "2":
-                                    zone.GuardZoneType = GuardZoneType.Delay;
-                                    break;
-                            }
+                            zone.GuardZoneType = (GuardZoneType)int.Parse(guardZoneTypeParam.value);
                         }
                     }
                     FiresecManager.DeviceConfiguration.Zones.Add(zone);
@@ -149,21 +141,7 @@ namespace FiresecService.Converters
                     });
                 }
 
-                string GuardZoneTypeParamString = null;
-                switch (zone.GuardZoneType)
-                {
-                    case GuardZoneType.Ordinary:
-                        GuardZoneTypeParamString = "0";
-                        break;
-
-                    case GuardZoneType.Passby:
-                        GuardZoneTypeParamString = "1";
-                        break;
-
-                    case GuardZoneType.Delay:
-                        GuardZoneTypeParamString = "2";
-                        break;
-                }
+                string GuardZoneTypeParamString = ((int)zone.GuardZoneType).ToString();
 
                 zoneParams.Add(new Firesec.CoreConfig.paramType()
                 {

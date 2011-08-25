@@ -25,34 +25,32 @@ namespace FireMonitor
 
         public static bool Connect()
         {
-            var loginScreen = new LoginView();
-            loginScreen.ShowDialog();
-            if (loginScreen.IsLoggedIn == false)
+            bool result = ServiceFactory.Get<ISecurityService>().Connect();
+
+            if (result)
             {
-                return false;
+                if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Login) == false)
+                {
+                    MessageBox.Show("Нет прав на работу с программой");
+                    FiresecManager.Disconnect();
+                    return false;
+                }
             }
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Login) == false)
-            {
-                MessageBox.Show("Нет прав на работу с программой");
-                FiresecManager.Disconnect();
-                return false;
-            }
-
-            return true;
+            return result;
         }
 
         protected override void InitializeShell()
         {
+            RegisterServices();
+
             bool result = Connect();
             if (result == false)
             {
                 return;
             }
 
-            RegisterServices();
-
-            InitializeFiresecClient();
+            SubscribeEvents();
 
             InitializeKnownModules();
             
@@ -90,7 +88,7 @@ namespace FireMonitor
 
         }
 
-        void InitializeFiresecClient()
+        void SubscribeEvents()
         {
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChangedEvent;
             FiresecEventSubscriber.DeviceParametersChangedEvent += new Action<string>(OnDeviceParametersChangedEvent);

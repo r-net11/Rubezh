@@ -121,72 +121,28 @@ namespace FiresecService.Converters
 
             driver.IsOutDevice = innerDriver.options != null && innerDriver.options.Contains("OutDevice");
 
-            switch (innerDriver.cat)
-            {
-                case "0":
-                    driver.Category = DeviceCategoryType.Other;
-                    driver.CategoryName = "Прочие устройства";
-                    break;
-
-                case "1":
-                    driver.Category = DeviceCategoryType.Device;
-                    driver.CategoryName = "Приборы";
-                    break;
-
-                case "2":
-                    driver.Category = DeviceCategoryType.Sensor;
-                    driver.CategoryName = "Датчики";
-                    break;
-
-                case "3":
-                    driver.Category = DeviceCategoryType.Effector;
-                    driver.CategoryName = "ИУ";
-                    break;
-
-                case "4":
-                    driver.Category = DeviceCategoryType.Communication;
-                    driver.CategoryName = "Сеть передачи данных";
-                    break;
-
-                case "5":
-                    driver.Category = DeviceCategoryType.None;
-                    driver.CategoryName = "Не указано";
-                    break;
-
-                case "6":
-                    driver.Category = DeviceCategoryType.RemoteServer;
-                    driver.CategoryName = "Удаленный сервер";
-                    break;
-
-                default:
-                    driver.Category = DeviceCategoryType.None;
-                    driver.CategoryName = "Не указано";
-                    break;
-            }
+            driver.Category = (DeviceCategoryType)int.Parse(innerDriver.cat);
+            driver.CategoryName = EnumsConverter.CategoryTypeToCategoryName(driver.Category);
 
             driver.DeviceType = DeviceType.FireSecurity;
-            driver.DeviceTypeName = "охранно-пожарный";
-
             if (innerDriver.options != null)
             {
                 if (innerDriver.options.Contains("FireOnly"))
                 {
                     driver.DeviceType = DeviceType.Fire;
-                    driver.DeviceTypeName = "пожарный";
                 }
 
                 if (innerDriver.options.Contains("SecOnly"))
                 {
                     driver.DeviceType = DeviceType.Sequrity;
-                    driver.DeviceTypeName = "охранный";
                 }
 
                 if (innerDriver.options.Contains("TechOnly"))
                 {
                     driver.DeviceType = DeviceType.Technoligical;
-                    driver.DeviceTypeName = "технологический";
                 }
             }
+            driver.DeviceTypeName = EnumsConverter.DeviceTypeToString(driver.DeviceType);
 
             driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);

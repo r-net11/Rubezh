@@ -2,7 +2,8 @@
 {
     public interface ISecurityService
     {
-        bool Check();
-        void ChangeUser();
+        bool Connect();
+        bool ReConnect();
+        bool Validate();
     }
 }

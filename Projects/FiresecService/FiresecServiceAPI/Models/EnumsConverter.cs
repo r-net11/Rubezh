@@ -134,6 +134,27 @@
             }
         }
 
+        public static string DeviceTypeToString(DeviceType deviceType)
+        {
+            switch (deviceType)
+            {
+                case DeviceType.Fire:
+                    return "пожарный";
+
+                case DeviceType.FireSecurity:
+                    return "охранно-пожарный";
+
+                case DeviceType.Sequrity:
+                    return "охранный";
+
+                case DeviceType.Technoligical:
+                    return "";
+
+                default:
+                    return "технологический";
+            }
+        }
+
         public static string BeeperTypeToBeeperName(BeeperType beeperType)
         {
             switch (beeperType)

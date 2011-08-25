@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Timers;
 
 namespace FiresecClient
 {
@@ -21,32 +22,29 @@ namespace FiresecClient
 
         static SafeFiresecService _firesecService;
 
-        static Thread _pingThread;
-
         public static bool Connect(string login, string password)
         {
             IFiresecService firesecService = FiresecServiceFactory.Create();
             _firesecService = new SafeFiresecService(firesecService);
 
             bool result = _firesecService.Connect(login, password);
-            FileHelper.Synchronize();
-            Drivers = _firesecService.GetDrivers();
-            SystemConfiguration = _firesecService.GetSystemConfiguration();
-            LibraryConfiguration = _firesecService.GetLibraryConfiguration();
-            PlansConfiguration = _firesecService.GetPlansConfiguration();
-            SecurityConfiguration = _firesecService.GetSecurityConfiguration();
-            DeviceConfiguration = _firesecService.GetDeviceConfiguration();
-            DeviceStates = _firesecService.GetStates();
-            Update();
+            if (result)
+            {
+                FileHelper.Synchronize();
+                Drivers = _firesecService.GetDrivers();
+                SystemConfiguration = _firesecService.GetSystemConfiguration();
+                LibraryConfiguration = _firesecService.GetLibraryConfiguration();
+                PlansConfiguration = _firesecService.GetPlansConfiguration();
+                SecurityConfiguration = _firesecService.GetSecurityConfiguration();
+                DeviceConfiguration = _firesecService.GetDeviceConfiguration();
+                DeviceStates = _firesecService.GetStates();
+                Update();
 
-            _loggedInUserName = login;
+                _loggedInUserName = login;
 
-            _pingThread = new Thread(PingWork);
-            _pingThread.Start();
-
-            Timer timer = new Timer(new TimerCallback(TimerWork));
-
-            _firesecService.Test();
+                _firesecService.StartPing();
+                _firesecService.Test();
+            }
 
             return result;
         }
@@ -54,7 +52,10 @@ namespace FiresecClient
         public static bool Reconnect(string login, string password)
         {
             bool result = _firesecService.Reconnect(login, password);
-            _loggedInUserName = login;
+            if (result)
+            {
+                _loggedInUserName = login;
+            }
             return result;
         }
 
@@ -141,7 +142,6 @@ namespace FiresecClient
         public static void Disconnect()
         {
             _firesecService.Disconnect();
-            _pingThread.Abort();
             FiresecServiceFactory.Dispose();
         }
 
@@ -251,21 +251,6 @@ namespace FiresecClient
             {
                 dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
             }
-        }
-
-        static void PingWork()
-        {
-            //Почему эта работа отдается потоку, а не таймеру? Не будет вечного цикла, усыпления и его не надо абортить. И зачем нужен pingCount
-            while (true)
-            {
-                Thread.Sleep(TimeSpan.FromSeconds(10));
-                _firesecService.Ping();
-            }
-        }
-
-        static void TimerWork(object obj)
-        {
-            ;
         }
 
         public static void Test()

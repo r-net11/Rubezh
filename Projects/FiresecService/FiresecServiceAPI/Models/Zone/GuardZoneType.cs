@@ -2,8 +2,8 @@
 {
     public enum GuardZoneType
     {
-        Ordinary,
-        Passby,
-        Delay
+        Ordinary = 0,
+        Passby = 1,
+        Delay = 2
     }
 }

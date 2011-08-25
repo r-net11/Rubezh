@@ -5,8 +5,44 @@
              Loaded="UserControl_Loaded">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Image Margin="5" Source="Images/Ind_C-C.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4" />
-            <Image Margin="5" Source="Images/Ind_C-P.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4" />
+            <Image Name="_serviceConnectionIndicator" Margin="5" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4">
+                <Image.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsServiceConnected}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Image.Source" Value="Images/Ind_C-C.png" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsServiceConnected}" Value="False">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Image.Source" Value="Images/Ind_CxC.png" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            
+            <Image Name="_deviceConnectionIndicator" Margin="5" Source="Images/Ind_C-P.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
+                    <Image.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="Images/Ind_C-P.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
+                                    <DataTrigger.Setters>
+                                        <Setter Property="Image.Source" Value="Images/Ind_CxP.png" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+            </Image>
+            
             <TextBlock Name="_textBlock" Foreground="White" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>

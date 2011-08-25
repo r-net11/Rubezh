@@ -85,7 +85,7 @@ namespace PlansModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Check();
+            bool result = ServiceFactory.Get<ISecurityService>().Validate();
             if (result)
             {
                 _deviceState.ChangeDisabled();

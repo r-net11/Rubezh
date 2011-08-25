@@ -89,9 +89,14 @@
 
   <!-- Zones -->
 
+  <xs:complexType name="shapeType">
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>  
+  
   <xs:complexType name ="zoneType">
     <xs:sequence>
       <xs:element name="param" type="paramType" maxOccurs="unbounded" />
+      <xs:element name="shape" type="shapeType" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="idx" type="xs:integer" />
     <xs:attribute name="no" type="xs:integer" />

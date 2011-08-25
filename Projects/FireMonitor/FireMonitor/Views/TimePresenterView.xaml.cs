@@ -8,16 +8,16 @@ namespace FireMonitor
 {
     public partial class TimePresenterView : UserControl
     {
-        DispatcherTimer dispatcherTimer;
+        DispatcherTimer _dispatcherTimer;
 
         public TimePresenterView()
         {
             InitializeComponent();
 
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            dispatcherTimer.Start();
+            _dispatcherTimer = new DispatcherTimer();
+            _dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            _dispatcherTimer.Start();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)

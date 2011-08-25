@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Timers;
 using FiresecAPI;
 using FiresecAPI.Models;
 
@@ -41,6 +42,19 @@ namespace FiresecClient
         }
 
         bool _isConnected = true;
+
+        public void StartPing()
+        {
+            System.Timers.Timer pingTimer = new System.Timers.Timer();
+            pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
+            pingTimer.Interval = 1000;
+            pingTimer.Enabled = true;
+        }
+
+        private void OnTimerPing(object source, ElapsedEventArgs e)
+        {
+            Ping();
+        }
 
         public bool Connect(string userName, string passwordHash)
         {

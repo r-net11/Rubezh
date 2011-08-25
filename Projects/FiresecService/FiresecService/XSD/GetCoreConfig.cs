@@ -524,6 +524,30 @@ namespace Firesec.CoreConfig
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class shapeType
+    {
+        string idField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+        public string id
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class partType
     {
         partTypePinZ[] pinZField;
@@ -689,6 +713,8 @@ namespace Firesec.CoreConfig
     {
         paramType[] paramField;
 
+        shapeType[] shapeField;
+
         string idxField;
 
         string noField;
@@ -712,6 +738,20 @@ namespace Firesec.CoreConfig
             set
             {
                 this.paramField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shape", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public shapeType[] shape
+        {
+            get
+            {
+                return this.shapeField;
+            }
+            set
+            {
+                this.shapeField = value;
             }
         }
 

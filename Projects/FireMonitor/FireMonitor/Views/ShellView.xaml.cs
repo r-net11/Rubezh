@@ -80,7 +80,7 @@ namespace FireMonitor
                 return;
             }
 
-            bool result = ServiceFactory.Get<ISecurityService>().Check();
+            bool result = ServiceFactory.Get<ISecurityService>().Validate();
             if (result == false)
             {
                 e.Cancel = true;

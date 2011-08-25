@@ -28,7 +28,7 @@
                 <TabItem IsSelected="{Binding IsAlarmSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Alarms.png" />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Alarms.png" />
                             <TextBlock Text="Тревоги" />
                         </StackPanel>
                     </TabItem.Header>
@@ -37,7 +37,7 @@
                 <TabItem IsSelected="{Binding IsPlanSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Plans.png" />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Plans.png" />
                             <TextBlock Text="Планы" />
                         </StackPanel>
                     </TabItem.Header>
@@ -46,7 +46,7 @@
                 <TabItem IsSelected="{Binding IsJournalSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Journal.png"  />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Journal.png"  />
                             <TextBlock Text="Журнал" />
                             <TextBlock Text="{Binding UnreadJournalCount}" Visibility="{Binding HasUnreadJournal, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" />
                         </StackPanel>
@@ -56,7 +56,7 @@
                 <TabItem IsSelected="{Binding IsDevicesSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Equipment.png"  />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Equipment.png"  />
                             <TextBlock Text="Устройства" />
                         </StackPanel>
                     </TabItem.Header>
@@ -65,7 +65,7 @@
                 <TabItem IsSelected="{Binding IsZonesSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Zones.png" />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Zones.png" />
                             <TextBlock Text="Зоны" />
                         </StackPanel>
                     </TabItem.Header>
@@ -74,7 +74,7 @@
                 <TabItem IsSelected="{Binding IsReportSelected}">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/FireMonitor;component/Images/Tree_Reports.png"  />
+                            <Image Source="/FireMonitor;component/Views/Images/Tree_Reports.png"  />
                             <TextBlock Text="Отчеты" />
                         </StackPanel>
                     </TabItem.Header>

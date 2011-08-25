@@ -1,31 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FiresecClient;
+using System.ComponentModel;
 
 namespace FireMonitor
 {
-    public partial class ConnectionIndicatorView : UserControl
+    public partial class ConnectionIndicatorView : UserControl, INotifyPropertyChanged
     {
         public ConnectionIndicatorView()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            IsServiceConnected = true;
             SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
             SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
+        }
+
+        bool _isServiceConnected;
+        public bool IsServiceConnected
+        {
+            get { return _isServiceConnected; }
+            set
+            {
+                _isServiceConnected = value;
+                OnPropertyChanged("IsServiceConnected");
+            }
+        }
+
+        bool _isDeviceConnected;
+        public bool IsDeviceConnected
+        {
+            get { return _isDeviceConnected; }
+            set
+            {
+                _isDeviceConnected = value;
+                OnPropertyChanged("IsDeviceConnected");
+            }
         }
 
         void SetConnectionState(string state)
@@ -35,12 +50,21 @@ namespace FireMonitor
 
         void OnConnectionLost()
         {
+            IsServiceConnected = false;
             Dispatcher.Invoke(new Action<string>(SetConnectionState), "Потеря связи");
         }
 
         void OnConnectionAppeared()
         {
-            Dispatcher.Invoke(new Action<string>(SetConnectionState), "0");
+            IsServiceConnected = true;
+            Dispatcher.Invoke(new Action<string>(SetConnectionState), "");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
