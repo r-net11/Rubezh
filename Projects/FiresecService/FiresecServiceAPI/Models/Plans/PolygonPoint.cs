@@ -1,12 +1,15 @@
 ﻿using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
     public class PolygonPoint
     {
-        [XmlAttribute]
+        //[XmlAttribute]
+        [DataMember]
         public double X { get; set; }
-        [XmlAttribute]
+        //[XmlAttribute]
+        [DataMember]
         public double Y { get; set; }
     }
 }
