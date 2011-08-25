@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\GuardUserConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
+    <Compile Include="Converters\PlansConverter.cs" />
     <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
     <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
     <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
@@ -101,6 +102,9 @@
       <DependentUpon>IndicatorLogic.xsd</DependentUpon>
     </Compile>
     <Compile Include="Converters\IndicatorLogicConverter.cs" />
+    <Compile Include="XSD\Plan.cs">
+      <DependentUpon>Plan.xsd</DependentUpon>
+    </Compile>
     <Compile Include="XSD\ReadEvents.cs">
       <DependentUpon>ReadEvents.xsd</DependentUpon>
     </Compile>
@@ -195,6 +199,17 @@
     </None>
     <None Include="XSD\IndicatorLogic.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\Plan.xsc">
+      <DependentUpon>Plan.xsd</DependentUpon>
+    </None>
+    <None Include="XSD\Plan.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Plan.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\Plan.xss">
+      <DependentUpon>Plan.xsd</DependentUpon>
     </None>
     <None Include="XSD\ReadEvents.xsd">
       <SubType>Designer</SubType>

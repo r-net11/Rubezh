@@ -27,6 +27,11 @@ namespace FiresecService
             return SerializerHelper.Deserialize<Firesec.CoreConfig.config>(DispatcherFiresecClient.GetCoreConfig());
         }
 
+        public static Firesec.Plans.surfaces GetPlans()
+        {
+            return SerializerHelper.Deserialize<Firesec.Plans.surfaces>(DispatcherFiresecClient.GetPlans());
+        }
+
         public static Firesec.CoreState.config GetCoreState()
         {
             return SerializerHelper.Deserialize<Firesec.CoreState.config>(DispatcherFiresecClient.GetCoreState());

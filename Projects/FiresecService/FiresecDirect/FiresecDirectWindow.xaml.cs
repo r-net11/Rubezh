@@ -56,7 +56,7 @@ namespace FiresecDirect
             streamWriter.Close();
             fileStream.Close();
 
-            textBox1.Text = plans;
+            //textBox1.Text = plans;
         }
 
         void OnGetCoreState(object sender, RoutedEventArgs e)

@@ -25,6 +25,11 @@ namespace FiresecService
                 DeviceConfiguration.Update();
                 var watcher = new Watcher();
                 watcher.Start();
+
+
+                var plans = FiresecInternalClient.GetPlans();
+                var plansConfiguration = PlansConverter.Convert(plans);
+
             }
             return result;
         }

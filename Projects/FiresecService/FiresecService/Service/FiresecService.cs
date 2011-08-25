@@ -132,6 +132,10 @@ namespace FiresecService
 
         public PlansConfiguration GetPlansConfiguration()
         {
+            var plans = FiresecInternalClient.GetPlans();
+            var plansConfiguration = PlansConverter.Convert(plans);
+            return plansConfiguration;
+
             FiresecManager.PlansConfiguration = new PlansConfiguration();
             try
             {

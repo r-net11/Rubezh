@@ -125,12 +125,12 @@ namespace PlansModule.ViewModels
 
         }
 
-        bool CanAddSub(object obj)
+        bool CanAddSub()
         {
             return SelectedPlan != null;
         }
 
-
+        bool CanEditRemove()
         {
             return SelectedPlan != null;
         }
