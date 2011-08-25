@@ -74,7 +74,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        bool CanRemoveDevice(object obj)
+        bool CanRemoveDevice()
         {
             return SelectedDeviceViewModel != null;
         }

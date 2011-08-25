@@ -75,7 +75,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool CanConfirm(object obj)
+        bool CanConfirm()
         {
             return !IsConfirmed;
         }
@@ -83,11 +83,8 @@ namespace AlarmModule.ViewModels
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
-            if (CanConfirm(null))
-            {
-                IsConfirmed = true;
-                FiresecManager.AddUserMessage("Подтверждение " + _alarm.Name);
-            }
+            IsConfirmed = true;
+            FiresecManager.AddUserMessage("Подтверждение " + _alarm.Name);
         }
 
         public RelayCommand ResetCommand { get; private set; }

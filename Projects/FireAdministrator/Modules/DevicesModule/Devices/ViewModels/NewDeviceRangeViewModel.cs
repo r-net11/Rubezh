@@ -208,7 +208,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAdd(object obj)
+        public bool CanAdd()
         {
             return (SelectedDriver != null);
         }
@@ -216,10 +216,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (CanAdd(null))
-            {
-                CreateDevices();
-            }
+            CreateDevices();
 
             _parentDeviceViewModel.Update();
             FiresecManager.DeviceConfiguration.Update();

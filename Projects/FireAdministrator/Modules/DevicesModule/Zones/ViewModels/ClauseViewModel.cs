@@ -40,6 +40,7 @@ namespace DevicesModule.ViewModels
                 switch (_device.Driver.DriverName)
                 {
                     case "Задвижка":
+                    case "Насосная Станция":
                         return new List<ZoneLogicState>() { ZoneLogicState.Fire,
                             ZoneLogicState.Attention,
                             ZoneLogicState.MPTAutomaticOn,
@@ -105,14 +106,7 @@ namespace DevicesModule.ViewModels
             Zones = new List<string>();
             SelectedDevice = null;
 
-            if ((SelectedState == ZoneLogicState.Lamp) || (SelectedState == ZoneLogicState.PCN))
-            {
-                ServiceFactory.Events.GetEvent<BlockClauseAddingEvent>().Publish(true);
-            }
-            else
-            {
-                ServiceFactory.Events.GetEvent<BlockClauseAddingEvent>().Publish(false);
-            }
+            ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Publish(SelectedState);
         }
 
         public string PresenrationZones

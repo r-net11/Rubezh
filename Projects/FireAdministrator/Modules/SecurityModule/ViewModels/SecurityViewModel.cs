@@ -108,7 +108,7 @@ namespace SecurityModule.ViewModels
             MessageBox.Show("Hello!");
         }
 
-        bool CanEditUser(Object obj)
+        bool CanEditUser()
         {
             return Users.Count > 0 && SelectedUser != null;
         }
@@ -131,7 +131,7 @@ namespace SecurityModule.ViewModels
         {
         }
 
-        bool CanGroupEdit(Object obj)
+        bool CanGroupEdit()
         {
             return Groups.Count > 0 && SelectedGroup != null;
         }

@@ -178,12 +178,12 @@ namespace DevicesModule.ViewModels
                 SelectedSourceZone = SourceZones[0];
         }
 
-        bool CanAdd(object obj)
+        bool CanAdd()
         {
             return SelectedSourceZone != null;
         }
 
-        bool CanRemove(object obj)
+        bool CanRemove()
         {
             return SelectedTargetZone != null;
         }

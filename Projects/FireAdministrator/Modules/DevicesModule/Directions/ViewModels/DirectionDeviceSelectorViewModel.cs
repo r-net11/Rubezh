@@ -81,7 +81,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanSave(object obj)
+        bool CanSave()
         {
             if (SelectedDevice != null)
             {

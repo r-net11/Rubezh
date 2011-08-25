@@ -127,7 +127,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        bool CanRemoveFrame(object obj)
+        bool CanRemoveFrame()
         {
             return SelectedFrameViewModel != null && FrameViewModels.Count > 1;
         }

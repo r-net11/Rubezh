@@ -128,12 +128,12 @@ namespace DevicesModule.ViewModels
                 SelectedSourceLevel = SourceLevels[0];
         }
 
-        bool CanAdd(object obj)
+        bool CanAdd()
         {
             return SelectedSourceLevel != null;
         }
 
-        bool CanRemove(object obj)
+        bool CanRemove()
         {
             return SelectedTargetLevel != null;
         }

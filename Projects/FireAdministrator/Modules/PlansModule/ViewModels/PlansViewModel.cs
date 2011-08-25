@@ -131,7 +131,6 @@ namespace PlansModule.ViewModels
         }
 
 
-        bool CanEditRemove(object obj)
         {
             return SelectedPlan != null;
         }

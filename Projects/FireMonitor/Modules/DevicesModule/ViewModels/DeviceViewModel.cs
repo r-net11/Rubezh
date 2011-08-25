@@ -203,7 +203,7 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("StateType");
         }
 
-        public bool CanShowOnPlan(object obj)
+        public bool CanShowOnPlan()
         {
             return true;
         }
@@ -214,7 +214,7 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Id);
         }
 
-        public bool CanShowZone(object obj)
+        public bool CanShowZone()
         {
             return ((Device.Driver.IsZoneDevice) && (string.IsNullOrEmpty(this.Device.ZoneNo) == false));
         }
@@ -225,7 +225,7 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
         }
 
-        public bool CanDisable(object obj)
+        public bool CanDisable()
         {
             return _deviceState.CanDisable();
         }

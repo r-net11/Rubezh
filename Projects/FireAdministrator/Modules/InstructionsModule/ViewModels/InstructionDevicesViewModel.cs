@@ -178,7 +178,7 @@ namespace InstructionsModule.ViewModels
         }
 
         DeviceViewModel _selectedAvailableDevice;
-        public DeviceViewModel SelectedAvailableDevice 
+        public DeviceViewModel SelectedAvailableDevice
         {
             get { return _selectedAvailableDevice; }
             set
@@ -199,31 +199,31 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public bool CanAddAvailableDevice(object obj)
+        public bool CanAddAvailableDevice()
         {
-            return ((SelectedAvailableDevice != null)&&
+            return ((SelectedAvailableDevice != null) &&
                 (SelectedAvailableDevice.Driver.IsZoneDevice ||
                 SelectedAvailableDevice.Driver.IsZoneLogicDevice));
         }
 
-        public bool CanAddAllAvailableDevice(object obj)
+        public bool CanAddAllAvailableDevice()
         {
             return (AvailableDevices.IsNotNullOrEmpty());
         }
 
-        public bool CanRemoveDevice(object obj)
+        public bool CanRemoveDevice()
         {
             return ((SelectedInstructionDevice != null) &&
                 (SelectedInstructionDevice.Driver.IsZoneDevice ||
                 SelectedInstructionDevice.Driver.IsZoneLogicDevice));
         }
 
-        public bool CanRemoveAllDevice(object obj)
+        public bool CanRemoveAllDevice()
         {
             return (InstructionDevices.IsNotNullOrEmpty());
         }
 
-        public bool CanSaveInstruction(object obj)
+        public bool CanSaveInstruction()
         {
             return (InstructionDevices.IsNotNullOrEmpty());
         }
@@ -231,47 +231,35 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
-            if (CanAddAvailableDevice(null))
-            {
-                InstructionDevicesList.Add(SelectedAvailableDevice.Id);
-                UpdateDevices();
-            }
+            InstructionDevicesList.Add(SelectedAvailableDevice.Id);
+            UpdateDevices();
         }
 
         public RelayCommand AddAllDeviceCommand { get; private set; }
         void OnAddAllDevice()
         {
-            if (CanAddAllAvailableDevice(null))
+            foreach (var availableDevices in AvailableDevices)
             {
-                foreach (var availableDevices in AvailableDevices)
+                if ((availableDevices.Driver.IsZoneDevice) || (availableDevices.Driver.IsZoneLogicDevice))
                 {
-                    if ((availableDevices.Driver.IsZoneDevice) || (availableDevices.Driver.IsZoneLogicDevice))
-                    {
-                        InstructionDevicesList.Add(availableDevices.Id);
-                    }
+                    InstructionDevicesList.Add(availableDevices.Id);
                 }
-                UpdateDevices();
             }
+            UpdateDevices();
         }
 
         public RelayCommand RemoveAllDeviceCommand { get; private set; }
         void OnRemoveAllDevice()
         {
-            if (CanRemoveAllDevice(null))
-            {
-                InstructionDevicesList.Clear();
-                UpdateDevices();
-            }
+            InstructionDevicesList.Clear();
+            UpdateDevices();
         }
 
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            if (CanRemoveDevice(null))
-            {
-                InstructionDevicesList.Remove(SelectedInstructionDevice.Id);
-                UpdateDevices();
-            }
+            InstructionDevicesList.Remove(SelectedInstructionDevice.Id);
+            UpdateDevices();
         }
 
         public RelayCommand SaveCommand { get; private set; }

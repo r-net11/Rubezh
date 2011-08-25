@@ -133,20 +133,20 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        bool CanSelectZone(object obj)
+        bool CanSelectZone()
         {
             return (InstructionType == InstructionType.Zone);
         }
 
-        bool CanSelectDevice(object obj)
+        bool CanSelectDevice()
         {
             return (InstructionType == InstructionType.Device);
         }
 
-        bool CanSave(object obj)
+        bool CanSave()
         {
-            return (((CanSelectZone(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
-                ((CanSelectDevice(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+            return (((CanSelectZone()) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+                ((CanSelectDevice()) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
                 (InstructionType == InstructionType.All));
         }
 

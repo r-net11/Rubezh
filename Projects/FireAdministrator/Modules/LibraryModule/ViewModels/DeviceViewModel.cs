@@ -152,7 +152,7 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        bool CanRemoveState(object obj)
+        bool CanRemoveState()
         {
             return SelectedStateViewModel != null &&
                    SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType;

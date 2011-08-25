@@ -137,7 +137,7 @@ namespace DevicesModule.ViewModels
         Device _deviceToCopy;
         bool _isFullCopy;
 
-        bool CanCutCopy(object obj)
+        bool CanCutCopy()
         {
             if (SelectedDevice == null)
                 return false;
@@ -166,7 +166,7 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-        bool CanPaste(object obj)
+        bool CanPaste()
         {
             if (SelectedDevice == null)
                 return false;

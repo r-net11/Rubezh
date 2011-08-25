@@ -77,7 +77,7 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
         }
 
-        public bool CanDisable(object obj)
+        public bool CanDisable()
         {
             return _deviceState.CanDisable();
         }

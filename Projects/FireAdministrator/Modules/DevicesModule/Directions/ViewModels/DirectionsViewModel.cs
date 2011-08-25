@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanDelete(object obj)
+        bool CanDelete()
         {
             return (SelectedDirection != null);
         }
@@ -55,15 +55,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            if (CanDelete(null))
-            {
-                FiresecManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
-                Directions.Remove(SelectedDirection);
-                DevicesModule.HasChanges = true;
-            }
+            FiresecManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
+            Directions.Remove(SelectedDirection);
+            DevicesModule.HasChanges = true;
         }
 
-        bool CanEdit(object obj)
+        bool CanEdit()
         {
             return (SelectedDirection != null);
         }
@@ -71,16 +68,13 @@ namespace DevicesModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            if (CanEdit(null))
+            var directionDetailsViewModel = new DirectionDetailsViewModel();
+            directionDetailsViewModel.Initialize(SelectedDirection.Direction);
+            var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
+            if (result)
             {
-                var directionDetailsViewModel = new DirectionDetailsViewModel();
-                directionDetailsViewModel.Initialize(SelectedDirection.Direction);
-                var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
-                if (result)
-                {
-                    SelectedDirection.Update();
-                    DevicesModule.HasChanges = true;
-                }
+                SelectedDirection.Update();
+                DevicesModule.HasChanges = true;
             }
         }
 

@@ -9,7 +9,7 @@ namespace LibraryModule.ViewModels
         {
             Items = new List<T>();
 
-            OkCommand = new RelayCommand(OnOk, OnCanOk);
+            OkCommand = new RelayCommand(OnOk, CanOk);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
@@ -23,7 +23,7 @@ namespace LibraryModule.ViewModels
             Close(true);
         }
 
-        bool OnCanOk(object obj)
+        bool CanOk()
         {
             return SelectedItem != null;
         }

@@ -131,7 +131,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanAdd(object obj)
+        bool CanAdd()
         {
             if (SelectedAvailableDevice != null)
             {
@@ -156,7 +156,7 @@ namespace DevicesModule.ViewModels
             InitializeAvailableDevices();
         }
 
-        bool CanRemove(object obj)
+        bool CanRemove()
         {
             if (SelectedDevice != null)
             {

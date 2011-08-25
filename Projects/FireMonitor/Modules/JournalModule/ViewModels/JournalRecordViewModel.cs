@@ -80,7 +80,7 @@ namespace JournalModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
         }
 
-        bool CanShowPlan(object obj)
+        bool CanShowPlan()
         {
             return _device != null;
         }
@@ -91,7 +91,7 @@ namespace JournalModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
         }
 
-        bool CanShowTree(object obj)
+        bool CanShowTree()
         {
             return _device != null;
         }
@@ -102,7 +102,7 @@ namespace JournalModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_device.ZoneNo);
         }
 
-        bool CanShowZone(object obj)
+        bool CanShowZone()
         {
             return _device != null;
         }

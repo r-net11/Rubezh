@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanEditDelete(object obj)
+        bool CanEditDelete()
         {
             return (SelectedGuardUser != null);
         }

@@ -59,7 +59,7 @@ namespace PlansModule.ViewModels
             }
         }
 
-        bool CanEditRemove(object obj)
+        bool CanEditRemove()
         {
             return SelectedInstruction != null;
         }

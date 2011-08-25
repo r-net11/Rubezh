@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using Infrastructure.Common;
-using System;
+﻿using System;
+using System.Linq;
+using System.Collections.ObjectModel;
 using DevicesModule.Zones.Events;
+using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -17,7 +18,7 @@ namespace DevicesModule.ViewModels
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
 
-            ServiceFactory.Events.GetEvent<BlockClauseAddingEvent>().Subscribe(OnBlockClauseEvent);
+            ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Subscribe(OnCurrentClauseStateChanged);
         }
 
         Device _device;
@@ -29,6 +30,13 @@ namespace DevicesModule.ViewModels
             foreach (var clause in device.ZoneLogic.Clauses)
             {
                 var clauseViewModel = new ClauseViewModel();
+                clauseViewModel.Initialize(_device, clause);
+                Clauses.Add(clauseViewModel);
+            }
+            if (device.ZoneLogic.Clauses.Count == 0)
+            {
+                var clauseViewModel = new ClauseViewModel();
+                var clause = new Clause();
                 clauseViewModel.Initialize(_device, clause);
                 Clauses.Add(clauseViewModel);
             }
@@ -51,13 +59,15 @@ namespace DevicesModule.ViewModels
         public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
 
         bool _isBlocked = false;
-        void OnBlockClauseEvent(bool isBlocked)
+        void OnCurrentClauseStateChanged(ZoneLogicState zoneLogicState)
         {
-            _isBlocked = isBlocked;
-            //Clauses.
+            _isBlocked = ((zoneLogicState == ZoneLogicState.Lamp) || (zoneLogicState == ZoneLogicState.PCN));
+            var selectedClause = Clauses.FirstOrDefault(x => x.SelectedState == zoneLogicState);
+            Clauses.Clear();
+            Clauses.Add(selectedClause);
         }
 
-        public bool CanAdd(object obj)
+        public bool CanAdd()
         {
             return _isBlocked != true;
         }

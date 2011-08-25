@@ -158,7 +158,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAdd(object obj)
+        public bool CanAdd()
         {
             return Driver.CanAddChildren;
         }
@@ -166,32 +166,26 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (CanAdd(null))
+            var newDeviceViewModel = new NewDeviceViewModel(this);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
+            if (result)
             {
-                var newDeviceViewModel = new NewDeviceViewModel(this);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
-                if (result)
-                {
-                    DevicesModule.HasChanges = true;
-                }
+                DevicesModule.HasChanges = true;
             }
         }
 
         public RelayCommand AddManyCommand { get; private set; }
         void OnAddMany()
         {
-            if (CanAdd(null))
+            var newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
+            if (result)
             {
-                var newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
-                bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
-                if (result)
-                {
-                    DevicesModule.HasChanges = true;
-                }
+                DevicesModule.HasChanges = true;
             }
         }
 
-        bool CanRemove(object obj)
+        bool CanRemove()
         {
             if (Parent == null)
                 return false;
@@ -205,20 +199,17 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            if (CanRemove(null))
-            {
-                Parent.IsExpanded = false;
-                Parent.Device.Children.Remove(Device);
-                Parent.Children.Remove(this);
-                Parent.Update();
-                Parent.IsExpanded = true;
+            Parent.IsExpanded = false;
+            Parent.Device.Children.Remove(Device);
+            Parent.Children.Remove(this);
+            Parent.Update();
+            Parent.IsExpanded = true;
 
-                FiresecManager.DeviceConfiguration.Update();
-                DevicesModule.HasChanges = true;
-            }
+            FiresecManager.DeviceConfiguration.Update();
+            DevicesModule.HasChanges = true;
         }
 
-        bool CanShowProperties(object obj)
+        bool CanShowProperties()
         {
             switch (Device.Driver.DriverName)
             {

@@ -3,6 +3,8 @@ using System.Windows.Input;
 
 namespace Infrastructure.Common
 {
+    public delegate bool PredicateDelegate();
+
     public class RelayCommand : ICommand // a la Josh Smith
     {
         #region Fields
@@ -15,8 +17,9 @@ namespace Infrastructure.Common
         #region Ctors
 
         public RelayCommand(Action execute)
-            : this(execute, null)
-        { }
+            : this(execute, (Predicate<object>)null)
+        {
+        }
 
         public RelayCommand(Action execute, Predicate<object> canExecute)
         {
@@ -25,6 +28,15 @@ namespace Infrastructure.Common
 
             _execute = execute;
             _canExecute = canExecute;
+        }
+
+        public RelayCommand(Action execute, PredicateDelegate canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+
+            _execute = execute;
+            _canExecute = (object obj) => { return canExecute(); };
         }
 
         #endregion // Constructors

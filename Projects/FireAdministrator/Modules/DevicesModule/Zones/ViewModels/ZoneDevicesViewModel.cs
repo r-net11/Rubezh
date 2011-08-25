@@ -161,7 +161,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAdd(object obj)
+        public bool CanAdd()
         {
             return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Device.Driver.IsZoneDevice));
         }
@@ -174,7 +174,7 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-        public bool CanRemove(object obj)
+        public bool CanRemove()
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneDevice));
         }
@@ -187,7 +187,7 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-        public bool CanShowZoneLogic(object obj)
+        public bool CanShowZoneLogic()
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneLogicDevice));
         }

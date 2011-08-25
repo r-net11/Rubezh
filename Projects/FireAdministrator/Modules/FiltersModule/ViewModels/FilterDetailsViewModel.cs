@@ -109,7 +109,7 @@ namespace FiltersModule.ViewModels
             Close(true);
         }
 
-        bool CanOk(object obj)
+        bool CanOk()
         {
             return this["FilterName"] == null;
         }

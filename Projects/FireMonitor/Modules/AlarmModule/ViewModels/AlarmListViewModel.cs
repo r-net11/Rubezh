@@ -54,7 +54,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool canReset(object obj)
+        bool canReset()
         {
             return Alarms.Count > 0;
         }

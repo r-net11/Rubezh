@@ -97,10 +97,16 @@
                                         </ComboBox>
                                     </StackPanel>
                                     <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Button Content="..." Command="{Binding ShowZoneLogicCommand}" Height="19"/>
+                                        <StackPanel.InputBindings>
+                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowZoneLogicCommand}" />
+                                        </StackPanel.InputBindings>
+                                        <TextBlock Text="{Binding PresentationZone}" />
                                     </StackPanel>
                                     <StackPanel Visibility="{Binding Driver.IsIndicatorDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Button Content="..." Command="{Binding ShowIndicatorLogicCommand}" Height="19"/>
+                                        <StackPanel.InputBindings>
+                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowIndicatorLogicCommand}" />
+                                        </StackPanel.InputBindings>
+                                        <TextBlock Text="{Binding PresentationZone}" />
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
@@ -134,20 +140,17 @@
             </DataGrid>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <StackPanel DataContext="{Binding SelectedDevice}" Width="400" HorizontalAlignment="Left">
+        <Grid Grid.Row="1" Margin="2" >
+            <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left">
 
-                <TextBlock Text="Устройство" FontWeight="Bold" Foreground="DarkOrange" />
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Driver.ImageSource}" Width="16" />
-                    <TextBlock Text="{Binding Driver.Name}" />
+                    <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
+                    <TextBlock Text="{Binding Driver.Name}" FontWeight="Bold" Foreground="DarkOrange" Margin="2" />
                 </StackPanel>
 
-                <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
-
-                <StackPanel>
-                    <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" />
-                    <TextBlock Text="{Binding ConnectedTo}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
+                    <TextBlock Text="{Binding ConnectedTo}" Margin="2" />
                     <StackPanel.Style>
                         <Style>
                             <Style.Triggers>
@@ -159,9 +162,9 @@
                     </StackPanel.Style>
                 </StackPanel>
 
-                <StackPanel DataContext="{Binding Zone}">
-                    <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" />
-                    <TextBlock Text="{Binding PresentationName}" />
+                <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
+                    <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
+                    <TextBlock Text="{Binding PresentationName}" Margin="2" />
                     <StackPanel.Style>
                         <Style>
                             <Style.Triggers>
@@ -172,8 +175,10 @@
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
-
+                
                 <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+
+                <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
 
             </StackPanel>
         </Grid>

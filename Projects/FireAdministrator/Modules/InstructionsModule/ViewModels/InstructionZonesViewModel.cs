@@ -78,27 +78,27 @@ namespace InstructionsModule.ViewModels
         public ZoneViewModel SelectedAvailableZone { get; set; }
         public ZoneViewModel SelectedInstructionZone { get; set; }
 
-        public bool CanAddAvailableZone(object obj)
+        public bool CanAddAvailableZone()
         {
             return (SelectedAvailableZone != null);
         }
 
-        public bool CanAddAllAvailableZone(object obj)
+        public bool CanAddAllAvailableZone()
         {
             return (AvailableZones.IsNotNullOrEmpty());
         }
 
-        public bool CanRemoveZone(object obj)
+        public bool CanRemoveZone()
         {
             return (SelectedInstructionZone != null);
         }
 
-        public bool CanRemoveAllZone(object obj)
+        public bool CanRemoveAllZone()
         {
             return (InstructionZones.IsNotNullOrEmpty());
         }
 
-        public bool CanSaveInstruction(object obj)
+        public bool CanSaveInstruction()
         {
             return (InstructionZones.IsNotNullOrEmpty());
         }
@@ -106,72 +106,60 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddZoneCommand { get; private set; }
         void OnAddZone()
         {
-            if (CanAddAvailableZone(null))
+            InstructionZones.Add(SelectedAvailableZone);
+            AvailableZones.Remove(SelectedAvailableZone);
+            if (AvailableZones.IsNotNullOrEmpty())
             {
-                InstructionZones.Add(SelectedAvailableZone);
-                AvailableZones.Remove(SelectedAvailableZone);
-                if (AvailableZones.IsNotNullOrEmpty())
-                {
-                    SelectedAvailableZone = AvailableZones[0];
-                }
-                if (InstructionZones.IsNotNullOrEmpty())
-                {
-                    SelectedInstructionZone = InstructionZones[0];
-                }
+                SelectedAvailableZone = AvailableZones[0];
+            }
+            if (InstructionZones.IsNotNullOrEmpty())
+            {
+                SelectedInstructionZone = InstructionZones[0];
             }
         }
 
         public RelayCommand AddAllZoneCommand { get; private set; }
         void OnAddAllZone()
         {
-            if (CanAddAllAvailableZone(null))
+            foreach (var availableZone in AvailableZones)
             {
-                foreach (var availableZone in AvailableZones)
-                {
-                    InstructionZones.Add(availableZone);
-                }
-                AvailableZones.Clear();
-                SelectedAvailableZone = null;
-                if (InstructionZones.IsNotNullOrEmpty())
-                {
-                    SelectedInstructionZone = InstructionZones[0];
-                }
+                InstructionZones.Add(availableZone);
+            }
+            AvailableZones.Clear();
+            SelectedAvailableZone = null;
+            if (InstructionZones.IsNotNullOrEmpty())
+            {
+                SelectedInstructionZone = InstructionZones[0];
             }
         }
 
         public RelayCommand RemoveAllZoneCommand { get; private set; }
         void OnRemoveAllZone()
         {
-            if (CanRemoveAllZone(null))
+            foreach (var instructionZone in InstructionZones)
             {
-                foreach (var instructionZone in InstructionZones)
-                {
-                    AvailableZones.Add(instructionZone);
-                }
-                InstructionZones.Clear();
-                SelectedInstructionZone = null;
-                if (AvailableZones.IsNotNullOrEmpty())
-                {
-                    SelectedAvailableZone = AvailableZones[0];
-                }
+                AvailableZones.Add(instructionZone);
+            }
+            InstructionZones.Clear();
+            SelectedInstructionZone = null;
+            if (AvailableZones.IsNotNullOrEmpty())
+            {
+                SelectedAvailableZone = AvailableZones[0];
             }
         }
 
         public RelayCommand RemoveZoneCommand { get; private set; }
         void OnRemoveZone()
         {
-            if (CanRemoveZone(null))
+            AvailableZones.Add(SelectedInstructionZone);
+            InstructionZones.Remove(SelectedInstructionZone);
+            if (AvailableZones.IsNotNullOrEmpty())
             {
-                AvailableZones.Add(SelectedInstructionZone);
-                InstructionZones.Remove(SelectedInstructionZone);
-                if (AvailableZones.IsNotNullOrEmpty())
-                {
-                    SelectedAvailableZone = AvailableZones[0];
-                }
-                if (InstructionZones.IsNotNullOrEmpty())
-                {
-                    SelectedInstructionZone = InstructionZones[0];
-                }
+                SelectedAvailableZone = AvailableZones[0];
+            }
+            if (InstructionZones.IsNotNullOrEmpty())
+            {
+                SelectedInstructionZone = InstructionZones[0];
             }
         }
 

@@ -57,12 +57,12 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        bool CanEditRemove(object obj)
+        bool CanEditRemove()
         {
             return SelectedInstruction != null;
         }
 
-        bool CanRemoveAll(object obj)
+        bool CanRemoveAll()
         {
             return (Instructions.IsNotNullOrEmpty());
         }

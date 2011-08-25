@@ -67,7 +67,7 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        bool CanPlaySound(object obj)
+        bool CanPlaySound()
         {
             return ((IsNowPlaying)||(SelectedSound != null && 
                 ((string.IsNullOrEmpty(SelectedSound.SoundName) == false) || 

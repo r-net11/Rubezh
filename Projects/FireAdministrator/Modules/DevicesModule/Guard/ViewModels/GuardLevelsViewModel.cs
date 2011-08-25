@@ -41,7 +41,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanEditDelete(object obj)
+        bool CanEditDelete()
         {
             return (SelectedGuardLevel != null);
         }

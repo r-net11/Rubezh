@@ -63,12 +63,12 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanEditDelete(object obj)
+        bool CanEditDelete()
         {
             return SelectedZone != null;
         }
 
-        bool CanDeleteAll(object obj)
+        bool CanDeleteAll()
         {
             return Zones.Count > 0;
         }

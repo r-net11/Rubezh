@@ -52,7 +52,7 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        bool CanEditOrRemove(object obj)
+        bool CanEditOrRemove()
         {
             return SelectedFilter != null;
         }
