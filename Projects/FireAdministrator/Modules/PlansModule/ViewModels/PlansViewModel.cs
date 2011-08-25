@@ -26,6 +26,7 @@ namespace PlansModule.ViewModels
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
+                    if (plan.Name == null) plan.Name = "NULL";
                     var planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);
                     if (plan.Children != null)
@@ -65,6 +66,20 @@ namespace PlansModule.ViewModels
             set
             {
                 _plans = value;
+                OnPropertyChanged("Plans");
+            }
+        }
+
+        public ObservableCollection<PlanViewModel> _subplans;
+        public ObservableCollection<PlanViewModel> SubPlans
+        {
+            get
+            {
+                return _subplans;
+            }
+            set
+            {
+                _subplans = value;
                 OnPropertyChanged("Plans");
             }
         }

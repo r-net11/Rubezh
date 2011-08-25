@@ -32,6 +32,7 @@
             </TreeView.ContextMenu>
         </TreeView>
 -->
+        <!--
         <TreeView ItemsSource="{Binding Plans}"
                   ContextMenuOpening="TreeView_ContextMenuOpening"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
@@ -41,6 +42,13 @@
                     <WrapPanel Margin="0,3">
                         <TextBlock Text="{Binding Plan.Name}"/>
                     </WrapPanel>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate >
+                            <WrapPanel Margin="0,3">
+                                <TextBlock Text="{Binding SubPlans.SubPlan.Name}"/>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
@@ -52,5 +60,33 @@
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView> 
+        -->
+        <ScrollViewer.Resources>
+            <HierarchicalDataTemplate x:Key="ChildTemplate2" ItemsSource="{Binding SubPlans}">
+                <TextBlock FontStyle="Italic" Text="{Binding Name}" />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="ChildTemplate" ItemsSource="{Binding SubPlans}" ItemTemplate="{StaticResource ChildTemplate2}">
+                <TextBlock FontStyle="Italic" Text="{Binding Name}" />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="NameTemplate" 
+            ItemsSource="{Binding Children}" 
+            ItemTemplate="{StaticResource ChildTemplate}">
+               <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+            </HierarchicalDataTemplate>
+        </ScrollViewer.Resources>
+        <TreeView  ItemsSource="{Binding Plans}" 
+        ItemTemplate="{StaticResource NameTemplate}" x:Name="myTreeView"                  
+                   ContextMenuOpening="TreeView_ContextMenuOpening"
+                  SelectedItemChanged="TreeView_SelectedItemChanged"
+                  >
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить план" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="Добавить субплан" Command="{Binding AddSubCommand}"/>
+                    <MenuItem Header="Редактировать план" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="Удалить план" Command="{Binding RemoveCommand}"/>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
     </ScrollViewer>
 </UserControl>

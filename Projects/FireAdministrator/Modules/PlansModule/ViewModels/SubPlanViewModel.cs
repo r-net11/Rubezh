@@ -30,7 +30,7 @@ namespace PlansModule.ViewModels
 
         
         public string PresentationName { get; private set; }
-        SubPlanViewModel _elementSubPlanView;
+        
         public void Update()
         {
             OnPropertyChanged("Plan");
