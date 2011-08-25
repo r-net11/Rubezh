@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Common;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure;
@@ -22,20 +23,23 @@ namespace SoundsModule.ViewModels
             Sounds = new ObservableCollection<SoundViewModel>();
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
-                if (stateType == StateType.No)
-                    continue;
-
                 var newSound = new Sound();
                 newSound.StateType = stateType;
                 if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
                 {
-                    foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.Sounds)
+                    var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateType == stateType);
+                    if (sound == null)
                     {
-                        if (sound.StateType == newSound.StateType)
-                        {
-                            newSound = sound;
-                        }
+                        FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
                     }
+                    else
+                    {
+                        newSound = sound;
+                    }
+                }
+                else
+                {
+                    FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
                 }
                 Sounds.Add(new SoundViewModel(newSound));
             }

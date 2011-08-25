@@ -5,7 +5,7 @@ namespace FiresecAPI.Models
 {
     public enum InstructionType
     {
-        All, 
+        General, 
         Zone,
         Device
     }
@@ -26,9 +26,6 @@ namespace FiresecAPI.Models
         public string Text { get; set; }
 
         [DataMember]
-        public List<string> InstructionZones { get; set; }
-
-        [DataMember]
-        public List<string> InstructionDevices { get; set; }
+        public List<string> InstructionDetailsList { get; set; }
     }
 }

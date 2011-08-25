@@ -31,8 +31,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Height="30" Margin="2" />
-                                <Button Content="Сбросить" Command="{Binding ResetCommand}" Height="30" Margin="2" />
+                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" />
+                                <Button Content="Сбросить" Command="{Binding ResetCommand}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

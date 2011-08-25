@@ -11,7 +11,6 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionZonesViewModel : DialogContent
     {
-
         public InstructionZonesViewModel()
         {
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddAvailableZone);
@@ -23,14 +22,14 @@ namespace InstructionsModule.ViewModels
 
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
-            InstructionZonesList = new List<string>();
+            InstructionDetailsList = new List<string>();
         }
 
         public void Inicialize(List<string> instructionDetailsList)
         {
             if (instructionDetailsList.IsNotNullOrEmpty())
             {
-                InstructionZonesList = new List<string>(instructionDetailsList);
+                InstructionDetailsList = new List<string>(instructionDetailsList);
             }
             InicializeZones();
             if (InstructionZones.IsNotNullOrEmpty())
@@ -44,9 +43,9 @@ namespace InstructionsModule.ViewModels
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
-                if (InstructionZonesList.IsNotNullOrEmpty())
+                if (InstructionDetailsList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
+                    var instructionZone = InstructionDetailsList.FirstOrDefault(x => x == zoneViewModel.No);
                     if (instructionZone != null)
                     {
                         InstructionZones.Add(zoneViewModel);
@@ -72,7 +71,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public List<string> InstructionZonesList { get; set; }
+        public List<string> InstructionDetailsList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
         public ZoneViewModel SelectedAvailableZone { get; set; }
@@ -181,7 +180,7 @@ namespace InstructionsModule.ViewModels
             var instructionZones = new List<string>(
                 from zone in InstructionZones
                 select zone.No);
-            InstructionZonesList = instructionZones;
+            InstructionDetailsList = instructionZones;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace InstructionsModule.Converters
         {
             switch ((InstructionType)value)
             {
-                case InstructionType.All:
+                case InstructionType.General:
                     return "Общая инструкция";
                 case InstructionType.Zone:
                     return "Список зон";

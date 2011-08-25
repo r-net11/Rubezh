@@ -1,9 +1,14 @@
 ﻿<UserControl x:Class="AlarmModule.Views.InstructionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
     <Grid Margin="5">
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
             <TextBlock Text="Инструкции в случае пожара" FontSize="16" />
             <TextBlock Text="" />
             <TextBlock Text="Убедиться в том что, пожар действительно есть" />
@@ -15,6 +20,15 @@
             <TextBlock Text="Принять меры по эвакуации людей" />
             <TextBlock Text="Принять меры по локализации очага" />
             <TextBlock Text="Принять меры по тушению пожара" />
+            <TextBlock Text="" />
+            <TextBlock Text="Дополнительные меры" />
+            <TextBlock Text="{Binding Path=Instruction.Text}" />
+            
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <XButtons:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
+                              Width="100" Height="30" VerticalAlignment="Center" 
+                              Command="{Binding CloseCommand}" Content="Закрыть" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -14,6 +14,7 @@ namespace AlarmModule.ViewModels
         public AlarmViewModel(Alarm alarm)
         {
             _alarm = alarm;
+            Initialize();
         }
 
         public void Initialize()
@@ -123,8 +124,12 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowInstructionCommand { get; private set; }
         void OnShowInstruction()
         {
-            InstructionViewModel instructionViewModel = new InstructionViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
+            InstructionViewModel instructionViewModel = new InstructionViewModel(_alarm.DeviceId, _alarm.AlarmType);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
+            if (result)
+            {
+
+            }
         }
 
         public RelayCommand ShowVideoCommand { get; private set; }

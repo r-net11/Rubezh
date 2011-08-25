@@ -41,14 +41,14 @@ namespace InstructionsModule.ViewModels
             InstructionType = instruction.InstructionType;
             switch (InstructionType)
             {
-                case InstructionType.Zone:
-                    InstructionDetailsList = new List<string>(Instruction.InstructionZones);
-                    break;
-                case InstructionType.Device:
-                    InstructionDetailsList = new List<string>(Instruction.InstructionDevices);
+                case InstructionType.General:
+                    InstructionDetailsList = new List<string>();
                     break;
                 default:
-                    InstructionDetailsList = new List<string>();
+                    if (Instruction.InstructionDetailsList.IsNotNullOrEmpty())
+                    {
+                        InstructionDetailsList = new List<string>(Instruction.InstructionDetailsList);
+                    }
                     break;
             }
         }
@@ -65,10 +65,12 @@ namespace InstructionsModule.ViewModels
         }
 
         public List<string> InstructionDetailsList { get; set; }
+
         public List<StateType> AvailableStates
         {
             get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
         }
+
         public List<InstructionType> AvailableInstructionsType
         {
             get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
@@ -96,8 +98,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        
-
         string _text;
         public string Text
         {
@@ -115,17 +115,7 @@ namespace InstructionsModule.ViewModels
             Instruction.Text = Text;
             Instruction.StateType = StateType;
             Instruction.InstructionType = InstructionType;
-            switch (InstructionType)
-            {
-                case InstructionType.Device:
-                    Instruction.InstructionDevices = InstructionDetailsList;
-                    break;
-                case InstructionType.Zone:
-                    Instruction.InstructionZones = InstructionDetailsList;
-                    break;
-                default:
-                    break;
-            }
+            Instruction.InstructionDetailsList = InstructionDetailsList;
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
@@ -133,21 +123,28 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        bool CanSelectZone()
+        bool CanSelectZone(object obj)
         {
             return (InstructionType == InstructionType.Zone);
         }
 
-        bool CanSelectDevice()
+        bool CanSelectDevice(object obj)
         {
             return (InstructionType == InstructionType.Device);
         }
 
-        bool CanSave()
+        bool CanSave(object obj)
         {
-            return (((CanSelectZone()) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
-                ((CanSelectDevice()) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
-                (InstructionType == InstructionType.All));
+            if ((string.IsNullOrWhiteSpace(Name)) || (string.IsNullOrWhiteSpace(Text)))
+            {
+                return false;
+            }
+            else
+            {
+                return (((CanSelectZone(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+                    ((CanSelectDevice(null)) && (InstructionDetailsList.IsNotNullOrEmpty())) ||
+                    (InstructionType == InstructionType.General));
+            }
         }
 
         public RelayCommand SelectZoneCommand { get; private set; }
@@ -158,7 +155,7 @@ namespace InstructionsModule.ViewModels
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
             if (result)
             {
-                InstructionDetailsList = instructionZonesViewModel.InstructionZonesList;
+                InstructionDetailsList = instructionZonesViewModel.InstructionDetailsList;
             }
         }
 
