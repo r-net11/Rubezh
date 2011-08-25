@@ -3,7 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ViewModels="clr-namespace:PlansModule.ViewModels"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
+        <!--
+        <ScrollViewer.Resources>
+            <HierarchicalDataTemplate x:Key="OrderTemplate" ItemsSource="{Binding SubPlans}">
+                <TextBlock Text="{Binding Name}" />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="CustomerTemplate" ItemsSource="{Binding Children}" 
+                                      ItemTemplate="{StaticResource OrderTemplate}">
+                <TextBlock Text="{Binding Plan.Name}" />
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="Main" ItemsSource="{Binding Plans}" 
+                                      ItemTemplate="{StaticResource CustomerTemplate}">
+            </HierarchicalDataTemplate>
+        </ScrollViewer.Resources>
+        <TreeView ItemsSource="{Binding Path=Plans}" 
+                  ContextMenuOpening="TreeView_ContextMenuOpening"
+                  SelectedItemChanged="TreeView_SelectedItemChanged"
+                  ItemTemplate="{StaticResource CustomerTemplate}">
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить план" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="Добавить субплан" Command="{Binding AddSubCommand}"/>
+                    <MenuItem Header="Редактировать план" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="Удалить план" Command="{Binding RemoveCommand}"/>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
+-->
         <TreeView ItemsSource="{Binding Plans}"
                   ContextMenuOpening="TreeView_ContextMenuOpening"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
@@ -12,7 +40,7 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <WrapPanel Margin="0,3">
                         <TextBlock Text="{Binding Plan.Name}"/>
-                        </WrapPanel>
+                    </WrapPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
             <TreeView.ContextMenu>
@@ -23,6 +51,6 @@
                     <MenuItem Header="Удалить план" Command="{Binding RemoveCommand}"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
-        </TreeView>
+        </TreeView> 
     </ScrollViewer>
 </UserControl>

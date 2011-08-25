@@ -66,8 +66,9 @@ namespace PlansModule.ViewModels
             SubPlan.Name = Name;
             if (_isNew)
             {
-                /*
-                ElementSubPlan subPlan = Plan;
+                
+                Plan plan = Parent;
+                
                 while (plan.Parent != null) plan = plan.Parent;
 
                 if (FiresecManager.PlansConfiguration.Plans == null) FiresecManager.PlansConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
@@ -79,7 +80,7 @@ namespace PlansModule.ViewModels
                 else
                 {
                     FiresecManager.PlansConfiguration.Plans[index] = plan;
-                }*/
+                }
             }
         }
 

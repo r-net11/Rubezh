@@ -121,8 +121,9 @@ namespace PlansModule.ViewModels
             if (result)
             {
                 var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.SubPlan);
+                SelectedPlan.AddSubPlan(SelectedPlan, elementSubPlanViewModel);
+                subPlanDetailsViewModel.Initialize();
             }
-
         }
 
         bool CanAddSub()

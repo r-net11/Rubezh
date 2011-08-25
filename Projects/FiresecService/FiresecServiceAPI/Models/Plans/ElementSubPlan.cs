@@ -5,6 +5,8 @@ namespace FiresecAPI.Models
 {
     public class ElementSubPlan
     {
+        public Plan Parent { get; set; }
+
         [DataMember]
         public string Name { get; set; }
 

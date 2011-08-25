@@ -32,7 +32,7 @@ namespace PlansModule.ViewModels
         }
 
         public Plan Plan { get; private set; }
-
+        
         private ObservableCollection<PlanViewModel> _children;
         public ObservableCollection<PlanViewModel> Children
         {
