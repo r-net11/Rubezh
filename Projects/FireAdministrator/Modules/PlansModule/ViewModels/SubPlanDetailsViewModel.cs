@@ -7,24 +7,16 @@ using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDetailsViewModel : DialogContent
+    public class SubPlanDetailsViewModel : DialogContent
     {
-        public PlanDetailsViewModel()
-        {
-            Title = "Новый план";
-            Plan = new Plan();
-            Parent = null;
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
 
-        public PlanDetailsViewModel(Plan parent)
+        public SubPlanDetailsViewModel(Plan parent)
         {
-            Title = "Новый план";
-            Plan = new Plan();
-            if (parent.Children == null) parent.Children = new List<FiresecAPI.Models.Plan>();
-            parent.Children.Add(Plan);
-            Plan.Parent = parent;
+            Title = "Новый субплан";
+            SubPlan = new ElementSubPlan();
+            if (parent.ElementSubPlans == null) parent.ElementSubPlans = new List<ElementSubPlan>();
+            parent.ElementSubPlans.Add(SubPlan);
+            Parent = parent;
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
@@ -38,25 +30,21 @@ namespace PlansModule.ViewModels
         {
             _isNew = false;
             Name = plan.Name;
-            Width = plan.Width;
-            Height = plan.Height;
-            Title = "Редактирование плана";
+            Title = "Редактирование субплана";
         }
+
 
 
         public void Initialize(PlanViewModel plan)
         {
             _isNew = false;
             Name = plan.Name;
-            Width = plan.Plan.Width;
-            Height = plan.Plan.Height;
-            Title = "Редактирование плана";
+            Title = "Редактирование субплана";
         }
         
-        bool _isNew; 
-        public Plan Plan { get; private set; }
+        bool _isNew;
+        public ElementSubPlan SubPlan { get; private set; }
         public Plan Parent { get; private set; }
-        
 
         string _name;
         public string Name
@@ -72,36 +60,14 @@ namespace PlansModule.ViewModels
             }
         }
 
-        double _height;
-        public double Height
-        {
-            get { return _height; }
-            set
-            {
-                _height = value;
-                OnPropertyChanged("Height");
-            }
-        }
-
-        double _width;
-        public double Width
-        {
-            get { return _width; }
-            set
-            {
-                _width = value;
-                OnPropertyChanged("Width");
-            }
-        }
 
         void Save()
         {
-            Plan.Name = Name;
-            Plan.Height = Height;
-            Plan.Width = Width;
+            SubPlan.Name = Name;
             if (_isNew)
             {
-                Plan plan = Plan;
+                /*
+                ElementSubPlan subPlan = Plan;
                 while (plan.Parent != null) plan = plan.Parent;
 
                 if (FiresecManager.PlansConfiguration.Plans == null) FiresecManager.PlansConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
@@ -113,7 +79,7 @@ namespace PlansModule.ViewModels
                 else
                 {
                     FiresecManager.PlansConfiguration.Plans[index] = plan;
-                }
+                }*/
             }
         }
 

@@ -12,6 +12,7 @@ namespace PlansModule.ViewModels
         public PlansViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
+            AddSubCommand = new RelayCommand(OnAddSub, CanAddSub);
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
@@ -111,6 +112,25 @@ namespace PlansModule.ViewModels
             }
         }
 
+        public RelayCommand AddSubCommand { get; private set; }
+        void OnAddSub()
+        {
+            var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
+            subPlanDetailsViewModel.Initialize();
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel);
+            if (result)
+            {
+                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.SubPlan);
+            }
+
+        }
+
+        bool CanAddSub(object obj)
+        {
+            return SelectedPlan != null;
+        }
+
+
         bool CanEditRemove(object obj)
         {
             return SelectedPlan != null;
@@ -147,14 +167,22 @@ namespace PlansModule.ViewModels
 
         void OnRemove()
         {
+            if (SelectedPlan.Plan.Parent != null)
+            {
+                Plan plan = SelectedPlan.Plan.Parent;
+                plan.Children.Remove(SelectedPlan.Plan);
+                while (plan.Parent != null) plan = plan.Parent;
+                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
+                FiresecManager.PlansConfiguration.Plans[index] = plan;
+            }
+            else
+            {
+                FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
+            }
+
             RemovePlan(Plans, SelectedPlan);
-            Plan plan = SelectedPlan.Plan.Parent;
-            plan.Children.Remove(SelectedPlan.Plan);
-            while (plan.Parent != null) plan = plan.Parent;
-            int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
-            FiresecManager.PlansConfiguration.Plans[index] = plan;
             SelectedPlan.Update();
-            //SelectedPlan = null;
+            SelectedPlan = null;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -179,7 +207,7 @@ namespace PlansModule.ViewModels
         public override void OnShow()
         {
             //SelectedPlan = SelectedPlan;
-            var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, AddSubCommand, EditCommand, RemoveCommand);
             var plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
         }

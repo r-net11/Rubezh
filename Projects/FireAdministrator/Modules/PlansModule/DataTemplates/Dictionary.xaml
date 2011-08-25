@@ -15,4 +15,7 @@
         <Views:PlanDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SubPlanDetailsViewModel}">
+        <Views:SubPlanDetailsView />
+    </DataTemplate>
 </ResourceDictionary>
