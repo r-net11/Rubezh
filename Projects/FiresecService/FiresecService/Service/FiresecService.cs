@@ -24,7 +24,7 @@ namespace FiresecService
 
         string ConfigurationDirectory(string FileNameOrDirectory)
         {
-            return (Directory.GetCurrentDirectory() + @"\Configuration\" + FileNameOrDirectory);
+            return Path.Combine(Directory.GetCurrentDirectory(), "Configuration", FileNameOrDirectory);
         }
 
         public bool Connect(string userName, string passwordHash)

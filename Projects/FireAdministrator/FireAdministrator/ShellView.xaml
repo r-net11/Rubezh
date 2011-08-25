@@ -73,7 +73,7 @@
                                     <ContentControl Name="_mainRegionHost" />
                                 </Border>
                             </Grid>
-                            
+
                         </Grid>
                     </DockPanel>
                 </Grid>

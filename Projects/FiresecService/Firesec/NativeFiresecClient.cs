@@ -95,8 +95,9 @@ namespace Firesec
             var devicePatsString = new StringBuilder();
             foreach (string device in devicePaths)
             {
-                devicePatsString.Append(device + Environment.NewLine);
+                devicePatsString.AppendLine(device);
             }
+
             return devicePatsString.ToString().TrimEnd();
         }
 

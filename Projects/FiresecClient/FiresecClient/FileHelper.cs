@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Common;
 
@@ -15,7 +16,7 @@ namespace FiresecClient
 
         static string CurrentDirectory(string directory)
         {
-            return Directory.GetCurrentDirectory() + @"\Configuration\" + directory;
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory);
         }
 
         static void SynchronizeDirectory(string directory)
@@ -28,35 +29,32 @@ namespace FiresecClient
             {
                 if (remoteFileNamesList.Contains(localFileName) == false)
                 {
-                    File.Delete(filesDirectory.FullName + @"\" + localFileName);
+                    File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
                 }
             }
-
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
             var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
 
-            if (remoteDirectoryHash != null)
+            if (remoteDirectoryHash.IsNotNullOrEmpty())
             {
                 foreach (var remoteFileHash in remoteDirectoryHash)
                 {
-                    if (localDirectoryHash != null)
+                    if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
                     {
-                        if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
+                        var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
+                        if (File.Exists(fileName))
                         {
-                            if (File.Exists(filesDirectory.FullName + @"\" + remoteFileHash.Value))
-                            {
-                                File.Delete(filesDirectory.FullName + @"\" + remoteFileHash.Value);
-                            }
-                            DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, filesDirectory.FullName + @"\" + remoteFileHash.Value);
+                            File.Delete(fileName);
                         }
+                        DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, fileName);
                     }
                 }
             }
         }
 
-        static void DownloadFile(string directoryAndFileName, string destinationPath)
+        static void DownloadFile(string sourcePath, string destinationPath)
         {
-            var stream = FiresecManager.GetFile(directoryAndFileName);
+            using (var stream = FiresecManager.GetFile(sourcePath))
             using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
             {
                 stream.CopyTo(destinationStream);

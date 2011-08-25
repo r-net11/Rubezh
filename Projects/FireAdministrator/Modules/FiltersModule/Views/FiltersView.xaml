@@ -11,9 +11,9 @@
 
     <DockPanel Margin="10, 20">
 
-        <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
+        <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontSize="14" FontFamily="Microsoft Sans Serif" Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
         <TextBlock DockPanel.Dock="Top" Text="" />
-        <TextBlock DockPanel.Dock="Top" Margin="5, 0" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
+        <TextBlock DockPanel.Dock="Top" Margin="0, 9" FontSize="15" FontWeight="Black" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
 
         <ListBox ItemsSource="{Binding FilterViewModels,
                                        Converter={StaticResource CollectionViewFactoryConverter},

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Common
             var stringBuilder = new StringBuilder();
             byte[] hash = null;
 
-            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Configuration\" + directory);
+            var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
             if (directoryInfo.Exists)
             {
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
@@ -34,7 +35,8 @@ namespace Common
                     {
                         hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
                     }
-                    stringBuilder.Clear();
+
+                    stringBuilder.Length = 0;
                 }
             }
 
@@ -44,7 +46,7 @@ namespace Common
         public static List<string> GetFileNamesList(string directory)
         {
             var fileNames = new List<string>();
-            var directoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory() + @"\Configuration\" + directory);
+            var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
             if (directoryInfo.Exists)
             {
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
@@ -52,6 +54,7 @@ namespace Common
                     fileNames.Add(fileInfo.Name);
                 }
             }
+
             return fileNames;
         }
     }

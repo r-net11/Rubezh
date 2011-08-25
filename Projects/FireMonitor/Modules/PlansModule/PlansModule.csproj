@@ -140,10 +140,6 @@
       <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
       <Name>DeviceControls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\DeviceLibrary\DeviceLibrary.csproj">
-      <Project>{CA6164BD-CFB8-419E-982B-28D52DB86C81}</Project>
-      <Name>DeviceLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
