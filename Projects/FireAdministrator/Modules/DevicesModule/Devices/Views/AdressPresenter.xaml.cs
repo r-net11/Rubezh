@@ -21,6 +21,7 @@ namespace DevicesModule.Views
         public int LeftPartMin { get; set; }
         public int RightPartMin { get; set; }
 
+        string _leftPartFormat = "";
         int _leftPartLen;
         int _leftPartMax;
         public int LeftPartMax
@@ -30,9 +31,11 @@ namespace DevicesModule.Views
             {
                 _leftPartMax = value;
                 _leftPartLen = _leftPartMax.ToString().Length;
+                _leftPartFormat = string.Format("D{0}", _leftPartLen);
             }
         }
 
+        string _rightPartFormat = "";
         int _rightPartLen;
         int _rightPartMax;
         public int RightPartMax
@@ -42,6 +45,7 @@ namespace DevicesModule.Views
             {
                 _rightPartMax = value;
                 _rightPartLen = _rightPartMax.ToString().Length;
+                _rightPartFormat = string.Format("D{0}", _rightPartLen);
             }
         }
 
@@ -227,8 +231,7 @@ namespace DevicesModule.Views
         {
             if (_isHaveDelimiter)
             {
-                string leftPart = value.ToString();
-                leftPart = new string('0', _leftPartLen - leftPart.Length) + leftPart;
+                string leftPart = value.ToString(_leftPartFormat);
                 address.Text = leftPart + address.Text.Substring(address.Text.IndexOf('.'));
             }
             else
@@ -241,8 +244,7 @@ namespace DevicesModule.Views
         {
             if (_isHaveDelimiter)
             {
-                string rightPart = value.ToString();
-                rightPart = new string('0', _rightPartLen - rightPart.Length) + rightPart;
+                string rightPart = value.ToString(_rightPartFormat);
                 address.Text = address.Text.Remove(address.Text.IndexOf('.') + 1) + rightPart;
             }
         }
