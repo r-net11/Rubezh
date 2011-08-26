@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Devices\Views\AdressPresenter.xaml.cs">
+      <DependentUpon>AdressPresenter.xaml</DependentUpon>
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
@@ -283,6 +285,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\AdressPresenter.xaml">
     <Page Include="Directions\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

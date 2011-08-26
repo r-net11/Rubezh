@@ -11,11 +11,10 @@ namespace FiresecAPI
                 return intAddress.ToString();
             }
 
-            int shleifPart = intAddress / 256;
-            int addressPart = intAddress % 256;
-            string stringAddress = shleifPart.ToString() + "." + addressPart.ToString();
+            int shleifPart = intAddress >> 8; //intAddress / 256;
+            int addressPart = intAddress & 0xff; //intAddress % 256;
 
-            return stringAddress;
+            return string.Format("{0}.{1}", shleifPart, addressPart);
         }
 
         public static int StringToIntAddress(Driver driver, string stringAddress)
@@ -33,9 +32,8 @@ namespace FiresecAPI
 
             int shleifPart = int.Parse(addresses[0]);
             int addressPart = int.Parse(addresses[1]);
-            int intAddress = shleifPart * 256 + addressPart;
 
-            return intAddress;
+            return shleifPart << 8 | addressPart; //shleifPart * 256 + addressPart;
         }
     }
 }
