@@ -233,6 +233,31 @@ namespace FiresecClient
             return _firesecService.GetFile(filepath);
         }
 
+        public static void ReadDeviceConfiguration(string deviceId)
+        {
+            ;
+        }
+
+        public static void WriteDeviceConfiguration(string deviceId)
+        {
+            ;
+        }
+
+        public static void WriteAllDeviceConfiguration()
+        {
+            ;
+        }
+
+        public static void SynchronizeDevice(string deviceId)
+        {
+            ;
+        }
+
+        public static void RebootDevice(string deviceId)
+        {
+            ;
+        }
+
         public static void LoadFromFile(string fileName)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));

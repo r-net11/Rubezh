@@ -4,15 +4,14 @@ namespace DevicesModule.ViewModels
 {
     public class DevicesMenuViewModel
     {
-        public DevicesMenuViewModel(RelayCommand copyCommand, RelayCommand cutCommand, RelayCommand pasteCommand)
-        {
-            CopyCommand = copyCommand;
-            CutCommand = cutCommand;
-            PasteCommand = pasteCommand;
-        }
-
-        public RelayCommand CopyCommand { get; private set; }
-        public RelayCommand CutCommand { get; private set; }
-        public RelayCommand PasteCommand { get; private set; }
+        public RelayCommand CopyCommand { get; set; }
+        public RelayCommand CutCommand { get; set; }
+        public RelayCommand PasteCommand { get; set; }
+        public RelayCommand FindDeviceCommand { get; set; }
+        public RelayCommand ReadDeviceCommand { get; set; }
+        public RelayCommand WriteDeviceCommand { get; set; }
+        public RelayCommand WriteAllDeviceCommand { get; set; }
+        public RelayCommand SynchronizeDeviceCommand { get; set; }
+        public RelayCommand RebootDeviceCommand { get; set; }
     }
 }

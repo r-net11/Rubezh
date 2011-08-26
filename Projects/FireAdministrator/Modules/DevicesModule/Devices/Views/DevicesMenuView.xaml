@@ -14,5 +14,29 @@
         <Button Command="{Binding PasteCommand}" ToolTip="Вставить">
             <Image Source="/DevicesModule;component/Images/Paste.png" Height="32" />
         </Button>
+
+        <Button Command="{Binding FindDeviceCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding ReadDeviceCommand}" ToolTip="Считать конфигурацию из устройства">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding WriteDeviceCommand}" ToolTip="Записать конфигурацию в устройство">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding WriteAllDeviceCommand}" ToolTip="Записать конфигурацию во все устройства">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding SynchronizeDeviceCommand}" ToolTip="Синзронизировать часы устройства с системными">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
     </ToolBar>
 </UserControl>

@@ -15,6 +15,12 @@ namespace DevicesModule.ViewModels
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
+            FindDeviceCommand = new RelayCommand(OnFindDevice, CanFindDevice);
+            ReadDeviceCommand = new RelayCommand(OnReadDevice, CanReadDevice);
+            WriteDeviceCommand = new RelayCommand(OnWriteDevice, CanWriteDevice);
+            WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
+            SynchronizeDeviceCommand = new RelayCommand(OnSynchronizeDevice, CanSynchronizeDevice);
+            RebootDeviceCommand = new RelayCommand(OnRebootDevice, CanRebootDevice);
         }
 
         public void Initialize()
@@ -195,9 +201,98 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
+
+        public RelayCommand FindDeviceCommand { get; private set; }
+        void OnFindDevice()
+        {
+        }
+
+        bool CanFindDevice()
+        {
+            return true;
+        }
+
+        public RelayCommand ReadDeviceCommand { get; private set; }
+        void OnReadDevice()
+        {
+            FiresecManager.ReadDeviceConfiguration(SelectedDevice.Device.Id);
+        }
+
+        bool CanReadDevice()
+        {
+            if (SelectedDevice == null)
+                return false;
+
+            return true;
+        }
+
+        public RelayCommand WriteDeviceCommand { get; private set; }
+        void OnWriteDevice()
+        {
+            FiresecManager.WriteDeviceConfiguration(SelectedDevice.Device.Id);
+        }
+
+        bool CanWriteDevice()
+        {
+            if (SelectedDevice == null)
+                return false;
+
+            return true;
+        }
+
+        public RelayCommand WriteAllDeviceCommand { get; private set; }
+        void OnWriteAllDevice()
+        {
+            FiresecManager.WriteAllDeviceConfiguration();
+        }
+
+        bool CanWriteAllDevice()
+        {
+            return true;
+        }
+
+        public RelayCommand SynchronizeDeviceCommand { get; private set; }
+        void OnSynchronizeDevice()
+        {
+            FiresecManager.SynchronizeDevice(SelectedDevice.Device.Id);
+        }
+
+        bool CanSynchronizeDevice()
+        {
+            if (SelectedDevice == null)
+                return false;
+
+            return true;
+        }
+
+        public RelayCommand RebootDeviceCommand { get; private set; }
+        void OnRebootDevice()
+        {
+            FiresecManager.RebootDevice(SelectedDevice.Device.Id);
+        }
+
+        bool CanRebootDevice()
+        {
+            if (SelectedDevice == null)
+                return false;
+
+            return true;
+        }
+
         public override void OnShow()
         {
-            var devicesMenuViewModel = new DevicesMenuViewModel(CopyCommand, CutCommand, PasteCommand);
+            var devicesMenuViewModel = new DevicesMenuViewModel()
+                {
+                    CopyCommand = CopyCommand,
+                    CutCommand = CutCommand,
+                    PasteCommand = PasteCommand,
+                    FindDeviceCommand = FindDeviceCommand,
+                    ReadDeviceCommand = ReadDeviceCommand,
+                    WriteDeviceCommand = WriteDeviceCommand,
+                    WriteAllDeviceCommand = WriteAllDeviceCommand,
+                    SynchronizeDeviceCommand = SynchronizeDeviceCommand,
+                    RebootDeviceCommand = RebootDeviceCommand
+                };
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }
 

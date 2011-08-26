@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FiresecService.Converters
 {
@@ -25,6 +26,7 @@ namespace FiresecService.Converters
                     if (innerZone.shape != null)
                     {
                         zone.ShapeId = innerZone.shape[0].id;
+                        Trace.WriteLine(zone.ShapeId);
                     }
 
                     if (innerZone.param != null)
