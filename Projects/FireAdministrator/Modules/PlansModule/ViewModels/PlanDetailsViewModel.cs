@@ -29,6 +29,15 @@ namespace PlansModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
+        public PlanDetailsViewModel(Plan parent, ElementSubPlan subplan)
+        {
+            Title = "Новый субплан";
+            Plan = parent;
+            if (Plan.ElementSubPlans == null) Plan.ElementSubPlans = new List<ElementSubPlan>();
+            Plan.ElementSubPlans.Add(subplan);
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
+        }
 
         public void Initialize()
         {

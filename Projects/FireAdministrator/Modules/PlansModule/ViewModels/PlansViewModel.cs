@@ -70,22 +70,7 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public ObservableCollection<PlanViewModel> _subplans;
-        public ObservableCollection<PlanViewModel> SubPlans
-        {
-            get
-            {
-                return _subplans;
-            }
-            set
-            {
-                _subplans = value;
-                OnPropertyChanged("Plans");
-            }
-        }
-
         PlanViewModel _selectedPlan;
-
         public PlanViewModel SelectedPlan
         {
             get { return _selectedPlan; }
@@ -130,12 +115,13 @@ namespace PlansModule.ViewModels
         public RelayCommand AddSubCommand { get; private set; }
         void OnAddSub()
         {
+            
             var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
             subPlanDetailsViewModel.Initialize();
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel);
             if (result)
             {
-                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.SubPlan);
+                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.ElementSubPlan);
                 SelectedPlan.AddSubPlan(SelectedPlan, elementSubPlanViewModel);
                 subPlanDetailsViewModel.Initialize();
             }

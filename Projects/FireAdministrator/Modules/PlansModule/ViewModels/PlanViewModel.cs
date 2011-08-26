@@ -27,8 +27,8 @@ namespace PlansModule.ViewModels
 
         public void AddSubPlan(PlanViewModel parent, SubPlanViewModel subplan)
         {
-            if (parent.SubPlans == null) parent.SubPlans = new ObservableCollection<SubPlanViewModel>();
-            parent.SubPlans.Add(subplan);
+            if (parent.ElementSubPlans == null) parent.ElementSubPlans = new ObservableCollection<SubPlanViewModel>();
+            parent.ElementSubPlans.Add(subplan);
         }
 
         public Plan Plan { get; private set; }
@@ -44,20 +44,19 @@ namespace PlansModule.ViewModels
             }
             set { _children = value; }
         }
-
-        private ObservableCollection<SubPlanViewModel> _subPlans;
-        private ObservableCollection<SubPlanViewModel> SubPlans
+        private ObservableCollection<SubPlanViewModel> _elementSubPlans;
+        
+        private ObservableCollection<SubPlanViewModel> ElementSubPlans
         {
             get
             {
-                if (_subPlans == null)
-                    _subPlans = new ObservableCollection<SubPlanViewModel>();
-                return _subPlans;
+                if (_elementSubPlans == null)
+                    _elementSubPlans = new ObservableCollection<SubPlanViewModel>();
+                return _elementSubPlans;
             }
-            set { _subPlans = value; }
+            set { _elementSubPlans = value; }
         }
-
-
+        
         public string Name { get; private set; }
         public double Width { get; private set; }
         public double Height { get; private set; }

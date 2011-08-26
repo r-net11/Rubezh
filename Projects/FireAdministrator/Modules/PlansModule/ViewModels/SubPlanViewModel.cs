@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-//using PlansModule.Events;
+using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
@@ -21,16 +21,13 @@ namespace PlansModule.ViewModels
         {
             Parent = plan;
             Name = subplan.Name;
-
-            //ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+            ElementSubPlan = subplan;
         }
 
         public Plan Parent { get; private set; }
         public string Name { get; private set; }
+        public ElementSubPlan ElementSubPlan { get; private set; }
 
-        
-        public string PresentationName { get; private set; }
-        
         public void Update()
         {
             OnPropertyChanged("Plan");

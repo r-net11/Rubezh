@@ -13,9 +13,9 @@ namespace PlansModule.ViewModels
         public SubPlanDetailsViewModel(Plan parent)
         {
             Title = "Новый субплан";
-            SubPlan = new ElementSubPlan();
+            ElementSubPlan = new ElementSubPlan();
             if (parent.ElementSubPlans == null) parent.ElementSubPlans = new List<ElementSubPlan>();
-            parent.ElementSubPlans.Add(SubPlan);
+            parent.ElementSubPlans.Add(ElementSubPlan);
             Parent = parent;
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
@@ -43,7 +43,7 @@ namespace PlansModule.ViewModels
         }
         
         bool _isNew;
-        public ElementSubPlan SubPlan { get; private set; }
+        public ElementSubPlan ElementSubPlan { get; private set; }
         public Plan Parent { get; private set; }
 
         string _name;
@@ -63,7 +63,7 @@ namespace PlansModule.ViewModels
 
         void Save()
         {
-            SubPlan.Name = Name;
+            ElementSubPlan.Name = Name;
             if (_isNew)
             {
                 

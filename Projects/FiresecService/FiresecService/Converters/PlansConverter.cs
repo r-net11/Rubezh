@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,73 +16,146 @@ namespace FiresecService.Converters
             if (innerPlans.surface != null)
             {
                 plansConfiguration.Plans = new List<Plan>();
-                foreach (var _plan in innerPlans.surface)
+                foreach (var _planInner in innerPlans.surface)
                 {
-                    Plan plan = new Plan();
-                    plan.Caption = _plan.caption;
-                    plan.Height = Double.Parse(_plan.height);
-                    plan.Width = Double.Parse(_plan.width);
+                    Plan planInner = new Plan();
+                    planInner.Caption = _planInner.caption;
+                    planInner.Height = Double.Parse(_planInner.height);
+                    planInner.Width = Double.Parse(_planInner.width);
                     int index = 0;
-                    foreach (var _element in _plan.layer)
+                    foreach (var _elementInner in _planInner.layer)
                     {
-                        if (index == 2)// Пожарные зоны (добавить ID зоны!!!)
+                        if (_elementInner.name == "План") // Графические примитивы
                         {
-                            plan.ElementZones = new List<ElementZone>();
-                            ElementZone zone = null;
-                            foreach (var _zone in _element.elements)
+                            ;
+                        }
+                        if ((_elementInner.name =="Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
+                        {
+                            
+                            ElementZone zoneInner = null;
+                            if (_elementInner.elements != null)
                             {
-                                zone = new ElementZone();
-                                PolygonPoint polygonPoints = null;
-                                zone.PolygonPoints = new List<PolygonPoint>();
-                                if (_zone.@class.Equals("TFS_PolyZoneShape"))
+                                if (planInner.ElementZones == null) planInner.ElementZones = new List<ElementZone>();
+                                foreach (var _zoneInner in _elementInner.elements)
                                 {
-                                    if (_zone.points != null)
+                                    zoneInner = new ElementZone();
+                                    string _idTempS = _zoneInner.id;
+                                    long _idTempL = long.Parse(_idTempS);
+                                    int _idTempI = (int)_idTempL;
+                                    //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
+                                    foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
                                     {
-                                        foreach (var _point in _zone.points)
+                                        if (_index.ShapeId == _idTempL.ToString())
                                         {
-                                            polygonPoints = new PolygonPoint();
-                                            polygonPoints.X=Double.Parse(_point.x);
-                                            polygonPoints.Y = Double.Parse(_point.y);
-                                            zone.PolygonPoints.Add(polygonPoints);
+                                            zoneInner.ZoneNo = _index.No;
                                         }
-                                        
+                                        else
+                                            if (_index.ShapeId == _idTempI.ToString())
+                                            {
+                                                zoneInner.ZoneNo = _index.No;
+                                            }
                                     }
-                                };
-                                if (_zone.@class.Equals("TFS_ZoneShape"))
+                                    PolygonPoint polygonPointsInner = null;
+                                    zoneInner.PolygonPoints = new List<PolygonPoint>();
+                                    if (_zoneInner.@class.Equals("TFS_PolyZoneShape"))
+                                    {
+                                        if (_zoneInner.points != null)
+                                        {
+                                            foreach (var _pointInner in _zoneInner.points)
+                                            {
+                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner.X = Double.Parse(_pointInner.x);
+                                                polygonPointsInner.Y = Double.Parse(_pointInner.y);
+                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                            }
+
+                                        }
+                                    };
+                                    if (_zoneInner.@class.Equals("TFS_ZoneShape"))
+                                    {
+                                        if (_zoneInner.rect != null)
+                                        {
+                                            foreach (var _rectInner in _zoneInner.rect)
+                                            {
+                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner.X = Double.Parse(_rectInner.left);
+                                                polygonPointsInner.Y = Double.Parse(_rectInner.top);
+                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner.X = Double.Parse(_rectInner.right);
+                                                polygonPointsInner.Y = Double.Parse(_rectInner.top);
+                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner.X = Double.Parse(_rectInner.right);
+                                                polygonPointsInner.Y = Double.Parse(_rectInner.bottom);
+                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner.X = Double.Parse(_rectInner.left);
+                                                polygonPointsInner.Y = Double.Parse(_rectInner.bottom);
+                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                            }
+                                        }
+                                    };
+                                    planInner.ElementZones.Add(zoneInner);
+                                }
+                            }
+                        };
+                        if (_elementInner.name == "Устройства")
+                        {
+                            ElementDevice deviceInner = null;
+                            if (_elementInner.elements != null)
+                            {
+                                if (planInner.ElementDevices == null) planInner.ElementDevices = new List<ElementDevice>();
+                                foreach (var _deviceInner in _elementInner.elements)
                                 {
-                                    if (_zone.rect != null)
+                                    deviceInner = new ElementDevice();
+                                    
+/* Нету ShapeId в девайсах
+                                    string _idTempS = _deviceInner.id;
+                                    long _idTempL = long.Parse(_idTempS);
+                                    int _idTempI = (int)_idTempL;
+                                    //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
+                                    foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
                                     {
-                                        foreach (var _rect in _zone.rect)
+                                        if (_index.ShapeId == _idTempL.ToString())
                                         {
-                                            polygonPoints = new PolygonPoint();
-                                            polygonPoints.X = Double.Parse(_rect.left);
-                                            polygonPoints.Y = Double.Parse(_rect.top);
-                                            zone.PolygonPoints.Add(polygonPoints);
-                                            polygonPoints = new PolygonPoint();
-                                            polygonPoints.X = Double.Parse(_rect.right);
-                                            polygonPoints.Y = Double.Parse(_rect.top);
-                                            zone.PolygonPoints.Add(polygonPoints);
-                                            polygonPoints = new PolygonPoint();
-                                            polygonPoints.X = Double.Parse(_rect.right);
-                                            polygonPoints.Y = Double.Parse(_rect.bottom);
-                                            zone.PolygonPoints.Add(polygonPoints);
-                                            polygonPoints = new PolygonPoint();
-                                            polygonPoints.X = Double.Parse(_rect.left);
-                                            polygonPoints.Y = Double.Parse(_rect.bottom);
-                                            zone.PolygonPoints.Add(polygonPoints);
+                                            deviceInner.ZoneNo = _index.No;
                                         }
+                                        else
+                                            if (_index.ShapeId == _idTempI.ToString())
+                                            {
+                                                deviceInner.ZoneNo = _index.No;
+                                            }
                                     }
-                                };
-                                plan.ElementZones.Add(zone);
+                                    */
+                                    deviceInner.Id = "NULL";
+                                    if (_deviceInner.rect != null)
+                                    {
+                                        foreach (var _rectInner in _deviceInner.rect)
+                                        {
+                                            string _left = _rectInner.left;
+                                            _left = _left.Replace(".", ",");
+                                            deviceInner.Left = double.Parse(_left);
+                                            string _top= _rectInner.top;
+                                            _top = _top.Replace(".", ",");
+                                            deviceInner.Top = double.Parse(_top);
+                                            string _right = _rectInner.right;
+                                            _right = _right.Replace(".", ",");
+                                            deviceInner.Width = Double.Parse(_right) - Double.Parse(_left);
+                                            string _bottom = _rectInner.bottom;
+                                            _bottom = _bottom.Replace(".", ",");
+                                            deviceInner.Height = Double.Parse(_bottom) - Double.Parse(_top);
+                                        }
+                                        planInner.ElementDevices.Add(deviceInner);
+                                    }
+                                }
                             }
                         }
                         index++;
                     }
-                    
-                    plansConfiguration.Plans.Add(plan);
+                    plansConfiguration.Plans.Add(planInner);
                 }
             }
-            List<Driver> drivers = FiresecManager.Drivers;
             return plansConfiguration;
         }
     }
