@@ -29,7 +29,7 @@ namespace FiresecService.Converters
                         {
                             ;
                         }
-                        if ((_elementInner.name =="Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
+                        if ((_elementInner.name == "Зоны") || (_elementInner.name == "Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
                         {
                             
                             ElementZone zoneInner = null;
@@ -42,9 +42,9 @@ namespace FiresecService.Converters
                                     string _idTempS = _zoneInner.id;
                                     long _idTempL = long.Parse(_idTempS);
                                     int _idTempI = (int)_idTempL;
-                                    //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
                                     foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
                                     {
+
                                         if (_index.ShapeId == _idTempL.ToString())
                                         {
                                             zoneInner.ZoneNo = _index.No;
@@ -57,55 +57,42 @@ namespace FiresecService.Converters
                                     }
                                     PolygonPoint polygonPointsInner = null;
                                     zoneInner.PolygonPoints = new List<PolygonPoint>();
-                                    if (_zoneInner.@class.Equals("TFS_PolyZoneShape"))
+                                    switch (_zoneInner.@class)
                                     {
-                                        if (_zoneInner.points != null)
-                                        {
-                                            foreach (var _pointInner in _zoneInner.points)
+                                        case "TFS_PolyZoneShape":
+                                            if (_zoneInner.points != null)
                                             {
-                                                polygonPointsInner = new PolygonPoint();
-                                                polygonPointsInner.X = Double.Parse(_pointInner.x);
-                                                polygonPointsInner.Y = Double.Parse(_pointInner.y);
-                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                            }
-
-                                        }
-                                    };
-                                    if (_zoneInner.@class.Equals("TFS_ZoneShape"))
-                                    {
-                                       /* 
-                                        if (_zoneInner.rect != null)
-                                    if (xZone != null)
-                                    {
-                                        zone.ZoneNo = xZone.No;
-                                    }
-                                    else
-                                    {
-                                        ;
-                                    }
-                                        */
-                                        {
+                                                foreach (var _pointInner in _zoneInner.points)
+                                                {
+                                                    polygonPointsInner = new PolygonPoint();
+                                                    polygonPointsInner.X = ValidationDouble(_pointInner.x);
+                                                    polygonPointsInner.Y = ValidationDouble(_pointInner.y);
+                                                    zoneInner.PolygonPoints.Add(polygonPointsInner);
+                                                }
+                                            }; break;
+                                        case "TFS_ZoneShape":
                                             foreach (var _rectInner in _zoneInner.rect)
                                             {
                                                 polygonPointsInner = new PolygonPoint();
-                                                polygonPointsInner.X = Double.Parse(_rectInner.left);
-                                                polygonPointsInner.Y = Double.Parse(_rectInner.top);
+                                                polygonPointsInner.X = ValidationDouble(_rectInner.left);
+                                                polygonPointsInner.Y = ValidationDouble(_rectInner.top);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
                                                 polygonPointsInner = new PolygonPoint();
-                                                polygonPointsInner.X = Double.Parse(_rectInner.right);
-                                                polygonPointsInner.Y = Double.Parse(_rectInner.top);
+                                                polygonPointsInner.X = ValidationDouble(_rectInner.right);
+                                                polygonPointsInner.Y = ValidationDouble(_rectInner.top);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
                                                 polygonPointsInner = new PolygonPoint();
-                                                polygonPointsInner.X = Double.Parse(_rectInner.right);
-                                                polygonPointsInner.Y = Double.Parse(_rectInner.bottom);
+                                                polygonPointsInner.X = ValidationDouble(_rectInner.right);
+                                                polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
                                                 polygonPointsInner = new PolygonPoint();
-                                                polygonPointsInner.X = Double.Parse(_rectInner.left);
-                                                polygonPointsInner.Y = Double.Parse(_rectInner.bottom);
+                                                polygonPointsInner.X = ValidationDouble(_rectInner.left);
+                                                polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                            }
-                                        }
-                                    };
+                                            };
+                                            break;
+                                    }
+
                                     planInner.ElementZones.Add(zoneInner);
                                 }
                             }
@@ -143,18 +130,10 @@ namespace FiresecService.Converters
                                     {
                                         foreach (var _rectInner in _deviceInner.rect)
                                         {
-                                            string _left = _rectInner.left;
-                                            _left = _left.Replace(".", ",");
-                                            deviceInner.Left = double.Parse(_left);
-                                            string _top= _rectInner.top;
-                                            _top = _top.Replace(".", ",");
-                                            deviceInner.Top = double.Parse(_top);
-                                            string _right = _rectInner.right;
-                                            _right = _right.Replace(".", ",");
-                                            deviceInner.Width = Double.Parse(_right) - Double.Parse(_left);
-                                            string _bottom = _rectInner.bottom;
-                                            _bottom = _bottom.Replace(".", ",");
-                                            deviceInner.Height = Double.Parse(_bottom) - Double.Parse(_top);
+                                            deviceInner.Left = ValidationDouble(_rectInner.left);
+                                            deviceInner.Top = ValidationDouble(_rectInner.top);
+                                            deviceInner.Width = ValidationDouble(_rectInner.right) - deviceInner.Left;
+                                            deviceInner.Height = ValidationDouble(_rectInner.bottom) - deviceInner.Top;
                                         }
                                         planInner.ElementDevices.Add(deviceInner);
                                     }
@@ -167,6 +146,22 @@ namespace FiresecService.Converters
                 }
             }
             return plansConfiguration;
+        }
+        static Double ValidationDouble(string str)
+        {
+            Double result;
+            try
+            {
+                str = str.Replace(".", ",");
+                result = Double.Parse(str);
+                return result;
+            }
+            catch
+            {
+                str = str.Replace(",", ".");
+                result = Double.Parse(str);
+                return result;
+            }
         }
     }
 }

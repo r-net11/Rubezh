@@ -46,14 +46,20 @@ namespace PlansModule.Views
                 myPolygon.StrokeThickness = 2;
                 PointCollection myPointCollection = new PointCollection();
                 var point = new Point();
+                double minX = -1;
+                double minY = -1;
                 foreach (var _point in zona.PolygonPoints)
                 {
+                    if ((minX < _point.X)||(minX==-1)) minX=_point.X;
+                    if ((minY< _point.Y) || (minY == -1)) minY = _point.Y;
                     point.X = _point.X;
                     point.Y = _point.Y;
                     myPointCollection.Add(point);
                 }
                 myPolygon.Points = myPointCollection;
                 MainCanvas.Children.Add(myPolygon);
+                Canvas.SetLeft(myPolygon, 0);
+                Canvas.SetTop(myPolygon, 0);
             }
 
         }
@@ -152,21 +158,8 @@ namespace PlansModule.Views
 
                 if (cancelled == false)
                 {
-                    Polygon polygon = _originalElement as Polygon;
-                    PointCollection pointCollection = new PointCollection();
-                    foreach (var _point in polygon.Points)
-                    {
-                        //polygon.Points.IndexOf(point)
-                        Point point = _point;
-                        point.X = point.X + _overlayElementPolygon.LeftOffset;
-                        point.Y = point.Y + _overlayElementPolygon.TopOffset;
-                        pointCollection.Add(point);
-
-                    }
-                    polygon.Points=pointCollection;
-                    //Canvas.SetTop(_originalElement, _originalTop + _overlayElementPolygon.TopOffset);
-                    //Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementPolygon.LeftOffset);
-                    //listShapes.DragFinished(_code, canvas, _originalTop + _overlayElementPolygon.TopOffset, _originalLeft + _overlayElementPolygon.LeftOffset);
+                    Canvas.SetTop(_originalElement, _originalTop + _overlayElementPolygon.TopOffset);
+                    Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementPolygon.LeftOffset);
                 }
             }
             _isDragging = false;

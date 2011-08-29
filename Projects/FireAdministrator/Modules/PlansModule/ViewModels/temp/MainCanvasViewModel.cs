@@ -17,12 +17,12 @@ namespace PlansModule.ViewModels
     public class MainCanvasViewModel : RegionViewModel
     {
         UIElement ActiveElement = null;
-       
+
         public MainCanvasViewModel(UIElement _element)
         {
             ActiveElement = _element;
             SetActive();
-            
+
         }
 
         void SetActive()
@@ -41,6 +41,8 @@ namespace PlansModule.ViewModels
         {
             var polygon = _polygon;
             int index = 1;
+            double dLeft = Canvas.GetLeft(_polygon);
+            double dTop = Canvas.GetTop(_polygon);
             foreach (var point in _polygon.Points)
             {
                 Thumb thumb = new Thumb();
@@ -48,8 +50,8 @@ namespace PlansModule.ViewModels
                 thumb.Width = 10;
                 thumb.Background = Brushes.Blue;
 
-                Canvas.SetLeft(thumb, point.X - 5);
-                Canvas.SetTop(thumb, point.Y - 5);
+                Canvas.SetLeft(thumb, point.X - 5 + dLeft);
+                Canvas.SetTop(thumb, point.Y - 5 + dTop);
 
                 string s = "thumb" + (index + 1).ToString();
                 try

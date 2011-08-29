@@ -5,7 +5,7 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     >
 
-    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
         <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
                 MouseMove="MainCanvas_MouseMove"
                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
