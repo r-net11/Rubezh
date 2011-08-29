@@ -45,7 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\LevelToMarginConverter.cs" />
+    <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="CurrentDeviceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CurrentDeviceViewModel.cs" />

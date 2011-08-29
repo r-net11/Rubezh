@@ -46,9 +46,8 @@ namespace ActiveX
             _currentDeviceView.DataContext = _currentDeviceViewModel;
             elementHost.Child = _currentDeviceView;
 
-            if (!string.IsNullOrWhiteSpace(DeviceId))
+            if (string.IsNullOrWhiteSpace(DeviceId) == false)
             {
-
                 _currentDeviceViewModel.Inicialize(DeviceId);
             }
         }

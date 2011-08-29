@@ -80,9 +80,9 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+            <!--<TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
-            </TabItem>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </UserControl>

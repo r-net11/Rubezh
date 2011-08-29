@@ -93,7 +93,7 @@ namespace DevicesModule.ViewModels
             var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
             if (dialogResult == MessageBoxResult.Yes)
             {
-                //FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
+                FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
                 Zones.Remove(SelectedZone);
                 ZoneDevices.DropDevicesZoneNo();
                 ZoneDevices.Clear();

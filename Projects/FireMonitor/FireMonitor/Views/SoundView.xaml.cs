@@ -18,6 +18,7 @@ namespace FireMonitor
             CurrentStateType = StateType.No;
             IsSoundOn = true;
             DataContext = this;
+            //OnDeviceStateChanged(null);
             PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
 

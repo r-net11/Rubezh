@@ -5,7 +5,4 @@
     <DataTemplate DataType="{x:Type ViewModels:CurrentDeviceViewModel}">
         <Views:CurrentDeviceView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:DeviceTreeViewModel}">
-        <Views:DeviceTreeView />
-    </DataTemplate>
 </ResourceDictionary>

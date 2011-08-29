@@ -43,39 +43,5 @@ namespace CurrentDeviceModule.ViewModels
             get { return Device.Address; }
         }
 
-        //public string DevicePresentationZone
-        //{
-        //    get { return Device.GetPersentationZone(); }
-        //}
-
-        //public string DeviceId
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        //public string DriverShortName
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        //public string DeviceDescription
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        //public string DeviceAddress
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        //public string DevicePresentationZone
-        //{
-        //    get;
-        //    private set;
-        //}
     }
 }

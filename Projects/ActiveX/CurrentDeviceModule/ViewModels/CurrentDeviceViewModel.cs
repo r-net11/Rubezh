@@ -83,6 +83,7 @@ namespace CurrentDeviceModule.ViewModels
             DeviceTreeView newDeviceTreeView = new DeviceTreeView();
             newDeviceTreeView.DataContext = newDeviceTreeViewModel;
             newDeviceTreeViewModel.Closing += newDeviceTreeView.Close;
+
             newDeviceTreeView.ShowDialog();
 
             if (!string.IsNullOrWhiteSpace(newDeviceTreeViewModel.DeviceId))
@@ -94,41 +95,30 @@ namespace CurrentDeviceModule.ViewModels
 
         public void UpdateToolTip()
         {
-            //string str = "";
-            //str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
+            string str = "";
+            str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
 
-            //if (CurrentDeviceState.ParentStringStates != null)
-            //    foreach (var parentState in CurrentDeviceState.ParentStringStates)
-            //    {
-            //        str += parentState + "\n";
-            //    }
+            if (CurrentDeviceState.ParentStringStates != null)
+                foreach (var parentState in CurrentDeviceState.ParentStringStates)
+                {
+                    str += parentState + "\n";
+                }
 
-            //if (deviceState.SelfStates != null)
-            //    foreach (var selfState in deviceState.SelfStates)
-            //    {
-            //        str += selfState + "\n";
-            //    }
-
-            //if (CurrentDeviceState.Parameters != null)
-            //    foreach (var parameter in CurrentDeviceState.Parameters)
-            //    {
-            //        if (parameter.Visible)
-            //        {
-            //            if (string.IsNullOrEmpty(parameter.Value))
-            //                continue;
-            //            if (parameter.Value == "<NULL>")
-            //                continue;
-            //            str += parameter.Caption + " - " + parameter.Value + "\n";
-            //        }
-            //    }
-            //ToolTip = str;
+            if (CurrentDeviceState.Parameters != null)
+                foreach (var parameter in CurrentDeviceState.Parameters)
+                {
+                    if (parameter.Visible)
+                    {
+                        if (string.IsNullOrEmpty(parameter.Value))
+                            continue;
+                        if (parameter.Value == "<NULL>")
+                            continue;
+                        str += parameter.Caption + " - " + parameter.Value + "\n";
+                    }
+                }
+            ToolTip = str;
         }
 
-        public void UpdateContextMenu()
-        {
-
-        }
-        
         void Update()
         {
             UpdateToolTip();

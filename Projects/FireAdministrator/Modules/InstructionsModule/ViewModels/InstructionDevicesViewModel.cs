@@ -39,8 +39,6 @@ namespace InstructionsModule.ViewModels
             UpdateDevices();
         }
 
-        public List<string> InstructionDevicesList { get; set; }
-
         void UpdateDevices()
         {
             var availableDevices = new HashSet<Device>();
@@ -155,27 +153,9 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        ObservableCollection<DeviceViewModel> _availableDevices;
-        public ObservableCollection<DeviceViewModel> AvailableDevices
-        {
-            get { return _availableDevices; }
-            set
-            {
-                _availableDevices = value;
-                OnPropertyChanged("AvailableDevices");
-            }
-        }
-
-        ObservableCollection<DeviceViewModel> _instructionDevices;
-        public ObservableCollection<DeviceViewModel> InstructionDevices
-        {
-            get { return _instructionDevices; }
-            set
-            {
-                _instructionDevices = value;
-                OnPropertyChanged("InstructionDevices");
-            }
-        }
+        public List<string> InstructionDevicesList { get; set; }
+        public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
+        public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
 
         DeviceViewModel _selectedAvailableDevice;
         public DeviceViewModel SelectedAvailableDevice

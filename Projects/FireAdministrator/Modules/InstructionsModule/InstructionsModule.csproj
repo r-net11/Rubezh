@@ -55,7 +55,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\InstructionTypeToStringConverter.cs" />
+    <Compile Include="Converters\StateTypeConverter.cs" />
+    <Compile Include="Converters\InstructionTypeConverter.cs" />
     <Compile Include="InstructionsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -69,6 +70,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
+    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
+      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
     <Compile Include="ViewModels\InstructionDevicesViewModel.cs" />
@@ -136,6 +142,14 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Validation\DataTemplate\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Validation\Views\ValidationErrorsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InstructionDetailsView.xaml">
       <SubType>Designer</SubType>

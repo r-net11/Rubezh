@@ -295,5 +295,20 @@
                     return null;
             }
         }
+
+        public static string InstructionTypeToString(InstructionType instructionType)
+        {
+            switch (instructionType)
+            {
+                case InstructionType.General:
+                    return "Общая инструкция";
+                case InstructionType.Zone:
+                    return "Список зон";
+                case InstructionType.Device:
+                    return "Список устройств";
+                default:
+                    return "";
+            }
+        }
     }
 }

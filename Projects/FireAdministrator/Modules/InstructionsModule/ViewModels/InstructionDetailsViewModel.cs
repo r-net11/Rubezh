@@ -21,13 +21,20 @@ namespace InstructionsModule.ViewModels
 
         bool _isNew;
         public Instruction Instruction { get; private set; }
+        public List<string> InstructionDetailsList { get; set; }
 
         public void Initialize()
         {
             _isNew = true;
             Title = "Новая инструкция";
+            var maxNo = 0;
+            if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
+            {
+                maxNo = (from instruction in FiresecManager.SystemConfiguration.Instructions select int.Parse(instruction.No)).Max();
+            }
             Instruction = new Instruction();
             InstructionDetailsList = new List<string>();
+            InstructionNo = (maxNo + 1).ToString();
         }
 
         public void Initialize(Instruction instruction)
@@ -38,6 +45,7 @@ namespace InstructionsModule.ViewModels
             Name = instruction.Name;
             Text = instruction.Text;
             StateType = instruction.StateType;
+            InstructionNo = instruction.No;
             InstructionType = instruction.InstructionType;
             switch (InstructionType)
             {
@@ -64,8 +72,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public List<string> InstructionDetailsList { get; set; }
-
         public List<StateType> AvailableStates
         {
             get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
@@ -83,7 +89,7 @@ namespace InstructionsModule.ViewModels
             set
             {
                 _stateType = value;
-                OnPropertyChanged("StateType");
+                OnPropertyChanged("StateTypeFilter");
             }
         }
 
@@ -109,17 +115,14 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        void Save()
+        string _instructionNo;
+        public string InstructionNo
         {
-            Instruction.Name = Name;
-            Instruction.Text = Text;
-            Instruction.StateType = StateType;
-            Instruction.InstructionType = InstructionType;
-            Instruction.InstructionDetailsList = InstructionDetailsList;
-            if (_isNew)
+            get { return _instructionNo; }
+            set
             {
-                FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
-                InstructionsModule.HasChanges = true;
+                _instructionNo = value;
+                OnPropertyChanged("InstructionNo");
             }
         }
 
@@ -182,6 +185,21 @@ namespace InstructionsModule.ViewModels
         void OnCancel()
         {
             Close(false);
+        }
+
+        void Save()
+        {
+            Instruction.Name = Name;
+            Instruction.Text = Text;
+            Instruction.StateType = StateType;
+            Instruction.InstructionType = InstructionType;
+            Instruction.No = InstructionNo;
+            Instruction.InstructionDetailsList = InstructionDetailsList;
+            if (_isNew)
+            {
+                FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
+                InstructionsModule.HasChanges = true;
+            }
         }
     }
 }

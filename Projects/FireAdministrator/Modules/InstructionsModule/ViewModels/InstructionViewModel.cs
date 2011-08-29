@@ -31,6 +31,11 @@ namespace InstructionsModule.ViewModels
             get { return Instruction.Text; }
         }
 
+        public string InstructionNo
+        {
+            get { return Instruction.No; }
+        }
+
         public InstructionType InstructionType
         {
             get { return Instruction.InstructionType; }

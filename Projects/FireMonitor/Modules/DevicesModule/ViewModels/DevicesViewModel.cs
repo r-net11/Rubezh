@@ -16,14 +16,7 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
-
-        string _avc;
-
-        public string Avc
-        {
-            get { return _avc; }
-            set { _avc = value; }
-        }
+        
         public void Initialize()
         {
             BuildDeviceTree();

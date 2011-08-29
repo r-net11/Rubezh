@@ -14,6 +14,9 @@ namespace FiresecAPI.Models
     public class Instruction
     {
         [DataMember]
+        public string No { get; set; }
+
+        [DataMember]
         public string Name { get; set; }
 
         [DataMember]

@@ -7,6 +7,7 @@ using InstructionsModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using InstructionsModule.Validation.ViewModels;
 
 namespace InstructionsModule
 {
@@ -39,9 +40,14 @@ namespace InstructionsModule
         static InstructionsViewModel _instructionsViewModel;
         public static bool HasChanges { get; set; }
 
+        public static void Validate()
+        {
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
+        }
+
         static void OnShowInstructions(string obj)
         {
-            
             ServiceFactory.Layout.Show(_instructionsViewModel);
         }
     }

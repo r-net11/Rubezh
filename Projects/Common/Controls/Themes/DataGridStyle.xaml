@@ -8,7 +8,7 @@
     <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
     <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
     <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
-    
+    <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 
     <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
     <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
