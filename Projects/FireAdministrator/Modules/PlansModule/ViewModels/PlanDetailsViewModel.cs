@@ -20,7 +20,7 @@ namespace PlansModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
             SolidColorBrush brush = new SolidColorBrush();
             brush.Color = Colors.Red;
-           PlanCanvasView.Current._Canvas.Background = brush;
+           
         }
 
         public PlanDetailsViewModel(Plan parent)

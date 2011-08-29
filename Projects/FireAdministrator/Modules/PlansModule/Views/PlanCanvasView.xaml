@@ -6,9 +6,10 @@
     >
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <Canvas Name ="_Canvas" DataContext="{Binding MainCanvas}" Background="Aqua" 
-                MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
-                Loaded="Canvas_Loaded"
+        <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
+                MouseMove="MainCanvas_MouseMove"
+                MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+                MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
                 />
             <ScrollViewer.ContextMenu>
             <ContextMenu>
