@@ -1,8 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace FiresecAPI.Models
 {
+    [DataContract]
+    public struct RectangleBox
+    {
+        [DataMember]
+        public double Left;
+        [DataMember]
+        public double Top;
+        [DataMember]
+        public double Height;
+        [DataMember]
+        public double Width;
+        [DataMember]
+        public byte[] BackgroundPixels { get; set; }
+    }
+    [DataContract]
+    public struct CaptionBox
+    {
+        [DataMember]
+        public double Left;
+        [DataMember]
+        public double Top;
+        [DataMember]
+        public string Text;
+        [DataMember]
+        public string Color;
+        [DataMember]
+        public string BorderColor;
+    }
+
     [DataContract]
     public class Plan
     {
@@ -35,8 +66,14 @@ namespace FiresecAPI.Models
         public bool ShowBackgroundImage { get; set; }
 
         [DataMember]
-        public byte[] Pixels { get; set; }
+        public byte[] BackgroundPixels { get; set; }
+        
+        [DataMember]
+        public List<RectangleBox> Rectangls { get; set; }
 
+        [DataMember]
+        public List<CaptionBox> TextBoxes { get; set; }
+        
         [DataMember]
         public double Width { get; set; }
 

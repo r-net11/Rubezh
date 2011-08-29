@@ -274,10 +274,10 @@ namespace PlansModule.ViewModels
             */
             
             var imageBrush = new ImageBrush();
-            if (_plan.Pixels != null)
+            if (_plan.BackgroundPixels != null)
             {
                 BitmapImage image;
-                using (MemoryStream imageStream = new MemoryStream(_plan.Pixels))
+                using (MemoryStream imageStream = new MemoryStream(_plan.BackgroundPixels))
                 {
                     image = new BitmapImage();
                     image.BeginInit();

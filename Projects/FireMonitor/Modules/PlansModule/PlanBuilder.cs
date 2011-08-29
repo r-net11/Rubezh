@@ -24,7 +24,7 @@ namespace PlansModule
                 XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
                 Plan plan = (Plan)dcs.ReadObject(reader);
                 reader.Close();
-                
+                /*
                 Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
                 byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
                 plan.Pixels = imageInfo;
@@ -36,7 +36,7 @@ namespace PlansModule
                 XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs_out);
                 dcs.WriteObject(xdw, plan);
                 xdw.Close();
-                
+                */
                 return plan;
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace PlansModule
                 {
                     Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
                     byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
-                    plan.Pixels = imageInfo;
+                    plan.BackgroundPixels = imageInfo;
                 }
                 if (plan.Children != null)
                 {

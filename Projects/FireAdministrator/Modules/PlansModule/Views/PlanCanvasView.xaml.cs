@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Controls.Primitives;
-using FiresecClient;
 using System.Windows.Media;
-using System.Collections.Generic;
-using FiresecAPI.Models;
-
 using System.Windows.Shapes;
 using System.Windows.Input;
+using System.Collections.Generic;
+using FiresecClient;
+using FiresecAPI.Models;
 using PlansModule.ViewModels;
+using System.Windows.Media.Imaging;
 
 namespace PlansModule.Views
 {
@@ -37,6 +38,7 @@ namespace PlansModule.Views
         public void ChangeSelectedPlan(Plan plan)
         {
             MainCanvas.Children.Clear();
+            
             foreach (var zona in plan.ElementZones)
             {
                 Polygon myPolygon = new Polygon();
@@ -61,7 +63,99 @@ namespace PlansModule.Views
                 Canvas.SetLeft(myPolygon, 0);
                 Canvas.SetTop(myPolygon, 0);
             }
+            foreach (var rect in plan.Rectangls)
+            {
+                var imageBrushRect = new ImageBrush();
+                Rectangle rectangle = new Rectangle();
+                rectangle.Height = rect.Height;
+                rectangle.Width = rect.Width;
+                BitmapImage image;
+                using (MemoryStream imageStream = new MemoryStream(rect.BackgroundPixels))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = imageStream;
+                    image.EndInit();
+                }
 
+                imageBrushRect.ImageSource = image;
+                rectangle.Fill = imageBrushRect;
+                Canvas.SetLeft(rectangle,rect.Left);
+                Canvas.SetTop(rectangle, rect.Top);
+
+                MainCanvas.Children.Add(rectangle);
+            }
+            foreach (var text in plan.TextBoxes)
+            {
+                TextBox textbox = new TextBox();
+                textbox.Text = text.Text;
+                Canvas.SetLeft(textbox, text.Left);
+                Canvas.SetTop(textbox, text.Top);
+                MainCanvas.Children.Add(textbox);
+            }
+            foreach (var device in plan.ElementDevices)
+            {
+                Polygon myPolygon = new Polygon();
+                myPolygon.ToolTip = "Устройство № (не реализован shapeId)";
+                myPolygon.Stroke = System.Windows.Media.Brushes.Red;
+                myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
+                myPolygon.StrokeThickness = 2;
+                PointCollection myPointCollection = new PointCollection();
+                double minX = device.Left;
+                double minY = device.Top;
+                var point = new Point(device.Left,device.Top);
+                myPointCollection.Add(point);
+                point = new Point(device.Left+device.Width, device.Top);
+                myPointCollection.Add(point);
+                point = new Point(device.Left + device.Width, device.Top+device.Height);
+                myPointCollection.Add(point);
+                point = new Point(device.Left , device.Top + device.Height);
+                myPointCollection.Add(point);
+                myPolygon.Points = myPointCollection;
+                MainCanvas.Children.Add(myPolygon);
+                Canvas.SetLeft(myPolygon, 0);
+                Canvas.SetTop(myPolygon, 0);
+            }
+            var imageBrush = new ImageBrush();
+            if (plan.BackgroundPixels != null)
+            {
+
+                BitmapImage image;
+                using (MemoryStream imageStream = new MemoryStream(plan.BackgroundPixels))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = imageStream;
+                    image.EndInit();
+                }
+
+                imageBrush.ImageSource = image;
+            }
+            /*
+            Polygon testPolygon = new Polygon();
+            testPolygon.ToolTip = "Устройство № (не реализован shapeId)";
+            testPolygon.Stroke = System.Windows.Media.Brushes.Red;
+            testPolygon.Fill = imageBrush;//System.Windows.Media.Brushes.LightSeaGreen;
+            testPolygon.StrokeThickness = 2;
+            PointCollection testPointCollection = new PointCollection();
+            var point1 = new Point(100, 100);
+            testPointCollection.Add(point1);
+            point1 = new Point(300, 100);
+            testPointCollection.Add(point1);
+            point1 = new Point(300, 300);
+            testPointCollection.Add(point1);
+            point1 = new Point(100, 300);
+            testPointCollection.Add(point1);
+            testPolygon.Points = testPointCollection;
+            MainCanvas.Children.Add(testPolygon);
+            Canvas.SetLeft(testPolygon, 0);
+            Canvas.SetTop(testPolygon, 0);
+
+            */
+
+            MainCanvas.Background = imageBrush;
         }
 
         private void ClearAllSelected()

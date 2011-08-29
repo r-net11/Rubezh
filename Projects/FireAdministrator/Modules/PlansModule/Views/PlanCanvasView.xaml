@@ -3,20 +3,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ViewModels="clr-namespace:PlansModule.ViewModels"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             
     >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBar x:Name="MainToolBar" VerticalAlignment="Top" IsEnabled="False" HorizontalAlignment="Left" Grid.Row="0">
 
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-        <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
+            <ToggleButton x:Name="btnLine" ToolTip="Line" IsEnabled="False" HorizontalAlignment="Center" BorderThickness="0" Width="50" Height="35" BorderBrush="White">
+                <Line X1="0" Y1="0"  X2="20" Y2="20" Width="20" Height="20" Stroke ="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+            </ToggleButton>
+            <Separator/>
+
+            <ToggleButton x:Name="btnRectangle" IsEnabled="False" ToolTip="Rectangle" HorizontalAlignment="Center" BorderThickness="0" Width="50" Height="35" BorderBrush="Red"  Cursor="Arrow">
+                <Rectangle Width="20" Height="20" Fill="Azure" Stroke ="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+            </ToggleButton>
+            <Separator/>
+            <ToggleButton x:Name="btnOval"  IsEnabled="False" HorizontalAlignment="Center" BorderThickness="0" Height="50" BorderBrush="White" Width="50" ToolTip="Oval">
+                <Ellipse Width="25" Height="15" Fill="Azure" Stroke="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
+            </ToggleButton>
+
+            <Separator/>
+
+
+            <Button Width="45" Height="50" Content="Undo" IsEnabled="False" Name="btnUndo"></Button>
+            <Separator/>
+
+            <Button Width="45" Height="50" Content="Redo" IsEnabled="False" Name="btnRedo"></Button>
+            <Separator/>
+
+        </ToolBar>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1">
+            <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
                 MouseMove="MainCanvas_MouseMove"
                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                 MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
                 />
             <ScrollViewer.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Добавить зону" Command="{Binding AddCommand}"/>
-                <MenuItem Header="Редактировать зону" Command="{Binding EditCommand}"/>
-                <MenuItem Header="Удалить планзону" Command="{Binding RemoveCommand}"/>
-            </ContextMenu>
-        </ScrollViewer.ContextMenu>
-    </ScrollViewer>
+                <ContextMenu>
+                    <MenuItem Header="Добавить зону" Command="{Binding AddCommand}"/>
+                    <MenuItem Header="Редактировать зону" Command="{Binding EditCommand}"/>
+                    <MenuItem Header="Удалить планзону" Command="{Binding RemoveCommand}"/>
+                </ContextMenu>
+            </ScrollViewer.ContextMenu>
+        </ScrollViewer>
+    </Grid>
+
 </UserControl>

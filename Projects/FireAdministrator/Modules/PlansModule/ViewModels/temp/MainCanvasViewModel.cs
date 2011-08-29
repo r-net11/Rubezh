@@ -46,12 +46,12 @@ namespace PlansModule.ViewModels
             foreach (var point in _polygon.Points)
             {
                 Thumb thumb = new Thumb();
-                thumb.Height = 10;
-                thumb.Width = 10;
+                thumb.Height = 4;
+                thumb.Width = 4;
                 thumb.Background = Brushes.Blue;
 
-                Canvas.SetLeft(thumb, point.X - 5 + dLeft);
-                Canvas.SetTop(thumb, point.Y - 5 + dTop);
+                Canvas.SetLeft(thumb, point.X - 2 + dLeft);
+                Canvas.SetTop(thumb, point.Y - 2 + dTop);
 
                 string s = "thumb" + (index + 1).ToString();
                 try

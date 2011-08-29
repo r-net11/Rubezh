@@ -6,10 +6,10 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-
-        <Views:PlansTree Grid.Column="0" />
-        <Views:PlanCanvasView  Grid.Column="1"/>
+            <Views:PlansTree Grid.Column="0" />
+        <Views:PlanCanvasView  Grid.Column="1" />
     </Grid>
+
 </UserControl>

@@ -4,7 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using FiresecAPI.Models;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FiresecService.Converters
 {
@@ -20,6 +23,7 @@ namespace FiresecService.Converters
                 {
                     Plan planInner = new Plan();
                     planInner.Caption = _planInner.caption;
+                    planInner.Name = _planInner.caption;
                     planInner.Height = Double.Parse(_planInner.height);
                     planInner.Width = Double.Parse(_planInner.width);
                     int index = 0;
@@ -27,11 +31,51 @@ namespace FiresecService.Converters
                     {
                         if (_elementInner.name == "План") // Графические примитивы
                         {
-                            ;
+                            if (_elementInner.elements != null)
+                            {
+                                foreach (var elementLayer in _elementInner.elements)
+                                {
+                                    switch (elementLayer.@class)
+                                    {
+                                        case "TSCDePicture":
+                                            foreach (var elementImage in elementLayer.picture)
+                                            {
+                                                Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
+                                                byte[] image = File.ReadAllBytes(uri.AbsolutePath);
+                                                if (planInner.BackgroundPixels == null) planInner.BackgroundPixels = image;
+                                                else
+                                                {
+                                                    RectangleBox rect = new RectangleBox();
+                                                    uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
+                                                    image = File.ReadAllBytes(uri.AbsolutePath);
+                                                    rect.BackgroundPixels = image;
+                                                    rect.Height = ValidationDouble(elementLayer.rect[0].bottom) - ValidationDouble(elementLayer.rect[0].top);
+                                                    rect.Width = ValidationDouble(elementLayer.rect[0].right) - ValidationDouble(elementLayer.rect[0].left);
+                                                    rect.Left = ValidationDouble(elementLayer.rect[0].left);
+                                                    rect.Top = ValidationDouble(elementLayer.rect[0].top);
+                                                    if (planInner.Rectangls == null) planInner.Rectangls = new List<RectangleBox>();
+                                                    planInner.Rectangls.Add(rect);
+                                                }
+                                            }
+                                            break;
+                                        case "TSCDeLabel":
+                                            CaptionBox captionBox = new CaptionBox();
+                                            if (elementLayer.brush!=null) captionBox.BorderColor = elementLayer.brush[0].color;
+                                            if (elementLayer.pen!=null) captionBox.Color = elementLayer.pen[0].color;
+                                            captionBox.Text = elementLayer.caption;
+                                            captionBox.Left = ValidationDouble(elementLayer.rect[0].left);
+                                            captionBox.Top = ValidationDouble(elementLayer.rect[0].top);
+                                            if (planInner.TextBoxes== null) planInner.TextBoxes = new List<CaptionBox>();
+                                            planInner.TextBoxes.Add(captionBox);
+                                            break;
+                                    }
+
+                                }
+                            }
                         }
                         if ((_elementInner.name == "Зоны") || (_elementInner.name == "Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
                         {
-                            
+
                             
                             if (_elementInner.elements != null)
                             {
@@ -110,25 +154,25 @@ namespace FiresecService.Converters
                                 foreach (var _deviceInner in _elementInner.elements)
                                 {
                                     deviceInner = new ElementDevice();
-                                    
-/* Нету ShapeId в девайсах
-                                    string _idTempS = _deviceInner.id;
-                                    long _idTempL = long.Parse(_idTempS);
-                                    int _idTempI = (int)_idTempL;
-                                    //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
-                                    foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
-                                    {
-                                        if (_index.ShapeId == _idTempL.ToString())
-                                        {
-                                            deviceInner.ZoneNo = _index.No;
-                                        }
-                                        else
-                                            if (_index.ShapeId == _idTempI.ToString())
-                                            {
-                                                deviceInner.ZoneNo = _index.No;
-                                            }
-                                    }
-                                    */
+
+                                    /* Нету ShapeId в девайсах
+                                                                        string _idTempS = _deviceInner.id;
+                                                                        long _idTempL = long.Parse(_idTempS);
+                                                                        int _idTempI = (int)_idTempL;
+                                                                        //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
+                                                                        foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
+                                                                        {
+                                                                            if (_index.ShapeId == _idTempL.ToString())
+                                                                            {
+                                                                                deviceInner.ZoneNo = _index.No;
+                                                                            }
+                                                                            else
+                                                                                if (_index.ShapeId == _idTempI.ToString())
+                                                                                {
+                                                                                    deviceInner.ZoneNo = _index.No;
+                                                                                }
+                                                                        }
+                                                                        */
                                     deviceInner.Id = "NULL";
                                     if (_deviceInner.rect != null)
                                     {
