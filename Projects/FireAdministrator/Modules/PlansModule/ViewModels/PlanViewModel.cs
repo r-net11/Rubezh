@@ -44,6 +44,8 @@ namespace PlansModule.ViewModels
             }
             set { _children = value; }
         }
+        private ObservableCollection<SubPlanViewModel> _elementZones;
+        private ObservableCollection<ZonaViewModel> ElementZones;
         private ObservableCollection<SubPlanViewModel> _elementSubPlans;
         
         private ObservableCollection<SubPlanViewModel> ElementSubPlans

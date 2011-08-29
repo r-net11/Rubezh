@@ -6,7 +6,10 @@
     >
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <Canvas DataContext="{Binding}" Background="Aqua"/>
+        <Canvas Name ="_Canvas" DataContext="{Binding MainCanvas}" Background="Aqua" 
+                MouseLeftButtonDown="Canvas_MouseLeftButtonDown"
+                Loaded="Canvas_Loaded"
+                />
             <ScrollViewer.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Добавить зону" Command="{Binding AddCommand}"/>

@@ -79,6 +79,7 @@
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\SubPlanDetailsViewModel.cs" />
+    <Compile Include="ViewModels\temp\ZonaViewModel.cs" />
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>
     </Compile>
@@ -133,7 +134,9 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\temp\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

@@ -4,6 +4,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows.Controls;
+using System.Windows.Media;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -16,8 +19,7 @@ namespace PlansModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
-            //            plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
-            //            PlansContextMenuViewModel plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            MainCanvas = new Canvas();
         }
 
         public void Initialize()
@@ -26,7 +28,7 @@ namespace PlansModule.ViewModels
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
-                    if (plan.Name == null) plan.Name = "NULL";
+                    if (plan.Name == null) plan.Name = "План без названия";
                     var planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);
                     if (plan.Children != null)
@@ -40,6 +42,9 @@ namespace PlansModule.ViewModels
                     SelectedPlan = Plans[0];
                 }
             }
+             SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = Colors.Red;
+            MainCanvas.Background = brush;
         }
 
         public void BuildTree(List<Plan> _plans, PlanViewModel parent)
@@ -53,6 +58,17 @@ namespace PlansModule.ViewModels
                 {
                     BuildTree(plan.Children, planViewModel);
                 }
+            }
+        }
+
+        Canvas _mainCanvas;
+        public Canvas MainCanvas
+        {
+            get { return _mainCanvas; }
+            set
+            {
+                _mainCanvas = value;
+                OnPropertyChanged("MainCanvas");
             }
         }
 
@@ -73,12 +89,23 @@ namespace PlansModule.ViewModels
         PlanViewModel _selectedPlan;
         public PlanViewModel SelectedPlan
         {
-            get { return _selectedPlan; }
+            get 
+            {
+                
+                return _selectedPlan; 
+            }
             set
             {
                 _selectedPlan = value;
+                
                 OnPropertyChanged("SelectedPlan");
+                RePaintCanvas();
             }
+        }
+
+        public void RePaintCanvas()
+        {
+            if (PlanCanvasView.Current!=null) PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
         }
 
         public RelayCommand AddCommand { get; private set; }

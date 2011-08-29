@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Infrastructure.Common;
+using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using FiresecAPI;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -16,6 +18,9 @@ namespace PlansModule.ViewModels
             Parent = null;
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = Colors.Red;
+           PlanCanvasView.Current._Canvas.Background = brush;
         }
 
         public PlanDetailsViewModel(Plan parent)
@@ -61,18 +66,18 @@ namespace PlansModule.ViewModels
             Height = plan.Plan.Height;
             Title = "Редактирование плана";
         }
-        
-        bool _isNew; 
+
+        bool _isNew;
         public Plan Plan { get; private set; }
         public Plan Parent { get; private set; }
-        
+
 
         string _name;
         public string Name
         {
-            get 
-            { 
-                return _name; 
+            get
+            {
+                return _name;
             }
             set
             {

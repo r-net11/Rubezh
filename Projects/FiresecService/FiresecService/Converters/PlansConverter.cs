@@ -73,6 +73,7 @@ namespace FiresecService.Converters
                                     };
                                     if (_zoneInner.@class.Equals("TFS_ZoneShape"))
                                     {
+                                       /* 
                                         if (_zoneInner.rect != null)
                                     if (xZone != null)
                                     {
@@ -82,7 +83,7 @@ namespace FiresecService.Converters
                                     {
                                         ;
                                     }
-
+                                        */
                                         {
                                             foreach (var _rectInner in _zoneInner.rect)
                                             {
