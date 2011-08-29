@@ -150,5 +150,29 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string DriverName { get; set; }
+
+        [DataMember]
+        public bool CanWriteDatabase { get; set; }
+
+        [DataMember]
+        public bool CanReadDatabase { get; set; }
+
+        [DataMember]
+        public bool CanAutoDetect { get; set; }
+
+        [DataMember]
+        public bool CanSynchonize { get; set; }
+
+        [DataMember]
+        public bool CanReboot { get; set; }
+
+        [DataMember]
+        public bool CanGetDescription { get; set; }
+
+        [DataMember]
+        public bool CanSetPassword { get; set; }
+
+        [DataMember]
+        public bool CanUpdateSoft { get; set; }
     }
 }

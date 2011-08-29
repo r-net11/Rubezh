@@ -233,6 +233,11 @@ namespace FiresecClient
             return _firesecService.GetFile(filepath);
         }
 
+        public static void AutoDetectDevice(string deviceId)
+        {
+            ;
+        }
+
         public static void ReadDeviceConfiguration(string deviceId)
         {
             ;
@@ -254,6 +259,21 @@ namespace FiresecClient
         }
 
         public static void RebootDevice(string deviceId)
+        {
+            ;
+        }
+
+        public static void UpdateSoft(string deviceId)
+        {
+            ;
+        }
+
+        public static string GetDescription(string deviceId)
+        {
+            return "Описание устройства";
+        }
+
+        public static void SetPassword(string deviceId)
         {
             ;
         }

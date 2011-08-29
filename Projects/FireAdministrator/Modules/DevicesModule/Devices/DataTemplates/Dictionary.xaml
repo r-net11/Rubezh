@@ -35,4 +35,12 @@
         <Views:GroupDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DeviceDescriptionViewModel}">
+        <Views:DeviceDescriptionView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SetPasswordViewModel}">
+        <Views:SetPasswordView />
+    </DataTemplate>
+    
 </ResourceDictionary>

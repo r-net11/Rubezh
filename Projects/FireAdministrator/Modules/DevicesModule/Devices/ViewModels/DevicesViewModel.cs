@@ -5,6 +5,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Microsoft.Win32;
+using System.IO;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,12 +17,15 @@ namespace DevicesModule.ViewModels
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
-            FindDeviceCommand = new RelayCommand(OnFindDevice, CanFindDevice);
+            AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
             ReadDeviceCommand = new RelayCommand(OnReadDevice, CanReadDevice);
             WriteDeviceCommand = new RelayCommand(OnWriteDevice, CanWriteDevice);
             WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
             SynchronizeDeviceCommand = new RelayCommand(OnSynchronizeDevice, CanSynchronizeDevice);
             RebootDeviceCommand = new RelayCommand(OnRebootDevice, CanRebootDevice);
+            UpdateSoftCommand = new RelayCommand(OnUpdateSoft, CanUpdateSoft);
+            GetDescriptionCommand = new RelayCommand(OnGetDescription, CanGetDescription);
+            SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
         }
 
         public void Initialize()
@@ -202,14 +207,15 @@ namespace DevicesModule.ViewModels
         }
 
 
-        public RelayCommand FindDeviceCommand { get; private set; }
-        void OnFindDevice()
+        public RelayCommand AutoDetectCommand { get; private set; }
+        void OnAutoDetect()
         {
+            FiresecManager.AutoDetectDevice(SelectedDevice.Device.Id);
         }
 
-        bool CanFindDevice()
+        bool CanAutoDetect()
         {
-            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
         }
 
         public RelayCommand ReadDeviceCommand { get; private set; }
@@ -220,10 +226,7 @@ namespace DevicesModule.ViewModels
 
         bool CanReadDevice()
         {
-            if (SelectedDevice == null)
-                return false;
-
-            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
         }
 
         public RelayCommand WriteDeviceCommand { get; private set; }
@@ -234,10 +237,7 @@ namespace DevicesModule.ViewModels
 
         bool CanWriteDevice()
         {
-            if (SelectedDevice == null)
-                return false;
-
-            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanWriteDatabase));
         }
 
         public RelayCommand WriteAllDeviceCommand { get; private set; }
@@ -248,7 +248,7 @@ namespace DevicesModule.ViewModels
 
         bool CanWriteAllDevice()
         {
-            return true;
+            return Devices.Count > 0;
         }
 
         public RelayCommand SynchronizeDeviceCommand { get; private set; }
@@ -259,10 +259,7 @@ namespace DevicesModule.ViewModels
 
         bool CanSynchronizeDevice()
         {
-            if (SelectedDevice == null)
-                return false;
-
-            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSynchonize));
         }
 
         public RelayCommand RebootDeviceCommand { get; private set; }
@@ -273,10 +270,53 @@ namespace DevicesModule.ViewModels
 
         bool CanRebootDevice()
         {
-            if (SelectedDevice == null)
-                return false;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReboot));
+        }
 
-            return true;
+        public RelayCommand UpdateSoftCommand { get; private set; }
+        void OnUpdateSoft()
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
+                var streamReader = new StreamReader(fileStream);
+                streamReader.Close();
+                fileStream.Close();
+
+                FiresecManager.UpdateSoft(SelectedDevice.Device.Id);
+            }
+        }
+
+        bool CanUpdateSoft()
+        {
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanUpdateSoft));
+        }
+
+        public RelayCommand GetDescriptionCommand { get; private set; }
+        void OnGetDescription()
+        {
+            var deviceDescriptionViewModel = new DeviceDescriptionViewModel(SelectedDevice.Device.Id);
+            ServiceFactory.UserDialogs.ShowModalWindow(deviceDescriptionViewModel);
+        }
+
+        bool CanGetDescription()
+        {
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
+        }
+
+        public RelayCommand SetPasswordCommand { get; private set; }
+        void OnSetPassword()
+        {
+            var setPasswordViewModel = new SetPasswordViewModel(SelectedDevice.Device.Id);
+            ServiceFactory.UserDialogs.ShowModalWindow(setPasswordViewModel);
+        }
+
+        bool CanSetPassword()
+        {
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
         }
 
         public override void OnShow()
@@ -286,12 +326,15 @@ namespace DevicesModule.ViewModels
                     CopyCommand = CopyCommand,
                     CutCommand = CutCommand,
                     PasteCommand = PasteCommand,
-                    FindDeviceCommand = FindDeviceCommand,
+                    AutoDetectCommand = AutoDetectCommand,
                     ReadDeviceCommand = ReadDeviceCommand,
                     WriteDeviceCommand = WriteDeviceCommand,
                     WriteAllDeviceCommand = WriteAllDeviceCommand,
                     SynchronizeDeviceCommand = SynchronizeDeviceCommand,
-                    RebootDeviceCommand = RebootDeviceCommand
+                    RebootDeviceCommand = RebootDeviceCommand,
+                    UpdateSoftCommand = UpdateSoftCommand,
+                    GetDescriptionCommand = GetDescriptionCommand,
+                    SetPasswordCommand = SetPasswordCommand
                 };
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }

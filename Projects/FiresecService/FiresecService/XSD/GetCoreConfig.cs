@@ -344,6 +344,8 @@ namespace Firesec.CoreConfig
 
         inZType[] inZField;
 
+        shapeType[] shapeField;
+
         string drvField;
 
         string addrField;
@@ -417,6 +419,20 @@ namespace Firesec.CoreConfig
             set
             {
                 this.inZField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shape", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public shapeType[] shape
+        {
+            get
+            {
+                return this.shapeField;
+            }
+            set
+            {
+                this.shapeField = value;
             }
         }
 

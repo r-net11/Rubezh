@@ -61,8 +61,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
+    <Compile Include="Devices\ViewModels\UpdateSoftViewMovel.cs" />
     <Compile Include="Devices\Views\AdressPresenter.xaml.cs">
       <DependentUpon>AdressPresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
+      <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\SetPasswordView.xaml.cs">
+      <DependentUpon>SetPasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
@@ -273,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\Views\DeviceDescriptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +296,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\SetPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

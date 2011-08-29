@@ -15,7 +15,7 @@
             <Image Source="/DevicesModule;component/Images/Paste.png" Height="32" />
         </Button>
 
-        <Button Command="{Binding FindDeviceCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному">
+        <Button Command="{Binding AutoDetectCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному">
             <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
         </Button>
 
@@ -36,6 +36,18 @@
         </Button>
 
         <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding UpdateSoftCommand}" ToolTip="Обновление ПО">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding GetDescriptionCommand}" ToolTip="Информация об устройстве">
+            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+        </Button>
+
+        <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль">
             <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
         </Button>
     </ToolBar>

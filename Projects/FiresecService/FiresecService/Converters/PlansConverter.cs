@@ -32,12 +32,14 @@ namespace FiresecService.Converters
                         if ((_elementInner.name == "Зоны") || (_elementInner.name == "Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
                         {
                             
-                            ElementZone zoneInner = null;
+                            
                             if (_elementInner.elements != null)
                             {
                                 if (planInner.ElementZones == null) planInner.ElementZones = new List<ElementZone>();
                                 foreach (var _zoneInner in _elementInner.elements)
                                 {
+                                    ElementZone zoneInner = null;
+
                                     zoneInner = new ElementZone();
                                     string _idTempS = _zoneInner.id;
                                     long _idTempL = long.Parse(_idTempS);
@@ -67,6 +69,8 @@ namespace FiresecService.Converters
                                                     polygonPointsInner = new PolygonPoint();
                                                     polygonPointsInner.X = ValidationDouble(_pointInner.x);
                                                     polygonPointsInner.Y = ValidationDouble(_pointInner.y);
+                                                _pointInner.y = _pointInner.y.Replace(".", ",");
+
                                                     zoneInner.PolygonPoints.Add(polygonPointsInner);
                                                 }
                                             }; break;

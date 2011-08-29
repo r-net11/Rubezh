@@ -283,6 +283,18 @@ namespace FiresecService.Converters
                 }
             }
 
+            if (innerDriver.options != null)
+            {
+                driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
+                driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
+                driver.CanAutoDetect = innerDriver.options.Contains("CanAutoDetectInstances");
+                driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
+                driver.CanReboot = innerDriver.options.Contains("RemoteReload");
+                driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
+                driver.CanSetPassword = innerDriver.options.Contains("PasswordManagement");
+                driver.CanUpdateSoft = innerDriver.options.Contains("SoftUpdates");
+            }
+
             return driver;
         }
     }

@@ -116,6 +116,9 @@ namespace FiresecService.Converters
 
             SetPlaceInTree(device);
             SetZone(device, innerDevice);
+
+            if (innerDevice.shape != null)
+                device.ShapeId = innerDevice.shape[0].id;
         }
 
         static void SetPlaceInTree(Device device)

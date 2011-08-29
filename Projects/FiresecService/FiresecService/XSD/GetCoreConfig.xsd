@@ -142,6 +142,10 @@
     <xs:attribute name="idz" type="xs:integer" />
   </xs:complexType>
 
+  <xs:complexType name="shapeType">
+    <xs:attribute name="id" type="xs:integer" />
+  </xs:complexType>
+
   <xs:complexType name="devType">
     <xs:sequence>
       <xs:element name="prop" type="propType" minOccurs="0" maxOccurs="unbounded" />
@@ -149,6 +153,7 @@
       <xs:element name="dev" type="devType" minOccurs="0" maxOccurs="unbounded" />
       <xs:element name="dev_param" type="dev_paramType" minOccurs="0" maxOccurs="unbounded" />
       <xs:element name="inZ" type="inZType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="shape" type="shapeType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="drv" type="xs:integer" />
     <xs:attribute name="addr" type="xs:integer" />

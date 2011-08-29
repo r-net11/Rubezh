@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using System.Windows.Controls;
 using System.Windows.Media;
 using PlansModule.Views;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -28,6 +29,11 @@ namespace PlansModule.ViewModels
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
+                    if (plan.ElementZones.Count > 0)
+                    {
+                        Trace.WriteLine("Zone found");
+                    }
+
                     if (plan.Name == null) plan.Name = "План без названия";
                     var planViewModel = new PlanViewModel(plan);
                     Plans.Add(planViewModel);

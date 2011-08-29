@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Prism.Modularity;
-using InstructionsModule.ViewModels;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using InstructionsModule.Validation.ViewModels;
+using Microsoft.Practices.Prism.Modularity;
 
 namespace InstructionsModule
 {
     public class InstructionsModule : IModule
     {
+        static InstructionsViewModel _instructionsViewModel;
+        public static bool HasChanges { get; set; }
+
         public InstructionsModule()
         {
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(OnShowInstructions);
@@ -36,9 +34,6 @@ namespace InstructionsModule
             _instructionsViewModel = new InstructionsViewModel();
             _instructionsViewModel.Initialize();
         }
-
-        static InstructionsViewModel _instructionsViewModel;
-        public static bool HasChanges { get; set; }
 
         public static void Validate()
         {
