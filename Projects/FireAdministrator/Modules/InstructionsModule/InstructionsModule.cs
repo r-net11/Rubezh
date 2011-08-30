@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using InstructionsModule.Validation.ViewModels;
 using Microsoft.Practices.Prism.Modularity;
+using InstructionsModule.ViewModels;
 
 namespace InstructionsModule
 {
