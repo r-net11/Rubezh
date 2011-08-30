@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -20,7 +21,7 @@ namespace FiresecAPI.Models
         public List<string> Zones { get; set; }
 
         [DataMember]
-        public string DeviceUID { get; set; }
+        public Guid DeviceUID { get; set; }
 
         [DataMember]
         public IndicatorColorType OnColor { get; set; }
@@ -40,7 +41,7 @@ namespace FiresecAPI.Models
             {
                 case IndicatorLogicType.Device:
                     {
-                        if (DeviceUID != null)
+                        if (DeviceUID != Guid.Empty)
                         {
                             var deviceString = "Устр: ";
                             deviceString += Device.Driver.ShortName;

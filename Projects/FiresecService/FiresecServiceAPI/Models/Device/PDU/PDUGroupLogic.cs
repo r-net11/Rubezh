@@ -17,20 +17,4 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool AMTPreset { get; set; }
     }
-
-    [DataContract]
-    public class PDUGroupDevice
-    {
-        [DataMember]
-        public string DeviceUID { get; set; }
-
-        [DataMember]
-        public bool IsInversion { get; set; }
-
-        [DataMember]
-        public int OnDelay { get; set; }
-
-        [DataMember]
-        public int OffDelay { get; set; }
-    }
 }

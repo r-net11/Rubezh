@@ -2,6 +2,8 @@
 using System.Linq;
 using Firesec.CoreConfig;
 using FiresecAPI.Models;
+using Common;
+using System;
 
 namespace FiresecService.Converters
 {
@@ -36,9 +38,9 @@ namespace FiresecService.Converters
                         if (innerDirection.param != null)
                         {
                             var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
-                            direction.DeviceRm = rmParameter.value;
+                            direction.DeviceRm = GuidHelper.ToGuid(rmParameter.value);
                             var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
-                            direction.DeviceButton = buttonParameter.value;
+                            direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
                         }
 
                         FiresecManager.DeviceConfiguration.Directions.Add(direction);
@@ -71,21 +73,21 @@ namespace FiresecService.Converters
                 }
                 innerDirection.PinZ = zones.ToArray();
 
-                if (direction.DeviceRm != null || direction.DeviceButton != null)
+                if (direction.DeviceRm != Guid.Empty || direction.DeviceButton != Guid.Empty)
                 {
                     var innerDirectionParameters = new List<paramType>();
                     innerDirectionParameters.Add(new paramType()
                     {
                         name = "Device_RM",
                         type = "String",
-                        value = direction.DeviceRm
+                        value = GuidHelper.ToString(direction.DeviceRm)
                     });
 
                     innerDirectionParameters.Add(new paramType()
                     {
                         name = "Device_AM",
                         type = "String",
-                        value = direction.DeviceRm
+                        value = GuidHelper.ToString(direction.DeviceRm)
                     });
 
                     innerDirection.param = innerDirectionParameters.ToArray();
@@ -94,9 +96,9 @@ namespace FiresecService.Converters
                 if (innerDirection.param != null)
                 {
                     var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
-                    direction.DeviceRm = rmParameter.value;
+                    direction.DeviceRm = GuidHelper.ToGuid(rmParameter.value);
                     var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
-                    direction.DeviceButton = buttonParameter.value;
+                    direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
                 }
 
                 innerDirections.Add(innerDirection);

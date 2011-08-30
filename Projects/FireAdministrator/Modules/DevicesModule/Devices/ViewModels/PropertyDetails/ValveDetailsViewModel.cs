@@ -6,13 +6,11 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ValveDetailsViewModel : DialogContent
+    public class ValveDetailsViewModel : SaveCancelDialogContent
     {
         public ValveDetailsViewModel(Device device)
         {
             Title = "Свойства Задвижки";
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             _device = device;
 
@@ -62,8 +60,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
             if (actionProperty == null)
@@ -80,14 +77,6 @@ namespace DevicesModule.ViewModels
                 _device.Properties.Add(timeoutProperty);
             }
             timeoutProperty.Value = Timeout.ToString();
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

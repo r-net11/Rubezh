@@ -16,7 +16,8 @@
             </Grid.ColumnDefinitions>
 
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}"
+                      Name="_dataGrid" SelectionChanged="_dataGrid_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />

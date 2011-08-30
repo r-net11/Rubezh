@@ -123,7 +123,7 @@ namespace DevicesModule.ViewModels
             return deviceViewModel;
         }
 
-        #region DeviceSection
+        #region DeviceSelection
 
         public List<DeviceViewModel> AllDevices;
 
@@ -133,8 +133,8 @@ namespace DevicesModule.ViewModels
             if (deviceViewModel != null)
             {
                 deviceViewModel.ExpantToThis();
+                SelectedDevice = deviceViewModel;
             }
-            SelectedDevice = deviceViewModel;
         }
 
         #endregion

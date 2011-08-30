@@ -15,8 +15,7 @@
     <DockPanel>
         <Border DockPanel.Dock="Bottom" BorderThickness="0"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid Margin="5"
-              DataContext="{Binding SelectedRecord}">
+            <Grid Margin="5" DataContext="{Binding SelectedRecord}">
                 <Grid.Resources>
                     <Style x:Key="headerStyle" TargetType="TextBlock">
                         <Setter Property="Foreground" Value="{StaticResource headerBrush}" />

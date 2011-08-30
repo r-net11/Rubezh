@@ -70,11 +70,13 @@
     <Compile Include="Models\Device\Indicator\IndicatorColorType.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorLogic.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorLogicType.cs" />
+    <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
     <Compile Include="Models\Library\LibraryDevice.cs" />
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />
+    <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="Models\System\Instruction.cs" />
     <Compile Include="Models\System\JournalFilter.cs" />
     <Compile Include="Models\System\JournalRecord.cs" />
-    <Compile Include="Models\Device\PDUGroupLogic.cs" />
+    <Compile Include="Models\Device\PDU\PDUGroupLogic.cs" />
     <Compile Include="Models\System\Sound.cs" />
     <Compile Include="Models\States\DriverDriverState.cs" />
     <Compile Include="Models\States\ParentDeviceState.cs" />

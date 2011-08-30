@@ -1,18 +1,16 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardLevelDetailsViewModel : DialogContent
+    public class GuardLevelDetailsViewModel : SaveCancelDialogContent
     {
         public GuardLevelDetailsViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand<ZoneLevelViewModel>(OnRemove);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
             ZoneLevels = new ObservableCollection<ZoneLevelViewModel>();
         }
 
@@ -70,7 +68,7 @@ namespace DevicesModule.ViewModels
             ZoneLevels.Remove(zoneLevelViewModel);
         }
 
-        void Save()
+        protected override void Save()
         {
             GuardLevel.Name = Name;
             GuardLevel.ZoneLevels = new List<ZoneLevel>();
@@ -78,19 +76,6 @@ namespace DevicesModule.ViewModels
             {
                 GuardLevel.ZoneLevels.Add(zoneLevelViewModel.ZoneLevel);
             }
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Save();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

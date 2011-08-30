@@ -25,8 +25,11 @@ namespace FiresecService.Converters
 
                     if (innerZone.shape != null)
                     {
-                        zone.ShapeId = innerZone.shape[0].id;
-                        Trace.WriteLine(zone.ShapeId);
+                        zone.ShapeIds = new List<string>();
+                        foreach (var shape in innerZone.shape)
+                        {
+                            zone.ShapeIds.Add(shape.id);
+                        }
                     }
 
                     if (innerZone.param != null)

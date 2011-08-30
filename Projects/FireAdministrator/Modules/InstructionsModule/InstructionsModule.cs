@@ -38,8 +38,8 @@ namespace InstructionsModule
 
         public static void Validate()
         {
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
+            //var validationErrorsViewModel = new ValidationErrorsViewModel();
+            //ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
         }
 
         static void OnShowInstructions(string obj)

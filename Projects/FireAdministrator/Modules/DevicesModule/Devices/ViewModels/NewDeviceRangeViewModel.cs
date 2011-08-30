@@ -7,13 +7,11 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class NewDeviceRangeViewModel : DialogContent
+    public class NewDeviceRangeViewModel : SaveCancelDialogContent
     {
         public NewDeviceRangeViewModel(DeviceViewModel parent)
         {
             Title = "Новоые устройства";
-            AddCommand = new RelayCommand(OnAdd, CanAdd);
-            CancelCommand = new RelayCommand(OnCancel);
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
         }
@@ -208,25 +206,17 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAdd()
+        protected override bool CanSave()
         {
             return (SelectedDriver != null);
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
+        protected override void Save()
         {
             CreateDevices();
 
             _parentDeviceViewModel.Update();
             FiresecManager.DeviceConfiguration.Update();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

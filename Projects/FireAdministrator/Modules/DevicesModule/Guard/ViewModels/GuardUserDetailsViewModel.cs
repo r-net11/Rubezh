@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardUserDetailsViewModel : DialogContent
+    public class GuardUserDetailsViewModel : SaveCancelDialogContent
     {
         public GuardUserDetailsViewModel()
         {
             ChangeGuardLevelsCommand = new RelayCommand(OnChangeGuardLevels);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public GuardUser GuardUser { get; private set; }
@@ -139,7 +133,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void Save()
+        protected override void Save()
         {
             GuardUser.Name = Name;
             GuardUser.Password = Password;
@@ -147,19 +141,6 @@ namespace DevicesModule.ViewModels
             GuardUser.Function = Function;
             GuardUser.CanSetZone = CanSetZone;
             GuardUser.CanUnSetZone = CanUnSetZone;
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Save();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

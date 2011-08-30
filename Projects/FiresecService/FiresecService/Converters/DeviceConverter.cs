@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System;
+using Common;
+using Firesec.CoreConfig;
 
 namespace FiresecService.Converters
 {
@@ -53,7 +56,8 @@ namespace FiresecService.Converters
             {
                 ChangeEntities = new ChangeEntities(),
                 Id = device.Id,
-                PlaceInTree = device.PlaceInTree
+                PlaceInTree = device.PlaceInTree,
+                Device = device
             };
 
             deviceState.States = new List<DeviceDriverState>();
@@ -93,7 +97,11 @@ namespace FiresecService.Converters
                 var UIDParam = innerDevice.param.FirstOrDefault(x => x.name == "INT$DEV_GUID");
                 if (UIDParam != null)
                 {
-                    device.UID = UIDParam.value;
+                    device.UID = GuidHelper.ToGuid(UIDParam.value);
+                }
+                else
+                {
+                    device.UID = Guid.NewGuid();
                 }
             }
 
@@ -114,29 +122,14 @@ namespace FiresecService.Converters
 
             device.Description = innerDevice.name;
 
-            SetPlaceInTree(device);
             SetZone(device, innerDevice);
 
             if (innerDevice.shape != null)
-                device.ShapeId = innerDevice.shape[0].id;
-        }
-
-        static void SetPlaceInTree(Device device)
-        {
-            if (device.Parent == null)
             {
-                device.PlaceInTree = "";
-            }
-            else
-            {
-                string localPlaceInTree = (device.Parent.Children.Count - 1).ToString();
-                if (device.Parent.PlaceInTree == "")
+                device.ShapeIds = new List<string>();
+                foreach (var shape in innerDevice.shape)
                 {
-                    device.PlaceInTree = localPlaceInTree;
-                }
-                else
-                {
-                    device.PlaceInTree = device.Parent.PlaceInTree + @"\" + localPlaceInTree;
+                    device.ShapeIds.Add(shape.id);
                 }
             }
         }
@@ -235,7 +228,38 @@ namespace FiresecService.Converters
 
             innerDevice.prop = AddProperties(device).ToArray();
 
+            innerDevice.param = AddParameters(device).ToArray();
+
             return innerDevice;
+        }
+
+        static List<Firesec.CoreConfig.paramType> AddParameters(Device device)
+        {
+            var parameters = new List<Firesec.CoreConfig.paramType>();
+
+            if (device.UID != Guid.Empty)
+            {
+                var UIDParam = new paramType()
+                {
+                    name = "INT$DEV_GUID",
+                    type = "String",
+                    value = GuidHelper.ToString(device.UID)
+                };
+                parameters.Add(UIDParam);
+            }
+
+            if (device.DatabaseId != null)
+            {
+                var DatabaseIdParam = new paramType()
+                {
+                    name = "DB$IDDevices",
+                    type = "Int",
+                    value = device.DatabaseId
+                };
+                parameters.Add(DatabaseIdParam);
+            }
+
+            return parameters;
         }
 
         static List<Firesec.CoreConfig.propType> AddProperties(Device device)

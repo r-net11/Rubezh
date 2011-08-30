@@ -8,7 +8,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GroupDetailsViewModel : DialogContent
+    public class GroupDetailsViewModel : SaveCancelDialogContent
     {
         Device _device;
 
@@ -17,8 +17,6 @@ namespace DevicesModule.ViewModels
             Title = "Свойства группы ПДУ";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             _device = device;
 
@@ -172,8 +170,7 @@ namespace DevicesModule.ViewModels
             InitializeAvailableDevices();
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             _device.PDUGroupLogic = new PDUGroupLogic();
 
@@ -181,24 +178,12 @@ namespace DevicesModule.ViewModels
             foreach (var device in Devices)
             {
                 var pDUGroupDevice = new PDUGroupDevice();
-
-                if (device.Device.UID == null)
-                {
-                    device.Device.UID = Guid.NewGuid().ToString();
-                }
                 pDUGroupDevice.DeviceUID = device.Device.UID;
                 pDUGroupDevice.IsInversion = device.IsInversion;
                 pDUGroupDevice.OnDelay = device.OnDelay;
                 pDUGroupDevice.OffDelay = device.OffDelay;
                 _device.PDUGroupLogic.Devices.Add(pDUGroupDevice);
             }
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

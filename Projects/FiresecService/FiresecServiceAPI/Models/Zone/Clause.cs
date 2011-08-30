@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -24,7 +25,7 @@ namespace FiresecAPI.Models
         public List<string> Zones { get; set; }
 
         [DataMember]
-        public string DeviceUID { get; set; }
+        public Guid DeviceUID { get; set; }
 
         public bool CanSelectOperation
         {

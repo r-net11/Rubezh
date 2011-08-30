@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using FiresecClient;
 using System.ComponentModel;
+using FiresecAPI.Models;
 
 namespace FireMonitor
 {
@@ -19,6 +21,14 @@ namespace FireMonitor
             IsServiceConnected = true;
             SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
             SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
+
+            OnDeviceStateChangedEvent(null);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
+        }
+
+        void OnDeviceStateChangedEvent(string obj)
+        {
+            IsDeviceConnected = FiresecManager.DeviceStates.DeviceStates.Any(x => x.StateType == StateType.Unknown) == false;
         }
 
         bool _isServiceConnected;
@@ -43,21 +53,14 @@ namespace FireMonitor
             }
         }
 
-        void SetConnectionState(string state)
-        {
-            _textBlock.Text = state;
-        }
-
         void OnConnectionLost()
         {
             IsServiceConnected = false;
-            Dispatcher.Invoke(new Action<string>(SetConnectionState), "Потеря связи");
         }
 
         void OnConnectionAppeared()
         {
             IsServiceConnected = true;
-            Dispatcher.Invoke(new Action<string>(SetConnectionState), "");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

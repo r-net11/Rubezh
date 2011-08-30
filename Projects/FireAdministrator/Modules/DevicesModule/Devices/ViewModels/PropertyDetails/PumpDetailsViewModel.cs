@@ -5,15 +5,13 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class PumpDetailsViewModel : DialogContent
+    public class PumpDetailsViewModel : SaveCancelDialogContent
     {
         Device _device;
 
         public PumpDetailsViewModel(Device device)
         {
             Title = "Свойства насоса";
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             _device = device;
 
@@ -57,8 +55,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "Time");
             if (timeoutProperty == null)
@@ -67,14 +64,6 @@ namespace DevicesModule.ViewModels
                 _device.Properties.Add(timeoutProperty);
             }
             timeoutProperty.Value = Timeout.ToString();
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.ServiceModel;
 
 namespace FiresecClient
 {

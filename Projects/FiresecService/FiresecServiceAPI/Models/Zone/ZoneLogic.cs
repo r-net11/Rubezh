@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -39,9 +40,9 @@ namespace FiresecAPI.Models
                     }
                 }
 
-                if (clause.DeviceUID != null)
+                if (clause.DeviceUID != Guid.Empty)
                 {
-                    result += "Сработка устройства " + clause.Device.Address + " - " + clause.Device.Driver.Name;
+                    result += "Сработка устройства " + clause.Device.PresentationAddress + " - " + clause.Device.Driver.Name;
                     continue;
                 }
 
@@ -51,10 +52,7 @@ namespace FiresecAPI.Models
                     continue;
                 }
 
-                //if (clause.CanSelectOperation)
-                //{
-                    result += "состояние " + EnumsConverter.ZoneLogicStateToString(clause.State);
-                //}
+                result += "состояние " + EnumsConverter.ZoneLogicStateToString(clause.State);
 
                 string stringOperation = "";
                 switch (clause.Operation)

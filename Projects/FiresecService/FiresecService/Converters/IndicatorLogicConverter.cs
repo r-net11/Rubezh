@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Firesec.Indicator;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecService.Converters
 {
@@ -32,7 +33,7 @@ namespace FiresecService.Converters
             if (lEDProperties.device != null && lEDProperties.device.Count() > 0)
             {
                 var indicatorDevice = lEDProperties.device[0];
-                indicatorLogic.DeviceUID = indicatorDevice.UID;
+                indicatorLogic.DeviceUID = GuidHelper.ToGuid(indicatorDevice.UID);
                 indicatorLogic.OnColor = StringToIndicatorColorType(indicatorDevice.state1);
                 indicatorLogic.OffColor = StringToIndicatorColorType(indicatorDevice.state2);
                 indicatorLogic.FailureColor = StringToIndicatorColorType(indicatorDevice.state3);
@@ -60,7 +61,7 @@ namespace FiresecService.Converters
                     lEDProperties.device = new deviceType[1];
                     lEDProperties.device[0] = new deviceType();
 
-                    lEDProperties.device[0].UID = indicatorLogic.DeviceUID;
+                    lEDProperties.device[0].UID = GuidHelper.ToString(indicatorLogic.DeviceUID);
                     lEDProperties.device[0].state1 = IndicatorColorTypeToString(indicatorLogic.OnColor);
                     lEDProperties.device[0].state2 = IndicatorColorTypeToString(indicatorLogic.OffColor);
                     lEDProperties.device[0].state3 = IndicatorColorTypeToString(indicatorLogic.FailureColor);

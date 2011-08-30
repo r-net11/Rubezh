@@ -2,6 +2,8 @@
 using System.Linq;
 using Firesec.ZoneLogic;
 using FiresecAPI.Models;
+using System;
+using Common;
 
 namespace FiresecService.Converters
 {
@@ -47,7 +49,7 @@ namespace FiresecService.Converters
 
                     if (innerClause.device != null)
                     {
-                        clause.DeviceUID = innerClause.device[0].UID;
+                        clause.DeviceUID = GuidHelper.ToGuid(innerClause.device[0].UID);
                     }
 
                     zoneLogic.Clauses.Add(clause);
@@ -90,11 +92,11 @@ namespace FiresecService.Converters
                         break;
                 }
 
-                if (clause.DeviceUID != null)
+                if (clause.DeviceUID != Guid.Empty)
                 {
                     innerClause.device = new deviceType[0];
                     innerClause.device[0] = new deviceType();
-                    innerClause.device[0].UID = clause.DeviceUID;
+                    innerClause.device[0].UID = clause.DeviceUID.ToString();
                 }
 
                 innerClause.zone = clause.Zones.ToArray();

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardZoneSelectationViewModel : DialogContent
+    public class GuardZoneSelectationViewModel : SaveCancelDialogContent
     {
         public GuardZoneSelectationViewModel()
         {
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
             Title = "Выбор зоны";
         }
 
@@ -36,18 +32,6 @@ namespace DevicesModule.ViewModels
                 _selectedZone = value;
                 OnPropertyChanged("SelectedZone");
             }
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

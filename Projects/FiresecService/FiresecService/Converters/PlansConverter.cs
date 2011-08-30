@@ -90,16 +90,18 @@ namespace FiresecService.Converters
                                     int _idTempI = (int)_idTempL;
                                     foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
                                     {
-
-                                        if (_index.ShapeId == _idTempL.ToString())
+                                        foreach (var zoneShapeId in _index.ShapeIds)
                                         {
-                                            zoneInner.ZoneNo = _index.No;
-                                        }
-                                        else
-                                            if (_index.ShapeId == _idTempI.ToString())
+                                            if (zoneShapeId == _idTempL.ToString())
                                             {
                                                 zoneInner.ZoneNo = _index.No;
                                             }
+                                            else
+                                                if (zoneShapeId == _idTempI.ToString())
+                                                {
+                                                    zoneInner.ZoneNo = _index.No;
+                                                }
+                                        }
                                     }
                                     PolygonPoint polygonPointsInner = null;
                                     zoneInner.PolygonPoints = new List<PolygonPoint>();

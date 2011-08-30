@@ -7,14 +7,8 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneDetailsViewModel : DialogContent
+    public class ZoneDetailsViewModel : SaveCancelDialogContent
     {
-        public ZoneDetailsViewModel()
-        {
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
-
         public Zone _zone;
         bool _isNew;
 
@@ -204,8 +198,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             if ((_zone.No != No) && (FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No)))
             {
@@ -232,13 +225,6 @@ namespace DevicesModule.ViewModels
             _zone.Delay = Delay;
             _zone.Skipped = Skipped;
             _zone.GuardZoneType = GuardZoneType;
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

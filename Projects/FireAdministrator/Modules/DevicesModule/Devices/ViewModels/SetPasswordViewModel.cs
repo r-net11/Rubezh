@@ -6,13 +6,11 @@ using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
-    public class SetPasswordViewModel : DialogContent
+    public class SetPasswordViewModel : SaveCancelDialogContent
     {
         public SetPasswordViewModel(string deviceId)
         {
             _deviceId = deviceId;
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
             Title = "Смена пароля";
 
             Users = new List<UserPassword>();
@@ -47,8 +45,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             if (Password != PasswordConfirm)
             {
@@ -59,13 +56,6 @@ namespace DevicesModule.ViewModels
             var userPassword = Users.FirstOrDefault(x => x.IsSelected == true);
 
             FiresecManager.SetPassword(_deviceId);
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 

@@ -7,7 +7,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZonesSelectionViewModel : DialogContent
+    public class ZonesSelectionViewModel : SaveCancelDialogContent
     {
         public ZonesSelectionViewModel()
         {
@@ -17,9 +17,6 @@ namespace DevicesModule.ViewModels
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
-
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public List<string> Zones { get; private set; }
@@ -188,22 +185,13 @@ namespace DevicesModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             Zones = new List<string>();
             foreach (var zoneViewModel in TargetZones)
             {
                 Zones.Add(zoneViewModel.No);
             }
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

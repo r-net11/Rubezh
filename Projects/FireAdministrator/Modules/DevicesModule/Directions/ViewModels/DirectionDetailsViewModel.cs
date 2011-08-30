@@ -3,10 +3,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionDetailsViewModel : DialogContent
+    public class DirectionDetailsViewModel : SaveCancelDialogContent
     {
         public DirectionDetailsViewModel()
         {
@@ -14,8 +15,6 @@ namespace DevicesModule.ViewModels
             ResetButtonCommand = new RelayCommand(OnResetButton);
             ChooseRmCommand = new RelayCommand(OnChooseRm);
             ChooseButtonCommand = new RelayCommand(OnChooseButton);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         bool _isNew;
@@ -115,14 +114,14 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void Save()
+        void SaveModel()
         {
             Direction.Id = Id;
             Direction.Name = Name;
             Direction.Description = Description;
 
-            Direction.DeviceRm = null;
-            Direction.DeviceButton = null;
+            Direction.DeviceRm = Guid.Empty;
+            Direction.DeviceButton = Guid.Empty;
             if (DeviceRm != null)
             {
                 Direction.DeviceRm = DeviceRm.UID;
@@ -169,8 +168,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             if (_isNew)
             {
@@ -179,7 +177,7 @@ namespace DevicesModule.ViewModels
                     Close(false);
                     return;
                 }
-                Save();
+                SaveModel();
             }
             else
             {
@@ -188,15 +186,8 @@ namespace DevicesModule.ViewModels
                     Close(false);
                     return;
                 }
-                Save();
+                SaveModel();
             }
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

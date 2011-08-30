@@ -14,19 +14,14 @@ namespace JournalModule.ViewModels
 
         public JournalRecordViewModel(JournalRecord journalRecord)
         {
+            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
+            ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
+            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+
             _journalRecord = journalRecord;
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
                 x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
                      x.DatabaseId == _journalRecord.PanelDatabaseId);
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
-            ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
-            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
         }
 
         public int Id
@@ -82,7 +77,22 @@ namespace JournalModule.ViewModels
 
         bool CanShowPlan()
         {
-            return _device != null;
+            if (_device != null)
+                return ExistsOnPlan();
+            return false;
+        }
+
+        bool ExistsOnPlan()
+        {
+            foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+            {
+                var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.Id);
+                if (elementDevice != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public RelayCommand ShowTreeCommand { get; private set; }
@@ -104,7 +114,11 @@ namespace JournalModule.ViewModels
 
         bool CanShowZone()
         {
-            return _device != null;
+            if (_device != null)
+            {
+                return FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == _device.ZoneNo);
+            }
+            return false;
         }
     }
 }

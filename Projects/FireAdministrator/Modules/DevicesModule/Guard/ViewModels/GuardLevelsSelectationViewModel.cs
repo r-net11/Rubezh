@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecAPI.Models;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardLevelsSelectationViewModel : DialogContent
+    public class GuardLevelsSelectationViewModel : SaveCancelDialogContent
     {
         public GuardLevelsSelectationViewModel()
         {
@@ -19,13 +16,9 @@ namespace DevicesModule.ViewModels
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
-
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public List<string> GuardLevels { get; private set; }
-
 
         public void Initialize(GuardUser guardUser)
         {
@@ -138,22 +131,13 @@ namespace DevicesModule.ViewModels
             return SelectedTargetLevel != null;
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             GuardLevels = new List<string>();
             foreach (var zoneViewModel in TargetLevels)
             {
                 GuardLevels.Add(zoneViewModel.GuardLevel.Name);
             }
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

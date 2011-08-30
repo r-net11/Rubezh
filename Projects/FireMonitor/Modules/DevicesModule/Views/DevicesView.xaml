@@ -6,6 +6,7 @@
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
         <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
+    
     <Grid VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

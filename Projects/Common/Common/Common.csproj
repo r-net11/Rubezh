@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

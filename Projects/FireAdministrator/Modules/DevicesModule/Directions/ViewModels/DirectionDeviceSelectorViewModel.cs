@@ -8,14 +8,8 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionDeviceSelectorViewModel : DialogContent
+    public class DirectionDeviceSelectorViewModel : SaveCancelDialogContent
     {
-        public DirectionDeviceSelectorViewModel()
-        {
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
-
         public void Initialize(Direction direction, bool isRm)
         {
             string driverName = isRm ? "Релейный исполнительный модуль РМ-1" : "Кнопка разблокировки автоматики ШУЗ в направлении";
@@ -90,19 +84,10 @@ namespace DevicesModule.ViewModels
             return false;
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
-            if (SelectedDevice.Device.UID != null)
-                SelectedDevice.Device.UID = Guid.NewGuid().ToString();
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
+            //if (SelectedDevice.Device.UID != null)
+            //    SelectedDevice.Device.UID = Guid.NewGuid();
         }
     }
 }

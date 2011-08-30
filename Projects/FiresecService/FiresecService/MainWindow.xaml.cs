@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using FiresecService;
 using FiresecService.Views;
+using FiresecService.Converters;
+using System.Runtime.Serialization;
+using FiresecAPI.Models;
+using System.IO;
 
 namespace FiresecServiceRunner
 {
@@ -32,9 +36,26 @@ namespace FiresecServiceRunner
 
         void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            ConvertPlans();
+            return;
+
             ConfigurationConverter.Convert();
             JournalDataConverter.Convert();
             JournalDataConverter.Select();
+        }
+
+        void ConvertPlans()
+        {
+            var plans = FiresecInternalClient.GetPlans();
+            var plansConfiguration = PlansConverter.Convert(plans);
+
+            var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+            using (var fileStream = new FileStream("Configuration/PlansConfiguration.xml", FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, plansConfiguration);
+            }
+
+            FiresecManager.PlansConfiguration = plansConfiguration;
         }
     }
 }

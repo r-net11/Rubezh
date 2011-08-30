@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -15,12 +16,13 @@ namespace FiresecAPI.Models
             ZoneLogic = new ZoneLogic();
             IndicatorLogic = new IndicatorLogic();
             PDUGroupLogic = new PDUGroupLogic();
+            ShapeIds = new List<string>();
+            UID = Guid.NewGuid();
         }
 
         public Driver Driver { get; set; }
         public Device Parent { get; set; }
-        public string PlaceInTree { get; set; }
-        public string ShapeId { get; set; }
+        public List<string> ShapeIds { get; set; }
 
         [DataMember]
         public List<Device> Children { get; set; }
@@ -53,7 +55,7 @@ namespace FiresecAPI.Models
         public string Description { get; set; }
 
         [DataMember]
-        public string UID { get; set; }
+        public Guid UID { get; set; }
 
         [DataMember]
         public bool IsRmAlarmDevice { get; set; }
@@ -74,14 +76,6 @@ namespace FiresecAPI.Models
                 }
 
                 return address;
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                return PresentationAddress;
             }
         }
 
@@ -146,6 +140,27 @@ namespace FiresecAPI.Models
                     address = address.Remove(address.Length - 1);
 
                 return address;
+            }
+        }
+
+        public string PlaceInTree
+        {
+            get
+            {
+                if (Parent == null)
+                {
+                    return "";
+                }
+
+                string localPlaceInTree = (Parent.Children.Count - 1).ToString();
+                if (Parent.PlaceInTree == "")
+                {
+                    return localPlaceInTree;
+                }
+                else
+                {
+                    return Parent.PlaceInTree + @"\" + localPlaceInTree;
+                }
             }
         }
 

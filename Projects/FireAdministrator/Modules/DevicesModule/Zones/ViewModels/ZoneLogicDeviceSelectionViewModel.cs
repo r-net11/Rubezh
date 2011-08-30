@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicDeviceSelectionViewModel : DialogContent
+    public class ZoneLogicDeviceSelectionViewModel : SaveCancelDialogContent
     {
         public ZoneLogicDeviceSelectionViewModel(Device parentDevice)
         {
             Title = "Выбор устройства";
-
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             Devices = new List<Device>();
             foreach (var device in parentDevice.Children)
@@ -36,18 +29,6 @@ namespace DevicesModule.ViewModels
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

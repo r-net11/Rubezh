@@ -8,7 +8,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class IndicatorDetailsViewModel : DialogContent
+    public class IndicatorDetailsViewModel : SaveCancelDialogContent
     {
         public IndicatorDetailsViewModel()
         {
@@ -18,9 +18,6 @@ namespace DevicesModule.ViewModels
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
-
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         Device _device;
@@ -339,8 +336,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _deviceId;
-        public string DeviceId
+        Guid _deviceId;
+        public Guid DeviceId
         {
             get { return _deviceId; }
             set
@@ -350,8 +347,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save()
         {
             _device.IndicatorLogic = new IndicatorLogic();
 
@@ -366,14 +362,6 @@ namespace DevicesModule.ViewModels
             if (IsDevice)
             {
                 _device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
-
-                string uid = SelectedDevice.Device.UID;
-                if (string.IsNullOrEmpty(uid))
-                {
-                    uid = Guid.NewGuid().ToString();
-                    SelectedDevice.Device.UID = uid;
-                }
-
                 _device.IndicatorLogic.Device = SelectedDevice.Device;
                 _device.IndicatorLogic.DeviceUID = SelectedDevice.Device.UID;
                 _device.IndicatorLogic.OnColor = OnColor;
@@ -381,14 +369,6 @@ namespace DevicesModule.ViewModels
                 _device.IndicatorLogic.FailureColor = FailureColor;
                 _device.IndicatorLogic.ConnectionColor = ConnectionColor;
             }
-
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

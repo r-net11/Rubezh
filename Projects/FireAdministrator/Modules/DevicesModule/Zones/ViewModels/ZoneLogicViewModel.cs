@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -8,15 +8,13 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicViewModel : DialogContent
+    public class ZoneLogicViewModel : SaveCancelDialogContent
     {
         public ZoneLogicViewModel()
         {
             Title = "Настройка логики зон";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Subscribe(OnCurrentClauseStateChanged);
         }
@@ -89,7 +87,7 @@ namespace DevicesModule.ViewModels
             Clauses.Remove(clauseViewModel);
         }
 
-        void Save()
+        protected override void Save()
         {
             var zoneLogic = new ZoneLogic();
             foreach (var clauseViewModel in Clauses)
@@ -102,28 +100,12 @@ namespace DevicesModule.ViewModels
                     clause.Zones = clauseViewModel.Zones;
                     if (clauseViewModel.SelectedDevice != null)
                     {
-                        if (clauseViewModel.SelectedDevice.UID == null)
-                            clauseViewModel.SelectedDevice.UID = Guid.NewGuid().ToString();
-
                         clause.DeviceUID = clauseViewModel.SelectedDevice.UID;
                     }
                     zoneLogic.Clauses.Add(clause);
                 }
             }
             _device.ZoneLogic = zoneLogic;
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Save();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

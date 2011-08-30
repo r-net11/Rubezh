@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecService.XSD;
+using Common;
 
 namespace FiresecService.Converters
 {
@@ -17,7 +18,7 @@ namespace FiresecService.Converters
                 {
                     pDUGroupLogic.Devices.Add(new PDUGroupDevice()
                     {
-                        DeviceUID = groupDevice.UID,
+                        DeviceUID = GuidHelper.ToGuid(groupDevice.UID),
                         IsInversion = (groupDevice.Inverse == "1"),
                         OnDelay = int.Parse(groupDevice.DelayOn),
                         OffDelay = int.Parse(groupDevice.DelayOff)
@@ -41,7 +42,7 @@ namespace FiresecService.Converters
                 {
                     groupDevices.Add(new RCGroupPropertiesDevice()
                     {
-                        UID = device.DeviceUID,
+                        UID = device.DeviceUID.ToString(),
                         Inverse = device.IsInversion ? "1" : "0",
                         DelayOn = device.OnDelay.ToString(),
                         DelayOff = device.OffDelay.ToString()

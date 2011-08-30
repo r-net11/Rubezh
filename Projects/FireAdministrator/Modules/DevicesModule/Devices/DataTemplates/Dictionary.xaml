@@ -42,5 +42,13 @@
     <DataTemplate DataType="{x:Type ViewModels:SetPasswordViewModel}">
         <Views:SetPasswordView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:BindMsViewModel}">
+        <Views:BindMsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:AdditionalPropertiesViewModel}">
+        <Views:AdditionalPropertiesView />
+    </DataTemplate>
+
 </ResourceDictionary>

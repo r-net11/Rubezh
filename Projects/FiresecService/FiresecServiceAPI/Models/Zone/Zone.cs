@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace FiresecAPI.Models
 {
@@ -13,9 +14,10 @@ namespace FiresecAPI.Models
             EvacuationTime = "0";
             AutoSet = "0";
             Delay = "0";
+            ShapeIds = new List<string>();
         }
 
-        public string ShapeId { get; set; }
+        public List<string> ShapeIds { get; set; }
 
         [DataMember]
         public string No { get; set; }

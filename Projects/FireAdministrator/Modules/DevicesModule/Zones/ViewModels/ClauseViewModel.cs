@@ -27,9 +27,9 @@ namespace DevicesModule.ViewModels
             Zones = clause.Zones.ToList();
             _selectedState = clause.State;
             SelectedOperation = clause.Operation;
-            if (clause.DeviceUID != null)
+            if (clause.DeviceUID != Guid.Empty)
             {
-                SelectedDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == clause.DeviceUID);
+                SelectedDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
             }
         }
 

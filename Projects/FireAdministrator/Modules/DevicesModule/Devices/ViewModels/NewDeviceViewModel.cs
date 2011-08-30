@@ -6,7 +6,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class NewDeviceViewModel : DialogContent
+    public class NewDeviceViewModel : SaveCancelDialogContent
     {
         public NewDeviceViewModel(DeviceViewModel parent)
         {
@@ -14,8 +14,6 @@ namespace DevicesModule.ViewModels
             //driversView.ShowDialog();
 
             Title = "Новое устройство";
-            AddCommand = new RelayCommand(OnAdd, CanAdd);
-            CancelCommand = new RelayCommand(OnCancel);
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
         }
@@ -123,13 +121,12 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanAdd()
+        protected override bool CanSave()
         {
             return (SelectedDriver != null);
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
+        protected override void Save()
         {
             int address = GetNewAddress();
             Device device = _parent.AddChild(SelectedDriver, address);
@@ -137,13 +134,6 @@ namespace DevicesModule.ViewModels
 
             _parentDeviceViewModel.Update();
             FiresecManager.DeviceConfiguration.Update();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

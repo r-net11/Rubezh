@@ -60,11 +60,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
+    <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
+      <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\BindMsView.xaml.cs">
+      <DependentUpon>BindMsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\ViewModels\BindMsViewModel.cs" />
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
     <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
-    <Compile Include="Devices\ViewModels\UpdateSoftViewMovel.cs" />
     <Compile Include="Devices\Views\AdressPresenter.xaml.cs">
       <DependentUpon>AdressPresenter.xaml</DependentUpon>
     </Compile>
@@ -279,6 +286,14 @@
     <Resource Include="Images\Paste.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Devices\Views\AdditionalPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\BindMsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

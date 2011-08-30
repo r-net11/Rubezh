@@ -26,6 +26,8 @@ namespace DevicesModule.ViewModels
             UpdateSoftCommand = new RelayCommand(OnUpdateSoft, CanUpdateSoft);
             GetDescriptionCommand = new RelayCommand(OnGetDescription, CanGetDescription);
             SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
+            BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
+            ShowAdditionalPropertiesCommand = new RelayCommand(OnShowAdditionalProperties, CanShowAdditionalProperties);
         }
 
         public void Initialize()
@@ -315,6 +317,30 @@ namespace DevicesModule.ViewModels
         }
 
         bool CanSetPassword()
+        {
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
+        }
+
+        public RelayCommand BindMsCommand { get; private set; }
+        void OnBindMs()
+        {
+            var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device.Id);
+            ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
+        }
+
+        bool CanBindMs()
+        {
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
+        }
+
+        public RelayCommand ShowAdditionalPropertiesCommand { get; private set; }
+        void OnShowAdditionalProperties()
+        {
+            var additionalPropertiesViewModel = new AdditionalPropertiesViewModel(SelectedDevice.Device.Id);
+            ServiceFactory.UserDialogs.ShowModalWindow(additionalPropertiesViewModel);
+        }
+
+        bool CanShowAdditionalProperties()
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
         }

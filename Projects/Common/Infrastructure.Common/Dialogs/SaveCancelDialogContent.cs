@@ -9,12 +9,23 @@ namespace Infrastructure.Common
     {
         public SaveCancelDialogContent()
         {
+            SaveCommand = new RelayCommand(OnSave, CanSave);
+            CancelCommand = new RelayCommand(OnCancel);
+        }
 
+        protected virtual void Save()
+        {
+        }
+
+        protected virtual bool CanSave()
+        {
+            return true;
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
+            Save();
             Close(true);
         }
 
