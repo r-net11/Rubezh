@@ -9,48 +9,37 @@ using System.Text;
 using Infrastructure.Common;
 using FiresecAPI.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
-    public class PolygonAdorner : Adorner
+    public class TextBoxAdorner : Adorner
     {
         bool isMove = false;
 
         private UIElement currentElement = null;
-        private Polygon polygon = null;
+        private Rectangle rectangle = null;
+        
         private double _leftOffset = 0;
         private double _topOffset = 0;
+        Rect adornedElementRect;
 
-        public PolygonAdorner(UIElement adornedElement)
+        public TextBoxAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
             VisualBrush _brush = new VisualBrush(adornedElement);
             currentElement = adornedElement;
-            Polygon _polygon = (Polygon)currentElement;
-            polygon = new Polygon();
-            foreach (var point in _polygon.Points)
-            {
-                polygon.Points.Add(point);
-            }
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            //Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
             SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
             renderBrush.Opacity = 0.2;
             Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-            Polygon polygon = currentElement as Polygon;
-            Point _start = polygon.Points[0];
-            Point _prev = _start;
-            Point _point = new Point();
-            foreach (Point point in polygon.Points)
-            {
-                drawingContext.DrawLine(renderPen, new Point(_prev.X, _prev.Y), new Point(point.X, point.Y));
-                _prev = point;
-                _point = point;
-            }
-            drawingContext.DrawLine(renderPen, new Point(_point.X, _point.Y), new Point(_start.X, _start.Y));
+            adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
+            adornedElementRect.Y = adornedElementRect.Y + PlanCanvasView.dTop;
+            drawingContext.DrawRectangle(null, renderPen, adornedElementRect);
         }
 
 

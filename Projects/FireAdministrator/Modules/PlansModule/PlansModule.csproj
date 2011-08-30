@@ -72,6 +72,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\ChildrensViewModel.cs" />
+    <Compile Include="ViewModels\Adorners\PolygonAdorner.cs" />
     <Compile Include="ViewModels\SubPlanViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
@@ -80,7 +81,8 @@
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\SubPlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\temp\MainCanvasViewModel.cs" />
-    <Compile Include="ViewModels\temp\PolygonAdorner.cs" />
+    <Compile Include="ViewModels\Adorners\RectangleAdorner.cs" />
+    <Compile Include="ViewModels\Adorners\TextBoxAdorner.cs" />
     <Compile Include="ViewModels\temp\ZonaViewModel.cs" />
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>

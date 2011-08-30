@@ -8,7 +8,9 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
-            <Views:PlansTree Grid.Column="0" />
+        
+        <Views:PlansTree Grid.Column="0" />
+        
         <Views:PlanCanvasView  Grid.Column="1" />
     </Grid>
 

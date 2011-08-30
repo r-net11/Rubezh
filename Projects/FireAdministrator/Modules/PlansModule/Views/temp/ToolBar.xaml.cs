@@ -17,9 +17,9 @@ using System.Windows.Controls.Primitives;
 namespace PlanEditor
 {
      
-    public partial class Toolbar : System.Windows.Controls.UserControl
+    public partial class ToolBar : System.Windows.Controls.UserControl
     {
-        public Toolbar() 
+        public ToolBar() 
         { 
         }
     }
