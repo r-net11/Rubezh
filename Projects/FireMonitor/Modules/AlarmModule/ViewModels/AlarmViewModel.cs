@@ -132,6 +132,24 @@ namespace AlarmModule.ViewModels
             }
         }
 
+        public RelayCommand ShowZoneCommand { get; private set; }
+        void OnShowZone()
+        {
+            
+        }
+        
+        public RelayCommand NotifyPhoneCommand { get; private set; }
+        void OnNotifyPhone()
+        {
+
+        }
+
+        public RelayCommand NotifySmsCommand { get; private set; }
+        void OnNotifySms()
+        {
+
+        }
+
         public RelayCommand ShowVideoCommand { get; private set; }
         void OnShowVideo()
         {

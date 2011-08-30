@@ -302,10 +302,8 @@
             {
                 case InstructionType.General:
                     return "Общая инструкция";
-                case InstructionType.Zone:
-                    return "Список зон";
-                case InstructionType.Device:
-                    return "Список устройств";
+                case InstructionType.Details:
+                    return "Инструкция для зон и устройств";
                 default:
                     return "";
             }

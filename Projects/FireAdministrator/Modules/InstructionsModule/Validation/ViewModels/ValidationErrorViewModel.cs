@@ -12,7 +12,7 @@ namespace InstructionsModule.Validation.ViewModels
         public ValidationErrorViewModel(InstructionError instructionError)
         {
             _instructionError = instructionError;
-            Source = instructionError.Instruction.Name;
+            Source = "";
             Address = instructionError.Instruction.No;
             Error = instructionError.Error;
         }

@@ -450,12 +450,15 @@
     <Resource Include="Images\DeleteAllEmpty.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\RigthArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\LeftArrow.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\LeftDoubleArrow.png" />
+    <Resource Include="Images\RightDoubleArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RightArrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

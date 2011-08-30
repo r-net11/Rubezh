@@ -6,8 +6,7 @@ namespace FiresecAPI.Models
     public enum InstructionType
     {
         General, 
-        Zone,
-        Device
+        Details
     }
 
     [DataContract]
@@ -15,9 +14,6 @@ namespace FiresecAPI.Models
     {
         [DataMember]
         public string No { get; set; }
-
-        [DataMember]
-        public string Name { get; set; }
 
         [DataMember]
         public StateType StateType { get; set; }
@@ -29,6 +25,9 @@ namespace FiresecAPI.Models
         public string Text { get; set; }
 
         [DataMember]
-        public List<string> InstructionDetailsList { get; set; }
+        public List<string> InstructionZonesList { get; set; }
+
+        [DataMember]
+        public List<string> InstructionDevicesList { get; set; }
     }
 }

@@ -21,15 +21,15 @@ namespace InstructionsModule.ViewModels
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             AddAllDeviceCommand = new RelayCommand(OnAddAllDevice, CanAddAllAvailableDevice);
             RemoveAllDeviceCommand = new RelayCommand(OnRemoveAllDevice, CanRemoveAllDevice);
-            SaveCommand = new RelayCommand(OnSave, CanSaveInstruction);
+            SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public void Inicialize(List<string> instructionDetailsList)
+        public void Inicialize(List<string> instructionDevicesList)
         {
-            if (instructionDetailsList.IsNotNullOrEmpty())
+            if (instructionDevicesList.IsNotNullOrEmpty())
             {
-                InstructionDevicesList = new List<string>(instructionDetailsList);
+                InstructionDevicesList = new List<string>(instructionDevicesList);
             }
             else
             {
@@ -203,10 +203,10 @@ namespace InstructionsModule.ViewModels
             return (InstructionDevices.IsNotNullOrEmpty());
         }
 
-        public bool CanSaveInstruction()
-        {
-            return (InstructionDevices.IsNotNullOrEmpty());
-        }
+        //public bool CanSaveInstruction()
+        //{
+        //    return (InstructionDevices.IsNotNullOrEmpty());
+        //}
 
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()

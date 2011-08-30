@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:InstructionsModule.Converters" 
              xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
+             xmlns:ph="clr-namespace:Controls;assembly=Controls" 
              MinWidth="400" MinHeight="200" >
     <Grid Margin="0" Background="AliceBlue">
         <Grid.RowDefinitions>
@@ -21,12 +22,19 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Название" Margin="2"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Пароль" Margin="2"/>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Номер" Margin="2"/>
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Текст" Margin="2"/>
             <TextBlock Grid.Column="0" Grid.Row="2" Text="Состояние" Margin="2"/>
             <TextBlock Grid.Column="0" Grid.Row="3" Text="Тип инструкции" Margin="2"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding InstructionNo}" />
+            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Vertical">
+                <PasswordBox ph:PasswordHelper.Attach="True" 
+                             ph:PasswordHelper.Password="{Binding Text, Mode=TwoWay}"
+                             Width="130"/>
+            </StackPanel>
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding AvailableStates}"
                       SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
@@ -49,13 +57,70 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="0,10,0,0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <XButtons:XButton Grid.Column="0" Name="btnSelectZone" FontWeight="DemiBold" Background="Black" 
-                              Width="115" Height="30" VerticalAlignment="Center" FontSize="10"
-                              Command="{Binding SelectZoneCommand}" Content="Выбор зон" />
-            <XButtons:XButton Grid.Column="1" Name="btnSelectDevice" FontWeight="DemiBold" Background="Black"
-                              Width="115" Height="30" VerticalAlignment="Center" FontSize="10"
-                              Command="{Binding SelectDeviceCommand}" Content="Выбор устройств" />
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <XButtons:XButton Grid.Column="0" Name="btnSelectZone" FontWeight="DemiBold" Background="Black" 
+                              Height="30" VerticalAlignment="Center" FontSize="10"
+                              Command="{Binding SelectZoneCommand}" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectZones}" Margin="2" />
+                        <TextBlock Margin="2">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectZones}" Value="{x:Null}">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectZones}" Value="">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                    </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </XButtons:XButton>
+                <XButtons:XButton Grid.Column="1" Name="btnSelectDevice" FontWeight="DemiBold" Background="Black"
+                              Height="30" VerticalAlignment="Center" FontSize="10"
+                              Command="{Binding SelectDeviceCommand}" >
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectDevices}" Margin="2" />
+                        <TextBlock Margin="2">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectDevices}" Value="{x:Null}">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectDevices}" Value="">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                    </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </XButtons:XButton>
+                <!--<TextBlock>
+                    <Hyperlink Command="{Binding SelectDeviceCommand}">
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectDevices}" Margin="2" />
+                        <TextBlock Margin="2">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectDevices}" Value="{x:Null}">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SelectDevices}" Value="">
+                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                    </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                      </StackPanel>  
+                    </Hyperlink>
+                </TextBlock>-->
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">

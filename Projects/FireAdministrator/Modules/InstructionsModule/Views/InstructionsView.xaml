@@ -20,7 +20,6 @@
                   Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding InstructionNo}" Width="1*" />
-                <DataGridTextColumn Header="Название" Binding="{Binding Instruction.Name}" Width="1*" />
                 <DataGridTextColumn Header="Тип инструкции"  Width="1*"
                                     Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Состояние" Width="1*"

@@ -62,6 +62,7 @@
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="HighlightCornerRadiusConverter.cs" />
+    <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

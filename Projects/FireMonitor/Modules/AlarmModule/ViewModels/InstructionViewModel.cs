@@ -23,11 +23,11 @@ namespace AlarmModule.ViewModels
 
         void InicializeInstruction()
         {
-            if (FindInstruction(AvailableInstructionsDevices, DeviceId))
+            if (FindDeviceInstruction(DeviceId))
             {
                 return;
             }
-            if (FindInstruction(AvailableInstructionsZones, ZoneNo))
+            if (FindZoneInstruction(ZoneNo))
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        List<Instruction> AvailableInstructions
+        List<Instruction> AvailableStateTypeInstructions
         {
             get
             {
@@ -68,41 +68,14 @@ namespace AlarmModule.ViewModels
                 }
             }
         }
-        List<Instruction> AvailableInstructionsDevices
-        {
-            get
-            {
-                if (AvailableInstructions.IsNotNullOrEmpty())
-                {
-                    return AvailableInstructions.FindAll(x => x.InstructionType == InstructionType.Device);
-                }
-                else
-                {
-                    return AvailableInstructions;
-                }
-            }
-        }
-        List<Instruction> AvailableInstructionsZones
-        {
-            get
-            {
-                if (AvailableInstructions.IsNotNullOrEmpty())
-                {
-                    return AvailableInstructions.FindAll(x => x.InstructionType == InstructionType.Zone);
-                }
-                else
-                {
-                    return AvailableInstructions;
-                }
-            }
-        }
+        
         Instruction InstructionGeneral
         {
             get
             {
-                if (AvailableInstructions.IsNotNullOrEmpty())
+                if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
                 {
-                    return AvailableInstructions.FirstOrDefault(x => x.InstructionType == InstructionType.General);
+                    return AvailableStateTypeInstructions.FirstOrDefault(x => x.InstructionType == InstructionType.General);
                 }
                 else
                 {
@@ -138,13 +111,30 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool FindInstruction(List<Instruction> instructionsList, string number)
+        bool FindDeviceInstruction(string deviceId)
         {
-            if (instructionsList.IsNotNullOrEmpty())
+            if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
             {
-                foreach (var instruction in instructionsList)
+                foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.InstructionDetailsList.Contains(number))
+                    if (instruction.InstructionDevicesList.IsNotNullOrEmpty() && instruction.InstructionDevicesList.Contains(deviceId))
+                    {
+                        Instruction = instruction;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        bool FindZoneInstruction(string zoneNo)
+        {
+            if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
+            {
+                foreach (var instruction in AvailableStateTypeInstructions)
+                {
+                    if (instruction.InstructionZonesList.IsNotNullOrEmpty() && instruction.InstructionZonesList.Contains(zoneNo))
                     {
                         Instruction = instruction;
                         return true;

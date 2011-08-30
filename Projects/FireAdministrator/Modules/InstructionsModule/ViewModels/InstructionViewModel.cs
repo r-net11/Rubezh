@@ -16,11 +16,6 @@ namespace InstructionsModule.ViewModels
 
         public Instruction Instruction { get; private set; }
 
-        public string InstructionName
-        {
-            get { return Instruction.Name; }
-        }
-
         public StateType StateType
         {
             get { return Instruction.StateType; }
