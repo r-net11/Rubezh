@@ -5,9 +5,11 @@ using System.Windows.Shapes;
 
 namespace FiresecAPI.Models
 {
+   
     [DataContract]
     public struct RectangleBox
     {
+
         [DataMember]
         public double Left;
         [DataMember]
@@ -33,7 +35,7 @@ namespace FiresecAPI.Models
         [DataMember]
         public string BorderColor;
     }
-
+    
     [DataContract]
     public class Plan
     {

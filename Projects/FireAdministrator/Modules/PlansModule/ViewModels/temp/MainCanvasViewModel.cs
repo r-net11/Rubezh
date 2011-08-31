@@ -108,6 +108,7 @@ namespace PlansModule.ViewModels
         void SetActiveRectangle(Rectangle _rectangle)
         {
             var rectangle = _rectangle;
+            string name = rectangle.Name;
             Thickness Thickness = new System.Windows.Thickness();
             Thickness.Bottom = 1;
             Thickness.Top = 1;

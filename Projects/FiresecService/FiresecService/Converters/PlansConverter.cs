@@ -189,8 +189,17 @@ namespace FiresecService.Converters
                         index++;
                     }
                     plansConfiguration.Plans.Add(planInner);
+                    /*
+                    List<Plan> plans = plansConfiguration.Plans;
+                    System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(typeof(List<Plan>));
+                    FileStream fs_out = new FileStream(@"D:/del/Plans_new310811.xml", FileMode.Create);
+                    System.Xml.XmlDictionaryWriter xdw = System.Xml.XmlDictionaryWriter.CreateTextWriter(fs_out);
+                    dcs.WriteObject(xdw, plans);
+                    xdw.Close();
+                    */
                 }
             }
+            
             return plansConfiguration;
         }
 
