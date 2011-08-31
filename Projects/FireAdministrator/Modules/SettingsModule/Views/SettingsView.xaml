@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="SettingsModule.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Настройки" FontWeight="Bold" Margin="2" />
+            <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="100" Margin="2" />
+        </StackPanel>
+    </Grid>
+</UserControl>

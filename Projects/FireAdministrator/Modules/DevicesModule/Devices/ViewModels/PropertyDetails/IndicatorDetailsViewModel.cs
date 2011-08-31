@@ -347,7 +347,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             _device.IndicatorLogic = new IndicatorLogic();
 

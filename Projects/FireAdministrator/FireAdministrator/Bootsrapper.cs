@@ -70,6 +70,9 @@ namespace FireAdministrator
 
             var instructionsModule = new InstructionsModule.InstructionsModule();
             instructionsModule.Initialize();
+
+            var settingsModule = new SettingsModule.SettingsModule();
+            settingsModule.Initialize();
         }
     }
 }

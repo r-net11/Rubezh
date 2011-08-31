@@ -170,7 +170,7 @@ namespace DevicesModule.ViewModels
             InitializeAvailableDevices();
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             _device.PDUGroupLogic = new PDUGroupLogic();
 

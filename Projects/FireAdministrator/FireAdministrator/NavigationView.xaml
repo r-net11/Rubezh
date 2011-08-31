@@ -72,6 +72,12 @@
                 </TabItem.Header>
             </TabItem>
 
+            <TabItem IsSelected="{Binding IsSettingsSelected}">
+                <TabItem.Header>
+                    <TextBlock Text="Настройки" FontWeight="Bold" />
+                </TabItem.Header>
+            </TabItem>
+
         </TabControl>
     </StackPanel>
 </UserControl>

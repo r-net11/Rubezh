@@ -17,9 +17,9 @@
                 <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Id}" />
-                        <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Direction.Id}" />
+                        <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
+                        <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Direction.Description}" />
                     </DataGrid.Columns>
                     <DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">

@@ -60,7 +60,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
             if (actionProperty == null)

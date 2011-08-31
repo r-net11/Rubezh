@@ -4,15 +4,15 @@
     <Grid>
         <ToolBar Background="Transparent">
             <Button Command="{Binding AddCommand}" ToolTip="Добавить">
-                <Image Source="/DevicesModule;component/Images/Add.png" Height="32" />
+                <Image Source="/Controls;component/Images/Add.png" Height="32" />
             </Button>
 
             <Button Command="{Binding DeleteCommand}" ToolTip="Удалить">
-                <Image Source="/DevicesModule;component/Images/Delete.png" Height="32" />
+                <Image Source="/Controls;component/Images/Delete.png" Height="32" />
             </Button>
 
             <Button Command="{Binding EditCommand}" ToolTip="Редактировать">
-                <Image Source="/DevicesModule;component/Images/Edit.png" Height="32" />
+                <Image Source="/Controls;component/Images/Edit.png" Height="32" />
             </Button>
         </ToolBar>
     </Grid>

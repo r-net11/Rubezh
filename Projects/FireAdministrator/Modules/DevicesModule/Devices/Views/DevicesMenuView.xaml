@@ -4,51 +4,51 @@
 
     <ToolBar Background="Transparent">
         <Button Command="{Binding CopyCommand}" ToolTip="Копировать">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding CutCommand}" ToolTip="Вырезать">
-            <Image Source="/DevicesModule;component/Images/Cut.png" Height="32" />
+            <Image Source="/Controls;component/Images/Cut.png" Height="32" />
         </Button>
 
         <Button Command="{Binding PasteCommand}" ToolTip="Вставить">
-            <Image Source="/DevicesModule;component/Images/Paste.png" Height="32" />
+            <Image Source="/Controls;component/Images/Paste.png" Height="32" />
         </Button>
 
         <Button Command="{Binding AutoDetectCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding ReadDeviceCommand}" ToolTip="Считать конфигурацию из устройства">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding WriteDeviceCommand}" ToolTip="Записать конфигурацию в устройство">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding WriteAllDeviceCommand}" ToolTip="Записать конфигурацию во все устройства">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding SynchronizeDeviceCommand}" ToolTip="Синзронизировать часы устройства с системными">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding UpdateSoftCommand}" ToolTip="Обновление ПО">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding GetDescriptionCommand}" ToolTip="Информация об устройстве">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
 
         <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль">
-            <Image Source="/DevicesModule;component/Images/Copy.png" Height="32" />
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
     </ToolBar>
 </UserControl>

@@ -176,8 +176,6 @@
                 <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 
                 <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
-                <TextBox Text="{Binding Device.UID, Mode=OneWay}" />
-                <TextBox Text="{Binding Device.RealGuid, Mode=OneWay}" />
 
             </StackPanel>
         </Grid>

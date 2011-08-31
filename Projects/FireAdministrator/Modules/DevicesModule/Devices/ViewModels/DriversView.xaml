@@ -1,9 +1,0 @@
-﻿<Window x:Class="DevicesModule.ViewModels.Devices.DriversView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DriversView" Height="900" Width="1100">
-    <Grid>
-        <DataGrid ItemsSource="{Binding Drivers}" AutoGenerateColumns="True">
-        </DataGrid>
-    </Grid>
-</Window>

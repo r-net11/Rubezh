@@ -36,7 +36,7 @@
             <!--<PasswordBox Grid.Row="3" Grid.Column="1" Margin="2" />-->
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
-            <Button Content="OK" Command="{Binding AddCommand}" Width="100" Margin="2" />
+            <Button Content="OK" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
         </StackPanel>
     </Grid>

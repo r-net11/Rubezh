@@ -87,7 +87,7 @@ namespace DevicesModule.ViewModels
             Clauses.Remove(clauseViewModel);
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             var zoneLogic = new ZoneLogic();
             foreach (var clauseViewModel in Clauses)

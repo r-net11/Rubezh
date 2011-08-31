@@ -10,9 +10,6 @@ namespace DevicesModule.ViewModels
     {
         public NewDeviceViewModel(DeviceViewModel parent)
         {
-            //ViewModels.Devices.DriversView driversView = new ViewModels.Devices.DriversView();
-            //driversView.ShowDialog();
-
             Title = "Новое устройство";
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
@@ -126,7 +123,7 @@ namespace DevicesModule.ViewModels
             return (SelectedDriver != null);
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             int address = GetNewAddress();
             Device device = _parent.AddChild(SelectedDriver, address);

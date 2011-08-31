@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             GuardUser.Name = Name;
             GuardUser.Password = Password;

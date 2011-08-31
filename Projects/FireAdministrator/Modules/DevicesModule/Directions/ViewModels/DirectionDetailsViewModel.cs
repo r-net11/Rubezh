@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,42 +21,50 @@ namespace DevicesModule.ViewModels
         bool _isNew;
         public Direction Direction { get; private set; }
 
-        public void Initialize()
+        public void Initialize(Direction direction = null)
         {
-            _isNew = true;
-            Title = "Создать направление";
-
-            Direction = new Direction();
-            Direction.Name = "Новое направление";
-            if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
+            _isNew = direction == null;
+            Title = direction == null ? "Создать направление" : "Редактировать направление";
+            if (direction == null)
             {
-                int maxId = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id);
-                Id = maxId + 1;
+                CreateNew();
             }
             else
             {
-                Id = 0;
+                Direction = direction;
             }
+
+            CopyProperties();
         }
 
-        public void Initialize(Direction direction)
+        void CreateNew()
         {
-            _isNew = false;
-            Title = "Редактировать направление";
-
-            Direction = direction;
-
-            Id = direction.Id;
-            Name = direction.Name;
-            Description = direction.Description;
-
-            if (direction.DeviceRm != null)
+            Direction = new Direction();
+            
+            if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
             {
-                DeviceRm = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == direction.DeviceRm);
+                int maxId = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id);
+                Direction.Id = maxId + 1;
             }
-            if (direction.DeviceButton != null)
+            else
+                Direction.Id = 0;
+
+            Direction.Name = "Новое направление " + Direction.Id.ToString();
+        }
+
+        void CopyProperties()
+        {
+            Id = Direction.Id;
+            Name = Direction.Name;
+            Description = Direction.Description;
+
+            if (Direction.DeviceRm != null)
             {
-                DeviceButton = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == direction.DeviceButton);
+                DeviceRm = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
+            }
+            if (Direction.DeviceButton != null)
+            {
+                DeviceButton = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceButton);
             }
         }
 
@@ -168,13 +177,14 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             if (_isNew)
             {
                 if (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    Close(false);
+                    MessageBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    cancel = true;
                     return;
                 }
                 SaveModel();
@@ -183,7 +193,8 @@ namespace DevicesModule.ViewModels
             {
                 if (Id != Direction.Id && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    Close(false);
+                    MessageBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    cancel = true;
                     return;
                 }
                 SaveModel();

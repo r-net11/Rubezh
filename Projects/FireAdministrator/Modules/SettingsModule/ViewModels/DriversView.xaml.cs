@@ -5,19 +5,27 @@ using FiresecAPI.Models;
 using FiresecClient;
 using System;
 
-namespace DevicesModule.ViewModels.Devices
+namespace SettingsModule.ViewModels
 {
-    //DriversView driversView = new DriversView();
-    //driversView.ShowDialog();
-
     public partial class DriversView : Window
     {
         public DriversView()
         {
             InitializeComponent();
 
+            Drivers = (from Driver driver in FiresecManager.Drivers
+                       where driver.IsIgnore == false
+                       select driver).ToList();
+
             DataContext = this;
 
+            Test();
+        }
+
+        public List<Driver> Drivers { get; private set; }
+
+        void Test()
+        {
             var nullStates = new List<string>();
 
             foreach (var driver in Drivers)
@@ -31,17 +39,7 @@ namespace DevicesModule.ViewModels.Devices
                 }
             }
 
-            var xxx = Drivers.FirstOrDefault(x => x.DriverName == "Группа");
-        }
-
-        public IEnumerable<Driver> Drivers
-        {
-            get
-            {
-                return from Driver driver in FiresecManager.Drivers
-                       where driver.IsIgnore == false
-                       select driver;
-            }
+            var groupDevice = Drivers.FirstOrDefault(x => x.DriverName == "Группа");
         }
     }
 }

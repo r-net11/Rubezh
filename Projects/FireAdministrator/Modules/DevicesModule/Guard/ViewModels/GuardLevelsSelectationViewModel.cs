@@ -131,7 +131,7 @@ namespace DevicesModule.ViewModels
             return SelectedTargetLevel != null;
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             GuardLevels = new List<string>();
             foreach (var zoneViewModel in TargetLevels)

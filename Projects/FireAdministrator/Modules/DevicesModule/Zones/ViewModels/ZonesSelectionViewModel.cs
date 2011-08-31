@@ -185,7 +185,7 @@ namespace DevicesModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             Zones = new List<string>();
             foreach (var zoneViewModel in TargetZones)

@@ -128,9 +128,6 @@
     <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DriversView.xaml.cs">
-      <DependentUpon>DriversView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceRangeViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\GroupDetailsViewModel.cs" />
@@ -281,11 +278,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Copy.png" />
-    <Resource Include="Images\Cut.png" />
-    <Resource Include="Images\Paste.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Devices\Views\AdditionalPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -303,10 +295,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\ViewModels\DriversView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -454,25 +442,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add.png" />
-    <Resource Include="Images\Delete.png" />
-    <Resource Include="Images\Edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\DeleteAll.png" />
-    <Resource Include="Images\DeleteAllEmpty.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LeftArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LeftDoubleArrow.png" />
-    <Resource Include="Images\RightDoubleArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\RightArrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

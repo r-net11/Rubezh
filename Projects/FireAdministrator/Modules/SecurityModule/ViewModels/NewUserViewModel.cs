@@ -3,13 +3,11 @@ using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
 {
-    public class NewUserViewModel : DialogContent
+    public class NewUserViewModel : SaveCancelDialogContent
     {
         public NewUserViewModel(User newUser)
         {
             Title = "Новый пользователь";
-            AddCommand = new RelayCommand(OnAdd);
-            CancelCommand = new RelayCommand(OnCancel);
             _user = newUser;
         }
 
@@ -47,22 +45,10 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
+        protected override void Save(ref bool cancel)
         {
             _user.Name = Name;
             _user.FullName = FullName;
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
-        }
-
-        public void Initialize()
-        {
         }
     }
 }

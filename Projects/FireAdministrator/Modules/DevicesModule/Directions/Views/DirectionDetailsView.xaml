@@ -32,36 +32,74 @@
 
                 <TabItem Header="Настройки направления">
                     <StackPanel>
-                        <TextBlock Text="Внешняя сигнализация УАПТ заблокировано (РМ)" Margin="5" />
+                        <TextBlock Text="Внешняя сигнализация УАПТ заблокировано (РМ)" FontWeight="Bold" Margin="5" />
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
-                                <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
-                            </StackPanel>
+
+                            <TextBlock Grid.Column="0">
+                                <Hyperlink Command="{Binding ChooseRmCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
+                                        <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
+                                    </StackPanel>
+                                        
+                                    <TextBlock  Text="Нажмите для выбора устройства" Margin="2">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DeviceRm}" Value="{x:Null}">
+                                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                        
+                                </Hyperlink>
+                            </TextBlock>
+
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <Button Content="x" Command="{Binding ResetRmCommand}" HorizontalAlignment="Right" />
-                                <Button Content="Выбрать" Command="{Binding ChooseRmCommand}" HorizontalAlignment="Right" />
+                                <Button Content="x" Command="{Binding ResetRmCommand}" ToolTip="Удалить" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
-                        <TextBlock Text="Кнопка сброса блокировки" Margin="5" />
+
+                        <TextBlock Text="Кнопка сброса блокировки" FontWeight="Bold" Margin="5" />
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                                <TextBlock Text="{Binding DeviceButton.Driver.ShortName}" />
-                                <TextBlock Text="{Binding DeviceButton.DottedAddress}" Margin="10, 0, 0, 0" />
-                            </StackPanel>
+
+                            <TextBlock Grid.Column="0">
+                                <Hyperlink Command="{Binding ChooseButtonCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding DeviceButton.Driver.ShortName}" />
+                                        <TextBlock Text="{Binding DeviceButton.DottedAddress}" Margin="10, 0, 0, 0" />
+                                    </StackPanel>
+                                    <TextBlock  Text="Нажмите для выбора устройства" Margin="2">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DeviceButton}" Value="{x:Null}">
+                                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Hyperlink>
+                            </TextBlock>
+
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <Button Content="x" Command="{Binding ResetButtonCommand}" HorizontalAlignment="Right" />
-                                <Button Content="Выбрать" Command="{Binding ChooseButtonCommand}" HorizontalAlignment="Right" />
+                                <Button Content="x" Command="{Binding ResetButtonCommand}" ToolTip="Удалить" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
+                        
                     </StackPanel>
                 </TabItem>
             </TabControl>

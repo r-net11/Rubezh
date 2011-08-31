@@ -75,7 +75,7 @@ namespace FiresecService
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
             FiresecManager.DeviceConfiguration = deviceConfiguration;
-            FiresecManager.SetNewConfig();
+            //FiresecManager.SetNewConfig();
         }
 
         public void WriteConfiguration(string deviceId)

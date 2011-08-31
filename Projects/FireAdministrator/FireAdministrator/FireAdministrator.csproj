@@ -188,6 +188,10 @@
       <Project>{773BFF09-076C-4FE5-A602-71FA8F87B1D0}</Project>
       <Name>SecurityModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\SettingsModule\SettingsModule.csproj">
+      <Project>{2EC527E0-8748-4B08-8884-14785E65AB7D}</Project>
+      <Name>SettingsModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\SoundModule\SoundsModule.csproj">
       <Project>{1D308F1E-F990-4CB8-8613-609C3637130D}</Project>
       <Name>SoundsModule</Name>

@@ -68,7 +68,7 @@ namespace DevicesModule.ViewModels
             ZoneLevels.Remove(zoneLevelViewModel);
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             GuardLevel.Name = Name;
             GuardLevel.ZoneLevels = new List<ZoneLevel>();

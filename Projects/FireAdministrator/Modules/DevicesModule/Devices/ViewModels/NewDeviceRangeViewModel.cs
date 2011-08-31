@@ -211,7 +211,7 @@ namespace DevicesModule.ViewModels
             return (SelectedDriver != null);
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             CreateDevices();
 

@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "Time");
             if (timeoutProperty == null)

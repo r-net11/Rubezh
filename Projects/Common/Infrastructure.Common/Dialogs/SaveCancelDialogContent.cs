@@ -13,7 +13,7 @@ namespace Infrastructure.Common
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        protected virtual void Save()
+        protected virtual void Save(ref bool cancel)
         {
         }
 
@@ -25,8 +25,12 @@ namespace Infrastructure.Common
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            Save();
-            Close(true);
+            bool cancel = false;
+            Save(ref cancel);
+            if (cancel == false)
+            {
+                Close(true);
+            }
         }
 
         public RelayCommand CancelCommand { get; private set; }

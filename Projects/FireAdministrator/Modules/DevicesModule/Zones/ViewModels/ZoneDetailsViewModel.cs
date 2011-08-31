@@ -198,7 +198,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             if (_zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
             {

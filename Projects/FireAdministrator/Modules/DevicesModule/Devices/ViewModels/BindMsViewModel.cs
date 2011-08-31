@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 
         string _deviceId;
 
-        protected override void Save()
+        protected override void Save(ref bool cancel)
         {
             ;
         }

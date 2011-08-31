@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
     public class DirectionDeviceSelectorViewModel : SaveCancelDialogContent
     {
+        public DirectionDeviceSelectorViewModel()
+        {
+            Title = "Выбор устройства";
+        }
+
         public void Initialize(Direction direction, bool isRm)
         {
             string driverName = isRm ? "Релейный исполнительный модуль РМ-1" : "Кнопка разблокировки автоматики ШУЗ в направлении";
@@ -53,16 +57,7 @@ namespace DevicesModule.ViewModels
             SelectedDevice = Devices.FirstOrDefault(x => x.HasChildren == false);
         }
 
-        ObservableCollection<DeviceViewModel> _devices;
-        public ObservableCollection<DeviceViewModel> Devices
-        {
-            get { return _devices; }
-            set
-            {
-                _devices = value;
-                OnPropertyChanged("Devices");
-            }
-        }
+        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
         DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
@@ -75,19 +70,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanSave()
+        protected override bool CanSave()
         {
             if (SelectedDevice != null)
             {
                 return (SelectedDevice.HasChildren == false);
             }
             return false;
-        }
-
-        protected override void Save()
-        {
-            //if (SelectedDevice.Device.UID != null)
-            //    SelectedDevice.Device.UID = Guid.NewGuid();
         }
     }
 }
