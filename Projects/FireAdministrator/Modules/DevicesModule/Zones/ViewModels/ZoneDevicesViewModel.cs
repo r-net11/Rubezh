@@ -163,7 +163,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanAdd()
         {
-            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Device.Driver.IsZoneDevice));
+            return SelectedAvailableDevice != null && SelectedAvailableDevice.Device.Driver.IsZoneDevice;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -176,7 +176,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanRemove()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneDevice));
+            return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneDevice;
         }
 
         public RelayCommand RemoveCommand { get; private set; }
@@ -189,7 +189,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowZoneLogic()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsZoneLogicDevice));
+            return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
         }
 
         public RelayCommand ShowZoneLogicCommand { get; private set; }

@@ -64,7 +64,7 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <StackPanel Visibility="{Binding Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Views:AdressPresenter DataContext="{Binding Address, Mode=TwoWay}" />
+                                        <Views:AddressRedactor DataContext="{Binding Address, Mode=TwoWay}" />
                                         <!--<TextBox Text="{Binding Address}" BorderThickness="0" />-->
                                     </StackPanel>
                                     <TextBlock Text="{Binding Address}" />
@@ -172,7 +172,7 @@
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
-                
+
                 <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 
                 <TextBox Text="{Binding Device.Id, Mode=OneWay}" />

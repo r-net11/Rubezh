@@ -104,19 +104,20 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                string presentationNames = "";
+                var presentationNames = new StringBuilder();
                 if (GuardUser.GuardLevelNames.Count > 0)
                 {
-                presentationNames = GuardUser.GuardLevelNames[0];
+                    presentationNames.Append(GuardUser.GuardLevelNames[0]);
                 }
                 if (GuardUser.GuardLevelNames.Count > 1)
                 {
-                    for(int i = 1; i < GuardUser.GuardLevelNames.Count; i++)
+                    for (int i = 1; i < GuardUser.GuardLevelNames.Count; ++i)
                     {
-                        presentationNames += ", " +  GuardUser.GuardLevelNames[i];
+                        presentationNames.Append(", ");
+                        presentationNames.Append(GuardUser.GuardLevelNames[i]);
                     }
                 }
-                return presentationNames;
+                return presentationNames.ToString().TrimStart(',');
             }
         }
 

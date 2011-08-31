@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using System;
 
 namespace LibraryModule.ViewModels
 {
@@ -48,13 +48,12 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                var name = ClassName;
                 if (IsAdditional)
                 {
-                    name = name + "." + AdditionalName;
+                    return String.Format("{0}.{1}", ClassName, AdditionalName);
                 }
 
-                return name;
+                return ClassName;
             }
         }
 

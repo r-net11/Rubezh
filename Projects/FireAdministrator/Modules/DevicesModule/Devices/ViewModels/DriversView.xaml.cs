@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
+using System;
 
 namespace DevicesModule.ViewModels.Devices
 {
@@ -25,7 +26,7 @@ namespace DevicesModule.ViewModels.Devices
                 {
                     if (string.IsNullOrEmpty(state.Code))
                     {
-                        nullStates.Add(driver.ShortName + " - " + state.Name);
+                        nullStates.Add(String.Format("{0} - {1}", driver.ShortName, state.Name));
                     }
                 }
             }

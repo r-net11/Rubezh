@@ -69,11 +69,9 @@
     </Compile>
     <Compile Include="Devices\ViewModels\BindMsViewModel.cs" />
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\Views\AddressRedactor.xaml.cs">
+      <DependentUpon>AddressRedactor.xaml</DependentUpon>
     <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
-    <Compile Include="Devices\Views\AdressPresenter.xaml.cs">
-      <DependentUpon>AdressPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
@@ -322,7 +320,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\AdressPresenter.xaml">
+    <Page Include="Devices\Views\AddressRedactor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

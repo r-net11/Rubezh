@@ -30,7 +30,6 @@ namespace FiresecService
         public bool Connect(string userName, string passwordHash)
         {
             bool result = CheckLogin(userName, passwordHash);
-
             if (result)
             {
                 _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();

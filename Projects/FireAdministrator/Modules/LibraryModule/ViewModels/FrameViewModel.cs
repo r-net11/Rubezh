@@ -7,10 +7,10 @@ namespace LibraryModule.ViewModels
 {
     public class FrameViewModel : BaseViewModel
     {
-        public static readonly string emptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
-        public static readonly string errorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<Border BorderBrush=\"Red\" BorderThickness=\"5\" Padding=\"20\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"60\" />\n</Border>\n</Canvas>";
-        public static readonly int defaultDuration = 300;
-        public static readonly int defaultLayer = 0;
+        public static readonly string EmptyFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
+        public static readonly string ErrorFrame = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n<Border BorderBrush=\"Red\" BorderThickness=\"5\" Padding=\"20\">\n<TextBlock Text=\"Error Xaml Code\" FontSize=\"60\" />\n</Border>\n</Canvas>";
+        public static readonly int DefaultDuration = 300;
+        public static readonly int DefaultLayer = 0;
 
         public FrameViewModel(LibraryFrame frame)
         {
@@ -51,7 +51,7 @@ namespace LibraryModule.ViewModels
             get
             {
                 try { return ImageConverters.Xml2Canvas(Frame.Image, Frame.Layer); }
-                catch { return ImageConverters.Xml2Canvas(errorFrame, Frame.Layer); }
+                catch { return ImageConverters.Xml2Canvas(ErrorFrame, Frame.Layer); }
             }
         }
 
@@ -59,10 +59,10 @@ namespace LibraryModule.ViewModels
         {
             return new LibraryFrame()
             {
-                Duration = defaultDuration,
+                Duration = DefaultDuration,
                 Id = id,
-                Layer = defaultLayer,
-                Image = emptyFrame
+                Layer = DefaultLayer,
+                Image = EmptyFrame
             };
         }
 

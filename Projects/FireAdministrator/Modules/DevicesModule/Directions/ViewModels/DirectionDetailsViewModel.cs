@@ -181,7 +181,7 @@ namespace DevicesModule.ViewModels
             }
             else
             {
-                if ((Id != Direction.Id) && (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id)))
+                if (Id != Direction.Id && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
                     Close(false);
                     return;

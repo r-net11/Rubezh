@@ -18,7 +18,6 @@ namespace FiresecAPI.Models
         [DataMember]
         public ZoneLogicJoinOperator JoinOperator { get; set; }
 
-
         public override string ToString()
         {
             string result = "";

@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecClient;
 using Common;
+using FiresecClient;
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.Generic;
 using FiresecAPI.Models;
 using System;
 using System.ComponentModel;
@@ -34,8 +33,7 @@ namespace InstructionsModule.ViewModels
             {
                 foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
                 {
-                    var instructionViewModel = new InstructionViewModel(instruction);
-                    Instructions.Add(instructionViewModel);
+                    Instructions.Add(new InstructionViewModel(instruction));
                 }
             }
         }

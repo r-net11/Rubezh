@@ -65,12 +65,11 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (SelectedStateViewModel == null) return null;
+                if (SelectedStateViewModel == null)
+                    return null;
 
-                var deviceControl = new DeviceControls.DeviceControl()
-                {
-                    DriverId = Device.DriverId
-                };
+                var deviceControl = new DeviceControls.DeviceControl();
+                deviceControl.DriverId = Device.DriverId;
 
                 var additionalStateCodes = new List<string>();
                 if (SelectedStateViewModel.IsAdditional)

@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
@@ -36,7 +34,7 @@ namespace SoundsModule.ViewModels
         public BeeperType BeeperType
         {
             get { return Sound.BeeperType; }
-            set 
+            set
             {
                 Sound.BeeperType = value;
                 OnPropertyChanged("BeeperType");
@@ -55,12 +53,12 @@ namespace SoundsModule.ViewModels
             }
         }
 
-        public List<string> AvailableSounds 
+        public List<string> AvailableSounds
         {
-            get 
+            get
             {
                 var listSounds = new List<string>();
-                listSounds.Add(string.Empty); 
+                listSounds.Add(string.Empty);
                 listSounds.AddRange(FiresecClient.FileHelper.SoundsList);
                 return listSounds;
             }
@@ -68,7 +66,7 @@ namespace SoundsModule.ViewModels
 
         public List<BeeperType> AvailableSpeakers
         {
-            get 
+            get
             {
                 return new List<BeeperType>(Enum.GetValues(typeof(BeeperType)).OfType<BeeperType>());
             }

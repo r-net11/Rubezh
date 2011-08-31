@@ -47,6 +47,7 @@
                                 <Views:SoundView x:Name="soundView"/>
                                 <Views:ConnectionIndicatorView />
                                 <Views:UserView />
+                                <Views:AutoActivationControl />
                             </StackPanel>
                         </Grid>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15,30,10,5">

@@ -68,7 +68,7 @@ namespace InstructionsModule.ViewModels
 
         public List<StateType> AvailableStates
         {
-            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>());  }
+            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
         }
 
         public List<InstructionType> AvailableInstructionsType

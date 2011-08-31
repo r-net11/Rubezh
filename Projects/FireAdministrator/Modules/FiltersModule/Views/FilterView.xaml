@@ -1,8 +1,7 @@
-﻿<UserControl x:Class="FiltersModule.Views.FilterView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Converters="clr-namespace:FiltersModule.Converters">
+﻿<UserControl x:Class="FiltersModule.Views.FilterView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converters="clr-namespace:FiltersModule.Converters">
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
         <SolidColorBrush x:Key="borderBrush">Silver</SolidColorBrush>
@@ -25,14 +24,11 @@
             <TextBlock Margin="2" Text="Выбрать записи: " />
         </StackPanel>
         <TextBlock>
-            <StackPanel DataContext="{Binding JournalFilter}" >
-                <TextBlock Margin="2"
-                            Text="{Binding Name}" />
-                <TextBlock Margin="2"
-                            Text="{Binding Events,
+            <StackPanel DataContext="{Binding JournalFilter}">
+                <TextBlock Margin="2" Text="{Binding Name}" />
+                <TextBlock Margin="2" Text="{Binding Events,
                             Converter={StaticResource EventsToStringConverter}}" />
-                <TextBlock Margin="2"
-                            Text="{Binding Categories,
+                <TextBlock Margin="2" Text="{Binding Categories,
                             Converter={StaticResource CategoriesToStringConverter}}" />
                 <WrapPanel Margin="2">
                     <WrapPanel>
