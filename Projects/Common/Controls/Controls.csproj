@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmButton.cs" />
+    <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
@@ -62,7 +63,6 @@
     <Compile Include="Converters\LevelToMarginConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="HighlightCornerRadiusConverter.cs" />
-    <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,6 +111,9 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
