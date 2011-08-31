@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:InstructionsModule.Converters" 
-             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:ph="clr-namespace:Controls;assembly=Controls" 
              MinWidth="400" MinHeight="200" >
     <Grid Margin="0" Background="AliceBlue">
@@ -52,7 +52,7 @@
 
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                <XButtons:XButton Grid.Column="0" Name="btnSelectZone" FontWeight="DemiBold" Background="Black" 
+                <Controls:XButton Grid.Column="0" Name="btnSelectZone" FontWeight="DemiBold" Background="Black" 
                               Height="30" VerticalAlignment="Center" FontSize="10"
                               Command="{Binding SelectZoneCommand}" >
                     <StackPanel Orientation="Horizontal">
@@ -72,8 +72,8 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                </XButtons:XButton>
-                <XButtons:XButton Grid.Column="1" Name="btnSelectDevice" FontWeight="DemiBold" Background="Black"
+                </Controls:XButton>
+                <Controls:XButton Grid.Column="1" Name="btnSelectDevice" FontWeight="DemiBold" Background="Black"
                               Height="30" VerticalAlignment="Center" FontSize="10"
                               Command="{Binding SelectDeviceCommand}" >
                     <StackPanel Orientation="Horizontal">
@@ -93,7 +93,7 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
-                </XButtons:XButton>
+                </Controls:XButton>
                 <!--<TextBlock>
                     <Hyperlink Command="{Binding SelectDeviceCommand}">
                       <StackPanel Orientation="Horizontal">
@@ -118,10 +118,10 @@
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <XButtons:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
+            <Controls:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
                               Width="100" Height="30" VerticalAlignment="Center" 
                               Command="{Binding SaveCommand}" Content="OK"/>
-            <XButtons:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
+            <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
                               Width="100" Height="30" VerticalAlignment="Center" 
                               Command="{Binding CancelCommand}" Content="Отмена" />
         </StackPanel>

@@ -17,8 +17,8 @@ namespace FireAdministrator
         {
             _info.Text = "Соединение с сервером";
 
-            string name = _login.Text;
-            string password = _pass.Text;
+            string name = _userName.Text;
+            string password = _password.Password;
 
             bool result = FiresecManager.Connect(name, password);
 
@@ -30,7 +30,6 @@ namespace FireAdministrator
             else
             {
                 _info.Text = "Не удается установить связь с сервером";
-                //FiresecManager.Disconnect();
                 return;
             }
             Close();

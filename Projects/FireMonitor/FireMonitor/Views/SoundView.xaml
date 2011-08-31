@@ -1,17 +1,17 @@
 ﻿<UserControl x:Class="FireMonitor.SoundView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <XButtons:XButton Name="SoundButtonOn" Margin="2" Padding="2"
+        <Controls:XButton Name="SoundButtonOn" Margin="2" Padding="2"
                           FontWeight="Black" Background="Black"
                           Command="{Binding PlaySoundCommand}">
-            <XButtons:XButton.Style>
+            <Controls:XButton.Style>
                 <Style>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsSoundOn}" Value="True">
                             <DataTrigger.Setters>
-                                <Setter Property="XButtons:XButton.Content">
+                                <Setter Property="Controls:XButton.Content">
                                     <Setter.Value>
                                         <Image Source="Images\sound.png" />
                                     </Setter.Value>
@@ -20,7 +20,7 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding IsSoundOn}" Value="False">
                             <DataTrigger.Setters>
-                                <Setter Property="XButtons:XButton.Content">
+                                <Setter Property="Controls:XButton.Content">
                                     <Setter.Value>
                                         <Image Source="Images\mute.png" />
                                     </Setter.Value>
@@ -29,7 +29,7 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </XButtons:XButton.Style>
-        </XButtons:XButton>
+            </Controls:XButton.Style>
+        </Controls:XButton>
     </Grid>
 </UserControl>

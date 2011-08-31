@@ -4,23 +4,23 @@
 
     <ToolBar Background="Transparent">
         <Button Click="OnCreateNew" ToolTip="Создать новый">
-            <Image Source="/FireAdministrator;component/Images/New.png" Height="32" />
+            <Image Source="/Controls;component/Images/New.png" Height="32" />
         </Button>
 
         <Button Click="OnLoadFromFile" ToolTip="Считать из файла">
-            <Image Source="/FireAdministrator;component/Images/Open.png" Height="32" />
+            <Image Source="/Controls;component/Images/Open.png" Height="32" />
         </Button>
 
         <Button Click="OnSaveToFile" ToolTip="Сохранить в файл">
-            <Image Source="/FireAdministrator;component/Images/Save.png" Height="32" />
+            <Image Source="/Controls;component/Images/Save.png" Height="32" />
         </Button>
 
         <Button Click="OnSetNewConfig" ToolTip="Ok">
-            <Image Source="/FireAdministrator;component/Images/SaveToServer.png" Height="32" />
+            <Image Source="/Controls;component/Images/SaveToServer.png" Height="32" />
         </Button>
 
         <Button Click="OnValidate"  ToolTip="Проверить">
-            <Image Source="/FireAdministrator;component/Images/Validate.png" Height="32" />
+            <Image Source="/Controls;component/Images/Validate.png" Height="32" />
         </Button>
     </ToolBar>
 </UserControl>

@@ -1,10 +1,11 @@
 ﻿<Window x:Class="FireAdministrator.LoginScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         Title="Ввод имени пользователя и пароля" Height="180" Width="350"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow">
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize">
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -23,15 +24,15 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Пользователь" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Пароль" Margin="2" />
-            <TextBox Grid.Row="0" Grid.Column="1" Name="_login" Margin="2" Text="adm" />
-            <TextBox Grid.Row="1" Grid.Column="1" Name="_pass" Margin="2" />
+            <TextBox Grid.Row="0" Grid.Column="1" Name="_userName" Margin="2" Text="adm" />
+            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Name="_password" Margin="2" />
         </Grid>
 
         <TextBlock Grid.Row="1" Name="_info" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-            <XButtons:XButton IsDefault="True" Content="Ok" Click="OnConnect" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
-            <XButtons:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />
+            <Controls:XButton IsDefault="True" Content="Ok" Click="OnConnect" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
+            <Controls:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />
         </StackPanel>
     </Grid>
 </Window>

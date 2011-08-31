@@ -107,12 +107,6 @@
     <Resource Include="Images\Alarm_main_7_Auto.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +144,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\RightArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Validate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\New.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveToServer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

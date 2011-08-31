@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="InstructionsModule.Views.InstructionZonesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="500">
     <Grid>
         <Grid.RowDefinitions>
@@ -30,42 +30,42 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                <XButtons:XButton Grid.Column="1" Name="btnAddZone" FontWeight="Black" Background="Black"
+                <Controls:XButton Grid.Column="1" Name="btnAddZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddZoneCommand}">
-                    <XButtons:XButton.Content>
+                    <Controls:XButton.Content>
                         <Image Source="/Controls;component/Images/RightArrow.png" />
-                    </XButtons:XButton.Content>
-                    <XButtons:XButton.ToolTip>
+                    </Controls:XButton.Content>
+                    <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить зону" />
-                    </XButtons:XButton.ToolTip>
-                </XButtons:XButton>
-                <XButtons:XButton Grid.Column="1" Name="btnAddAllZone" FontWeight="Black" Background="Black"
+                    </Controls:XButton.ToolTip>
+                </Controls:XButton>
+                <Controls:XButton Grid.Column="1" Name="btnAddAllZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddAllZoneCommand}">
-                    <XButtons:XButton.Content>
+                    <Controls:XButton.Content>
                         <Image Source="/Controls;component/Images/RightDoubleArrow.png" />
-                    </XButtons:XButton.Content>
-                    <XButtons:XButton.ToolTip>
+                    </Controls:XButton.Content>
+                    <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить все зоны" />
-                    </XButtons:XButton.ToolTip>
-                </XButtons:XButton>
-                <XButtons:XButton Grid.Column="1" Name="btnRemoveZone" FontWeight="Black" Background="Black"
+                    </Controls:XButton.ToolTip>
+                </Controls:XButton>
+                <Controls:XButton Grid.Column="1" Name="btnRemoveZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveZoneCommand}">
-                    <XButtons:XButton.Content>
+                    <Controls:XButton.Content>
                         <Image Source="/Controls;component/Images/LeftArrow.png" />
-                    </XButtons:XButton.Content>
-                    <XButtons:XButton.ToolTip>
+                    </Controls:XButton.Content>
+                    <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить зону" />
-                    </XButtons:XButton.ToolTip>
-                </XButtons:XButton>
-                <XButtons:XButton Grid.Column="1" Name="btnRemoveAllZone" FontWeight="Black" Background="Black"
+                    </Controls:XButton.ToolTip>
+                </Controls:XButton>
+                <Controls:XButton Grid.Column="1" Name="btnRemoveAllZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveAllZoneCommand}">
-                    <XButtons:XButton.Content>
+                    <Controls:XButton.Content>
                         <Image Source="/Controls;component/Images/LeftDoubleArrow.png" />
-                    </XButtons:XButton.Content>
-                    <XButtons:XButton.ToolTip>
+                    </Controls:XButton.Content>
+                    <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить все зоны" />
-                    </XButtons:XButton.ToolTip>
-                </XButtons:XButton>
+                    </Controls:XButton.ToolTip>
+                </Controls:XButton>
             </StackPanel>
             <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}"
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="False"
@@ -78,10 +78,10 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <XButtons:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
+            <Controls:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
                               Width="80" Height="30" VerticalAlignment="Center" 
                               Command="{Binding SaveCommand}" Content="OK"/>
-            <XButtons:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
+            <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
                               Width="80" Height="30" VerticalAlignment="Center" 
                               Command="{Binding CancelCommand}" Content="Отмена"/>
         </StackPanel>

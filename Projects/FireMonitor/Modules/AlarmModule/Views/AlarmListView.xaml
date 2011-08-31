@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
              xmlns:Converters="clr-namespace:AlarmModule.Converters"
-             xmlns:XButtons="clr-namespace:Controls;assembly=Controls">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
@@ -46,9 +46,9 @@
         </DataGrid>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Right">
-            <XButtons:XButton Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" Background="DarkRed">
+            <Controls:XButton Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" Background="DarkRed">
                 <TextBlock Text="Сбросить все" FontSize="12" />
-            </XButtons:XButton>
+            </Controls:XButton>
         </StackPanel>
     </Grid>
 </UserControl>

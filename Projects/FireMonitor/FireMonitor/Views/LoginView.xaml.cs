@@ -24,7 +24,7 @@ namespace FireMonitor
         {
             _passwordViewType = passwordViewType;
 
-            _passwordTextBox.Text = "";
+            _passwordTextBox.Password = "";
 
             switch (passwordViewType)
             {
@@ -52,15 +52,15 @@ namespace FireMonitor
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    IsConnected = FiresecManager.Connect(_userNameTextBox.Text, _passwordTextBox.Text);
+                    IsConnected = FiresecManager.Connect(_userNameTextBox.Text, _passwordTextBox.Password);
                     break;
 
                 case PasswordViewType.Reconnect:
-                    IsConnected = FiresecManager.Reconnect(_userNameTextBox.Text, _passwordTextBox.Text);
+                    IsConnected = FiresecManager.Reconnect(_userNameTextBox.Text, _passwordTextBox.Password);
                     break;
 
                 case PasswordViewType.Validate:
-                    IsConnected = Check(_passwordTextBox.Text, FiresecManager.CurrentUser.PasswordHash);
+                    IsConnected = Check(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
                     break;
             }
 
