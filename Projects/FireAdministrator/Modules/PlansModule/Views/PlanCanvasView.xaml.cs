@@ -1,4 +1,6 @@
 ﻿using System;
+using Infrastructure;
+using Infrastructure.Common;
 using System.Windows;
 using System.IO;
 using System.Windows.Controls;
@@ -12,15 +14,21 @@ using FiresecClient;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
 using System.Windows.Media.Imaging;
+using FiresecAPI.Models.Plans;
 
 
 namespace PlansModule.Views
 {
+
     public partial class PlanCanvasView : UserControl
     {
         public static PlanCanvasView Current { get; set; }
+        private Plan Plan { get; set; }
+        private int idElement;
+        string typeElement;
+
         private bool ActiveElement;
-        private bool IsTextBox = false;
+        private string UpdateElement;
         private bool _isDown;
         private bool _isResize;
         private bool _isDragging;
@@ -33,7 +41,7 @@ namespace PlansModule.Views
         private double _originalTop;
         private double _originalLeft;
         public static double dTop = 30;
-
+        
         public PlanCanvasView()
         {
             Current = this;
@@ -42,12 +50,16 @@ namespace PlansModule.Views
 
         public void ChangeSelectedPlan(Plan plan)
         {
+            Plan = plan;
+            idElement = 0;
             MainCanvas.Children.Clear();
             if (plan.ElementZones != null)
             {
                 foreach (var zona in plan.ElementZones)
                 {
                     Polygon myPolygon = new Polygon();
+                    zona.idElementCanvas = idElement;
+                    myPolygon.Name = "zona" + idElement.ToString();
                     myPolygon.ToolTip = "Зона №" + zona.ZoneNo;
                     myPolygon.Stroke = System.Windows.Media.Brushes.Black;
                     myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
@@ -68,6 +80,7 @@ namespace PlansModule.Views
                     MainCanvas.Children.Add(myPolygon);
                     Canvas.SetLeft(myPolygon, 0);
                     Canvas.SetTop(myPolygon, 0);
+                    idElement++;
                 }
             }
             if (plan.Rectangls != null)
@@ -76,7 +89,8 @@ namespace PlansModule.Views
                 {
                     var imageBrushRect = new ImageBrush();
                     Rectangle rectangle = new Rectangle();
-
+                    rect.idElementCanvas = idElement;
+                    rectangle.Name = "rect" + idElement.ToString();
                     rectangle.Height = rect.Height;
                     rectangle.Width = rect.Width;
                     BitmapImage image;
@@ -93,8 +107,8 @@ namespace PlansModule.Views
                     rectangle.Fill = imageBrushRect;
                     Canvas.SetLeft(rectangle, rect.Left);
                     Canvas.SetTop(rectangle, rect.Top);
-
                     MainCanvas.Children.Add(rectangle);
+                    idElement++;
                 }
             }
             if (plan.TextBoxes != null)
@@ -102,38 +116,33 @@ namespace PlansModule.Views
                 foreach (var text in plan.TextBoxes)
                 {
                     TextBox textbox = new TextBox();
+                    text.idElementCanvas = idElement;
+                    textbox.Name = "text" + idElement.ToString();
                     textbox.Text = text.Text;
                     textbox.AllowDrop = true;
                     textbox.IsReadOnly = true;
                     Canvas.SetLeft(textbox, text.Left);
                     Canvas.SetTop(textbox, text.Top);
                     MainCanvas.Children.Add(textbox);
+                    idElement++;
                 }
             }
             if (plan.ElementDevices != null)
             {
                 foreach (var device in plan.ElementDevices)
                 {
-                    Polygon myPolygon = new Polygon();
-                    myPolygon.ToolTip = "Устройство № (не реализован shapeId)";
-                    myPolygon.Stroke = System.Windows.Media.Brushes.Red;
-                    myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
-                    myPolygon.StrokeThickness = 2;
-                    PointCollection myPointCollection = new PointCollection();
-                    double minX = device.Left;
-                    double minY = device.Top;
-                    var point = new Point(device.Left, device.Top);
-                    myPointCollection.Add(point);
-                    point = new Point(device.Left + device.Width, device.Top);
-                    myPointCollection.Add(point);
-                    point = new Point(device.Left + device.Width, device.Top + device.Height);
-                    myPointCollection.Add(point);
-                    point = new Point(device.Left, device.Top + device.Height);
-                    myPointCollection.Add(point);
-                    myPolygon.Points = myPointCollection;
-                    MainCanvas.Children.Add(myPolygon);
-                    Canvas.SetLeft(myPolygon, 0);
-                    Canvas.SetTop(myPolygon, 0);
+                    Rectangle rectangle = new Rectangle();
+                    device.idElementCanvas = idElement;
+                    rectangle.Name = "devs" + idElement.ToString();
+                    rectangle.ToolTip = "Устройство № (не реализован shapeId)";
+                    SolidColorBrush brush = new SolidColorBrush();
+                    brush.Color = Colors.Green;
+                    rectangle.Fill = brush;
+                    rectangle.Height = device.Height;
+                    rectangle.Width = device.Width;
+                    Canvas.SetLeft(rectangle, device.Left);
+                    Canvas.SetTop(rectangle, device.Top);
+                    MainCanvas.Children.Add(rectangle);
                 }
             }
             var imageBrush = new ImageBrush();
@@ -149,7 +158,6 @@ namespace PlansModule.Views
                     image.StreamSource = imageStream;
                     image.EndInit();
                 }
-
                 imageBrush.ImageSource = image;
             }
 
@@ -170,6 +178,20 @@ namespace PlansModule.Views
             }
         }
 
+        private void GetTypeElement()
+        {
+            if (_originalElement is Polygon)
+            {
+                Polygon polygon = (_originalElement as Polygon);
+                typeElement = polygon.Name.Substring(0, 4);
+            }
+            if (_originalElement is Rectangle)
+            {
+                Rectangle rectangle = (_originalElement as Rectangle);
+                typeElement = rectangle.Name.Substring(0, 4);
+            }
+        }
+
         private void DragStarted()
         {
             if (_originalElement != null)
@@ -180,6 +202,7 @@ namespace PlansModule.Views
                 _originalTop = Canvas.GetTop(_originalElement);
                 if (_originalElement is Polygon)
                 {
+                    GetTypeElement();
                     _overlayElementPolygon = new PolygonAdorner(_originalElement);
                     if (!_isResize) //перемещение
                     {
@@ -194,6 +217,7 @@ namespace PlansModule.Views
                 };
                 if (_originalElement is Rectangle)
                 {
+                    GetTypeElement();
                     _overlayElementRectangle = new RectangleAdorner(_originalElement);
                     if (!_isResize) //перемещение
                     {
@@ -206,26 +230,6 @@ namespace PlansModule.Views
                     AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
                     layer.Add(_overlayElementRectangle);
                 };
-                if (_originalElement is TextBox)
-                {
-                    MessageBox.Show("Test");
-
-                    _overlayElementTexBox = new TextBoxAdorner(_originalElement);
-                    if (!_isResize) //перемещение
-                    {
-                        _overlayElementTexBox.SetOperationMove(true);
-                    }
-                    else
-                    {
-                        _overlayElementTexBox.SetOperationMove(false);
-                    }
-                    AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
-                    layer.Add(_overlayElementTexBox);
-
-                };
-
-
-
             }
         }
         private void DragMoved()
@@ -239,7 +243,6 @@ namespace PlansModule.Views
             };
             if (_overlayElementRectangle != null)
             {
-                //(_originalElement as Rectangle).Opacity = 1;
                 _overlayElementRectangle.Cursor = Cursors.Cross;
                 Point CurrentPosition = Mouse.GetPosition(MainCanvas);
                 _overlayElementRectangle.LeftOffset = CurrentPosition.X - _startPoint.X;
@@ -330,6 +333,7 @@ namespace PlansModule.Views
             {
                 if (_originalElement is Polygon)
                 {
+                    UpdateElement = (_originalElement as Polygon).Name;
                     AdornerLayer.GetAdornerLayer(_overlayElementPolygon.AdornedElement).Remove(_overlayElementPolygon);
                     if (cancelled == false)
                     {
@@ -343,6 +347,7 @@ namespace PlansModule.Views
                     string name = rect.Name;
                     if (name != "textbox")
                     {
+                        UpdateElement = (_originalElement as Rectangle).Name;
                         AdornerLayer.GetAdornerLayer(_overlayElementRectangle.AdornedElement).Remove(_overlayElementRectangle);
                         if (cancelled == false)
                         {
@@ -354,6 +359,7 @@ namespace PlansModule.Views
                     {
                         if (_originalElementTextBox != null)
                         {
+                            UpdateElement = (_originalElementTextBox as TextBox).Name;
                             AdornerLayer.GetAdornerLayer(_overlayElementRectangle.AdornedElement).Remove(_overlayElementRectangle);
                             if (cancelled == false)
                             {
@@ -365,10 +371,84 @@ namespace PlansModule.Views
                     }
                 }
             }
+            UpdatePlan();
             _isDragging = false;
             _isDown = false;
 
         }
+
+        private void UpdatePlan()
+        {
+            if (UpdateElement != null)
+            {
+                int index = int.Parse(UpdateElement.Substring(4));
+                switch (typeElement)
+                {
+                    case "rect":
+                        foreach (var rect in Plan.Rectangls)
+                        {
+                            if (_overlayElementRectangle != null)
+                            {
+                                if (rect.idElementCanvas == index)
+                                {
+                                    rect.Left = Canvas.GetLeft(_overlayElementRectangle);
+                                    rect.Top = Canvas.GetTop(_overlayElementRectangle);
+                                }
+                            }
+                        }
+                        break;
+                    case "devs":
+                        foreach (var device in Plan.ElementDevices)
+                        {
+                            if (_overlayElementRectangle != null)
+                            {
+                                if (device.idElementCanvas == index)
+                                {
+                                    device.Left = Canvas.GetLeft(_overlayElementRectangle);
+                                    device.Top = Canvas.GetTop(_overlayElementRectangle);
+                                }
+                            }
+                        }
+                        break;
+                    case "text":
+                        foreach (var text in Plan.TextBoxes)
+                        {
+                            if (_originalElementTextBox != null)
+                            {
+                                if (text.idElementCanvas == index)
+                                {
+                                    text.Left = Canvas.GetLeft(_originalElementTextBox);
+                                    text.Top = Canvas.GetTop(_originalElementTextBox);
+                                }
+                            }
+                        }
+                        break;
+                    case "zona":
+                        foreach (var zona in Plan.ElementZones)
+                        {
+                            if (zona.idElementCanvas == index)
+                            {
+                                if (_overlayElementPolygon != null)
+                                {
+                                    foreach (var point in zona.PolygonPoints)
+                                    {
+                                        point.X = point.X + _overlayElementPolygon.LeftOffset;
+                                        point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                }
+                string type = typeElement;
+                UIElement element = _originalElement;
+            }
+        }
+        private void UpdateZona(UIElement element)
+        {
+        }
+
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_isDown)

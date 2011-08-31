@@ -8,6 +8,9 @@ namespace FiresecAPI.Models
         public Plan Parent { get; set; }
 
         [DataMember]
+        public int idElementCanvas;
+
+        [DataMember]
         public string Name { get; set; }
 
         [DataMember]

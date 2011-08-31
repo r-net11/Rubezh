@@ -159,7 +159,7 @@ namespace InstructionsModule.ViewModels
                     }
                     if (device != null)
                     {
-                        selectDevices = device.Driver.ShortName + " (" + device.AddressFullPath + ")";
+                        selectDevices = device.Driver.ShortName + " (" + device.PresentationAddress + ")";
                     }
                 }
 
@@ -178,7 +178,7 @@ namespace InstructionsModule.ViewModels
                         }
                         if (device != null)
                         {
-                            selectDevices += ", " + device.Driver.ShortName + " (" + device.AddressFullPath + ")";
+                            selectDevices += ", " + device.Driver.ShortName + " (" + device.PresentationAddress+ ")";
                         }
                     }
                 }

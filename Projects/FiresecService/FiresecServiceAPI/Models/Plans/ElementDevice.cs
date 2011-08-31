@@ -6,6 +6,9 @@ namespace FiresecAPI.Models
     public class ElementDevice
     {
         [DataMember]
+        public int idElementCanvas;
+
+        [DataMember]
         public double Left { get; set; }
 
         [DataMember]

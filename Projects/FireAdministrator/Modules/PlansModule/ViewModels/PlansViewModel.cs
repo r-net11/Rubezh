@@ -79,6 +79,11 @@ namespace PlansModule.ViewModels
             }
         }
 
+        public static void Update()
+        {
+            //OnPropertyChanged("Plans");
+        }
+
         public ObservableCollection<PlanViewModel> _plans;
         public ObservableCollection<PlanViewModel> Plans
         {

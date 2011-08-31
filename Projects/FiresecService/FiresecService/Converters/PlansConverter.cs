@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Plans;
 
 namespace FiresecService.Converters
 {
     public static class PlansConverter
     {
+        private static  int idElement;
         public static PlansConfiguration Convert(Firesec.Plans.surfaces innerPlans)
         {
+            idElement = 0;
             var plansConfiguration = new PlansConfiguration();
             if (innerPlans.surface != null)
             {
@@ -53,7 +56,9 @@ namespace FiresecService.Converters
                                                     rect.Left = ValidationDouble(elementLayer.rect[0].left);
                                                     rect.Top = ValidationDouble(elementLayer.rect[0].top);
                                                     if (planInner.Rectangls == null) planInner.Rectangls = new List<RectangleBox>();
+                                                    rect.idElementCanvas = idElement;
                                                     planInner.Rectangls.Add(rect);
+                                                    idElement++;
                                                 }
                                             }
                                             break;
@@ -65,7 +70,9 @@ namespace FiresecService.Converters
                                             captionBox.Left = ValidationDouble(elementLayer.rect[0].left);
                                             captionBox.Top = ValidationDouble(elementLayer.rect[0].top);
                                             if (planInner.TextBoxes == null) planInner.TextBoxes = new List<CaptionBox>();
+                                            captionBox.idElementCanvas = idElement;
                                             planInner.TextBoxes.Add(captionBox);
+                                            idElement++;
                                             break;
                                     }
                                 }
@@ -138,8 +145,9 @@ namespace FiresecService.Converters
                                             };
                                             break;
                                     }
-
+                                    zoneInner.idElementCanvas = idElement;
                                     planInner.ElementZones.Add(zoneInner);
+                                    idElement++;
                                 }
                             }
                         };
@@ -181,7 +189,9 @@ namespace FiresecService.Converters
                                             deviceInner.Width = ValidationDouble(_rectInner.right) - deviceInner.Left;
                                             deviceInner.Height = ValidationDouble(_rectInner.bottom) - deviceInner.Top;
                                         }
+                                        deviceInner.idElementCanvas = idElement;
                                         planInner.ElementDevices.Add(deviceInner);
+                                        idElement++;
                                     }
                                 }
                             }
@@ -189,7 +199,7 @@ namespace FiresecService.Converters
                         index++;
                     }
                     plansConfiguration.Plans.Add(planInner);
-                    /*
+                   /*
                     List<Plan> plans = plansConfiguration.Plans;
                     System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(typeof(List<Plan>));
                     FileStream fs_out = new FileStream(@"D:/del/Plans_new310811.xml", FileMode.Create);
