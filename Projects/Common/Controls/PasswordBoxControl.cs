@@ -25,7 +25,6 @@ namespace Controls
         private bool isPreventCallback;
         private RoutedEventHandler savedCallback;
 
-
         public string Password
         {
             get { return GetValue(PasswordProperty) as string; }

@@ -203,11 +203,6 @@ namespace InstructionsModule.ViewModels
             return (InstructionDevices.IsNotNullOrEmpty());
         }
 
-        //public bool CanSaveInstruction()
-        //{
-        //    return (InstructionDevices.IsNotNullOrEmpty());
-        //}
-
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
@@ -218,7 +213,12 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddAllDeviceCommand { get; private set; }
         void OnAddAllDevice()
         {
-            foreach (var availableDevices in AvailableDevices)
+            InstructionDevicesList.Clear();
+            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+            {
+                return;
+            }
+            foreach (var availableDevices in FiresecManager.DeviceConfiguration.Devices)
             {
                 if ((availableDevices.Driver.IsZoneDevice) || (availableDevices.Driver.IsZoneLogicDevice))
                 {

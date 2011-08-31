@@ -9,16 +9,21 @@
         xmlns:my="clr-namespace:DevicesModule.Views;assembly=DevicesModule" 
         WindowStyle="SingleBorderWindow">
     <Window.Resources>
-        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <Converters:StateTypeToStringConverter2 x:Key="StateTypeToStringConverter2" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <my:DeviceDetailsView HorizontalAlignment="Left" Margin="12,12,0,0" Name="deviceDetailsView1" VerticalAlignment="Top">
             <my:DeviceDetailsView.Resources>
-                <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-                <Converters:StateTypeToStringConverter2 x:Key="StateTypeToStringConverter2" />
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </my:DeviceDetailsView.Resources>
         </my:DeviceDetailsView>
-        
     </Grid>
 </Window>

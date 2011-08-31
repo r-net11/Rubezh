@@ -11,6 +11,7 @@
         <ContentControl Content="{Binding CurrentDeviceControl}" Margin="0" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ContentControl.Resources>
+                
                 <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
                 <Converters:StateTypeToStringConverter2 x:Key="StateTypeToStringConverter2" />
             </ContentControl.Resources>

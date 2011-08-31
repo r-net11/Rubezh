@@ -96,7 +96,7 @@ namespace CurrentDeviceModule.ViewModels
         public void UpdateToolTip()
         {
             string str = "";
-            str = CurrentDevice.Address + " - " + CurrentDevice.Driver.ShortName + "\n";
+            str = CurrentDevice.PresentationAddress + " - " + CurrentDevice.Driver.ShortName + "\n";
 
             if (CurrentDeviceState.ParentStringStates != null)
                 foreach (var parentState in CurrentDeviceState.ParentStringStates)
@@ -127,7 +127,7 @@ namespace CurrentDeviceModule.ViewModels
 
         void OnDeviceStateChanged(string id)
         {
-            if (DeviceId == id) ;
+            if (DeviceId == id)
             {
                 Update();
             }
@@ -137,6 +137,11 @@ namespace CurrentDeviceModule.ViewModels
         public void OnShowProperties()
         {
             DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel(DeviceId);
+            ResourceDictionary rd = new ResourceDictionary() 
+            {
+                Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") 
+            };
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
             CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
             deviceDetailsView.DataContext = deviceDetailsViewModel;
             deviceDetailsView.ShowDialog();

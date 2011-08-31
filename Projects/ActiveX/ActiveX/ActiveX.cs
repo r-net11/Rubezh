@@ -26,6 +26,7 @@ namespace ActiveX
         public ActiveX()
         {
             InitializeComponent();
+            
         }
 
         CurrentDeviceViewModel _currentDeviceViewModel;
@@ -45,7 +46,7 @@ namespace ActiveX
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
             elementHost.Child = _currentDeviceView;
-
+            
             if (string.IsNullOrWhiteSpace(DeviceId) == false)
             {
                 _currentDeviceViewModel.Inicialize(DeviceId);

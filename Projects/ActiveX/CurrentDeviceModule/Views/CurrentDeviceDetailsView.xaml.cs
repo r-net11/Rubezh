@@ -21,7 +21,9 @@ namespace CurrentDeviceModule.Views
     {
         public CurrentDeviceDetailsView()
         {
+           
             InitializeComponent();
+            
         }
     }
 }

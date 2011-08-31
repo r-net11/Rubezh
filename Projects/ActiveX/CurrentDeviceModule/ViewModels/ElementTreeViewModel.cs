@@ -40,7 +40,7 @@ namespace CurrentDeviceModule.ViewModels
 
         public string DeviceAddress
         {
-            get { return Device.Address; }
+            get { return Device.PresentationAddress; }
         }
 
     }
