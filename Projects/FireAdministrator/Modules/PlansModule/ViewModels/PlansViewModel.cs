@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows.Controls;
-using System.Windows.Media;
 using PlansModule.Views;
-using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace PlansModule.ViewModels
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
-                    if (plan.ElementZones.Count > 0)
+                    if (plan.ElementZones.IsNotNullOrEmpty())
                     {
                         Trace.WriteLine("Zone found");
                     }
@@ -48,7 +49,7 @@ namespace PlansModule.ViewModels
                     SelectedPlan = Plans[0];
                 }
             }
-             SolidColorBrush brush = new SolidColorBrush();
+            SolidColorBrush brush = new SolidColorBrush();
             brush.Color = Colors.Red;
             MainCanvas.Background = brush;
         }
@@ -95,15 +96,14 @@ namespace PlansModule.ViewModels
         PlanViewModel _selectedPlan;
         public PlanViewModel SelectedPlan
         {
-            get 
+            get
             {
-                
-                return _selectedPlan; 
+                return _selectedPlan;
             }
             set
             {
                 _selectedPlan = value;
-                
+
                 OnPropertyChanged("SelectedPlan");
                 RePaintCanvas();
             }
@@ -111,7 +111,7 @@ namespace PlansModule.ViewModels
 
         public void RePaintCanvas()
         {
-            if (PlanCanvasView.Current!=null) PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
+            if (PlanCanvasView.Current != null) PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -148,7 +148,6 @@ namespace PlansModule.ViewModels
         public RelayCommand AddSubCommand { get; private set; }
         void OnAddSub()
         {
-            
             var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
             subPlanDetailsViewModel.Initialize();
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel);

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System;
 
 namespace InstructionsModule.ViewModels
 {
@@ -159,7 +159,7 @@ namespace InstructionsModule.ViewModels
                     }
                     if (device != null)
                     {
-                        selectDevices = device.Driver.ShortName + " (" + device.Address + ")";
+                        selectDevices = device.Driver.ShortName + " (" + device.AddressFullPath + ")";
                     }
                 }
 
@@ -178,7 +178,7 @@ namespace InstructionsModule.ViewModels
                         }
                         if (device != null)
                         {
-                            selectDevices += ", " + device.Driver.ShortName + " (" + device.Address + ")";
+                            selectDevices += ", " + device.Driver.ShortName + " (" + device.AddressFullPath + ")";
                         }
                     }
                 }
@@ -260,7 +260,7 @@ namespace InstructionsModule.ViewModels
                 InstructionDevicesList.Clear();
                 InstructionZonesList.Clear();
             }
-            Instruction.InstructionDevicesList= InstructionDevicesList;
+            Instruction.InstructionDevicesList = InstructionDevicesList;
             Instruction.InstructionZonesList = InstructionZonesList;
             if (_isNew)
             {

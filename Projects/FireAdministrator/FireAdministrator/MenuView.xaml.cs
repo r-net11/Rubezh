@@ -86,7 +86,7 @@ namespace FireAdministrator
         {
             DevicesModule.DevicesModule.Validate();
             FiltersModule.FilterModule.Validate();
-            InstructionsModule.InstructionsModule.Validate();
+            //InstructionsModule.InstructionsModule.Validate();
         }
     }
 }

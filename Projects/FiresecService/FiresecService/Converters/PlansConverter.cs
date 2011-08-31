@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Windows;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using FiresecAPI.Models;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace FiresecService.Converters
 {
@@ -38,9 +32,14 @@ namespace FiresecService.Converters
                                     switch (elementLayer.@class)
                                     {
                                         case "TSCDePicture":
+                                            int iterator = 0;
                                             foreach (var elementImage in elementLayer.picture)
                                             {
+                                                if (string.IsNullOrEmpty(elementImage.idx))
+                                                    elementImage.idx = iterator++.ToString();
                                                 Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
+                                                if (!File.Exists(uri.AbsolutePath))
+                                                    continue;
                                                 byte[] image = File.ReadAllBytes(uri.AbsolutePath);
                                                 if (planInner.BackgroundPixels == null) planInner.BackgroundPixels = image;
                                                 else
@@ -60,23 +59,20 @@ namespace FiresecService.Converters
                                             break;
                                         case "TSCDeLabel":
                                             CaptionBox captionBox = new CaptionBox();
-                                            if (elementLayer.brush!=null) captionBox.BorderColor = elementLayer.brush[0].color;
-                                            if (elementLayer.pen!=null) captionBox.Color = elementLayer.pen[0].color;
+                                            if (elementLayer.brush != null) captionBox.BorderColor = elementLayer.brush[0].color;
+                                            if (elementLayer.pen != null) captionBox.Color = elementLayer.pen[0].color;
                                             captionBox.Text = elementLayer.caption;
                                             captionBox.Left = ValidationDouble(elementLayer.rect[0].left);
                                             captionBox.Top = ValidationDouble(elementLayer.rect[0].top);
-                                            if (planInner.TextBoxes== null) planInner.TextBoxes = new List<CaptionBox>();
+                                            if (planInner.TextBoxes == null) planInner.TextBoxes = new List<CaptionBox>();
                                             planInner.TextBoxes.Add(captionBox);
                                             break;
                                     }
-
                                 }
                             }
                         }
                         if ((_elementInner.name == "Зоны") || (_elementInner.name == "Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
                         {
-
-                            
                             if (_elementInner.elements != null)
                             {
                                 if (planInner.ElementZones == null) planInner.ElementZones = new List<ElementZone>();
@@ -87,7 +83,7 @@ namespace FiresecService.Converters
                                     zoneInner = new ElementZone();
                                     string _idTempS = _zoneInner.id;
                                     long _idTempL = long.Parse(_idTempS);
-                                    int _idTempI = (int)_idTempL;
+                                    int _idTempI = (int) _idTempL;
                                     foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
                                     {
                                         foreach (var zoneShapeId in _index.ShapeIds)
@@ -115,7 +111,7 @@ namespace FiresecService.Converters
                                                     polygonPointsInner = new PolygonPoint();
                                                     polygonPointsInner.X = ValidationDouble(_pointInner.x);
                                                     polygonPointsInner.Y = ValidationDouble(_pointInner.y);
-                                                _pointInner.y = _pointInner.y.Replace(".", ",");
+                                                    _pointInner.y = _pointInner.y.Replace(".", ",");
 
                                                     zoneInner.PolygonPoints.Add(polygonPointsInner);
                                                 }
@@ -197,6 +193,7 @@ namespace FiresecService.Converters
             }
             return plansConfiguration;
         }
+
         static Double ValidationDouble(string str)
         {
             Double result;

@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using System;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
@@ -148,7 +149,7 @@ namespace InstructionsModule.ViewModels
 
         bool CustomerFilter(object item)
         {
-            InstructionViewModel instructionViewModel = (InstructionViewModel)item;
+            InstructionViewModel instructionViewModel = (InstructionViewModel) item;
             if ((StateType == null) && (InstructionType == null))
             {
                 return true;
@@ -236,7 +237,6 @@ namespace InstructionsModule.ViewModels
         {
             var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand, RemoveAllCommand);
             ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
-
         }
 
         public override void OnHide()

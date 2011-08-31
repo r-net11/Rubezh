@@ -60,7 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
     <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
       <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -71,8 +73,8 @@
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Devices\Views\AddressRedactor.xaml.cs">
       <DependentUpon>AddressRedactor.xaml</DependentUpon>
-    <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
     </Compile>
+    <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
     <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
     </Compile>
