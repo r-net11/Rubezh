@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {
+    [DataContract]
     public class ElementSubPlan
     {
         public Plan Parent { get; set; }

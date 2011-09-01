@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using FiresecService.Converters;
+﻿using System.IO;
 using System.Runtime.Serialization;
-using System.IO;
+using FiresecAPI.Models;
 
 namespace FiresecService
 {

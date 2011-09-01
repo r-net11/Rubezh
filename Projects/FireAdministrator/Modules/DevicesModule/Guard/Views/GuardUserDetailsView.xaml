@@ -30,26 +30,27 @@
                 <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" />
                 <TextBlock Text="Уровни доступа" Margin="2" />
 
-                <Button Command="{Binding ChangeGuardLevelsCommand}" Margin="2">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PresentationLevels}" Margin="2" />
-                        <TextBlock Margin="2">
+                <TextBlock Margin="2">
+                    <Hyperlink Command="{Binding ChangeGuardLevelsCommand}">
+                        <TextBlock Text="{Binding PresentationLevels}" />                
+                        <TextBlock Text="Нажмите для выбора зон" Margin="2">
                             <TextBlock.Style>
                                 <Style>
+                                    <Setter Property="TextBlock.Visibility" Value="Collapsed" />
                                     <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="{x:Null}">
-                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора уровней доступа" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="">
-                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора уровней доступа" />
-                                    </DataTrigger>
+                                        <DataTrigger Binding="{Binding PresentationLevels}" Value="{x:Null}">
+                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PresentationLevels}" Value="">
+                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                        </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </Button>
-                
+                        </TextBlock>         
+                    </Hyperlink>
+                </TextBlock>
+
             </StackPanel>
         </Grid>
         

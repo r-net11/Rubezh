@@ -21,28 +21,26 @@ namespace FiresecService
             bool result = FiresecInternalClient.Connect(login, password);
             if (result)
             {
-                BuildDeviceTree();
-                DeviceConfiguration.Update();
+                ConveretCoreConfigurationFromFiresec();
                 var watcher = new Watcher();
                 watcher.Start();
-
-                //var plans = FiresecInternalClient.GetPlans();
-                //var plansConfiguration = PlansConverter.Convert(plans);
             }
             return result;
         }
 
-        static void BuildDeviceTree()
+        public static void ConveretCoreConfigurationFromFiresec()
         {
             CoreConfig = FiresecInternalClient.GetCoreConfig();
             DeviceConfiguration = new DeviceConfiguration();
-            var metadata = FiresecInternalClient.GetMetaData();
-            FillDrivrs(metadata);
+            ConvertMetadataFromFiresec();
             Convert();
+            DeviceConfiguration.Update();
         }
 
-        public static void FillDrivrs(Firesec.Metadata.config metadata)
+        static void ConvertMetadataFromFiresec()
         {
+            var metadata = FiresecInternalClient.GetMetaData();
+
             DriverConverter.Metadata = metadata;
             Drivers = new List<Driver>();
             foreach (var firesecDriver in metadata.drv)
@@ -91,23 +89,23 @@ namespace FiresecService
             SecurityConverter.ConvertBack(SecurityConfiguration);
         }
 
-        public static void LoadFromFile(string fileName)
-        {
-            CoreConfig = FiresecInternalClient.LoadConfigFromFile(fileName);
-            FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
-            ZoneConverter.Convert(CoreConfig);
-            DirectionConverter.Convert(CoreConfig);
-            GuardUserConverter.Convert(CoreConfig);
-            DeviceConverter.Convert(CoreConfig);
-        }
+        //public static void LoadFromFile(string fileName)
+        //{
+        //    CoreConfig = FiresecInternalClient.LoadConfigFromFile(fileName);
+        //    FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
+        //    ZoneConverter.Convert(CoreConfig);
+        //    DirectionConverter.Convert(CoreConfig);
+        //    GuardUserConverter.Convert(CoreConfig);
+        //    DeviceConverter.Convert(CoreConfig);
+        //}
 
-        public static void SaveToFile(string fileName)
-        {
-            ZoneConverter.ConvertBack(DeviceConfiguration);
-            DeviceConverter.ConvertBack(DeviceConfiguration);
-            DirectionConverter.ConvertBack(DeviceConfiguration);
-            GuardUserConverter.ConvertBack(DeviceConfiguration);
-            FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
-        }
+        //public static void SaveToFile(string fileName)
+        //{
+        //    ZoneConverter.ConvertBack(DeviceConfiguration);
+        //    DeviceConverter.ConvertBack(DeviceConfiguration);
+        //    DirectionConverter.ConvertBack(DeviceConfiguration);
+        //    GuardUserConverter.ConvertBack(DeviceConfiguration);
+        //    FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
+        //}
     }
 }

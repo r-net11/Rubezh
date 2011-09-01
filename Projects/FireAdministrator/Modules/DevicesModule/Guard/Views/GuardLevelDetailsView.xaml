@@ -37,22 +37,23 @@
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
 
-                                    <Button Command="{Binding ChooseZonesCommand}" Margin="2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding PresentationZone}" Margin="2" />
-                                            <TextBlock Margin="2">
+                                    <TextBlock VerticalAlignment="Center" Margin="2">
+                                        <Hyperlink Command="{Binding ChooseZonesCommand}">
+                                            <TextBlock Text="{Binding PresenrationZone}" />                
+                                            <TextBlock Text="Нажмите для выбора зон" Margin="2">
                                                 <TextBlock.Style>
                                                     <Style>
+                                                        <Setter Property="TextBlock.Visibility" Value="Collapsed" />
                                                         <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
-                                                            <Setter Property="TextBlock.Text" Value="Нажмите для выбора зоны" />
+                                                        <DataTrigger Binding="{Binding PresenrationZone}" Value="{x:Null}">
+                                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Button>
+                                            </TextBlock>         
+                                        </Hyperlink>
+                                    </TextBlock>
 
                                 </StackPanel>
 

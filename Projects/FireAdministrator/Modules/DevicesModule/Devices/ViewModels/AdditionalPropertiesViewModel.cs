@@ -1,16 +1,16 @@
 ﻿using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public class AdditionalPropertiesViewModel : SaveCancelDialogContent
     {
-        public AdditionalPropertiesViewModel(string deviceId)
+        Guid _deviceUID;
+        public AdditionalPropertiesViewModel(Guid deviceUID)
         {
-            _deviceId = deviceId;
+            _deviceUID = deviceUID;
             Title = "Дополнительные свойства устройства";
         }
-
-        string _deviceId;
 
         protected override void Save(ref bool cancel)
         {

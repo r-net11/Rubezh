@@ -28,15 +28,10 @@ namespace FiresecClient
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
-            binding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
-
             var endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
-
-            _duplexChannelFactory.Credentials.UserName.UserName = "login";
-            _duplexChannelFactory.Credentials.UserName.Password = "pass";
 
             foreach (OperationDescription operationDescription in _duplexChannelFactory.Endpoint.Contract.Operations)
             {

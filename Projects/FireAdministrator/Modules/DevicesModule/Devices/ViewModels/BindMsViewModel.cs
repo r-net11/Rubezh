@@ -1,16 +1,17 @@
 ﻿using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public class BindMsViewModel : SaveCancelDialogContent
     {
-        public BindMsViewModel(string deviceId)
+        Guid _deviceUID;
+
+        public BindMsViewModel(Guid deviceUID)
         {
-            _deviceId = deviceId;
+            _deviceUID = deviceUID;
             Title = "Привязка оборудования";
         }
-
-        string _deviceId;
 
         protected override void Save(ref bool cancel)
         {

@@ -139,7 +139,7 @@ namespace FiresecService
             {
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
-                bool hasOneActiveState = false;
+                bool hasOneChangedState = false;
 
                 if (innerDevice != null)
                 {
@@ -148,7 +148,7 @@ namespace FiresecService
                         bool IsActive = innerDevice.state.Any(a => a.id == state.DriverState.Id);
                         if (state.IsActive != IsActive)
                         {
-                            hasOneActiveState = true;
+                            hasOneChangedState = true;
                         }
                         state.IsActive = IsActive;
                     }
@@ -159,13 +159,13 @@ namespace FiresecService
                     {
                         if (state.IsActive)
                         {
-                            hasOneActiveState = true;
+                            hasOneChangedState = true;
                         }
                         state.IsActive = false;
                     }
                 }
 
-                deviceState.ChangeEntities.StatesChanged = hasOneActiveState;
+                deviceState.ChangeEntities.StatesChanged = hasOneChangedState;
             }
         }
 

@@ -212,7 +212,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            FiresecManager.AutoDetectDevice(SelectedDevice.Device.Id);
+            FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
         }
 
         bool CanAutoDetect()
@@ -223,7 +223,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadDeviceCommand { get; private set; }
         void OnReadDevice()
         {
-            FiresecManager.ReadDeviceConfiguration(SelectedDevice.Device.Id);
+            FiresecManager.ReadDeviceConfiguration(SelectedDevice.Device.UID);
         }
 
         bool CanReadDevice()
@@ -234,7 +234,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteDeviceCommand { get; private set; }
         void OnWriteDevice()
         {
-            FiresecManager.WriteDeviceConfiguration(SelectedDevice.Device.Id);
+            FiresecManager.WriteDeviceConfiguration(SelectedDevice.Device.UID);
         }
 
         bool CanWriteDevice()
@@ -256,7 +256,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand SynchronizeDeviceCommand { get; private set; }
         void OnSynchronizeDevice()
         {
-            FiresecManager.SynchronizeDevice(SelectedDevice.Device.Id);
+            FiresecManager.SynchronizeDevice(SelectedDevice.Device.UID);
         }
 
         bool CanSynchronizeDevice()
@@ -267,7 +267,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RebootDeviceCommand { get; private set; }
         void OnRebootDevice()
         {
-            FiresecManager.RebootDevice(SelectedDevice.Device.Id);
+            FiresecManager.RebootDevice(SelectedDevice.Device.UID);
         }
 
         bool CanRebootDevice()
@@ -288,7 +288,7 @@ namespace DevicesModule.ViewModels
                 streamReader.Close();
                 fileStream.Close();
 
-                FiresecManager.UpdateSoft(SelectedDevice.Device.Id);
+                FiresecManager.UpdateSoft(SelectedDevice.Device.UID);
             }
         }
 
@@ -300,7 +300,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand GetDescriptionCommand { get; private set; }
         void OnGetDescription()
         {
-            var deviceDescriptionViewModel = new DeviceDescriptionViewModel(SelectedDevice.Device.Id);
+            var deviceDescriptionViewModel = new DeviceDescriptionViewModel(SelectedDevice.Device.UID);
             ServiceFactory.UserDialogs.ShowModalWindow(deviceDescriptionViewModel);
         }
 
@@ -312,7 +312,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand SetPasswordCommand { get; private set; }
         void OnSetPassword()
         {
-            var setPasswordViewModel = new SetPasswordViewModel(SelectedDevice.Device.Id);
+            var setPasswordViewModel = new SetPasswordViewModel(SelectedDevice.Device.UID);
             ServiceFactory.UserDialogs.ShowModalWindow(setPasswordViewModel);
         }
 
@@ -324,7 +324,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand BindMsCommand { get; private set; }
         void OnBindMs()
         {
-            var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device.Id);
+            var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device.UID);
             ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
         }
 
@@ -336,7 +336,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowAdditionalPropertiesCommand { get; private set; }
         void OnShowAdditionalProperties()
         {
-            var additionalPropertiesViewModel = new AdditionalPropertiesViewModel(SelectedDevice.Device.Id);
+            var additionalPropertiesViewModel = new AdditionalPropertiesViewModel(SelectedDevice.Device.UID);
             ServiceFactory.UserDialogs.ShowModalWindow(additionalPropertiesViewModel);
         }
 

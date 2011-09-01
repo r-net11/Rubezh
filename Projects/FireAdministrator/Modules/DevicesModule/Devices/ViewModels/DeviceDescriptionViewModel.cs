@@ -1,14 +1,15 @@
 ﻿using Infrastructure.Common;
 using FiresecClient;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public class DeviceDescriptionViewModel : DialogContent
     {
-        public DeviceDescriptionViewModel(string deviceId)
+        public DeviceDescriptionViewModel(Guid deviceUID)
         {
             Title = "Описание устройства";
-            Description = FiresecManager.GetDescription(deviceId);
+            Description = FiresecManager.GetDescription(deviceUID);
         }
 
         string _description;

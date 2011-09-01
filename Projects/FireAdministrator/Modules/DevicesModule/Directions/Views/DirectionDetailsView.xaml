@@ -46,7 +46,7 @@
                                         <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
                                     </StackPanel>
                                         
-                                    <TextBlock  Text="Нажмите для выбора устройства" Margin="2">
+                                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
                                         <TextBlock.Style>
                                             <Style>
                                                 <Setter Property="TextBlock.Visibility" Value="Collapsed" />

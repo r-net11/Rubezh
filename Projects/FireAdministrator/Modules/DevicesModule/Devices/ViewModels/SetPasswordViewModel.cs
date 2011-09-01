@@ -3,14 +3,17 @@ using System.Linq;
 using FiresecClient;
 using System.Windows;
 using System.Collections.Generic;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public class SetPasswordViewModel : SaveCancelDialogContent
     {
-        public SetPasswordViewModel(string deviceId)
+        Guid _deviceUID;
+
+        public SetPasswordViewModel(Guid deviceUID)
         {
-            _deviceId = deviceId;
+            _deviceUID = deviceUID;
             Title = "Смена пароля";
 
             Users = new List<UserPassword>();
@@ -18,8 +21,6 @@ namespace DevicesModule.ViewModels
             Users.Add(new UserPassword("Администратора"));
             Users.Add(new UserPassword("Дежурного"));
         }
-
-        string _deviceId;
 
         public List<UserPassword> Users { get; private set; }
 
@@ -55,7 +56,7 @@ namespace DevicesModule.ViewModels
 
             var userPassword = Users.FirstOrDefault(x => x.IsSelected == true);
 
-            FiresecManager.SetPassword(_deviceId);
+            FiresecManager.SetPassword(_deviceUID);
         }
     }
 

@@ -1,37 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionDeviceSelectorViewModel : SaveCancelDialogContent
+    public class IndicatorDeviceSelectionViewModel : SaveCancelDialogContent
     {
-        public DirectionDeviceSelectorViewModel()
+        public IndicatorDeviceSelectionViewModel()
         {
             Title = "Выбор устройства";
+            InitializeDevices();
         }
 
-        public void Initialize(Direction direction, bool isRm)
+        void InitializeDevices()
         {
-            string driverName = isRm ? "Релейный исполнительный модуль РМ-1" : "Кнопка разблокировки автоматики ШУЗ в направлении";
-
             var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
+                if (device.Driver.DriverName == "Выход")
+                    continue;
+
+                if ((device.Driver.IsOutDevice) || (device.Driver.IsZoneLogicDevice)
+                    || (device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")
+                    || (device.Driver.DriverName == "Насос")
+                    || (device.Driver.DriverName == "Жокей-насос")
+                    || (device.Driver.DriverName == "Компрессор")
+                    || (device.Driver.DriverName == "Дренажный насос")
+                    || (device.Driver.DriverName == "Насос компенсации утечек")
+                    )
                 {
-                    if (device.Driver.DriverName == driverName)
-                    {
-                        bool canAdd = device.Parent.Children.Any(x => (x.Driver.IsZoneDevice) && (direction.Zones.Contains(x.ZoneNo)));
-                        if (canAdd)
-                        {
-                            device.AllParents.ForEach(x => { devices.Add(x); });
-                            devices.Add(device);
-                        }
-                    }
+                    device.AllParents.ForEach(x => { devices.Add(x); });
+                    devices.Add(device);
                 }
             }
 
@@ -53,11 +56,9 @@ namespace DevicesModule.ViewModels
                     parent.Children.Add(device);
                 }
             }
-
-            SelectedDevice = Devices.FirstOrDefault(x => x.HasChildren == false);
         }
 
-        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+        public ObservableCollection<DeviceViewModel> Devices { get; set; }
 
         DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
@@ -68,15 +69,6 @@ namespace DevicesModule.ViewModels
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
-        }
-
-        protected override bool CanSave()
-        {
-            if (SelectedDevice != null)
-            {
-                return (SelectedDevice.HasChildren == false);
-            }
-            return false;
         }
     }
 }

@@ -22,7 +22,15 @@
     <DataTemplate DataType="{x:Type ViewModels:IndicatorDetailsViewModel}">
         <Views:IndicatorDetailsView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:IndicatorZoneSelectionViewModel}">
+        <Views:IndicatorZoneSelectionView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:IndicatorDeviceSelectionViewModel}">
+        <Views:IndicatorDeviceSelectionView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ValveDetailsViewModel}">
         <Views:ValveDetailsView />
     </DataTemplate>

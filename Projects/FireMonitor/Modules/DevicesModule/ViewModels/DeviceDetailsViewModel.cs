@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
         public DeviceDetailsViewModel(string deviceId)
         {
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
             DeviceControlViewModel = new DeviceControlViewModel(_device);
 
@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 
         void deviceState_StateChanged()
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
 
             if (_deviceControl != null)
             {
@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
                 _deviceControl = new DeviceControls.DeviceControl();
                 _deviceControl.DriverId = _device.Driver.Id;
 
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 _deviceControl.StateType = deviceState.StateType;
 
                 _deviceControl.Width = 50;
@@ -79,7 +79,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var selfStates = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 foreach (var state in deviceState.States)
                 {
                     if (state.IsActive)
@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var parentStates = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 if (deviceState.ParentStringStates != null)
                     foreach (var parentState in deviceState.ParentStringStates)
                     {
@@ -109,7 +109,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var parameters = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 if (deviceState.Parameters != null)
                     foreach (var parameter in deviceState.Parameters)
                     {
@@ -129,7 +129,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == _device.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 return deviceState.StateType;
             }
         }

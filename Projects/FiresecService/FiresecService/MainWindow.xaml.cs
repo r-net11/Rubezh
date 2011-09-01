@@ -38,6 +38,7 @@ namespace FiresecServiceRunner
         readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
         void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            ConvertDevices();
             ConvertPlans();
             return;
 
@@ -58,6 +59,17 @@ namespace FiresecServiceRunner
             }
 
             FiresecManager.PlansConfiguration = plansConfiguration;
+        }
+
+        void ConvertDevices()
+        {
+            FiresecManager.ConveretCoreConfigurationFromFiresec();
+
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            using (var fileStream = new FileStream("Configuration/DeviceConfiguration.xml", FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
+            }
         }
     }
 }

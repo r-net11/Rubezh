@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI.Models
 {
@@ -10,8 +10,8 @@ namespace FiresecAPI.Models
     {
         public Device()
         {
-            Properties = new List<Property>();
             Children = new List<Device>();
+            Properties = new List<Property>();
             Properties = new List<Property>();
             ZoneLogic = new ZoneLogic();
             IndicatorLogic = new IndicatorLogic();
@@ -23,6 +23,9 @@ namespace FiresecAPI.Models
         public Driver Driver { get; set; }
         public Device Parent { get; set; }
         public List<string> ShapeIds { get; set; }
+
+        [DataMember]
+        public Guid UID { get; set; }
 
         [DataMember]
         public List<Device> Children { get; set; }
@@ -53,9 +56,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string Description { get; set; }
-
-        [DataMember]
-        public Guid UID { get; set; }
 
         [DataMember]
         public bool IsRmAlarmDevice { get; set; }

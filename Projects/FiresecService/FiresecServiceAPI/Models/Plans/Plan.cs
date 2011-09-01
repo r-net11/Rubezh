@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 using FiresecAPI.Models.Plans;
-using System.Windows;
-using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,8 +11,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
-using System.IO;
-
 
 namespace PlansModule.ViewModels
 {

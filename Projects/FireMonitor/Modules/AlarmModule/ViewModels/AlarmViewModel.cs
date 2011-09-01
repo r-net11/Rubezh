@@ -169,7 +169,7 @@ namespace AlarmModule.ViewModels
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
             var parentDevice = device.Parent;
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
-            var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == parentDevice.Id);
+            var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
 
             var resetItem = new ResetItem();
 

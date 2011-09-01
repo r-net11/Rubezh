@@ -63,6 +63,8 @@
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
       <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -77,6 +79,12 @@
     <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
     <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
+      <DependentUpon>IndicatorDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml.cs">
+      <DependentUpon>IndicatorZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
@@ -141,7 +149,7 @@
     <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PropertyDetails\IndicatorDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
@@ -172,7 +180,7 @@
     <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\PropertyDetails\IndicatorDetailsView.xaml.cs">
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDetailsView.xaml.cs">
       <DependentUpon>IndicatorDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
@@ -306,6 +314,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\SetPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -342,7 +358,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\PropertyDetails\IndicatorDetailsView.xaml">
+    <Page Include="Devices\Views\PropertyDetails\Indicator\IndicatorDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

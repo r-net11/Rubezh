@@ -55,6 +55,7 @@ namespace FiresecService.Converters
             var deviceState = new DeviceState()
             {
                 ChangeEntities = new ChangeEntities(),
+                UID = device.UID,
                 Id = device.Id,
                 PlaceInTree = device.PlaceInTree,
                 Device = device

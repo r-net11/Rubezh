@@ -21,6 +21,8 @@ namespace FiresecService
         readonly static string SystemConfigurationFileName = "SystemConfiguration.xml";
         readonly static string DeviceLibraryConfigurationFileName = "DeviceLibrary.xml";
         readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
+        readonly static string DeviceConfigurationFileName = "DeviceConfiguration.xml";
+
         IFiresecCallback _currentCallback;
         string _userName;
 
@@ -66,7 +68,21 @@ namespace FiresecService
 
         public DeviceConfiguration GetDeviceConfiguration()
         {
-            return FiresecManager.DeviceConfiguration;
+            FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+            try
+            {
+                var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+                using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
+                {
+                    FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+                }
+
+                return FiresecManager.DeviceConfiguration;
+            }
+            catch
+            {
+                return FiresecManager.DeviceConfiguration;
+            }
         }
 
         public DeviceConfigurationStates GetStates()
@@ -76,6 +92,12 @@ namespace FiresecService
 
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
+            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, deviceConfiguration);
+            }
+
             FiresecManager.DeviceConfiguration = deviceConfiguration;
             //FiresecManager.SetNewConfig();
         }
@@ -102,7 +124,7 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                using (var fileStream = new FileStream(SystemConfigurationFileName, FileMode.Open))
+                using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
                 {
                     FiresecManager.SystemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
@@ -136,10 +158,6 @@ namespace FiresecService
 
         public PlansConfiguration GetPlansConfiguration()
         {
-            //var plans = FiresecInternalClient.GetPlans();
-            //var plansConfiguration = PlansConverter.Convert(plans);
-            //return plansConfiguration;
-
             FiresecManager.PlansConfiguration = new PlansConfiguration();
             try
             {
@@ -160,7 +178,7 @@ namespace FiresecService
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            using (var fileStream = new FileStream(SystemConfigurationFileName, FileMode.Create))
+            using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
             {
                 dataContractSerializer.WriteObject(fileStream, systemConfiguration);
             }

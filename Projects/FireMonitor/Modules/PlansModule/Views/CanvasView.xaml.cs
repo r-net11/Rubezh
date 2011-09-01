@@ -45,8 +45,6 @@ namespace PlansModule.Views
             Reset();
         }
 
-        //"PlansModule.Views.CanvasView.counter" назначено, однако его значение никогда не используется
-        static int counter = 0;
         void CanvasView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
         }
@@ -170,7 +168,6 @@ namespace PlansModule.Views
             var canvas = _contentControl.Content as Canvas;
             if (canvas != null)
             {
-                
                 var contentWidth = canvas.Width;
                 var contentHeight = canvas.Height;
                 

@@ -19,6 +19,9 @@ namespace FiresecAPI.Models
         public ChangeEntities ChangeEntities { get; set; }
 
         [DataMember]
+        public Guid UID { get; set; }
+
+        [DataMember]
         public string Id { get; set; }
 
         [DataMember]

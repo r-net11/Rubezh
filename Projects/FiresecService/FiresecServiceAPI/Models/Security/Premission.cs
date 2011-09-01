@@ -5,8 +5,6 @@ namespace FiresecAPI.Models
     [DataContract]
     public class Perimission
     {
-        //По моему тут наворочено как и в State было. Т.е. раз мы вместо State оставили StateType, то почему бы не быть последовательными
-
         [DataMember]
         public string Id { get; set; }
 

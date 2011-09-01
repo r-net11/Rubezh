@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (Devices.Any(x => x.Device.Id == device.Id))
+                if (Devices.Any(x => x.Device.UID == device.UID))
                     continue;
 
                 if (
@@ -76,7 +76,7 @@ namespace DevicesModule.ViewModels
             {
                 if (device.Device.Parent != null)
                 {
-                    var parent = AvailableDevices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
                     device.Parent = parent;
                     parent.Children.Add(device);
                 }

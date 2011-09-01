@@ -90,7 +90,7 @@ namespace FiresecClient
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 
                 foreach (var state in deviceState.States)
                 {
@@ -147,41 +147,6 @@ namespace FiresecClient
         {
             _firesecService.SetSystemConfiguration(SystemConfiguration);
             _firesecService.SetPlansConfiguration(PlansConfiguration);
-
-            //LibraryConfiguration = new FiresecAPI.Models.LibraryConfiguration();
-            //foreach (var device in DeviceLibraryConfiguration.Devices)
-            //{
-            //    var ldevice = new LibraryDevice()
-            //    {
-            //        DriverId = device.Id,
-            //        States = new List<LibraryState>()
-            //    };
-
-            //    foreach (var state in device.States)
-            //    {
-            //        var lstate = new LibraryState()
-            //        {
-            //            Code = state.Code,
-            //            StateType = state.StateType,
-            //            Frames = new List<LibraryFrame>()
-            //        };
-            //        foreach (var frame in state.Frames)
-            //        {
-            //            lstate.Frames.Add(new LibraryFrame()
-            //            {
-            //                Duration = frame.Duration,
-            //                Id = frame.Id,
-            //                Image = frame.Image,
-            //                Layer = frame.Layer
-            //            });
-            //        }
-
-            //        ldevice.States.Add(lstate);
-            //    }
-
-            //    LibraryConfiguration.Devices.Add(ldevice);
-            //}
-
             _firesecService.SetLibraryConfiguration(LibraryConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
@@ -241,17 +206,17 @@ namespace FiresecClient
             return _firesecService.GetFile(filepath);
         }
 
-        public static void AutoDetectDevice(string deviceId)
+        public static void AutoDetectDevice(Guid deviceUID)
         {
             ;
         }
 
-        public static void ReadDeviceConfiguration(string deviceId)
+        public static void ReadDeviceConfiguration(Guid deviceUID)
         {
             ;
         }
 
-        public static void WriteDeviceConfiguration(string deviceId)
+        public static void WriteDeviceConfiguration(Guid deviceUID)
         {
             ;
         }
@@ -261,27 +226,27 @@ namespace FiresecClient
             ;
         }
 
-        public static void SynchronizeDevice(string deviceId)
+        public static void SynchronizeDevice(Guid deviceUID)
         {
             ;
         }
 
-        public static void RebootDevice(string deviceId)
+        public static void RebootDevice(Guid deviceUID)
         {
             ;
         }
 
-        public static void UpdateSoft(string deviceId)
+        public static void UpdateSoft(Guid deviceUID)
         {
             ;
         }
 
-        public static string GetDescription(string deviceId)
+        public static string GetDescription(Guid deviceUID)
         {
             return "Описание устройства";
         }
 
-        public static void SetPassword(string deviceId)
+        public static void SetPassword(Guid deviceUID)
         {
             ;
         }

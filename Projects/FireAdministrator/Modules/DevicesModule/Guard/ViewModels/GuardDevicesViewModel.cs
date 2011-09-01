@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
             {
                 if (device.Device.Parent != null)
                 {
-                    var parent = Devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
                     device.Parent = parent;
                     parent.Children.Add(device);
                 }

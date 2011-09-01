@@ -1,15 +1,15 @@
-﻿using System.Collections.ObjectModel;
-using Common;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using DevicesModule.ViewModels;
-using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
-using System.Collections.Generic;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionDevicesViewModel : DialogContent
+    public class InstructionDevicesViewModel : SaveCancelDialogContent
     {
         public InstructionDevicesViewModel()
         {
@@ -21,8 +21,6 @@ namespace InstructionsModule.ViewModels
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
             AddAllDeviceCommand = new RelayCommand(OnAddAllDevice, CanAddAllAvailableDevice);
             RemoveAllDeviceCommand = new RelayCommand(OnRemoveAllDevice, CanRemoveAllDevice);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public void Inicialize(List<string> instructionDevicesList)
@@ -124,7 +122,7 @@ namespace InstructionsModule.ViewModels
             {
                 if (device.Device.Parent != null)
                 {
-                    var parent = devices.FirstOrDefault(x => x.Device.Id == device.Device.Parent.Id);
+                    var parent = devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
                     device.Parent = parent;
                     parent.Children.Add(device);
                 }
@@ -240,18 +238,6 @@ namespace InstructionsModule.ViewModels
         {
             InstructionDevicesList.Remove(SelectedInstructionDevice.Id);
             UpdateDevices();
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }
