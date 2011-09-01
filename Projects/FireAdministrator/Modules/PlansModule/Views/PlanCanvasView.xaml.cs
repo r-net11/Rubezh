@@ -41,7 +41,7 @@ namespace PlansModule.Views
         private double _originalTop;
         private double _originalLeft;
         public static double dTop = 30;
-        
+
         public PlanCanvasView()
         {
             Current = this;
@@ -143,6 +143,7 @@ namespace PlansModule.Views
                     Canvas.SetLeft(rectangle, device.Left);
                     Canvas.SetTop(rectangle, device.Top);
                     MainCanvas.Children.Add(rectangle);
+                    idElement++;
                 }
             }
             var imageBrush = new ImageBrush();
@@ -391,8 +392,8 @@ namespace PlansModule.Views
                             {
                                 if (rect.idElementCanvas == index)
                                 {
-                                    rect.Left = Canvas.GetLeft(_overlayElementRectangle);
-                                    rect.Top = Canvas.GetTop(_overlayElementRectangle);
+                                    rect.Left = rect.Left + _overlayElementRectangle.LeftOffset; 
+                                    rect.Top = rect.Top + _overlayElementRectangle.TopOffset+ PlanCanvasView.dTop;
                                 }
                             }
                         }
@@ -404,8 +405,8 @@ namespace PlansModule.Views
                             {
                                 if (device.idElementCanvas == index)
                                 {
-                                    device.Left = Canvas.GetLeft(_overlayElementRectangle);
-                                    device.Top = Canvas.GetTop(_overlayElementRectangle);
+                                    device.Left = device.Left + _overlayElementRectangle.LeftOffset;
+                                    device.Top = device.Top + _overlayElementRectangle.TopOffset+ PlanCanvasView.dTop;
                                 }
                             }
                         }
@@ -444,9 +445,6 @@ namespace PlansModule.Views
                 string type = typeElement;
                 UIElement element = _originalElement;
             }
-        }
-        private void UpdateZona(UIElement element)
-        {
         }
 
         private void MainCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
