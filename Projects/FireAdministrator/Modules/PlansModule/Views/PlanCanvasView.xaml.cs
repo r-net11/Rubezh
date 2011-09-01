@@ -134,7 +134,7 @@ namespace PlansModule.Views
                     Rectangle rectangle = new Rectangle();
                     device.idElementCanvas = idElement;
                     rectangle.Name = "devs" + idElement.ToString();
-                    rectangle.ToolTip = "Устройство № (не реализован shapeId)";
+                    rectangle.ToolTip = "Устройство";
                     SolidColorBrush brush = new SolidColorBrush();
                     brush.Color = Colors.Green;
                     rectangle.Fill = brush;
@@ -431,11 +431,15 @@ namespace PlansModule.Views
                             {
                                 if (_overlayElementPolygon != null)
                                 {
+                                    PointCollection PointCollection= new PointCollection();
                                     foreach (var point in zona.PolygonPoints)
                                     {
-                                        point.X = point.X + _overlayElementPolygon.LeftOffset;
-                                        point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
+                                        Point Point = new Point();
+                                        Point.X = point.X + _overlayElementPolygon.LeftOffset;
+                                        Point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
+                                        PointCollection.Add(Point);
                                     }
+                                    zona.PolygonPoints = PointCollection;
                                 }
                             }
                         }

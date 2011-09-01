@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {
@@ -17,7 +18,7 @@ namespace FiresecAPI.Models
         public string Caption { get; set; }
 
         [DataMember]
-        public List<PolygonPoint> PolygonPoints { get; set; }
+        public PointCollection PolygonPoints { get; set; }
 
         [DataMember]
         public string BackgroundSource { get; set; }

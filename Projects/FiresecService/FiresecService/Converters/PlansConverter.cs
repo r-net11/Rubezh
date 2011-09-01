@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Plans;
+using System.Windows;
+using System.Windows.Media;
 
 namespace FiresecService.Converters
 {
@@ -86,7 +88,6 @@ namespace FiresecService.Converters
                                 foreach (var _zoneInner in _elementInner.elements)
                                 {
                                     ElementZone zoneInner = null;
-
                                     zoneInner = new ElementZone();
                                     string _idTempS = _zoneInner.id;
                                     long _idTempL = long.Parse(_idTempS);
@@ -106,8 +107,8 @@ namespace FiresecService.Converters
                                                 }
                                         }
                                     }
-                                    PolygonPoint polygonPointsInner = null;
-                                    zoneInner.PolygonPoints = new List<PolygonPoint>();
+                                    Point polygonPointsInner;
+                                    if (zoneInner.PolygonPoints == null) zoneInner.PolygonPoints = new PointCollection();
                                     switch (_zoneInner.@class)
                                     {
                                         case "TFS_PolyZoneShape":
@@ -115,7 +116,8 @@ namespace FiresecService.Converters
                                             {
                                                 foreach (var _pointInner in _zoneInner.points)
                                                 {
-                                                    polygonPointsInner = new PolygonPoint();
+                                                    //polygonPointsInner = new PolygonPoint();
+                                                    polygonPointsInner = new Point();
                                                     polygonPointsInner.X = ValidationDouble(_pointInner.x);
                                                     polygonPointsInner.Y = ValidationDouble(_pointInner.y);
                                                     _pointInner.y = _pointInner.y.Replace(".", ",");
@@ -126,19 +128,19 @@ namespace FiresecService.Converters
                                         case "TFS_ZoneShape":
                                             foreach (var _rectInner in _zoneInner.rect)
                                             {
-                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner = new Point();
                                                 polygonPointsInner.X = ValidationDouble(_rectInner.left);
                                                 polygonPointsInner.Y = ValidationDouble(_rectInner.top);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner = new Point();
                                                 polygonPointsInner.X = ValidationDouble(_rectInner.right);
                                                 polygonPointsInner.Y = ValidationDouble(_rectInner.top);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner = new Point();
                                                 polygonPointsInner.X = ValidationDouble(_rectInner.right);
                                                 polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new PolygonPoint();
+                                                polygonPointsInner = new Point();
                                                 polygonPointsInner.X = ValidationDouble(_rectInner.left);
                                                 polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
                                                 zoneInner.PolygonPoints.Add(polygonPointsInner);
@@ -160,26 +162,25 @@ namespace FiresecService.Converters
                                 foreach (var _deviceInner in _elementInner.elements)
                                 {
                                     deviceInner = new ElementDevice();
+                                    string _idTempS = _deviceInner.id;
+                                    long _idTempL = long.Parse(_idTempS);
+                                    int _idTempI = (int)_idTempL;
+                                    foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
+                                    {
+                                        foreach (var deviceShapeId in _index.ShapeIds)
+                                        {
+                                            if (deviceShapeId == _idTempL.ToString())
+                                            {
+                                                deviceInner.Id = _index.Id;
+                                            }
+                                            else
+                                                if (deviceShapeId == _idTempI.ToString())
+                                                {
+                                                    deviceInner.Id = _index.Id;
+                                                }
+                                        }
+                                    }
 
-                                    /* Нету ShapeId в девайсах
-                                                                        string _idTempS = _deviceInner.id;
-                                                                        long _idTempL = long.Parse(_idTempS);
-                                                                        int _idTempI = (int)_idTempL;
-                                                                        //List<Zone> temp=FiresecManager.DeviceConfiguration.Zones;
-                                                                        foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
-                                                                        {
-                                                                            if (_index.ShapeId == _idTempL.ToString())
-                                                                            {
-                                                                                deviceInner.ZoneNo = _index.No;
-                                                                            }
-                                                                            else
-                                                                                if (_index.ShapeId == _idTempI.ToString())
-                                                                                {
-                                                                                    deviceInner.ZoneNo = _index.No;
-                                                                                }
-                                                                        }
-                                                                        */
-                                    deviceInner.Id = "NULL";
                                     if (_deviceInner.rect != null)
                                     {
                                         foreach (var _rectInner in _deviceInner.rect)
