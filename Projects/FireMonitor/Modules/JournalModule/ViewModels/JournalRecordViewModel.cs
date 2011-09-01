@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -86,10 +87,13 @@ namespace JournalModule.ViewModels
         {
             foreach (var plan in FiresecManager.PlansConfiguration.Plans)
             {
-                var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.Id);
-                if (elementDevice != null)
+                if (plan != null && plan.ElementDevices.IsNotNullOrEmpty())
                 {
-                    return true;
+                    var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.Id);
+                    if (elementDevice != null)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

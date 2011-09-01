@@ -3,21 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converter="clr-namespace:JournalModule.Converters"
              xmlns:Views="clr-namespace:JournalModule.Views"
+             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
-        <SolidColorBrush x:Key="borderBrush">LightGray</SolidColorBrush>
-
-        <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
-        <Converter:StateToColorConverter x:Key="StateToColorConverter" />
-        <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-    </UserControl.Resources>
-
     <DockPanel>
-        <WrapPanel DockPanel.Dock="Top">
-            <ToggleButton Name="filterActivator" Content="Фильтр" IsChecked="{Binding IsFiltered}"
-                          Margin="5" Foreground="{StaticResource headerBrush}" />
-            <Button Content="Выбрать фильтр" Command="{Binding ShowFilterCommand}" Margin="5" />
+        <WrapPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <XButtons:XButton Command="{Binding ShowFilterCommand}"
+                              Content="Настроить фильтр"
+                              Background="Black" Foreground="White" Padding="5" Margin="5" />
+            <CheckBox Name="filterActivator" IsChecked="{Binding IsFiltered}"
+                      Content="Включить фильтр"
+                      Margin="5" Foreground="OrangeRed"
+                      VerticalAlignment="Center"/>
         </WrapPanel>
 
         <Views:JournalView />

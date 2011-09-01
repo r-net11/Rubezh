@@ -73,6 +73,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />

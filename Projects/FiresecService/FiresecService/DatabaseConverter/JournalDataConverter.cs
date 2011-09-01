@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
+using Common;
 using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
 
@@ -13,27 +13,7 @@ namespace FiresecService
             using (var dataContext = new FiresecDbConverterDataContext())
             {
                 dataContext.Journal.DeleteAllOnSubmit(from j in dataContext.Journal select j);
-
-                List<JournalRecord> journalRecords = ReadAllJournal();
-                journalRecords.Reverse();
-
-                foreach (var journalItem in journalRecords)
-                {
-                    dataContext.Journal.InsertOnSubmit(new Journal()
-                    {
-                        DeviceTime = journalItem.DeviceTime,
-                        SystemTime = journalItem.SystemTime,
-                        ZoneName = journalItem.ZoneName,
-                        Description = journalItem.Description,
-                        DeviceName = journalItem.DeviceName,
-                        PanelName = journalItem.PanelName,
-                        DeviceDatabaseId = journalItem.DeviceDatabaseId,
-                        PanelDatabaseId = journalItem.PanelDatabaseId,
-                        UserName = journalItem.User,
-                        StateType = (int) journalItem.StateType
-                    });
-                }
-
+                dataContext.Journal.InsertAllOnSubmit(ReadAllJournal());
                 dataContext.SubmitChanges();
             }
         }
@@ -48,20 +28,16 @@ namespace FiresecService
             }
         }
 
-        public static List<JournalRecord> ReadAllJournal()
+        public static IEnumerable<Journal> ReadAllJournal()
         {
             var internalJournal = FiresecInternalClient.ReadEvents(0, 100000);
-
-            var journalRecords = new List<JournalRecord>();
-            if (internalJournal != null && internalJournal.Journal != null)
+            if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
-                foreach (var innerJournaRecord in internalJournal.Journal)
-                {
-                    journalRecords.Add(JournalConverter.Convert(innerJournaRecord));
-                }
+                return internalJournal.Journal.Select(
+                    innerJournaRecord => JournalConverter.ConvertToDataBaseJournal(innerJournaRecord));
             }
 
-            return journalRecords;
+            return new List<Journal>();
         }
     }
 }

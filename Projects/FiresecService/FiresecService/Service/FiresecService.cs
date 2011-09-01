@@ -9,6 +9,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
+using FiresecService.Processor;
 using FiresecServiceRunner;
 
 namespace FiresecService
@@ -16,6 +17,7 @@ namespace FiresecService
     [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true, InstanceContextMode = InstanceContextMode.PerSession)]
     public class FiresecService : IFiresecService, IDisposable
     {
+        readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
         readonly static string SystemConfigurationFileName = "SystemConfiguration.xml";
         readonly static string DeviceLibraryConfigurationFileName = "DeviceLibrary.xml";
         readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
@@ -190,27 +192,31 @@ namespace FiresecService
         {
             var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
             var journalRecords = new List<JournalRecord>();
-
             if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
                 foreach (var innerJournalRecord in internalJournal.Journal)
                 {
-                    journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
+                    journalRecords.Add(JournalConverter.ConvertToJournalRecord(innerJournalRecord));
                 }
             }
 
             return journalRecords;
         }
 
-        public List<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
-            var filteredJournal = new List<JournalRecord>();
-            using (var dataContext = new FiresecDbConverterDataContext())
-            {
-                filteredJournal = dataContext.Journal.Cast<JournalRecord>().ToList();
-            }
+            return DataBaseContext.Journal.AsEnumerable().
+                Where(journal => journalFilter.CheckDaysConstraint((DateTime) journal.SystemTime)).
+                Where(journal => JournalHelper.FilterRecord(journalFilter, journal)).
+                Take(journalFilter.LastRecordsCount).
+                Select(x => JournalConverter.DataBaseJournalToJournalRecord(x));
+        }
 
-            return filteredJournal;
+        public IEnumerable<JournalRecord> GetDistinctRecords()
+        {
+            return DataBaseContext.Journal.AsEnumerable().
+                Select(x => x).Distinct(new JournalHelper()).
+                Select(x => JournalConverter.DataBaseJournalToJournalRecord(x));
         }
 
         public void AddToIgnoreList(List<string> deviceIds)

@@ -270,6 +270,32 @@ namespace FiresecClient
             return null;
         }
 
+        public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        {
+            try
+            {
+                return _iFiresecService.GetFilteredJournal(journalFilter);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public IEnumerable<JournalRecord> GetDistinctRecords()
+        {
+            try
+            {
+                return _iFiresecService.GetDistinctRecords();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
         public void AddToIgnoreList(List<string> deviceIds)
         {
             try

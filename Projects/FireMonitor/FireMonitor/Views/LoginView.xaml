@@ -6,7 +6,6 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize">
-
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -27,9 +26,7 @@
             <TextBox Grid.Row="0" Grid.Column="1" Name="_userNameTextBox" Margin="2" />
             <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Name="_passwordTextBox" Margin="2" />
         </Grid>
-
         <TextBlock Grid.Row="1" Name="_statusTextBlock" />
-
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
             <Controls:XButton Content="Ok" Click="OnSave" IsDefault="True" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
             <Controls:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />

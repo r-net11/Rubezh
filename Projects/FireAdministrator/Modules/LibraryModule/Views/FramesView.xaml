@@ -4,16 +4,14 @@
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
     <UserControl.Resources>
         <ContextMenu x:Key="tabItemContextMenu">
-            <MenuItem Header="Добавить кадр" Command="{Binding AddFrameCommand}" />
-            <MenuItem Header="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
+            <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр" />
+            <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр" />
         </ContextMenu>
     </UserControl.Resources>
-
-    <TabControl TabStripPlacement="Bottom"
+    <TabControl ContextMenuOpening="TabControl_ContextMenuOpening"
                 ItemsSource="{Binding FrameViewModels}"
                 SelectedItem="{Binding SelectedFrameViewModel}"
-                ContextMenuOpening="TabControl_ContextMenuOpening">
-
+                TabStripPlacement="Bottom">
         <TabControl.ItemContainerStyle>
             <Style TargetType="{x:Type TabItem}">
                 <Style.Setters>
@@ -29,22 +27,24 @@
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
-
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <DockPanel>
                     <WrapPanel DockPanel.Dock="Bottom">
                         <Label Content="Слой: " />
-                        <ExtToolkit:IntegerUpDown IsEditable="False"
-                                                  Text="{Binding Layer, Mode=TwoWay}" />
-                        <Label  Content=" Длительность: " />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Increment="100"
-                                                  Text="{Binding Duration, Mode=TwoWay}" />
-                        <Button Content="Импорт из .svg" Command="{Binding ImportSvgCommand}" Margin="10,5,0,0"/>
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" />
+                        <Label Content=" Длительность: " />
+                        <ExtToolkit:IntegerUpDown Increment="100"
+                                                  IsEditable="False"
+                                                  Text="{Binding Duration,
+                                                                 Mode=TwoWay}" />
+                        <Button Margin="10,5,0,0"
+                                Command="{Binding ImportSvgCommand}"
+                                Content="Импорт из .svg" />
                     </WrapPanel>
-
-                    <ContentControl HorizontalAlignment="Center"
-                                    Width="500" Height="500"
+                    <ContentControl Width="500"
+                                    Height="500"
+                                    HorizontalAlignment="Center"
                                     Content="{Binding XamlOfImage}">
                         <ContentControl.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
@@ -53,6 +53,5 @@
                 </DockPanel>
             </DataTemplate>
         </TabControl.ContentTemplate>
-
     </TabControl>
 </UserControl>

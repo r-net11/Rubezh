@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
@@ -18,20 +19,19 @@ namespace JournalModule.ViewModels
 
         public void Initialize()
         {
-            Title = "Фильтр журнала";
+            Title = "Фильтр архива";
 
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
 
-            JournalTypes = _journalRecords.Select(
-                journalRecord => journalRecord.StateType).Distinct().Select(
-                stateType => new ClassViewModel(stateType)).ToList();
+            JournalEvents = new List<EventViewModel>(
+                FiresecClient.FiresecManager.GetDistinctRecords().
+                Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
+            );
 
-            JournalEvents = _journalRecords.Select(
-                journalRecord => journalRecord.Description).Distinct().Select(
-                description => new EventViewModel(
-                    _journalRecords.First(journalRecord => journalRecord.Description == description).StateType,
-                    description)
-                    ).ToList();
+            JournalTypes = new List<ClassViewModel>(
+                JournalEvents.Select(x => x.ClassId).Distinct().
+                Select(x => new ClassViewModel((StateType) x))
+            );
 
             ClearCommand = new RelayCommand(OnClear);
             SaveCommand = new RelayCommand(OnSave);

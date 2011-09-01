@@ -7,9 +7,7 @@
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-
         <Views:LibraryTree Grid.Column="0" />
-
         <Grid Grid.Column="1" DataContext="{Binding SelectedDeviceViewModel}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -20,15 +18,16 @@
                 <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                <TextBox DataContext="{Binding SelectedStateViewModel.SelectedFrameViewModel.Frame}"
+                <TextBox AcceptsReturn="True"
+                         AcceptsTab="True"
+                         DataContext="{Binding SelectedStateViewModel.SelectedFrameViewModel.Frame}"
+                         HorizontalScrollBarVisibility="Auto"
                          Text="{Binding Image}"
-                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                         AcceptsReturn="True" AcceptsTab="True" />
+                         VerticalScrollBarVisibility="Auto" />
             </Grid>
-
-            <Views:FramesView Grid.Row="1" Grid.Column="0"
-                DataContext="{Binding SelectedStateViewModel}" />
-
+            <Views:FramesView Grid.Row="1"
+                              Grid.Column="0"
+                              DataContext="{Binding SelectedStateViewModel}" />
             <Views:DeviceControlView Grid.Row="1" Grid.Column="1" />
         </Grid>
     </Grid>

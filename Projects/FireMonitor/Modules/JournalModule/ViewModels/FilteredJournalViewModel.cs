@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -10,14 +8,13 @@ namespace JournalModule.ViewModels
 {
     public class FilteredJournalViewModel : RegionViewModel
     {
-        public JournalFilterViewModel JournalFilterViewModel { get; private set; }
+        readonly JournalFilter _journalFilter;
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
             if (journalFilter == null)
                 throw new ArgumentNullException();
-
-            JournalFilterViewModel = new JournalFilterViewModel(journalFilter);
+            _journalFilter = journalFilter;
 
             Initialize();
         }
@@ -28,12 +25,18 @@ namespace JournalModule.ViewModels
             FiresecEventSubscriber.NewJournalRecordEvent +=
                 new Action<JournalRecord>(OnNewJournaRecordEvent);
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(AplyFilter));
+            foreach (var journalRecord in FiresecManager.GetFilteredJournal(_journalFilter))
+                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
         }
 
         public string Name
         {
-            get { return JournalFilterViewModel.JournalFilter.Name; }
+            get { return _journalFilter.Name; }
+        }
+
+        public static int RecordsMaxCount
+        {
+            get { return new JournalFilter().LastRecordsCount; }
         }
 
         public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
@@ -49,61 +52,20 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public static int RecordsMaxCount
-        {
-            get { return new JournalFilter().LastRecordsCount; }
-        }
-
-        void AplyFilter(Object stateInfo)
-        {
-            List<JournalRecord> journalRecords = null;
-            bool isFiltered = false;
-            int startIndex = 0;
-            do
-            {
-                journalRecords = FiresecManager.ReadJournal(startIndex, RecordsMaxCount);
-                foreach (var journalRecord in journalRecords)
-                {
-                    if (isFiltered = FilterRecord(journalRecord))
-                        break;
-                }
-                startIndex += RecordsMaxCount;
-            } while (isFiltered == false && journalRecords.Count == RecordsMaxCount);
-        }
-
-        bool FilterRecord(JournalRecord journalRecord)
-        {
-            if (JournalFilterViewModel.CheckDaysConstraint(journalRecord))
-            {
-                if (JournalFilterViewModel.FilterRecord(journalRecord))
-                {
-                    Dispatcher.Invoke(new Action(() =>
-                        JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
-                }
-
-                return JournalRecords.Count >= JournalFilterViewModel.RecordsCount;
-            }
-
-            return false;
-        }
-
         void OnNewJournaRecordEvent(JournalRecord journalRecord)
         {
             if (JournalRecords.Count > 0)
             {
-                Dispatcher.Invoke(new Action(() =>
-                    JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord))), null);
+                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
             }
             else
             {
-                Dispatcher.Invoke(new Action(() =>
-                    JournalRecords.Add(new JournalRecordViewModel(journalRecord))), null);
+                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
             }
 
-            if (JournalRecords.Count > JournalFilterViewModel.RecordsCount)
+            if (JournalRecords.Count > _journalFilter.LastRecordsCount)
             {
-                Dispatcher.BeginInvoke(new Action(() =>
-                    JournalRecords.RemoveAt(JournalFilterViewModel.RecordsCount)), null);
+                JournalRecords.RemoveAt(_journalFilter.LastRecordsCount);
             }
         }
     }

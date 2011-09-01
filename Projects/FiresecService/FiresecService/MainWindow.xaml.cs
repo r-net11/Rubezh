@@ -1,10 +1,11 @@
-﻿using System.Windows;
-using FiresecService;
-using FiresecService.Views;
-using FiresecService.Converters;
+﻿using System.IO;
 using System.Runtime.Serialization;
+using System.Windows;
 using FiresecAPI.Models;
-using System.IO;
+using FiresecService;
+using FiresecService.Converters;
+using FiresecService.DatabaseConverter;
+using FiresecService.Views;
 
 namespace FiresecServiceRunner
 {
@@ -34,6 +35,7 @@ namespace FiresecServiceRunner
             alarmTest.Show();
         }
 
+        readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
         void Button_Click_2(object sender, RoutedEventArgs e)
         {
             ConvertPlans();

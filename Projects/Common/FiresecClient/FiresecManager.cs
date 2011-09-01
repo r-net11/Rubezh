@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Timers;
 
 namespace FiresecClient
 {
@@ -216,6 +214,16 @@ namespace FiresecClient
         public static List<JournalRecord> ReadJournal(int startIndex, int count)
         {
             return _firesecService.ReadJournal(startIndex, count);
+        }
+
+        public static IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        {
+            return _firesecService.GetFilteredJournal(journalFilter);
+        }
+
+        public static IEnumerable<JournalRecord> GetDistinctRecords()
+        {
+            return _firesecService.GetDistinctRecords();
         }
 
         public static List<string> GetFileNamesList(string directory)

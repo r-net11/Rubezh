@@ -14,7 +14,7 @@ namespace JournalModule.ViewModels
         public int ClassId { get; private set; }
         public string Name { get; private set; }
 
-        bool _isEnable;
+        bool _isEnable = false;
         public bool IsEnable
         {
             get { return _isEnable; }
