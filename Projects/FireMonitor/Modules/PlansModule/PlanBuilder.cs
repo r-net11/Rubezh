@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Reflection;
 using System.Windows.Controls;
+using System.Windows;
 
 
 namespace PlansModule
@@ -20,6 +21,7 @@ namespace PlansModule
             try
             {
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+                string ыек = PathHelper.Plans;
                 FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
                 XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
                 Plan plan = (Plan)dcs.ReadObject(reader);
@@ -74,20 +76,22 @@ namespace PlansModule
             plan.ElementSubPlans = new List<ElementSubPlan>();
             plan.ElementSubPlans.Add(new ElementSubPlan());
             plan.ElementSubPlans[0].Name = "subPlan1";
-            plan.ElementSubPlans[0].PolygonPoints = new List<PolygonPoint>();
+            //plan.ElementSubPlans[0].PolygonPoints = new List<PolygonPoint>();
+            plan.ElementSubPlans[0].PolygonPoints = new PointCollection();
             plan.ElementSubPlans[0].BackgroundSource = "D:/picture1.jpg";
-            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 100 });
-            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 100, Y = 200 });
-            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 200 });
-            plan.ElementSubPlans[0].PolygonPoints.Add(new PolygonPoint() { X = 200, Y = 100 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 100, Y = 100 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 100, Y = 200 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 200, Y = 200 });
+            plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 200, Y = 100 });
             plan.ElementZones = new List<ElementZone>();
             plan.ElementZones.Add(new ElementZone());
             plan.ElementZones[0].ZoneNo = "0";
-            plan.ElementZones[0].PolygonPoints = new List<PolygonPoint>();
-            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 300 });
-            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 300, Y = 400 });
-            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 400 });
-            plan.ElementZones[0].PolygonPoints.Add(new PolygonPoint() { X = 400, Y = 300 });
+            //plan.ElementZones[0].PolygonPoints = new List<PolygonPoint>();
+            plan.ElementZones[0].PolygonPoints = new PointCollection();
+            plan.ElementZones[0].PolygonPoints.Add(new Point() { X = 300, Y = 300 });
+            plan.ElementZones[0].PolygonPoints.Add(new Point() { X = 300, Y = 400 });
+            plan.ElementZones[0].PolygonPoints.Add(new Point() { X = 400, Y = 400 });
+            plan.ElementZones[0].PolygonPoints.Add(new Point() { X = 400, Y = 300 });
             plan.ElementDevices = new List<ElementDevice>();
             plan.ElementDevices.Add(new ElementDevice());
             plan.ElementDevices[0].Left = 100;

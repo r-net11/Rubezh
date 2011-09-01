@@ -25,7 +25,7 @@ namespace PlansModule.ViewModels
 
         public void Initialize()
         {
-            return;
+            //return;
 
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
@@ -35,14 +35,19 @@ namespace PlansModule.ViewModels
 
         void BuildTree()
         {
-            Plan rootPlan = PlanLoader.Load();
 
-            var planTreeItemViewModel = new ViewModels.PlanViewModel();
-            planTreeItemViewModel.Parent = null;
-            planTreeItemViewModel.Initialize(rootPlan, Plans);
-            planTreeItemViewModel.IsExpanded = true;
-            Plans.Add(planTreeItemViewModel);
-            AddPlan(rootPlan, planTreeItemViewModel);
+            if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
+            {
+                foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+                {
+                    var planTreeItemViewModel = new ViewModels.PlanViewModel();
+                    planTreeItemViewModel.Parent = null;
+                    planTreeItemViewModel.Initialize(plan, Plans);
+                    planTreeItemViewModel.IsExpanded = true;
+                    Plans.Add(planTreeItemViewModel);
+                    AddPlan(plan, planTreeItemViewModel);
+                }
+            }
         }
 
         void AddPlan(Plan parentPlan, PlanViewModel parentPlanTreeItem)

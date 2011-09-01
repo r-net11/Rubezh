@@ -44,7 +44,8 @@ namespace PlansModule.ViewModels
                     }
                 }
                 // Добавил проверку на пустой список
-                if (Plans.Count > 0)
+
+                if (Plans.IsNotNullOrEmpty())
                 {
                     SelectedPlan = Plans[0];
                 }

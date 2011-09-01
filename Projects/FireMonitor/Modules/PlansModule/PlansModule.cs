@@ -17,7 +17,7 @@ namespace PlansModule
         public void Initialize()
         {
             RegisterResources();
-            PlanLoader.Load();
+            //PlanLoader.Load();
             CreateViewModels();
         }
 

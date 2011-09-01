@@ -169,8 +169,12 @@ namespace PlansModule.Views
             var canvas = _contentControl.Content as Canvas;
             if (canvas != null)
             {
-                var contentWidth = canvas.Width;
-                var contentHeight = canvas.Height;
+                
+                //var contentWidth = canvas.Width;
+                //var contentHeight = canvas.Height;
+                
+                var contentWidth = scrollViewer.ActualWidth;
+                var contentHeight = scrollViewer.ActualHeight;
 
                 double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
                 double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;

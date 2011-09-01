@@ -35,8 +35,9 @@
             <Separator/>
 
         </ToolBar>
-
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1" Background="White">
+ 
+        <ScrollViewer Name="scrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1" Background="White">
+            
             <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
                 MouseMove="MainCanvas_MouseMove"
                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
@@ -44,6 +45,7 @@
                 >
                 <TextBlock Name="fortest" Text="Test"/>
             </Canvas>
+            
             <ScrollViewer.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить зону" Command="{Binding AddCommand}"/>
@@ -52,6 +54,7 @@
                 </ContextMenu>
             </ScrollViewer.ContextMenu>
         </ScrollViewer>
+            
     </Grid>
 
 </UserControl>

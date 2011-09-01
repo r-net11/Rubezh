@@ -32,6 +32,7 @@ namespace PlansModule.ViewModels
             _elementDeviceView.DataContext = this;
             _elementDeviceView._deviceControl.Width = elementDevice.Width;
             _elementDeviceView._deviceControl.Height = elementDevice.Height;
+            //_elementDeviceView._deviceControl 
             _elementDeviceView._deviceControl.PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseButtonDown);
             Canvas.SetLeft(_elementDeviceView, elementDevice.Left);
             Canvas.SetTop(_elementDeviceView, elementDevice.Top);
