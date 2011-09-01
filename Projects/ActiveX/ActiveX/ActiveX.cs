@@ -14,6 +14,7 @@ using System.Reflection;
 using CurrentDeviceModule.Views;
 using FiresecClient;
 using System.Windows;
+using System.Windows.Resources;
 
 namespace ActiveX
 {
@@ -26,7 +27,6 @@ namespace ActiveX
         public ActiveX()
         {
             InitializeComponent();
-            
         }
 
         CurrentDeviceViewModel _currentDeviceViewModel;
@@ -45,6 +45,13 @@ namespace ActiveX
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
+            
+            //Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
+            //_currentDeviceView.Resources.Source = uri;
+            //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
+            //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
+            //ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
+            //_currentDeviceView.Resources.MergedDictionaries.Add(resources);
             elementHost.Child = _currentDeviceView;
             
             if (string.IsNullOrWhiteSpace(DeviceId) == false)
@@ -130,4 +137,6 @@ namespace ActiveX
 
         
     }
+
+
 }

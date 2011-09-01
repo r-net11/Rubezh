@@ -22,10 +22,6 @@ namespace InstructionsModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 
             Instructions = new ObservableCollection<InstructionViewModel>();
-            _filterView = CollectionViewSource.GetDefaultView(this.Instructions);
-            _filterView.Filter = CustomerFilter;
-            StateTypeFilter = "All";
-            InstructionTypeFilter = "All";
         }
 
         public void Initialize()
@@ -39,8 +35,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public ICollectionView _filterView;
-
         public ObservableCollection<InstructionViewModel> Instructions { get; set; }
 
         InstructionViewModel _selectedInstruction;
@@ -51,127 +45,6 @@ namespace InstructionsModule.ViewModels
             {
                 _selectedInstruction = value;
                 OnPropertyChanged("SelectedInstruction");
-            }
-        }
-
-        public List<string> StateTypeFilterList
-        {
-            get
-            {
-                var filterList = new List<string>() { "All" };
-                foreach (var stateTypeName in Enum.GetNames(typeof(StateType)))
-                {
-                    filterList.Add(stateTypeName);
-                }
-                return filterList;
-            }
-        }
-        public List<string> InstructionTypeFilterList
-        {
-            get
-            {
-                var filterList = new List<string>() { "All" };
-                foreach (var instructionTypeName in Enum.GetNames(typeof(InstructionType)))
-                {
-                    filterList.Add(instructionTypeName);
-                }
-                return filterList;
-            }
-        }
-
-        string _stateTypeFilter;
-        public string StateTypeFilter
-        {
-            get { return _stateTypeFilter; }
-            set
-            {
-                _stateTypeFilter = value;
-                OnPropertyChanged("StateTypeFilter");
-                _filterView.Refresh();
-            }
-        }
-        string _instructionTypeFilter;
-        public string InstructionTypeFilter
-        {
-            get { return _instructionTypeFilter; }
-            set
-            {
-                _instructionTypeFilter = value;
-                OnPropertyChanged("InstructionTypeFilter");
-                _filterView.Refresh();
-            }
-        }
-
-        public StateType? StateType
-        {
-            get
-            {
-                if (StateTypeFilter == "All")
-                {
-                    return null;
-                }
-                else
-                {
-                    StateType stateType = new StateType();
-                    foreach (StateType stType in Enum.GetValues(typeof(StateType)))
-                    {
-                        if ((Enum.GetName(typeof(StateType), stType) == StateTypeFilter))
-                        {
-                            stateType = stType;
-                        }
-                    }
-                    return stateType;
-                }
-            }
-        }
-        public InstructionType? InstructionType
-        {
-            get
-            {
-                if (InstructionTypeFilter == "All")
-                {
-                    return null;
-                }
-                else
-                {
-                    InstructionType instructionType = new InstructionType();
-                    foreach (InstructionType instrType in Enum.GetValues(typeof(InstructionType)))
-                    {
-                        if ((Enum.GetName(typeof(InstructionType), instrType) == InstructionTypeFilter))
-                        {
-                            instructionType = instrType;
-                        }
-                    }
-                    return instructionType;
-                }
-            }
-        }
-
-        bool CustomerFilter(object item)
-        {
-            InstructionViewModel instructionViewModel = (InstructionViewModel) item;
-            if ((StateType == null) && (InstructionType == null))
-            {
-                return true;
-            }
-            else
-            {
-                if (StateType == null)
-                {
-                    return (instructionViewModel.InstructionType == InstructionType);
-                }
-                else
-                {
-                    if (InstructionType == null)
-                    {
-                        return (instructionViewModel.StateType == StateType);
-                    }
-                    else
-                    {
-                        return ((instructionViewModel.InstructionType == InstructionType) &&
-                            (instructionViewModel.StateType == StateType));
-                    }
-                }
             }
         }
 

@@ -10,6 +10,7 @@ using System.Windows;
 using DevicesModule.ViewModels;
 using DevicesModule.Views;
 using FiresecAPI.Models;
+using System.Windows.Resources;
 
 namespace CurrentDeviceModule.ViewModels
 {
@@ -136,15 +137,15 @@ namespace CurrentDeviceModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         public void OnShowProperties()
         {
-            DeviceDetailsViewModel deviceDetailsViewModel = new DeviceDetailsViewModel(DeviceId);
-            ResourceDictionary rd = new ResourceDictionary() 
-            {
-                Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") 
-            };
-            System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
             CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
+            CurrentDeviceDetailsViewModel deviceDetailsViewModel = new CurrentDeviceDetailsViewModel(DeviceId);
             deviceDetailsView.DataContext = deviceDetailsViewModel;
             deviceDetailsView.ShowDialog();
+            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
+            //CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
+            //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
+            //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
+            
         }
     }
 }

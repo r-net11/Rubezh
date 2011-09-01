@@ -38,7 +38,7 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
 
-                            <Image Margin="10 0 0 0" HorizontalAlignment="Left" Source="Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                            <Image Margin="10 0 0 0" HorizontalAlignment="Left" Source="/Controls;component/Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>

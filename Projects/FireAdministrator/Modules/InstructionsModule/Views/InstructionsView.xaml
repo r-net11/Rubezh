@@ -11,9 +11,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" MaxHeight="300" Height="300"
+        <DataGrid Grid.Row="0" MaxHeight="300"
                   ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}" 
                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" 
                   CellStyle="{StaticResource DataGridCellStyle}" 
@@ -26,27 +25,6 @@
                                     Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" Text="Фильтр" />
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,5,0,0">
-            <ComboBox ItemsSource="{Binding InstructionTypeFilterList}" Width="100" Height="20"
-                      SelectedItem="{Binding InstructionTypeFilter}" Margin="0,0,10,0"
-                      SelectedValue=""
-                      Text="{Binding InstructionTypeFilter}" >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock  Text="{Binding .,Converter={StaticResource InstructionTypeConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox ItemsSource="{Binding StateTypeFilterList}" Width="100" Height="20"
-                      SelectedItem="{Binding StateTypeFilter}" Margin="0,0,10,0"
-                      Text="{Binding StateTypeFilter}" >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock  Text="{Binding ., Converter={StaticResource StateTypeConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
+        
     </Grid>
 </UserControl>

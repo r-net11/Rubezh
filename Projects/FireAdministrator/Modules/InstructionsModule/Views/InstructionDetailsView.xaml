@@ -94,27 +94,6 @@
                         </TextBlock>
                     </StackPanel>
                 </Controls:XButton>
-                <!--<TextBlock>
-                    <Hyperlink Command="{Binding SelectDeviceCommand}">
-                      <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding SelectDevices}" Margin="2" />
-                        <TextBlock Margin="2">
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SelectDevices}" Value="{x:Null}">
-                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding SelectDevices}" Value="">
-                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-                                    </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                      </StackPanel>  
-                    </Hyperlink>
-                </TextBlock>-->
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
