@@ -72,7 +72,7 @@ namespace PlansModule.ViewModels
             thumb1.Name = "thumb1";
             Canvas.SetLeft(thumb1, Canvas.GetLeft(textbox) - 2);
             Canvas.SetTop(thumb1, Canvas.GetTop(textbox) - 2);
-            PlanCanvasView.Current.MainCanvas.Children.Add(thumb1);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb1);
 
             Thumb thumb2 = new Thumb();
             thumb2.Height = 4;
@@ -83,8 +83,9 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb2, Canvas.GetLeft(textbox) + textbox.ActualWidth - 2);
             Canvas.SetTop(thumb2, Canvas.GetTop(textbox) - 2);
+            
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
-
             Thumb thumb3 = new Thumb();
             thumb3.Height = 4;
             thumb3.Width = 4;
@@ -93,6 +94,7 @@ namespace PlansModule.ViewModels
             thumb3.Name = "thumb3";
             Canvas.SetLeft(thumb3, Canvas.GetLeft(textbox) + textbox.ActualWidth - 2);
             Canvas.SetTop(thumb3, Canvas.GetTop(textbox) + textbox.ActualHeight - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             Thumb thumb4 = new Thumb();
             thumb4.Height = 4;
@@ -102,8 +104,9 @@ namespace PlansModule.ViewModels
             thumb4.Name = "thumb4";
             Canvas.SetLeft(thumb4, Canvas.GetLeft(textbox) - 2);
             Canvas.SetTop(thumb4, Canvas.GetTop(textbox) + textbox.ActualHeight - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
-            //textbox.IsHitTestVisible = false;
+            
         }
         void SetActiveRectangle(Rectangle _rectangle)
         {
@@ -122,8 +125,8 @@ namespace PlansModule.ViewModels
             thumb1.Name = "thumb1";
             Canvas.SetLeft(thumb1, Canvas.GetLeft(_rectangle) - 2);
             Canvas.SetTop(thumb1, Canvas.GetTop(_rectangle) - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb1);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb1);
-
             Thumb thumb2 = new Thumb();
             thumb2.Height = 4;
             thumb2.Width = 4;
@@ -133,6 +136,7 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb2, Canvas.GetLeft(_rectangle)+_rectangle.Width - 2);
             Canvas.SetTop(thumb2, Canvas.GetTop(_rectangle) - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
 
             Thumb thumb3 = new Thumb();
@@ -143,6 +147,7 @@ namespace PlansModule.ViewModels
             thumb3.Name = "thumb3";
             Canvas.SetLeft(thumb3, Canvas.GetLeft(_rectangle)+_rectangle.Width - 2);
             Canvas.SetTop(thumb3, Canvas.GetTop(_rectangle)+_rectangle.Height - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             Thumb thumb4 = new Thumb();
             thumb4.Height = 4;
@@ -152,6 +157,7 @@ namespace PlansModule.ViewModels
             thumb4.Name = "thumb4";
             Canvas.SetLeft(thumb4, Canvas.GetLeft(_rectangle) - 2);
             Canvas.SetTop(thumb4, Canvas.GetTop(_rectangle)+rectangle.Height - 2);
+            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
 
         }
@@ -185,6 +191,7 @@ namespace PlansModule.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
+                //PlanCanvasView.Current.MainCanvas.Children.Add(thumb);
                 PlanCanvasView.Current.MainCanvas.Children.Add(thumb);
                 index++;
             }

@@ -22,6 +22,9 @@ namespace PlansModule.Views
 
     public partial class PlanCanvasView : UserControl
     {
+        Point? lastCenterPositionOnTarget;
+        Point? lastMousePositionOnTarget;
+
         public static PlanCanvasView Current { get; set; }
         private Plan Plan { get; set; }
         private int idElement;
@@ -45,6 +48,7 @@ namespace PlansModule.Views
         public PlanCanvasView()
         {
             Current = this;
+
             InitializeComponent();
         }
 
@@ -52,7 +56,38 @@ namespace PlansModule.Views
         {
             Plan = plan;
             idElement = 0;
+
             MainCanvas.Children.Clear();
+            MainCanvas.Width = MainCanvas.ActualWidth;
+            MainCanvas.Height = MainCanvas.ActualHeight;
+            var imageBrush = new ImageBrush();
+
+            if (plan.BackgroundPixels != null)
+            {
+
+                BitmapImage image;
+                using (MemoryStream imageStream = new MemoryStream(plan.BackgroundPixels))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = imageStream;
+                    image.EndInit();
+                }
+                imageBrush.ImageSource = image;
+                //if (image.Width>plan.Width) MainCanvas.Width = image.Width;
+                //if (image.Height > plan.Height) MainCanvas.Height = image.Height;
+            }
+            
+            
+            Rectangle rectangle = new Rectangle();
+            rectangle.Name = "canv" + idElement.ToString();
+            rectangle.Height = MainCanvas.Height;
+            rectangle.Width = MainCanvas.Width;
+            rectangle.Fill = imageBrush;
+            Canvas.SetLeft(rectangle, 0);
+            Canvas.SetTop(rectangle, 0);
+            MainCanvas.Children.Add(rectangle);
             if (plan.ElementZones != null)
             {
                 foreach (var zona in plan.ElementZones)
@@ -77,6 +112,7 @@ namespace PlansModule.Views
                         myPointCollection.Add(point);
                     }
                     myPolygon.Points = myPointCollection;
+                    //MainCanvas.Children.Add(myPolygon);
                     MainCanvas.Children.Add(myPolygon);
                     Canvas.SetLeft(myPolygon, 0);
                     Canvas.SetTop(myPolygon, 0);
@@ -88,7 +124,7 @@ namespace PlansModule.Views
                 foreach (var rect in plan.Rectangls)
                 {
                     var imageBrushRect = new ImageBrush();
-                    Rectangle rectangle = new Rectangle();
+                    rectangle = new Rectangle();
                     rect.idElementCanvas = idElement;
                     rectangle.Name = "rect" + idElement.ToString();
                     rectangle.Height = rect.Height;
@@ -107,6 +143,7 @@ namespace PlansModule.Views
                     rectangle.Fill = imageBrushRect;
                     Canvas.SetLeft(rectangle, rect.Left);
                     Canvas.SetTop(rectangle, rect.Top);
+                    //MainCanvas.Children.Add(rectangle);
                     MainCanvas.Children.Add(rectangle);
                     idElement++;
                 }
@@ -123,6 +160,7 @@ namespace PlansModule.Views
                     textbox.IsReadOnly = true;
                     Canvas.SetLeft(textbox, text.Left);
                     Canvas.SetTop(textbox, text.Top);
+                    //MainCanvas.Children.Add(textbox);
                     MainCanvas.Children.Add(textbox);
                     idElement++;
                 }
@@ -131,7 +169,7 @@ namespace PlansModule.Views
             {
                 foreach (var device in plan.ElementDevices)
                 {
-                    Rectangle rectangle = new Rectangle();
+                    rectangle = new Rectangle();
                     device.idElementCanvas = idElement;
                     rectangle.Name = "devs" + idElement.ToString();
                     rectangle.ToolTip = "Устройство";
@@ -142,36 +180,23 @@ namespace PlansModule.Views
                     rectangle.Width = device.Width;
                     Canvas.SetLeft(rectangle, device.Left);
                     Canvas.SetTop(rectangle, device.Top);
+                    //MainCanvas.Children.Add(rectangle);
                     MainCanvas.Children.Add(rectangle);
                     idElement++;
                 }
             }
-            var imageBrush = new ImageBrush();
-            if (plan.BackgroundPixels != null)
-            {
-
-                BitmapImage image;
-                using (MemoryStream imageStream = new MemoryStream(plan.BackgroundPixels))
-                {
-                    image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = imageStream;
-                    image.EndInit();
-                }
-                imageBrush.ImageSource = image;
-            }
-
-            MainCanvas.Background = imageBrush;
         }
 
         private void ClearAllSelected()
         {
+            //MainCanvas.Cursor = Cursors.Arrow;
             MainCanvas.Cursor = Cursors.Arrow;
+            //foreach (var element in MainCanvas.Children)
             foreach (var element in MainCanvas.Children)
             {
                 if (element is Thumb)
                 {
+                    //MainCanvas.Children.Remove((UIElement)element);
                     MainCanvas.Children.Remove((UIElement)element);
                     ClearAllSelected();
                     break;
@@ -238,23 +263,27 @@ namespace PlansModule.Views
             if (_overlayElementPolygon != null)
             {
                 _overlayElementPolygon.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
                 Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                _overlayElementPolygon.LeftOffset = CurrentPosition.X - _startPoint.X;
-                _overlayElementPolygon.TopOffset = CurrentPosition.Y - _startPoint.Y;
+                _overlayElementPolygon.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementPolygon.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
             };
             if (_overlayElementRectangle != null)
             {
                 _overlayElementRectangle.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
                 Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                _overlayElementRectangle.LeftOffset = CurrentPosition.X - _startPoint.X;
-                _overlayElementRectangle.TopOffset = CurrentPosition.Y - _startPoint.Y;
+
+                _overlayElementRectangle.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementRectangle.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
             }
             if (_overlayElementTexBox != null)
             {
                 _overlayElementTexBox.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
                 Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                _overlayElementTexBox.LeftOffset = CurrentPosition.X - _startPoint.X;
-                _overlayElementTexBox.TopOffset = CurrentPosition.Y - _startPoint.Y;
+                _overlayElementTexBox.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementTexBox.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
             }
 
 
@@ -276,36 +305,62 @@ namespace PlansModule.Views
             }
             else
             {
+                //if (e.Source != this.MainCanvas)
                 if (e.Source != this.MainCanvas)
                 {
-                    if (e.Source is TextBox)
+                    bool IsCanavs = false;
+                    if (e.Source is Rectangle)
                     {
-                        TextBox textbox = e.Source as TextBox;
-                        _originalElementTextBox = textbox;
-                        Rectangle rectangle = new Rectangle();
-                        rectangle.Name = "textbox";
-                        rectangle.Height = textbox.ActualHeight;
-                        rectangle.Width = textbox.ActualWidth;
-                        SolidColorBrush brush = new SolidColorBrush();
-                        rectangle.Fill = brush;
-                        Canvas.SetLeft(rectangle, Canvas.GetLeft(textbox));
-                        Canvas.SetTop(rectangle, Canvas.GetTop(textbox));
-                        MainCanvas.Children.Add(rectangle);
-                    }
-                    else
-                    {
-                        if (e.Source is Rectangle)
+                        var rect = e.Source as Rectangle;
+                        if (rect.Name == "canv0")
                         {
-                            MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-                            ActiveElement = true;
+                            IsCanavs = true;
+                            _originalElementTextBox = null;
+                            ActiveElement = false;
+                            ClearAllSelected();
+
+                        }
+                        else IsCanavs = false;
+                    }
+                    if (!IsCanavs)
+                    {
+                        if (e.Source is TextBox)
+                        {
+                            TextBox textbox = e.Source as TextBox;
+                            _originalElementTextBox = textbox;
+                            Rectangle rectangle = new Rectangle();
+                            rectangle.Name = "textbox";
+                            rectangle.Height = textbox.ActualHeight;
+                            rectangle.Width = textbox.ActualWidth;
+                            SolidColorBrush brush = new SolidColorBrush();
+                            rectangle.Fill = brush;
+                            Canvas.SetLeft(rectangle, Canvas.GetLeft(textbox));
+                            Canvas.SetTop(rectangle, Canvas.GetTop(textbox));
+                            //MainCanvas.Children.Add(rectangle);
+                            MainCanvas.Children.Add(rectangle);
                         }
                         else
                         {
-                            MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-                            ActiveElement = true;
-                            _originalElementTextBox = null;
+                            if (e.Source is Rectangle)
+                            {
+                                MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
+                                ActiveElement = true;
+                            }
+                            else
+                            {
+                                MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
+                                ActiveElement = true;
+                                _originalElementTextBox = null;
+                            }
                         }
                     }
+                    else
+                    {
+                        _originalElementTextBox = null;
+                        ActiveElement = false;
+                        ClearAllSelected();
+                    }
+
                 }
                 else
                 {
@@ -323,7 +378,12 @@ namespace PlansModule.Views
             {
                 _isDown = true;
                 _isResize = false;
-                _startPoint = e.GetPosition(this);
+                //_startPoint = Mouse.GetPosition(MainCanvas);
+                _startPoint = Mouse.GetPosition(MainCanvas);
+                _startPoint.Y = _startPoint.Y + PlanCanvasView.dTop;
+                double x = scaleTransform.CenterX;
+                double y = scaleTransform.CenterY;
+                double v = slider.Value;
                 _originalElement = e.Source as UIElement;
                 e.Handled = true;
             }
@@ -338,8 +398,8 @@ namespace PlansModule.Views
                     AdornerLayer.GetAdornerLayer(_overlayElementPolygon.AdornedElement).Remove(_overlayElementPolygon);
                     if (cancelled == false)
                     {
-                        Canvas.SetTop(_originalElement, _originalTop + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop);
-                        Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementPolygon.LeftOffset);
+                        Canvas.SetTop(_originalElement, _originalTop + _overlayElementPolygon.TopOffset / ZoomValue + PlanCanvasView.dTop);
+                        Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementPolygon.LeftOffset / ZoomValue);
                     }
                 }
                 if (_originalElement is Rectangle)
@@ -352,8 +412,8 @@ namespace PlansModule.Views
                         AdornerLayer.GetAdornerLayer(_overlayElementRectangle.AdornedElement).Remove(_overlayElementRectangle);
                         if (cancelled == false)
                         {
-                            Canvas.SetTop(_originalElement, _originalTop + _overlayElementRectangle.TopOffset + PlanCanvasView.dTop);
-                            Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementRectangle.LeftOffset);
+                            Canvas.SetTop(_originalElement, _originalTop + _overlayElementRectangle.TopOffset / ZoomValue + PlanCanvasView.dTop);
+                            Canvas.SetLeft(_originalElement, _originalLeft + _overlayElementRectangle.LeftOffset / ZoomValue);
                         }
                     }
                     else
@@ -364,10 +424,12 @@ namespace PlansModule.Views
                             AdornerLayer.GetAdornerLayer(_overlayElementRectangle.AdornedElement).Remove(_overlayElementRectangle);
                             if (cancelled == false)
                             {
-                                Canvas.SetTop(_originalElementTextBox, _originalTop + _overlayElementRectangle.TopOffset + PlanCanvasView.dTop);
-                                Canvas.SetLeft(_originalElementTextBox, _originalLeft + _overlayElementRectangle.LeftOffset);
+                                Double d = ZoomValue;
+                                Canvas.SetTop(_originalElementTextBox, _originalTop + _overlayElementRectangle.TopOffset/ZoomValue + PlanCanvasView.dTop);
+                                Canvas.SetLeft(_originalElementTextBox, _originalLeft + _overlayElementRectangle.LeftOffset/ZoomValue );
                             }
                         }
+                        //MainCanvas.Children.Remove(_originalElement);
                         MainCanvas.Children.Remove(_originalElement);
                     }
                 }
@@ -392,8 +454,8 @@ namespace PlansModule.Views
                             {
                                 if (rect.idElementCanvas == index)
                                 {
-                                    rect.Left = rect.Left + _overlayElementRectangle.LeftOffset; 
-                                    rect.Top = rect.Top + _overlayElementRectangle.TopOffset+ PlanCanvasView.dTop;
+                                    rect.Left = rect.Left + _overlayElementRectangle.LeftOffset;
+                                    rect.Top = rect.Top + _overlayElementRectangle.TopOffset + PlanCanvasView.dTop;
                                 }
                             }
                         }
@@ -406,7 +468,7 @@ namespace PlansModule.Views
                                 if (device.idElementCanvas == index)
                                 {
                                     device.Left = device.Left + _overlayElementRectangle.LeftOffset;
-                                    device.Top = device.Top + _overlayElementRectangle.TopOffset+ PlanCanvasView.dTop;
+                                    device.Top = device.Top + _overlayElementRectangle.TopOffset + PlanCanvasView.dTop;
                                 }
                             }
                         }
@@ -431,7 +493,7 @@ namespace PlansModule.Views
                             {
                                 if (_overlayElementPolygon != null)
                                 {
-                                    PointCollection PointCollection= new PointCollection();
+                                    PointCollection PointCollection = new PointCollection();
                                     foreach (var point in zona.PolygonPoints)
                                     {
                                         Point Point = new Point();
@@ -459,6 +521,130 @@ namespace PlansModule.Views
                 e.Handled = true;
                 ClearAllSelected();
             }
+        }
+        double initialScale = 1;
+        double ZoomValue = 1;
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (scaleTransform != null)
+            {
+                if (e.NewValue == 0)
+                    return;
+                ZoomValue = e.NewValue;
+                scaleTransform.ScaleX = e.NewValue * initialScale;
+                scaleTransform.ScaleY = e.NewValue * initialScale;
+
+                var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
+                //lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+                lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+            }
+
+        }
+
+        private void scrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange != 0 || e.ExtentWidthChange != 0)
+            {
+                Point? targetBefore = null;
+                Point? targetNow = null;
+
+                // Ага!
+                if (!lastMousePositionOnTarget.HasValue)
+                {
+                    if (lastCenterPositionOnTarget.HasValue)
+                    {
+                        var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
+                        //Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+                        Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+
+                        targetBefore = lastCenterPositionOnTarget;
+                        targetNow = centerOfTargetNow;
+                    }
+                }
+                else
+                {
+                    targetBefore = lastMousePositionOnTarget;
+                    //targetNow = Mouse.GetPosition(MainCanvas);
+                    targetNow = Mouse.GetPosition(MainCanvas);
+
+                    lastMousePositionOnTarget = null;
+                }
+
+                if (targetBefore.HasValue)
+                {
+                    double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
+                    double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
+
+                    //double multiplicatorX = e.ExtentWidth / MainCanvas.ActualWidth;
+                    double multiplicatorX = e.ExtentWidth / MainCanvas.ActualWidth;
+                    //double multiplicatorY = e.ExtentHeight / MainCanvas.ActualHeight;
+                    double multiplicatorY = e.ExtentHeight / MainCanvas.ActualHeight;
+
+                    double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
+                    double newOffsetY = scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
+
+                    if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
+                    {
+                        return;
+                    }
+
+                    scrollViewer.ScrollToHorizontalOffset(newOffsetX);
+                    scrollViewer.ScrollToVerticalOffset(newOffsetY);
+                }
+            }
+
+        }
+
+        public void Reset()
+        {
+            FullSize();
+            slider.Value = 1;
+        }
+        void FullSize()
+        {
+
+            var canvas = MainCanvas;
+            if (canvas != null)
+            {
+
+                var contentWidth = canvas.Width;
+                var contentHeight = canvas.Height;
+
+                //var contentWidth = scrollViewer.ActualWidth;
+                //var contentHeight = scrollViewer.ActualHeight;
+
+                double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
+                double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
+                double scale = Math.Min(scaleX, scaleY);
+                initialScale = scale;
+
+                scaleTransform.ScaleX = scale;
+                scaleTransform.ScaleY = scale;
+            }
+        }
+
+        private void MainCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //scrollViewer.Width = scrollViewer.ActualWidth;
+            //scrollViewer.Height = scrollViewer.ActualHeight;
+            //Size size = new Size(scrollViewer.Width, scrollViewer.Height);
+            //MainCanvas.Arrange(new Rect(size));
+        }
+
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var grid = e.Source as Grid;
+            scrollViewer.Width = grid.ActualWidth;
+            scrollViewer.Height = grid.ActualHeight;
+        }
+
+        private void scrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var scroll = e.Source as ScrollViewer;
+            MainCanvas.Width = scroll.ActualWidth;
+            MainCanvas.Height = scroll.ActualHeight;
         }
     }
 }

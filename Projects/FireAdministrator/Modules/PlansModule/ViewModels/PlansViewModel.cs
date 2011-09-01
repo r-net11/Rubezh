@@ -22,6 +22,9 @@ namespace PlansModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
             MainCanvas = new Canvas();
+            SolidColorBrush SolidColorBrush = new SolidColorBrush();
+            SolidColorBrush.Color = Colors.Red;
+            MainCanvas.Background = SolidColorBrush;
         }
 
         public void Initialize()

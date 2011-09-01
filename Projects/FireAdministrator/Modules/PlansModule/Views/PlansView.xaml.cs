@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using PlansModule.ViewModels;
+using PlansModule.Views;
 
 namespace PlansModule.Views
 {
@@ -8,5 +10,6 @@ namespace PlansModule.Views
         {
             InitializeComponent();
         }
+
     }
 }

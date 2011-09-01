@@ -49,7 +49,7 @@ namespace PlansModule.ViewModels
 
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-
+            /* загрузить с массива*/
             string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
             _canvas.Background = CreateBrush(backgroundPath);
 

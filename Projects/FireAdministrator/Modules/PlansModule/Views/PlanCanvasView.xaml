@@ -5,12 +5,19 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              
     >
-    <Grid>
+    <Grid SizeChanged="Grid_SizeChanged">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ToolBar x:Name="MainToolBar" VerticalAlignment="Top" IsEnabled="False" HorizontalAlignment="Left" Grid.Row="0">
+        <Slider  Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" Visibility="{Binding CanZoom, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                    HorizontalAlignment="Right" Minimum="1" Maximum="10" Value="1" x:Name="slider" ValueChanged="slider_ValueChanged"/>
+
+        <ToolBar x:Name="MainToolBar" VerticalAlignment="Top" IsEnabled="False" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1">
 
             <ToggleButton x:Name="btnLine" ToolTip="Line" IsEnabled="False" HorizontalAlignment="Center" BorderThickness="0" Width="50" Height="35" BorderBrush="White">
                 <Line X1="0" Y1="0"  X2="20" Y2="20" Width="20" Height="20" Stroke ="Black" StrokeThickness="2" HorizontalAlignment="Center"/>
@@ -35,15 +42,26 @@
             <Separator/>
 
         </ToolBar>
- 
-        <ScrollViewer Name="scrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="1" Background="White">
-            
-            <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" 
+
+        <ScrollViewer Name="scrollViewer" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Grid.Row="1" Grid.Column="1"
+                      Background="White"
+                      ScrollChanged="scrollViewer_ScrollChanged"
+                      SizeChanged="scrollViewer_SizeChanged"
+                      IsEnabled="True"
+                      >
+
+            <Canvas Name ="MainCanvas" DataContext="{Binding MainCanvas}" Background="White" Width="100" Height="100"
                 MouseMove="MainCanvas_MouseMove"
                 MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                 MouseLeftButtonUp="MainCanvas_MouseLeftButtonUp"
+                RenderTransformOrigin="0.5,0.5"
+                SizeChanged="MainCanvas_SizeChanged"
                 >
-                <TextBlock Name="fortest" Text="Test"/>
+                <Canvas.LayoutTransform>
+                    <ScaleTransform x:Name="scaleTransform">
+                        
+                    </ScaleTransform>
+                </Canvas.LayoutTransform>
             </Canvas>
             
             <ScrollViewer.ContextMenu>
@@ -54,7 +72,7 @@
                 </ContextMenu>
             </ScrollViewer.ContextMenu>
         </ScrollViewer>
-            
+
     </Grid>
 
 </UserControl>

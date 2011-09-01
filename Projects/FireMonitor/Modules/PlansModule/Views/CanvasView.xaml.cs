@@ -111,6 +111,7 @@ namespace PlansModule.Views
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
+
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -170,11 +171,11 @@ namespace PlansModule.Views
             if (canvas != null)
             {
                 
-                //var contentWidth = canvas.Width;
-                //var contentHeight = canvas.Height;
+                var contentWidth = canvas.Width;
+                var contentHeight = canvas.Height;
                 
-                var contentWidth = scrollViewer.ActualWidth;
-                var contentHeight = scrollViewer.ActualHeight;
+                //var contentWidth = scrollViewer.ActualWidth;
+                //var contentHeight = scrollViewer.ActualHeight;
 
                 double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
                 double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
