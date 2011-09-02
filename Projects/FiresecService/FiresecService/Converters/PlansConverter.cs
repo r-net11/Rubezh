@@ -10,7 +10,7 @@ namespace FiresecService.Converters
 {
     public static class PlansConverter
     {
-        private static  int idElement;
+        private static int idElement;
         public static PlansConfiguration Convert(Firesec.Plans.surfaces innerPlans)
         {
             idElement = 0;
@@ -23,8 +23,8 @@ namespace FiresecService.Converters
                     Plan planInner = new Plan();
                     planInner.Caption = _planInner.caption;
                     planInner.Name = _planInner.caption;
-                    planInner.Height = Double.Parse(_planInner.height);
-                    planInner.Width = Double.Parse(_planInner.width);
+                    planInner.Height = Double.Parse(_planInner.height)*10;
+                    planInner.Width = Double.Parse(_planInner.width)*10;
                     int index = 0;
                     foreach (var _elementInner in _planInner.layer)
                     {
@@ -46,22 +46,18 @@ namespace FiresecService.Converters
                                                 if (!File.Exists(uri.AbsolutePath))
                                                     continue;
                                                 byte[] image = File.ReadAllBytes(uri.AbsolutePath);
-                                                if (planInner.BackgroundPixels == null) planInner.BackgroundPixels = image;
-                                                else
-                                                {
-                                                    RectangleBox rect = new RectangleBox();
-                                                    uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
-                                                    image = File.ReadAllBytes(uri.AbsolutePath);
-                                                    rect.BackgroundPixels = image;
-                                                    rect.Height = ValidationDouble(elementLayer.rect[0].bottom) - ValidationDouble(elementLayer.rect[0].top);
-                                                    rect.Width = ValidationDouble(elementLayer.rect[0].right) - ValidationDouble(elementLayer.rect[0].left);
-                                                    rect.Left = ValidationDouble(elementLayer.rect[0].left);
-                                                    rect.Top = ValidationDouble(elementLayer.rect[0].top);
-                                                    if (planInner.Rectangls == null) planInner.Rectangls = new List<RectangleBox>();
-                                                    rect.idElementCanvas = idElement;
-                                                    planInner.Rectangls.Add(rect);
-                                                    idElement++;
-                                                }
+                                                RectangleBox rect = new RectangleBox();
+                                                uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
+                                                image = File.ReadAllBytes(uri.AbsolutePath);
+                                                rect.BackgroundPixels = image;
+                                                rect.Height = ValidationDouble(elementLayer.rect[0].bottom) - ValidationDouble(elementLayer.rect[0].top);
+                                                rect.Width = ValidationDouble(elementLayer.rect[0].right) - ValidationDouble(elementLayer.rect[0].left);
+                                                rect.Left = ValidationDouble(elementLayer.rect[0].left);
+                                                rect.Top = ValidationDouble(elementLayer.rect[0].top);
+                                                if (planInner.Rectangls == null) planInner.Rectangls = new List<RectangleBox>();
+                                                rect.idElementCanvas = idElement;
+                                                planInner.Rectangls.Add(rect);
+                                                idElement++;
                                             }
                                             break;
                                         case "TSCDeLabel":
@@ -91,7 +87,7 @@ namespace FiresecService.Converters
                                     zoneInner = new ElementZone();
                                     string _idTempS = _zoneInner.id;
                                     long _idTempL = long.Parse(_idTempS);
-                                    int _idTempI = (int) _idTempL;
+                                    int _idTempI = (int)_idTempL;
                                     foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
                                     {
                                         foreach (var zoneShapeId in _index.ShapeIds)
@@ -200,17 +196,17 @@ namespace FiresecService.Converters
                         index++;
                     }
                     plansConfiguration.Plans.Add(planInner);
-                   /*
-                    List<Plan> plans = plansConfiguration.Plans;
-                    System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(typeof(List<Plan>));
-                    FileStream fs_out = new FileStream(@"D:/del/Plans_new310811.xml", FileMode.Create);
-                    System.Xml.XmlDictionaryWriter xdw = System.Xml.XmlDictionaryWriter.CreateTextWriter(fs_out);
-                    dcs.WriteObject(xdw, plans);
-                    xdw.Close();
-                    */
+                    /*
+                     List<Plan> plans = plansConfiguration.Plans;
+                     System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(typeof(List<Plan>));
+                     FileStream fs_out = new FileStream(@"D:/del/Plans_new310811.xml", FileMode.Create);
+                     System.Xml.XmlDictionaryWriter xdw = System.Xml.XmlDictionaryWriter.CreateTextWriter(fs_out);
+                     dcs.WriteObject(xdw, plans);
+                     xdw.Close();
+                     */
                 }
             }
-            
+
             return plansConfiguration;
         }
 

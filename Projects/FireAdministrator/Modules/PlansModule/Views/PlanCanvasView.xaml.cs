@@ -58,14 +58,17 @@ namespace PlansModule.Views
             idElement = 0;
 
             MainCanvas.Children.Clear();
-            MainCanvas.Width = MainCanvas.ActualWidth;
-            MainCanvas.Height = MainCanvas.ActualHeight;
+            //MainCanvas.ActualWidth = plan.Width;
+            //MainCanvas.ActualHeight= plan.Height;
+            //MainCanvas.Width = MainCanvas.ActualWidth;
+            //MainCanvas.Height = MainCanvas.ActualHeight;
+            MainCanvas.Width = plan.Width;
+            MainCanvas.Height = plan.Height;
             var imageBrush = new ImageBrush();
-
+            BitmapImage image = null;
             if (plan.BackgroundPixels != null)
             {
 
-                BitmapImage image;
                 using (MemoryStream imageStream = new MemoryStream(plan.BackgroundPixels))
                 {
                     image = new BitmapImage();
@@ -78,16 +81,50 @@ namespace PlansModule.Views
                 //if (image.Width>plan.Width) MainCanvas.Width = image.Width;
                 //if (image.Height > plan.Height) MainCanvas.Height = image.Height;
             }
-            
-            
+
+            //MainCanvas.Width = image.Width;
+            //MainCanvas.Height = image.Height;
+
             Rectangle rectangle = new Rectangle();
-            rectangle.Name = "canv" + idElement.ToString();
-            rectangle.Height = MainCanvas.Height;
-            rectangle.Width = MainCanvas.Width;
-            rectangle.Fill = imageBrush;
-            Canvas.SetLeft(rectangle, 0);
-            Canvas.SetTop(rectangle, 0);
-            MainCanvas.Children.Add(rectangle);
+            //rectangle.Name = "canv" + idElement.ToString();
+            //rectangle.Height = MainCanvas.ActualHeight;
+            //rectangle.Width = MainCanvas.ActualWidth;
+            //rectangle.Height = image.Height;
+            //rectangle.Width = image.Width;
+            //rectangle.Fill = imageBrush;
+            //Canvas.SetLeft(rectangle, 0);
+            //Canvas.SetTop(rectangle, 0);
+            //MainCanvas.Children.Add(rectangle);
+            if (plan.Rectangls != null)
+            {
+                foreach (var rect in plan.Rectangls)
+                {
+                    var imageBrushRect = new ImageBrush();
+                    rectangle = new Rectangle();
+                    rect.idElementCanvas = idElement;
+                    rectangle.Name = "rect" + idElement.ToString();
+                    rectangle.Height = rect.Height;
+                    rectangle.Width = rect.Width;
+                    //BitmapImage image;
+                    using (MemoryStream imageStream = new MemoryStream(rect.BackgroundPixels))
+                    {
+                        image = new BitmapImage();
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.StreamSource = imageStream;
+                        image.EndInit();
+                    }
+
+                    imageBrushRect.ImageSource = image;
+                    rectangle.Fill = imageBrushRect;
+                    Canvas.SetLeft(rectangle, rect.Left);
+                    Canvas.SetTop(rectangle, rect.Top);
+                    //MainCanvas.Children.Add(rectangle);
+                    MainCanvas.Children.Add(rectangle);
+                    idElement++;
+                }
+            }
+
             if (plan.ElementZones != null)
             {
                 foreach (var zona in plan.ElementZones)
@@ -116,35 +153,6 @@ namespace PlansModule.Views
                     MainCanvas.Children.Add(myPolygon);
                     Canvas.SetLeft(myPolygon, 0);
                     Canvas.SetTop(myPolygon, 0);
-                    idElement++;
-                }
-            }
-            if (plan.Rectangls != null)
-            {
-                foreach (var rect in plan.Rectangls)
-                {
-                    var imageBrushRect = new ImageBrush();
-                    rectangle = new Rectangle();
-                    rect.idElementCanvas = idElement;
-                    rectangle.Name = "rect" + idElement.ToString();
-                    rectangle.Height = rect.Height;
-                    rectangle.Width = rect.Width;
-                    BitmapImage image;
-                    using (MemoryStream imageStream = new MemoryStream(rect.BackgroundPixels))
-                    {
-                        image = new BitmapImage();
-                        image.BeginInit();
-                        image.CacheOption = BitmapCacheOption.OnLoad;
-                        image.StreamSource = imageStream;
-                        image.EndInit();
-                    }
-
-                    imageBrushRect.ImageSource = image;
-                    rectangle.Fill = imageBrushRect;
-                    Canvas.SetLeft(rectangle, rect.Left);
-                    Canvas.SetTop(rectangle, rect.Top);
-                    //MainCanvas.Children.Add(rectangle);
-                    MainCanvas.Children.Add(rectangle);
                     idElement++;
                 }
             }
@@ -425,8 +433,8 @@ namespace PlansModule.Views
                             if (cancelled == false)
                             {
                                 Double d = ZoomValue;
-                                Canvas.SetTop(_originalElementTextBox, _originalTop + _overlayElementRectangle.TopOffset/ZoomValue + PlanCanvasView.dTop);
-                                Canvas.SetLeft(_originalElementTextBox, _originalLeft + _overlayElementRectangle.LeftOffset/ZoomValue );
+                                Canvas.SetTop(_originalElementTextBox, _originalTop + _overlayElementRectangle.TopOffset / ZoomValue + PlanCanvasView.dTop);
+                                Canvas.SetLeft(_originalElementTextBox, _originalLeft + _overlayElementRectangle.LeftOffset / ZoomValue);
                             }
                         }
                         //MainCanvas.Children.Remove(_originalElement);
@@ -536,8 +544,18 @@ namespace PlansModule.Views
                 scaleTransform.ScaleY = e.NewValue * initialScale;
 
                 var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-                //lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
                 lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+                if (ZoomValue != 1)
+                {
+                    scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+                    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+                }
+                else
+                {
+                    scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                    FullSize();
+                }
             }
 
         }
@@ -596,55 +614,49 @@ namespace PlansModule.Views
 
         }
 
-        public void Reset()
-        {
-            FullSize();
-            slider.Value = 1;
-        }
         void FullSize()
         {
-
-            var canvas = MainCanvas;
-            if (canvas != null)
+            if (CanvasLoaded)
             {
-
-                var contentWidth = canvas.Width;
-                var contentHeight = canvas.Height;
-
-                //var contentWidth = scrollViewer.ActualWidth;
-                //var contentHeight = scrollViewer.ActualHeight;
-
-                double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
-                double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
-                double scale = Math.Min(scaleX, scaleY);
-                initialScale = scale;
-
-                scaleTransform.ScaleX = scale;
-                scaleTransform.ScaleY = scale;
+                dResizeWindowX = scrollViewer.ActualWidth / MainCanvas.Width;
+                dResizeWindowY = scrollViewer.ActualHeight / MainCanvas.Height;
+                if (dResizeWindowX <= dResizeWindowY)
+                {
+                    scaleTransform.ScaleX = dResizeWindowX;
+                    scaleTransform.ScaleY = dResizeWindowX;
+                }
+                else
+                {
+                    scaleTransform.ScaleX = dResizeWindowY;
+                    scaleTransform.ScaleY = dResizeWindowY;
+                }
+                if (dResizeWindowX == 1 && ZoomValue == 1)
+                {
+                    scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                }
+                if (dResizeWindowY == 1 && ZoomValue == 1)
+                {
+                    scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                }
             }
-        }
 
-        private void MainCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //scrollViewer.Width = scrollViewer.ActualWidth;
-            //scrollViewer.Height = scrollViewer.ActualHeight;
-            //Size size = new Size(scrollViewer.Width, scrollViewer.Height);
-            //MainCanvas.Arrange(new Rect(size));
         }
-
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var grid = e.Source as Grid;
-            scrollViewer.Width = grid.ActualWidth;
-            scrollViewer.Height = grid.ActualHeight;
+            FullSize();
         }
 
-        private void scrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        double dResizeWindowX = 1;
+        double dResizeWindowY = 1;
+        bool CanvasLoaded = false;
+        private void MainCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            var scroll = e.Source as ScrollViewer;
-            MainCanvas.Width = scroll.ActualWidth;
-            MainCanvas.Height = scroll.ActualHeight;
+            CanvasLoaded = true;
+
+            MainCanvas.Width = MainCanvas.ActualWidth;
+            MainCanvas.Height = MainCanvas.ActualHeight;
         }
+
     }
 }
