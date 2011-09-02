@@ -18,8 +18,8 @@ using System.Windows.Resources;
 
 namespace ActiveX
 {
-    [ClassInterface(ClassInterfaceType.None)]
-    [PropertyTab(typeof(System.Windows.Forms.Form))]
+    //[ClassInterface(ClassInterfaceType.None)]
+    //[PropertyTab(typeof(System.Windows.Forms.Form))]
     [Guid("03B7A288-90FB-47D2-8B2A-2CEADDD13367")]
     [ComVisible(true)]
     public partial class ActiveX : UserControl, ISpecifyPropertyPages
