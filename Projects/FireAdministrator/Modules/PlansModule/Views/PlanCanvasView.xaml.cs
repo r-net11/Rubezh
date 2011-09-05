@@ -15,7 +15,7 @@ using FiresecAPI.Models;
 using PlansModule.ViewModels;
 using System.Windows.Media.Imaging;
 using FiresecAPI.Models.Plans;
-
+using PlansModule.Operations;
 
 namespace PlansModule.Views
 {
@@ -58,10 +58,7 @@ namespace PlansModule.Views
             idElement = 0;
 
             MainCanvas.Children.Clear();
-            //MainCanvas.ActualWidth = plan.Width;
-            //MainCanvas.ActualHeight= plan.Height;
-            //MainCanvas.Width = MainCanvas.ActualWidth;
-            //MainCanvas.Height = MainCanvas.ActualHeight;
+
             MainCanvas.Width = plan.Width;
             MainCanvas.Height = plan.Height;
             var imageBrush = new ImageBrush();
@@ -78,23 +75,12 @@ namespace PlansModule.Views
                     image.EndInit();
                 }
                 imageBrush.ImageSource = image;
-                //if (image.Width>plan.Width) MainCanvas.Width = image.Width;
-                //if (image.Height > plan.Height) MainCanvas.Height = image.Height;
+
             }
 
-            //MainCanvas.Width = image.Width;
-            //MainCanvas.Height = image.Height;
 
             Rectangle rectangle = new Rectangle();
-            //rectangle.Name = "canv" + idElement.ToString();
-            //rectangle.Height = MainCanvas.ActualHeight;
-            //rectangle.Width = MainCanvas.ActualWidth;
-            //rectangle.Height = image.Height;
-            //rectangle.Width = image.Width;
-            //rectangle.Fill = imageBrush;
-            //Canvas.SetLeft(rectangle, 0);
-            //Canvas.SetTop(rectangle, 0);
-            //MainCanvas.Children.Add(rectangle);
+
             if (plan.Rectangls != null)
             {
                 foreach (var rect in plan.Rectangls)
@@ -226,94 +212,33 @@ namespace PlansModule.Views
             }
         }
 
-        private void DragStarted()
-        {
-            if (_originalElement != null)
-            {
-                _isDragging = true;
-
-                _originalLeft = Canvas.GetLeft(_originalElement);
-                _originalTop = Canvas.GetTop(_originalElement);
-                if (_originalElement is Polygon)
-                {
-                    GetTypeElement();
-                    _overlayElementPolygon = new PolygonAdorner(_originalElement);
-                    if (!_isResize) //перемещение
-                    {
-                        _overlayElementPolygon.SetOperationMove(true);
-                    }
-                    else
-                    {
-                        _overlayElementPolygon.SetOperationMove(false);
-                    }
-                    AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
-                    layer.Add(_overlayElementPolygon);
-                };
-                if (_originalElement is Rectangle)
-                {
-                    GetTypeElement();
-                    _overlayElementRectangle = new RectangleAdorner(_originalElement);
-                    if (!_isResize) //перемещение
-                    {
-                        _overlayElementRectangle.SetOperationMove(true);
-                    }
-                    else
-                    {
-                        _overlayElementRectangle.SetOperationMove(false);
-                    }
-                    AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
-                    layer.Add(_overlayElementRectangle);
-                };
-            }
-        }
-        private void DragMoved()
-        {
-            if (_overlayElementPolygon != null)
-            {
-                _overlayElementPolygon.Cursor = Cursors.Cross;
-                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                _overlayElementPolygon.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
-                _overlayElementPolygon.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
-            };
-            if (_overlayElementRectangle != null)
-            {
-                _overlayElementRectangle.Cursor = Cursors.Cross;
-                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-
-                _overlayElementRectangle.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
-                _overlayElementRectangle.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
-            }
-            if (_overlayElementTexBox != null)
-            {
-                _overlayElementTexBox.Cursor = Cursors.Cross;
-                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
-                _overlayElementTexBox.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
-                _overlayElementTexBox.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
-            }
 
 
-        }
+
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
+            if (_isDown)
+            {
+                string str = "";
+            }
+
+
             var element = e.Source;
             if (_isDown && (ActiveElement != null))
             {
                 if (_isDragging == false)
                 {
-                    DragStarted();
+                    MoveTo.DragStarted(MainCanvas);
                 }
                 if (_isDragging)
                 {
-                    DragMoved();
+                    MoveTo.DragMoved(MainCanvas,ZoomValue);
                 }
             }
             else
             {
-                //if (e.Source != this.MainCanvas)
+                
                 if (e.Source != this.MainCanvas)
                 {
                     bool IsCanavs = false;
