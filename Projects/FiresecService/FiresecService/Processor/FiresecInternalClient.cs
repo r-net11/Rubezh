@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Firesec;
 
 namespace FiresecService
@@ -57,29 +56,6 @@ namespace FiresecService
             var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfig.config>(coreConfig);
             DispatcherFiresecClient.SetNewConfig(stringConfig);
         }
-
-        //public static void SaveConfigToFile(Firesec.CoreConfig.config coreConfig, string fileName)
-        //{
-        //    var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfig.config>(coreConfig);
-
-        //    using (var fileStream = new FileStream(fileName, FileMode.Create))
-        //    {
-        //        var streamWriter = new StreamWriter(fileStream);
-        //        streamWriter.Write(stringConfig);
-        //    }
-        //}
-
-        //public static Firesec.CoreConfig.config LoadConfigFromFile(string fileName)
-        //{
-        //    Firesec.CoreConfig.config coreConfig = null;
-        //    using (var fileStream = new FileStream(fileName, FileMode.Open))
-        //    {
-        //        var streamReader = new StreamReader(fileStream);
-        //        coreConfig = SerializerHelper.Deserialize<Firesec.CoreConfig.config>(streamReader.ReadToEnd());
-        //    }
-
-        //    return coreConfig;
-        //}
 
         public static void DeviceWriteConfig(Firesec.CoreConfig.config coreConfig, string DevicePath)
         {

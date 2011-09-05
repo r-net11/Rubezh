@@ -152,7 +152,7 @@ namespace FiresecAPI.Models
                     return "";
                 }
 
-                string localPlaceInTree = (Parent.Children.Count - 1).ToString();
+                string localPlaceInTree = Parent.Children.IndexOf(this).ToString();
                 if (Parent.PlaceInTree == "")
                 {
                     return localPlaceInTree;

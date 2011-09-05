@@ -103,6 +103,7 @@ namespace Firesec.CoreState
     public partial class stateType
     {
         string idField;
+        string timeField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -115,6 +116,20 @@ namespace Firesec.CoreState
             set
             {
                 this.idField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string time
+        {
+            get
+            {
+                return this.timeField;
+            }
+            set
+            {
+                this.timeField = value;
             }
         }
     }

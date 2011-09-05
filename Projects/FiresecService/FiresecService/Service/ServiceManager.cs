@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IdentityModel.Selectors;
-using System.IdentityModel.Tokens;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -32,10 +30,6 @@ namespace FiresecService
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
-            //binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.None;
-            //binding.Security.Mode = SecurityMode.Message;
-            binding.Security.Message.ClientCredentialType = MessageCredentialType.UserName;
-
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             host.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
 
@@ -48,15 +42,6 @@ namespace FiresecService
                 host.Description.Behaviors.Add(behavior);
             }
 
-            ServiceCredentials serviceCred = host.Description.Behaviors.Find<ServiceCredentials>();
-            if (serviceCred == null)
-            {
-                serviceCred = new ServiceCredentials();
-                serviceCred.UserNameAuthentication.UserNamePasswordValidationMode = System.ServiceModel.Security.UserNamePasswordValidationMode.Custom;
-                serviceCred.UserNameAuthentication.CustomUserNamePasswordValidator = new MyCustomUserNameValidator();
-                host.Description.Behaviors.Add(serviceCred);
-            }
-
             host.Open();
         }
 
@@ -64,22 +49,6 @@ namespace FiresecService
         {
             if (host != null)
                 host.Close();
-        }
-    }
-
-    public class MyCustomUserNameValidator : UserNamePasswordValidator
-    {
-        public override void Validate(string userName, string password)
-        {
-            if (null == userName || null == password)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (!(userName == "test1" && password == "1tset") && !(userName == "test2" && password == "2tset"))
-            {
-                throw new SecurityTokenException("Unknown Username or Password");
-            }
         }
     }
 }

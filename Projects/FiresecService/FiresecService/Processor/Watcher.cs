@@ -46,6 +46,7 @@ namespace FiresecService
         }
 
         int LastEventId = 0;
+        List<DeviceState> ChangedDevices;
 
         void SetLastEvent()
         {
@@ -76,13 +77,13 @@ namespace FiresecService
 
         void OnParametersChanged()
         {
+            ChangedDevices = new List<DeviceState>();
+
             var coreParameters = FiresecInternalClient.GetDeviceParams();
             try
             {
                 foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
-                    deviceState.ChangeEntities.Reset();
-
                     var innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
                     if (innerDevice != null)
                     {
@@ -93,19 +94,18 @@ namespace FiresecService
                                 var innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
                                 if (parameter.Value != innerParameter.value)
                                 {
-                                    deviceState.ChangeEntities.ParameterChanged = true;
                                     if (parameter.Visible)
-                                        deviceState.ChangeEntities.VisibleParameterChanged = true;
+                                        ChangedDevices.Add(deviceState);
                                 }
                                 parameter.Value = innerParameter.value;
                             }
                         }
-
-                        if (deviceState.ChangeEntities.ParameterChanged)
-                        {
-                            CallbackManager.OnDeviceParametersChanged(deviceState);
-                        }
                     }
+                }
+
+                foreach (var deviceState in ChangedDevices)
+                {
+                    CallbackManager.OnDeviceParametersChanged(deviceState);
                 }
             }
             catch (Exception) { }
@@ -113,6 +113,8 @@ namespace FiresecService
 
         public void OnStateChanged()
         {
+            ChangedDevices = new List<DeviceState>();
+
             var coreState = FiresecInternalClient.GetCoreState();
             try
             {
@@ -121,13 +123,9 @@ namespace FiresecService
                 CalculateStates();
                 CalculateZones();
 
-                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+                foreach (var deviceState in ChangedDevices)
                 {
-                    if ((deviceState.ChangeEntities.StatesChanged) || (deviceState.ChangeEntities.StateChanged))
-                    {
-                        deviceState.OnStateChanged();
-                        CallbackManager.OnDeviceStateChanged(deviceState);
-                    }
+                    CallbackManager.OnDeviceStateChanged(deviceState);
                 }
             }
             catch (Exception) { }
@@ -165,7 +163,10 @@ namespace FiresecService
                     }
                 }
 
-                deviceState.ChangeEntities.StatesChanged = hasOneChangedState;
+                if (hasOneChangedState)
+                {
+                    ChangedDevices.Add(deviceState);
+                }
             }
         }
 
@@ -191,7 +192,7 @@ namespace FiresecService
                                 parentDeviceState.Code = state.Code;
                                 parentDeviceState.DriverState = state.DriverState;
                                 chilDevice.ParentStates.Add(parentDeviceState);
-                                chilDevice.ChangeEntities.StatesChanged = true;
+                                ChangedDevices.Add(chilDevice);
                             }
                         }
                     }
@@ -221,7 +222,10 @@ namespace FiresecService
                     }
                 }
 
-                deviceState.ChangeEntities.StateChanged = (deviceState.StateType != minStateClassId);
+                if (deviceState.StateType != minStateClassId)
+                {
+                    ChangedDevices.Add(deviceState);
+                }
             }
         }
 

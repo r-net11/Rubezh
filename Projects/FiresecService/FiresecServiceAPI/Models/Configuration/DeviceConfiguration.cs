@@ -8,6 +8,7 @@ namespace FiresecAPI.Models
     {
         public DeviceConfiguration()
         {
+            Devices = new List<Device>();
             Zones = new List<Zone>();
             Directions = new List<Direction>();
             GuardUsers = new List<GuardUser>();

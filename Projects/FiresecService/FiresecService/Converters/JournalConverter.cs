@@ -5,7 +5,6 @@ using FiresecService.DatabaseConverter;
 
 namespace FiresecService.Converters
 {
-    //Refactored by Badaev Andrei. See how it was in file history
     public static class JournalConverter
     {
         public static JournalRecord ConvertToJournalRecord(journalType innerJournalRecord)

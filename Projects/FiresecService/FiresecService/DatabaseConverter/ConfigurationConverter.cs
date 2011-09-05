@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
+﻿using FiresecService.Converters;
 
 namespace FiresecService
 {
@@ -8,25 +6,14 @@ namespace FiresecService
     {
         public static void Convert()
         {
-            JournalDataConverter.Convert();
-        }
+            FiresecManager.ConveretCoreConfigurationFromFiresec();
+            ConfigurationFileManager.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+            ConfigurationFileManager.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
 
-        static void ConvertDevices()
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            using (var fileStream = new FileStream("DeviceConfiguration.xml", FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
-            }
-        }
+            var plans = FiresecInternalClient.GetPlans();
+            var plansConfiguration = PlansConverter.Convert(plans);
 
-        static void ConvertPlans()
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-            using (var fileStream = new FileStream("PlansConfiguration.xml", FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, FiresecManager.PlansConfiguration);
-            }
+            ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
         }
     }
 }

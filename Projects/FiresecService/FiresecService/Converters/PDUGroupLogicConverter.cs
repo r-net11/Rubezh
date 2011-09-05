@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common;
 using FiresecAPI.Models;
 using FiresecService.XSD;
-using Common;
 
 namespace FiresecService.Converters
 {

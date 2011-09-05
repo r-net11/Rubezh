@@ -10,13 +10,13 @@ namespace FiresecAPI.Models
     {
         public DeviceState()
         {
-            ParentStates = new List<ParentDeviceState>();
             States = new List<DeviceDriverState>();
+            ParentStates = new List<ParentDeviceState>();
+            Parameters = new List<Parameter>();
         }
 
         public Device Device { get; set; }
         public string PlaceInTree { get; set; }
-        public ChangeEntities ChangeEntities { get; set; }
 
         [DataMember]
         public Guid UID { get; set; }

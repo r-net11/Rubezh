@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DeviceStatesConverter.cs" />
     <Compile Include="Converters\GuardUserConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
     <Compile Include="Converters\PlansConverter.cs" />
@@ -73,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecService.cs" />
@@ -121,7 +123,6 @@
     <Compile Include="Converters\DriverConverter.cs" />
     <Compile Include="Converters\JournalConverter.cs" />
     <Compile Include="Converters\SecurityConverter.cs" />
-    <Compile Include="Converters\Validator.cs" />
     <Compile Include="Converters\ZoneConverter.cs" />
     <Compile Include="Converters\ZoneLogicConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -90,7 +90,9 @@ namespace FiresecClient
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
+                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
+
+                //continue;
 
                 foreach (var state in deviceState.States)
                 {

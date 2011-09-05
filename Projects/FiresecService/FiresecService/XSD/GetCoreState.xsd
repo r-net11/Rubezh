@@ -3,6 +3,7 @@
 
   <xs:complexType name="stateType">
     <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="time" type="xs:string" />
   </xs:complexType>
 
   <xs:complexType name="devType">

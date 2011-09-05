@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
-using System;
 using Common;
 using Firesec.CoreConfig;
+using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
@@ -16,14 +16,12 @@ namespace FiresecService.Converters
             _firesecConfig = firesecConfig;
 
             FiresecManager.DeviceConfiguration.Devices = new List<Device>();
-            FiresecManager.DeviceConfigurationStates.DeviceStates = new List<DeviceState>();
 
             var rootInnerDevice = FiresecManager.CoreConfig.dev[0];
             var rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
             FiresecManager.DeviceConfiguration.Devices.Add(rootDevice);
-            FiresecManager.DeviceConfigurationStates.DeviceStates.Add(CreateDeviceState(rootDevice));
             AddDevice(rootInnerDevice, rootDevice);
 
             FiresecManager.DeviceConfiguration.RootDevice = rootDevice;
@@ -44,40 +42,9 @@ namespace FiresecService.Converters
                     parentDevice.Children.Add(device);
                     SetInnerDevice(device, innerDevice);
                     FiresecManager.DeviceConfiguration.Devices.Add(device);
-                    FiresecManager.DeviceConfigurationStates.DeviceStates.Add(CreateDeviceState(device));
                     AddDevice(innerDevice, device);
                 }
             }
-        }
-
-        static DeviceState CreateDeviceState(Device device)
-        {
-            var deviceState = new DeviceState()
-            {
-                ChangeEntities = new ChangeEntities(),
-                UID = device.UID,
-                Id = device.Id,
-                PlaceInTree = device.PlaceInTree,
-                Device = device
-            };
-
-            deviceState.States = new List<DeviceDriverState>();
-            foreach (var driverState in device.Driver.States)
-            {
-                deviceState.States.Add(new DeviceDriverState()
-                {
-                    DriverState = driverState,
-                    Code = driverState.Code
-                });
-            }
-
-            deviceState.Parameters = new List<Parameter>();
-            foreach (var parameter in device.Driver.Parameters)
-            {
-                deviceState.Parameters.Add(parameter.Copy());
-            }
-
-            return deviceState;
         }
 
         static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)

@@ -21,7 +21,11 @@ namespace FiresecService
             bool result = FiresecInternalClient.Connect(login, password);
             if (result)
             {
-                ConveretCoreConfigurationFromFiresec();
+                ConvertMetadataFromFiresec();
+                DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+                Update();
+                DeviceStatesConverter.Convert();
+
                 var watcher = new Watcher();
                 watcher.Start();
             }
@@ -34,7 +38,6 @@ namespace FiresecService
             DeviceConfiguration = new DeviceConfiguration();
             ConvertMetadataFromFiresec();
             Convert();
-            DeviceConfiguration.Update();
         }
 
         static void ConvertMetadataFromFiresec()
@@ -88,24 +91,5 @@ namespace FiresecService
             GuardUserConverter.ConvertBack(DeviceConfiguration);
             SecurityConverter.ConvertBack(SecurityConfiguration);
         }
-
-        //public static void LoadFromFile(string fileName)
-        //{
-        //    CoreConfig = FiresecInternalClient.LoadConfigFromFile(fileName);
-        //    FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
-        //    ZoneConverter.Convert(CoreConfig);
-        //    DirectionConverter.Convert(CoreConfig);
-        //    GuardUserConverter.Convert(CoreConfig);
-        //    DeviceConverter.Convert(CoreConfig);
-        //}
-
-        //public static void SaveToFile(string fileName)
-        //{
-        //    ZoneConverter.ConvertBack(DeviceConfiguration);
-        //    DeviceConverter.ConvertBack(DeviceConfiguration);
-        //    DirectionConverter.ConvertBack(DeviceConfiguration);
-        //    GuardUserConverter.ConvertBack(DeviceConfiguration);
-        //    FiresecInternalClient.SaveConfigToFile(CoreConfig, fileName);
-        //}
     }
 }

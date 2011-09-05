@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
@@ -18,18 +17,9 @@ namespace FiresecService
     public class FiresecService : IFiresecService, IDisposable
     {
         readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
-        readonly static string SystemConfigurationFileName = "SystemConfiguration.xml";
-        readonly static string DeviceLibraryConfigurationFileName = "DeviceLibrary.xml";
-        readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
-        readonly static string DeviceConfigurationFileName = "DeviceConfiguration.xml";
 
         IFiresecCallback _currentCallback;
         string _userName;
-
-        string ConfigurationDirectory(string FileNameOrDirectory)
-        {
-            return Path.Combine(Directory.GetCurrentDirectory(), "Configuration", FileNameOrDirectory);
-        }
 
         public bool Connect(string userName, string passwordHash)
         {
@@ -68,21 +58,7 @@ namespace FiresecService
 
         public DeviceConfiguration GetDeviceConfiguration()
         {
-            FiresecManager.DeviceConfiguration = new DeviceConfiguration();
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-                using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
-                {
-                    FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
-                }
-
-                return FiresecManager.DeviceConfiguration;
-            }
-            catch
-            {
-                return FiresecManager.DeviceConfiguration;
-            }
+            return ConfigurationFileManager.GetDeviceConfiguration();
         }
 
         public DeviceConfigurationStates GetStates()
@@ -92,12 +68,7 @@ namespace FiresecService
 
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
-            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, deviceConfiguration);
-            }
-
+            ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
             FiresecManager.DeviceConfiguration = deviceConfiguration;
             //FiresecManager.SetNewConfig();
         }
@@ -110,100 +81,45 @@ namespace FiresecService
 
         public SecurityConfiguration GetSecurityConfiguration()
         {
-            return FiresecManager.SecurityConfiguration;
+            return ConfigurationFileManager.GetSecurityConfiguration();
         }
 
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
+            ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
             FiresecManager.SecurityConfiguration = securityConfiguration;
         }
 
         public SystemConfiguration GetSystemConfiguration()
         {
-            FiresecManager.SystemConfiguration = new SystemConfiguration();
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
-                {
-                    FiresecManager.SystemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
-                }
-
-                return FiresecManager.SystemConfiguration;
-            }
-            catch
-            {
-                return FiresecManager.SystemConfiguration;
-            }
-        }
-
-        public LibraryConfiguration GetLibraryConfiguration()
-        {
-            FiresecManager.LibraryConfiguration = new LibraryConfiguration();
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-                using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
-                {
-                    FiresecManager.LibraryConfiguration = (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
-                }
-
-                return FiresecManager.LibraryConfiguration;
-            }
-            catch
-            {
-                return FiresecManager.LibraryConfiguration;
-            }
-        }
-
-        public PlansConfiguration GetPlansConfiguration()
-        {
-            FiresecManager.PlansConfiguration = new PlansConfiguration();
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-                using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
-                {
-                    FiresecManager.PlansConfiguration = (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
-                }
-
-                return FiresecManager.PlansConfiguration;
-            }
-            catch
-            {
-                return FiresecManager.PlansConfiguration;
-            }
+            return ConfigurationFileManager.GetSystemConfiguration();
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
-            var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-            using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, systemConfiguration);
-            }
-
+            ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
             FiresecManager.SystemConfiguration = systemConfiguration;
+        }
+
+        public LibraryConfiguration GetLibraryConfiguration()
+        {
+            return ConfigurationFileManager.GetLibraryConfiguration();
         }
 
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
-            var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-            using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, libraryConfiguration);
-            }
-
+            ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
             FiresecManager.LibraryConfiguration = libraryConfiguration;
+        }
+
+        public PlansConfiguration GetPlansConfiguration()
+        {
+            return ConfigurationFileManager.GetPlansConfiguration();
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
-            var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-            using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, plansConfiguration);
-            }
+            ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
         }
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)
@@ -292,7 +208,7 @@ namespace FiresecService
 
         public Stream GetFile(string directoryNameAndFileName)
         {
-            var filePath = ConfigurationDirectory(directoryNameAndFileName);
+            var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 
