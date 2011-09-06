@@ -211,7 +211,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
         }
 
         public bool CanShowZone()
@@ -243,7 +243,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
         }
     }
 }

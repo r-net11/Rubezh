@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -60,11 +61,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public void Select(string id)
+        public void Select(Guid deviceUID)
         {
             FillAllDevices();
 
-            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Id == id);
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
             {
                 deviceViewModel.ExpantToThis();
@@ -186,7 +187,7 @@ namespace DevicesModule.ViewModels
 
             if (_deviceToCopy != null)
             {
-                if (SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.Id))
+                if (SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID))
                 {
                     return true;
                 }

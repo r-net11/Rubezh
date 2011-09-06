@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Firesec.CoreConfig;
+using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
     public static class GuardUserConverter
     {
-        public static void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(config firesecConfig)
         {
             FiresecManager.DeviceConfiguration.GuardUsers = new List<GuardUser>();
 
@@ -85,12 +85,12 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration currentConfiguration)
         {
-            var innerGuardUsers = new List<Firesec.CoreConfig.partType>();
+            var innerGuardUsers = new List<partType>();
             int no = 0;
 
             foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
             {
-                var innerGuardUser = new Firesec.CoreConfig.partType()
+                var innerGuardUser = new partType()
                 {
                     type = "guarduser",
                     no = no.ToString(),
@@ -100,10 +100,10 @@ namespace FiresecService.Converters
                 };
                 ++no;
 
-                var zones = new List<Firesec.CoreConfig.partTypePinZ>();
+                var zones = new List<partTypePinZ>();
                 foreach (var zone in guardUser.Zones)
                 {
-                    zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone });
+                    zones.Add(new partTypePinZ() { pidz = zone });
                 }
                 innerGuardUser.PinZ = zones.ToArray();
 

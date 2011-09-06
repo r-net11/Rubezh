@@ -50,7 +50,7 @@ namespace AlarmModule.ViewModels
         {
             get
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
                 return device.Driver.ShortName + " - " + device.PresentationAddress;
             }
         }
@@ -59,7 +59,7 @@ namespace AlarmModule.ViewModels
         {
             get
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
                 var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                 return zone.No + "." + zone.Name;
             }
@@ -99,13 +99,13 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_alarm.DeviceId);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_alarm.DeviceUID);
         }
 
         public RelayCommand ShowDeviceCommand { get; private set; }
         void OnShowDevice()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_alarm.DeviceId);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_alarm.DeviceUID);
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -124,7 +124,7 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowInstructionCommand { get; private set; }
         void OnShowInstruction()
         {
-            InstructionViewModel instructionViewModel = new InstructionViewModel(_alarm.DeviceId, _alarm.AlarmType);
+            InstructionViewModel instructionViewModel = new InstructionViewModel(_alarm.DeviceUID, _alarm.AlarmType);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
             if (result)
             {
@@ -166,9 +166,9 @@ namespace AlarmModule.ViewModels
 
         public ResetItem GetResetItem()
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _alarm.DeviceId);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
             var parentDevice = device.Parent;
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
             var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
 
             var resetItem = new ResetItem();
@@ -177,7 +177,7 @@ namespace AlarmModule.ViewModels
                 _alarm.AlarmType == AlarmType.Attention ||
                 _alarm.AlarmType == AlarmType.Info)
             {
-                resetItem.DeviceId = parentDeviceState.Id;
+                resetItem.DeviceUID = parentDeviceState.UID;
 
                 foreach (var state in parentDeviceState.States)
                 {
@@ -191,7 +191,7 @@ namespace AlarmModule.ViewModels
             }
             if (_alarm.AlarmType == AlarmType.Auto)
             {
-                resetItem.DeviceId = device.Id;
+                resetItem.DeviceUID = device.UID;
 
                 foreach (var state in deviceState.States)
                 {

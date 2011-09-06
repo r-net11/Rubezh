@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System;
 
 namespace FiresecClient
 {
@@ -28,11 +29,11 @@ namespace FiresecClient
             {
                 if (deviceState.IsDisabled)
                 {
-                    FiresecManager.RemoveFromIgnoreList(new List<string>() { deviceState.Device.Id });
+                    FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
                 }
                 else
                 {
-                    FiresecManager.AddToIgnoreList(new List<string>() { deviceState.Device.Id });
+                    FiresecManager.AddToIgnoreList(new List<Guid>() { deviceState.Device.UID });
                 }
             }
         }

@@ -10,11 +10,11 @@ namespace FiresecService.Converters
     {
         public static Firesec.Metadata.config Metadata;
 
-        public static Driver Convert(configDrv innerDriver)
+        public static Driver Convert(drvType innerDriver)
         {
             var driver = new Driver()
             {
-                Id = innerDriver.id,
+                UID = new Guid(innerDriver.id),
                 Name = innerDriver.name,
                 ShortName = innerDriver.shortName,
                 HasAddress = innerDriver.ar_no_addr != "1",
@@ -152,7 +152,7 @@ namespace FiresecService.Converters
                 driver.DriverName = driverData.Name;
             }
 
-            var AllChildren = new List<configDrv>();
+            var AllChildren = new List<drvType>();
             foreach (var childDriver in Metadata.drv)
             {
                 var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
@@ -165,24 +165,24 @@ namespace FiresecService.Converters
                 }
             }
 
-            driver.Children = new List<string>(
-                from configDrv childInnerDriver in AllChildren
+            driver.Children = new List<Guid>(
+                from drvType childInnerDriver in AllChildren
                 where (DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id).IgnoreLevel == 0)
-                select childInnerDriver.id);
+                select new Guid(childInnerDriver.id));
 
-            driver.AvaliableChildren = new List<string>(
-                from configDrv childInnerDriver in AllChildren
+            driver.AvaliableChildren = new List<Guid>(
+                from drvType childInnerDriver in AllChildren
                 where childInnerDriver.acr_enabled != "1"
-                select childInnerDriver.id);
+                select new Guid(childInnerDriver.id));
 
             if (driver.DisableAutoCreateChildren)
-                driver.AutoCreateChildren = new List<string>();
+                driver.AutoCreateChildren = new List<Guid>();
             else
             {
-                driver.AutoCreateChildren = new List<string>(
-                from configDrv childInnerDriver in AllChildren
+                driver.AutoCreateChildren = new List<Guid>(
+                from drvType childInnerDriver in AllChildren
                 where childInnerDriver.acr_enabled == "1"
-                select childInnerDriver.id);
+                select new Guid(childInnerDriver.id));
             }
 
             driver.CanAddChildren = driver.AvaliableChildren.Count > 0;

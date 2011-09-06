@@ -14,7 +14,7 @@ namespace FiresecService
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
-        public static Firesec.CoreConfig.config CoreConfig { get; set; }
+        public static Firesec.CoreConfiguration.config CoreConfig { get; set; }
 
         public static bool Connect(string login, string password)
         {
@@ -62,7 +62,7 @@ namespace FiresecService
 
             foreach (var device in DeviceConfiguration.Devices)
             {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.DriverId);
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
             }
         }
 
@@ -89,7 +89,7 @@ namespace FiresecService
             DeviceConverter.ConvertBack(DeviceConfiguration);
             DirectionConverter.ConvertBack(DeviceConfiguration);
             GuardUserConverter.ConvertBack(DeviceConfiguration);
-            SecurityConverter.ConvertBack(SecurityConfiguration);
+            //SecurityConverter.ConvertBack(SecurityConfiguration);
         }
     }
 }

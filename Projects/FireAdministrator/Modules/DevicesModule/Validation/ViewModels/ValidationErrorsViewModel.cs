@@ -17,17 +17,25 @@ namespace DevicesModule.ViewModels
             {
                 var errors = new List<ValidationErrorViewModel>();
 
-                Validator.Validate();
+                DevicesValidator.Validate();
 
-                foreach (var deviceValidationError in Validator.DeviceErrors)
+                foreach (var deviceValidationError in DevicesValidator.DeviceErrors)
                 {
                     var validationErrorViewModel = new ValidationErrorViewModel(deviceValidationError);
                     errors.Add(validationErrorViewModel);
                 }
 
-                foreach (var zoneValidationError in Validator.ZoneErrors)
+                foreach (var zoneValidationError in DevicesValidator.ZoneErrors)
                 {
                     var validationErrorViewModel = new ValidationErrorViewModel(zoneValidationError);
+                    errors.Add(validationErrorViewModel);
+                }
+
+                InstructionValidator.Validate();
+
+                foreach (var instructionError in InstructionValidator.InstructionErrors)
+                {
+                    var validationErrorViewModel = new ValidationErrorViewModel(instructionError);
                     errors.Add(validationErrorViewModel);
                 }
 

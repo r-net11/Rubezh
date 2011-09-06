@@ -6,6 +6,7 @@ using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System;
 
 namespace InstructionsModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace InstructionsModule.ViewModels
         {
             InstructionDevices = new ObservableCollection<DeviceViewModel>();
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
-            InstructionDevicesList = new List<string>();
+            InstructionDevicesList = new List<Guid>();
 
             AddDeviceCommand = new RelayCommand(OnAddDevice, CanAddAvailableDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
@@ -23,15 +24,15 @@ namespace InstructionsModule.ViewModels
             RemoveAllDeviceCommand = new RelayCommand(OnRemoveAllDevice, CanRemoveAllDevice);
         }
 
-        public void Inicialize(List<string> instructionDevicesList)
+        public void Inicialize(List<Guid> instructionDevicesList)
         {
             if (instructionDevicesList.IsNotNullOrEmpty())
             {
-                InstructionDevicesList = new List<string>(instructionDevicesList);
+                InstructionDevicesList = new List<Guid>(instructionDevicesList);
             }
             else
             {
-                InstructionDevicesList = new List<string>();
+                InstructionDevicesList = new List<Guid>();
             }
 
             UpdateDevices();
@@ -46,7 +47,7 @@ namespace InstructionsModule.ViewModels
             {
                 if (device.Driver.IsZoneDevice)
                 {
-                    if (InstructionDevicesList.Contains(device.Id))
+                    if (InstructionDevicesList.Contains(device.UID))
                     {
                         device.AllParents.ForEach(x => { instructionDevices.Add(x); });
                         instructionDevices.Add(device);
@@ -64,7 +65,7 @@ namespace InstructionsModule.ViewModels
                     {
                         foreach (var clause in device.ZoneLogic.Clauses)
                         {
-                            if (InstructionDevicesList.Contains(device.Id))
+                            if (InstructionDevicesList.Contains(device.UID))
                             {
                                 device.AllParents.ForEach(x => { instructionDevices.Add(x); });
                                 instructionDevices.Add(device);
@@ -151,7 +152,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public List<string> InstructionDevicesList { get; set; }
+        public List<Guid> InstructionDevicesList { get; set; }
         public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
         public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
 
@@ -204,7 +205,7 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddDeviceCommand { get; private set; }
         void OnAddDevice()
         {
-            InstructionDevicesList.Add(SelectedAvailableDevice.Id);
+            InstructionDevicesList.Add(SelectedAvailableDevice.UID);
             UpdateDevices();
         }
 
@@ -216,11 +217,11 @@ namespace InstructionsModule.ViewModels
             {
                 return;
             }
-            foreach (var availableDevices in FiresecManager.DeviceConfiguration.Devices)
+            foreach (var availableDevice in FiresecManager.DeviceConfiguration.Devices)
             {
-                if ((availableDevices.Driver.IsZoneDevice) || (availableDevices.Driver.IsZoneLogicDevice))
+                if ((availableDevice.Driver.IsZoneDevice) || (availableDevice.Driver.IsZoneLogicDevice))
                 {
-                    InstructionDevicesList.Add(availableDevices.Id);
+                    InstructionDevicesList.Add(availableDevice.UID);
                 }
             }
             UpdateDevices();
@@ -236,7 +237,7 @@ namespace InstructionsModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            InstructionDevicesList.Remove(SelectedInstructionDevice.Id);
+            InstructionDevicesList.Remove(SelectedInstructionDevice.UID);
             UpdateDevices();
         }
     }

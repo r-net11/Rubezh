@@ -22,11 +22,11 @@ namespace FireMonitor
             SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
             SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
-            OnDeviceStateChangedEvent(null);
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
+            OnDeviceStateChangedEvent(Guid.Empty);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
         }
 
-        void OnDeviceStateChangedEvent(string obj)
+        void OnDeviceStateChangedEvent(Guid deviceUID)
         {
             IsDeviceConnected = FiresecManager.DeviceStates.DeviceStates.Any(x => x.StateType == StateType.Unknown) == false;
         }

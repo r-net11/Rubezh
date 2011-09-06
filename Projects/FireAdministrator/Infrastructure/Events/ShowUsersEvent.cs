@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class DeviceParametersChangedEvent : CompositePresentationEvent<string>
+    public class ShowUsersEvent : CompositePresentationEvent<string>
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Common;
-using Firesec.Indicator;
+using Firesec.IndicatorsLogic;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters

@@ -12,9 +12,9 @@ namespace AlarmModule
     {
         public AlarmWatcher()
         {
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
-            DeviceState.AlarmAdded += new Action<AlarmType, string>(DeviceState_AlarmAdded);
-            DeviceState.AlarmRemoved += new Action<AlarmType, string>(DeviceState_AlarmRemoved);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+            DeviceState.AlarmAdded += new Action<AlarmType, Guid>(DeviceState_AlarmAdded);
+            DeviceState.AlarmRemoved += new Action<AlarmType, Guid>(DeviceState_AlarmRemoved);
             Update();
         }
 
@@ -36,17 +36,17 @@ namespace AlarmModule
             }
         }
 
-        void DeviceState_AlarmAdded(AlarmType alarmType, string id)
+        void DeviceState_AlarmAdded(AlarmType alarmType, Guid deviceUID)
         {
             //Microsoft.Performance : 'AlarmWatcher.DeviceState_AlarmAdded(AlarmType, string)' объявляет переменную 'deviceState' типа 'DeviceState',
             //которая никогда не используется или которой только присваивается значение. Используйте эту переменную, или удалите ее.
 
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             var alarm = new Alarm()
             {
                 AlarmType = alarmType,
-                DeviceId = id,
+                DeviceUID = deviceUID,
                 Name = EnumsConverter.AlarmToString(alarmType) + ". Устройство " + device.Driver.Name + " - " + device.PresentationAddress,
                 Time = DateTime.Now.ToString()
             };
@@ -54,21 +54,21 @@ namespace AlarmModule
 
             if (alarmType == AlarmType.Fire)
             {
-                ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(id);
+                ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(deviceUID);
             }
         }
 
-        void DeviceState_AlarmRemoved(AlarmType alarmType, string id)
+        void DeviceState_AlarmRemoved(AlarmType alarmType, Guid deviceUID)
         {
             var alarm = new Alarm()
             {
                 AlarmType = alarmType,
-                DeviceId = id
+                DeviceUID = deviceUID
             };
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
         }
 
-        void OnDeviceStateChangedEvent(string obj)
+        void OnDeviceStateChangedEvent(Guid deviceUID)
         {
             Update();
         }

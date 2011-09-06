@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -28,6 +29,6 @@ namespace FiresecAPI.Models
         public List<string> InstructionZonesList { get; set; }
 
         [DataMember]
-        public List<string> InstructionDevicesList { get; set; }
+        public List<Guid> InstructionDevicesList { get; set; }
     }
 }

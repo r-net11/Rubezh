@@ -2,9 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:DevicesModule.Views"
                     xmlns:ViewModels="clr-namespace:DevicesModule.ViewModels">
+    
+    <DataTemplate DataType="{x:Type ViewModels:GuardUsersViewModel}">
+        <Views:GuardUsersView />
+    </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
-        <Views:GuardView />
+    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsViewModel}">
+        <Views:GuardLevelsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesViewModel}">
+        <Views:GuardDevicesView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:GuardUserDetailsViewModel}">

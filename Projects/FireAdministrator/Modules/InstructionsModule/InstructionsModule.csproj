@@ -71,11 +71,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
-    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
-    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
-      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
     <Compile Include="ViewModels\InstructionDevicesViewModel.cs" />
     <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
@@ -142,14 +137,6 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Validation\DataTemplate\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Validation\Views\ValidationErrorsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InstructionDetailsView.xaml">
       <SubType>Designer</SubType>

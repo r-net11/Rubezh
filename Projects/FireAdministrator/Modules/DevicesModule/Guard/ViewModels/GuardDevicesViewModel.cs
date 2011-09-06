@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardDevicesViewModel : BaseViewModel
+    public class GuardDevicesViewModel : RegionViewModel
     {
         public void Initialize()
         {

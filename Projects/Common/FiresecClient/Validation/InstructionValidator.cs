@@ -12,6 +12,8 @@ namespace FiresecClient.Validation
 
         public static void Validate()
         {
+            InstructionErrors = new List<InstructionError>();
+
             foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
             {
                 if (FiresecManager.SystemConfiguration.Instructions.Count(x => x.No == instruction.No) > 1)

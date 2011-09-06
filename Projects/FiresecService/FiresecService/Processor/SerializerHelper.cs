@@ -1,17 +1,19 @@
 ﻿using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using FiresecService.XSD;
+using Firesec.IndicatorsLogic;
+using Firesec.ZonesLogic;
+using Firesec.Groups;
 
 namespace FiresecService
 {
     public static class SerializerHelper
     {
-        public static Firesec.ZoneLogic.expr GetZoneLogic(string zoneLogicString)
+        public static expr GetZoneLogic(string zoneLogicString)
         {
             try
             {
-                return Deserialize<Firesec.ZoneLogic.expr>(zoneLogicString);
+                return Deserialize<expr>(zoneLogicString);
             }
             catch
             {
@@ -19,16 +21,16 @@ namespace FiresecService
             }
         }
 
-        public static string SetZoneLogic(Firesec.ZoneLogic.expr zoneLogic)
+        public static string SetZoneLogic(expr zoneLogic)
         {
-            return Serialize<Firesec.ZoneLogic.expr>(zoneLogic);
+            return Serialize<expr>(zoneLogic);
         }
 
-        public static Firesec.Indicator.LEDProperties GetIndicatorLogic(string indicatorLogicString)
+        public static LEDProperties GetIndicatorLogic(string indicatorLogicString)
         {
             try
             {
-                return Deserialize<Firesec.Indicator.LEDProperties>(indicatorLogicString);
+                return Deserialize<LEDProperties>(indicatorLogicString);
             }
             catch
             {
@@ -36,9 +38,9 @@ namespace FiresecService
             }
         }
 
-        public static string SetIndicatorLogic(Firesec.Indicator.LEDProperties indicatorLogic)
+        public static string SetIndicatorLogic(LEDProperties indicatorLogic)
         {
-            return Serialize<Firesec.Indicator.LEDProperties>(indicatorLogic);
+            return Serialize<LEDProperties>(indicatorLogic);
         }
 
         public static RCGroupProperties GetGroupProperties(string groupPropertyString)

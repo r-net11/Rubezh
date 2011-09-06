@@ -10,6 +10,7 @@ namespace DevicesModule.ViewModels
         ErrorEntityType _errorEntityType;
         ZoneError _zoneError;
         DeviceError _deviceError;
+        InstructionError _instructionError;
 
         public ValidationErrorViewModel(DeviceError deviceError)
         {
@@ -29,6 +30,15 @@ namespace DevicesModule.ViewModels
             Error = zoneError.Error;
         }
 
+        public ValidationErrorViewModel(InstructionError instructionError)
+        {
+            _errorEntityType = ErrorEntityType.Instruction;
+            _instructionError = instructionError;
+            Source = "Инструкция";
+            Address = instructionError.Instruction.No;
+            Error = instructionError.Error;
+        }
+
         public string Source { get; set; }
         public string Address { get; set; }
         public string Error { get; set; }
@@ -38,11 +48,15 @@ namespace DevicesModule.ViewModels
             switch (_errorEntityType)
             {
                 case ErrorEntityType.Device:
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_deviceError.Device.Id);
+                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_deviceError.Device.UID);
                     break;
 
                 case ErrorEntityType.Zone:
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zoneError.Zone.No);
+                    break;
+
+                case ErrorEntityType.Instruction:
+                    ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Publish(_instructionError.Instruction.No);
                     break;
             }
         }

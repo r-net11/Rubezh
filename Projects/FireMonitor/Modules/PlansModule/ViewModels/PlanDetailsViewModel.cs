@@ -225,9 +225,9 @@ namespace PlansModule.ViewModels
             SelectedZone = null;
         }
 
-        public void SelectDevice(string id)
+        public void SelectDevice(Guid deviceUID)
         {
-            SelectedDevice = Devices.FirstOrDefault(x => x.DeviceId == id);
+            SelectedDevice = Devices.FirstOrDefault(x => x.DeviceId == deviceUID);
         }
 
         public void SelectZone(string zoneNo)

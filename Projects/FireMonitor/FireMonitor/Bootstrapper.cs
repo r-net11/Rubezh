@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
 using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireMonitor
@@ -50,8 +48,6 @@ namespace FireMonitor
                 return;
             }
 
-            SubscribeEvents();
-
             InitializeKnownModules();
             
             App.Current.MainWindow = (Window) this.Shell;
@@ -86,28 +82,6 @@ namespace FireMonitor
             var callModule = new CallModule.CallModule();
             callModule.Initialize();
 
-        }
-
-        void SubscribeEvents()
-        {
-            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChangedEvent;
-            FiresecEventSubscriber.DeviceParametersChangedEvent += new Action<string>(OnDeviceParametersChangedEvent);
-            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
-        }
-
-        void OnDeviceStateChangedEvent(string obj)
-        {
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(obj);
-        }
-
-        void OnDeviceParametersChangedEvent(string obj)
-        {
-            ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(obj);
-        }
-
-        void OnZoneStateChangedEvent(string obj)
-        {
-            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(obj);
         }
     }
 }

@@ -3,10 +3,28 @@
                     xmlns:Views="clr-namespace:SecurityModule.Views"
                     xmlns:ViewModels="clr-namespace:SecurityModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:SecurityViewModel}">
-        <Views:SecurityView />
+    <DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
+        <Views:UsersView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:NewUserViewModel}">
-        <Views:NewUserView />
+
+    <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
+        <Views:UserDetailsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
+        <Views:UsersMenuView />
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type ViewModels:GroupsViewModel}">
+        <Views:GroupsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GroupDetailsViewModel}">
+        <Views:GroupDetailsView />
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type ViewModels:GroupsMenuViewModel}">
+        <Views:GroupsMenuView />
+    </DataTemplate>
+    
 </ResourceDictionary>

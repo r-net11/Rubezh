@@ -7,17 +7,17 @@ namespace SecurityModule.ViewModels
     {
         public GroupViewModel(UserGroup group)
         {
-            Name = group.Name;
+            Group = group;
         }
 
-        string _name;
-        public string Name
+        UserGroup _group;
+        public UserGroup Group
         {
-            get { return _name; }
+            get { return _group; }
             set
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                _group = value;
+                OnPropertyChanged("Group");
             }
         }
     }

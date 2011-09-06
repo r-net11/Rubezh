@@ -153,24 +153,24 @@ namespace FiresecService
                 Select(x => JournalConverter.DataBaseJournalToJournalRecord(x));
         }
 
-        public void AddToIgnoreList(List<string> deviceIds)
+        public void AddToIgnoreList(List<Guid> deviceGuids)
         {
             var devicePaths = new List<string>();
-            foreach (var id in deviceIds)
+            foreach (var guid in deviceGuids)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
                 devicePaths.Add(device.PlaceInTree);
             }
 
             FiresecInternalClient.AddToIgnoreList(devicePaths);
         }
 
-        public void RemoveFromIgnoreList(List<string> deviceIds)
+        public void RemoveFromIgnoreList(List<Guid> deviceGuids)
         {
             var devicePaths = new List<string>();
-            foreach (var id in deviceIds)
+            foreach (var guid in deviceGuids)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == id);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
                 devicePaths.Add(device.PlaceInTree);
             }
 
@@ -187,9 +187,9 @@ namespace FiresecService
             FiresecInternalClient.AddUserMessage(message);
         }
 
-        public void ExecuteCommand(string deviceId, string methodName)
+        public void ExecuteCommand(Guid deviceUID, string methodName)
         {
-            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
+            var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             if (device != null)
             {
                 FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);

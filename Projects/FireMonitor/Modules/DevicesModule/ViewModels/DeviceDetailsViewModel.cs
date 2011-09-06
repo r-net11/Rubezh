@@ -9,9 +9,9 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceDetailsViewModel : DialogContent
     {
-        public DeviceDetailsViewModel(string deviceId)
+        public DeviceDetailsViewModel(Guid deviceUID)
         {
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
+            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
             deviceState.StateChanged += new Action(deviceState_StateChanged);
             DeviceControlViewModel = new DeviceControlViewModel(_device);
@@ -45,7 +45,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 _deviceControl = new DeviceControls.DeviceControl();
-                _deviceControl.DriverId = _device.Driver.Id;
+                _deviceControl.DriverId = _device.Driver.UID;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 _deviceControl.StateType = deviceState.StateType;

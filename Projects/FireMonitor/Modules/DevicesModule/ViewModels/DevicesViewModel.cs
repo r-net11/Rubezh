@@ -14,7 +14,7 @@ namespace DevicesModule.ViewModels
     {
         public DevicesViewModel()
         {
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
         }
         
         public void Initialize()
@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
                 SelectedDevice = Devices[0];
             }
 
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -78,18 +78,18 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnDeviceStateChanged(string id)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
-            var deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            var deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
             {
                 deviceViewModel.Update();
             }
         }
 
-        void OnDeviceStateChangedEvent(string id)
+        void OnDeviceStateChangedEvent(Guid deviceUID)
         {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
             {
                 deviceViewModel.UpdateParameters();
@@ -127,9 +127,9 @@ namespace DevicesModule.ViewModels
 
         public List<DeviceViewModel> AllDevices;
 
-        public void Select(string id)
+        public void Select(Guid deviceUID)
         {
-            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.Id == id);
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
             {
                 deviceViewModel.ExpantToThis();

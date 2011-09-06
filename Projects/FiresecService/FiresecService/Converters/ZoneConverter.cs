@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Firesec.CoreConfiguration;
 
 namespace FiresecService.Converters
 {
     public static class ZoneConverter
     {
-        public static void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(config firesecConfig)
         {
             FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
             FiresecManager.DeviceConfigurationStates.ZoneStates = new List<ZoneState>();
@@ -72,10 +73,10 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            var innerZones = new List<Firesec.CoreConfig.zoneType>();
+            var innerZones = new List<zoneType>();
             foreach (var zone in deviceConfiguration.Zones)
             {
-                var innerZone = new Firesec.CoreConfig.zoneType()
+                var innerZone = new zoneType()
                 {
                     name = zone.Name,
                     idx = zone.No,
@@ -85,9 +86,9 @@ namespace FiresecService.Converters
                 if (string.IsNullOrEmpty(zone.Description) == false)
                     innerZone.desc = zone.Description;
 
-                var zoneParams = new List<Firesec.CoreConfig.paramType>();
+                var zoneParams = new List<paramType>();
 
-                zoneParams.Add(new Firesec.CoreConfig.paramType()
+                zoneParams.Add(new paramType()
                 {
                     name = "ZoneType",
                     type = "Int",
@@ -96,7 +97,7 @@ namespace FiresecService.Converters
 
                 if (string.IsNullOrEmpty(zone.DetectorCount) == false)
                 {
-                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    zoneParams.Add(new paramType()
                     {
                         name = "FireDeviceCount",
                         type = "Int",
@@ -106,7 +107,7 @@ namespace FiresecService.Converters
 
                 if (string.IsNullOrEmpty(zone.EvacuationTime) == false)
                 {
-                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    zoneParams.Add(new paramType()
                     {
                         name = "ExitTime",
                         type = "SmallInt",
@@ -116,7 +117,7 @@ namespace FiresecService.Converters
 
                 if (string.IsNullOrEmpty(zone.AutoSet) == false)
                 {
-                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    zoneParams.Add(new paramType()
                     {
                         name = "AutoSet",
                         type = "Int",
@@ -126,7 +127,7 @@ namespace FiresecService.Converters
 
                 if (string.IsNullOrEmpty(zone.Delay) == false)
                 {
-                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    zoneParams.Add(new paramType()
                     {
                         name = "Delay",
                         type = "Int",
@@ -136,7 +137,7 @@ namespace FiresecService.Converters
 
                 if (true)
                 {
-                    zoneParams.Add(new Firesec.CoreConfig.paramType()
+                    zoneParams.Add(new paramType()
                     {
                         name = "Skipped",
                         type = "Int",
@@ -146,7 +147,7 @@ namespace FiresecService.Converters
 
                 string GuardZoneTypeParamString = ((int)zone.GuardZoneType).ToString();
 
-                zoneParams.Add(new Firesec.CoreConfig.paramType()
+                zoneParams.Add(new paramType()
                 {
                     name = "GuardZoneType",
                     value = GuardZoneTypeParamString

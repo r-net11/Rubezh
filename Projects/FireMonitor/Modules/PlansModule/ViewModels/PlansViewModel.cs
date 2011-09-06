@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -95,14 +96,14 @@ namespace PlansModule.ViewModels
             SelectedPlan = Plans.FirstOrDefault(x => x._plan.Name == name);
         }
 
-        public void ShowDevice(string id)
+        public void ShowDevice(Guid deviceUID)
         {
             foreach (var planViewModel in Plans)
             {
-                if (planViewModel._deviceStates.Any(x => x.Id == id))
+                if (planViewModel._deviceStates.Any(x => x.UID == deviceUID))
                 {
                     SelectedPlan = planViewModel;
-                    PlanDetails.SelectDevice(id);
+                    PlanDetails.SelectDevice(deviceUID);
                     break;
                 }
             }

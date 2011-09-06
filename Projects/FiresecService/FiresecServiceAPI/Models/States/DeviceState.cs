@@ -76,7 +76,7 @@ namespace FiresecAPI.Models
             Parameters = deviceState.Parameters;
         }
 
-        #region Automatic
+        #region Alarming
 
         bool _isAutomaticOff = false;
         public bool IsAutomaticOff
@@ -88,9 +88,9 @@ namespace FiresecAPI.Models
                 {
                     _isAutomaticOff = value;
                     if (value)
-                        AlarmAdded(AlarmType.Auto, Id);
+                        AlarmAdded(AlarmType.Auto, UID);
                     else
-                        AlarmRemoved(AlarmType.Auto, Id);
+                        AlarmRemoved(AlarmType.Auto, UID);
                 }
             }
         }
@@ -105,9 +105,9 @@ namespace FiresecAPI.Models
                 {
                     _isOff = value;
                     if (value)
-                        AlarmAdded(AlarmType.Off, Id);
+                        AlarmAdded(AlarmType.Off, UID);
                     else
-                        AlarmRemoved(AlarmType.Off, Id);
+                        AlarmRemoved(AlarmType.Off, UID);
                 }
             }
         }
@@ -122,9 +122,9 @@ namespace FiresecAPI.Models
                 {
                     _isFailure = value;
                     if (value)
-                        AlarmAdded(AlarmType.Failure, Id);
+                        AlarmAdded(AlarmType.Failure, UID);
                     else
-                        AlarmRemoved(AlarmType.Failure, Id);
+                        AlarmRemoved(AlarmType.Failure, UID);
                 }
             }
         }
@@ -139,9 +139,9 @@ namespace FiresecAPI.Models
                 {
                     _isFire = value;
                     if (value)
-                        AlarmAdded(AlarmType.Fire, Id);
+                        AlarmAdded(AlarmType.Fire, UID);
                     else
-                        AlarmRemoved(AlarmType.Fire, Id);
+                        AlarmRemoved(AlarmType.Fire, UID);
                 }
             }
         }
@@ -156,9 +156,9 @@ namespace FiresecAPI.Models
                 {
                     _isAttention = value;
                     if (value)
-                        AlarmAdded(AlarmType.Attention, Id);
+                        AlarmAdded(AlarmType.Attention, UID);
                     else
-                        AlarmRemoved(AlarmType.Attention, Id);
+                        AlarmRemoved(AlarmType.Attention, UID);
                 }
             }
         }
@@ -173,9 +173,9 @@ namespace FiresecAPI.Models
                 {
                     _isInfo = value;
                     if (value)
-                        AlarmAdded(AlarmType.Info, Id);
+                        AlarmAdded(AlarmType.Info, UID);
                     else
-                        AlarmRemoved(AlarmType.Info, Id);
+                        AlarmRemoved(AlarmType.Info, UID);
                 }
             }
         }
@@ -190,25 +190,25 @@ namespace FiresecAPI.Models
                 {
                     _isService = value;
                     if (value)
-                        AlarmAdded(AlarmType.Service, Id);
+                        AlarmAdded(AlarmType.Service, UID);
                     else
-                        AlarmRemoved(AlarmType.Service, Id);
+                        AlarmRemoved(AlarmType.Service, UID);
                 }
             }
         }
 
-        public static event Action<AlarmType, string> AlarmAdded;
-        static void OnAlarmAdded(AlarmType alarmType, string id)
+        public static event Action<AlarmType, Guid> AlarmAdded;
+        static void OnAlarmAdded(AlarmType alarmType, Guid deviceUID)
         {
             if (AlarmAdded != null)
-                AlarmAdded(alarmType, id);
+                AlarmAdded(alarmType, deviceUID);
         }
 
-        public static event Action<AlarmType, string> AlarmRemoved;
-        static void OnAlarmRemoved(AlarmType alarmType, string id)
+        public static event Action<AlarmType, Guid> AlarmRemoved;
+        static void OnAlarmRemoved(AlarmType alarmType, Guid deviceUID)
         {
             if (AlarmRemoved != null)
-                AlarmRemoved(alarmType, id);
+                AlarmRemoved(alarmType, deviceUID);
         }
 
         #endregion Automatic

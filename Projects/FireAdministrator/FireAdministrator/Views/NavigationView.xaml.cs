@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
+using System;
 
 namespace FireAdministrator
 {
@@ -15,10 +16,17 @@ namespace FireAdministrator
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { _isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { _isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(x => { _isDerectonsSelected = true; OnPropertyChanged("IsDerectonsSelected"); });
-            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(x => { _isGuardSelected = true; OnPropertyChanged("IsGuardSelected"); });
+
+            ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(x => { _isGuardUsersSelected = true; OnPropertyChanged("IsGuardUsersSelected"); });
+            ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(x => { _isGuardLevelsSelected = true; OnPropertyChanged("IsGuardLevelsSelected"); });
+            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(x => { _isGuardDevicesSelected = true; OnPropertyChanged("IsGuardDevicesSelected"); });
+
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { _isLibrarySelected = true; OnPropertyChanged("IsLibrarySelected"); });
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
-            ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Subscribe(x => { _isSecuritySelected = true; OnPropertyChanged("IsSecuritySelected"); });
+
+            ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(x => { _isUsersSelected = true; OnPropertyChanged("IsUsersSelected"); });
+            ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(x => { _isUserGroupsSelected = true; OnPropertyChanged("IsUserGroupsSelected"); });
+
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(x => { _isJournalSelected = true; OnPropertyChanged("IsJournalSelected"); });
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(x => { _isSoundsSelected = true; OnPropertyChanged("IsSoundsSelected"); });
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(x => { _isInstructionsSelected = true; OnPropertyChanged("IsInstructionsSelected"); });
@@ -34,7 +42,7 @@ namespace FireAdministrator
                 _isDevicesSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
                 }
                 OnPropertyChanged("IsDevicesSelected");
             }
@@ -71,17 +79,58 @@ namespace FireAdministrator
         }
 
         bool _isGuardSelected;
-                public bool IsGuardSelected
+        public bool IsGuardSelected
         {
             get { return _isGuardSelected; }
             set
             {
                 _isGuardSelected = value;
+                OnPropertyChanged("IsGuardSelected");
+            }
+        }
+
+        bool _isGuardUsersSelected;
+        public bool IsGuardUsersSelected
+        {
+            get { return _isGuardUsersSelected; }
+            set
+            {
+                _isGuardUsersSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowGuardEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Publish(null);
                 }
-                OnPropertyChanged("IsGuardSelected");
+                OnPropertyChanged("IsGuardUsersSelected");
+            }
+        }
+
+        bool _isGuardLevelsSelected;
+        public bool IsGuardLevelsSelected
+        {
+            get { return _isGuardLevelsSelected; }
+            set
+            {
+                _isGuardLevelsSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsGuardLevelsSelected");
+            }
+        }
+
+        bool _isGuardDevicesSelected;
+        public bool IsGuardDevicesSelected
+        {
+            get { return _isGuardDevicesSelected; }
+            set
+            {
+                _isGuardDevicesSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsGuardLevelsSelected");
             }
         }
 
@@ -121,12 +170,37 @@ namespace FireAdministrator
             get { return _isSecuritySelected; }
             set
             {
-                _isSecuritySelected = value;
+                OnPropertyChanged("IsSecuritySelected");
+            }
+        }
+
+        bool _isUsersSelected;
+        public bool IsUsersSelected
+        {
+            get { return _isUsersSelected; }
+            set
+            {
+                _isUsersSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowSecurityEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowUsersEvent>().Publish(null);
                 }
-                OnPropertyChanged("IsSecuritySelected");
+                OnPropertyChanged("IsUsersSelected");
+            }
+        }
+
+        bool _isUserGroupsSelected;
+        public bool IsUserGroupsSelected
+        {
+            get { return _isUserGroupsSelected; }
+            set
+            {
+                _isUserGroupsSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsUserGroupsSelected");
             }
         }
 

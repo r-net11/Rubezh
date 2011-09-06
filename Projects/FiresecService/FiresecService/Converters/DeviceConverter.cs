@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Firesec.CoreConfig;
+using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
     public static class DeviceConverter
     {
-        static Firesec.CoreConfig.config _firesecConfig;
+        static config _firesecConfig;
 
-        public static void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(config firesecConfig)
         {
             _firesecConfig = firesecConfig;
 
@@ -27,7 +27,7 @@ namespace FiresecService.Converters
             FiresecManager.DeviceConfiguration.RootDevice = rootDevice;
         }
 
-        static void AddDevice(Firesec.CoreConfig.devType parentInnerDevice, Device parentDevice)
+        static void AddDevice(devType parentInnerDevice, Device parentDevice)
         {
             parentDevice.Children = new List<Device>();
             if (parentInnerDevice.dev != null)
@@ -47,11 +47,12 @@ namespace FiresecService.Converters
             }
         }
 
-        static void SetInnerDevice(Device device, Firesec.CoreConfig.devType innerDevice)
+        static void SetInnerDevice(Device device, devType innerDevice)
         {
             var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
-            device.DriverId = driverId;
-            device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == driverId);
+            var driverUID = new Guid(driverId);
+            device.DriverUID = driverUID;
+            device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driverUID);
 
             device.IntAddress = int.Parse(innerDevice.addr);
 
@@ -102,7 +103,7 @@ namespace FiresecService.Converters
             }
         }
 
-        static void SetZone(Device device, Firesec.CoreConfig.devType innerDevice)
+        static void SetZone(Device device, devType innerDevice)
         {
             if (innerDevice.inZ != null)
             {
@@ -152,31 +153,31 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            Device rootDevice = deviceConfiguration.RootDevice;
-            Firesec.CoreConfig.devType rootInnerDevice = DeviceToInnerDevice(rootDevice);
+            var rootDevice = deviceConfiguration.RootDevice;
+            var rootInnerDevice = DeviceToInnerDevice(rootDevice);
             AddInnerDevice(rootDevice, rootInnerDevice);
 
-            FiresecManager.CoreConfig.dev = new Firesec.CoreConfig.devType[1];
+            FiresecManager.CoreConfig.dev = new devType[1];
             FiresecManager.CoreConfig.dev[0] = rootInnerDevice;
         }
 
-        static void AddInnerDevice(Device parentDevice, Firesec.CoreConfig.devType parentInnerDevice)
+        static void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
         {
-            var childInnerDevices = new List<Firesec.CoreConfig.devType>();
+            var childInnerDevices = new List<devType>();
 
             foreach (var device in parentDevice.Children)
             {
-                Firesec.CoreConfig.devType childInnerDevice = DeviceToInnerDevice(device);
+                var childInnerDevice = DeviceToInnerDevice(device);
                 childInnerDevices.Add(childInnerDevice);
                 AddInnerDevice(device, childInnerDevice);
             }
             parentInnerDevice.dev = childInnerDevices.ToArray();
         }
 
-        static Firesec.CoreConfig.devType DeviceToInnerDevice(Device device)
+        static devType DeviceToInnerDevice(Device device)
         {
-            var innerDevice = new Firesec.CoreConfig.devType();
-            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.Id).idx;
+            var innerDevice = new devType();
+            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.UID.ToString()).idx;
 
             if (device.Driver.HasAddress)
             {
@@ -189,8 +190,8 @@ namespace FiresecService.Converters
 
             if (device.ZoneNo != null)
             {
-                var zones = new List<Firesec.CoreConfig.inZType>();
-                zones.Add(new Firesec.CoreConfig.inZType() { idz = device.ZoneNo });
+                var zones = new List<inZType>();
+                zones.Add(new inZType() { idz = device.ZoneNo });
                 innerDevice.inZ = zones.ToArray();
             }
 
@@ -201,9 +202,9 @@ namespace FiresecService.Converters
             return innerDevice;
         }
 
-        static List<Firesec.CoreConfig.paramType> AddParameters(Device device)
+        static List<paramType> AddParameters(Device device)
         {
-            var parameters = new List<Firesec.CoreConfig.paramType>();
+            var parameters = new List<paramType>();
 
             if (device.UID != Guid.Empty)
             {
@@ -230,9 +231,9 @@ namespace FiresecService.Converters
             return parameters;
         }
 
-        static List<Firesec.CoreConfig.propType> AddProperties(Device device)
+        static List<propType> AddProperties(Device device)
         {
-            var propertyList = new List<Firesec.CoreConfig.propType>();
+            var propertyList = new List<propType>();
 
             if (device.Driver.DriverName != "Компьютер")
             {
@@ -243,7 +244,7 @@ namespace FiresecService.Converters
                         if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
                             string.IsNullOrEmpty(deviceProperty.Value) == false)
                         {
-                            propertyList.Add(new Firesec.CoreConfig.propType()
+                            propertyList.Add(new propType()
                             {
                                 name = deviceProperty.Name,
                                 value = deviceProperty.Value
@@ -258,7 +259,7 @@ namespace FiresecService.Converters
                 var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "IsAlarmDevice");
                 if (zoneLogicProperty == null)
                 {
-                    propertyList.Add(new Firesec.CoreConfig.propType() { name = "IsAlarmDevice", value = "1" });
+                    propertyList.Add(new propType() { name = "IsAlarmDevice", value = "1" });
                 }
             }
 
@@ -269,7 +270,7 @@ namespace FiresecService.Converters
                     var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
                     if (zoneLogicProperty == null)
                     {
-                        propertyList.Add(new Firesec.CoreConfig.propType());
+                        propertyList.Add(new propType());
                     }
 
                     var zoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
@@ -285,7 +286,7 @@ namespace FiresecService.Converters
                 var indicatorLogicProperty = propertyList.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
                 if (indicatorLogicProperty == null)
                 {
-                    indicatorLogicProperty = new Firesec.CoreConfig.propType();
+                    indicatorLogicProperty = new propType();
                     propertyList.Add(indicatorLogicProperty);
                 }
 
@@ -301,7 +302,7 @@ namespace FiresecService.Converters
                 var pDUGroupLogicProperty = propertyList.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
                 if (pDUGroupLogicProperty == null)
                 {
-                    pDUGroupLogicProperty = new Firesec.CoreConfig.propType();
+                    pDUGroupLogicProperty = new propType();
                     propertyList.Add(pDUGroupLogicProperty);
                 }
 

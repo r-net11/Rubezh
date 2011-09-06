@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using System;
 
 namespace FireAdministrator
 {
@@ -26,6 +28,7 @@ namespace FireAdministrator
             FiltersModule.FilterModule.HasChanges = false;
             LibraryModule.LibraryModule.HasChanges = false;
             InstructionsModule.InstructionsModule.HasChanges = false;
+            SecurityModule.SecurityModule.HasChanges = false;
         }
 
         void OnCreateNew(object sender, RoutedEventArgs e)
@@ -39,13 +42,13 @@ namespace FireAdministrator
 
                 Device device = new Device();
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер");
-                device.DriverId = device.Driver.Id;
+                device.DriverUID = device.Driver.UID;
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
 
                 DevicesModule.DevicesModule.CreateViewModels();
                 ServiceFactory.Layout.Close();
-                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
                 DevicesModule.DevicesModule.HasChanges = true;
             }
@@ -67,7 +70,7 @@ namespace FireAdministrator
 
             DevicesModule.DevicesModule.CreateViewModels();
             ServiceFactory.Layout.Close();
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
             DevicesModule.DevicesModule.HasChanges = true;
         }
@@ -84,9 +87,8 @@ namespace FireAdministrator
 
         void OnValidate(object sender, RoutedEventArgs e)
         {
-            DevicesModule.DevicesModule.Validate();
-            FiltersModule.FilterModule.Validate();
-            //InstructionsModule.InstructionsModule.Validate();
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
         }
     }
 }

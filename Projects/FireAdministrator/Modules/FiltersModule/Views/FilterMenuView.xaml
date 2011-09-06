@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ToolBar Height="50" Background="Transparent">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить">
-            <Image Height="32" Source="/DevicesModule;component/Images/Add.png" />
+            <Image Height="32" Source="/Controls;component/Images/Add.png" />
         </Button>
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать">
-            <Image Height="32" Source="/DevicesModule;component/Images/Edit.png" />
+            <Image Height="32" Source="/Controls;component/Images/Edit.png" />
         </Button>
         <Button Command="{Binding RemoveCommand}" ToolTip="Удалить">
-            <Image Height="32" Source="/DevicesModule;component/Images/Delete.png" />
+            <Image Height="32" Source="/Controls;component/Images/Delete.png" />
         </Button>
     </ToolBar>
 </UserControl>

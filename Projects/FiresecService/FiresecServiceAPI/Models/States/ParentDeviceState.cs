@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -9,7 +10,7 @@ namespace FiresecAPI.Models
         public DriverState DriverState { get; set; }
 
         [DataMember]
-        public string ParentDeviceId { get; set; }
+        public Guid ParentDeviceId { get; set; }
 
         [DataMember]
         public string Code { get; set; }

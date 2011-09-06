@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace LibraryModule.ViewModels
 {
@@ -16,7 +17,7 @@ namespace LibraryModule.ViewModels
         public DeviceViewModel(LibraryDevice device)
         {
             Device = device;
-            _driver = FiresecManager.Drivers.First(x => x.Id == Device.DriverId);
+            _driver = FiresecManager.Drivers.First(x => x.UID == Device.DriverId);
             if (Device.States == null)
             {
                 SetDefaultStateTo(Device);
@@ -42,7 +43,7 @@ namespace LibraryModule.ViewModels
             get { return _driver.ImageSource; }
         }
 
-        public string Id
+        public Guid Id
         {
             get { return Device.DriverId; }
         }
@@ -102,7 +103,7 @@ namespace LibraryModule.ViewModels
             device.States.Add(StateViewModel.GetDefaultStateWith());
         }
 
-        public static LibraryDevice GetDefaultDriverWith(string driverId)
+        public static LibraryDevice GetDefaultDriverWith(Guid driverId)
         {
             var device = new LibraryDevice();
             device.DriverId = driverId;

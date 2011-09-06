@@ -56,7 +56,7 @@ namespace LibraryModule.Views
             {
                 var stateViewModel = treeView.SelectedItem as StateViewModel;
                 var library = (DataContext as LibraryViewModel);
-                var parentDevice = library.DeviceViewModels.First(x => x.Id == stateViewModel.ParentDriver.Id);
+                var parentDevice = library.DeviceViewModels.First(x => x.Id == stateViewModel.ParentDriver.UID);
 
                 if (library.SelectedDeviceViewModel != parentDevice)
                 {

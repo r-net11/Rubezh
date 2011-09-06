@@ -7,7 +7,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -16,8 +15,8 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
-            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+            FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
+            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
         }
 
         public void Initialize()
@@ -69,14 +68,14 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnDeviceStateChanged(string id)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             if (deviceState != null)
             {
                 if (Devices != null)
                 {
-                    var deviceViewModel = Devices.FirstOrDefault(x => x.Device.Id == id);
+                    var deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
                     if (deviceViewModel != null)
                     {
                         deviceViewModel.Update();

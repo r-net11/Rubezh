@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -40,9 +41,9 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("HasChildren");
         }
 
-        public string Id
+        public Guid UID
         {
-            get { return Device.Id; }
+            get { return Device.UID; }
         }
 
         public Driver Driver

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Firesec.CoreConfig;
+using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
     public class DirectionConverter
     {
-        public static void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(config firesecConfig)
         {
             FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
 
@@ -51,12 +51,12 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            var innerDirections = new List<Firesec.CoreConfig.partType>();
+            var innerDirections = new List<partType>();
             int no = 0;
 
             foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
             {
-                var innerDirection = new Firesec.CoreConfig.partType()
+                var innerDirection = new partType()
                 {
                     type = "direction",
                     no = no.ToString(),
@@ -66,10 +66,10 @@ namespace FiresecService.Converters
                 };
                 ++no;
 
-                var zones = new List<Firesec.CoreConfig.partTypePinZ>();
+                var zones = new List<partTypePinZ>();
                 foreach (var zone in direction.Zones)
                 {
-                    zones.Add(new Firesec.CoreConfig.partTypePinZ() { pidz = zone });
+                    zones.Add(new partTypePinZ() { pidz = zone });
                 }
                 innerDirection.PinZ = zones.ToArray();
 

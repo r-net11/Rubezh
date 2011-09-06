@@ -34,7 +34,7 @@ namespace FiresecAPI.Models
         public string DatabaseId { get; set; }
 
         [DataMember]
-        public string DriverId { get; set; }
+        public Guid DriverUID { get; set; }
 
         [DataMember]
         public int IntAddress { get; set; }
@@ -111,7 +111,7 @@ namespace FiresecAPI.Models
         {
             get
             {
-                string currentId = Driver.Id + ":" + AddressFullPath;
+                string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
                 if (Parent != null)
                 {
                     return Parent.Id + @"/" + currentId;
@@ -210,7 +210,7 @@ namespace FiresecAPI.Models
 
             if (fullCopy)
             {
-                newDevice.DatabaseId = DatabaseId;
+                //newDevice.DatabaseId = DatabaseId;
             }
 
             if (ZoneLogic != null)

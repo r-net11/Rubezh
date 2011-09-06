@@ -125,7 +125,7 @@ namespace FireMonitor
                 _isDevicesSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
                 }
                 OnPropertyChanged("IsDevicesSelected");
             }

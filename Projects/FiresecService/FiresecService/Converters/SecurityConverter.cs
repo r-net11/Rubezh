@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Firesec.CoreConfig;
+using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
     public class SecurityConverter
     {
-        public static void Convert(Firesec.CoreConfig.config firesecConfig)
+        public static void Convert(config firesecConfig)
         {
             FiresecManager.SecurityConfiguration = new SecurityConfiguration();
 
@@ -98,7 +98,7 @@ namespace FiresecService.Converters
                 {
                     idx = idx.ToString(),
                     name = group.Name,
-                    param = new Firesec.CoreConfig.paramType()
+                    param = new paramType()
                     {
                         name = "DB$IDUsers",
                         type = "Int",
@@ -124,7 +124,7 @@ namespace FiresecService.Converters
                     fullName = user.FullName,
                     password = user.PasswordHash,
                     builtin = user.IsBuiltIn ? "-1" : "0",
-                    param = new Firesec.CoreConfig.paramType()
+                    param = new paramType()
                     {
                         name = "DB$IDUsers",
                         type = "Int",

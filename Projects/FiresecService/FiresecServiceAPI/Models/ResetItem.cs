@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -12,7 +13,7 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
-        public string DeviceId { get; set; }
+        public Guid DeviceUID { get; set; }
 
         [DataMember]
         public List<string> StateNames { get; set; }

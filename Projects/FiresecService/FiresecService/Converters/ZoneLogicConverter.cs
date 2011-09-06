@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Firesec.ZoneLogic;
+using Firesec.ZonesLogic;
 using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
     public static class ZoneLogicConverter
     {
-        public static ZoneLogic Convert(Firesec.ZoneLogic.expr innerZoneLogic)
+        public static ZoneLogic Convert(expr innerZoneLogic)
         {
             var zoneLogic = new ZoneLogic();
 
@@ -59,9 +59,9 @@ namespace FiresecService.Converters
             return zoneLogic;
         }
 
-        public static Firesec.ZoneLogic.expr ConvertBack(ZoneLogic zoneLogic)
+        public static expr ConvertBack(ZoneLogic zoneLogic)
         {
-            var innerZoneLogic = new Firesec.ZoneLogic.expr();
+            var innerZoneLogic = new expr();
 
             var innerClauses = new List<clauseType>();
             foreach (var clause in zoneLogic.Clauses)

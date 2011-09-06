@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Models;
+using System;
 
 namespace AlarmModule
 {
@@ -7,7 +8,7 @@ namespace AlarmModule
         public AlarmType AlarmType { get; set; }
         public string Name { get; set; }
         public string Time { get; set; }
-        public string DeviceId { get; set; }
+        public Guid DeviceUID { get; set; }
         public string ClassId { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class DeviceStateChangedEvent : CompositePresentationEvent<string>
+    public class ShowGuardLevelsEvent : CompositePresentationEvent<string>
     {
     }
 }

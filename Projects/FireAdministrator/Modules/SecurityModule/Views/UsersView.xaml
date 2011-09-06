@@ -1,25 +1,17 @@
 ﻿<UserControl x:Class="SecurityModule.Views.UsersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" >
-            <Button Content="Добавить" Command="{Binding AddUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-            <Button Content="Удалить" Command="{Binding DeleteUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px" />
-            <Button Content="Редактировать" Command="{Binding EditUserCommand}" HorizontalAlignment="Left" Width="100" Margin="10px"/>
-        </StackPanel>
-        <DataGrid Grid.Row="1" Margin="5,5,12,5" ItemsSource="{Binding Users}"
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding FullName}" />
+                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding User.Name}" />
+                <DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding User.FullName}" />
             </DataGrid.Columns>
-            <DataGrid.SelectedItem>
-                <Binding Path="SelectedUser"/>
-            </DataGrid.SelectedItem>
         </DataGrid>
     </Grid>
 </UserControl>

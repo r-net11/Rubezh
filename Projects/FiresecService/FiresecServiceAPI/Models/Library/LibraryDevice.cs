@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -7,7 +8,7 @@ namespace FiresecAPI.Models
     public class LibraryDevice
     {
         [DataMember]
-        public string DriverId { get; set; }
+        public Guid DriverId { get; set; }
 
         [DataMember]
         public List<LibraryState> States { get; set; }

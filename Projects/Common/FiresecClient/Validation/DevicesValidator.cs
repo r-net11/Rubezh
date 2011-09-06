@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FiresecClient.Validation
 {
-    public static class Validator
+    public static class DevicesValidator
     {
         public static List<ZoneError> ZoneErrors { get; set; }
         public static List<DeviceError> DeviceErrors { get; set; }

@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
 using PlansModule.ViewModels;
+using System;
 
 namespace PlansModule
 {
@@ -40,10 +41,10 @@ namespace PlansModule
             ServiceFactory.Layout.Show(plansViewModel);
         }
 
-        static void OnShowDeviceOnPlan(string id)
+        static void OnShowDeviceOnPlan(Guid deviceUID)
         {
             ServiceFactory.Layout.Show(plansViewModel);
-            plansViewModel.ShowDevice(id);
+            plansViewModel.ShowDevice(deviceUID);
         }
     }
 }

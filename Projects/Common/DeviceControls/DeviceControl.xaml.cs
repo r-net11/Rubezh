@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
+using System;
 
 namespace DeviceControls
 {
@@ -22,7 +23,7 @@ namespace DeviceControls
             AdditionalStateCodes = new List<string>();
         }
 
-        public string DriverId { get; set; }
+        public Guid DriverId { get; set; }
 
         StateType _stateType;
         public StateType StateType

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using Firesec.Plans;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Plans;
 
@@ -11,7 +12,7 @@ namespace FiresecService.Converters
     public static class PlansConverter
     {
         private static int idElement;
-        public static PlansConfiguration Convert(Firesec.Plans.surfaces innerPlans)
+        public static PlansConfiguration Convert(surfaces innerPlans)
         {
             idElement = 0;
             var plansConfiguration = new PlansConfiguration();
@@ -167,12 +168,12 @@ namespace FiresecService.Converters
                                         {
                                             if (deviceShapeId == _idTempL.ToString())
                                             {
-                                                deviceInner.Id = _index.Id;
+                                                deviceInner.Id = _index.UID;
                                             }
                                             else
                                                 if (deviceShapeId == _idTempI.ToString())
                                                 {
-                                                    deviceInner.Id = _index.Id;
+                                                    deviceInner.Id = _index.UID;
                                                 }
                                         }
                                     }

@@ -4,6 +4,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
+using System;
+using Common;
 
 namespace DevicesModule
 {
@@ -15,7 +17,9 @@ namespace DevicesModule
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
-            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuard);
+            ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(OnShowGuardUsers);
+            ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(OnShowGuardLevels);
+            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(OnShowGuardDevices);
         }
 
         public void Initialize()
@@ -45,20 +49,28 @@ namespace DevicesModule
             directionsViewModel = new DirectionsViewModel();
             directionsViewModel.Initialize();
 
-            guardViewModel = new GuardViewModel();
-            guardViewModel.Initialize();
+            guardUsersViewModel = new GuardUsersViewModel();
+            guardUsersViewModel.Initialize();
+
+            guardLevelsViewModel = new GuardLevelsViewModel();
+            guardLevelsViewModel.Initialize();
+
+            guardDevicesViewModel = new GuardDevicesViewModel();
+            guardDevicesViewModel.Initialize();
         }
 
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
         static DirectionsViewModel directionsViewModel;
-        static GuardViewModel guardViewModel;
+        static GuardUsersViewModel guardUsersViewModel;
+        static GuardLevelsViewModel guardLevelsViewModel;
+        static GuardDevicesViewModel guardDevicesViewModel;
 
-        static void OnShowDevice(string id)
+        static void OnShowDevice(Guid deviceUID)
         {
-            if (string.IsNullOrEmpty(id) == false)
+            if (deviceUID != Guid.Empty)
             {
-                devicesViewModel.Select(id);
+                devicesViewModel.Select(deviceUID);
             }
             ServiceFactory.Layout.Show(devicesViewModel);
         }
@@ -77,17 +89,21 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(directionsViewModel);
         }
 
-        static void OnShowGuard(string obj)
+        static void OnShowGuardUsers(string obj)
         {
-            ServiceFactory.Layout.Show(guardViewModel);
+            ServiceFactory.Layout.Show(guardUsersViewModel);
+        }
+
+        static void OnShowGuardDevices(string obj)
+        {
+            ServiceFactory.Layout.Show(guardDevicesViewModel);
+        }
+
+        static void OnShowGuardLevels(string obj)
+        {
+            ServiceFactory.Layout.Show(guardLevelsViewModel);
         }
 
         public static bool HasChanges { get; set; }
-
-        public static void Validate()
-        {
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
-        }
     }
 }

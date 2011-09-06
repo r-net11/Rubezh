@@ -195,7 +195,6 @@
     <Compile Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml.cs">
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\Views\GuardDevicesView.xaml.cs">
       <DependentUpon>GuardDevicesView.xaml</DependentUpon>
     </Compile>
@@ -219,9 +218,6 @@
     </Compile>
     <Compile Include="Guard\Views\GuardUsersView.xaml.cs">
       <DependentUpon>GuardUsersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\GuardView.xaml.cs">
-      <DependentUpon>GuardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
       <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
@@ -411,10 +407,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\Views\GuardUsersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\GuardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

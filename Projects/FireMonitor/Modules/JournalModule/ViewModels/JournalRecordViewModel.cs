@@ -73,7 +73,7 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowPlanCommand { get; private set; }
         void OnShowPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.UID);
         }
 
         bool CanShowPlan()
@@ -89,7 +89,7 @@ namespace JournalModule.ViewModels
             {
                 if (plan != null && plan.ElementDevices.IsNotNullOrEmpty())
                 {
-                    var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.Id);
+                    var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.UID);
                     if (elementDevice != null)
                     {
                         return true;
@@ -102,7 +102,7 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowTreeCommand { get; private set; }
         void OnShowTree()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
         }
 
         bool CanShowTree()
@@ -113,16 +113,13 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_device.ZoneNo);
+            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.PresentationName == _journalRecord.ZoneName);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zone.No);
         }
 
         bool CanShowZone()
         {
-            if (_device != null)
-            {
-                return FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == _device.ZoneNo);
-            }
-            return false;
+            return string.IsNullOrEmpty(_journalRecord.ZoneName) == false;
         }
     }
 }

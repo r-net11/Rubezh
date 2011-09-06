@@ -32,7 +32,32 @@
 
             <TabItem IsSelected="{Binding IsGuardSelected}">
                 <TabItem.Header>
-                    <TextBlock Text="Охрана" FontWeight="Bold" />
+                    <Expander Name="_groupExpander" VerticalAlignment="Center">
+                        <Expander.Header>
+                            <TextBlock Text="Охрана" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                        </Expander.Header>
+                    </Expander>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem IsSelected="{Binding IsGuardUsersSelected}"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock Text="Пользователи" FontWeight="Bold" />
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem IsSelected="{Binding IsGuardLevelsSelected}"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock Text="Уровни доступа" FontWeight="Bold" />
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem IsSelected="{Binding IsGuardDevicesSelected}"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock Text="Устройства" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
             
@@ -50,7 +75,25 @@
 
             <TabItem IsSelected="{Binding IsSecuritySelected}">
                 <TabItem.Header>
-                    <TextBlock Text="Права" FontWeight="Bold" />
+                    <Expander Name="_securityExpander" VerticalAlignment="Center">
+                        <Expander.Header>
+                            <TextBlock Text="Права" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
+                        </Expander.Header>
+                    </Expander>
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem IsSelected="{Binding IsUsersSelected}"
+                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock Text="Пользователи" FontWeight="Bold" />
+                </TabItem.Header>
+            </TabItem>
+
+            <TabItem IsSelected="{Binding IsUserGroupsSelected}"
+                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock Text="Группы" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 

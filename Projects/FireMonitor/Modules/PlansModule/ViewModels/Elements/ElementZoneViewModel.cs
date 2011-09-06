@@ -18,7 +18,7 @@ namespace PlansModule.ViewModels
             DisableCommand = new RelayCommand(OnDisable);
             EnableCommand = new RelayCommand(OnEnable);
 
-            ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Subscribe(OnZoneStateChanged);
+            FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
         }
 
         public string ZoneNo { get; private set; }
@@ -81,15 +81,15 @@ namespace PlansModule.ViewModels
                 Selected();
         }
 
-        List<string> DevicesToIgnore
+        List<Guid> DevicesToIgnore
         {
             get
             {
-                return new List<string>(
+                return new List<Guid>(
                        from device in FiresecManager.DeviceConfiguration.Devices
                        where device.ZoneNo == ZoneNo
                        where device.Driver.CanDisable
-                       select device.Id);
+                       select device.UID);
             }
         }
 

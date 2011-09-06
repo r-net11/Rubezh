@@ -25,8 +25,12 @@ namespace JournalModule.ViewModels
             FiresecEventSubscriber.NewJournalRecordEvent +=
                 new Action<JournalRecord>(OnNewJournaRecordEvent);
 
-            foreach (var journalRecord in FiresecManager.GetFilteredJournal(_journalFilter))
-                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+            var journalRecords = FiresecManager.GetFilteredJournal(_journalFilter);
+            if (journalRecords != null)
+            {
+                foreach (var journalRecord in journalRecords)
+                    JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+            }
         }
 
         public string Name

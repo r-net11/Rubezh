@@ -15,18 +15,14 @@ namespace FireMonitor
 
         void autoActivationButton_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            FiresecEventSubscriber.NewJournalRecordEvent +=
-                new Action<JournalRecord>(OnNewEvent<JournalRecord>);
-            FiresecEventSubscriber.DeviceStateChangedEvent +=
-                new Action<string>(OnNewEvent<string>);
+            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewEvent<JournalRecord>);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnNewEvent<Guid>);
         }
 
         void autoActivationButton_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
-            FiresecEventSubscriber.NewJournalRecordEvent -=
-                new Action<JournalRecord>(OnNewEvent<JournalRecord>);
-            FiresecEventSubscriber.DeviceStateChangedEvent -=
-                new Action<string>(OnNewEvent<string>);
+            FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewEvent<JournalRecord>);
+            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnNewEvent<Guid>);
         }
 
         void OnNewEvent<T>(T obj)

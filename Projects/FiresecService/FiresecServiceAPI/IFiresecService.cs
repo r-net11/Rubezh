@@ -67,10 +67,10 @@ namespace FiresecAPI
         IEnumerable<JournalRecord> GetDistinctRecords();
 
         [OperationContract]
-        void AddToIgnoreList(List<string> deviceIds);
+        void AddToIgnoreList(List<Guid> deviceUIDs);
 
         [OperationContract]
-        void RemoveFromIgnoreList(List<string> deviceIds);
+        void RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
         [OperationContract]
         void ResetStates(List<ResetItem> resetItems);
@@ -79,7 +79,7 @@ namespace FiresecAPI
         void AddUserMessage(string message);
 
         [OperationContract]
-        void ExecuteCommand(string deviceId, string methodName);
+        void ExecuteCommand(Guid deviceUID, string methodName);
 
         [OperationContract]
         List<string> GetFileNamesList(string directory);

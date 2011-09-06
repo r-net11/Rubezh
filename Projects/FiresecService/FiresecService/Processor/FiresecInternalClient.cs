@@ -21,9 +21,9 @@ namespace FiresecService
             DispatcherFiresecClient.Disconnect();
         }
 
-        public static Firesec.CoreConfig.config GetCoreConfig()
+        public static Firesec.CoreConfiguration.config GetCoreConfig()
         {
-            return SerializerHelper.Deserialize<Firesec.CoreConfig.config>(DispatcherFiresecClient.GetCoreConfig());
+            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(DispatcherFiresecClient.GetCoreConfig());
         }
 
         public static Firesec.Plans.surfaces GetPlans()
@@ -41,25 +41,25 @@ namespace FiresecService
             return SerializerHelper.Deserialize<Firesec.Metadata.config>(DispatcherFiresecClient.GetMetaData());
         }
 
-        public static Firesec.DeviceParams.config GetDeviceParams()
+        public static Firesec.DeviceParameters.config GetDeviceParams()
         {
-            return SerializerHelper.Deserialize<Firesec.DeviceParams.config>(DispatcherFiresecClient.GetCoreDeviceParams());
+            return SerializerHelper.Deserialize<Firesec.DeviceParameters.config>(DispatcherFiresecClient.GetCoreDeviceParams());
         }
 
-        public static Firesec.ReadEvents.document ReadEvents(int fromId, int limit)
+        public static Firesec.Journals.document ReadEvents(int fromId, int limit)
         {
-            return SerializerHelper.Deserialize<Firesec.ReadEvents.document>(DispatcherFiresecClient.ReadEvents(fromId, limit));
+            return SerializerHelper.Deserialize<Firesec.Journals.document>(DispatcherFiresecClient.ReadEvents(fromId, limit));
         }
 
-        public static void SetNewConfig(Firesec.CoreConfig.config coreConfig)
+        public static void SetNewConfig(Firesec.CoreConfiguration.config coreConfig)
         {
-            var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfig.config>(coreConfig);
+            var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig);
             DispatcherFiresecClient.SetNewConfig(stringConfig);
         }
 
-        public static void DeviceWriteConfig(Firesec.CoreConfig.config coreConfig, string DevicePath)
+        public static void DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string DevicePath)
         {
-            DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfig.config>(coreConfig), DevicePath);
+            DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), DevicePath);
         }
 
         public static void ResetStates(Firesec.CoreState.config coreState)

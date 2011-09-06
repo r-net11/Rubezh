@@ -11,10 +11,10 @@ namespace AlarmModule.ViewModels
     public class InstructionViewModel : DialogContent
     {
         private InstructionViewModel() { }
-        public InstructionViewModel(string deviceId, AlarmType alarmType)
+        public InstructionViewModel(Guid deviceUID, AlarmType alarmType)
         {
             Title = "Инструкции";
-            DeviceId = deviceId;
+            DeviceId = deviceUID;
             StateType = AlarmTypeToStateType(alarmType);
             InicializeInstruction();
 
@@ -34,7 +34,7 @@ namespace AlarmModule.ViewModels
             Instruction = InstructionGeneral;
         }
 
-        public string DeviceId { get; private set; }
+        public Guid DeviceId { get; private set; }
         public StateType StateType { get; private set; }
         public Instruction Instruction { get; private set; }
 
@@ -42,7 +42,7 @@ namespace AlarmModule.ViewModels
         {
             get 
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
                 if (device != null)
                 {
                     return device.ZoneNo;
@@ -111,13 +111,13 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool FindDeviceInstruction(string deviceId)
+        bool FindDeviceInstruction(Guid deviceUID)
         {
             if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
             {
                 foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.InstructionDevicesList.IsNotNullOrEmpty() && instruction.InstructionDevicesList.Contains(deviceId))
+                    if (instruction.InstructionDevicesList.IsNotNullOrEmpty() && instruction.InstructionDevicesList.Contains(deviceUID))
                     {
                         Instruction = instruction;
                         return true;

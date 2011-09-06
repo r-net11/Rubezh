@@ -296,11 +296,11 @@ namespace FiresecClient
             return null;
         }
 
-        public void AddToIgnoreList(List<string> deviceIds)
+        public void AddToIgnoreList(List<Guid> deviceUIDs)
         {
             try
             {
-                _iFiresecService.AddToIgnoreList(deviceIds);
+                _iFiresecService.AddToIgnoreList(deviceUIDs);
             }
             catch
             {
@@ -308,11 +308,11 @@ namespace FiresecClient
             }
         }
 
-        public void RemoveFromIgnoreList(List<string> deviceIds)
+        public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
         {
             try
             {
-                _iFiresecService.RemoveFromIgnoreList(deviceIds);
+                _iFiresecService.RemoveFromIgnoreList(deviceUIDs);
             }
             catch
             {
@@ -344,11 +344,11 @@ namespace FiresecClient
             }
         }
 
-        public void ExecuteCommand(string deviceId, string methodName)
+        public void ExecuteCommand(Guid deviceUID, string methodName)
         {
             try
             {
-                _iFiresecService.ExecuteCommand(deviceId, methodName);
+                _iFiresecService.ExecuteCommand(deviceUID, methodName);
             }
             catch
             {

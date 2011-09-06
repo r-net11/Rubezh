@@ -66,7 +66,14 @@ namespace FiresecDirect
 
         void OnGetMetaData(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata();
+            string metadata = Firesec.NativeFiresecClient.GetMetadata();
+            textBox1.Text = metadata;
+
+            var fileStream = new FileStream("D:/Metadata.xml", FileMode.Create);
+            var streamWriter = new StreamWriter(fileStream);
+            streamWriter.Write(metadata);
+            streamWriter.Close();
+            fileStream.Close();
         }
 
         void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)

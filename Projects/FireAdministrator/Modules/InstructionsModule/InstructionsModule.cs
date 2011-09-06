@@ -1,9 +1,9 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using InstructionsModule.Validation.ViewModels;
-using Microsoft.Practices.Prism.Modularity;
 using InstructionsModule.ViewModels;
+using Microsoft.Practices.Prism.Modularity;
+using System.Linq;
 
 namespace InstructionsModule
 {
@@ -36,14 +36,12 @@ namespace InstructionsModule
             _instructionsViewModel.Initialize();
         }
 
-        public static void Validate()
+        static void OnShowInstructions(string instructionNo)
         {
-            //var validationErrorsViewModel = new ValidationErrorsViewModel();
-            //ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
-        }
-
-        static void OnShowInstructions(string obj)
-        {
+            if (string.IsNullOrEmpty(instructionNo) == false)
+            {
+                _instructionsViewModel.SelectedInstruction = _instructionsViewModel.Instructions.FirstOrDefault(x => x.InstructionNo == instructionNo);
+            }
             ServiceFactory.Layout.Show(_instructionsViewModel);
         }
     }

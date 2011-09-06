@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -21,6 +22,6 @@ namespace FiresecAPI.Models
         public double Height { get; set; }
 
         [DataMember]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

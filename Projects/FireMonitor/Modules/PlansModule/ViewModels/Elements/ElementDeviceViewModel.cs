@@ -18,13 +18,13 @@ namespace PlansModule.ViewModels
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
         }
 
         Device _device;
         DeviceState _deviceState;
         ElementDeviceView _elementDeviceView;
-        public string DeviceId { get; private set; }
+        public Guid DeviceId { get; private set; }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
@@ -39,11 +39,11 @@ namespace PlansModule.ViewModels
             canvas.Children.Add(_elementDeviceView);
 
             DeviceId = elementDevice.Id;
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
+            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceId);
             if (_device != null)
             {
-                _elementDeviceView._deviceControl.DriverId = _device.Driver.Id;
+                _elementDeviceView._deviceControl.DriverId = _device.Driver.UID;
                 OnDeviceStateChanged(DeviceId);
             }
         }
@@ -75,7 +75,7 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowInTreeCommand { get; private set; }
         void OnShowInTree()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
         }
 
         public bool CanDisable()
@@ -96,12 +96,12 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.Id);
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
         }
 
-        void OnDeviceStateChanged(string id)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
-            if (id == DeviceId)
+            if (deviceUID == DeviceId)
             {
                 _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
                 _elementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(

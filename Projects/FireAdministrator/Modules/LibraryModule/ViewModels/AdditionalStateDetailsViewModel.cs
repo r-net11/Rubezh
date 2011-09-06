@@ -10,7 +10,7 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить дополнительное состояние";
 
-            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.DriverId);
+            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == device.DriverId);
             foreach (var state in driver.States)
             {
                 if (state.Name != null &&

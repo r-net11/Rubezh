@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using Infrastructure;
+﻿using System.Collections.ObjectModel;
 using FiresecClient;
-using System.Collections.ObjectModel;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardLevelsViewModel : BaseViewModel
+    public class GuardLevelsViewModel : RegionViewModel
     {
         public GuardLevelsViewModel()
         {
@@ -82,13 +78,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public void OnShow()
+        public override void OnShow()
         {
             var guardLevelsMenuViewModel = new GuardLevelsMenuViewModel(AddCommand, DeleteCommand, EditCommand);
             ServiceFactory.Layout.ShowMenu(guardLevelsMenuViewModel);
         }
 
-        public void OnHide()
+        public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
         }

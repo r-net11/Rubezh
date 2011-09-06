@@ -57,8 +57,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Const.cs" />
-    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -72,20 +70,29 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SequrityModule.cs" />
+    <Compile Include="SecurityModule.cs" />
+    <Compile Include="ViewModels\GroupDetailsViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\NewUserViewModel.cs" />
-    <Compile Include="ViewModels\SecurityViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="ViewModels\GroupsMenuViewModel.cs" />
+    <Compile Include="ViewModels\GroupsViewModel.cs" />
+    <Compile Include="ViewModels\UsersMenuViewModel.cs" />
+    <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\GroupsView.xaml.cs">
       <DependentUpon>GroupsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewUserView.xaml.cs">
-      <DependentUpon>NewUserView.xaml</DependentUpon>
+    <Compile Include="Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SecurityView.xaml.cs">
-      <DependentUpon>SecurityView.xaml</DependentUpon>
+    <Compile Include="Views\GroupDetailsView.xaml.cs">
+      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GroupsMenuView.xaml.cs">
+      <DependentUpon>GroupsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UsersMenuView.xaml.cs">
+      <DependentUpon>UsersMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsersView.xaml.cs">
       <DependentUpon>UsersView.xaml</DependentUpon>
@@ -136,11 +143,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewUserView.xaml">
+    <Page Include="Views\UserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SecurityView.xaml">
+    <Page Include="Views\GroupDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GroupsMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UsersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,7 +11,7 @@ namespace LibraryModule.ViewModels
         {
             Title = "Добавить состояние";
 
-            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.Id == device.DriverId);
+            var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == device.DriverId);
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
                 if (!device.States.Any(x => x.StateType == stateType && x.Code == null))

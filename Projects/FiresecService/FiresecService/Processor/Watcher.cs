@@ -50,7 +50,7 @@ namespace FiresecService
 
         void SetLastEvent()
         {
-            Firesec.ReadEvents.document journal = FiresecInternalClient.ReadEvents(0, 1);
+            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1);
             if ((journal.Journal != null) && (journal.Journal.Count() > 0))
             {
                 LastEventId = int.Parse(journal.Journal[0].IDEvents);
@@ -188,7 +188,7 @@ namespace FiresecService
                             if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
                             {
                                 var parentDeviceState = new ParentDeviceState();
-                                parentDeviceState.ParentDeviceId = deviceState.Id;
+                                parentDeviceState.ParentDeviceId = deviceState.UID;
                                 parentDeviceState.Code = state.Code;
                                 parentDeviceState.DriverState = state.DriverState;
                                 chilDevice.ParentStates.Add(parentDeviceState);

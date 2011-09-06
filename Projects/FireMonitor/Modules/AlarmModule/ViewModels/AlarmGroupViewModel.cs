@@ -35,7 +35,7 @@ namespace AlarmModule.ViewModels
         {
             if (alarm.AlarmType == this.AlarmType)
             {
-                var removingAlarm = Alarms.FirstOrDefault(x => x.DeviceId == alarm.DeviceId);
+                var removingAlarm = Alarms.FirstOrDefault(x => x.DeviceUID == alarm.DeviceUID);
                 Alarms.Remove(removingAlarm);
             }
             Update();

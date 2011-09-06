@@ -69,7 +69,7 @@ namespace AlarmModule.ViewModels
                 var resetItem = alarmViewModel.GetResetItem();
                 if (resetItem != null)
                 {
-                    var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceId == resetItem.DeviceId);
+                    var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceUID == resetItem.DeviceUID);
                     if (existringResetItem != null)
                     {
                         foreach (string stateName in resetItem.StateNames)
@@ -102,7 +102,7 @@ namespace AlarmModule.ViewModels
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
-                var alarmViewModel = Alarms.FirstOrDefault(x => x._alarm.DeviceId == alarm.DeviceId);
+                var alarmViewModel = Alarms.FirstOrDefault(x => x._alarm.DeviceUID == alarm.DeviceUID);
                 Alarms.Remove(alarmViewModel);
                 if (Alarms.Count == 0)
                 {

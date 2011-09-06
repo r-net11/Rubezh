@@ -38,10 +38,6 @@ namespace FiltersModule
             ServiceFactory.Layout.Show(_filtersViewModel);
         }
 
-        public static void Validate()
-        {
-        }
-
         public static bool HasChanges { get; set; }
     }
 }

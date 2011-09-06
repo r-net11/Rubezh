@@ -59,7 +59,7 @@ namespace FireAdministrator
             var plansModule = new PlansModule.PlansModule();
             plansModule.Initialize();
 
-            var sequrityModule = new SecurityModule.SequrityModule();
+            var sequrityModule = new SecurityModule.SecurityModule();
             sequrityModule.Initialize();
 
             var filtersModule = new FiltersModule.FilterModule();

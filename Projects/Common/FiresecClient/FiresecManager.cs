@@ -68,7 +68,7 @@ namespace FiresecClient
 
             foreach (var device in DeviceConfiguration.Devices)
             {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.Id == device.DriverId);
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 
                 if ((device.Driver.IsIndicatorDevice) || (device.IndicatorLogic != null))
                 {
@@ -90,9 +90,7 @@ namespace FiresecClient
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceState.Id);
-
-                //continue;
+                deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 
                 foreach (var state in deviceState.States)
                 {
@@ -101,7 +99,7 @@ namespace FiresecClient
 
                 foreach (var parentState in deviceState.ParentStates)
                 {
-                    parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == parentState.ParentDeviceId);
+                    parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
                     parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
                 }
             }
@@ -153,14 +151,14 @@ namespace FiresecClient
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
         }
 
-        public static void AddToIgnoreList(List<string> deviceIds)
+        public static void AddToIgnoreList(List<Guid> deviceUIDs)
         {
-            _firesecService.AddToIgnoreList(deviceIds);
+            _firesecService.AddToIgnoreList(deviceUIDs);
         }
 
-        public static void RemoveFromIgnoreList(List<string> deviceIds)
+        public static void RemoveFromIgnoreList(List<Guid> deviceUIDs)
         {
-            _firesecService.RemoveFromIgnoreList(deviceIds);
+            _firesecService.RemoveFromIgnoreList(deviceUIDs);
         }
 
         public static void ResetStates(List<ResetItem> resetItems)
@@ -173,9 +171,9 @@ namespace FiresecClient
             _firesecService.AddUserMessage(message);
         }
 
-        public static void ExecuteCommand(string deviceId, string methodName)
+        public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
-            _firesecService.ExecuteCommand(deviceId, methodName);
+            _firesecService.ExecuteCommand(deviceUID, methodName);
         }
 
         public static List<JournalRecord> ReadJournal(int startIndex, int count)

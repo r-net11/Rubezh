@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
             _deviceStates = new List<DeviceState>();
             foreach (var elementDevice in plan.ElementDevices)
             {
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == elementDevice.Id);
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.Id);
                 if (deviceState != null)
                 {
                     _deviceStates.Add(deviceState);

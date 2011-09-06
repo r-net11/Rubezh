@@ -7,29 +7,17 @@ namespace SecurityModule.ViewModels
     {
         public UserViewModel(User user)
         {
-            Name = user.Name;
-            FullName = user.FullName;
+            User = user;
         }
 
-        string _name;
-        public string Name
+        User _user;
+        public User User
         {
-            get { return _name; }
+            get { return _user; }
             set
             {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        string _fullName;
-        public string FullName
-        {
-            get { return _fullName; }
-            set
-            {
-                _fullName = value;
-                OnPropertyChanged("FullName");
+                _user = value;
+                OnPropertyChanged("User");
             }
         }
     }

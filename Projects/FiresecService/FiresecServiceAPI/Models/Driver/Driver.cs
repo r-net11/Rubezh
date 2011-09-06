@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -11,9 +12,9 @@ namespace FiresecAPI.Models
             Properties = new List<DriverProperty>();
             Parameters = new List<Parameter>();
             States = new List<DriverState>();
-            Children = new List<string>();
-            AvaliableChildren = new List<string>();
-            AutoCreateChildren = new List<string>();
+            Children = new List<Guid>();
+            AvaliableChildren = new List<Guid>();
+            AutoCreateChildren = new List<Guid>();
         }
 
         [DataMember]
@@ -26,7 +27,7 @@ namespace FiresecAPI.Models
         public List<DriverState> States { get; set; }
 
         [DataMember]
-        public string Id { get; set; }
+        public Guid UID { get; set; }
 
         [DataMember]
         public string Name { get; set; }
@@ -68,16 +69,16 @@ namespace FiresecAPI.Models
         public bool DisableAutoCreateChildren { get; set; }
 
         [DataMember]
-        public List<string> Children { get; set; }
+        public List<Guid> Children { get; set; }
 
         [DataMember]
-        public List<string> AvaliableChildren { get; set; }
+        public List<Guid> AvaliableChildren { get; set; }
 
         [DataMember]
         public bool CanAddChildren { get; set; }
 
         [DataMember]
-        public List<string> AutoCreateChildren { get; set; }
+        public List<Guid> AutoCreateChildren { get; set; }
 
         [DataMember]
         public bool IsRangeEnabled { get; set; }

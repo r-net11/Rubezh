@@ -18,13 +18,13 @@ namespace InstructionsModule.ViewModels
             SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
             InstructionZonesList = new List<string>();
-            InstructionDevicesList = new List<string>();
+            InstructionDevicesList = new List<Guid>();
         }
 
         bool _isNew;
         public Instruction Instruction { get; private set; }
         public List<string> InstructionZonesList { get; set; }
-        public List<string> InstructionDevicesList { get; set; }
+        public List<Guid> InstructionDevicesList { get; set; }
 
         public void Initialize()
         {
@@ -60,7 +60,7 @@ namespace InstructionsModule.ViewModels
                     }
                     if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
                     {
-                        InstructionDevicesList = new List<string>(Instruction.InstructionDevicesList);
+                        InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
                     }
                     break;
             }
@@ -151,7 +151,7 @@ namespace InstructionsModule.ViewModels
                     Device device;
                     if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
                     {
-                        device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == InstructionDevicesList[0]);
+                        device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[0]);
                     }
                     else
                     {
@@ -170,7 +170,7 @@ namespace InstructionsModule.ViewModels
                     {
                         if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
                         {
-                            device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == InstructionDevicesList[i]);
+                            device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[i]);
                         }
                         else
                         {

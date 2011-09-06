@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
+using System;
 
 namespace DevicesModule
 {
@@ -39,9 +40,9 @@ namespace DevicesModule
         static DevicesViewModel devicesViewModel;
         static ZonesViewModel zonesViewModel;
 
-        static void OnShowDevice(string id)
+        static void OnShowDevice(Guid deviceUID)
         {
-            devicesViewModel.Select(id);
+            devicesViewModel.Select(deviceUID);
             ServiceFactory.Layout.Show(devicesViewModel);
         }
 
@@ -51,9 +52,9 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(zonesViewModel);
         }
 
-        static void OnShowDeviceDetails(string deviceId)
+        static void OnShowDeviceDetails(Guid deviceUID)
         {
-            var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceId);
+            var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
             ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
         }
     }

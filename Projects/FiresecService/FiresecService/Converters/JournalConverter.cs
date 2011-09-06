@@ -1,5 +1,5 @@
 ﻿using System;
-using Firesec.ReadEvents;
+using Firesec.Journals;
 using FiresecAPI.Models;
 using FiresecService.DatabaseConverter;
 

@@ -14,7 +14,7 @@ namespace FireMonitor
         public SoundView()
         {
             InitializeComponent();
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
             CurrentStateType = StateType.No;
             IsSoundOn = true;
             DataContext = this;
@@ -40,7 +40,7 @@ namespace FireMonitor
             get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
         }
 
-        public void OnDeviceStateChanged(string deviceId)
+        public void OnDeviceStateChanged(Guid deviceUID)
         {
             var deviceStates = FiresecManager.DeviceStates.DeviceStates;
             var minState = StateType.No;

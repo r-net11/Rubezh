@@ -11,7 +11,7 @@ namespace FiresecClient
     {
         public void DeviceStateChanged(DeviceState newDeviceState)
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == newDeviceState.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
             deviceState.CopyFrom(newDeviceState);
 
             foreach (var state in deviceState.States)
@@ -22,19 +22,19 @@ namespace FiresecClient
 
             foreach (var parentState in deviceState.ParentStates)
             {
-                parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == parentState.ParentDeviceId);
+                parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
                 var driverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
                 parentState.DriverState = driverState;
             }
 
-            OnDeviceStateChanged(deviceState.Id);
+            OnDeviceStateChanged(deviceState.UID);
         }
 
         public void DeviceParametersChanged(DeviceState newDeviceState)
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == newDeviceState.Id);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
             deviceState.CopyFrom(newDeviceState);
-            OnDeviceParametersChanged(deviceState.Id);
+            OnDeviceParametersChanged(deviceState.UID);
         }
 
         public void ZoneStateChanged(ZoneState newZoneState)
@@ -56,21 +56,21 @@ namespace FiresecClient
                 NewJournalRecordEvent(journalRecord);
         }
 
-        public static event Action<string> DeviceStateChangedEvent;
-        public static void OnDeviceStateChanged(string deviceId)
+        public static event Action<Guid> DeviceStateChangedEvent;
+        public static void OnDeviceStateChanged(Guid deviceUID)
         {
             if (DeviceStateChangedEvent != null)
-                DeviceStateChangedEvent(deviceId);
+                DeviceStateChangedEvent(deviceUID);
 
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             deviceState.OnStateChanged();
         }
 
-        public static event Action<string> DeviceParametersChangedEvent;
-        public static void OnDeviceParametersChanged(string deviceId)
+        public static event Action<Guid> DeviceParametersChangedEvent;
+        public static void OnDeviceParametersChanged(Guid deviceUID)
         {
             if (DeviceParametersChangedEvent != null)
-                DeviceParametersChangedEvent(deviceId);
+                DeviceParametersChangedEvent(deviceUID);
         }
 
         public static event Action<string> ZoneStateChangedEvent;

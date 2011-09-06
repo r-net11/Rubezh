@@ -51,6 +51,8 @@
     <xs:attribute name="affectChildren" type="xs:string" />
     <xs:attribute name="manualReset" type="xs:string" />
     <xs:attribute name="primaryState" type="xs:string" />
+    <xs:attribute name="CanResetOnPanel" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
   </xs:complexType>
 
   <xs:complexType name="paramInfoType">
@@ -102,6 +104,7 @@
     <xs:attribute name="lim_parent" type="xs:string" />
     <xs:attribute name="altIntf" type="xs:string" />
     <xs:attribute name="addrPrefix" type="xs:string" />
+    <xs:attribute name="res_addr" type="xs:string" />
   </xs:complexType>
 
   <!-- Root Element -->
