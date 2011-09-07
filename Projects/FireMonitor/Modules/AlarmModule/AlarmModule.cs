@@ -8,8 +8,6 @@ namespace AlarmModule
 {
     public class AlarmModule : IModule
     {
-        //Microsoft.Performance : Вероятно, поле 'AlarmModule._alarmWatcher' нигде не используется, или ему только присваивается значение.
-        //Используйте это поле или удалите его.
         AlarmWatcher _alarmWatcher;
 
         public void Initialize()

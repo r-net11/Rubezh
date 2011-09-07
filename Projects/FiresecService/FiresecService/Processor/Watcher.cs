@@ -68,7 +68,8 @@ namespace FiresecService
                     if (int.Parse(innerJournalItem.IDEvents) > LastEventId)
                     {
                         var journalItem = JournalConverter.Convert(innerJournalItem);
-                        CallbackManager.OnNewJournalRecord(journalItem);
+                        DatabaseHelper.AddJournalRecord(journalRecord);
+                        CallbackManager.OnNewJournalRecord(journalRecord);
                     }
                 }
                 LastEventId = int.Parse(document.Journal[0].IDEvents);
@@ -143,12 +144,26 @@ namespace FiresecService
                 {
                     foreach (var state in deviceState.States)
                     {
-                        bool IsActive = innerDevice.state.Any(a => a.id == state.DriverState.Id);
+                        var innerState = innerDevice.state.FirstOrDefault(a => a.id == state.DriverState.Id);
+                        bool IsActive = innerState != null;
+
                         if (state.IsActive != IsActive)
                         {
                             hasOneChangedState = true;
                         }
                         state.IsActive = IsActive;
+
+                        if (IsActive)
+                        {
+                            if (innerState.time != null)
+                                state.Time = JournalConverter.ConvertTime(innerState.time);
+                            else
+                                state.Time = null;
+                        }
+                        else
+                        {
+                            state.Time = null;
+                        }
                     }
                 }
                 else

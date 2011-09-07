@@ -13,12 +13,11 @@ namespace AlarmModule.ViewModels
         public AlarmGroupViewModel()
         {
             Alarms = new List<Alarm>();
-            ShowCommand = new RelayCommand(OnShow);
+            ShowCommand = new RelayCommand(OnShowCommand);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
         }
 
-        public string Name { get; set; }
         public AlarmType AlarmType { get; set; }
         public List<Alarm> Alarms { get; set; }
 
@@ -42,11 +41,8 @@ namespace AlarmModule.ViewModels
         }
 
         public RelayCommand ShowCommand { get; private set; }
-        void OnShow()
+        void OnShowCommand()
         {
-            //'AlarmModule.ViewModels.AlarmGroupViewModel.OnShow()' скрывает наследуемый член 'Infrastructure.Common.RegionViewModel.OnShow()'
-            //Чтобы текущий член переопределял эту реализацию, добавьте ключевое слово override. В противном случае добавьте ключевое слово new
-
             var alarmListViewModel = new AlarmListViewModel();
             alarmListViewModel.Initialize(Alarms, AlarmType);
             ServiceFactory.Layout.Show(alarmListViewModel);

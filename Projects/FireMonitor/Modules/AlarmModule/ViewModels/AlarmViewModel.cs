@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AlarmModule.Events;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -13,12 +12,8 @@ namespace AlarmModule.ViewModels
     {
         public AlarmViewModel(Alarm alarm)
         {
-            _alarm = alarm;
-            Initialize();
-        }
+            Alarm = alarm;
 
-        public void Initialize()
-        {
             ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
             ResetCommand = new RelayCommand(OnReset);
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
@@ -29,83 +24,69 @@ namespace AlarmModule.ViewModels
             ShowVideoCommand = new RelayCommand(OnShowVideo);
         }
 
-        public Alarm _alarm;
+        public Alarm Alarm { get; set; }
 
         public AlarmType AlarmType
         {
-            get { return _alarm.AlarmType; }
-        }
-
-        public string Name
-        {
-            get { return _alarm.Name; }
+            get { return Alarm.AlarmType; }
         }
 
         public string Time
         {
-            get { return _alarm.Time; }
+            get { return Alarm.Time.ToString(); }
         }
 
-        public string DeviceName
+        public string Description
+        {
+            get { return Alarm.StateName; }
+        }
+
+        public string Source
         {
             get
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
-                return device.Driver.ShortName + " - " + device.PresentationAddress;
-            }
-        }
+                switch (Alarm.AlarmEntityType)
+                {
+                    case AlarmEntityType.Device:
+                        var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Alarm.DeviceUID);
+                        return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
 
-        public string Zone
-        {
-            get
-            {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-                return zone.No + "." + zone.Name;
-            }
-        }
-
-        bool _isConfirmed;
-        public bool IsConfirmed
-        {
-            get { return _isConfirmed; }
-            set
-            {
-                _isConfirmed = value;
-                OnPropertyChanged("IsConfirmed");
+                    case AlarmEntityType.Zone:
+                        var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == Alarm.ZoneNo);
+                        return "Зона " + zone.PresentationName;
+                }
+                return "";
             }
         }
 
         bool CanConfirm()
         {
-            return !IsConfirmed;
+            return !Alarm.IsConfirmed;
         }
 
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
-            IsConfirmed = true;
-            FiresecManager.AddUserMessage("Подтверждение " + _alarm.Name);
+            Alarm.Confirm();
         }
 
         public RelayCommand ResetCommand { get; private set; }
         void OnReset()
         {
-            //ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(_alarm);
-            Reset();
+            Alarm.Reset();
             Close();
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_alarm.DeviceUID);
+            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Alarm.DeviceUID);
         }
 
         public RelayCommand ShowDeviceCommand { get; private set; }
         void OnShowDevice()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_alarm.DeviceUID);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Alarm.DeviceUID);
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -124,12 +105,8 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowInstructionCommand { get; private set; }
         void OnShowInstruction()
         {
-            InstructionViewModel instructionViewModel = new InstructionViewModel(_alarm.DeviceUID, _alarm.AlarmType);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
-            if (result)
-            {
-
-            }
+            var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType);
+            ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
@@ -157,61 +134,7 @@ namespace AlarmModule.ViewModels
             ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
         }
 
-        void Reset()
-        {
-            var resetItems = new List<ResetItem>();
-            resetItems.Add(GetResetItem());
-            FiresecManager.ResetStates(resetItems);
-        }
-
-        public ResetItem GetResetItem()
-        {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _alarm.DeviceUID);
-            var parentDevice = device.Parent;
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-            var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
-
-            var resetItem = new ResetItem();
-
-            if (_alarm.AlarmType == AlarmType.Fire ||
-                _alarm.AlarmType == AlarmType.Attention ||
-                _alarm.AlarmType == AlarmType.Info)
-            {
-                resetItem.DeviceUID = parentDeviceState.UID;
-
-                foreach (var state in parentDeviceState.States)
-                {
-                    if (state.IsActive &&
-                        state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(_alarm.AlarmType) &&
-                        state.DriverState.IsManualReset)
-                    {
-                        resetItem.StateNames.Add(state.DriverState.Name);
-                    }
-                }
-            }
-            if (_alarm.AlarmType == AlarmType.Auto)
-            {
-                resetItem.DeviceUID = device.UID;
-
-                foreach (var state in deviceState.States)
-                {
-                    if (state.IsActive && state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
-                    {
-                        resetItem.StateNames.Add(state.DriverState.Name);
-                    }
-                }
-            }
-            if (_alarm.AlarmType == AlarmType.Off)
-            {
-            }
-
-            if (resetItem.StateNames.Count > 0)
-                return resetItem;
-
-            return null;
-        }
-
-        static void Close()
+        void Close()
         {
             ServiceFactory.Layout.ShowAlarm(null);
         }

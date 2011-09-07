@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AlarmModule.Events;
 using FiresecAPI.Models;
@@ -10,67 +11,184 @@ namespace AlarmModule
 {
     public class AlarmWatcher
     {
+        List<Alarm> Alarms;
+
         public AlarmWatcher()
         {
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
-            DeviceState.AlarmAdded += new Action<AlarmType, Guid>(DeviceState_AlarmAdded);
-            DeviceState.AlarmRemoved += new Action<AlarmType, Guid>(DeviceState_AlarmRemoved);
-            Update();
+            Alarms = new List<Alarm>();
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(FiresecEventSubscriber_DeviceStateChangedEvent);
+            FiresecEventSubscriber_DeviceStateChangedEvent(Guid.Empty);
         }
 
-        static void Update()
+        void FiresecEventSubscriber_DeviceStateChangedEvent(Guid obj)
         {
-            //Microsoft.Maintainability : 'AlarmWatcher.Update()' имеет сложность организации циклов 30.
-            //Напишите заново или реструктурируйте метод, чтобы уменьшить сложность до 25.
+            Alarms.ForEach(x => x.IsDeleting = true);
 
+            UpdateDeviceAlarms();
+            UpdateZoneAlarms();
+            UpdateValveTimer();
+
+            foreach (var alarm in Alarms)
+            {
+                if (alarm.IsDeleting)
+                    ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
+            }
+
+            Alarms.RemoveAll(x => x.IsDeleting);
+        }
+
+        void UpdateValveTimer()
+        {
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                if (device.Driver.DriverName != "Задвижка")
+                    continue;
+
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+
+                foreach (var state in deviceState.States)
+                {
+                    if (state.IsActive)
+                    {
+                        if (state.Code == "Bolt_On")
+                        {
+                            if (state.Time.HasValue == false)
+                                continue;
+
+                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+
+                            if (timeoutProperty == null)
+                                continue;
+
+                            int delta = 0;
+                            try
+                            {
+                                var timeSpan = DateTime.Now - state.Time.Value;
+                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
+                            }
+                            catch { continue; }
+
+                            if (delta > 0)
+                            {
+                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        void UpdateDeviceAlarms()
+        {
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
-                deviceState.IsFire = deviceState.States.Any(x => x.IsActive && x.DriverState.CanResetOnPanel && x.DriverState.StateType == StateType.Fire);
-                deviceState.IsAttention = deviceState.States.Any(x => x.IsActive && x.DriverState.CanResetOnPanel && x.DriverState.StateType == StateType.Attention);
-                deviceState.IsInfo = deviceState.States.Any(x => x.IsActive && x.DriverState.CanResetOnPanel && x.DriverState.StateType == StateType.Info);
-                deviceState.IsOff = deviceState.States.Any(x => x.IsActive && x.DriverState.StateType == StateType.Off);
+                foreach (var state in deviceState.States)
+                {
+                    if (state.IsActive)
+                    {
+                        AlarmType? alarmType = StateToAlarmType(state);
+                        if (alarmType.HasValue == false)
+                            continue;
 
-                deviceState.IsFailure = deviceState.States.Any(x => x.IsActive && x.DriverState.IsManualReset && x.DriverState.StateType == StateType.Failure);
-                deviceState.IsService = deviceState.States.Any(x => x.IsActive && x.DriverState.IsManualReset && x.DriverState.StateType == StateType.Service && x.DriverState.IsAutomatic == false);
-                deviceState.IsAutomaticOff = deviceState.States.Any(x => x.IsActive && x.DriverState.IsManualReset && x.DriverState.IsAutomatic);
+                        var stateType = state.DriverState.StateType;
+
+                        var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == deviceState.UID)));
+                        if (alarm != null)
+                        {
+                            alarm.IsDeleting = false;
+                        }
+                        else
+                        {
+                            var newAlarm = new Alarm()
+                            {
+                                AlarmType = alarmType.Value,
+                                StateType = stateType,
+                                DeviceUID = deviceState.UID,
+                                Time = state.Time,
+                                StateName = state.DriverState.Name
+                            };
+                            Alarms.Add(newAlarm);
+                            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
+                        }
+                    }
+                }
             }
         }
 
-        void DeviceState_AlarmAdded(AlarmType alarmType, Guid deviceUID)
+        void UpdateZoneAlarms()
         {
-            //Microsoft.Performance : 'AlarmWatcher.DeviceState_AlarmAdded(AlarmType, string)' объявляет переменную 'deviceState' типа 'DeviceState',
-            //которая никогда не используется или которой только присваивается значение. Используйте эту переменную, или удалите ее.
-
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
-            var alarm = new Alarm()
+            foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
             {
-                AlarmType = alarmType,
-                DeviceUID = deviceUID,
-                Name = EnumsConverter.AlarmToString(alarmType) + ". Устройство " + device.Driver.Name + " - " + device.PresentationAddress,
-                Time = DateTime.Now.ToString()
-            };
-            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(alarm);
-
-            if (alarmType == AlarmType.Fire)
-            {
-                ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(deviceUID);
+                if (zoneState.StateType == StateType.Fire)
+                {
+                    var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zoneState.No)));
+                    if (alarm != null)
+                    {
+                        alarm.IsDeleting = false;
+                    }
+                    else
+                    {
+                        var newAlarm = new Alarm()
+                        {
+                            AlarmType = AlarmType.Fire,
+                            StateType = StateType.Fire,
+                            ZoneNo = zoneState.No,
+                            Time = DateTime.Now,
+                            StateName = "Пожар"
+                        };
+                        Alarms.Add(newAlarm);
+                        ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
+                    }
+                }
             }
         }
 
-        void DeviceState_AlarmRemoved(AlarmType alarmType, Guid deviceUID)
+        AlarmType? StateToAlarmType(DeviceDriverState state)
         {
-            var alarm = new Alarm()
-            {
-                AlarmType = alarmType,
-                DeviceUID = deviceUID
-            };
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Publish(alarm);
-        }
+            AlarmType? alarmType = null;
 
-        void OnDeviceStateChangedEvent(Guid deviceUID)
-        {
-            Update();
+            var stateType = state.DriverState.StateType;
+
+            switch (stateType)
+            {
+                case StateType.Fire:
+                    return null;
+
+                case StateType.Attention:
+                    if (state.DriverState.CanResetOnPanel == false)
+                        return null;
+                    alarmType = AlarmType.Attention;
+                    break;
+
+                case StateType.Info:
+                    if (state.DriverState.CanResetOnPanel == false)
+                        return null;
+                    alarmType = AlarmType.Info;
+                    break;
+
+                case StateType.Off:
+                    alarmType = AlarmType.Off;
+                    break;
+
+                case StateType.Failure:
+                    if (state.DriverState.IsManualReset == false)
+                        return null;
+                    alarmType = AlarmType.Failure;
+                    break;
+
+                case StateType.Service:
+                    if ((state.DriverState.IsManualReset && state.DriverState.IsAutomatic == false) == false)
+                        return null;
+                    alarmType = AlarmType.Service;
+                    break;
+            }
+
+            if (state.DriverState.IsManualReset && state.DriverState.IsAutomatic)
+            {
+                alarmType = AlarmType.Auto;
+            }
+
+            return alarmType;
         }
     }
 }

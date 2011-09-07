@@ -57,10 +57,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alarm.cs" />
-    <Compile Include="AlarmWatcher.cs" />
     <Compile Include="Converters\AlarmTypeToColorConverter.cs" />
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
+    <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Events\AlarmAddedEvent.cs" />
     <Compile Include="Events\MoveAlarmToEndEvent.cs" />
     <Compile Include="Events\ShowAllAlarmsEvent.cs" />
@@ -69,10 +68,12 @@
     </Compile>
     <Compile Include="Imitator\AlarmImitatorViewModel.cs" />
     <Compile Include="Events\ResetAlarmEvent.cs" />
+    <Compile Include="Models\Alarm.cs" />
+    <Compile Include="AlarmWatcher.cs" />
+    <Compile Include="Models\AlarmEntityType.cs" />
     <Compile Include="ViewModels\AlarmListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
-    <Compile Include="ViewModels\AlarmPlayViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\VideoViewModel.cs" />
     <Compile Include="Views\AlarmView.xaml.cs">
@@ -171,6 +172,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

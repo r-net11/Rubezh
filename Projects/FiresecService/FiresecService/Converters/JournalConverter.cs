@@ -25,7 +25,25 @@ namespace FiresecService.Converters
             };
         }
 
-        static DateTime ConvertTime(string firesecTime)
+        public static Journal JournalRecordToDataBaseJournal(JournalRecord journalRecord)
+        {
+            return new Journal()
+            {
+                Id = journalRecord.No,
+                DeviceTime = (DateTime)journalRecord.DeviceTime,
+                SystemTime = (DateTime)journalRecord.SystemTime,
+                ZoneName = journalRecord.ZoneName,
+                Description = journalRecord.Description,
+                DeviceName = journalRecord.DeviceName,
+                PanelName = journalRecord.PanelName,
+                DeviceDatabaseId = journalRecord.DeviceDatabaseId,
+                PanelDatabaseId = journalRecord.PanelDatabaseId,
+                UserName = journalRecord.User,
+                StateType = (int)journalRecord.StateType
+            };
+        }
+
+        public static DateTime ConvertTime(string firesecTime)
         {
             return new DateTime(
                 int.Parse(firesecTime.Substring(0, 4)),

@@ -357,6 +357,18 @@ namespace FiresecClient
             }
         }
 
+        public void AddJournalRecord(JournalRecord journalRecord)
+        {
+            try
+            {
+                _iFiresecService.AddJournalRecord(journalRecord);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
         public void ExecuteCommand(Guid deviceUID, string methodName)
         {
             try

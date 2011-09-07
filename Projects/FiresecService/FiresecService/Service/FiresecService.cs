@@ -193,6 +193,11 @@ namespace FiresecService
             FiresecInternalClient.AddUserMessage(message);
         }
 
+        public void AddJournalRecord(JournalRecord journalRecord)
+        {
+            DatabaseHelper.AddJournalRecord(journalRecord);
+        }
+
         public void ExecuteCommand(Guid deviceUID, string methodName)
         {
             var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);

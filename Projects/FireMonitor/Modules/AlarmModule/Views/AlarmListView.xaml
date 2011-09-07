@@ -25,8 +25,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="100" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" Width="100" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding Zone}" Width="100" />
+                <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="100" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="300" />
                 <DataGridTemplateColumn Header="Действия">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

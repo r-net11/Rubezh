@@ -1,10 +1,10 @@
-﻿using Infrastructure.Common;
-using FiresecClient;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace AlarmModule.ViewModels
 {

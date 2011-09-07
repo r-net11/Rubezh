@@ -82,6 +82,9 @@ namespace FiresecAPI
         void AddUserMessage(string message);
 
         [OperationContract]
+        void AddJournalRecord(JournalRecord journalRecord);
+
+        [OperationContract]
         void ExecuteCommand(Guid deviceUID, string methodName);
 
         [OperationContract]

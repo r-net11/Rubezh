@@ -68,6 +68,7 @@
     <Compile Include="Converters\PlansConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
+    <Compile Include="DatabaseConverter\DatabaseHelper.cs" />
     <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
     <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
       <AutoGen>True</AutoGen>

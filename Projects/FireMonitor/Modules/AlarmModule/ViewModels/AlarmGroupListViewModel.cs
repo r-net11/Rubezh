@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AlarmModule.Events;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -11,23 +12,21 @@ namespace AlarmModule.ViewModels
     {
         public AlarmGroupListViewModel()
         {
-            AlarmGroups = new ObservableCollection<AlarmGroupViewModel>();
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Пожар", AlarmType = AlarmType.Fire });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Внимание", AlarmType = AlarmType.Attention });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Неисправность", AlarmType = AlarmType.Failure });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Отключение", AlarmType = AlarmType.Off });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Информация", AlarmType = AlarmType.Info });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Обслуживание", AlarmType = AlarmType.Service });
-            AlarmGroups.Add(new AlarmGroupViewModel() { Name = "Автоматика", AlarmType = AlarmType.Auto });
+            var alarmTypes = Enum.GetValues(typeof(AlarmType)).Cast<AlarmType>().ToList();
+            AlarmGroups = new List<AlarmGroupViewModel>();
+            foreach (var alarmType in alarmTypes)
+            {
+                AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
+            }
 
             ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Subscribe(OnShowAllAlarms);
         }
 
-        public ObservableCollection<AlarmGroupViewModel> AlarmGroups { get; set; }
+        public List<AlarmGroupViewModel> AlarmGroups { get; set; }
 
         void OnShowAllAlarms(object obj)
         {
-            List<Alarm> alarms = new List<Alarm>();
+            var alarms = new List<Alarm>();
             foreach (var alarmGroupViewModel in AlarmGroups)
             {
                 alarms.AddRange(alarmGroupViewModel.Alarms);

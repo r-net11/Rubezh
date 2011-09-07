@@ -79,6 +79,7 @@
     <Compile Include="Models\Plans\RectangleBox.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
+    <Compile Include="Models\System\InstructionType.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />

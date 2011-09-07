@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI.Models
 {
-    public enum InstructionType
-    {
-        General, 
-        Details
-    }
-
     [DataContract]
     public class Instruction
     {

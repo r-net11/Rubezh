@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -7,6 +8,9 @@ namespace FiresecAPI.Models
     {
         [DataMember]
         public bool IsActive { get; set; }
+
+        [DataMember]
+        public DateTime? Time { get; set; }
 
         [DataMember]
         public string Code { get; set; }

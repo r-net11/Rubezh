@@ -31,16 +31,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        ObservableCollection<AlarmViewModel> _alarms;
-        public ObservableCollection<AlarmViewModel> Alarms
-        {
-            get { return _alarms; }
-            set
-            {
-                _alarms = value;
-                OnPropertyChanged("Alarms");
-            }
-        }
+        public ObservableCollection<AlarmViewModel> Alarms { get; set; }
 
         AlarmViewModel _selectedAlarm;
         public AlarmViewModel SelectedAlarm
@@ -66,7 +57,7 @@ namespace AlarmModule.ViewModels
 
             foreach (var alarmViewModel in Alarms)
             {
-                var resetItem = alarmViewModel.GetResetItem();
+                var resetItem = alarmViewModel.Alarm.GetResetItem();
                 if (resetItem != null)
                 {
                     var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceUID == resetItem.DeviceUID);
@@ -102,7 +93,7 @@ namespace AlarmModule.ViewModels
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
-                var alarmViewModel = Alarms.FirstOrDefault(x => x._alarm.DeviceUID == alarm.DeviceUID);
+                var alarmViewModel = Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID);
                 Alarms.Remove(alarmViewModel);
                 if (Alarms.Count == 0)
                 {
@@ -113,7 +104,7 @@ namespace AlarmModule.ViewModels
 
         void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
         {
-            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Name == alarmViewModel.Name));
+            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Description == alarmViewModel.Description));
             int newIndex = Alarms.Count;
             Alarms.Move(oldIndex, newIndex - 1);
         }

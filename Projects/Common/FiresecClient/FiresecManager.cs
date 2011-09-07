@@ -175,6 +175,11 @@ namespace FiresecClient
             _firesecService.AddUserMessage(message);
         }
 
+        public static void AddJournalRecord(JournalRecord journalRecord)
+        {
+            _firesecService.AddJournalRecord(journalRecord);
+        }
+
         public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
             _firesecService.ExecuteCommand(deviceUID, methodName);
