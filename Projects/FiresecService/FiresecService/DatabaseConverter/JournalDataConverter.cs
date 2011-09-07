@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Common;
+using FiresecAPI.Models;
 using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
 
@@ -12,32 +13,22 @@ namespace FiresecService
         {
             using (var dataContext = new FiresecDbConverterDataContext())
             {
-                dataContext.Journal.DeleteAllOnSubmit(from j in dataContext.Journal select j);
-                dataContext.Journal.InsertAllOnSubmit(ReadAllJournal());
+                dataContext.JournalRecords.DeleteAllOnSubmit(from j in dataContext.JournalRecords select j);
+                dataContext.JournalRecords.InsertAllOnSubmit(ReadAllJournal());
                 dataContext.SubmitChanges();
             }
         }
 
-        public static void Select()
-        {
-            using (var dataContext = new FiresecDbConverterDataContext())
-            {
-                List<Journal> journals = (from journal in dataContext.Journal
-                                          where journal.StateType == 6
-                                          select journal).ToList();
-            }
-        }
-
-        public static IEnumerable<Journal> ReadAllJournal()
+        public static IEnumerable<JournalRecord> ReadAllJournal()
         {
             var internalJournal = FiresecInternalClient.ReadEvents(0, 100000);
             if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
                 return internalJournal.Journal.Select(
-                    innerJournaRecord => JournalConverter.ConvertToDataBaseJournal(innerJournaRecord));
+                    innerJournaRecord => JournalConverter.Convert(innerJournaRecord));
             }
 
-            return new List<Journal>();
+            return new List<JournalRecord>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -21,15 +22,13 @@ namespace JournalModule.ViewModels
 
         void Initialize()
         {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                FiresecManager.GetFilteredJournal(_journalFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
+
             FiresecEventSubscriber.NewJournalRecordEvent +=
                 new Action<JournalRecord>(OnNewJournaRecordEvent);
-
-            var journalRecords = FiresecManager.GetFilteredJournal(_journalFilter);
-            if (journalRecords != null)
-            {
-                foreach (var journalRecord in journalRecords)
-                    JournalRecords.Add(new JournalRecordViewModel(journalRecord));
             }
         }
 

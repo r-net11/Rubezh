@@ -5,13 +5,11 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
         <SolidColorBrush x:Key="borderBrush">LightGray</SolidColorBrush>
-
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
     </UserControl.Resources>
-
     <DockPanel>
         <Border DockPanel.Dock="Bottom" BorderThickness="0"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
@@ -26,7 +24,6 @@
                         <Setter Property="Padding" Value="5" />
                     </Style>
                 </Grid.Resources>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -36,15 +33,13 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-
                 <Border Grid.Row="0" Grid.ColumnSpan="2"
                     Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
                     <WrapPanel HorizontalAlignment="Center">
                         <TextBlock Text="Класс: " Style="{StaticResource headerStyle}" />
-                        <TextBlock Text="{Binding ClassId, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
                     </WrapPanel>
                 </Border>
-
                 <Border Grid.Row="1" Grid.Column="0">
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="{Binding Description}" FontWeight="Black" />
@@ -54,7 +49,6 @@
                         </WrapPanel>
                     </StackPanel>
                 </Border>
-
                 <Border Grid.Row="1" Grid.Column="1">
                     <StackPanel VerticalAlignment="Center">
                         <WrapPanel>
@@ -73,7 +67,6 @@
                 </Border>
             </Grid>
         </Border>
-
         <DataGrid Name="journalDataGrid"
                   ItemsSource="{Binding JournalRecords}"
                   SelectedItem="{Binding SelectedRecord}"
@@ -87,7 +80,6 @@
                 <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
             </DataGrid.Columns>
-
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Style.Setters>
@@ -103,7 +95,6 @@
                     </Style.Setters>
                 </Style>
             </DataGrid.RowStyle>
-
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Setters>
@@ -127,7 +118,6 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-
         </DataGrid>
     </DockPanel>
 </UserControl>

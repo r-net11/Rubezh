@@ -38,7 +38,6 @@ namespace FiresecServiceRunner
             return;
 
             JournalDataConverter.Convert();
-            JournalDataConverter.Select();
         }
     }
 }

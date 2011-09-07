@@ -1,49 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using FiresecService.DatabaseConverter;
 
 namespace FiresecService.Processor
 {
-    public class JournalHelper : IEqualityComparer<Journal>
+    public class JournalFilterHelper
     {
-        public static bool FilterRecord(JournalFilter filter, Journal journal)
+        public static bool FilterRecord(JournalFilter journalFilter, JournalRecord journalRecord)
         {
             bool result = true;
-            if (filter.Categories.IsNotNullOrEmpty())
+            if (journalFilter.Categories.IsNotNullOrEmpty())
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                        x => x.DatabaseId == journal.DeviceDatabaseId ||
-                             x.DatabaseId == journal.PanelDatabaseId);
+                        x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
+                             x.DatabaseId == journalRecord.PanelDatabaseId);
 
-                if (result = device != null)
+                if ((result = (device != null)))
                 {
-                    result = filter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category);
+                    result = journalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category);
                 }
             }
 
-            if (result && filter.Events.IsNotNullOrEmpty())
+            if (result && journalFilter.Events.IsNotNullOrEmpty())
             {
-                result = filter.Events.Any(_event => _event == (StateType) journal.StateType);
+                result = journalFilter.Events.Any(_event => _event == journalRecord.StateType);
             }
 
             return result;
-        }
-
-        public bool Equals(Journal x, Journal y)
-        {
-            if (object.ReferenceEquals(x, y)) return true;
-
-            if (object.ReferenceEquals(x, null) || object.ReferenceEquals(y, null))
-                return false;
-
-            return x.Description == y.Description;
-        }
-
-        public int GetHashCode(Journal obj)
-        {
-            return obj.Description.GetHashCode();
         }
     }
 }

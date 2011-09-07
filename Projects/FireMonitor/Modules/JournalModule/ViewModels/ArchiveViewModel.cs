@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -9,28 +10,55 @@ namespace JournalModule.ViewModels
 {
     public class ArchiveViewModel : RegionViewModel
     {
+        readonly ArchiveFilterViewModel _archiveFilter;
+
         public ArchiveViewModel()
         {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
+            SetDefaultArchiveContent();
+
+            _archiveFilter = new ArchiveFilterViewModel();
 
             ShowFilterCommand = new RelayCommand(OnShowFilter);
         }
 
-        bool _isFiltered;
-        public bool IsFiltered
+        bool _isFilterOn;
+        public bool IsFilterOn
         {
-            get { return _isFiltered; }
+            get { return _isFilterOn; }
             set
             {
-                _isFiltered = value;
-                OnPropertyChanged("IsFiltered");
+                if (value)
+                {
+                    if (_archiveFilter.IsClear)
+                    {
+                        OnShowFilter();
+                        return;
+                    }
+                    else
+                    {
+                        ApplyFilter();
+                    }
+                }
+                else
+                {
+                    SetDefaultArchiveContent();
+                }
+
+                _isFilterOn = value;
+                OnPropertyChanged("IsFilterOn");
             }
         }
 
-        public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
+        ObservableCollection<JournalRecordViewModel> _journalRecords;
+        public ObservableCollection<JournalRecordViewModel> JournalRecords
+        {
+            get { return _journalRecords; }
+            private set
+            {
+                _journalRecords = value;
+                OnPropertyChanged("JournalRecords");
+            }
+        }
 
         JournalRecordViewModel _selectedRecord;
         public JournalRecordViewModel SelectedRecord
@@ -43,11 +71,41 @@ namespace JournalModule.ViewModels
             }
         }
 
+        void SetDefaultArchiveContent()
+        {
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
+        }
+
+        void ApplyFilter()
+        {
+            ArchiveFilter filter = new ArchiveFilter()
+            {
+                Descriptions = new List<string>(
+                    _archiveFilter.JournalEvents.Where(x => x.IsEnable == true).Select(x => x.Name)
+                ),
+                UseSystemDate = _archiveFilter.UseSystemDate,
+                StartDate = _archiveFilter.StartDate,
+                EndDate = _archiveFilter.EndDate,
+            };
+
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                FiresecManager.GetFilteredArchive(filter).Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
+        }
+
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            var filterViewModel = new ArchiveFilterViewModel(JournalRecords);
-            ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
+            ArchiveFilterViewModel tmpArchiveFilter = new ArchiveFilterViewModel();
+            _archiveFilter.CopyTo(tmpArchiveFilter);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(tmpArchiveFilter))
+            {
+                tmpArchiveFilter.CopyTo(_archiveFilter);
+                IsFilterOn = true;
+            }
         }
     }
 }

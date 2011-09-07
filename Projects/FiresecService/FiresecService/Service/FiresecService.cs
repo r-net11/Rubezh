@@ -130,7 +130,7 @@ namespace FiresecService
             {
                 foreach (var innerJournalRecord in internalJournal.Journal)
                 {
-                    journalRecords.Add(JournalConverter.ConvertToJournalRecord(innerJournalRecord));
+                    journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
                 }
             }
 
@@ -139,18 +139,24 @@ namespace FiresecService
 
         public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
-            return DataBaseContext.Journal.AsEnumerable().
-                Where(journal => journalFilter.CheckDaysConstraint((DateTime) journal.SystemTime)).
-                Where(journal => JournalHelper.FilterRecord(journalFilter, journal)).
-                Take(journalFilter.LastRecordsCount).
-                Select(x => JournalConverter.DataBaseJournalToJournalRecord(x));
+            return DataBaseContext.JournalRecords.AsEnumerable().
+                Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
+                Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
+                Take(journalFilter.LastRecordsCount);
+        }
+
+        public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
+        {
+            return DataBaseContext.JournalRecords.AsEnumerable().
+                SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
+                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
+                Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
         }
 
         public IEnumerable<JournalRecord> GetDistinctRecords()
         {
-            return DataBaseContext.Journal.AsEnumerable().
-                Select(x => x).Distinct(new JournalHelper()).
-                Select(x => JournalConverter.DataBaseJournalToJournalRecord(x));
+            return DataBaseContext.JournalRecords.AsEnumerable().
+                Select(x => x).Distinct(new JournalRecord());
         }
 
         public void AddToIgnoreList(List<Guid> deviceGuids)

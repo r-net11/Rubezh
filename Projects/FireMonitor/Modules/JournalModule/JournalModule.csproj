@@ -139,7 +139,6 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

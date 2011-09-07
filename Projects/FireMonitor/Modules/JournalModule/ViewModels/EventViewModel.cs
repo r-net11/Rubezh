@@ -7,11 +7,11 @@ namespace JournalModule.ViewModels
     {
         public EventViewModel(StateType stateType, string name)
         {
-            ClassId = (int) stateType;
+            ClassId = stateType;
             Name = name;
         }
 
-        public int ClassId { get; private set; }
+        public StateType ClassId { get; private set; }
         public string Name { get; private set; }
 
         bool _isEnable = false;

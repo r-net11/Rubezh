@@ -64,6 +64,9 @@ namespace FiresecAPI
         IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter);
 
         [OperationContract]
+        IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter);
+
+        [OperationContract]
         IEnumerable<JournalRecord> GetDistinctRecords();
 
         [OperationContract]

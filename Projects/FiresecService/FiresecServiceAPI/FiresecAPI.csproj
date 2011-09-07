@@ -77,6 +77,7 @@
     <Compile Include="Models\Library\LibraryState.cs" />
     <Compile Include="Models\Plans\CaptionBox.cs" />
     <Compile Include="Models\Plans\RectangleBox.cs" />
+    <Compile Include="Models\System\ArchiveFilter.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />

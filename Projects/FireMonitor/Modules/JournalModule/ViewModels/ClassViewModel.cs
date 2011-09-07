@@ -7,10 +7,10 @@ namespace JournalModule.ViewModels
     {
         public ClassViewModel(StateType stateType)
         {
-            Id = (int) stateType;
+            Id = stateType;
         }
 
-        public int Id { get; private set; }
+        public StateType Id { get; private set; }
 
         bool? _isEnable = false;
         public bool? IsEnable

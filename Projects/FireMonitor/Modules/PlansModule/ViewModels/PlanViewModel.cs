@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -63,26 +62,26 @@ namespace PlansModule.ViewModels
 
             foreach (var deviceState in _deviceStates)
             {
-                int priority = (int)deviceState.StateType;
+                int priority = (int) deviceState.StateType;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            _selfState = (StateType)minPriority;
+            _selfState = (StateType) minPriority;
 
             UpdateState();
         }
 
         public void UpdateState()
         {
-            int minPriority = (int)_selfState;
+            int minPriority = (int) _selfState;
 
             foreach (var planViewModel in Children)
             {
-                int priority = (int)planViewModel.StateType;
+                int priority = (int) planViewModel.StateType;
                 if (priority < minPriority)
                     minPriority = priority;
             }
-            StateType = (StateType)minPriority;
+            StateType = (StateType) minPriority;
 
             if (Parent != null)
             {

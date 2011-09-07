@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 
@@ -90,6 +91,9 @@ namespace FiresecClient
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
+                if (deviceState == null || !deviceState.States.IsNotNullOrEmpty() || !deviceState.ParentStates.IsNotNullOrEmpty())
+                    break;
+
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 
                 foreach (var state in deviceState.States)
@@ -184,6 +188,11 @@ namespace FiresecClient
         public static IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
             return _firesecService.GetFilteredJournal(journalFilter);
+        }
+
+        public static IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
+        {
+            return _firesecService.GetFilteredArchive(archiveFilter);
         }
 
         public static IEnumerable<JournalRecord> GetDistinctRecords()

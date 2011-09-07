@@ -283,6 +283,19 @@ namespace FiresecClient
             return null;
         }
 
+        public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
+        {
+            try
+            {
+                return _iFiresecService.GetFilteredArchive(archiveFilter);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
         public IEnumerable<JournalRecord> GetDistinctRecords()
         {
             try

@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
     public class ArchiveFilterViewModel : DialogContent
     {
-        ObservableCollection<JournalRecordViewModel> _journalRecords;
-
-        public ArchiveFilterViewModel(ObservableCollection<JournalRecordViewModel> journalRecords)
+        public ArchiveFilterViewModel()
         {
-            _journalRecords = journalRecords;
             Initialize();
         }
 
-        public void Initialize()
+        void Initialize()
         {
             Title = "Фильтр архива";
 
+            IsClear = true;
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
 
             JournalEvents = new List<EventViewModel>(
@@ -33,8 +31,11 @@ namespace JournalModule.ViewModels
                 Select(x => new ClassViewModel((StateType) x))
             );
 
+            FiresecEventSubscriber.NewJournalRecordEvent +=
+                new Action<JournalRecord>(OnNewJournaRecordEvent);
+
             ClearCommand = new RelayCommand(OnClear);
-            SaveCommand = new RelayCommand(OnSave);
+            SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
@@ -58,8 +59,19 @@ namespace JournalModule.ViewModels
             get { return _startDate; }
             set
             {
-                _startDate = value;
+                _startDate = new DateTime(value.Year, value.Month, value.Day,
+                                          _startDate.Hour, _startDate.Minute, _startDate.Second);
                 OnPropertyChanged("StartDate");
+            }
+        }
+        public DateTime StartTime
+        {
+            get { return _startDate; }
+            set
+            {
+                _startDate = new DateTime(_startDate.Year, _startDate.Month, _startDate.Day,
+                                            value.Hour, value.Minute, value.Second);
+                OnPropertyChanged("StartTime");
             }
         }
 
@@ -69,31 +81,48 @@ namespace JournalModule.ViewModels
             get { return _endDate; }
             set
             {
-                _endDate = value;
+                _endDate = new DateTime(value.Year, value.Month, value.Day,
+                                        _endDate.Hour, _endDate.Minute, _endDate.Second); ;
                 OnPropertyChanged("EndDate");
             }
         }
-
-        DateTime _startTime;
-        public DateTime StartTime
+        public DateTime EndTime
         {
-            get { return _startTime; }
+            get { return _endDate; }
             set
             {
-                _startTime = value;
-                OnPropertyChanged("StartTime");
+                _endDate = new DateTime(_endDate.Year, _endDate.Month, _endDate.Day,
+                                          value.Hour, value.Minute, value.Second);
+                OnPropertyChanged("EndTime");
             }
         }
 
-        DateTime _endTime;
-        public DateTime EndTime
+        public bool IsClear { get; set; }
+
+        void OnNewJournaRecordEvent(JournalRecord newRecord)
         {
-            get { return _endTime; }
-            set
+            if (JournalEvents.Any(x => x.Name == newRecord.Description) == false)
             {
-                _endTime = value;
-                OnPropertyChanged("EndTime");
+                JournalEvents.Add(new EventViewModel(newRecord.StateType, newRecord.Description));
+                if (JournalTypes.Any(x => x.Id == newRecord.StateType) == false)
+                    JournalTypes.Add(new ClassViewModel(newRecord.StateType));
             }
+        }
+
+        public void CopyTo(ArchiveFilterViewModel dest)
+        {
+            dest.JournalEvents = new List<EventViewModel>(
+                JournalEvents.Select(x => new EventViewModel(x.ClassId, x.Name) { IsEnable = x.IsEnable })
+            );
+            dest.JournalTypes = new List<ClassViewModel>(
+                JournalTypes.Select(x => new ClassViewModel(x.Id) { IsEnable = x.IsEnable })
+            );
+            dest.UseSystemDate = UseSystemDate;
+            dest.StartDate = StartDate;
+            dest.StartTime = StartTime;
+            dest.EndDate = EndDate;
+            dest.EndTime = EndTime;
+            dest.IsClear = IsClear;
         }
 
         public RelayCommand ClearCommand { get; private set; }
@@ -109,9 +138,13 @@ namespace JournalModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            //var startDateTime = StartDate.Date + StartTime.TimeOfDay;
-            //var endDateTime = EndDate.Date + EndTime.TimeOfDay;
+            IsClear = false;
             Close(true);
+        }
+
+        bool CanSave()
+        {
+            return JournalEvents.Any(x => x.IsEnable == true);
         }
 
         public RelayCommand CancelCommand { get; private set; }
