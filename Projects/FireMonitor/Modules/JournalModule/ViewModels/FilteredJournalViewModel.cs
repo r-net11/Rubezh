@@ -29,7 +29,6 @@ namespace JournalModule.ViewModels
 
             FiresecEventSubscriber.NewJournalRecordEvent +=
                 new Action<JournalRecord>(OnNewJournaRecordEvent);
-            }
         }
 
         public string Name

@@ -29,6 +29,8 @@ namespace FiresecClient
             bool result = _firesecService.Connect(login, password);
             if (result)
             {
+                //return true;
+
                 FileHelper.Synchronize();
                 Drivers = _firesecService.GetDrivers();
                 SystemConfiguration = _firesecService.GetSystemConfiguration();
@@ -39,10 +41,12 @@ namespace FiresecClient
                 DeviceStates = _firesecService.GetStates();
                 Update();
 
+                _firesecService.Subscribe();
+
                 _loggedInUserName = login;
 
                 _firesecService.StartPing();
-                _firesecService.Test();
+                //_firesecService.Test();
             }
 
             return result;
@@ -91,8 +95,8 @@ namespace FiresecClient
 
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                if (deviceState == null || !deviceState.States.IsNotNullOrEmpty() || !deviceState.ParentStates.IsNotNullOrEmpty())
-                    break;
+                //if (deviceState == null || !deviceState.States.IsNotNullOrEmpty() || !deviceState.ParentStates.IsNotNullOrEmpty())
+                //    break;
 
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 

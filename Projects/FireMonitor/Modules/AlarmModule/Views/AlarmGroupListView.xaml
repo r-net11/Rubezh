@@ -21,7 +21,7 @@
                              GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
                              IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
                              PathToIcon="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}"
-                             ToolTip="{Binding Name, Converter={StaticResource AlarmTypeToStringConverter}}">
+                             ToolTip="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}">
                         <StackPanel Orientation="Horizontal">
                             <!--<Image Visibility="Visible" Source="D:/_xxx2.png" Stretch="None" />-->
                             <!--<TextBlock Visibility="Collapsed" Text="{Binding Name}" Foreground="Black" TextWrapping="WrapWithOverflow" />-->

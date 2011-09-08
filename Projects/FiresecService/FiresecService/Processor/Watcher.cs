@@ -67,7 +67,7 @@ namespace FiresecService
                 {
                     if (int.Parse(innerJournalItem.IDEvents) > LastEventId)
                     {
-                        var journalItem = JournalConverter.Convert(innerJournalItem);
+                        var journalRecord = JournalConverter.Convert(innerJournalItem);
                         DatabaseHelper.AddJournalRecord(journalRecord);
                         CallbackManager.OnNewJournalRecord(journalRecord);
                     }

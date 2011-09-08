@@ -28,28 +28,31 @@ namespace FiresecService
         {
             foreach (var failedCallback in _failedCallbacks)
             {
-                FiresecServiceRunner.MainWindow.AddMessage("Callback error");
                 _callbacks.Remove(failedCallback);
             }
         }
 
         public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
-            _failedCallbacks = new List<IFiresecCallback>();
-
-            foreach (var callback in _callbacks)
+            lock (FiresecService.locker)
             {
-                try
-                {
-                    callback.NewJournalRecord(journalRecord);
-                }
-                catch
-                {
-                    _failedCallbacks.Add(callback);
-                }
-            }
+                _failedCallbacks = new List<IFiresecCallback>();
 
-            Clean();
+                foreach (var callback in _callbacks)
+                {
+                    try
+                    {
+                        callback.NewJournalRecord(journalRecord);
+                        FiresecServiceRunner.MainWindow.AddMessage("New Journal Event");
+                    }
+                    catch
+                    {
+                        _failedCallbacks.Add(callback);
+                    }
+                }
+
+                Clean();
+            }
         }
 
         public static void OnDeviceStateChanged(DeviceState deviceState)

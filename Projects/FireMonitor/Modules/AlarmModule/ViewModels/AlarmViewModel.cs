@@ -16,6 +16,8 @@ namespace AlarmModule.ViewModels
 
             ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
             ResetCommand = new RelayCommand(OnReset);
+            RemoveFromIgnoreListCommand = new RelayCommand(OnRemoveFromIgnoreList);
+
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
             CloseCommand = new RelayCommand(OnClose);
@@ -52,10 +54,19 @@ namespace AlarmModule.ViewModels
                         return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
 
                     case AlarmEntityType.Zone:
-                        var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == Alarm.ZoneNo);
+                        var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
                         return "Зона " + zone.PresentationName;
                 }
                 return "";
+            }
+        }
+
+        public bool MustConfirm
+        {
+            get
+            {
+                return ((Alarm.AlarmType == AlarmType.Fire) &&
+                    (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_NoAlarmConfirm) == false));
             }
         }
 
@@ -70,10 +81,27 @@ namespace AlarmModule.ViewModels
             Alarm.Confirm();
         }
 
+        public bool CanReset
+        {
+            get { return Alarm.CanReset(); }
+        }
+
         public RelayCommand ResetCommand { get; private set; }
         void OnReset()
         {
             Alarm.Reset();
+            Close();
+        }
+
+        public bool CanRemoveFromIgnoreList
+        {
+            get { return Alarm.CanRemoveFromIgnoreList(); }
+        }
+
+        public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
+        void OnRemoveFromIgnoreList()
+        {
+            Alarm.RemoveFromIgnoreList();
             Close();
         }
 
@@ -112,9 +140,9 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            
+
         }
-        
+
         public RelayCommand NotifyPhoneCommand { get; private set; }
         void OnNotifyPhone()
         {

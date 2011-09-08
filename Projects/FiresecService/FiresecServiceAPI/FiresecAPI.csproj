@@ -63,6 +63,7 @@
     <Compile Include="AddressConverter.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Configuration\FullConfiguration.cs" />
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />

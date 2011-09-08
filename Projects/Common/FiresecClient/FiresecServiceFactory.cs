@@ -42,8 +42,6 @@ namespace FiresecClient
                 }
             }
 
-            _duplexChannelFactory.Faulted += new EventHandler(_duplexChannelFactory_Faulted);
-
             _duplexChannelFactory.Open();
 
             IFiresecService _firesecService = _duplexChannelFactory.CreateChannel();
@@ -56,11 +54,6 @@ namespace FiresecClient
             {
                 _duplexChannelFactory.Close();
             }
-        }
-
-        static void _duplexChannelFactory_Faulted(object sender, EventArgs e)
-        {
-            Trace.WriteLine("Channel fault");
         }
     }
 }

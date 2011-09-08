@@ -1,6 +1,8 @@
 ﻿using FiresecAPI.Models;
-using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
+using System;
+using System.Threading;
+using System.ServiceModel;
 
 namespace FiresecService
 {
@@ -10,9 +12,33 @@ namespace FiresecService
         {
             using (var dataContext = new FiresecDbConverterDataContext())
             {
-                var journal = JournalConverter.JournalRecordToDataBaseJournal(journalRecord);
-                dataContext.Journal.InsertOnSubmit(journal);
+                dataContext.JournalRecords.InsertOnSubmit(journalRecord);
                 dataContext.SubmitChanges();
+            }
+        }
+
+        public static void AddInfoMessage(string userName, string mesage)
+        {
+            var journalRecord = new JournalRecord()
+            {
+                DeviceTime = DateTime.Now,
+                SystemTime = DateTime.Now,
+                StateType = StateType.Info,
+                Description = mesage,
+                User = userName
+            };
+            AddJournalRecord(journalRecord);
+
+            Thread thread = new Thread(new ParameterizedThreadStart(Send));
+            thread.Start(journalRecord);
+        }
+
+        static void Send(object obj)
+        {
+            lock (FiresecService.locker)
+            {
+                var journalRecord = obj as JournalRecord;
+                CallbackManager.OnNewJournalRecord(journalRecord);
             }
         }
     }

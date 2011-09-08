@@ -36,19 +36,39 @@ namespace AlarmModule
         {
             IsConfirmed = true;
 
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == DeviceUID);
-            var parentDevice = device.Parent;
+            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
             var journalRecord = new JournalRecord()
             {
                 SystemTime = DateTime.Now,
                 DeviceTime = DateTime.Now,
-                User = FiresecManager.CurrentUser.FullName,
-                DeviceDatabaseId = device.DatabaseId,
-                PanelName = parentDevice.Driver.ShortName + " " + parentDevice.DottedAddress,
-                Description = "Состояние \"" + StateName + "\" сброшено оператором"
+                ZoneName = zone.No,
+                Description = "Состояние \"" + StateName + "\" подтверждено оператором",
+                StateType = StateType.Info
             };
             FiresecManager.AddJournalRecord(journalRecord);
+        }
+
+        public bool CanRemoveFromIgnoreList()
+        {
+            return StateType == StateType.Off;
+        }
+
+        public bool CanReset()
+        {
+            return StateType != StateType.Off;
+        }
+
+        public void RemoveFromIgnoreList()
+        {
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x=>x.UID == DeviceUID);
+            if (deviceState.CanDisable())
+            {
+                if (deviceState.IsDisabled)
+                {
+                    FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+                }
+            }
         }
 
         void OldConfirm()

@@ -31,8 +31,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" />
-                                <Button Content="Сбросить" Command="{Binding ResetCommand}" />
+                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <Button Content="Сбросить" Command="{Binding ResetCommand}"  Visibility="{Binding CanReset, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <Button Content="Убрать из обхода" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

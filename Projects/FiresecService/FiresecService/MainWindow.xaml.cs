@@ -21,7 +21,7 @@ namespace FiresecServiceRunner
 
         void Button_Click(object sender, RoutedEventArgs e)
         {
-            FiresecManager.Connect("adm", "");
+            FiresecManager.ConnectFiresecCOMServer("adm", "");
             FiresecServiceManager.Open();
         }
 

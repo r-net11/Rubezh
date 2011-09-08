@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using FiresecClient;
+using Common;
 
 namespace FireMonitor
 {
@@ -60,7 +61,7 @@ namespace FireMonitor
                     break;
 
                 case PasswordViewType.Validate:
-                    IsConnected = Check(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
+                    IsConnected = PasswordHashChecker.Check(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
                     break;
             }
 
@@ -78,21 +79,6 @@ namespace FireMonitor
         {
             IsConnected = false;
             Close();
-        }
-
-        public static bool Check(string password, string hash)
-        {
-            var mD5CryptoServiceProvider = new System.Security.Cryptography.MD5CryptoServiceProvider();
-            byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
-            passwordBytes = mD5CryptoServiceProvider.ComputeHash(passwordBytes);
-            var stringBuilder = new System.Text.StringBuilder();
-            foreach (byte passwordByte in passwordBytes)
-            {
-                stringBuilder.Append(passwordByte.ToString("x2").ToLower());
-            }
-            string realHash = stringBuilder.ToString();
-
-            return realHash.ToLower() == hash.ToLower();
         }
     }
 }

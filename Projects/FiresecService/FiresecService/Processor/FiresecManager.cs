@@ -16,13 +16,14 @@ namespace FiresecService
         public static SecurityConfiguration SecurityConfiguration { get; set; }
         public static Firesec.CoreConfiguration.config CoreConfig { get; set; }
 
-        public static bool Connect(string login, string password)
+        public static bool ConnectFiresecCOMServer(string login, string password)
         {
             bool result = FiresecInternalClient.Connect(login, password);
             if (result)
             {
                 ConvertMetadataFromFiresec();
                 DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+                SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
                 Update();
                 DeviceStatesConverter.Convert();
 

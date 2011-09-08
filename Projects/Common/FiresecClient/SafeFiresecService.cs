@@ -56,11 +56,11 @@ namespace FiresecClient
             Ping();
         }
 
-        public bool Connect(string userName, string passwordHash)
+        public bool Connect(string userName, string password)
         {
             try
             {
-                return _iFiresecService.Connect(userName, passwordHash);
+                return _iFiresecService.Connect(userName, password);
             }
             catch
             {
@@ -69,11 +69,11 @@ namespace FiresecClient
             return false;
         }
 
-        public bool Reconnect(string userName, string passwordHash)
+        public bool Reconnect(string userName, string password)
         {
             try
             {
-                return _iFiresecService.Reconnect(userName, passwordHash);
+                return _iFiresecService.Reconnect(userName, password);
             }
             catch
             {
@@ -87,6 +87,18 @@ namespace FiresecClient
             try
             {
                 _iFiresecService.Disconnect();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public void Subscribe()
+        {
+            try
+            {
+                _iFiresecService.Subscribe();
             }
             catch
             {
@@ -438,6 +450,10 @@ namespace FiresecClient
                 OnConnectionLost();
             }
             catch (CommunicationException)
+            {
+                OnConnectionLost();
+            }
+            catch (Exception)
             {
                 OnConnectionLost();
             }

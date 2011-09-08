@@ -5,6 +5,8 @@
         <StackPanel>
             <TextBlock Text="Настройки" FontWeight="Bold" Margin="2" />
             <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="100" Margin="2" />
+            <Button Content="Сохранить конфигурацию в файл" Command="{Binding SaveConfigurationCommand}" Width="200" Margin="2" />
+            <Button Content="Загрузить конфигурацию из файла" Command="{Binding LoadConfigurationCommand}" Width="200" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

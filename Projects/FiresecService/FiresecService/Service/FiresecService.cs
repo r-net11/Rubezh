@@ -10,10 +10,12 @@ using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
 using FiresecService.Processor;
 using FiresecServiceRunner;
+using System.ServiceModel.Channels;
 
 namespace FiresecService
 {
-    [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true, InstanceContextMode = InstanceContextMode.PerSession)]
+    [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
+        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Single)]
     public class FiresecService : IFiresecService, IDisposable
     {
         readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
@@ -21,26 +23,48 @@ namespace FiresecService
         IFiresecCallback _currentCallback;
         string _userName;
 
-        public bool Connect(string userName, string passwordHash)
+        public static object locker = new object();
+
+        public bool Connect(string userName, string password)
         {
-            bool result = CheckLogin(userName, passwordHash);
+            lock (locker)
+            {
+                bool result = CheckLogin(userName, password);
+                if (result)
+                {
+                    MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
+                    DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
+                }
+
+                return result;
+            }
+        }
+
+        public bool Reconnect(string userName, string password)
+        {
+            var oldUser = GetUserFullName();
+            
+            var result = CheckLogin(userName, password);
+
             if (result)
             {
-                _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-                CallbackManager.Add(_currentCallback);
-                MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
+                var newUser = GetUserFullName();
+                DatabaseHelper.AddInfoMessage(_userName, "Дежурство сдал");
+                DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
             }
 
             return result;
         }
 
-        public bool Reconnect(string userName, string passwordHash)
+        bool CheckLogin(string userName, string password)
         {
-            return CheckLogin(userName, passwordHash);
-        }
+            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == userName);
+            if (user == null)
+                return false;
 
-        bool CheckLogin(string userName, string passwordHash)
-        {
+            if (PasswordHashChecker.Check(password, user.PasswordHash) == false)
+                return false;
+
             _userName = userName;
             return true;
         }
@@ -49,21 +73,37 @@ namespace FiresecService
         public void Disconnect()
         {
             CallbackManager.Remove(_currentCallback);
+            DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
+        }
+
+        public void Subscribe()
+        {
+            _currentCallback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+            CallbackManager.Add(_currentCallback);
         }
 
         public List<Driver> GetDrivers()
         {
-            return FiresecManager.Drivers;
+            lock (locker)
+            {
+                return FiresecManager.Drivers;
+            }
         }
 
         public DeviceConfiguration GetDeviceConfiguration()
         {
-            return ConfigurationFileManager.GetDeviceConfiguration();
+            lock (locker)
+            {
+                return ConfigurationFileManager.GetDeviceConfiguration();
+            }
         }
 
         public DeviceConfigurationStates GetStates()
         {
-            return FiresecManager.DeviceConfigurationStates;
+            lock (locker)
+            {
+                return FiresecManager.DeviceConfigurationStates;
+            }
         }
 
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
@@ -81,7 +121,10 @@ namespace FiresecService
 
         public SecurityConfiguration GetSecurityConfiguration()
         {
-            return ConfigurationFileManager.GetSecurityConfiguration();
+            lock (locker)
+            {
+                return ConfigurationFileManager.GetSecurityConfiguration();
+            }
         }
 
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
@@ -92,7 +135,10 @@ namespace FiresecService
 
         public SystemConfiguration GetSystemConfiguration()
         {
-            return ConfigurationFileManager.GetSystemConfiguration();
+            lock (locker)
+            {
+                return ConfigurationFileManager.GetSystemConfiguration();
+            }
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
@@ -103,7 +149,10 @@ namespace FiresecService
 
         public LibraryConfiguration GetLibraryConfiguration()
         {
-            return ConfigurationFileManager.GetLibraryConfiguration();
+            lock (locker)
+            {
+                return ConfigurationFileManager.GetLibraryConfiguration();
+            }
         }
 
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
@@ -114,7 +163,10 @@ namespace FiresecService
 
         public PlansConfiguration GetPlansConfiguration()
         {
-            return ConfigurationFileManager.GetPlansConfiguration();
+            lock (locker)
+            {
+                return ConfigurationFileManager.GetPlansConfiguration();
+            }
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
@@ -124,39 +176,51 @@ namespace FiresecService
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)
         {
-            var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
-            var journalRecords = new List<JournalRecord>();
-            if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
+            lock (locker)
             {
-                foreach (var innerJournalRecord in internalJournal.Journal)
+                var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
+                var journalRecords = new List<JournalRecord>();
+                if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
                 {
-                    journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
+                    foreach (var innerJournalRecord in internalJournal.Journal)
+                    {
+                        journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
+                    }
                 }
-            }
 
-            return journalRecords;
+                return journalRecords;
+            }
         }
 
         public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().
-                Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
-                Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
-                Take(journalFilter.LastRecordsCount);
+            lock (locker)
+            {
+                return DataBaseContext.JournalRecords.AsEnumerable().
+                    Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
+                    Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
+                    Take(journalFilter.LastRecordsCount);
+            }
         }
 
         public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().
-                SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
+            lock (locker)
+            {
+                return DataBaseContext.JournalRecords.AsEnumerable().
+                    SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
+                    TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
+                    Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
+            }
         }
 
         public IEnumerable<JournalRecord> GetDistinctRecords()
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().
-                Select(x => x).Distinct(new JournalRecord());
+            lock (locker)
+            {
+                return DataBaseContext.JournalRecords.AsEnumerable().
+                    Select(x => x).Distinct(new JournalRecord());
+            }
         }
 
         public void AddToIgnoreList(List<Guid> deviceGuids)
@@ -195,7 +259,9 @@ namespace FiresecService
 
         public void AddJournalRecord(JournalRecord journalRecord)
         {
+            journalRecord.User = _userName;
             DatabaseHelper.AddJournalRecord(journalRecord);
+            CallbackManager.OnNewJournalRecord(journalRecord);
         }
 
         public void ExecuteCommand(Guid deviceUID, string methodName)
@@ -209,23 +275,35 @@ namespace FiresecService
 
         public List<string> GetFileNamesList(string directory)
         {
-            return HashHelper.GetFileNamesList(directory);
+            lock (locker)
+            {
+                return HashHelper.GetFileNamesList(directory);
+            }
         }
 
         public Dictionary<string, string> GetDirectoryHash(string directory)
         {
-            return HashHelper.GetDirectoryHash(directory);
+            lock (locker)
+            {
+                return HashHelper.GetDirectoryHash(directory);
+            }
         }
 
         public Stream GetFile(string directoryNameAndFileName)
         {
-            var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
-            return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            lock (locker)
+            {
+                var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
+                return new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            }
         }
 
         public string Ping()
         {
-            return "Pong";
+            lock (locker)
+            {
+                return "Pong";
+            }
         }
 
         public void Dispose()
@@ -235,9 +313,29 @@ namespace FiresecService
 
         public string Test()
         {
-            //FiresecException fault = new FiresecException();
-            //throw new FaultException<FiresecException>(fault, new FaultReason("Test"));
-            return "Test";
+            lock (locker)
+            {
+
+
+                DatabaseHelper.AddInfoMessage(GetUserFullName(), "Вход пользователя в систему");
+
+                return "Test";
+            }
+        }
+
+        string GetUserFullName()
+        {
+            OperationContext context = OperationContext.Current;
+            MessageProperties prop = context.IncomingMessageProperties;
+            RemoteEndpointMessageProperty endpoint = prop[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+            string ip = endpoint.Address;
+            if (ip == "127.0.0.1")
+                ip = "localhost";
+
+            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _userName);
+
+            string fullUserName = user.FullName + " (" + ip + ")";
+            return fullUserName;
         }
     }
 }

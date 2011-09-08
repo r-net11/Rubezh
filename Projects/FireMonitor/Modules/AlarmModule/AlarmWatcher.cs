@@ -37,47 +37,6 @@ namespace AlarmModule
             Alarms.RemoveAll(x => x.IsDeleting);
         }
 
-        void UpdateValveTimer()
-        {
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            {
-                if (device.Driver.DriverName != "Задвижка")
-                    continue;
-
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-
-                foreach (var state in deviceState.States)
-                {
-                    if (state.IsActive)
-                    {
-                        if (state.Code == "Bolt_On")
-                        {
-                            if (state.Time.HasValue == false)
-                                continue;
-
-                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-
-                            if (timeoutProperty == null)
-                                continue;
-
-                            int delta = 0;
-                            try
-                            {
-                                var timeSpan = DateTime.Now - state.Time.Value;
-                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
-                            }
-                            catch { continue; }
-
-                            if (delta > 0)
-                            {
-                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         void UpdateDeviceAlarms()
         {
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
@@ -86,7 +45,7 @@ namespace AlarmModule
                 {
                     if (state.IsActive)
                     {
-                        AlarmType? alarmType = StateToAlarmType(state);
+                        AlarmType? alarmType = StateToAlarmType(state, deviceState.Device.Driver);
                         if (alarmType.HasValue == false)
                             continue;
 
@@ -143,7 +102,49 @@ namespace AlarmModule
             }
         }
 
-        AlarmType? StateToAlarmType(DeviceDriverState state)
+
+        void UpdateValveTimer()
+        {
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                if (device.Driver.DriverName != "Задвижка")
+                    continue;
+
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+
+                foreach (var state in deviceState.States)
+                {
+                    if (state.IsActive)
+                    {
+                        if (state.Code == "Bolt_On")
+                        {
+                            if (state.Time.HasValue == false)
+                                continue;
+
+                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+
+                            if (timeoutProperty == null)
+                                continue;
+
+                            int delta = 0;
+                            try
+                            {
+                                var timeSpan = DateTime.Now - state.Time.Value;
+                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
+                            }
+                            catch { continue; }
+
+                            if (delta > 0)
+                            {
+                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
         {
             AlarmType? alarmType = null;
 
@@ -167,6 +168,8 @@ namespace AlarmModule
                     break;
 
                 case StateType.Off:
+                    if (driver.CanDisable == false)
+                        return null;
                     alarmType = AlarmType.Off;
                     break;
 

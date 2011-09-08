@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Common
 {
-    //Refactored by Badaev Andrei.
     public static class HashHelper
     {
         public static Dictionary<string, string> GetDirectoryHash(string directory)

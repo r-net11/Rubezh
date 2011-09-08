@@ -10,13 +10,16 @@ namespace FiresecAPI
     public interface IFiresecService
     {
         [OperationContract(IsInitiating = true)]
-        bool Connect(string userName, string passwordHash);
+        bool Connect(string userName, string password);
 
-        [OperationContract(IsInitiating = true)]
-        bool Reconnect(string userName, string passwordHash);
+        [OperationContract]
+        bool Reconnect(string userName, string password);
 
         [OperationContract(IsTerminating = true)]
         void Disconnect();
+
+        [OperationContract(IsOneWay=true)]
+        void Subscribe();
 
         [OperationContract]
         List<Driver> GetDrivers();
@@ -69,19 +72,19 @@ namespace FiresecAPI
         [OperationContract]
         IEnumerable<JournalRecord> GetDistinctRecords();
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void AddToIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void ResetStates(List<ResetItem> resetItems);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void AddUserMessage(string message);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void AddJournalRecord(JournalRecord journalRecord);
 
         [OperationContract]
