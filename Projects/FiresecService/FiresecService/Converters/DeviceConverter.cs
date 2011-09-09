@@ -235,7 +235,7 @@ namespace FiresecService.Converters
         {
             var propertyList = new List<propType>();
 
-            if (device.Driver.DriverName != "Компьютер")
+            if (device.Driver.DriverType != DriverType.Computer)
             {
                 if (device.Properties != null && device.Properties.Count > 0)
                 {

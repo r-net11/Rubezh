@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if ((device.Driver.DriverName == "Прибор Рубеж-2ОП") || (device.Driver.DriverName == "USB Рубеж-2ОП"))
+                if ((device.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);

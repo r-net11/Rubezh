@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.UnityExtensions;
+using Infrastructure.Events;
 
 namespace FireAdministrator
 {
@@ -46,6 +47,8 @@ namespace FireAdministrator
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
+
+            ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
         }
 
         void InitializeKnownModules()

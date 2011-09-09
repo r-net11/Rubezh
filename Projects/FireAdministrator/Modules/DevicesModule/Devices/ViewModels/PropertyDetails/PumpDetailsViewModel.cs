@@ -26,18 +26,18 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                switch (_device.Driver.DriverName)
+                switch (_device.Driver.DriverType)
                 {
-                    case "Насос":
+                    case DriverType.Pump:
                         return "Время выхода на режим, с";
 
-                    case "Жокей-насос":
+                    case DriverType.JokeyPump:
                         return "Время восстановления давления, мин";
 
-                    case "Компрессор":
+                    case DriverType.Compressor:
                         return "Время восстановления давления, мин";
 
-                    case "Насос компенсации утечек":
+                    case DriverType.CompensationPump:
                         return "Время аварии пневмоемкости, мин";
                 }
                 return "";

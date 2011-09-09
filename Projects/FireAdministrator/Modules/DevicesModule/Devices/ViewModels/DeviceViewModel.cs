@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.DeviceProperties;
@@ -6,7 +7,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -212,15 +212,15 @@ namespace DevicesModule.ViewModels
 
         bool CanShowProperties()
         {
-            switch (Device.Driver.DriverName)
+            switch (Device.Driver.DriverType)
             {
-                case "Индикатор":
-                case "Задвижка":
-                case "Насос":
-                case "Жокей-насос":
-                case "Компрессор":
-                case "Насос компенсации утечек":
-                case "Группа":
+                case DriverType.Indicator:
+                case DriverType.Valve:
+                case DriverType.Pump:
+                case DriverType.JokeyPump:
+                case DriverType.Compressor:
+                case DriverType.CompensationPump:
+                case DriverType.Group:
                     return true;
             }
             return false;
@@ -231,26 +231,26 @@ namespace DevicesModule.ViewModels
         {
             bool result = false;
 
-            switch (Device.Driver.DriverName)
+            switch (Device.Driver.DriverType)
             {
-                case "Индикатор":
+                case DriverType.Indicator:
                     OnShowIndicatorLogic();
                     break;
 
-                case "Задвижка":
+                case DriverType.Valve:
                     var valveDetailsViewModel = new ValveDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
                     break;
 
-                case "Насос":
-                case "Жокей-насос":
-                case "Компрессор":
-                case "Насос компенсации утечек":
+                case DriverType.Pump:
+                case DriverType.JokeyPump:
+                case DriverType.Compressor:
+                case DriverType.CompensationPump:
                     var pumpDetailsViewModel = new PumpDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
                     break;
 
-                case "Группа":
+                case DriverType.Group:
                     var groupDetailsViewModel = new GroupDetailsViewModel(Device);
                     result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
                     break;

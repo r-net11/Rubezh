@@ -119,7 +119,7 @@ namespace AlarmModule
                 if (device.ZoneNo == ZoneNo)
                 {
                     var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x=>x.UID == device.UID);
-                    if (deviceState.States.Any(x => (x.IsActive && x.DriverState.StateType == StateType.Fire)))
+                    if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
                     {
                         DeviceUID = deviceState.UID;
                         return GetDeviceResetItem();
@@ -145,8 +145,7 @@ namespace AlarmModule
 
                 foreach (var state in parentDeviceState.States)
                 {
-                    if (state.IsActive &&
-                        state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) &&
+                    if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) &&
                         state.DriverState.IsManualReset)
                     {
                         resetItem.StateNames.Add(state.DriverState.Name);
@@ -159,7 +158,7 @@ namespace AlarmModule
 
                 foreach (var state in deviceState.States)
                 {
-                    if (state.IsActive && state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
+                    if (state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
                     {
                         resetItem.StateNames.Add(state.DriverState.Name);
                     }

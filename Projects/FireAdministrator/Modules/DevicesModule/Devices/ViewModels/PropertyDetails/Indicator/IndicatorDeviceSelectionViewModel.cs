@@ -21,16 +21,16 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.DriverName == "Выход")
+                if (device.Driver.DriverType == DriverType.Exit)
                     continue;
 
                 if ((device.Driver.IsOutDevice) || (device.Driver.IsZoneLogicDevice)
-                    || (device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")
-                    || (device.Driver.DriverName == "Насос")
-                    || (device.Driver.DriverName == "Жокей-насос")
-                    || (device.Driver.DriverName == "Компрессор")
-                    || (device.Driver.DriverName == "Дренажный насос")
-                    || (device.Driver.DriverName == "Насос компенсации утечек")
+                    || (device.Driver.DriverType == DriverType.AM1_T)
+                    || (device.Driver.DriverType == DriverType.Pump)
+                    || (device.Driver.DriverType == DriverType.JokeyPump)
+                    || (device.Driver.DriverType == DriverType.Compressor)
+                    || (device.Driver.DriverType == DriverType.DrenazhPump)
+                    || (device.Driver.DriverType == DriverType.CompensationPump)
                     )
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });

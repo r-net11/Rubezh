@@ -43,32 +43,29 @@ namespace AlarmModule
             {
                 foreach (var state in deviceState.States)
                 {
-                    if (state.IsActive)
+                    AlarmType? alarmType = StateToAlarmType(state, deviceState.Device.Driver);
+                    if (alarmType.HasValue == false)
+                        continue;
+
+                    var stateType = state.DriverState.StateType;
+
+                    var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == deviceState.UID)));
+                    if (alarm != null)
                     {
-                        AlarmType? alarmType = StateToAlarmType(state, deviceState.Device.Driver);
-                        if (alarmType.HasValue == false)
-                            continue;
-
-                        var stateType = state.DriverState.StateType;
-
-                        var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == deviceState.UID)));
-                        if (alarm != null)
+                        alarm.IsDeleting = false;
+                    }
+                    else
+                    {
+                        var newAlarm = new Alarm()
                         {
-                            alarm.IsDeleting = false;
-                        }
-                        else
-                        {
-                            var newAlarm = new Alarm()
-                            {
-                                AlarmType = alarmType.Value,
-                                StateType = stateType,
-                                DeviceUID = deviceState.UID,
-                                Time = state.Time,
-                                StateName = state.DriverState.Name
-                            };
-                            Alarms.Add(newAlarm);
-                            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
-                        }
+                            AlarmType = alarmType.Value,
+                            StateType = stateType,
+                            DeviceUID = deviceState.UID,
+                            Time = state.Time,
+                            StateName = state.DriverState.Name
+                        };
+                        Alarms.Add(newAlarm);
+                        ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
                     }
                 }
             }
@@ -107,37 +104,34 @@ namespace AlarmModule
         {
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.DriverName != "Задвижка")
+                if (device.Driver.DriverType != DriverType.Valve)
                     continue;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
 
                 foreach (var state in deviceState.States)
                 {
-                    if (state.IsActive)
+                    if (state.Code == "Bolt_On")
                     {
-                        if (state.Code == "Bolt_On")
+                        if (state.Time.HasValue == false)
+                            continue;
+
+                        var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+
+                        if (timeoutProperty == null)
+                            continue;
+
+                        int delta = 0;
+                        try
                         {
-                            if (state.Time.HasValue == false)
-                                continue;
+                            var timeSpan = DateTime.Now - state.Time.Value;
+                            delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
+                        }
+                        catch { continue; }
 
-                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-
-                            if (timeoutProperty == null)
-                                continue;
-
-                            int delta = 0;
-                            try
-                            {
-                                var timeSpan = DateTime.Now - state.Time.Value;
-                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
-                            }
-                            catch { continue; }
-
-                            if (delta > 0)
-                            {
-                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
-                            }
+                        if (delta > 0)
+                        {
+                            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
                         }
                     }
                 }

@@ -73,6 +73,7 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
+    <Compile Include="Models\Driver\DriverType.cs" />
     <Compile Include="Models\Library\LibraryDevice.cs" />
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />

@@ -82,8 +82,7 @@ namespace DevicesModule.ViewModels
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
                 foreach (var state in deviceState.States)
                 {
-                    if (state.IsActive)
-                        selfStates.Add(state.DriverState.Name);
+                    selfStates.Add(state.DriverState.Name);
                 }
                 return selfStates;
             }

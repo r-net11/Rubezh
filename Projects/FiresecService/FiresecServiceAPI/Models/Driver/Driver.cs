@@ -18,6 +18,9 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
+        public DriverType DriverType { get; set; }
+
+        [DataMember]
         public List<DriverProperty> Properties { get; set; }
 
         [DataMember]
@@ -148,9 +151,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool IsAssadIgnore { get; set; }
-
-        [DataMember]
-        public string DriverName { get; set; }
 
         [DataMember]
         public bool CanWriteDatabase { get; set; }

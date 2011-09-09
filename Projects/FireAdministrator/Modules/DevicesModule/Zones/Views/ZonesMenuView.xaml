@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <ToolBar Background="Transparent" ToolBarTray.IsLocked="True">
+    <ToolBar Style="{StaticResource ToolBarStyle}">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить">
             <Image Source="/Controls;component/Images/Add.png" Height="32" />
         </Button>

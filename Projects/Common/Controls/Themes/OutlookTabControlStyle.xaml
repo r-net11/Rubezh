@@ -3,7 +3,6 @@
 
     <ControlTemplate x:Key="OutlookTab" TargetType="{x:Type TabControl}">
         <ControlTemplate.Resources>
-            <!-- To change the colour scheme of the Outlook Bar, change the colors of these brushes -->
             <SolidColorBrush x:Key="LabelHighlightBrush" Color= "#FFFFFF" />
             <SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
             <SolidColorBrush x:Key="BorderBrush" Color="#343337" />
@@ -101,5 +100,5 @@
             <ContentPresenter Content="{TemplateBinding SelectedContent}" />
         </DockPanel>
     </ControlTemplate>
-
+    
 </ResourceDictionary>

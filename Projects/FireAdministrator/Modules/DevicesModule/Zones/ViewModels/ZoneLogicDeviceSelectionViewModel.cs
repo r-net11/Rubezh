@@ -13,7 +13,7 @@ namespace DevicesModule.ViewModels
             Devices = new List<Device>();
             foreach (var device in parentDevice.Children)
             {
-                if (device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")
+                if (device.Driver.DriverType == DriverType.AM1_T)
                     Devices.Add(device);
             }
         }

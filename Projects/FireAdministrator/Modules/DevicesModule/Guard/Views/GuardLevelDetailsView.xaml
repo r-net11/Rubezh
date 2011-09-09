@@ -38,7 +38,7 @@
                                     </ComboBox>
 
                                     <TextBlock VerticalAlignment="Center" Margin="2">
-                                        <Hyperlink Command="{Binding ChooseZonesCommand}">
+                                        <Hyperlink Command="{Binding ChooseZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                                             <TextBlock Text="{Binding PresenrationZone}" />                
                                             <TextBlock Text="Нажмите для выбора зон" Margin="2">
                                                 <TextBlock.Style>

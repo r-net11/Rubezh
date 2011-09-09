@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Converters="clr-namespace:Controls"
+					>
+    
+    <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+    <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
+    <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
+    <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
+    
+    <Style x:Key="TreeExpanderStyle" TargetType="CheckBox">
+        <Setter Property="Background" Value="#FF448DCA"/>
+        <Setter Property="Foreground" Value="#FF000000"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid HorizontalAlignment="Left">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="IsExpandedPolygon" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="IsCollapsedPolygon" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateIcon" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Path x:Name="IsExpandedIcon" Data="M2,2 L14,7 L2,14 z" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
+                        <Path x:Name="IsCollapsedIcon" Data="M2,2 L14,2 L7,14 z" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
+
+                        <Polygon x:Name="IsExpandedPolygon" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+                            <Polygon.Points>
+                                <Point X="10" Y="0" />
+                                <Point X="10" Y="10" />
+                                <Point X="0" Y="10" />
+                            </Polygon.Points>
+                        </Polygon>
+
+                        <Polygon x:Name="IsCollapsedPolygon" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+                            <Polygon.Points>
+                                <Point X="0" Y="0" />
+                                <Point X="10" Y="5" />
+                                <Point X="0" Y="10" />
+                            </Polygon.Points>
+                        </Polygon>
+
+                        <Rectangle x:Name="IndeterminateIcon" Fill="#FF333333" Height="16" Width="16" Opacity="0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    
+
+
+
+    
+
+</ResourceDictionary>

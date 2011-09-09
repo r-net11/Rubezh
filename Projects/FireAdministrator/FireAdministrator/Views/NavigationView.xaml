@@ -1,13 +1,6 @@
 ﻿<UserControl x:Class="FireAdministrator.NavigationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/OutlookBar.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <StackPanel>
         <TabControl Template="{StaticResource OutlookTab}">
@@ -40,21 +33,21 @@
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsGuardUsersSelected}"
+            <TabItem IsSelected="{Binding IsGuardUsersSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock Text="Пользователи" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsGuardLevelsSelected}"
+            <TabItem IsSelected="{Binding IsGuardLevelsSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock Text="Уровни доступа" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsGuardDevicesSelected}"
+            <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock Text="Устройства" FontWeight="Bold" />
@@ -83,14 +76,14 @@
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsUsersSelected}"
+            <TabItem IsSelected="{Binding IsUsersSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock Text="Пользователи" FontWeight="Bold" />
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsUserGroupsSelected}"
+            <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock Text="Группы" FontWeight="Bold" />

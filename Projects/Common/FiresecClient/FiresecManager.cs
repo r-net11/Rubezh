@@ -29,8 +29,6 @@ namespace FiresecClient
             bool result = _firesecService.Connect(login, password);
             if (result)
             {
-                //return true;
-
                 FileHelper.Synchronize();
                 Drivers = _firesecService.GetDrivers();
                 SystemConfiguration = _firesecService.GetSystemConfiguration();
@@ -39,14 +37,16 @@ namespace FiresecClient
                 SecurityConfiguration = _firesecService.GetSecurityConfiguration();
                 DeviceConfiguration = _firesecService.GetDeviceConfiguration();
                 DeviceStates = _firesecService.GetStates();
-                Update();
+
+                UpdateDrivers();
+                UpdateConfiguration();
+                UpdateStates();
 
                 _firesecService.Subscribe();
 
                 _loggedInUserName = login;
 
                 _firesecService.StartPing();
-                //_firesecService.Test();
             }
 
             return result;
@@ -62,14 +62,17 @@ namespace FiresecClient
             return result;
         }
 
-        static void Update()
+        public static void UpdateDrivers()
         {
-            DeviceConfiguration.Update();
-
             foreach (var driver in Drivers)
             {
                 driver.ImageSource = FileHelper.GetIconFilePath(driver.ImageSource) + ".ico";
             }
+        }
+
+        public static void UpdateConfiguration()
+        {
+            DeviceConfiguration.Update();
 
             foreach (var device in DeviceConfiguration.Devices)
             {
@@ -92,12 +95,12 @@ namespace FiresecClient
                     }
                 }
             }
+        }
 
+        public static void UpdateStates()
+        {
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
-                //if (deviceState == null || !deviceState.States.IsNotNullOrEmpty() || !deviceState.ParentStates.IsNotNullOrEmpty())
-                //    break;
-
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 
                 foreach (var state in deviceState.States)
@@ -277,7 +280,7 @@ namespace FiresecClient
                 FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
             }
 
-            Update();
+            UpdateConfiguration();
         }
 
         public static void SaveToFile(string fileName)

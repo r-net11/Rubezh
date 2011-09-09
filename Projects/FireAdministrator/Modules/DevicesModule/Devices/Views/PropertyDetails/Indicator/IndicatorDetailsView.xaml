@@ -27,7 +27,7 @@
             <StackPanel>
                 <TextBlock Text="Выбранные зоны" FontWeight="Bold" Margin="2" />
                 <TextBlock>
-                    <Hyperlink Command="{Binding ShowZonesCommand}">
+                    <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                         <TextBlock Text="{Binding PresenrationZones}" />                
                         <TextBlock Text="Нажмите для выбора зон" Margin="2">
                             <TextBlock.Style>
@@ -59,7 +59,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0">
-                        <Hyperlink Command="{Binding ShowDevicesCommand}">
+                        <Hyperlink Command="{Binding ShowDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
                                 <TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />

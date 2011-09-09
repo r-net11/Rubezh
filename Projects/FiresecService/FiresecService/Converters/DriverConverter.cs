@@ -104,17 +104,17 @@ namespace FiresecService.Converters
             driver.CanDisable = innerDriver.options != null && innerDriver.options.Contains("Ignorable");
             driver.IsPlaceable = innerDriver.options != null && innerDriver.options.Contains("Placeable");
             driver.IsIndicatorDevice = innerDriver.name == "Индикатор";
-            driver.CanControl = driver.DriverName == "Задвижка";
+            driver.CanControl = driver.DriverType == DriverType.Valve;
 
             driver.IsBUtton = false;
-            switch (driver.DriverName)
+            switch (driver.DriverType)
             {
-                case "Кнопка останова СПТ":
-                case "Кнопка запуска СПТ":
-                case "Кнопка управления автоматикой":
-                case "Кнопка вкл автоматики ШУЗ и насосов в направлении":
-                case "Кнопка выкл автоматики ШУЗ и насосов в направлении":
-                case "Кнопка разблокировки автоматики ШУЗ в направлении":
+                case DriverType.StopButton:
+                case DriverType.StartButton:
+                case DriverType.AutomaticButton:
+                case DriverType.ShuzOffButton:
+                case DriverType.ShuzOnButton:
+                case DriverType.ShuzUnblockButton:
                     driver.IsBUtton = true;
                     break;
             }
@@ -149,7 +149,8 @@ namespace FiresecService.Converters
             var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
             if (driverData != null)
             {
-                driver.DriverName = driverData.Name;
+                //driver.DriverName = driverData.Name;
+                driver.DriverType = driverData.DriverType;
             }
 
             var AllChildren = new List<drvType>();

@@ -48,7 +48,7 @@
                                 
                                 <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}"
                                            VerticalAlignment="Center" Margin="2">
-                                    <Hyperlink Command="{Binding ShowZonesCommand}">
+                                    <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                                         <TextBlock Text="{Binding PresenrationZones}" />                
                                         <TextBlock Text="Нажмите для выбора зон" Margin="2">
                                             <TextBlock.Style>
@@ -69,7 +69,7 @@
                             
                             <TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}"
                                        VerticalAlignment="Center" Margin="2">
-                                <Hyperlink Command="{Binding SelectDeviceCommand}">
+                                <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
                                         <TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />

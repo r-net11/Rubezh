@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using FiresecAPI.Models;
 
 namespace FiresecService.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для AlarmTest.xaml
-    /// </summary>
     public partial class AlarmTest : Window, INotifyPropertyChanged
     {
         public AlarmTest()
@@ -145,7 +133,7 @@ namespace FiresecService.Views
             {
                 get
                 {
-                    var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                    var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
                     if (deviceState != null)
                     {
                         return deviceState.StateType;
@@ -157,18 +145,18 @@ namespace FiresecService.Views
                 }
                 set
                 {
-                    var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == Device.Id);
+                    var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
                     var stateType = deviceState.StateType;
                     var deviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.StateType == stateType);
-                    if (deviceDriverState != null)
-                    {
-                        deviceDriverState.IsActive = false;
-                    }
+                    //if (deviceDriverState != null)
+                    //{
+                    //    deviceDriverState.IsActive = false;
+                    //}
                     var newDeviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.StateType == value);
-                    if (newDeviceDriverState != null)
-                    {
-                        newDeviceDriverState.IsActive = true;
-                    }
+                    //if (newDeviceDriverState != null)
+                    //{
+                    //    newDeviceDriverState.IsActive = true;
+                    //}
                     CallbackManager.OnDeviceStateChanged(deviceState);
                 }
             }

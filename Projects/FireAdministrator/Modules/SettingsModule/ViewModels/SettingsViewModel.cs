@@ -4,6 +4,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace SettingsModule.ViewModels
 {
@@ -48,6 +50,9 @@ namespace SettingsModule.ViewModels
             {
                 var fullConfiguration = LoadFromFile(openDialog.FileName);
                 CopyTo(fullConfiguration);
+
+                FiresecManager.UpdateConfiguration();
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
             }
         }
 
