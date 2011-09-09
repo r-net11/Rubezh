@@ -21,6 +21,12 @@ namespace JournalModule.ViewModels
             IsClear = true;
             StartDate = EndDate = StartTime = EndTime = DateTime.Now;
 
+            Subsystems = new List<SubsystemViewModel>();
+            foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
+            {
+                Subsystems.Add(new SubsystemViewModel(subsystem));
+            }
+
             JournalEvents = new List<EventViewModel>(
                 FiresecClient.FiresecManager.GetDistinctRecords().
                 Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
@@ -41,6 +47,7 @@ namespace JournalModule.ViewModels
 
         public List<ClassViewModel> JournalTypes { get; private set; }
         public List<EventViewModel> JournalEvents { get; private set; }
+        public List<SubsystemViewModel> Subsystems { get; private set; }
 
         bool _useSystemDate;
         public bool UseSystemDate
@@ -116,6 +123,9 @@ namespace JournalModule.ViewModels
             );
             dest.JournalTypes = new List<ClassViewModel>(
                 JournalTypes.Select(x => new ClassViewModel(x.Id) { IsEnable = x.IsEnable })
+            );
+            dest.Subsystems = new List<SubsystemViewModel>(
+                Subsystems.Select(x => new SubsystemViewModel(x.Subsystem) { IsEnable = x.IsEnable })
             );
             dest.UseSystemDate = UseSystemDate;
             dest.StartDate = StartDate;

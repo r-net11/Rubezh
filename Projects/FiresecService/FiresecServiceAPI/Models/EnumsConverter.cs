@@ -302,10 +302,43 @@
             {
                 case InstructionType.General:
                     return "Общая инструкция";
+
                 case InstructionType.Details:
                     return "Инструкция для зон и устройств";
+
                 default:
                     return "";
+            }
+        }
+
+        public static string SubsystemTypeToString(SubsystemType subsystem)
+        {
+            switch (subsystem)
+            {
+                case SubsystemType.Fire:
+                    return "Пожарная";
+
+                case SubsystemType.Guard:
+                    return "Охранная";
+
+                case SubsystemType.Other:
+                    return "Прочие";
+
+                default:
+                    return "";
+            }
+        }
+
+        public static SubsystemType StringToSubsystemType(string subsystemId)
+        {
+            switch (subsystemId)
+            {
+                case "0":
+                    return SubsystemType.Fire;
+                case "1":
+                    return SubsystemType.Guard;
+                default:
+                    return SubsystemType.Other;
             }
         }
     }

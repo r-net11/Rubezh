@@ -5,6 +5,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml" />
+                <ResourceDictionary
+                Source="/PresentationFramework.Aero, Version=3.0.0.0,
+               Culture=neutral, PublicKeyToken=31bf3856ad364e35,
+               ProcessorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

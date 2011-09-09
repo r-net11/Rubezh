@@ -20,7 +20,6 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-
                                     <WrapPanel Grid.Column="0"
                                                Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                         <StackPanel Visibility="{Binding HasChildren,
@@ -31,7 +30,6 @@
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </WrapPanel>
-
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Driver.ShortName}">
                                         <TextBlock.ContextMenu>
@@ -43,15 +41,12 @@
                                                           Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
-                                        </TextBlock.ContextMenu>
-                                        </TextBlock>
+                                        </TextBlock.ContextMenu></TextBlock>
                                     </StackPanel>
-
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="Адрес" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -72,7 +67,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -109,7 +103,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="Примечание" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -131,20 +124,15 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-
                 </DataGrid.Columns>
-
             </DataGrid>
         </Grid>
-
         <Grid Grid.Row="1" Margin="2" >
             <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left">
-
                 <StackPanel Orientation="Horizontal">
                     <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
                     <TextBlock Text="{Binding Driver.Name}" FontWeight="Bold" Foreground="DarkOrange" Margin="2" />
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
                     <TextBlock Text="{Binding ConnectedTo}" Margin="2" />
@@ -158,7 +146,6 @@
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
-
                 <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
                     <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
                     <TextBlock Text="{Binding PresentationName}" Margin="2" />
@@ -172,11 +159,8 @@
                         </Style>
                     </StackPanel.Style>
                 </StackPanel>
-
                 <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-
                 <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
-
             </StackPanel>
         </Grid>
     </Grid>

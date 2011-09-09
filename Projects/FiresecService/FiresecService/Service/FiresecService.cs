@@ -210,7 +210,8 @@ namespace FiresecService
                 return DataBaseContext.JournalRecords.AsEnumerable().
                     SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
                     TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                    Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
+                Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description)).
+                Where(journal => archiveFilter.Subsystems.Any(subsystem => subsystem == journal.SubsystemType));
             }
         }
 

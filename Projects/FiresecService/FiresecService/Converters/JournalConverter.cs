@@ -10,7 +10,6 @@ namespace FiresecService.Converters
         {
             return new JournalRecord()
             {
-                //innerJournalRecord.IDSubSystem
                 No = int.Parse(innerJournalRecord.IDEvents),
                 DeviceTime = ConvertTime(innerJournalRecord.Dt),
                 SystemTime = ConvertTime(innerJournalRecord.SysDt),
@@ -21,6 +20,7 @@ namespace FiresecService.Converters
                 DeviceDatabaseId = innerJournalRecord.IDDevices,
                 PanelDatabaseId = innerJournalRecord.IDDevicesSource,
                 User = innerJournalRecord.UserInfo,
+                SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
                 StateType = (StateType) int.Parse(innerJournalRecord.IDTypeEvents),
             };
         }

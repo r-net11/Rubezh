@@ -49,6 +49,10 @@ namespace FiresecAPI.Models
         [DataMember]
         public string User { get; set; }
 
+        [Column(Name = "SubSystemType", DbType = "Int")]
+        [DataMember]
+        public SubsystemType SubsystemType { get; set; }
+
         [Column(DbType = "Int")]
         [DataMember]
         public StateType StateType { get; set; }

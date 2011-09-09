@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -84,12 +85,22 @@ namespace JournalModule.ViewModels
             ArchiveFilter filter = new ArchiveFilter()
             {
                 Descriptions = new List<string>(
-                    _archiveFilter.JournalEvents.Where(x => x.IsEnable == true).Select(x => x.Name)
+                    _archiveFilter.JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
+                ),
+                Subsystems = new List<SubsystemType>(
+                    _archiveFilter.Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
                 ),
                 UseSystemDate = _archiveFilter.UseSystemDate,
                 StartDate = _archiveFilter.StartDate,
                 EndDate = _archiveFilter.EndDate,
             };
+            if (filter.Subsystems.Count == 0)
+            {
+                foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
+                {
+                    filter.Subsystems.Add(subsystem);
+                }
+            }
 
             JournalRecords = new ObservableCollection<JournalRecordViewModel>(
                 FiresecManager.GetFilteredArchive(filter).Select(journalRecord => new JournalRecordViewModel(journalRecord))
