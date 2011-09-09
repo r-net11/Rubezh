@@ -41,7 +41,7 @@ namespace FireAdministrator
                 FiresecManager.DeviceConfiguration.Directions = new System.Collections.Generic.List<Direction>();
 
                 Device device = new Device();
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер");
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
                 device.DriverUID = device.Driver.UID;
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();

@@ -121,7 +121,6 @@ namespace FiresecService
             {
                 SetStates(coreState);
                 PropogateStates();
-                CalculateStates();
                 CalculateZones();
 
                 foreach (var deviceState in ChangedDevices)
@@ -136,25 +135,34 @@ namespace FiresecService
         {
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
-
                 bool hasOneChangedState = false;
+
+                Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 
                 if (innerDevice != null)
                 {
-                    foreach (var state in deviceState.States)
+                    foreach (var driverState in deviceState.Device.Driver.States)
                     {
-                        var innerState = innerDevice.state.FirstOrDefault(a => a.id == state.DriverState.Id);
-                        bool IsActive = innerState != null;
+                        var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
+                        bool IsInnerStateActive = innerState != null;
 
-                        if (state.IsActive != IsActive)
+                        var state = deviceState.States.FirstOrDefault(x=>x.Code == driverState.Code);
+                        bool IsStateActive = state != null;
+                        if (IsStateActive != IsInnerStateActive)
                         {
                             hasOneChangedState = true;
                         }
-                        state.IsActive = IsActive;
 
-                        if (IsActive)
+                        if (IsInnerStateActive)
                         {
+                            if (state == null)
+                            {
+                                state = new DeviceDriverState();
+                                state.Code = driverState.Code;
+                                state.DriverState = driverState.Copy();
+                                deviceState.States.Add(state);
+                            }
+
                             if (innerState.time != null)
                                 state.Time = JournalConverter.ConvertTime(innerState.time);
                             else
@@ -162,20 +170,15 @@ namespace FiresecService
                         }
                         else
                         {
-                            state.Time = null;
+                            if (state != null)
+                                deviceState.States.Remove(state);
                         }
                     }
                 }
                 else
                 {
-                    foreach (var state in deviceState.States)
-                    {
-                        if (state.IsActive)
-                        {
-                            hasOneChangedState = true;
-                        }
-                        state.IsActive = false;
-                    }
+                    hasOneChangedState = deviceState.States.Count > 0;
+                    deviceState.States.Clear();
                 }
 
                 if (hasOneChangedState)
@@ -196,7 +199,7 @@ namespace FiresecService
             {
                 foreach (var state in deviceState.States)
                 {
-                    if ((state.IsActive) && (state.DriverState.AffectChildren))
+                    if (state.DriverState.AffectChildren)
                     {
                         foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                         {
@@ -215,35 +218,6 @@ namespace FiresecService
             }
         }
 
-        void CalculateStates()
-        {
-            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
-            {
-                StateType minStateClassId = StateType.Norm;
-
-                foreach (var state in deviceState.States)
-                {
-                    if (state.IsActive)
-                    {
-                        if (minStateClassId > state.DriverState.StateType)
-                            minStateClassId = state.DriverState.StateType;
-                    }
-                }
-                foreach (var state in deviceState.ParentStates)
-                {
-                    if (minStateClassId > state.DriverState.StateType)
-                    {
-                        minStateClassId = state.DriverState.StateType;
-                    }
-                }
-
-                if (deviceState.StateType != minStateClassId)
-                {
-                    ChangedDevices.Add(deviceState);
-                }
-            }
-        }
-
         void CalculateZones()
         {
             if (FiresecManager.DeviceConfigurationStates.ZoneStates != null)
@@ -257,7 +231,7 @@ namespace FiresecService
                         if (device.ZoneNo == zoneState.No)
                         {
                             zoneHasDevices = true;
-                            var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == device.Id);
+                            var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
                             // добавить проверку - нужно ли включать устройство при формировании состояния зоны
                             if (deviceState.StateType < minZoneStateType)
                                 minZoneStateType = deviceState.StateType;

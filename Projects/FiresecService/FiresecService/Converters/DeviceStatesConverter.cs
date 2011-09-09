@@ -14,19 +14,9 @@ namespace FiresecService.Converters
                 var deviceState = new DeviceState()
                 {
                     UID = device.UID,
-                    Id = device.Id,
                     PlaceInTree = device.PlaceInTree,
                     Device = device
                 };
-
-                foreach (var driverState in device.Driver.States)
-                {
-                    deviceState.States.Add(new DeviceDriverState()
-                    {
-                        DriverState = driverState,
-                        Code = driverState.Code
-                    });
-                }
 
                 foreach (var parameter in device.Driver.Parameters)
                 {

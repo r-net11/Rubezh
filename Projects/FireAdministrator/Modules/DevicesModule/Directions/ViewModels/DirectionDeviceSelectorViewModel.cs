@@ -16,14 +16,14 @@ namespace DevicesModule.ViewModels
 
         public void Initialize(Direction direction, bool isRm)
         {
-            string driverName = isRm ? "Релейный исполнительный модуль РМ-1" : "Кнопка разблокировки автоматики ШУЗ в направлении";
+            DriverType driverType = isRm ? DriverType.RM_1 : DriverType.ShuzUnblockButton;
 
             var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 {
-                    if (device.Driver.DriverName == driverName)
+                    if (device.Driver.DriverType == driverType)
                     {
                         bool canAdd = device.Parent.Children.Any(x => (x.Driver.IsZoneDevice) && (direction.Zones.Contains(x.ZoneNo)));
                         if (canAdd)

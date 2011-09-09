@@ -51,11 +51,11 @@ namespace DevicesModule.ViewModels
                     continue;
 
                 if (
-                    (device.Driver.DriverName == "Релейный исполнительный модуль РМ-1")
-                    || (device.Driver.DriverName == "Модуль дымоудаления-1.02//3")
-                    || (device.Driver.DriverName == "Модуль речевого оповещения")
-                    //|| (device.Driver.DriverName == "Модуль пожаротушения")
-                    || (device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")
+                    (device.Driver.DriverType == DriverType.RM_1)
+                    || (device.Driver.DriverType == DriverType.MDU)
+                    || (device.Driver.DriverType == DriverType.MRO)
+                    //|| (device.Driver.DriverType == "Модуль пожаротушения")
+                    || (device.Driver.DriverType == DriverType.AM1_T)
                     )
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
@@ -135,8 +135,8 @@ namespace DevicesModule.ViewModels
             {
                 if (SelectedAvailableDevice.HasChildren == false)
                 {
-                    if ((SelectedAvailableDevice.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т") &&
-                        (Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т")))
+                    if ((SelectedAvailableDevice.Device.Driver.DriverType == DriverType.AM1_T) &&
+                        (Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T)))
                         return false;
 
                     return true;
@@ -174,7 +174,7 @@ namespace DevicesModule.ViewModels
         {
             _device.PDUGroupLogic = new PDUGroupLogic();
 
-            _device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverName == "Технологическая адресная метка АМ1-Т");
+            _device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
             foreach (var device in Devices)
             {
                 var pDUGroupDevice = new PDUGroupDevice();

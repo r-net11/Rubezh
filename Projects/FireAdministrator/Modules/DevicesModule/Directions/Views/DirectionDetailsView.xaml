@@ -40,7 +40,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0">
-                                <Hyperlink Command="{Binding ChooseRmCommand}">
+                                <Hyperlink Command="{Binding ChooseRmCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
                                         <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
@@ -75,7 +75,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Column="0">
-                                <Hyperlink Command="{Binding ChooseButtonCommand}">
+                                <Hyperlink Command="{Binding ChooseButtonCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding DeviceButton.Driver.ShortName}" />
                                         <TextBlock Text="{Binding DeviceButton.DottedAddress}" Margin="10, 0, 0, 0" />

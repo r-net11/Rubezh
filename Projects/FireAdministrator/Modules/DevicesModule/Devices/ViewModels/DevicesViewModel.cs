@@ -159,7 +159,7 @@ namespace DevicesModule.ViewModels
             if (SelectedDevice.Driver.IsAutoCreate)
                 return false;
 
-            if (SelectedDevice.Driver.DriverName == "Компьютер")
+            if (SelectedDevice.Driver.DriverType == DriverType.Computer)
                 return false;
 
             return true;

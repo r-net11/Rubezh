@@ -39,7 +39,7 @@ namespace SettingsModule.ViewModels
                 }
             }
 
-            var groupDevice = Drivers.FirstOrDefault(x => x.DriverName == "Группа");
+            var groupDevice = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Group);
         }
     }
 }

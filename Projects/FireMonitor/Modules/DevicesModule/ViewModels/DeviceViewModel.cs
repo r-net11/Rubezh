@@ -88,8 +88,7 @@ namespace DevicesModule.ViewModels
                 var selfStates = new List<string>();
                 foreach (var state in _deviceState.States)
                 {
-                    if (state.IsActive)
-                        selfStates.Add(state.DriverState.Name);
+                    selfStates.Add(state.DriverState.Name);
                 }
                 return selfStates;
             }

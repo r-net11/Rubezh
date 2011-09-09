@@ -12,19 +12,20 @@ namespace FiresecClient
         public void DeviceStateChanged(DeviceState newDeviceState)
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-            deviceState.CopyFrom(newDeviceState);
 
-            foreach (var state in deviceState.States)
+            deviceState.States.Clear();
+            foreach (var newState in newDeviceState.States)
             {
-                var driverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == state.Code);
-                state.DriverState = driverState;
+                deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
+                newState.DriverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
+                deviceState.States.Add(newState);
             }
 
+            deviceState.ParentStates = newDeviceState.ParentStates;
             foreach (var parentState in deviceState.ParentStates)
             {
                 parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
-                var driverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
-                parentState.DriverState = driverState;
+                parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
             }
 
             OnDeviceStateChanged(deviceState.UID);
@@ -33,7 +34,7 @@ namespace FiresecClient
         public void DeviceParametersChanged(DeviceState newDeviceState)
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-            deviceState.CopyFrom(newDeviceState);
+            deviceState.Parameters = newDeviceState.Parameters;
             OnDeviceParametersChanged(deviceState.UID);
         }
 

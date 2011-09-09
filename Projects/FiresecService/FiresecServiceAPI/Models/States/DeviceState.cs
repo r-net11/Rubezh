@@ -22,9 +22,6 @@ namespace FiresecAPI.Models
         public Guid UID { get; set; }
 
         [DataMember]
-        public string Id { get; set; }
-
-        [DataMember]
         public List<DeviceDriverState> States { get; set; }
 
         [DataMember]
@@ -40,7 +37,6 @@ namespace FiresecAPI.Models
                 var stateTypes = new List<StateType>() { (StateType) 7 };
 
                 stateTypes.AddRange(from DeviceDriverState deviceDriverState in States
-                                    where deviceDriverState.IsActive
                                     select deviceDriverState.DriverState.StateType);
 
                 stateTypes.AddRange(from ParentDeviceState parentDeviceState in ParentStates
@@ -65,15 +61,7 @@ namespace FiresecAPI.Models
 
         public bool IsDisabled
         {
-            get { return States.Any(x => x.IsActive && x.DriverState.StateType == StateType.Off); }
-        }
-
-        public void CopyFrom(DeviceState deviceState)
-        {
-            Id = deviceState.Id;
-            States = deviceState.States;
-            ParentStates = deviceState.ParentStates;
-            Parameters = deviceState.Parameters;
+            get { return States.Any(x => x.DriverState.StateType == StateType.Off); }
         }
 
         public event Action StateChanged;

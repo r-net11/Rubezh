@@ -42,7 +42,7 @@ namespace DevicesModule.ViewModels
 
         public bool IsRm
         {
-            get { return _device.Driver.DriverName == "Релейный исполнительный модуль РМ-1"; }
+            get { return _device.Driver.DriverType == DriverType.RM_1; }
         }
 
         public bool IsRmWithTablo

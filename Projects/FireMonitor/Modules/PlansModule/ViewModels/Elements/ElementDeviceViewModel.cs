@@ -106,7 +106,6 @@ namespace PlansModule.ViewModels
                 _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
                 _elementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
                     from state in _deviceState.States
-                    where state.IsActive
                     select state.DriverState.Code);
 
                 UpdateTooltip();
@@ -126,8 +125,7 @@ namespace PlansModule.ViewModels
 
             foreach (var state in _deviceState.States)
             {
-                if (state.IsActive)
-                    tooltip += state.DriverState.Name + "\n";
+                tooltip += state.DriverState.Name + "\n";
             }
 
             if (_deviceState.Parameters != null)

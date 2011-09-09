@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
                 if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
                 {
                     var canAdd = false;
-                    var mptDevices = device.Parent.Children.FindAll(x=>x.Driver.DriverName == "Модуль пожаротушения");
+                    var mptDevices = device.Parent.Children.FindAll(x => x.Driver.DriverType == DriverType.MPT);
                     if (mptDevices != null)
                     {
                         foreach(var mptDevice in mptDevices)
@@ -61,7 +61,7 @@ namespace DevicesModule.ViewModels
                         continue;
                 }
 
-                if ((device.Parent.Driver.DriverName == "Прибор Рубеж-2ОП") || (device.Parent.Driver.DriverName == "USB Рубеж-2ОП"))
+                if ((device.Parent.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                 {
                     var canAdd = false;
                     foreach (var guardDevice in device.Parent.Children)

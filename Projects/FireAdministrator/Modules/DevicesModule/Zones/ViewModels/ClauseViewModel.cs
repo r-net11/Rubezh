@@ -37,17 +37,17 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                switch (_device.Driver.DriverName)
+                switch (_device.Driver.DriverType)
                 {
-                    case "Задвижка":
-                    case "Насосная Станция":
+                    case DriverType.Valve:
+                    case DriverType.PumpStation:
                         return new List<ZoneLogicState>() { ZoneLogicState.Fire,
                             ZoneLogicState.Attention,
                             ZoneLogicState.MPTAutomaticOn,
                             ZoneLogicState.MPTOn,
                             ZoneLogicState.AM1TOn};
 
-                    case "Релейный исполнительный модуль РМ-1":
+                    case DriverType.RM_1:
                         var states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
                         states.Remove(ZoneLogicState.Failure);
                         return states;
