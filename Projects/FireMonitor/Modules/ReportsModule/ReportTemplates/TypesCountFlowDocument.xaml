@@ -49,12 +49,12 @@
         </Table>
     </xrd:SectionReportFooter>
 
-    <Section Padding="20" FontSize="12" BreakPageBefore="True">
+    <Section Padding="20" FontSize="12" BreakPageBefore="True" >
 
         <Paragraph FontSize="20">
             <TextBlock HorizontalAlignment="Stretch" Text="Количество устройств по типам" />
         </Paragraph>
-        <Table CellSpacing="0" BorderBrush="Black" BorderThickness="0.02cm">
+        <Table  CellSpacing="0" BorderBrush="Black" BorderThickness="0.02cm">
 
             <Table.Columns>
                 <TableColumn Width="2*" />

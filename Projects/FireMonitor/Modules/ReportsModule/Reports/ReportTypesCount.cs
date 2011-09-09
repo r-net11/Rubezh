@@ -6,10 +6,11 @@ using CodeReason.Reports;
 using Common;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Windows.Documents;
 
 namespace ReportsModule.Reports
 {
-    public class Report1
+    public class ReportTypesCount
     {
         List<DriverCounter> DriverCounters;
 
@@ -18,7 +19,8 @@ namespace ReportsModule.Reports
             Initialize();
 
             var reportDocument = new ReportDocument();
-            using (var fileStream = new FileStream(PathHelper.Report, FileMode.Open, FileAccess.Read))
+            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TypesCountFlowDocument.xaml";
+            using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
             }
