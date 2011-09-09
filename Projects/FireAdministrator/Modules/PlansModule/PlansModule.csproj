@@ -71,7 +71,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Resize\Resize.cs" />
+    <Compile Include="Operations\ResizePolygon.cs" />
     <Compile Include="ViewModels\ChildrensViewModel.cs" />
     <Compile Include="ViewModels\Adorners\PolygonAdorner.cs" />
     <Compile Include="ViewModels\SubPlanViewModel.cs" />

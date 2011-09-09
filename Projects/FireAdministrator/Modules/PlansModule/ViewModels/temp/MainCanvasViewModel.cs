@@ -14,6 +14,8 @@ using System;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Documents;
+using PlansModule.Resize;
+
 
 namespace PlansModule.ViewModels
 {
@@ -24,6 +26,7 @@ namespace PlansModule.ViewModels
         public static UIElement _originalElementToResizeTextBox;
         public static Canvas canvas;
         public static Plan plan;
+
         public MainCanvasViewModel(UIElement _element)
         {
             ActiveElement = _element;
@@ -145,6 +148,16 @@ namespace PlansModule.ViewModels
 
         void DragCompleted(object sender, DragCompletedEventArgs e)
         {
+            if (_originalElementToResize is Polygon)
+            {
+                Polygon polygon = _originalElementToResize as Polygon;
+                polygon.Points = ResizePolygon.GetPolygonResize();
+                ResizePolygon.RemovePolygon();
+                PlanCanvasView.UpdateResizePlan(_originalElementToResize, plan);
+                _originalElementToResize = null;
+                ActiveElement = null;
+            };
+            
             RemoveAllWrapperForTexBox(canvas.Children);
             MainCanvasViewModel._originalElementToResizeTextBox = null;
         }
@@ -158,11 +171,10 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb, dX);
             Canvas.SetTop(thumb, dY);
-
+            double test = Canvas.GetLeft(_originalElementToResize);
+            ResizePolygon.SetElementResize(_originalElementToResize, thumb, _originalElementToResizeTextBox);
             if (_originalElementToResize is Rectangle)
             {
-
-
                 string name = thumb.Name;
                 switch (name)
                 {
@@ -455,8 +467,9 @@ namespace PlansModule.ViewModels
                 PlanCanvasView.UpdateResizePlan(_originalElementToResizeTextBox, plan);
                 //_originalElementToResizeTextBox = null;
             }
-            var test = _originalElementToResize;
+            
         }
+
         void SetActiveRectangle(Rectangle _rectangle)
         {
             var rectangle = _rectangle;
@@ -492,7 +505,7 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb2, Canvas.GetLeft(_rectangle) + _rectangle.Width - 2);
             Canvas.SetTop(thumb2, Canvas.GetTop(_rectangle) - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
+            
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
 
             Thumb thumb3 = new Thumb();
@@ -506,7 +519,7 @@ namespace PlansModule.ViewModels
             thumb3.Name = "thumb3";
             Canvas.SetLeft(thumb3, Canvas.GetLeft(_rectangle) + _rectangle.Width - 2);
             Canvas.SetTop(thumb3, Canvas.GetTop(_rectangle) + _rectangle.Height - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
+            
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             Thumb thumb4 = new Thumb();
             thumb4.DragStarted += new DragStartedEventHandler(DragStarted);
@@ -519,7 +532,7 @@ namespace PlansModule.ViewModels
             thumb4.Name = "thumb4";
             Canvas.SetLeft(thumb4, Canvas.GetLeft(_rectangle) - 2);
             Canvas.SetTop(thumb4, Canvas.GetTop(_rectangle) + rectangle.Height - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
+            
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
 
         }
@@ -527,7 +540,7 @@ namespace PlansModule.ViewModels
         void SetActivePolygon(Polygon _polygon)
         {
             var polygon = _polygon;
-            int index = 1;
+            int index = 0;
             double dLeft = Canvas.GetLeft(_polygon);
             double dTop = Canvas.GetTop(_polygon);
             foreach (var point in _polygon.Points)
@@ -537,15 +550,13 @@ namespace PlansModule.ViewModels
                 thumb.Width = 4;
                 thumb.Background = Brushes.Blue;
                 thumb.BorderBrush = Brushes.Blue;
-                Thickness Thickness = new System.Windows.Thickness();
-                Thickness.Bottom = 1;
-                Thickness.Top = 1;
-                Thickness.Left = 1;
-                Thickness.Right = 1;
-                thumb.BorderThickness = Thickness;
+                thumb.DragStarted += new DragStartedEventHandler(DragStarted);
+                thumb.DragDelta += new DragDeltaEventHandler(DragDelta);
+                thumb.DragCompleted += new DragCompletedEventHandler(DragCompleted);
+
                 Canvas.SetLeft(thumb, point.X - 2 + dLeft);
                 Canvas.SetTop(thumb, point.Y - 2 + dTop);
-                string s = "thumb" + (index + 1).ToString();
+                string s = "thumb" + (index).ToString();
                 try
                 {
                     thumb.Name = s;
@@ -554,7 +565,7 @@ namespace PlansModule.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
-                //PlanCanvasView.Current.MainCanvas.Children.Add(thumb);
+                
                 PlanCanvasView.Current.MainCanvas.Children.Add(thumb);
                 index++;
             }
