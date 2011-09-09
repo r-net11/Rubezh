@@ -42,12 +42,12 @@ namespace PlansModule.ViewModels
             drawingContext.DrawRectangle(null, renderPen, adornedElementRect);
         }
 
-
+        /*
         public void SetOperationMove(bool _move)
         {
             isMove = _move;
         }
-
+        */
         public double LeftOffset
         {
 
@@ -57,14 +57,14 @@ namespace PlansModule.ViewModels
             }
             set
             {
-                if (isMove)
+                //if (isMove)
                 {
                     _leftOffset = value;
-                }
+                }/*
                 else
                 {
                     _leftOffset = 0;
-                }
+                }*/
 
                 UpdatePosition();
             }
@@ -78,15 +78,15 @@ namespace PlansModule.ViewModels
             }
             set
             {
-                if (isMove)
-                {
+               //if (isMove)
+               // {
                     _topOffset = value;
-                }
-                else
+               // }
+                /*else
                 {
                     _topOffset = 0;
                 }
-
+                */
                 UpdatePosition();
             }
 

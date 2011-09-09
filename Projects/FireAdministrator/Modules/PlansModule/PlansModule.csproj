@@ -57,7 +57,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operetions\MoveTo.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -72,6 +71,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Resize\Resize.cs" />
     <Compile Include="ViewModels\ChildrensViewModel.cs" />
     <Compile Include="ViewModels\Adorners\PolygonAdorner.cs" />
     <Compile Include="ViewModels\SubPlanViewModel.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="ViewModels\temp\MainCanvasViewModel.cs" />
     <Compile Include="ViewModels\Adorners\RectangleAdorner.cs" />
     <Compile Include="ViewModels\Adorners\TextBoxAdorner.cs" />
+    <Compile Include="ViewModels\temp\RectangleAdornerResize.cs" />
     <Compile Include="ViewModels\temp\ZonaViewModel.cs" />
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>

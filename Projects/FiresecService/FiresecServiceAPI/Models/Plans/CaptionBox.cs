@@ -14,6 +14,8 @@ namespace FiresecAPI.Models.Plans
         [DataMember]
         public string Text { get; set; }
         [DataMember]
+        public double FontSize { get; set; }
+        [DataMember]
         public string Color { get; set; }
         [DataMember]
         public string BorderColor { get; set; }

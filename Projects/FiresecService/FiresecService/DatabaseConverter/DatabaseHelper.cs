@@ -12,8 +12,11 @@ namespace FiresecService
         {
             using (var dataContext = new FiresecDbConverterDataContext())
             {
-                dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-                dataContext.SubmitChanges();
+                try
+                {
+                    dataContext.JournalRecords.InsertOnSubmit(journalRecord);
+                    dataContext.SubmitChanges();
+                }catch{};
             }
         }
 

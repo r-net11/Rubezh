@@ -111,6 +111,7 @@ namespace FiresecAPI.Models
         {
             get
             {
+                
                 string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
                 if (Parent != null)
                 {

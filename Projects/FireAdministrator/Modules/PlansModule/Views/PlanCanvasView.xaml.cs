@@ -15,7 +15,7 @@ using FiresecAPI.Models;
 using PlansModule.ViewModels;
 using System.Windows.Media.Imaging;
 using FiresecAPI.Models.Plans;
-using PlansModule.Operations;
+
 
 namespace PlansModule.Views
 {
@@ -37,6 +37,7 @@ namespace PlansModule.Views
         private bool _isDragging;
         private Point _startPoint;
         private UIElement _originalElement;
+        private UIElement _originalElementToResize;
         private TextBox _originalElementTextBox;
         private PolygonAdorner _overlayElementPolygon;
         private RectangleAdorner _overlayElementRectangle;
@@ -55,30 +56,16 @@ namespace PlansModule.Views
         public void ChangeSelectedPlan(Plan plan)
         {
             Plan = plan;
+            MainCanvasViewModel.plan = Plan;
             idElement = 0;
 
             MainCanvas.Children.Clear();
 
             MainCanvas.Width = plan.Width;
             MainCanvas.Height = plan.Height;
+            
             var imageBrush = new ImageBrush();
             BitmapImage image = null;
-            if (plan.BackgroundPixels != null)
-            {
-
-                using (MemoryStream imageStream = new MemoryStream(plan.BackgroundPixels))
-                {
-                    image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = imageStream;
-                    image.EndInit();
-                }
-                imageBrush.ImageSource = image;
-
-            }
-
-
             Rectangle rectangle = new Rectangle();
 
             if (plan.Rectangls != null)
@@ -91,7 +78,8 @@ namespace PlansModule.Views
                     rectangle.Name = "rect" + idElement.ToString();
                     rectangle.Height = rect.Height;
                     rectangle.Width = rect.Width;
-                    //BitmapImage image;
+                    rectangle.MinWidth = 5;
+                    rectangle.MinHeight = 5;
                     using (MemoryStream imageStream = new MemoryStream(rect.BackgroundPixels))
                     {
                         image = new BitmapImage();
@@ -102,10 +90,11 @@ namespace PlansModule.Views
                     }
 
                     imageBrushRect.ImageSource = image;
+                    
                     rectangle.Fill = imageBrushRect;
                     Canvas.SetLeft(rectangle, rect.Left);
                     Canvas.SetTop(rectangle, rect.Top);
-                    //MainCanvas.Children.Add(rectangle);
+                    
                     MainCanvas.Children.Add(rectangle);
                     idElement++;
                 }
@@ -122,6 +111,7 @@ namespace PlansModule.Views
                     myPolygon.Stroke = System.Windows.Media.Brushes.Black;
                     myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
                     myPolygon.StrokeThickness = 2;
+                    
                     PointCollection myPointCollection = new PointCollection();
                     var point = new Point();
                     double minX = -1;
@@ -135,6 +125,8 @@ namespace PlansModule.Views
                         myPointCollection.Add(point);
                     }
                     myPolygon.Points = myPointCollection;
+                    myPolygon.MinHeight = 5;
+                    myPolygon.MinWidth = 5;
                     //MainCanvas.Children.Add(myPolygon);
                     MainCanvas.Children.Add(myPolygon);
                     Canvas.SetLeft(myPolygon, 0);
@@ -152,6 +144,16 @@ namespace PlansModule.Views
                     textbox.Text = text.Text;
                     textbox.AllowDrop = true;
                     textbox.IsReadOnly = true;
+                    if (text.FontSize == 0)
+                    {
+                        text.FontSize = textbox.FontSize;
+                    }
+                    else
+                    {
+                        textbox.FontSize = text.FontSize;
+                    }
+                    textbox.MinHeight = 5;
+                    textbox.MinWidth = 5;
                     Canvas.SetLeft(textbox, text.Left);
                     Canvas.SetTop(textbox, text.Top);
                     //MainCanvas.Children.Add(textbox);
@@ -172,6 +174,8 @@ namespace PlansModule.Views
                     rectangle.Fill = brush;
                     rectangle.Height = device.Height;
                     rectangle.Width = device.Width;
+                    rectangle.MinWidth = 5;
+                    rectangle.MinHeight = 5;
                     Canvas.SetLeft(rectangle, device.Left);
                     Canvas.SetTop(rectangle, device.Top);
                     //MainCanvas.Children.Add(rectangle);
@@ -183,14 +187,11 @@ namespace PlansModule.Views
 
         private void ClearAllSelected()
         {
-            //MainCanvas.Cursor = Cursors.Arrow;
             MainCanvas.Cursor = Cursors.Arrow;
-            //foreach (var element in MainCanvas.Children)
             foreach (var element in MainCanvas.Children)
             {
                 if (element is Thumb)
                 {
-                    //MainCanvas.Children.Remove((UIElement)element);
                     MainCanvas.Children.Remove((UIElement)element);
                     ClearAllSelected();
                     break;
@@ -212,80 +213,181 @@ namespace PlansModule.Views
             }
         }
 
+        private void DragStarted()
+        {
+            if (_originalElement != null)
+            {
+                _isDragging = true;
+
+                _originalLeft = Canvas.GetLeft(_originalElement);
+                _originalTop = Canvas.GetTop(_originalElement);
+                
+                if (_originalElement is Polygon)
+                {
+                    GetTypeElement();
+                    _overlayElementPolygon = new PolygonAdorner(_originalElement);
+                    if (!_isResize) //перемещение
+                    {
+                        _overlayElementPolygon.SetOperationMove(true);
+                    }
+                    else
+                    {
+                        _overlayElementPolygon.SetOperationMove(false);
+                    }
+                    AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
+                    layer.Add(_overlayElementPolygon);
+                };
+                if (_originalElement is Rectangle)
+                {
+                    GetTypeElement();
+                    _overlayElementRectangle = new RectangleAdorner(_originalElement);
+                    /*
+                    if (!_isResize) //перемещение
+                    {
+                        _overlayElementRectangle.SetOperationMove(true);
+                    }
+                    else
+                    {
+                        _overlayElementRectangle.SetOperationMove(false);
+                    }*/
+                    AdornerLayer layer = AdornerLayer.GetAdornerLayer(_originalElement);
+                    layer.Add(_overlayElementRectangle);
+                };
+            }
+        }
+
+        private void DragMoved()
+        {
+            if (_overlayElementPolygon != null)
+            {
+                _overlayElementPolygon.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+                _overlayElementPolygon.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementPolygon.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
+            };
+            if (_overlayElementRectangle != null)
+            {
+                _overlayElementRectangle.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+
+                _overlayElementRectangle.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementRectangle.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
+            }
+            if (_overlayElementTexBox != null)
+            {
+                _overlayElementTexBox.Cursor = Cursors.Cross;
+                //Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+                Point CurrentPosition = Mouse.GetPosition(MainCanvas);
+                _overlayElementTexBox.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
+                _overlayElementTexBox.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
+            }
 
 
-
+        }
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isDown)
-            {
-                string str = "";
-            }
-
-
+            //ClearAllSelected();
             var element = e.Source;
-            if (_isDown && (ActiveElement != null))
+            if (element is Thumb && Mouse.LeftButton == MouseButtonState.Pressed)
             {
-                if (_isDragging == false)
-                {
-                    MoveTo.DragStarted(MainCanvas);
-                }
-                if (_isDragging)
-                {
-                    MoveTo.DragMoved(MainCanvas,ZoomValue);
-                }
+                /*
+                Point CurrentPosition = e.GetPosition(MainCanvas);
+                Thumb thumb = element as Thumb;
+
+                Canvas.SetTop(thumb, CurrentPosition.Y);
+                Canvas.SetLeft(thumb, CurrentPosition.X);
+               // Canvas.SetTop(thumb, 200);
+                //Canvas.SetLeft(thumb, 200);
+                var active = MainCanvasViewModel._originalElementToResize;
+                var textbox = MainCanvasViewModel._originalElementToResizeTextBox;
+                //ActiveElement = true;
+                if (MainCanvasViewModel.canvas == null) MainCanvasViewModel.canvas = MainCanvas;*/
             }
             else
             {
-                
-                if (e.Source != this.MainCanvas)
+                //ClearAllSelected();
+                if (_isDown && (ActiveElement != null))
                 {
-                    bool IsCanavs = false;
-                    if (e.Source is Rectangle)
+                    if (_isDragging == false)
                     {
-                        var rect = e.Source as Rectangle;
-                        if (rect.Name == "canv0")
-                        {
-                            IsCanavs = true;
-                            _originalElementTextBox = null;
-                            ActiveElement = false;
-                            ClearAllSelected();
-
-                        }
-                        else IsCanavs = false;
+                        DragStarted();
                     }
-                    if (!IsCanavs)
+                    if (_isDragging)
                     {
-                        if (e.Source is TextBox)
+                        DragMoved();
+                    }
+                }
+                else
+                {
+                    
+                    if (e.Source != this.MainCanvas)
+                    {
+                        bool IsCanavs = false;
+                        if (e.Source is Rectangle)
                         {
-                            TextBox textbox = e.Source as TextBox;
-                            _originalElementTextBox = textbox;
-                            Rectangle rectangle = new Rectangle();
-                            rectangle.Name = "textbox";
-                            rectangle.Height = textbox.ActualHeight;
-                            rectangle.Width = textbox.ActualWidth;
-                            SolidColorBrush brush = new SolidColorBrush();
-                            rectangle.Fill = brush;
-                            Canvas.SetLeft(rectangle, Canvas.GetLeft(textbox));
-                            Canvas.SetTop(rectangle, Canvas.GetTop(textbox));
-                            //MainCanvas.Children.Add(rectangle);
-                            MainCanvas.Children.Add(rectangle);
-                        }
-                        else
-                        {
-                            if (e.Source is Rectangle)
+                            var rect = e.Source as Rectangle;
+                            if (rect.Name == "canv0")
                             {
-                                MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-                                ActiveElement = true;
+                                IsCanavs = true;
+                                _originalElementTextBox = null;
+                                ActiveElement = false;
+                                ClearAllSelected();
+
+                            }
+                            else IsCanavs = false;
+                        }
+                        if (!IsCanavs)
+                        {
+                            if (!(e.Source is Thumb)){
+                            ClearAllSelected();
+                            }
+                            if (e.Source is TextBox)
+                            {
+                                //ClearAllSelected();
+                                TextBox textbox = e.Source as TextBox;
+                                MainCanvasViewModel._originalElementToResizeTextBox = textbox;
+
+                                _originalElementTextBox = textbox;
+                                Rectangle rectangle = new Rectangle();
+                                rectangle.Name = "textbox";
+                                rectangle.Height = textbox.ActualHeight;
+                                rectangle.Width = textbox.ActualWidth;
+                                SolidColorBrush brush = new SolidColorBrush();
+                                rectangle.Fill = brush;
+                                Canvas.SetLeft(rectangle, Canvas.GetLeft(textbox));
+                                Canvas.SetTop(rectangle, Canvas.GetTop(textbox));
+                                MainCanvas.Children.Add(rectangle);
                             }
                             else
                             {
-                                MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-                                ActiveElement = true;
-                                _originalElementTextBox = null;
+
+                                if (e.Source is Rectangle)
+                                {
+                                    //ClearAllSelected();
+                                    MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
+
+                                    ActiveElement = true;
+                                }
+                                else
+                                {
+                                    //ClearAllSelected();
+                                    MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
+
+                                    ActiveElement = true;
+                                    _originalElementTextBox = null;
+                                }
                             }
                         }
+                        else
+                        {
+                            _originalElementTextBox = null;
+                            ActiveElement = false;
+                            ClearAllSelected();
+                        }
+
                     }
                     else
                     {
@@ -293,34 +395,39 @@ namespace PlansModule.Views
                         ActiveElement = false;
                         ClearAllSelected();
                     }
+                }
+            }
+        }
+
+        private void MainCanvas_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+
+            if (ActiveElement)
+            {
+                if (e.Source is Thumb)
+                {
+                    _isDown = true;
+                    _isResize = true;
+                    Thumb thumb = (Thumb)e.Source;
 
                 }
                 else
                 {
-                    _originalElementTextBox = null;
-                    ActiveElement = false;
-                    ClearAllSelected();
+                    _isDown = true;
+                    _isResize = false;
+                    //_startPoint = Mouse.GetPosition(MainCanvas);
+                    _startPoint = Mouse.GetPosition(MainCanvas);
+                    _startPoint.Y = _startPoint.Y + PlanCanvasView.dTop;
+                    double x = scaleTransform.CenterX;
+                    double y = scaleTransform.CenterY;
+                    double v = slider.Value;
+                    _originalElement = e.Source as UIElement;
+                    e.Handled = true;
                 }
             }
         }
 
-        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            if (ActiveElement)
-            {
-                _isDown = true;
-                _isResize = false;
-                //_startPoint = Mouse.GetPosition(MainCanvas);
-                _startPoint = Mouse.GetPosition(MainCanvas);
-                _startPoint.Y = _startPoint.Y + PlanCanvasView.dTop;
-                double x = scaleTransform.CenterX;
-                double y = scaleTransform.CenterY;
-                double v = slider.Value;
-                _originalElement = e.Source as UIElement;
-                e.Handled = true;
-            }
-        }
         public void DragFinished(bool cancelled)
         {
             if (_isDragging)
@@ -373,7 +480,68 @@ namespace PlansModule.Views
 
         }
 
-        private void UpdatePlan()
+        public static void UpdateResizePlan(UIElement element, Plan plan)
+        {
+            if (element is Rectangle)
+            {
+                Rectangle rectangle = element as Rectangle;
+                string updateElement = rectangle.Name;
+                if (updateElement != "textbox")
+                {
+
+                    int index = int.Parse(updateElement.Substring(4));
+                    foreach (var rect in plan.Rectangls)
+                    {
+                        if (rect.idElementCanvas == index)
+                        {
+                            rect.Height = rectangle.Height;
+                            rect.Width = rectangle.Width;
+                            rect.Left = Canvas.GetLeft(rectangle);
+                            rect.Top = Canvas.GetTop(rectangle);
+                        }
+
+                    }
+                }
+                else
+                {
+                    TextBox textBox = MainCanvasViewModel._originalElementToResizeTextBox as TextBox;
+                updateElement = textBox.Name;
+                int index = int.Parse(updateElement.Substring(4));
+                foreach (var text in plan.TextBoxes)
+                {
+
+                        if (text.idElementCanvas == index)
+                        {
+                            text.Left = Canvas.GetLeft(textBox);
+                            text.Top = Canvas.GetTop(textBox);
+                            text.FontSize = textBox.FontSize;
+                            //text.
+                        }
+
+                }
+                }
+            }
+            if (element is TextBox)
+            {
+                TextBox textBox = element as TextBox;
+                string updateElement = textBox.Name;
+                int index = int.Parse(updateElement.Substring(4));
+                foreach (var text in plan.TextBoxes)
+                {
+
+                        if (text.idElementCanvas == index)
+                        {
+                            text.Left = Canvas.GetLeft(textBox);
+                            text.Top = Canvas.GetTop(textBox);
+                            text.FontSize = textBox.FontSize;
+                            //text.
+                        }
+
+                }
+            }
+        }
+
+        public void UpdatePlan()
         {
             if (UpdateElement != null)
             {
@@ -498,7 +666,7 @@ namespace PlansModule.Views
                     if (lastCenterPositionOnTarget.HasValue)
                     {
                         var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-                        //Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
+                        
                         Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, MainCanvas);
 
                         targetBefore = lastCenterPositionOnTarget;
@@ -508,7 +676,7 @@ namespace PlansModule.Views
                 else
                 {
                     targetBefore = lastMousePositionOnTarget;
-                    //targetNow = Mouse.GetPosition(MainCanvas);
+                    
                     targetNow = Mouse.GetPosition(MainCanvas);
 
                     lastMousePositionOnTarget = null;
@@ -519,9 +687,9 @@ namespace PlansModule.Views
                     double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
                     double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
 
-                    //double multiplicatorX = e.ExtentWidth / MainCanvas.ActualWidth;
+                    
                     double multiplicatorX = e.ExtentWidth / MainCanvas.ActualWidth;
-                    //double multiplicatorY = e.ExtentHeight / MainCanvas.ActualHeight;
+                    
                     double multiplicatorY = e.ExtentHeight / MainCanvas.ActualHeight;
 
                     double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
@@ -575,12 +743,16 @@ namespace PlansModule.Views
         double dResizeWindowX = 1;
         double dResizeWindowY = 1;
         bool CanvasLoaded = false;
+
         private void MainCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             CanvasLoaded = true;
 
             MainCanvas.Width = MainCanvas.ActualWidth;
             MainCanvas.Height = MainCanvas.ActualHeight;
+            if (MainCanvasViewModel.canvas == null) MainCanvasViewModel.canvas = MainCanvas;
+            
+            
         }
 
     }
