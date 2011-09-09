@@ -63,7 +63,7 @@ namespace PlansModule.Resize
             if (polygon == null)
             {
                 polygon = new Polygon();
-
+                polygon.Name = _polygon.Name;
                 
             }
             
