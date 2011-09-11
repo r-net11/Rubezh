@@ -27,11 +27,15 @@ namespace PlansModule.Views
         Point? lastMousePositionOnTarget;
 
         public static PlanCanvasView Current { get; set; }
+        public static ListBox PropertiesName;
+        public static ListBox PropertiesValue;
+        public static TabItem TabItem;
         private Plan Plan { get; set; }
         private int idElement;
         string typeElement;
 
         private bool ActiveElement;
+        private UIElement CurrentElement;
         private string UpdateElement;
         private bool _isDown;
         private bool _isResize;
@@ -47,6 +51,10 @@ namespace PlansModule.Views
         private double _originalLeft;
         public static double dTop = 30;
 
+
+        //ContextMenuCanvasViewModel contextMenuZona;
+        //ContextMenuCanvasViewModel contextMenuRect;
+        //ContextMenuCanvasViewModel contextMenuT
         public PlanCanvasView()
         {
             Current = this;
@@ -68,13 +76,15 @@ namespace PlansModule.Views
             var imageBrush = new ImageBrush();
             BitmapImage image = null;
             Rectangle rectangle = new Rectangle();
-
+            
             if (plan.Rectangls != null)
             {
                 foreach (var rect in plan.Rectangls)
                 {
                     var imageBrushRect = new ImageBrush();
                     rectangle = new Rectangle();
+                    ContextMenuCanvasViewModel contextMenu = new ContextMenuCanvasViewModel(GetPropertiesRect);
+                    rectangle.ContextMenu = contextMenu.GetElement(rectangle, rect);
                     rect.idElementCanvas = idElement;
                     rectangle.Name = "rect" + idElement.ToString();
                     rectangle.Height = rect.Height;
@@ -105,6 +115,7 @@ namespace PlansModule.Views
             {
                 foreach (var zona in plan.ElementZones)
                 {
+                    ContextMenuCanvasViewModel contextMenu = new ContextMenuCanvasViewModel(GetPropertiesZona);
                     Polygon myPolygon = new Polygon();
                     zona.idElementCanvas = idElement;
                     myPolygon.Name = "zona" + idElement.ToString();
@@ -112,7 +123,7 @@ namespace PlansModule.Views
                     myPolygon.Stroke = System.Windows.Media.Brushes.Black;
                     myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
                     myPolygon.StrokeThickness = 2;
-
+                    myPolygon.ContextMenu = contextMenu.GetElement(myPolygon, zona);
                     PointCollection myPointCollection = new PointCollection();
                     var point = new Point();
                     double minX = -1;
@@ -145,6 +156,7 @@ namespace PlansModule.Views
                     textbox.Text = text.Text;
                     textbox.AllowDrop = true;
                     textbox.IsReadOnly = true;
+                    textbox.Tag = text;
                     if (text.FontSize == 0)
                     {
                         text.FontSize = textbox.FontSize;
@@ -186,9 +198,75 @@ namespace PlansModule.Views
             }
         }
 
+        void GetPropertiesZona(object sender, RoutedEventArgs e)
+        {
+            var Zona = sender as MenuItem;
+            ElementZone zona = Zona.Tag as ElementZone;
+            TabItem.Header = "Свойства зоны";
+            PropertiesName.Items.Clear();
+            PropertiesValue.Items.Clear();
+            PropertiesName.Items.Add("Номер зоны");
+            PropertiesValue.Items.Add(zona.ZoneNo);
+            PropertiesName.Items.Add("Полигон");
+            string str="{";
+            foreach (var point in zona.PolygonPoints)
+            {
+                str+= point.X + "," + point.Y + "}{";
+            }
+            str += "}";
+            PropertiesValue.Items.Add(str);
+        }
+
+        void GetPropertiesRect(object sender, RoutedEventArgs e)
+        {
+            var rectengle = sender as MenuItem;
+            RectangleBox rect = rectengle.Tag as RectangleBox;
+            TabItem.Header = "Свойства прямоугольника";
+            PropertiesName.Items.Clear();
+            PropertiesValue.Items.Clear();
+            
+            PropertiesName.Items.Add("Оступ слева");
+            PropertiesValue.Items.Add(rect.Left.ToString());
+            PropertiesName.Items.Add("Оступ сверху");
+            PropertiesValue.Items.Add(rect.Top.ToString());
+            PropertiesName.Items.Add("Ширина");
+            PropertiesValue.Items.Add(rect.Width.ToString());
+            PropertiesName.Items.Add("Высота");
+            PropertiesValue.Items.Add(rect.Height.ToString());
+            PropertiesName.Items.Add("Изображение");
+            
+            
+            PropertiesValue.Items.Add(rect.BackgroundPixels.Length.ToString());
+           // MessageBox.Show("rect " + rect.Height.ToString());
+        }
+
+        void GetPropertiesText(object sender, RoutedEventArgs e)
+        {
+            var textbox = sender as MenuItem;
+            CaptionBox text = textbox.Tag as CaptionBox;
+            TabItem.Header = "Свойства текста";
+            PropertiesName.Items.Clear();
+            PropertiesValue.Items.Clear();
+            PropertiesName.Items.Add("Текст");
+            PropertiesValue.Items.Add(text.Text);
+            PropertiesName.Items.Add("Размер шрифта");
+            PropertiesValue.Items.Add(text.FontSize.ToString());
+            PropertiesName.Items.Add("Отступ слева");
+            PropertiesValue.Items.Add(text.Left.ToString());
+            PropertiesName.Items.Add("Отступ сверху");
+            PropertiesValue.Items.Add(text.Top.ToString());
+            PropertiesName.Items.Add("Цвет фона");
+            PropertiesValue.Items.Add(text.Color);
+            PropertiesName.Items.Add("Цвет бордюра");
+            PropertiesValue.Items.Add(text.BorderColor);
+            
+            //MessageBox.Show("text " + text.Text);
+        }
+
         private void ClearAllSelected()
         {
             MainCanvas.Cursor = Cursors.Arrow;
+            CurrentElement = null;
             foreach (var element in MainCanvas.Children)
             {
                 if (element is Thumb)
@@ -336,6 +414,7 @@ namespace PlansModule.Views
                                 _originalElementTextBox = null;
                                 ActiveElement = false;
                                 ClearAllSelected();
+                                CurrentElement = (UIElement)e.Source;
 
                             }
                             else IsCanavs = false;
@@ -350,11 +429,15 @@ namespace PlansModule.Views
                             {
                                 //ClearAllSelected();
                                 TextBox textbox = e.Source as TextBox;
-                                MainCanvasViewModel._originalElementToResizeTextBox = textbox;
 
+                                MainCanvasViewModel._originalElementToResizeTextBox = textbox;
+                                CurrentElement = (UIElement)e.Source;
                                 _originalElementTextBox = textbox;
                                 Rectangle rectangle = new Rectangle();
+                                ContextMenuCanvasViewModel contextMenu = new ContextMenuCanvasViewModel(GetPropertiesText);
+                                
                                 rectangle.Name = "textbox";
+                                rectangle.ContextMenu = contextMenu.GetElement(textbox, textbox.Tag);
                                 rectangle.Height = textbox.ActualHeight;
                                 rectangle.Width = textbox.ActualWidth;
                                 SolidColorBrush brush = new SolidColorBrush();
@@ -370,14 +453,14 @@ namespace PlansModule.Views
                                 {
                                     //ClearAllSelected();
                                     MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-
+                                    CurrentElement = (UIElement)e.Source;
                                     ActiveElement = true;
                                 }
                                 else
                                 {
                                     //ClearAllSelected();
                                     MainCanvasViewModel canvasViewModel = new MainCanvasViewModel((UIElement)e.Source);
-
+                                    CurrentElement = (UIElement)e.Source;
                                     ActiveElement = true;
                                     _originalElementTextBox = null;
                                 }
@@ -777,7 +860,7 @@ namespace PlansModule.Views
         double dResizeWindowX = 1;
         double dResizeWindowY = 1;
         bool CanvasLoaded = false;
-
+        
         private void MainCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             CanvasLoaded = true;
@@ -786,8 +869,26 @@ namespace PlansModule.Views
             MainCanvas.Height = MainCanvas.ActualHeight;
             if (MainCanvasViewModel.canvas == null) MainCanvasViewModel.canvas = MainCanvas;
             ResizePolygon.SetCanvas(MainCanvas);
+            FullSize();
+        }
 
+        void MenuClicked(object sender, RoutedEventArgs e)
+        {
+            var menu = sender as MenuItem;
+            MessageBox.Show("test");
+            e.Handled = true;
+        }
 
+        private void ContextMenuCanvas_Opened(object sender, RoutedEventArgs e)
+        {
+            
+            
+
+        }
+
+        private void ContextMenuCanvas1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+           
         }
 
     }

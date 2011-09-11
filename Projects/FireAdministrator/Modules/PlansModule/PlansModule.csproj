@@ -81,9 +81,10 @@
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\SubPlanDetailsViewModel.cs" />
-    <Compile Include="ViewModels\temp\MainCanvasViewModel.cs" />
+    <Compile Include="ViewModels\MainCanvasViewModel.cs" />
     <Compile Include="ViewModels\Adorners\RectangleAdorner.cs" />
     <Compile Include="ViewModels\Adorners\TextBoxAdorner.cs" />
+    <Compile Include="ViewModels\temp\ContextMenuCanvasViewModel.cs" />
     <Compile Include="ViewModels\temp\RectangleAdornerResize.cs" />
     <Compile Include="ViewModels\temp\ZonaViewModel.cs" />
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\temp\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\temp\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
@@ -172,6 +176,10 @@
     <Page Include="Views\PlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\temp\PropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\temp\ToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
