@@ -15,10 +15,10 @@ namespace FiresecService.Views
             InitializeComponent();
             DataContext = this;
 
-            _devicesId = new List<string>();
-            _devicesId.Add(_deviceId);
-            _devicesId.Add(_deviceId2);
-            _devicesId.Add(_deviceId3);
+            _devicesUId = new List<string>();
+            _devicesUId.Add(_deviceUId);
+            _devicesUId.Add(_deviceUId2);
+            _devicesUId.Add(_deviceUId3);
             DevicesList = new ObservableCollection<DeviceList>();
             AvailableDevices = new ObservableCollection<DeviceList>();
 
@@ -26,7 +26,7 @@ namespace FiresecService.Views
             {
                 if ((device.Driver.IsZoneDevice) || (device.Driver.IsZoneLogicDevice))
                 {
-                    if (_devicesId.Contains(device.Id) == false)
+                    if (_devicesUId.Contains(device.UID.ToString()) == false)
                     {
                         AvailableDevices.Add(new DeviceList(device));
                     }
@@ -47,10 +47,10 @@ namespace FiresecService.Views
             }
         }
 
-        List<string> _devicesId;
-        string _deviceId = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.16";
-        string _deviceId2 = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17";
-        string _deviceId3 = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/799686B6-9CFA-4848-A0E7-B33149AB940C:1.18";
+        List<string> _devicesUId;
+        string _deviceUId = "2d85b630-5bf2-441b-b5a7-7cc617313515";
+        string _deviceUId2 = "cd552c27-bcd7-425d-9fe2-7618456d2e49";
+        string _deviceUId3 = "8b375fc9-599f-4d7e-8add-eacbfe83d5d9";
         
 
         public ObservableCollection<DeviceList> DevicesList { get; set; }
@@ -197,41 +197,3 @@ namespace FiresecService.Views
     }
 }
 
-//public void StateChanged(string state)
-//{
-//    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == _deviceId);
-//    var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == _deviceId);
-//    foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
-//    {
-//        if (Enum.GetName(typeof(StateType), stateType) == state)
-//        {
-//            var deviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.StateType == _stateType);
-//            if (deviceDriverState != null)
-//            {
-//                deviceDriverState.IsActive = false;
-//            }
-//            _stateType = stateType;
-//            var newDeviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.StateType == _stateType);
-//            if (newDeviceDriverState != null)
-//            {
-//                newDeviceDriverState.IsActive = true;
-//            }
-//            deviceDriverState = null;
-//            newDeviceDriverState = null;
-//            CallbackManager.OnDeviceStateChanged(deviceState);
-//        }
-//    }
-//}
-
-//string deviceId2 = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/37F13667-BC77-4742-829B-1C43FA404C1F:1.17";
-//string deviceId3 = "F8340ECE-C950-498D-88CD-DCBABBC604F3:0/FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6:0/780DE2E6-8EDD-4CFA-8320-E832EB699544:1/B476541B-5298-4B3E-A9BA-605B839B1011:1/799686B6-9CFA-4848-A0E7-B33149AB940C:1.18";
-//var deviceState2 = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId2);
-//var deviceState3 = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.Id == deviceId3);
-
-//deviceState.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Fire).IsActive = true;
-//deviceState2.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Attention).IsActive = true;
-//deviceState3.States.FirstOrDefault(x => x.DriverState.StateType == StateType.Failure).IsActive = true;
-
-//CallbackManager.OnDeviceStateChanged(deviceState);
-//CallbackManager.OnDeviceStateChanged(deviceState2);
-//CallbackManager.OnDeviceStateChanged(deviceState3);

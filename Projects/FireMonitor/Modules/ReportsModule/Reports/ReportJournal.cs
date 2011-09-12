@@ -57,7 +57,7 @@ namespace ReportsModule.Reports
                 Select(journalRecord => new JournalRecordViewModel(journalRecord))
             );
 
-            var filterViewModel = new ArchiveFilterViewModel(JournalRecords);
+            var filterViewModel = new ArchiveFilterViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
 
         }
