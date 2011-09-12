@@ -49,7 +49,7 @@ namespace PlansModule.Views
         private TextBoxAdorner _overlayElementTexBox;
         private double _originalTop;
         private double _originalLeft;
-        public static double dTop = 30;
+        public static double dTop = 0;
 
 
         //ContextMenuCanvasViewModel contextMenuZona;
@@ -203,18 +203,24 @@ namespace PlansModule.Views
             var Zona = sender as MenuItem;
             ElementZone zona = Zona.Tag as ElementZone;
             TabItem.Header = "Свойства зоны";
+            
             PropertiesName.Items.Clear();
             PropertiesValue.Items.Clear();
+            
+            TextBox textBox = new TextBox();
+            textBox.Text = zona.ZoneNo;
+            PropertiesValue.Items.Add(textBox);
+            PropertiesName.Height = PropertiesValue.Height;
             PropertiesName.Items.Add("Номер зоны");
-            PropertiesValue.Items.Add(zona.ZoneNo);
             PropertiesName.Items.Add("Полигон");
-            string str="{";
+            string str="";
             foreach (var point in zona.PolygonPoints)
             {
-                str+= point.X + "," + point.Y + "}{";
+                str+="{"+ point.X + "," + point.Y + "}";
             }
-            str += "}";
-            PropertiesValue.Items.Add(str);
+            textBox = new TextBox();
+            textBox.Text = str;
+            PropertiesValue.Items.Add(textBox);
         }
 
         void GetPropertiesRect(object sender, RoutedEventArgs e)

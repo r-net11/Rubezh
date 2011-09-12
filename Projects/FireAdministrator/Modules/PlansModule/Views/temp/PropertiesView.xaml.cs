@@ -16,6 +16,7 @@ using PlansModule.ViewModels;
 using System.Windows.Media.Imaging;
 using FiresecAPI.Models.Plans;
 using PlansModule.Resize;
+using System.Windows.Data;
 
 
 namespace PlansModule.Views
@@ -30,6 +31,36 @@ namespace PlansModule.Views
             PlanCanvasView.PropertiesName = ListName;
             PlanCanvasView.PropertiesValue = ListValue;
             PlanCanvasView.TabItem = Properties;
+        }
+
+        private void ListValue_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var test = sender as ListBox;
+            object Selected = test.SelectedItem;
+            int index = test.SelectedIndex;
+            ListValue.UnselectAll();
+
+
+            TextBox textbox = new TextBox();
+            textbox.Text = Selected.ToString();
+
+            ListValue.Items[index] = textbox;
+            textbox.Focus();
+            textbox.SelectAll();
+            DataGridTextColumn textname = new DataGridTextColumn();
+            Binding b = new Binding("name");
+            textname.Binding = b;
+            textname.Header = "Наименование";
+            datagrid.Columns.Add(textname);
+            DataGridTextColumn textval = new DataGridTextColumn();
+            b = new Binding("value");
+            b.Source = ListValue;
+            textval.Binding = b;
+            textval.Header = "Значение";
+            
+            datagrid.Columns.Add(textval);
+            DataGridRow row = new DataGridRow();
+            
         }
 
 

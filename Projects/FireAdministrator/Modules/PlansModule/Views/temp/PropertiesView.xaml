@@ -17,9 +17,15 @@
                       >
             <TabControl>
                 <TabItem Header="История">
-                    <ListBox Name="Historys">
+                    <DataGrid Name="datagrid" BorderThickness="2">
 
+                        
+
+                    </DataGrid>
+                    <!--
+                    <ListBox Name="Historys">
                     </ListBox>
+                    -->
                 </TabItem>
                 <TabItem Header="Карта">
                     <ListBox Name="Map">
@@ -40,11 +46,11 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <GroupBox Header="Наименование" Grid.Column="0">
-                            <ListBox Name="ListName" FontWeight="Bold">
+                            <ListBox Name="ListName" FontWeight="Bold" >
                             </ListBox>
                         </GroupBox>
-                        <GroupBox Header="Значение" Grid.Column="1">
-                            <ListBox Name="ListValue" >
+                        <GroupBox Header="Значение" Grid.Column="1" >
+                            <ListBox Name="ListValue" MouseDoubleClick="ListValue_MouseDoubleClick">
                             </ListBox>
                         </GroupBox>
                     </Grid>
