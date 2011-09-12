@@ -50,7 +50,10 @@
                             </ListBox>
                         </GroupBox>
                         <GroupBox Header="Значение" Grid.Column="1" >
-                            <ListBox Name="ListValue" MouseDoubleClick="ListValue_MouseDoubleClick">
+                            <ListBox Name="ListValue" MouseDoubleClick="ListValue_MouseDoubleClick"
+                                     SelectionChanged="ListValue_SelectionChanged"
+                                     GotFocus="ListValue_GotFocus"
+                                     >
                             </ListBox>
                         </GroupBox>
                     </Grid>

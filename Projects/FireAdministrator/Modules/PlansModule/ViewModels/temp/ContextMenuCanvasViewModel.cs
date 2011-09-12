@@ -38,15 +38,19 @@ namespace PlansModule.ViewModels
             ContextMenu res=null;
             if (ActiveElement is Polygon)
             {
+                //var polygon = 
+                PlanCanvasView.ElementProperties = (ActiveElement as Polygon).Name;
                 res=CreateContextMenuForZona(element);
             };
             if (ActiveElement is Rectangle)
             {
+                PlanCanvasView.ElementProperties = (ActiveElement as Rectangle).Name;
                 res=CreateContextMenuForRectangle(element);
             }
 
             if (ActiveElement is TextBox)
             {
+                PlanCanvasView.ElementProperties = (ActiveElement as TextBox).Name;
                 res = CreateContextMenuForText(element);
             }
             return res;
@@ -60,7 +64,7 @@ namespace PlansModule.ViewModels
             items.Tag = element;
             items.Click += MouseDownEventHandler;
             items.Header = "Свойства зоны";
-            //items.Items.Add("Свойства зоны");
+            
             contextMenu.Items.Add(items);
             return contextMenu;
         }

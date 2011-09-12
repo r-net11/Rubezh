@@ -24,45 +24,229 @@ namespace PlansModule.Views
 
     public partial class PropertiesView : UserControl
     {
+        bool EditMode = false;
+        public static int IndexElement;
+        int IndexProperties = 0;
+        UIElement element;
+        public static Plan plan;
 
         public PropertiesView()
         {
             InitializeComponent();
-            PlanCanvasView.PropertiesName = ListName;
+            PlanCanvasView.PropertiesCaption = ListName;
             PlanCanvasView.PropertiesValue = ListValue;
             PlanCanvasView.TabItem = Properties;
+
         }
 
         private void ListValue_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var test = sender as ListBox;
-            object Selected = test.SelectedItem;
-            int index = test.SelectedIndex;
-            ListValue.UnselectAll();
-
-
-            TextBox textbox = new TextBox();
-            textbox.Text = Selected.ToString();
-
-            ListValue.Items[index] = textbox;
-            textbox.Focus();
-            textbox.SelectAll();
-            DataGridTextColumn textname = new DataGridTextColumn();
-            Binding b = new Binding("name");
-            textname.Binding = b;
-            textname.Header = "Наименование";
-            datagrid.Columns.Add(textname);
-            DataGridTextColumn textval = new DataGridTextColumn();
-            b = new Binding("value");
-            b.Source = ListValue;
-            textval.Binding = b;
-            textval.Header = "Значение";
             
-            datagrid.Columns.Add(textval);
-            DataGridRow row = new DataGridRow();
-            
+            if (!EditMode)
+            {
+                var test = sender as ListBox;
+                object Selected = test.SelectedItem;
+                Type t = Selected.GetType();
+                IndexProperties = test.SelectedIndex;
+                ListValue.UnselectAll();
+                string type = PlanCanvasView.PropertiesType.Items[IndexProperties].ToString();
+                switch (type)
+                {
+                    case "number":
+                        {
+                            TextBox textbox = new TextBox();
+                            textbox.KeyUp += new KeyEventHandler(textbox_KeyUp);
+                            textbox.Text = Selected.ToString();
+                            ListValue.Items[IndexProperties] = textbox;
+                            EditMode = true;
+                        }
+                        break;
+                    case "string":
+                        {
+                            TextBox textbox = new TextBox();
+                            textbox.KeyUp += new KeyEventHandler(textbox_KeyUp);
+                            textbox.Text = Selected.ToString();
+                            ListValue.Items[IndexProperties] = textbox;
+                            EditMode = true;
+                        }
+                        break;
+                }
+            }
+
+        }
+        void UpdateElementPolygon(Polygon polygon)
+        {
+            string properties = PlanCanvasView.PropertiesName.Items[IndexProperties].ToString();
+            object value = ListValue.Items[IndexProperties];
+            switch (properties)
+            {
+                case "zoneno":
+                    {
+                        polygon.ToolTip = "Зона №" + value.ToString();
+                    };
+                    break;
+                case "polygonpoints":
+                    {
+                    };
+                    break;
+            }
+        }
+
+        void UpdateElementRect(Rectangle rect)
+        {
+            string properties = PlanCanvasView.PropertiesName.Items[IndexProperties].ToString();
+            object value = ListValue.Items[IndexProperties];
+            switch (properties)
+            {
+                case "width":
+                    {
+                        rect.Width = double.Parse(value.ToString());
+                    };
+                    break;
+                case "height":
+                    {
+                        rect.Height = double.Parse(value.ToString());
+                    };
+                    break;
+                case "left":
+                    {
+                        Canvas.SetLeft(rect, double.Parse(value.ToString()));
+                    };
+                    break;
+                case "top":
+                    {
+                        Canvas.SetTop(rect, double.Parse(value.ToString()));
+                    };
+                    break;
+                case "background":
+                    {
+                    };
+                    break;
+            }
+        }
+
+        void UpdateElementTextBox(TextBox textBox)
+        {
+            string properties = PlanCanvasView.PropertiesName.Items[IndexProperties].ToString();
+            object value = ListValue.Items[IndexProperties];
+            switch (properties)
+            {
+                case "text":
+                    {
+                        textBox.Text = value.ToString();
+                    };
+                    break;
+                case "fontsize":
+                    {
+                        textBox.FontSize = double.Parse(value.ToString());
+                    };
+                    break;
+                case "left":
+                    {
+                        Canvas.SetLeft(textBox, double.Parse(value.ToString()));
+                    };
+                    break;
+                case "top":
+                    {
+                        Canvas.SetTop(textBox, double.Parse(value.ToString()));
+                    };
+                    break;
+                case "color":
+                    {
+                    };
+                    break;
+                case "bordercolor":
+                    {
+                    };
+                    break;
+            }
         }
 
 
+        void textbox_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case (Key.Return):
+                    {
+                       OffEditMode(ListValue.Items);
+                        element = MainCanvasViewModel.canvas.Children[IndexElement];
+                        if (element is TextBox)
+                        {
+                            TextBox textbox = element as TextBox;
+                            UpdateElementTextBox(textbox);
+                        }
+                        if (element is Rectangle)
+                        {
+                            Rectangle rect = element as Rectangle;
+                            UpdateElementRect(rect);
+                        }
+                        if (element is Polygon)
+                        {
+                            Polygon polygon = element as Polygon;
+                            UpdateElementPolygon(polygon);
+                        }
+                        PlanCanvasView.UpdateResizePlan(element, plan);
+                    };
+                    break;
+                case (Key.Escape):
+                    {
+                        OffEditMode(ListValue.Items);
+                    };
+                    break;
+            }
+
+        }
+
+        void OffEditMode(ItemCollection items)
+        {
+            int index = 0;
+            foreach (var item in items)
+            {
+                if (item is TextBox)
+                {
+                    string str = (item as TextBox).Text;
+                    items[index] = str;
+                    OffEditMode(items);
+                    break;
+                }
+                index++;
+            }
+            EditMode = false;
+        }
+        private void ListValue_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EditMode)
+            {
+                OffEditMode(ListValue.Items);
+                element = MainCanvasViewModel.canvas.Children[IndexElement];
+                if (element is TextBox)
+                {
+                    TextBox textbox = element as TextBox;
+                    UpdateElementTextBox(textbox);
+                }
+                if (element is Rectangle)
+                {
+                    Rectangle rect = element as Rectangle;
+                    UpdateElementRect(rect);
+                }
+                if (element is Polygon)
+                {
+                    Polygon polygon = element as Polygon;
+                    UpdateElementPolygon(polygon);
+                }
+                PlanCanvasView.UpdateResizePlan(element, plan);
+            }
+            else
+            {
+                OffEditMode(ListValue.Items);
+            }
+        }
+
+        private void ListValue_GotFocus(object sender, RoutedEventArgs e)
+        {
+            UIElement element = MainCanvasViewModel.canvas.Children[IndexElement];
+            MainCanvasViewModel mainCanvasViewModel = new MainCanvasViewModel(element);
+        }
     }
 }
