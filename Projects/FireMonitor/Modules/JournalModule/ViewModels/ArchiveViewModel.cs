@@ -74,10 +74,14 @@ namespace JournalModule.ViewModels
 
         void SetDefaultArchiveContent()
         {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
+            try
+            {
+                JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                    FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
+                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
+                );
+            }
+            catch { ;}
         }
 
         void ApplyFilter()

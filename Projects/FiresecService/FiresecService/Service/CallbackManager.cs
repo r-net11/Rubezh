@@ -55,7 +55,7 @@ namespace FiresecService
             }
         }
 
-        public static void OnDeviceStateChanged(DeviceState deviceState)
+        public static void OnDeviceStatesChanged(List<DeviceState> deviceStates)
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
@@ -63,7 +63,7 @@ namespace FiresecService
             {
                 try
                 {
-                    callback.DeviceStateChanged(deviceState);
+                    callback.DeviceStateChanged(deviceStates);
                 }
                 catch
                 {
@@ -74,7 +74,7 @@ namespace FiresecService
             Clean();
         }
 
-        public static void OnDeviceParametersChanged(DeviceState deviceState)
+        public static void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
         {
             _failedCallbacks = new List<IFiresecCallback>();
 
@@ -82,7 +82,7 @@ namespace FiresecService
             {
                 try
                 {
-                    callback.DeviceParametersChanged(deviceState);
+                    callback.DeviceParametersChanged(deviceParameters);
                 }
                 catch
                 {

@@ -104,10 +104,8 @@ namespace FiresecService
                     }
                 }
 
-                foreach (var deviceState in ChangedDevices)
-                {
-                    CallbackManager.OnDeviceParametersChanged(deviceState);
-                }
+                if (ChangedDevices.Count > 0)
+                    CallbackManager.OnDeviceParametersChanged(ChangedDevices);
             }
             catch (Exception) { }
         }
@@ -123,10 +121,8 @@ namespace FiresecService
                 PropogateStates();
                 CalculateZones();
 
-                foreach (var deviceState in ChangedDevices)
-                {
-                    CallbackManager.OnDeviceStateChanged(deviceState);
-                }
+                if (ChangedDevices.Count > 0)
+                    CallbackManager.OnDeviceStatesChanged(ChangedDevices);
             }
             catch (Exception) { }
         }
@@ -226,13 +222,15 @@ namespace FiresecService
                 {
                     var zoneHasDevices = false;
                     StateType minZoneStateType = StateType.Norm;
-                    foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+                    foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                     {
-                        if (device.ZoneNo == zoneState.No)
+                        if (deviceState.Device.ZoneNo == zoneState.No)
                         {
                             zoneHasDevices = true;
-                            var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-                            // добавить проверку - нужно ли включать устройство при формировании состояния зоны
+
+                            if (deviceState.Device.Driver.IgnoreInZoneState)
+                                continue;
+
                             if (deviceState.StateType < minZoneStateType)
                                 minZoneStateType = deviceState.StateType;
                         }

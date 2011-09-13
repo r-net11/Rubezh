@@ -6,5 +6,10 @@
         {
             FiresecEventAggregator.OnNewEventAvaliable(EventMask);
         }
+
+        public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        {
+            return true;
+        }
     }
 }

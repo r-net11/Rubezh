@@ -113,10 +113,17 @@ namespace FiresecService
             //FiresecManager.SetNewConfig();
         }
 
-        public void WriteConfiguration(string deviceId)
+        public void WriteConfiguration(Guid deviceUID)
         {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == deviceId);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
+        }
+
+        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, string password)
+        {
+            FiresecManager.ConvertBack(deviceConfiguration);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            FiresecInternalClient.DeviceSetPassword(FiresecManager.CoreConfig, device.PlaceInTree, password);
         }
 
         public SecurityConfiguration GetSecurityConfiguration()
@@ -316,8 +323,6 @@ namespace FiresecService
         {
             lock (locker)
             {
-
-
                 DatabaseHelper.AddInfoMessage(GetUserFullName(), "Вход пользователя в систему");
 
                 return "Test";

@@ -144,11 +144,23 @@ namespace FiresecClient
             }
         }
 
-        public void WriteConfiguration(string deviceId)
+        public void WriteConfiguration(Guid deviceUID)
         {
             try
             {
-                _iFiresecService.WriteConfiguration(deviceId);
+                _iFiresecService.WriteConfiguration(deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, string password)
+        {
+            try
+            {
+                _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, password);
             }
             catch
             {

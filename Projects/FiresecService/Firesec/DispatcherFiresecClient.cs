@@ -91,5 +91,10 @@ namespace Firesec
         {
             control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.AddUserMessage), message);
         }
+
+        public static void DeviceSetPassword(string coreConfig, string devicePath, string password)
+        {
+            control.Dispatcher.Invoke(new Action<string, string, string>(NativeFiresecClient.DeviceSetPassword), coreConfig, devicePath, password);
+        }
     }
 }

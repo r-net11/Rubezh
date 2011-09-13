@@ -269,7 +269,7 @@ namespace FiresecClient
 
         public static void SetPassword(Guid deviceUID)
         {
-            ;
+            _firesecService.DeviceSetPassword(DeviceConfiguration, deviceUID, "312");
         }
 
         public static void LoadFromFile(string fileName)

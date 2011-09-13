@@ -69,9 +69,8 @@ namespace FiresecService
 
         public static void SetNewConfig()
         {
-            Update();
-            ConvertBack();
-            FiresecInternalClient.SetNewConfig(CoreConfig);
+            //Update();
+            //ConvertBack();
         }
 
         static void Convert()
@@ -84,12 +83,20 @@ namespace FiresecService
             DeviceConverter.Convert(CoreConfig);
         }
 
-        static void ConvertBack()
+        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
-            ZoneConverter.ConvertBack(DeviceConfiguration);
-            DeviceConverter.ConvertBack(DeviceConfiguration);
-            DirectionConverter.ConvertBack(DeviceConfiguration);
-            GuardUserConverter.ConvertBack(DeviceConfiguration);
+            deviceConfiguration.Update();
+
+            foreach (var device in deviceConfiguration.Devices)
+            {
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+            }
+            CoreConfig = FiresecInternalClient.GetCoreConfig();
+
+            ZoneConverter.ConvertBack(deviceConfiguration);
+            DeviceConverter.ConvertBack(deviceConfiguration);
+            DirectionConverter.ConvertBack(deviceConfiguration);
+            GuardUserConverter.ConvertBack(deviceConfiguration);
             //SecurityConverter.ConvertBack(SecurityConfiguration);
         }
     }

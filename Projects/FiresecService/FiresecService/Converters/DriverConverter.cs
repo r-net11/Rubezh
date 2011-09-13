@@ -120,6 +120,7 @@ namespace FiresecService.Converters
             }
 
             driver.IsOutDevice = innerDriver.options != null && innerDriver.options.Contains("OutDevice");
+            driver.IgnoreInZoneState = innerDriver.options != null && innerDriver.options.Contains("IgnoreInZoneState");
 
             driver.Category = (DeviceCategoryType)int.Parse(innerDriver.cat);
             driver.CategoryName = EnumsConverter.CategoryTypeToCategoryName(driver.Category);

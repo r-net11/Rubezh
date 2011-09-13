@@ -90,7 +90,6 @@ namespace Firesec
             Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
         }
 
-        //Refactored by Badaev Andrei. See how it was in file histoty
         static string ConvertDeviceList(List<string> devicePaths)
         {
             var devicePatsString = new StringBuilder();
@@ -117,6 +116,11 @@ namespace Firesec
         public static void AddUserMessage(string message)
         {
             Connectoin.StoreUserMessage(message);
+        }
+
+        public static void DeviceSetPassword(string coreConfig, string devicePath, string password)
+        {
+            Connectoin.DeviceSetPassword(coreConfig, devicePath, password);
         }
 
         static FS_Types.IFSC_Connection GetConnection(string login, string password)

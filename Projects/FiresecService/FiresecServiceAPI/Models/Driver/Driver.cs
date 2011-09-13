@@ -150,6 +150,9 @@ namespace FiresecAPI.Models
         public bool IsIgnore { get; set; }
 
         [DataMember]
+        public bool IgnoreInZoneState { get; set; }
+
+        [DataMember]
         public bool IsAssadIgnore { get; set; }
 
         [DataMember]

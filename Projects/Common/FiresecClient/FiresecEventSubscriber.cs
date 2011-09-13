@@ -3,39 +3,46 @@ using System.Linq;
 using System.ServiceModel;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
     [CallbackBehavior(ConcurrencyMode=ConcurrencyMode.Single)]
     public class FiresecEventSubscriber : IFiresecCallback
     {
-        public void DeviceStateChanged(DeviceState newDeviceState)
+        public void DeviceStateChanged(List<DeviceState> newDeviceStates)
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-
-            deviceState.States.Clear();
-            foreach (var newState in newDeviceState.States)
+            foreach (var newDeviceState in newDeviceStates)
             {
-                deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
-                newState.DriverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
-                deviceState.States.Add(newState);
-            }
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
 
-            deviceState.ParentStates = newDeviceState.ParentStates;
-            foreach (var parentState in deviceState.ParentStates)
-            {
-                parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
-                parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
-            }
+                deviceState.States.Clear();
+                foreach (var newState in newDeviceState.States)
+                {
+                    deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
+                    newState.DriverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
+                    deviceState.States.Add(newState);
+                }
 
-            OnDeviceStateChanged(deviceState.UID);
+                deviceState.ParentStates = newDeviceState.ParentStates;
+                foreach (var parentState in deviceState.ParentStates)
+                {
+                    parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
+                    parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
+                }
+
+                OnDeviceStateChanged(deviceState.UID);
+            }
         }
 
-        public void DeviceParametersChanged(DeviceState newDeviceState)
+        public void DeviceParametersChanged(List<DeviceState> newDeviceStates)
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-            deviceState.Parameters = newDeviceState.Parameters;
-            OnDeviceParametersChanged(deviceState.UID);
+            foreach (var newDeviceState in newDeviceStates)
+            {
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
+                deviceState.Parameters = newDeviceState.Parameters;
+                OnDeviceParametersChanged(deviceState.UID);
+            }
         }
 
         public void ZoneStateChanged(ZoneState newZoneState)

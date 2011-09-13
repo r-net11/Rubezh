@@ -57,9 +57,9 @@ namespace FiresecService
             DispatcherFiresecClient.SetNewConfig(stringConfig);
         }
 
-        public static void DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string DevicePath)
+        public static void DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), DevicePath);
+            DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
         public static void ResetStates(Firesec.CoreState.config coreState)
@@ -86,6 +86,11 @@ namespace FiresecService
         public static void AddUserMessage(string message)
         {
             DispatcherFiresecClient.AddUserMessage(message);
+        }
+
+        public static void DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password)
+        {
+            DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password);
         }
 
         public static void NewEventsAvailable(int eventMask)

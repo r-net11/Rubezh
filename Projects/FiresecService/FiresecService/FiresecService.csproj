@@ -75,13 +75,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Imitator\DeviceStateViewModel.cs" />
+    <Compile Include="Imitator\LevelToMarginConverter.cs" />
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
-    <Compile Include="Views\AlarmTest.xaml.cs">
-      <DependentUpon>AlarmTest.xaml</DependentUpon>
+    <Compile Include="Imitator\DeviceViewModel.cs" />
+    <Compile Include="Imitator\ImitatorView.xaml.cs">
+      <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="XSD\GetCoreConfig.cs">
       <DependentUpon>GetCoreConfig.xsd</DependentUpon>
@@ -130,7 +133,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\AlarmTest.xaml">
+    <Page Include="Imitator\ImitatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

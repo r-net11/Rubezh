@@ -71,7 +71,7 @@ namespace FireMonitor
             plansModule.Initialize();
 
             var journalModule = new JournalModule.JournalModule();
-            journalModule.Initialize();
+            //journalModule.Initialize();
 
             var alarmModule = new AlarmModule.AlarmModule();
             alarmModule.Initialize();
