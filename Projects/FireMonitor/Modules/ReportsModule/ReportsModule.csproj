@@ -76,6 +76,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ReportsModule.cs" />
+    <Compile Include="Reports\ReportPaginator.cs" />
     <Compile Include="Reports\ReportTypesCount.cs" />
     <Compile Include="Reports\ReportDeviceParams.cs" />
     <Compile Include="Reports\ReportJournal.cs" />
@@ -150,6 +151,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ReportTemplates\DeviceListFlowDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReportTemplates\TestFlowDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

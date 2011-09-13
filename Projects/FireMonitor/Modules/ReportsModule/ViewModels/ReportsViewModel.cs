@@ -127,6 +127,10 @@ namespace ReportsModule.ViewModels
                 OnPropertyChanged("ReportContent");
             }
         }
-        
+
+        public override void OnHide()
+        {
+            _documentViewer.Document = null;
+        }
     }
 }

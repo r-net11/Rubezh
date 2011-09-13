@@ -213,7 +213,7 @@ namespace InstructionsModule.ViewModels
         void OnAddAllDevice()
         {
             InstructionDevicesList.Clear();
-            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty() == false)
             {
                 return;
             }

@@ -44,7 +44,6 @@ namespace InstructionsModule.ViewModels
             _isNew = false;
             Title = "Редактирование инструкции";
             Instruction = instruction;
-            //Name = instruction.Name;
             Text = instruction.Text;
             StateType = instruction.StateType;
             InstructionNo = instruction.No;
