@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.IO;
 using System.Windows.Markup;
 using System.Windows.Media;
+using ReportsModule.Views;
 
 namespace ReportsModule.ViewModels
 {
@@ -25,19 +26,12 @@ namespace ReportsModule.ViewModels
             ShowReportIndicationBlockCommand = new RelayCommand(OnShowReportIndicationBlockCommand);
             ShowReportJournalCommand = new RelayCommand(OnShowReportJournalCommand);
             ShowReportTestCommand = new RelayCommand(OnShowReportTestCommand);
-
+            ShowReportDataGridCommand = new RelayCommand(OnShowReportDataGridCommand);
         }
-
-        XpsDocument xpsDocument;
-
-
 
         public RelayCommand ShowReportDeviceParamsCommand { get; private set; }
         void OnShowReportDeviceParams()
         {
-            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
-            cc.Visibility = Visibility.Collapsed;
-
             ReportDeviceParams  reportDeviceParams = new ReportDeviceParams();
             xpsDocument = reportDeviceParams.CreateReport();
             _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
@@ -49,7 +43,6 @@ namespace ReportsModule.ViewModels
         {
             ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
             cc.Visibility = Visibility.Collapsed;
-
             ReportTypesCount reportTypesCount = new ReportTypesCount();
             xpsDocument = reportTypesCount.CreateReport();
             _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
@@ -100,33 +93,43 @@ namespace ReportsModule.ViewModels
         public RelayCommand ShowReportTestCommand { get; private set; }
         void OnShowReportTestCommand()
         {
-            var dataTable = TestReport.CreateDataTable();
-            PrintDialog printDialog = new PrintDialog();
-            printDialog.UserPageRangeEnabled = true;
-            if (printDialog.ShowDialog() == true)
-            {
-                StoreDataSetPaginator paginator = new StoreDataSetPaginator(dataTable, new Typeface("Calibri"), 24, 96 * 0.75,
-                    new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight));
-                printDialog.PrintDocument(paginator, "Custom-Printed Pages");
-            }
+            //_documentViewer.Document = null;
+            //var dataTable = TestReport.CreateDataTable();
+            //PrintDialog printDialog = new PrintDialog();
+            //printDialog.UserPageRangeEnabled = true;
+            //if (printDialog.ShowDialog() == true)
+            //{
+            //    StoreDataSetPaginator paginator = new StoreDataSetPaginator(dataTable, new Typeface("Calibri"), 24, 96 * 0.75,
+            //        new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight));
+            //    printDialog.PrintDocument(paginator, "Custom-Printed Pages");
+            //}
             //CommandBinding commandBinding = new CommandBinding();
             //commandBinding.Command = ApplicationCommands.Print;
             //commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
 
-            //File.Delete("fileName.xps");
-            //xpsDocument = new XpsDocument("fileName.xps", FileAccess.ReadWrite);
-            //XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TestFlowDocument.xaml";
-            //using (FileStream fs = File.Open(path, FileMode.Open))
-            //{
-            //    FlowDocument flowDocument = (FlowDocument)XamlReader.Load(fs);
-            //    //StoreDataSetPaginator storeDataSetPaginator = new StoreDataSetPaginator(flowDocument);
-            //    var visualDocumentPaginator = new VisualDocumentPaginator(((IDocumentPaginatorSource)flowDocument).DocumentPaginator,
-            //        new Size(816, 1056), new Size(50, 50));
-            //    writer.Write(((IDocumentPaginatorSource)flowDocument).DocumentPaginator);
-            //    _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            //    xpsDocument.Close();
-            //}
+            File.Delete("fileName.xps");
+            xpsDocument = new XpsDocument("fileName.xps", FileAccess.ReadWrite);
+            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TestFlowDocument.xaml";
+            using (FileStream fs = File.Open(path, FileMode.Open))
+            {
+                FlowDocument flowDocument = (FlowDocument)XamlReader.Load(fs);
+                //StoreDataSetPaginator storeDataSetPaginator = new StoreDataSetPaginator(flowDocument);
+                var visualDocumentPaginator = new VisualDocumentPaginator(((IDocumentPaginatorSource)flowDocument).DocumentPaginator,
+                    new Size(816, 1056), new Size(50, 50));
+                writer.Write(((IDocumentPaginatorSource)flowDocument).DocumentPaginator);
+                _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
+                xpsDocument.Close();
+            }
+        }
+
+        public RelayCommand ShowReportDataGridCommand { get; private set; }
+        void OnShowReportDataGridCommand()
+        {
+            FlowDocumentViewModel flowDocumentViewModel = new FlowDocumentViewModel();
+            FlowDocumentDataGrid flowDocumentView = new FlowDocumentDataGrid();
+            flowDocumentView.DataContext = flowDocumentViewModel;
+            _flowDocumentReader.Document = flowDocumentView;
         }
 
         public void OnPrint(object sender, ExecutedRoutedEventArgs e)
@@ -149,10 +152,14 @@ namespace ReportsModule.ViewModels
         public void Initialize()
         {
             _documentViewer = new DocumentViewer();
+            _flowDocumentReader = new FlowDocumentReader();
             ReportContent = _documentViewer;
+            //ReportContent = _flowDocumentReader;
         }
 
         DocumentViewer _documentViewer;
+        FlowDocumentReader _flowDocumentReader;
+        XpsDocument xpsDocument;
 
         object _reportContent;
         public object ReportContent
@@ -163,11 +170,6 @@ namespace ReportsModule.ViewModels
                 _reportContent = value;
                 OnPropertyChanged("ReportContent");
             }
-        }
-
-        public override void OnHide()
-        {
-            _documentViewer.Document = null;
         }
     }
 }

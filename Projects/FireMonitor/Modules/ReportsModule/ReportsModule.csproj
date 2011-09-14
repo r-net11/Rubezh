@@ -83,9 +83,13 @@
     <Compile Include="Reports\ReportIndicationBlock.cs" />
     <Compile Include="Reports\ReportDevicesList.cs" />
     <Compile Include="Reports\StoreDataSetPaginator.cs" />
+    <Compile Include="ViewModels\FlowDocumentViewModel.cs" />
     <Compile Include="ViewModels\Helper.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="Views\FlowDocumentDataGrid.xaml.cs">
+      <DependentUpon>FlowDocumentDataGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +162,10 @@
     <Page Include="ReportTemplates\TestFlowDocument.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FlowDocumentDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReportsView.xaml">
       <SubType>Designer</SubType>
