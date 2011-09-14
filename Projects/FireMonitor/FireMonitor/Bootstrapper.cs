@@ -49,7 +49,7 @@ namespace FireMonitor
             }
 
             InitializeKnownModules();
-            
+
             App.Current.MainWindow = (Window) this.Shell;
             App.Current.MainWindow.Show();
         }
@@ -71,7 +71,7 @@ namespace FireMonitor
             plansModule.Initialize();
 
             var journalModule = new JournalModule.JournalModule();
-            //journalModule.Initialize();
+            journalModule.Initialize();
 
             var alarmModule = new AlarmModule.AlarmModule();
             alarmModule.Initialize();
@@ -81,7 +81,6 @@ namespace FireMonitor
 
             var callModule = new CallModule.CallModule();
             callModule.Initialize();
-
         }
     }
 }
