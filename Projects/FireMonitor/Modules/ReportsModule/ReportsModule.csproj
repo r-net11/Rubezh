@@ -82,6 +82,7 @@
     <Compile Include="Reports\ReportJournal.cs" />
     <Compile Include="Reports\ReportIndicationBlock.cs" />
     <Compile Include="Reports\ReportDevicesList.cs" />
+    <Compile Include="Reports\StoreDataSetPaginator.cs" />
     <Compile Include="ViewModels\Helper.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />

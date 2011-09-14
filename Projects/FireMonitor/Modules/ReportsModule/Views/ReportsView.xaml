@@ -24,6 +24,9 @@
             <Controls:XButton Command="{Binding ShowReportDeviceListCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
                 <TextBlock Text="Списки устройств" FontSize="12" />
             </Controls:XButton>
+            <Controls:XButton Command="{Binding ShowReportTestCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
+                <TextBlock Text="Тестовый отчет" FontSize="12" />
+            </Controls:XButton>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -9,6 +9,9 @@ using System.Windows.Input;
 using System;
 using System.Windows.Threading;
 using System.Windows.Documents;
+using System.IO;
+using System.Windows.Markup;
+using System.Windows.Media;
 
 namespace ReportsModule.ViewModels
 {
@@ -21,10 +24,11 @@ namespace ReportsModule.ViewModels
             ShowReportDeviceListCommand = new RelayCommand(OnShowReportDeviceListCommand);
             ShowReportIndicationBlockCommand = new RelayCommand(OnShowReportIndicationBlockCommand);
             ShowReportJournalCommand = new RelayCommand(OnShowReportJournalCommand);
+            ShowReportTestCommand = new RelayCommand(OnShowReportTestCommand);
+
         }
 
         XpsDocument xpsDocument;
-        FlowDocumentReader flowDocumentReader;
 
 
 
@@ -92,6 +96,39 @@ namespace ReportsModule.ViewModels
             xpsDocument.Close();
             
         }
+
+        public RelayCommand ShowReportTestCommand { get; private set; }
+        void OnShowReportTestCommand()
+        {
+            var dataTable = TestReport.CreateDataTable();
+            PrintDialog printDialog = new PrintDialog();
+            printDialog.UserPageRangeEnabled = true;
+            if (printDialog.ShowDialog() == true)
+            {
+                StoreDataSetPaginator paginator = new StoreDataSetPaginator(dataTable, new Typeface("Calibri"), 24, 96 * 0.75,
+                    new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight));
+                printDialog.PrintDocument(paginator, "Custom-Printed Pages");
+            }
+            //CommandBinding commandBinding = new CommandBinding();
+            //commandBinding.Command = ApplicationCommands.Print;
+            //commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
+
+            //File.Delete("fileName.xps");
+            //xpsDocument = new XpsDocument("fileName.xps", FileAccess.ReadWrite);
+            //XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TestFlowDocument.xaml";
+            //using (FileStream fs = File.Open(path, FileMode.Open))
+            //{
+            //    FlowDocument flowDocument = (FlowDocument)XamlReader.Load(fs);
+            //    //StoreDataSetPaginator storeDataSetPaginator = new StoreDataSetPaginator(flowDocument);
+            //    var visualDocumentPaginator = new VisualDocumentPaginator(((IDocumentPaginatorSource)flowDocument).DocumentPaginator,
+            //        new Size(816, 1056), new Size(50, 50));
+            //    writer.Write(((IDocumentPaginatorSource)flowDocument).DocumentPaginator);
+            //    _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
+            //    xpsDocument.Close();
+            //}
+        }
+
         public void OnPrint(object sender, ExecutedRoutedEventArgs e)
         {
             var printDialog = new PrintDialog();

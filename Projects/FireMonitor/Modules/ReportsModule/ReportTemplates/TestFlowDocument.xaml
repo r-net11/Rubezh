@@ -31,7 +31,7 @@
             <Setter Property="BorderThickness" Value="0.01cm" />
         </Style>
     </FlowDocument.Resources>
-    <Section Padding="4,0,4,4" FontSize="12" BreakPageBefore="True">
+    <Section Padding="4,0,4,4" Margin="30" FontSize="12" BreakPageBefore="True">
         <Table Style="{StaticResource tableStyle}" TextAlignment="Center" 
                 DataContext="{Binding }">
             <Table.Columns>
@@ -40,6 +40,27 @@
                 <TableColumn Width="1*" />
             </Table.Columns>
             <TableRowGroup Style="{StaticResource dataRowStyle}" >
+                <TableRow>
+                    <TableCell ColumnSpan="2" Style="{StaticResource headerTableCell}">
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Устройтсво</Bold>
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell ColumnSpan="2" Style="{StaticResource headerTableCell}">
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Устройтсво</Bold>
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell ColumnSpan="2" Style="{StaticResource headerTableCell}">
+                        <Paragraph TextAlignment="Center">
+                            <Bold>Устройтсво</Bold>
+                        </Paragraph>
+                    </TableCell>
+                </TableRow>
             </TableRowGroup>
         </Table>
     </Section>
