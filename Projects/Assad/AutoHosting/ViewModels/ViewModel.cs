@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AssadProcessor;
-using System.Diagnostics;
-using System.ComponentModel;
 using Infrastructure.Common;
 
 namespace AutoHosting

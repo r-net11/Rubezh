@@ -4,9 +4,6 @@ namespace Socktes
 {
     public delegate void CloseEvenHandler(object Sender, CloseEventArgs e);
 
-    /// <summary>
-    ///
-    /// </summary>
     public class CloseEventArgs : System.EventArgs
     {
         public CloseEventArgs()

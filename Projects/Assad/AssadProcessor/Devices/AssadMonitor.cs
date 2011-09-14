@@ -25,10 +25,10 @@ namespace AssadProcessor.Devices
 
         public override Assad.DeviceType GetStates()
         {
-            Assad.DeviceType deviceType = new Assad.DeviceType();
+            var deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
-            List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
-            Assad.DeviceTypeState configurationState = new Assad.DeviceTypeState();
+            var states = new List<Assad.DeviceTypeState>();
+            var configurationState = new Assad.DeviceTypeState();
             configurationState.state = "Конфигурация";
             configurationState.value = "Норма";
             states.Add(configurationState);
@@ -45,7 +45,7 @@ namespace AssadProcessor.Devices
 
             foreach (var counter in _stateTypeCounters)
             {
-                Assad.DeviceTypeState state = new Assad.DeviceTypeState();
+                var state = new Assad.DeviceTypeState();
                 state.state = EnumsConverter.StateTypeToClassName(counter.StateType);
                 state.value = counter.HasOne ? "Есть" : "Нет";
                 states.Add(state);
@@ -57,14 +57,14 @@ namespace AssadProcessor.Devices
 
         public override void FireEvent(string eventName)
         {
-            Assad.CPeventType eventType = new Assad.CPeventType();
+            var eventType = new Assad.CPeventType();
 
             eventType.deviceId = DeviceId;
             eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            List<StateTypeCounter> counters = new List<StateTypeCounter>();
+            var counters = new List<StateTypeCounter>();
 
             for (int i = 0; i < 9; i++)
                 counters.Add(new StateTypeCounter(i));
@@ -95,11 +95,11 @@ namespace AssadProcessor.Devices
             if (diff == false)
                 return;
 
-            List<Assad.CPeventTypeState> states = new List<Assad.CPeventTypeState>();
+            var states = new List<Assad.CPeventTypeState>();
 
             foreach (var stateTypeCounter in counters)
             {
-                Assad.CPeventTypeState AlarmState = new Assad.CPeventTypeState();
+                var AlarmState = new Assad.CPeventTypeState();
                 AlarmState.state = EnumsConverter.StateTypeToClassName(stateTypeCounter.StateType);
                 AlarmState.value = (stateTypeCounter.HasOne == true) ? "Есть" : "Нет";
                 states.Add(AlarmState);
@@ -112,9 +112,9 @@ namespace AssadProcessor.Devices
 
         public override Assad.DeviceType QueryAbility()
         {
-            Assad.DeviceType deviceAbility = new Assad.DeviceType();
+            var deviceAbility = new Assad.DeviceType();
             deviceAbility.deviceId = DeviceId;
-            List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
+            var abilityParameters = new List<Assad.DeviceTypeParam>();
 
             deviceAbility.param = abilityParameters.ToArray();
             return deviceAbility;

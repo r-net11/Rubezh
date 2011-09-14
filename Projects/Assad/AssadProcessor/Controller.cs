@@ -40,7 +40,7 @@ namespace AssadProcessor
             {
                 List<AssadBase> devices = assadBase.FindAllChildren();
 
-                List<Assad.DeviceType> deviceItems = new List<Assad.DeviceType>();
+                var deviceItems = new List<Assad.DeviceType>();
                 foreach (var childAssadBase in devices)
                 {
                     deviceItems.Add(childAssadBase.GetStates());
@@ -63,7 +63,7 @@ namespace AssadProcessor
             string commandName = controlType.cmdId;
             if (commandName == "Обновить")
             {
-                Assad.CPqueryConfigurationType cPqueryConfigurationType = new Assad.CPqueryConfigurationType();
+                var cPqueryConfigurationType = new Assad.CPqueryConfigurationType();
                 NetManager.Send(cPqueryConfigurationType, null);
             }
             else
@@ -75,14 +75,14 @@ namespace AssadProcessor
                     {
                         commandName = commandName.Replace("Сброс ", "");
 
-                        if (device.Driver.DriverName == "Компьютер")
+                        if (device.Driver.DriverType == DriverType.Computer)
                         {
                             foreach (var resetDevice in FiresecManager.DeviceConfiguration.Devices)
                             {
                                 if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
                                 {
-                                    ResetItem resetItem = new ResetItem();
-                                    resetItem.DeviceId = resetDevice.Id;
+                                    var resetItem = new ResetItem();
+                                    resetItem.DeviceUID = resetDevice.UID;
                                     resetItem.StateNames = new List<string>() { commandName };
                                     FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                                 }
@@ -90,8 +90,8 @@ namespace AssadProcessor
                         }
                         else
                         {
-                            ResetItem resetItem = new ResetItem();
-                            resetItem.DeviceId = device.Id;
+                            var resetItem = new ResetItem();
+                            resetItem.DeviceUID = device.UID;
                             resetItem.StateNames = new List<string>() { commandName };
                             FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                         }
@@ -110,8 +110,8 @@ namespace AssadProcessor
                 {
                     if (state.IsManualReset)
                     {
-                        ResetItem resetItem = new ResetItem();
-                        resetItem.DeviceId = device.Id;
+                        var resetItem = new ResetItem();
+                        resetItem.DeviceUID = device.UID;
                         resetItem.StateNames = new List<string>() { state.Name };
                         FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
                     }

@@ -34,17 +34,17 @@ namespace AssadProcessor
             switch (driverName)
             {
                 case "zone":
-                    AssadZone assadZone = new AssadZone();
+                    var assadZone = new AssadZone();
                     Configuration.Zones.Add(assadZone);
                     assadBase = assadZone;
                     break;
                 case "monitor":
-                    AssadMonitor assadMonitor = new AssadMonitor();
+                    var assadMonitor = new AssadMonitor();
                     Configuration.Monitor = assadMonitor;
                     assadBase = assadMonitor;
                     break;
                 default:
-                    AssadDevice assadDevice = new AssadDevice();
+                    var assadDevice = new AssadDevice();
                     assadDevice.DriverId = driverId;
                     Configuration.Devices.Add(assadDevice);
                     assadBase = assadDevice;

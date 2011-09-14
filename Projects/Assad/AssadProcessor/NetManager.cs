@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Net.Sockets;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Xml.Serialization;
-using System.Diagnostics;
 
 namespace AssadProcessor
 {
@@ -122,15 +118,15 @@ namespace AssadProcessor
             {
                 messageNo++;
 
-                Assad.MessageType messageType = new Assad.MessageType();
+                var messageType = new Assad.MessageType();
                 messageType.msgTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
                 messageType.msgId = "messageNo." + messageNo.ToString();
                 if (!String.IsNullOrEmpty(refMessageId))
                     messageType.refMsg = refMessageId;
                 messageType.Item = confirmation;
 
-                XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
-                MemoryStream memoryStream = new MemoryStream();
+                var serializer = new XmlSerializer(typeof(Assad.MessageType));
+                var memoryStream = new MemoryStream();
                 serializer.Serialize(memoryStream, messageType);
                 byte[] bytes = memoryStream.ToArray();
                 memoryStream.Close();
@@ -179,9 +175,9 @@ namespace AssadProcessor
 
         void SendBroadcastUdp()
         {
-            UdpClient udpClient = new UdpClient();
+            var udpClient = new UdpClient();
             udpClient.EnableBroadcast = true;
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("255.255.255.255"), remotePort);
+            var endPoint = new IPEndPoint(IPAddress.Parse("255.255.255.255"), remotePort);
             byte[] sendBytes = Encoding.UTF8.GetBytes(udpBroadcastMessage);
             udpClient.Send(sendBytes, sendBytes.Length, endPoint);
             udpClient.Close();

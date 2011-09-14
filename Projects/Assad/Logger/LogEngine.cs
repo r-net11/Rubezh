@@ -24,16 +24,16 @@ namespace Logger
         void SaveFile(string fileName)
         {
             Directory.CreateDirectory("Logs");
-            StreamWriter writer = new StreamWriter("Logs/" + fileName);
-            XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
+            var writer = new StreamWriter("Logs/" + fileName);
+            var serializer = new XmlSerializer(typeof(LogCollection));
             serializer.Serialize(writer, Logs);
             writer.Close();
         }
 
         void LoadFile()
         {
-            StreamReader reader = new StreamReader("log.xml");
-            XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
+            var reader = new StreamReader("log.xml");
+            var serializer = new XmlSerializer(typeof(LogCollection));
             Logs = (LogCollection) serializer.Deserialize(reader);
             reader.Close();
         }

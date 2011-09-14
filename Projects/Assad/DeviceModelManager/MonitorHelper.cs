@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DeviveModelManager
 {
@@ -9,18 +6,20 @@ namespace DeviveModelManager
     {
         public static TreeItem CreateMonitor()
         {
-            TreeItem monitor = new TreeItem();
+            var monitor = new TreeItem();
             monitor.Name = "Monitor";
-            monitor.ModelInfo = new Assad.modelInfoType();
-            monitor.ModelInfo.name = "Монитор." + ViewModel.StaticVersion;
-            monitor.ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + "monitor";
-            monitor.ModelInfo.model = "1.0";
+            monitor.ModelInfo = new Assad.modelInfoType()
+            {
+                name = "Монитор." + ViewModel.StaticVersion,
+                type1 = "rubezh." + ViewModel.StaticVersion + "." + "monitor",
+                model = "1.0"
+            };
 
-            List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
+            var events = new List<Assad.modelInfoTypeEvent>();
             events.Add(new Assad.modelInfoTypeEvent() { @event = "Изменено состояние монитора" });
             monitor.ModelInfo.@event = events.ToArray();
 
-            List<Assad.modelInfoTypeState> states = new List<Assad.modelInfoTypeState>();
+            var states = new List<Assad.modelInfoTypeState>();
             states.Add(CreateState("Тревога"));
             states.Add(CreateState("Внимание (предтревожное)"));
             states.Add(CreateState("Неисправность"));
@@ -37,9 +36,9 @@ namespace DeviveModelManager
 
         static Assad.modelInfoTypeState CreateState(string name)
         {
-            Assad.modelInfoTypeState state = new Assad.modelInfoTypeState();
+            var state = new Assad.modelInfoTypeState();
             state.state = name;
-            List<Assad.modelInfoTypeStateValue> stateValues = new List<Assad.modelInfoTypeStateValue>();
+            var stateValues = new List<Assad.modelInfoTypeStateValue>();
             stateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Есть" });
             stateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Нет" });
             state.value = stateValues.ToArray();

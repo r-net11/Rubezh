@@ -22,7 +22,7 @@ namespace Logger
         public RelayCommand OpenFileCommand { get; private set; }
         public void OpenFile()
         {
-            OpenFileDialog dialog = new OpenFileDialog();
+            var dialog = new OpenFileDialog();
             dialog.Filter = "log files|*.xml";
             bool? result = dialog.ShowDialog();
             if ((result.HasValue) && (result.Value == true))
@@ -36,9 +36,9 @@ namespace Logger
         {
             try
             {
-                Process pc = Process.GetCurrentProcess();
+                var pc = Process.GetCurrentProcess();
                 string directoryPath = pc.MainModule.FileName.Substring(0, pc.MainModule.FileName.LastIndexOf(@"\"));
-                DirectoryInfo di = new DirectoryInfo(directoryPath + "\\Logs");
+                var di = new DirectoryInfo(directoryPath + "\\Logs");
                 FileInfo[] files = di.GetFiles("*.xml");
                 DateTime dateTime = files.Max(x => x.CreationTime);
                 FileInfo lastFile = files.First(a => a.CreationTime == dateTime);
@@ -51,38 +51,29 @@ namespace Logger
 
         void LoadFromFile(string fileName)
         {
-            StreamReader reader = new StreamReader(fileName);
-            XmlSerializer serializer = new XmlSerializer(typeof(LogCollection));
+            var reader = new StreamReader(fileName);
+            var serializer = new XmlSerializer(typeof(LogCollection));
             LogCollection logCollection = (LogCollection) serializer.Deserialize(reader);
             reader.Close();
 
             Logs = new ObservableCollection<LogEntry>(logCollection.logEnties);
         }
 
-        ObservableCollection<LogEntry> logs;
-        public ObservableCollection<LogEntry> Logs
-        {
-            get { return logs; }
-            set
-            {
-                logs = value;
-                OnPropertyChanged("Logs");
-            }
-        }
+        public ObservableCollection<LogEntry> Logs { get; private set; }
 
-        LogEntry selectedEntry;
+        LogEntry _selectedEntry;
         public LogEntry SelectedEntry
         {
-            get { return selectedEntry; }
+            get { return _selectedEntry; }
             set
             {
-                selectedEntry = value;
+                _selectedEntry = value;
                 OnPropertyChanged("SelectedEntry");
 
-                XmlDocument xmlDocument = new XmlDocument();
+                var xmlDocument = new XmlDocument();
                 try
                 {
-                    xmlDocument.LoadXml(selectedEntry.Message);
+                    xmlDocument.LoadXml(_selectedEntry.Message);
                 }
                 catch (XmlException)
                 {
@@ -91,13 +82,13 @@ namespace Logger
             }
         }
 
-        XmlDocument selectedXml;
+        XmlDocument _selectedXml;
         public XmlDocument SelectedXml
         {
-            get { return selectedXml; }
+            get { return _selectedXml; }
             set
             {
-                selectedXml = value;
+                _selectedXml = value;
                 OnPropertyChanged("SelectedXml");
             }
         }

@@ -13,8 +13,8 @@ namespace AssadProcessor
             try
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(message);
-                MemoryStream memoryStream = new MemoryStream(bytes);
-                XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
+                var memoryStream = new MemoryStream(bytes);
+                var serializer = new XmlSerializer(typeof(Assad.MessageType));
                 Assad.MessageType messageType = (Assad.MessageType) serializer.Deserialize(memoryStream);
                 memoryStream.Close();
 
@@ -47,7 +47,7 @@ namespace AssadProcessor
                 case "MHqueryCPType":
                     Assad.modelInfoType RootModelInfo = Services.DeviceModelManager.RootModelInfo;
 
-                    Assad.CPconfirmationType confirmation = new Assad.CPconfirmationType();
+                    var confirmation = new Assad.CPconfirmationType();
                     confirmation.commandId = "MHqueryCP";
                     confirmation.Items = new Assad.modelInfoType[1];
                     confirmation.Items[0] = RootModelInfo;

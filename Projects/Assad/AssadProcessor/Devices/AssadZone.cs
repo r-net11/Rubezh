@@ -22,45 +22,59 @@ namespace AssadProcessor.Devices
 
         public override Assad.DeviceType GetStates()
         {
-            Assad.DeviceType deviceType = new Assad.DeviceType();
+            var deviceType = new Assad.DeviceType();
             deviceType.deviceId = DeviceId;
-            List<Assad.DeviceTypeState> states = new List<Assad.DeviceTypeState>();
+            var states = new List<Assad.DeviceTypeState>();
 
             if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No == ZoneNo))
             {
                 var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
                 var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
-                mainState.state = "Состояние";
-                mainState.value = EnumsConverter.StateTypeToClassName(zoneState.StateType);
+                var mainState = new Assad.DeviceTypeState()
+                {
+                    state = "Состояние",
+                    value = EnumsConverter.StateTypeToClassName(zoneState.StateType)
+                };
                 states.Add(mainState);
-                Assad.DeviceTypeState state1 = new Assad.DeviceTypeState();
-                state1.state = "Наименование";
-                state1.value = zone.Name;
+                var state1 = new Assad.DeviceTypeState()
+                {
+                    state = "Наименование",
+                    value = zone.Name
+                };
                 states.Add(state1);
-                Assad.DeviceTypeState state2 = new Assad.DeviceTypeState();
-                state2.state = "Число датчиков для формирования сигнала Пожар";
-                state2.value = zone.DetectorCount;
+                var state2 = new Assad.DeviceTypeState()
+                {
+                    state = "Число датчиков для формирования сигнала Пожар",
+                    value = zone.DetectorCount
+                };
                 states.Add(state2);
-                Assad.DeviceTypeState state3 = new Assad.DeviceTypeState();
-                state3.state = "Время эвакуации";
-                state3.value = zone.EvacuationTime;
+                var state3 = new Assad.DeviceTypeState()
+                {
+                    state = "Время эвакуации",
+                    value = zone.EvacuationTime
+                };
                 states.Add(state3);
-                Assad.DeviceTypeState state4 = new Assad.DeviceTypeState();
-                state4.state = "Примечание";
-                state4.value = zone.Description;
+                var state4 = new Assad.DeviceTypeState()
+                {
+                    state = "Примечание",
+                    value = zone.Description
+                };
                 states.Add(state4);
-                Assad.DeviceTypeState state5 = new Assad.DeviceTypeState();
-                state5.state = "Назначение зоны";
-                state5.value = "Пожарная";
+                var state5 = new Assad.DeviceTypeState()
+                {
+                    state = "Назначение зоны",
+                    value = "Пожарная"
+                };
                 states.Add(state5);
             }
             else
             {
-                Assad.DeviceTypeState mainState = new Assad.DeviceTypeState();
-                mainState.state = "Состояние";
-                mainState.value = "Отсутствует в конфигурации сервера оборудования";
+                var mainState = new Assad.DeviceTypeState()
+                {
+                    state = "Состояние",
+                    value = "Отсутствует в конфигурации сервера оборудования"
+                };
                 states.Add(mainState);
             }
 
@@ -70,7 +84,7 @@ namespace AssadProcessor.Devices
 
         public override void FireEvent(string eventName)
         {
-            Assad.CPeventType eventType = new Assad.CPeventType();
+            var eventType = new Assad.CPeventType();
 
             eventType.deviceId = DeviceId;
             eventType.eventTime = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss");
@@ -92,9 +106,9 @@ namespace AssadProcessor.Devices
 
         public override Assad.DeviceType QueryAbility()
         {
-            Assad.DeviceType deviceAbility = new Assad.DeviceType();
+            var deviceAbility = new Assad.DeviceType();
             deviceAbility.deviceId = DeviceId;
-            List<Assad.DeviceTypeParam> abilityParameters = new List<Assad.DeviceTypeParam>();
+            var abilityParameters = new List<Assad.DeviceTypeParam>();
 
             deviceAbility.param = abilityParameters.ToArray();
             return deviceAbility;

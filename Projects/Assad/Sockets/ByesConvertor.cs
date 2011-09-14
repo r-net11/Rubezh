@@ -3,9 +3,6 @@ using System.IO;
 
 namespace Socktes
 {
-    /// <summary>
-    ///
-    /// </summary>
     public sealed class ByesConvertor
     {
         public static string BytesToString(byte[] ByteArr)

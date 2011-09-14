@@ -2,9 +2,6 @@ using System;
 
 namespace Socktes
 {
-    /// <summary>
-    ///
-    /// </summary>
     public delegate void RecieveEventHandler(object Sender, RecieveEventArgs e);
 
     public class RecieveEventArgs : System.EventArgs

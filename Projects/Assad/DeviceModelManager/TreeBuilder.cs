@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -16,7 +18,7 @@ namespace DeviveModelManager
             RootTreeItem = RootHelper.CreateRoot();
             RootTreeItem.Name = "Компьютер";
 
-            var rootDriverId = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.DriverName == "Компьютер").Id;
+            var rootDriverId = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID;
             AddDriver(rootDriverId, RootTreeItem);
             RootTreeItem.Children.Add(MonitorHelper.CreateMonitor());
             RootTreeItem.Children.Add(ZoneHelper.CreateZone());
@@ -24,20 +26,20 @@ namespace DeviveModelManager
             SaveToFile();
         }
 
-        void AddDriver(string parentDriverId, TreeItem parentTreeItem)
+        void AddDriver(Guid parentDriverUID, TreeItem parentTreeItem)
         {
-            Driver parentDriver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == parentDriverId);
+            var parentDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == parentDriverUID);
 
             if (parentDriver != null)
             {
-                if (parentDriver.DriverName == "Модуль пожаротушения")
+                if (parentDriver.DriverType == DriverType.MPT)
                     return;
 
                 foreach (var driver in parentDriver.Children)
                 {
-                    var _driver = FiresecManager.DeviceConfiguration.Drivers.FirstOrDefault(x => x.Id == driver);
-                    TreeItem childTree = new TreeItem();
-                    childTree.SetDriver(_driver);
+                    var childDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driver);
+                    var childTree = new TreeItem();
+                    childTree.SetDriver(childDriver);
                     parentTreeItem.Children.Add(childTree);
 
                     AddDriver(driver, childTree);
@@ -60,7 +62,7 @@ namespace DeviveModelManager
 
         void SaveToFile()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
+            var serializer = new XmlSerializer(typeof(Assad.modelInfoType));
             StreamWriter fileStream = File.CreateText("DeviceModel.xml");
             serializer.Serialize(fileStream, RootTreeItem.ModelInfo);
             fileStream.Close();

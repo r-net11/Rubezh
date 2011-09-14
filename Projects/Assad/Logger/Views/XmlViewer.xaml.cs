@@ -4,9 +4,6 @@ using System.Xml;
 
 namespace Logger.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для XmlViewer.xaml
-    /// </summary>
     public partial class XmlViewer : UserControl
     {
         private XmlDocument _xmldocument;
@@ -33,9 +30,9 @@ namespace Logger.Views
                 return;
             }
 
-            XmlDataProvider provider = new XmlDataProvider();
+            var provider = new XmlDataProvider();
             provider.Document = _xmldocument;
-            Binding binding = new Binding();
+            var binding = new Binding();
             binding.Source = provider;
             binding.XPath = "child::node()";
             xmlTree.SetBinding(TreeView.ItemsSourceProperty, binding);

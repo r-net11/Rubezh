@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DeviveModelManager
 {
@@ -11,7 +8,7 @@ namespace DeviveModelManager
         {
             get
             {
-                List<string> states = new List<string>();
+                var states = new List<string>();
                 states.Add("Тревога");
                 states.Add("Внимание (предтревожное)");
                 states.Add("Неисправность");

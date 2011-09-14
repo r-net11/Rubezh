@@ -4,9 +4,6 @@ using System.Net.Sockets;
 
 namespace Socktes
 {
-    /// <summary>
-    ///
-    /// </summary>
     public class ListenSocket : System.ComponentModel.Component
     {
         public ListenSocket()
@@ -19,8 +16,6 @@ namespace Socktes
             this.close += new CloseEvenHandler(OnClose);
         }
 
-        //member variables
-        //private :
         private IAsyncResult m_ar;
         private Socket m_Socket;
         private int m_Port;
@@ -49,7 +44,6 @@ namespace Socktes
             }
         }
 
-        // operations
         public void StratListen(bool IsBlocked)
         {
             create(this, null);

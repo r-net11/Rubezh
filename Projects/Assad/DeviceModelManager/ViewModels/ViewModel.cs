@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Xml.Serialization;
-using System.IO;
-using System.Windows;
+﻿using System.Collections.ObjectModel;
 using Infrastructure.Common;
 
 namespace DeviveModelManager
@@ -58,7 +50,7 @@ namespace DeviveModelManager
         public RelayCommand GenarateCommand { get; private set; }
         void OnGenarateCommand()
         {
-            TreeBuilder assadTreeBuilder = new TreeBuilder();
+            var assadTreeBuilder = new TreeBuilder();
             assadTreeBuilder.Build();
             Devices = new ObservableCollection<TreeItem>();
             Devices.Add(assadTreeBuilder.RootTreeItem);

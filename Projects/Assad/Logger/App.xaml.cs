@@ -6,8 +6,8 @@ namespace Logger
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            View view = new View();
-            ViewModel viewModel = new ViewModel();
+            var view = new View();
+            var viewModel = new ViewModel();
             view.DataContext = viewModel;
             view.Show();
         }

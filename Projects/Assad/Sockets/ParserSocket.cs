@@ -3,12 +3,8 @@ using System.IO;
 
 namespace Socktes
 {
-    /// <summary>
-    ///
-    /// </summary>
     public class ParserSocket : System.ComponentModel.Component
     {
-        // vars
         private ConnectSocket m_Socket;
         private MemoryStream m_buffer;
         protected int m_Position;
@@ -16,7 +12,6 @@ namespace Socktes
         private string m_Host;
         protected object m_State;
 
-        //attributes
         public ConnectSocket ConnectSocket
         {
             get
@@ -62,7 +57,7 @@ namespace Socktes
                 return m_Host;
             }
         }
-        //operations
+
         public void OpenConnection()
         {
             m_Socket.Connect(m_Host, m_Port);
@@ -90,7 +85,7 @@ namespace Socktes
         public event CloseEvenHandler Disconnected;
         public event MessageEndEventHandler MessageEnd;
 
-        // inintilization
+
         public ParserSocket()
         {
             m_buffer = new MemoryStream();

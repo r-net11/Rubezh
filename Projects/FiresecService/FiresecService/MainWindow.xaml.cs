@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using FiresecService;
 using FiresecService.DatabaseConverter;
-using FiresecService.Views;
 using FiresecService.Imitator;
 
 namespace FiresecServiceRunner
@@ -30,10 +29,6 @@ namespace FiresecServiceRunner
         {
             var imitatorView = new ImitatorView();
             imitatorView.Show();
-            return;
-
-            var alarmTest = new AlarmTest();
-            alarmTest.Show();
         }
 
         readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();

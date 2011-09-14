@@ -30,8 +30,8 @@ namespace Logger
             get
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(Message);
-                MemoryStream memoryStream = new MemoryStream(bytes);
-                XmlSerializer serializer = new XmlSerializer(typeof(Assad.MessageType));
+                var memoryStream = new MemoryStream(bytes);
+                var serializer = new XmlSerializer(typeof(Assad.MessageType));
                 Assad.MessageType messageType = (Assad.MessageType) serializer.Deserialize(memoryStream);
                 memoryStream.Close();
 

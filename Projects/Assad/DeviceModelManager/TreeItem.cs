@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.Xml.Serialization;
 using System.IO;
+using System.Text;
+using System.Xml.Serialization;
 using FiresecAPI.Models;
 
 namespace DeviveModelManager
@@ -24,20 +24,21 @@ namespace DeviveModelManager
             _driver = driver;
             Name = _driver.Name;
 
-            ModelInfo = new Assad.modelInfoType();
-            ModelInfo.name = _driver.Name;
-            ModelInfo.type1 = "rubezh." + ViewModel.StaticVersion + "." + _driver.Id;
-            ModelInfo.model = "1.0";
-
-            ModelInfo.@event = AddEvents().ToArray();
-            ModelInfo.command = AddCommands().ToArray();
-            ModelInfo.param = AddParameters().ToArray();
-            ModelInfo.state = AddStates().ToArray();
+            ModelInfo = new Assad.modelInfoType()
+            {
+                name = _driver.Name,
+                type1 = "rubezh." + ViewModel.StaticVersion + "." + _driver.UID.ToString(),
+                model = "1.0",
+                @event = AddEvents().ToArray(),
+                command = AddCommands().ToArray(),
+                param = AddParameters().ToArray(),
+                state = AddStates().ToArray()
+            };
         }
 
         List<Assad.modelInfoTypeEvent> AddEvents()
         {
-            List<Assad.modelInfoTypeEvent> events = new List<Assad.modelInfoTypeEvent>();
+            var events = new List<Assad.modelInfoTypeEvent>();
             foreach (var state in CommonStatesHelper.States)
             {
                 events.Add(new Assad.modelInfoTypeEvent() { @event = state });
@@ -45,10 +46,9 @@ namespace DeviveModelManager
             return events;
         }
 
-
         List<Assad.modelInfoTypeCommand> AddCommands()
         {
-            List<Assad.modelInfoTypeCommand> commands = new List<Assad.modelInfoTypeCommand>();
+            var commands = new List<Assad.modelInfoTypeCommand>();
             foreach (var state in _driver.States)
             {
                 if (state.IsManualReset)
@@ -62,7 +62,7 @@ namespace DeviveModelManager
 
         List<Assad.modelInfoTypeParam> AddParameters()
         {
-            List<Assad.modelInfoTypeParam> parameters = new List<Assad.modelInfoTypeParam>();
+            var parameters = new List<Assad.modelInfoTypeParam>();
             if (_driver.HasAddress)
             {
                 parameters.Add(new Assad.modelInfoTypeParam() { param = "Адрес", type = "edit" });
@@ -72,10 +72,10 @@ namespace DeviveModelManager
 
         List<Assad.modelInfoTypeState> AddStates()
         {
-            List<Assad.modelInfoTypeState> States = new List<Assad.modelInfoTypeState>();
-            Assad.modelInfoTypeState AssadState = new Assad.modelInfoTypeState();
+            var States = new List<Assad.modelInfoTypeState>();
+            var AssadState = new Assad.modelInfoTypeState();
             AssadState.state = "Состояние";
-            List<Assad.modelInfoTypeStateValue> StateValues = new List<Assad.modelInfoTypeStateValue>();
+            var StateValues = new List<Assad.modelInfoTypeStateValue>();
             foreach (var state in CommonStatesHelper.States)
             {
                 StateValues.Add(new Assad.modelInfoTypeStateValue() { value = state });
@@ -96,7 +96,7 @@ namespace DeviveModelManager
 
             foreach (var propInfo in _driver.Properties)
             {
-                Assad.modelInfoTypeState customParam = new Assad.modelInfoTypeState();
+                var customParam = new Assad.modelInfoTypeState();
                 if (propInfo.IsHidden == false)
                 {
                     if (!string.IsNullOrEmpty(propInfo.Caption))
@@ -111,9 +111,9 @@ namespace DeviveModelManager
                 }
             }
 
-            Assad.modelInfoTypeState AssadConfigurationState = new Assad.modelInfoTypeState();
+            var AssadConfigurationState = new Assad.modelInfoTypeState();
             AssadConfigurationState.state = "Конфигурация";
-            List<Assad.modelInfoTypeStateValue> ConfigurationStateValues = new List<Assad.modelInfoTypeStateValue>();
+            var ConfigurationStateValues = new List<Assad.modelInfoTypeStateValue>();
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Норма" });
             ConfigurationStateValues.Add(new Assad.modelInfoTypeStateValue() { value = "Ошибка" });
             AssadConfigurationState.value = ConfigurationStateValues.ToArray();
@@ -133,8 +133,8 @@ namespace DeviveModelManager
         {
             get
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
-                MemoryStream memoryStream = new MemoryStream();
+                var serializer = new XmlSerializer(typeof(Assad.modelInfoType));
+                var memoryStream = new MemoryStream();
                 serializer.Serialize(memoryStream, ModelInfo);
                 byte[] bytes = memoryStream.ToArray();
                 memoryStream.Close();

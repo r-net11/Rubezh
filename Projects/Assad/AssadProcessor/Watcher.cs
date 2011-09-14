@@ -2,7 +2,6 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI;
 
 namespace AssadProcessor
 {
@@ -10,14 +9,15 @@ namespace AssadProcessor
     {
         internal void Start()
         {
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChangedEvent);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 
-        void OnDeviceStateChangedEvent(string id)
+        void OnDeviceStateChangedEvent(Guid deviceUID)
         {
-            var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == id);
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.Id);
             if (assadDevice != null)
             {
                 assadDevice.FireEvent(null);

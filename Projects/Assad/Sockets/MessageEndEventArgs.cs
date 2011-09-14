@@ -2,9 +2,6 @@ namespace Socktes
 {
     public delegate void MessageEndEventHandler(object Sender, MessageEndEventArgs e);
 
-    /// <summary>
-    ///
-    /// </summary>
     public class MessageEndEventArgs : System.EventArgs
     {
         internal object m_Type;

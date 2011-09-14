@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace AssadProcessor
 {
@@ -14,8 +11,8 @@ namespace AssadProcessor
 
         public DeviceModelManager()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Assad.modelInfoType));
-            FileStream fileStream = new FileStream("DeviceModel.xml", FileMode.Open);
+            var serializer = new XmlSerializer(typeof(Assad.modelInfoType));
+            var fileStream = new FileStream("DeviceModel.xml", FileMode.Open);
             RootModelInfo = (Assad.modelInfoType) serializer.Deserialize(fileStream);
             fileStream.Close();
 
