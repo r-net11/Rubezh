@@ -6,10 +6,8 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="borderBrush" Color="Black" />
         <SolidColorBrush x:Key="backgroundBrush" Color="White" />
-
         <Converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
     </UserControl.Resources>
-
     <TabControl Name="tabControl"
                 ItemsSource="{Binding Journals,
                                       Converter={StaticResource CollectionViewFactoryConverter},
@@ -30,7 +28,7 @@
                         <ToolTip BorderThickness="3"
                                  BorderBrush="{StaticResource borderBrush}"
                                  Background="{StaticResource backgroundBrush}">
-                            <Views:JournalFilterView DataContext="{Binding JournalFilterViewModel}" />
+                            <Views:JournalFilterView />
                         </ToolTip>
                     </Setter.Value>
                 </Setter>

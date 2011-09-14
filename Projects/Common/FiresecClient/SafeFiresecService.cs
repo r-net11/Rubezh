@@ -333,6 +333,19 @@ namespace FiresecClient
             return null;
         }
 
+        public DateTime GetArchiveStartDate()
+        {
+            try
+            {
+                return _iFiresecService.GetArchiveStartDate();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return DateTime.Now;
+        }
+
         public void AddToIgnoreList(List<Guid> deviceUIDs)
         {
             try

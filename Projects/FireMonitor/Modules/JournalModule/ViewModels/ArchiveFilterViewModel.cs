@@ -19,7 +19,8 @@ namespace JournalModule.ViewModels
             Title = "Фильтр архива";
 
             IsClear = true;
-            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
+            _startDate = FiresecManager.GetArchiveStartDate();
+            _endDate = DateTime.Now;
 
             Subsystems = new List<SubsystemViewModel>();
             foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))

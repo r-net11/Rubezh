@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 
@@ -210,6 +209,11 @@ namespace FiresecClient
         public static IEnumerable<JournalRecord> GetDistinctRecords()
         {
             return _firesecService.GetDistinctRecords();
+        }
+
+        public static DateTime GetArchiveStartDate()
+        {
+            return _firesecService.GetArchiveStartDate();
         }
 
         public static List<string> GetFileNamesList(string directory)

@@ -34,7 +34,7 @@ namespace FiresecService
 
         public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
-            lock (FiresecService.locker)
+            lock (FiresecService.Locker)
             {
                 _failedCallbacks = new List<IFiresecCallback>();
 

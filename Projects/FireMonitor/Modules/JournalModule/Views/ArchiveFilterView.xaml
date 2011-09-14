@@ -5,7 +5,7 @@
              xmlns:ViewModels="clr-namespace:JournalModule.ViewModels"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinWidth="650"
-             MinHeight="400">
+             MinHeight="650">
     <UserControl.Resources>
         <CollectionViewSource x:Key="Subsystems" Source="{Binding Subsystems}" />
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
@@ -20,20 +20,20 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <TextBlock Margin="5"
-                               VerticalAlignment="Center"
-                               Text="С" />
-                        <DatePicker Margin="2" SelectedDate="{Binding StartDate}" />
-                        <extToolkit:TimePicker Margin="2" Value="{Binding StartTime}" />
+                        <TextBlock Margin="5" Text="С" />
+                        <Calendar Name="_startDate" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                                  DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayDateStart="{Binding StartDate, Mode=OneTime}"
+                                  SelectedDate="{Binding StartDate}" />
+                        <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding StartTime}" VerticalAlignment="Top" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            Orientation="Horizontal">
-                        <TextBlock Margin="5"
-                               VerticalAlignment="Center"
-                               Text="До" />
-                        <DatePicker Margin="2" SelectedDate="{Binding EndDate}" />
-                        <extToolkit:TimePicker Margin="2" Value="{Binding EndTime}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock Margin="5" Text="До" />
+                        <Calendar Name="_endDate" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                                  DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayDateEnd="{Binding EndDate, Mode=OneTime}"
+                                  SelectedDate="{Binding EndDate}" />
+                        <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding EndTime}" VerticalAlignment="Top" />
                     </StackPanel>
                 </Grid>
                 <CheckBox Margin="5"

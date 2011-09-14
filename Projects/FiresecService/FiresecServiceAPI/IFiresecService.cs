@@ -18,7 +18,7 @@ namespace FiresecAPI
         [OperationContract(IsTerminating = true)]
         void Disconnect();
 
-        [OperationContract(IsOneWay=true)]
+        [OperationContract(IsOneWay = true)]
         void Subscribe();
 
         [OperationContract]
@@ -74,6 +74,9 @@ namespace FiresecAPI
 
         [OperationContract]
         IEnumerable<JournalRecord> GetDistinctRecords();
+
+        [OperationContract]
+        DateTime GetArchiveStartDate();
 
         [OperationContract(IsOneWay = true)]
         void AddToIgnoreList(List<Guid> deviceUIDs);

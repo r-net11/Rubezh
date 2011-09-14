@@ -10,7 +10,6 @@ namespace FiresecService.Converters
         {
             return new JournalRecord()
             {
-                No = int.Parse(innerJournalRecord.IDEvents),
                 DeviceTime = ConvertTime(innerJournalRecord.Dt),
                 SystemTime = ConvertTime(innerJournalRecord.SysDt),
                 ZoneName = innerJournalRecord.ZoneName,

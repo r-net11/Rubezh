@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -9,34 +10,31 @@ namespace JournalModule.ViewModels
 {
     public class FilteredJournalViewModel : RegionViewModel
     {
-        readonly JournalFilter _journalFilter;
+        public JournalFilter JournalFilter { get; private set; }
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
             if (journalFilter == null)
                 throw new ArgumentNullException();
-            _journalFilter = journalFilter;
+            JournalFilter = journalFilter;
 
             Initialize();
         }
 
         void Initialize()
         {
-            try
-            {
-                var journalRecords = FiresecManager.GetFilteredJournal(_journalFilter).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord));
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                FiresecManager.GetFilteredJournal(JournalFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
 
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>(journalRecords);
-
-                FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordEvent);
-            }
-            catch { ;}
+            FiresecEventSubscriber.NewJournalRecordEvent +=
+                new Action<JournalRecord>(OnNewJournaRecordEvent);
         }
 
         public string Name
         {
-            get { return _journalFilter.Name; }
+            get { return JournalFilter.Name; }
         }
 
         public static int RecordsMaxCount
@@ -57,21 +55,41 @@ namespace JournalModule.ViewModels
             }
         }
 
-        void OnNewJournaRecordEvent(JournalRecord journalRecord)
+        public bool FilterRecord(JournalRecord journalRecord)
         {
-            if (JournalRecords.Count > 0)
+            bool result = true;
+            if (JournalFilter.Categories.IsNotNullOrEmpty())
             {
-                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
-            }
-            else
-            {
-                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                        x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
+                             x.DatabaseId == journalRecord.PanelDatabaseId);
+
+                if ((result = (device != null)))
+                {
+                    result = JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category);
+                }
             }
 
-            if (JournalRecords.Count > _journalFilter.LastRecordsCount)
+            if (result && JournalFilter.Events.IsNotNullOrEmpty())
             {
-                JournalRecords.RemoveAt(_journalFilter.LastRecordsCount);
+                result = JournalFilter.Events.Any(_event => _event == journalRecord.StateType);
             }
+
+            return result;
+        }
+
+        void OnNewJournaRecordEvent(JournalRecord journalRecord)
+        {
+            if (!FilterRecord(journalRecord))
+                return;
+
+            if (JournalRecords.Count > 0)
+                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
+            else
+                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+
+            if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+                JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
         }
     }
 }

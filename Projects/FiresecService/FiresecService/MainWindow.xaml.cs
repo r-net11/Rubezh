@@ -34,9 +34,7 @@ namespace FiresecServiceRunner
         readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
         void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            ConfigurationConverter.Convert();
-            return;
-
+            //ConfigurationConverter.Convert();
             JournalDataConverter.Convert();
         }
     }

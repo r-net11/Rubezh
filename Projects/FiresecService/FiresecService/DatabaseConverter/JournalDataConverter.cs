@@ -14,6 +14,7 @@ namespace FiresecService
             using (var dataContext = new FiresecDbConverterDataContext())
             {
                 dataContext.JournalRecords.DeleteAllOnSubmit(from j in dataContext.JournalRecords select j);
+                dataContext.SubmitChanges();
                 dataContext.JournalRecords.InsertAllOnSubmit(ReadAllJournal());
                 dataContext.SubmitChanges();
             }
@@ -24,10 +25,10 @@ namespace FiresecService
             var internalJournal = FiresecInternalClient.ReadEvents(0, 100000);
             if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
-                return internalJournal.Journal.Select(
-                    innerJournaRecord => JournalConverter.Convert(innerJournaRecord));
+                return internalJournal.Journal.
+                    Select(innerJournaRecord => JournalConverter.Convert(innerJournaRecord)).
+                    OrderBy(JournalRecord => JournalRecord.DeviceTime);
             }
-
             return new List<JournalRecord>();
         }
     }
