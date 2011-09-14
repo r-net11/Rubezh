@@ -1,21 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Views;
-using System.Windows.Controls.Primitives;
-using System;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Documents;
 using PlansModule.Resize;
-
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -31,7 +24,6 @@ namespace PlansModule.ViewModels
         {
             ActiveElement = _element;
             SetActive();
-
         }
 
         void SetActive()
@@ -117,13 +109,11 @@ namespace PlansModule.ViewModels
             Canvas.SetTop(thumb4, Canvas.GetTop(textbox) + textbox.ActualHeight - 2);
             //PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
-
         }
 
         RectangleAdornerResize _overlayElementRectangle;
         void DragStarted(object sender, DragStartedEventArgs e)
         {
-
         }
 
         void RemoveAllWrapperForTexBox(UIElementCollection UIElementCollection)
@@ -224,7 +214,6 @@ namespace PlansModule.ViewModels
                             }
                             else
                             {
-
                                 var textBox = _originalElementToResizeTextBox as TextBox;
                                 double oldTop = Canvas.GetTop(textBox);
                                 double oldLeft = Canvas.GetLeft(textBox);
@@ -467,7 +456,6 @@ namespace PlansModule.ViewModels
                 PlanCanvasView.UpdateResizePlan(_originalElementToResizeTextBox, plan);
                 //_originalElementToResizeTextBox = null;
             }
-            
         }
 
         void SetActiveRectangle(Rectangle _rectangle)
@@ -534,7 +522,6 @@ namespace PlansModule.ViewModels
             Canvas.SetTop(thumb4, Canvas.GetTop(_rectangle) + rectangle.Height - 2);
             
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
-
         }
 
         void SetActivePolygon(Polygon _polygon)
@@ -582,8 +569,6 @@ namespace PlansModule.ViewModels
             Thickness.Right = 2;
             _thumb.BorderThickness = Thickness;
             _thumb.Cursor = Cursors.ScrollAll;
-
         }
-
     }
 }

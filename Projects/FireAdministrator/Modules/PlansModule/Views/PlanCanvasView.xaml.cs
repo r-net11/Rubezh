@@ -1,22 +1,17 @@
 ﻿using System;
-using Infrastructure;
-using Infrastructure.Common;
-using System.Windows;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Shapes;
+using System.Windows.Documents;
 using System.Windows.Input;
-using System.Collections.Generic;
-using FiresecClient;
-using FiresecAPI.Models;
-using PlansModule.ViewModels;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using FiresecAPI.Models;
 using FiresecAPI.Models.Plans;
 using PlansModule.Resize;
-
+using PlansModule.ViewModels;
 
 namespace PlansModule.Views
 {
@@ -52,7 +47,6 @@ namespace PlansModule.Views
         private double _originalTop;
         private double _originalLeft;
         public static double dTop = 0;
-
 
         public PlanCanvasView()
         {
@@ -303,9 +297,6 @@ namespace PlansModule.Views
             PropertiesView.IndexElement = text.idElementCanvas;
         }
 
-
-
-
         private void ClearAllSelected()
         {
             MainCanvas.Cursor = Cursors.Arrow;
@@ -325,12 +316,12 @@ namespace PlansModule.Views
         {
             if (_originalElement is Polygon)
             {
-                Polygon polygon = (_originalElement as Polygon);
+                Polygon polygon = _originalElement as Polygon;
                 typeElement = polygon.Name.Substring(0, 4);
             }
             if (_originalElement is Rectangle)
             {
-                Rectangle rectangle = (_originalElement as Rectangle);
+                Rectangle rectangle = _originalElement as Rectangle;
                 typeElement = rectangle.Name.Substring(0, 4);
             }
         }
@@ -348,7 +339,7 @@ namespace PlansModule.Views
                 {
                     GetTypeElement();
                     _overlayElementPolygon = new PolygonAdorner(_originalElement);
-                    if (!_isResize) //перемещение
+                    if (!_isResize)
                     {
                         _overlayElementPolygon.SetOperationMove(true);
                     }
@@ -392,8 +383,6 @@ namespace PlansModule.Views
                 _overlayElementTexBox.LeftOffset = (CurrentPosition.X - _startPoint.X) * ZoomValue;
                 _overlayElementTexBox.TopOffset = (CurrentPosition.Y - _startPoint.Y) * ZoomValue;
             }
-
-
         }
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -591,7 +580,6 @@ namespace PlansModule.Views
             UpdatePlan();
             _isDragging = false;
             _isDown = false;
-
         }
 
         public static void UpdateResizePlan(UIElement element, Plan plan)
@@ -602,7 +590,7 @@ namespace PlansModule.Views
             PropertiesType.Items.Clear();
             if (element is Polygon)
             {
-                Polygon polygon = element as Polygon;
+                var polygon = element as Polygon;
                 double dLeft = Canvas.GetLeft(polygon);
                 double dTop = Canvas.GetTop(polygon);
                 string updateElement = polygon.Name;
@@ -641,7 +629,6 @@ namespace PlansModule.Views
                             rect.Left = Canvas.GetLeft(rectangle);
                             rect.Top = Canvas.GetTop(rectangle);
                         }
-
                     }
                 }
                 else
@@ -659,7 +646,6 @@ namespace PlansModule.Views
                             text.FontSize = textBox.FontSize;
                             //text.
                         }
-
                     }
                 }
             }
@@ -678,7 +664,6 @@ namespace PlansModule.Views
                         text.FontSize = textBox.FontSize;
                         text.Text = textBox.Text;
                     }
-
                 }
             }
         }
@@ -765,6 +750,7 @@ namespace PlansModule.Views
                 ClearAllSelected();
             }
         }
+
         double initialScale = 1;
         double ZoomValue = 1;
 
@@ -792,7 +778,6 @@ namespace PlansModule.Views
                     FullSize();
                 }
             }
-
         }
 
         private void scrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -846,7 +831,6 @@ namespace PlansModule.Views
                     scrollViewer.ScrollToVerticalOffset(newOffsetY);
                 }
             }
-
         }
 
         void FullSize()
@@ -874,7 +858,6 @@ namespace PlansModule.Views
                     scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
                 }
             }
-
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -906,15 +889,10 @@ namespace PlansModule.Views
 
         private void ContextMenuCanvas_Opened(object sender, RoutedEventArgs e)
         {
-            
-            
-
         }
 
         private void ContextMenuCanvas1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-           
         }
-
     }
 }

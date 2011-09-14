@@ -44,10 +44,7 @@ namespace PlansModule.ViewModels
 
         public string PresentationName
         {
-            get
-            {
-                return "Зона " + _zone.No + "." + _zone.Name;
-            }
+            get { return "Зона " + _zone.No + "." + _zone.Name; }
         }
 
         StateType _stateType;
@@ -124,7 +121,10 @@ namespace PlansModule.ViewModels
             if (ZoneNo == zoneNo)
             {
                 var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-                StateType = zoneState.StateType;
+                if (zoneState != null)
+                {
+                    StateType = zoneState.StateType;
+                }
             }
         }
     }

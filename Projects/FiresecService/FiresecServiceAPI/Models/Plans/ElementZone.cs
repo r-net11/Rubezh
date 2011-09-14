@@ -6,6 +6,11 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ElementZone
     {
+        public ElementZone()
+        {
+            PolygonPoints = new PointCollection();
+        }
+
         public int idElementCanvas;
 
         [DataMember]

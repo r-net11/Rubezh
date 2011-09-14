@@ -1,15 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecAPI.Models;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using PlansModule.Views;
 
 namespace PlansModule.ViewModels
@@ -56,7 +48,6 @@ namespace PlansModule.ViewModels
             drawingContext.DrawLine(renderPen, new Point(_point.X, _point.Y + PlanCanvasView.dTop), new Point(_start.X, _start.Y + PlanCanvasView.dTop));
         }
 
-
         public void SetOperationMove(bool _move)
         {
             isMove = _move;
@@ -64,7 +55,6 @@ namespace PlansModule.ViewModels
 
         public double LeftOffset
         {
-
             get
             {
                 return _leftOffset;
@@ -103,7 +93,6 @@ namespace PlansModule.ViewModels
 
                 UpdatePosition();
             }
-
         }
 
         private void UpdatePosition()

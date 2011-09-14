@@ -1,14 +1,16 @@
-﻿using Infrastructure;
+﻿using System;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
 using PlansModule.ViewModels;
-using System;
 
 namespace PlansModule
 {
     public class PlansModule : IModule
     {
+        static PlansViewModel _plansViewModel;
+
         public PlansModule()
         {
             ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(OnShowPlan);
@@ -18,7 +20,6 @@ namespace PlansModule
         public void Initialize()
         {
             RegisterResources();
-            //PlanLoader.Load();
             CreateViewModels();
         }
 
@@ -30,21 +31,19 @@ namespace PlansModule
 
         void CreateViewModels()
         {
-            plansViewModel = new PlansViewModel();
-            plansViewModel.Initialize();
+            _plansViewModel = new PlansViewModel();
+            _plansViewModel.Initialize();
         }
-
-        static PlansViewModel plansViewModel;
 
         static void OnShowPlan(object obj)
         {
-            ServiceFactory.Layout.Show(plansViewModel);
+            ServiceFactory.Layout.Show(_plansViewModel);
         }
 
         static void OnShowDeviceOnPlan(Guid deviceUID)
         {
-            ServiceFactory.Layout.Show(plansViewModel);
-            plansViewModel.ShowDevice(deviceUID);
+            ServiceFactory.Layout.Show(_plansViewModel);
+            _plansViewModel.ShowDevice(deviceUID);
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI;
-using PlansModule.Views;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {

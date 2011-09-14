@@ -1,19 +1,11 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
     public class ZonaViewModel : BaseViewModel
     {
-
         public ZonaViewModel(Plan plan)
         {
             Parent = plan;

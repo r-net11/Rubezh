@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Media;
 using Firesec.Plans;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Plans;
@@ -11,219 +9,204 @@ namespace FiresecService.Converters
 {
     public static class PlansConverter
     {
-        private static int idElement;
         public static PlansConfiguration Convert(surfaces innerPlans)
         {
-            idElement = 0;
             var plansConfiguration = new PlansConfiguration();
             if (innerPlans.surface != null)
             {
-                plansConfiguration.Plans = new List<Plan>();
-                foreach (var _planInner in innerPlans.surface)
+                foreach (var innerPlan in innerPlans.surface)
                 {
-                    Plan planInner = new Plan();
-                    planInner.Caption = _planInner.caption;
-                    planInner.Name = _planInner.caption;
-                    planInner.Height = Double.Parse(_planInner.height)*10;
-                    planInner.Width = Double.Parse(_planInner.width)*10;
-                    int index = 0;
-                    foreach (var _elementInner in _planInner.layer)
+                    var plan = new Plan()
                     {
-                        if (_elementInner.name == "План") // Графические примитивы
+                        Caption = innerPlan.caption,
+                        Name = innerPlan.caption,
+                        Height = Double.Parse(innerPlan.height) * 10,
+                        Width = Double.Parse(innerPlan.width) * 10
+                    };
+                    int index = 0;
+                    foreach (var innerLayer in innerPlan.layer)
+                    {
+                        if (innerLayer.elements == null)
+                            continue;
+
+                        if (innerLayer.name == "План")
                         {
-                            if (_elementInner.elements != null)
+                            foreach (var innerElementLayer in innerLayer.elements)
                             {
-                                foreach (var elementLayer in _elementInner.elements)
+                                switch (innerElementLayer.@class)
                                 {
-                                    switch (elementLayer.@class)
-                                    {
-                                        case "TSCDePicture":
-                                            int iterator = 0;
-                                            foreach (var elementImage in elementLayer.picture)
+                                    case "TSCDePicture":
+                                        int pictureIndex = 0;
+                                        foreach (var innerPicture in innerElementLayer.picture)
+                                        {
+                                            if (string.IsNullOrEmpty(innerPicture.idx))
+                                                innerPicture.idx = pictureIndex++.ToString();
+
+                                            Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+                                            if (File.Exists(uri.AbsolutePath) == false)
+                                                continue;
+                                            byte[] imageBytes = File.ReadAllBytes(uri.AbsolutePath);
+
+                                            var rectangleBox = new RectangleBox()
                                             {
-                                                if (string.IsNullOrEmpty(elementImage.idx))
-                                                    elementImage.idx = iterator++.ToString();
-                                                Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
-                                                if (!File.Exists(uri.AbsolutePath))
-                                                    continue;
-                                                byte[] image = File.ReadAllBytes(uri.AbsolutePath);
-                                                RectangleBox rect = new RectangleBox();
-                                                uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + elementImage.idx + "." + elementImage.ext);
-                                                image = File.ReadAllBytes(uri.AbsolutePath);
-                                                rect.BackgroundPixels = image;
-                                                rect.Height = ValidationDouble(elementLayer.rect[0].bottom) - ValidationDouble(elementLayer.rect[0].top);
-                                                rect.Width = ValidationDouble(elementLayer.rect[0].right) - ValidationDouble(elementLayer.rect[0].left);
-                                                rect.Left = ValidationDouble(elementLayer.rect[0].left);
-                                                rect.Top = ValidationDouble(elementLayer.rect[0].top);
-                                                if (planInner.Rectangls == null) planInner.Rectangls = new List<RectangleBox>();
-                                                rect.idElementCanvas = idElement;
-                                                planInner.Rectangls.Add(rect);
-                                                idElement++;
-                                            }
-                                            break;
-                                        case "TSCDeLabel":
-                                            CaptionBox captionBox = new CaptionBox();
-                                            if (elementLayer.brush != null) captionBox.BorderColor = elementLayer.brush[0].color;
-                                            if (elementLayer.pen != null) captionBox.Color = elementLayer.pen[0].color;
-                                            captionBox.Text = elementLayer.caption;
-                                            captionBox.Left = ValidationDouble(elementLayer.rect[0].left);
-                                            captionBox.Top = ValidationDouble(elementLayer.rect[0].top);
-                                            if (planInner.TextBoxes == null) planInner.TextBoxes = new List<CaptionBox>();
-                                            captionBox.idElementCanvas = idElement;
-                                            planInner.TextBoxes.Add(captionBox);
-                                            idElement++;
-                                            break;
-                                    }
+                                                Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
+                                                Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
+                                                Left = Parse(innerElementLayer.rect[0].left),
+                                                Top = Parse(innerElementLayer.rect[0].top),
+                                                BackgroundPixels = imageBytes
+                                            };
+
+                                            plan.Rectangls.Add(rectangleBox);
+                                        }
+                                        break;
+
+                                    case "TSCDeLabel":
+                                        var captionBox = new CaptionBox()
+                                        {
+                                            Text = innerElementLayer.caption,
+                                            Left = Parse(innerElementLayer.rect[0].left),
+                                            Top = Parse(innerElementLayer.rect[0].top),
+                                        };
+
+                                        if (innerElementLayer.brush != null)
+                                            captionBox.BorderColor = innerElementLayer.brush[0].color;
+
+                                        if (innerElementLayer.pen != null)
+                                            captionBox.Color = innerElementLayer.pen[0].color;
+
+                                        plan.TextBoxes.Add(captionBox);
+                                        break;
                                 }
                             }
                         }
-                        if ((_elementInner.name == "Зоны") || (_elementInner.name == "Несвязанные зоны") || (_elementInner.name == "Пожарные зоны") || (_elementInner.name == "Охранные зоны"))
+                        if ((innerLayer.name == "Зоны") || (innerLayer.name == "Несвязанные зоны") || (innerLayer.name == "Пожарные зоны") || (innerLayer.name == "Охранные зоны"))
                         {
-                            if (_elementInner.elements != null)
+                            foreach (var innerZone in innerLayer.elements)
                             {
-                                if (planInner.ElementZones == null) planInner.ElementZones = new List<ElementZone>();
-                                foreach (var _zoneInner in _elementInner.elements)
+                                var elementZone = new ElementZone();
+
+                                long idTempL = long.Parse(innerZone.id);
+                                int idTempI = (int)idTempL;
+                                foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
                                 {
-                                    ElementZone zoneInner = null;
-                                    zoneInner = new ElementZone();
-                                    string _idTempS = _zoneInner.id;
-                                    long _idTempL = long.Parse(_idTempS);
-                                    int _idTempI = (int)_idTempL;
-                                    foreach (var _index in FiresecManager.DeviceConfiguration.Zones)
+                                    foreach (var zoneShapeId in zone.ShapeIds)
                                     {
-                                        foreach (var zoneShapeId in _index.ShapeIds)
+                                        if ((zoneShapeId == idTempL.ToString()) ||
+                                            (zoneShapeId == idTempI.ToString()))
                                         {
-                                            if (zoneShapeId == _idTempL.ToString())
-                                            {
-                                                zoneInner.ZoneNo = _index.No;
-                                            }
-                                            else
-                                                if (zoneShapeId == _idTempI.ToString())
-                                                {
-                                                    zoneInner.ZoneNo = _index.No;
-                                                }
+                                            elementZone.ZoneNo = zone.No;
                                         }
                                     }
-                                    Point polygonPointsInner;
-                                    if (zoneInner.PolygonPoints == null) zoneInner.PolygonPoints = new PointCollection();
-                                    switch (_zoneInner.@class)
-                                    {
-                                        case "TFS_PolyZoneShape":
-                                            if (_zoneInner.points != null)
-                                            {
-                                                foreach (var _pointInner in _zoneInner.points)
-                                                {
-                                                    //polygonPointsInner = new PolygonPoint();
-                                                    polygonPointsInner = new Point();
-                                                    polygonPointsInner.X = ValidationDouble(_pointInner.x);
-                                                    polygonPointsInner.Y = ValidationDouble(_pointInner.y);
-                                                    _pointInner.y = _pointInner.y.Replace(".", ",");
-
-                                                    zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                }
-                                            }; break;
-                                        case "TFS_ZoneShape":
-                                            foreach (var _rectInner in _zoneInner.rect)
-                                            {
-                                                polygonPointsInner = new Point();
-                                                polygonPointsInner.X = ValidationDouble(_rectInner.left);
-                                                polygonPointsInner.Y = ValidationDouble(_rectInner.top);
-                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new Point();
-                                                polygonPointsInner.X = ValidationDouble(_rectInner.right);
-                                                polygonPointsInner.Y = ValidationDouble(_rectInner.top);
-                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new Point();
-                                                polygonPointsInner.X = ValidationDouble(_rectInner.right);
-                                                polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
-                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                                polygonPointsInner = new Point();
-                                                polygonPointsInner.X = ValidationDouble(_rectInner.left);
-                                                polygonPointsInner.Y = ValidationDouble(_rectInner.bottom);
-                                                zoneInner.PolygonPoints.Add(polygonPointsInner);
-                                            };
-                                            break;
-                                    }
-                                    zoneInner.idElementCanvas = idElement;
-                                    planInner.ElementZones.Add(zoneInner);
-                                    idElement++;
                                 }
+
+                                switch (innerZone.@class)
+                                {
+                                    case "TFS_PolyZoneShape":
+                                        if (innerZone.points != null)
+                                        {
+                                            foreach (var innerPoint in innerZone.points)
+                                            {
+                                                var point = new Point()
+                                                {
+                                                    X = Parse(innerPoint.x),
+                                                    Y = Parse(innerPoint.y)
+                                                };
+                                                innerPoint.y = innerPoint.y.Replace(".", ",");
+
+                                                elementZone.PolygonPoints.Add(point);
+                                            }
+                                        };
+                                        break;
+
+                                    case "TFS_ZoneShape":
+                                        foreach (var innerRect in innerZone.rect)
+                                        {
+                                            elementZone.PolygonPoints.Add(new Point()
+                                            {
+                                                X = Parse(innerRect.left),
+                                                Y = Parse(innerRect.top)
+                                            });
+
+                                            elementZone.PolygonPoints.Add(new Point()
+                                            {
+                                                X = Parse(innerRect.right),
+                                                Y = Parse(innerRect.top)
+                                            });
+
+                                            elementZone.PolygonPoints.Add(new Point()
+                                            {
+                                                X = Parse(innerRect.right),
+                                                Y = Parse(innerRect.bottom)
+                                            });
+
+                                            elementZone.PolygonPoints.Add(new Point()
+                                            {
+                                                X = Parse(innerRect.left),
+                                                Y = Parse(innerRect.bottom)
+                                            });
+                                        };
+                                        break;
+                                }
+                                plan.ElementZones.Add(elementZone);
                             }
                         };
-                        if (_elementInner.name == "Устройства")
-                        {
-                            ElementDevice deviceInner = null;
-                            if (_elementInner.elements != null)
-                            {
-                                if (planInner.ElementDevices == null) planInner.ElementDevices = new List<ElementDevice>();
-                                foreach (var _deviceInner in _elementInner.elements)
-                                {
-                                    deviceInner = new ElementDevice();
-                                    string _idTempS = _deviceInner.id;
-                                    long _idTempL = long.Parse(_idTempS);
-                                    int _idTempI = (int)_idTempL;
-                                    foreach (var _index in FiresecManager.DeviceConfiguration.Devices)
-                                    {
-                                        foreach (var deviceShapeId in _index.ShapeIds)
-                                        {
-                                            if (deviceShapeId == _idTempL.ToString())
-                                            {
-                                                deviceInner.Id = _index.UID;
-                                            }
-                                            else
-                                                if (deviceShapeId == _idTempI.ToString())
-                                                {
-                                                    deviceInner.Id = _index.UID;
-                                                }
-                                        }
-                                    }
 
-                                    if (_deviceInner.rect != null)
+                        if (innerLayer.name == "Устройства")
+                        {
+                            foreach (var innerDevice in innerLayer.elements)
+                            {
+                                var elementDevice = new ElementDevice();
+                                long idTempL = long.Parse(innerDevice.id);
+                                int idTempI = (int)idTempL;
+
+                                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+                                {
+                                    foreach (var deviceShapeId in device.ShapeIds)
                                     {
-                                        foreach (var _rectInner in _deviceInner.rect)
+                                        if ((deviceShapeId == idTempL.ToString()) ||
+                                            (deviceShapeId == idTempI.ToString()))
                                         {
-                                            deviceInner.Left = ValidationDouble(_rectInner.left);
-                                            deviceInner.Top = ValidationDouble(_rectInner.top);
-                                            deviceInner.Width = ValidationDouble(_rectInner.right) - deviceInner.Left;
-                                            deviceInner.Height = ValidationDouble(_rectInner.bottom) - deviceInner.Top;
+                                            elementDevice.Id = device.UID;
                                         }
-                                        deviceInner.idElementCanvas = idElement;
-                                        planInner.ElementDevices.Add(deviceInner);
-                                        idElement++;
                                     }
                                 }
+
+                                if (innerDevice.rect != null)
+                                {
+                                    foreach (var innerRect in innerDevice.rect)
+                                    {
+                                        elementDevice.Left = Parse(innerRect.left);
+                                        elementDevice.Top = Parse(innerRect.top);
+                                        elementDevice.Width = Parse(innerRect.right) - elementDevice.Left;
+                                        elementDevice.Height = Parse(innerRect.bottom) - elementDevice.Top;
+                                    }
+                                }
+
+                                plan.ElementDevices.Add(elementDevice);
                             }
                         }
                         index++;
                     }
-                    plansConfiguration.Plans.Add(planInner);
-                    /*
-                     List<Plan> plans = plansConfiguration.Plans;
-                     System.Runtime.Serialization.DataContractSerializer dcs = new System.Runtime.Serialization.DataContractSerializer(typeof(List<Plan>));
-                     FileStream fs_out = new FileStream(@"D:/del/Plans_new310811.xml", FileMode.Create);
-                     System.Xml.XmlDictionaryWriter xdw = System.Xml.XmlDictionaryWriter.CreateTextWriter(fs_out);
-                     dcs.WriteObject(xdw, plans);
-                     xdw.Close();
-                     */
+                    plansConfiguration.Plans.Add(plan);
                 }
             }
 
             return plansConfiguration;
         }
 
-        static Double ValidationDouble(string str)
+        static Double Parse(string input)
         {
             Double result;
             try
             {
-                str = str.Replace(".", ",");
-                result = Double.Parse(str);
+                input = input.Replace(".", ",");
+                result = Double.Parse(input);
                 return result;
             }
             catch
             {
-                str = str.Replace(",", ".");
-                result = Double.Parse(str);
+                input = input.Replace(",", ".");
+                result = Double.Parse(input);
                 return result;
             }
         }

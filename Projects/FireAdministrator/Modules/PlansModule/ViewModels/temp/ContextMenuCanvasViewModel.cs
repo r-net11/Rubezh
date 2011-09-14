@@ -1,36 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Views;
-using System.Windows.Controls.Primitives;
-using System;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Documents;
-using PlansModule.Resize;
-using System.Collections;
-
 
 namespace PlansModule.ViewModels
 {
     public class ContextMenuCanvasViewModel : RegionViewModel
     {
-
         RoutedEventHandler MouseDownEventHandler;
-
 
         public ContextMenuCanvasViewModel(RoutedEventHandler MouseDownEventHandler)
         {
-
             this.MouseDownEventHandler = MouseDownEventHandler;
-
         }
 
         public ContextMenu GetElement(UIElement ActiveElement, object element)

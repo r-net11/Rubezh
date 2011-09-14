@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Windows;
+using System.Windows.Media;
 using System.Xml;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using System.Reflection;
-using System.Windows.Controls;
-using System.Windows;
-
 
 namespace PlansModule
 {
@@ -50,7 +46,7 @@ namespace PlansModule
 
         static void ConvertPathToArray(List<Plan> Plans)
         {
-            foreach (Plan plan in Plans)
+            foreach (var plan in Plans)
             {
                 if (plan.BackgroundSource != null)
                 {
@@ -121,7 +117,6 @@ namespace PlansModule
                             reader.Close();
 
              * */
-
         }
     }
 }

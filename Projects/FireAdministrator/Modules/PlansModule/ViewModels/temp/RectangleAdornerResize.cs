@@ -1,24 +1,13 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using FiresecAPI.Models;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using PlansModule.Views;
-using System.Windows.Input;
 
 namespace PlansModule.ViewModels
 {
     public class RectangleAdornerResize : Adorner
     {
-        
-
         private UIElement currentElement = null;
         private Rectangle rectangle = null;
         public Canvas canvas;

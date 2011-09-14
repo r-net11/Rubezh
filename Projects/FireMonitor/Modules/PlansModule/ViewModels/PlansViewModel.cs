@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using Common;
@@ -7,7 +8,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
-using System;
 
 namespace PlansModule.ViewModels
 {
@@ -26,8 +26,6 @@ namespace PlansModule.ViewModels
 
         public void Initialize()
         {
-            //return;
-
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
             if (Plans.IsNotNullOrEmpty())
@@ -36,7 +34,6 @@ namespace PlansModule.ViewModels
 
         void BuildTree()
         {
-
             if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)

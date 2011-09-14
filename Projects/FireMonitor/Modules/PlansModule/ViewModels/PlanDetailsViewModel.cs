@@ -48,7 +48,6 @@ namespace PlansModule.ViewModels
 
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-            /* загрузить с массива*/
             string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
             _canvas.Background = CreateBrush(backgroundPath);
 
@@ -57,6 +56,31 @@ namespace PlansModule.ViewModels
                 var subPlanViewModel = new ElementSubPlanViewModel();
                 subPlanViewModel.Initialize(elementSubPlan, _canvas);
                 SubPlans.Add(subPlanViewModel);
+            }
+
+            foreach (var rectangleBox in _plan.Rectangls)
+            {
+                var rectangle = new Rectangle();
+                rectangle.Width = rectangleBox.Width;
+                rectangle.Height = rectangleBox.Height;
+                Canvas.SetLeft(rectangle, rectangleBox.Left);
+                Canvas.SetTop(rectangle, rectangleBox.Top);
+
+                BitmapImage image = null;
+                using (MemoryStream imageStream = new MemoryStream(rectangleBox.BackgroundPixels))
+                {
+                    image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = imageStream;
+                    image.EndInit();
+                }
+
+                var imageBrushRect = new ImageBrush();
+                imageBrushRect.ImageSource = image;
+                rectangle.Fill = imageBrushRect;
+
+                _canvas.Children.Add(rectangle);
             }
 
             foreach (var elementZone in _plan.ElementZones)

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
-using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
     public class PlanViewModel : BaseViewModel
     {
-
         public PlanViewModel(Plan plan)
         {
             Plan = plan;

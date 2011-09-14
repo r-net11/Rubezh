@@ -10,7 +10,6 @@ namespace PlansModule.ViewModels
             AddSubCommand = addSubCommand;
             RemoveCommand = removeCommand;
             EditCommand = editCommand;
-
         }
 
         public RelayCommand AddCommand { get; private set; }
