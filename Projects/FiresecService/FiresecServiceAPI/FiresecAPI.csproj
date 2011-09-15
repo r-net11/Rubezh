@@ -78,6 +78,7 @@
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />
     <Compile Include="Models\Plans\CaptionBox.cs" />
+    <Compile Include="Models\Plans\PolygonPoint.cs" />
     <Compile Include="Models\Plans\RectangleBox.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />
     <Compile Include="Models\System\BeeperType.cs" />

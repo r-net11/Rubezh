@@ -86,7 +86,7 @@
     <Compile Include="ViewModels\Adorners\TextBoxAdorner.cs" />
     <Compile Include="ViewModels\temp\ContextMenuCanvasViewModel.cs" />
     <Compile Include="ViewModels\temp\RectangleAdornerResize.cs" />
-    <Compile Include="ViewModels\temp\ZonaViewModel.cs" />
+    <Compile Include="ViewModels\temp\ZoneViewModel.cs" />
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>
     </Compile>

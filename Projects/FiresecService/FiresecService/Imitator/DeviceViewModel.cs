@@ -63,10 +63,7 @@ namespace FiresecService.Imitator
 
         public int Level
         {
-            get
-            {
-                return DeviceState.Device.PlaceInTree.Split('\\').Count() - 1;
-            }
+            get { return DeviceState.Device.PlaceInTree.Split('\\').Count() - 1; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

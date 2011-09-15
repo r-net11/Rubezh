@@ -9,15 +9,11 @@ namespace FiresecService.Converters
 {
     public static class DeviceConverter
     {
-        static config _firesecConfig;
-
-        public static void Convert(config firesecConfig)
+        public static void Convert()
         {
-            _firesecConfig = firesecConfig;
-
             FiresecManager.DeviceConfiguration.Devices = new List<Device>();
 
-            var rootInnerDevice = FiresecManager.CoreConfig.dev[0];
+            var rootInnerDevice = ConfigurationConverter.FiresecConfiguration.dev[0];
             var rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
@@ -49,7 +45,7 @@ namespace FiresecService.Converters
 
         static void SetInnerDevice(Device device, devType innerDevice)
         {
-            var driverId = _firesecConfig.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
+            var driverId = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             var driverUID = new Guid(driverId);
             device.DriverUID = driverUID;
             device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driverUID);
@@ -108,7 +104,7 @@ namespace FiresecService.Converters
             if (innerDevice.inZ != null)
             {
                 string zoneIdx = innerDevice.inZ[0].idz;
-                string zoneNo = _firesecConfig.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
+                string zoneNo = ConfigurationConverter.FiresecConfiguration.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
                 device.ZoneNo = zoneNo;
             }
             if (innerDevice.prop != null)
@@ -157,8 +153,8 @@ namespace FiresecService.Converters
             var rootInnerDevice = DeviceToInnerDevice(rootDevice);
             AddInnerDevice(rootDevice, rootInnerDevice);
 
-            FiresecManager.CoreConfig.dev = new devType[1];
-            FiresecManager.CoreConfig.dev[0] = rootInnerDevice;
+            ConfigurationConverter.FiresecConfiguration.dev = new devType[1];
+            ConfigurationConverter.FiresecConfiguration.dev[0] = rootInnerDevice;
         }
 
         static void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
@@ -177,7 +173,7 @@ namespace FiresecService.Converters
         static devType DeviceToInnerDevice(Device device)
         {
             var innerDevice = new devType();
-            innerDevice.drv = FiresecManager.CoreConfig.drv.FirstOrDefault(x => x.id == device.Driver.UID.ToString()).idx;
+            innerDevice.drv = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.id == device.Driver.UID.ToString()).idx;
 
             if (device.Driver.HasAddress)
             {

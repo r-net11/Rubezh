@@ -19,7 +19,6 @@ namespace PlansModule.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-
         public void Initialize()
         {
             _isNew = true;
@@ -30,8 +29,6 @@ namespace PlansModule.ViewModels
             Name = plan.Name;
             Title = "Редактирование субплана";
         }
-
-
 
         public void Initialize(PlanViewModel plan)
         {
@@ -58,13 +55,11 @@ namespace PlansModule.ViewModels
             }
         }
 
-
         void Save()
         {
             ElementSubPlan.Name = Name;
             if (_isNew)
             {
-                
                 Plan plan = Parent;
                 
                 while (plan.Parent != null) plan = plan.Parent;
@@ -82,7 +77,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
@@ -92,7 +86,6 @@ namespace PlansModule.ViewModels
                 Close(true);
             }
             else Close(false);
-
         }
 
         public RelayCommand CancelCommand { get; private set; }

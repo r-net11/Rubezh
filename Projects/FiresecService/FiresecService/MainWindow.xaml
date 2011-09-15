@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Сервер Firesec" Height="600" Width="600">
     <Grid>
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
-            <Button Content="Start" Click="Button_Click" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="20" />
-            <Button Content="Test" Click="Button_Click_1"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
-            <Button Content="Convert" Click="Button_Click_2"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
-            <TextBox Name="_textBox" Height="200" />
+        <StackPanel Margin="5">
+            <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="20" />
+            <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
+            <Button Content="Конвертация журнала событий" Click="OnConvertJournal"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
+            <Button Content="Имитатор" Click="OnShowImitator"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
+            <TextBox Name="_textBox" Height="200" Margin="2" />
         </StackPanel>
     </Grid>
 </Window>

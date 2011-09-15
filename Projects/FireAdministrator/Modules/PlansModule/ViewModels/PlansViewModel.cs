@@ -46,7 +46,6 @@ namespace PlansModule.ViewModels
                         BuildTree(plan.Children, planViewModel);
                     }
                 }
-                // Добавил проверку на пустой список
 
                 if (Plans.IsNotNullOrEmpty())
                 {
@@ -228,7 +227,6 @@ namespace PlansModule.ViewModels
         }
 
         public RelayCommand EditCommand { get; private set; }
-
         void OnEdit()
         {
             var planDetailsViewModel = new PlanDetailsViewModel();

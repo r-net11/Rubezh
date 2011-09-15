@@ -4,9 +4,13 @@ using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
-    public class ZonaViewModel : BaseViewModel
+    public class ZoneViewModel : BaseViewModel
     {
-        public ZonaViewModel(Plan plan)
+        public Plan Parent { get; private set; }
+        public List<PolygonPoint> PolygonPoints { get; set; }
+        public string ZoneNo { get; set; }
+
+        public ZoneViewModel(Plan plan)
         {
             Parent = plan;
         }
@@ -16,15 +20,11 @@ namespace PlansModule.ViewModels
             if (PolygonPoints == null) PolygonPoints = new List<PolygonPoint>();
             PolygonPoints = polygonPoints;
         }
+
         public void AddPolygonPoint(PolygonPoint point)
         {
             PolygonPoints.Add(point);
         }
-        public Plan Parent { get; private set; }
-        public List<PolygonPoint> PolygonPoints { get; set; }
-
- 
-        public string ZoneNo { get; set; }
 
         public void Update()
         {

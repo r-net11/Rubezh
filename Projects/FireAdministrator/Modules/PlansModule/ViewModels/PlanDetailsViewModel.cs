@@ -128,7 +128,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {

@@ -7,13 +7,13 @@ namespace FiresecService.Converters
 {
     public static class GuardUserConverter
     {
-        public static void Convert(config firesecConfig)
+        public static void Convert()
         {
             FiresecManager.DeviceConfiguration.GuardUsers = new List<GuardUser>();
 
-            if (FiresecManager.CoreConfig.part != null)
+            if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
-                foreach (var innerDirection in FiresecManager.CoreConfig.part)
+                foreach (var innerDirection in ConfigurationConverter.FiresecConfiguration.part)
                 {
                     if (innerDirection.type == "guarduser")
                     {
@@ -184,13 +184,13 @@ namespace FiresecService.Converters
                 innerGuardUsers.Add(innerGuardUser);
             }
 
-            var innerDirections = FiresecManager.CoreConfig.part.ToList();
+            var innerDirections = ConfigurationConverter.FiresecConfiguration.part.ToList();
             if (innerDirections != null)
             {
                 innerGuardUsers.AddRange(innerDirections);
             }
 
-            FiresecManager.CoreConfig.part = innerGuardUsers.ToArray();
+            ConfigurationConverter.FiresecConfiguration.part = innerGuardUsers.ToArray();
         }
     }
 }

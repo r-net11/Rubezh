@@ -13,7 +13,7 @@ namespace FiresecService
         {
             using (var dataContext = new FiresecDbConverterDataContext())
             {
-                dataContext.JournalRecords.DeleteAllOnSubmit(from j in dataContext.JournalRecords select j);
+                dataContext.JournalRecords.DeleteAllOnSubmit(from record in dataContext.JournalRecords select record);
                 dataContext.SubmitChanges();
                 dataContext.JournalRecords.InsertAllOnSubmit(ReadAllJournal());
                 dataContext.SubmitChanges();

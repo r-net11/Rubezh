@@ -17,58 +17,34 @@ namespace PlansModule.ViewModels
 
         public ContextMenu GetElement(UIElement ActiveElement, object element)
         {
-            ContextMenu res=null;
+            ContextMenu contextMenu = null;
             if (ActiveElement is Polygon)
             {
-                //var polygon = 
                 PlanCanvasView.ElementProperties = (ActiveElement as Polygon).Name;
-                res=CreateContextMenuForZona(element);
-            };
+                contextMenu = CreateContextMenu(element, "Свойства зоны");
+            }
+
             if (ActiveElement is Rectangle)
             {
                 PlanCanvasView.ElementProperties = (ActiveElement as Rectangle).Name;
-                res=CreateContextMenuForRectangle(element);
+                contextMenu = CreateContextMenu(element, "Свойства прямоугольника");
             }
 
             if (ActiveElement is TextBox)
             {
                 PlanCanvasView.ElementProperties = (ActiveElement as TextBox).Name;
-                res = CreateContextMenuForText(element);
+                contextMenu = CreateContextMenu(element, "Свойства текста");
             }
-            return res;
-        }
-
-        ContextMenu CreateContextMenuForZona(object element)
-        {
-
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem items = new MenuItem();
-            items.Tag = element;
-            items.Click += MouseDownEventHandler;
-            items.Header = "Свойства зоны";
-            
-            contextMenu.Items.Add(items);
             return contextMenu;
         }
 
-        ContextMenu CreateContextMenuForRectangle(object element)
+        ContextMenu CreateContextMenu(object element, string name)
         {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem items = new MenuItem();
+            var contextMenu = new ContextMenu();
+            var items = new MenuItem();
             items.Tag = element;
             items.Click += MouseDownEventHandler;
-            items.Header = "Свойства прямоугольника";
-            contextMenu.Items.Add(items);
-            return contextMenu;
-        }
-
-        ContextMenu CreateContextMenuForText(object element)
-        {
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem items = new MenuItem();
-            items.Tag = element;
-            items.Click += MouseDownEventHandler;
-            items.Header = "Свойства текста";
+            items.Header = name;
             contextMenu.Items.Add(items);
             return contextMenu;
         }

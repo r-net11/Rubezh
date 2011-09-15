@@ -5,8 +5,6 @@ using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
 using Common;
 using FiresecClient;
-using Infrastructure.Common;
-using System.Windows.Documents;
 
 namespace ReportsModule.Reports
 {

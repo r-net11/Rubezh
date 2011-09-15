@@ -14,7 +14,6 @@ namespace FiresecService
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
-        public static Firesec.CoreConfiguration.config CoreConfig { get; set; }
 
         public static bool ConnectFiresecCOMServer(string login, string password)
         {
@@ -31,14 +30,6 @@ namespace FiresecService
                 watcher.Start();
             }
             return result;
-        }
-
-        public static void ConveretCoreConfigurationFromFiresec()
-        {
-            CoreConfig = FiresecInternalClient.GetCoreConfig();
-            DeviceConfiguration = new DeviceConfiguration();
-            ConvertMetadataFromFiresec();
-            Convert();
         }
 
         static void ConvertMetadataFromFiresec()
@@ -65,39 +56,6 @@ namespace FiresecService
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
             }
-        }
-
-        public static void SetNewConfig()
-        {
-            //Update();
-            //ConvertBack();
-        }
-
-        static void Convert()
-        {
-            FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
-            ZoneConverter.Convert(CoreConfig);
-            DirectionConverter.Convert(CoreConfig);
-            GuardUserConverter.Convert(CoreConfig);
-            SecurityConverter.Convert(CoreConfig);
-            DeviceConverter.Convert(CoreConfig);
-        }
-
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
-        {
-            deviceConfiguration.Update();
-
-            foreach (var device in deviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-            }
-            CoreConfig = FiresecInternalClient.GetCoreConfig();
-
-            ZoneConverter.ConvertBack(deviceConfiguration);
-            DeviceConverter.ConvertBack(deviceConfiguration);
-            DirectionConverter.ConvertBack(deviceConfiguration);
-            GuardUserConverter.ConvertBack(deviceConfiguration);
-            //SecurityConverter.ConvertBack(SecurityConfiguration);
         }
     }
 }

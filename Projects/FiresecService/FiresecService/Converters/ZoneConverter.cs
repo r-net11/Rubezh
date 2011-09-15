@@ -7,14 +7,13 @@ namespace FiresecService.Converters
 {
     public static class ZoneConverter
     {
-        public static void Convert(config firesecConfig)
+        public static void Convert()
         {
             FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
-            FiresecManager.DeviceConfigurationStates.ZoneStates = new List<ZoneState>();
 
-            if (firesecConfig.zone != null)
+            if (ConfigurationConverter.FiresecConfiguration.zone != null)
             {
-                foreach (var innerZone in firesecConfig.zone)
+                foreach (var innerZone in ConfigurationConverter.FiresecConfiguration.zone)
                 {
                     var zone = new Zone()
                     {
@@ -160,7 +159,7 @@ namespace FiresecService.Converters
             }
 
             if (innerZones.Count > 0)
-                FiresecManager.CoreConfig.zone = innerZones.ToArray();
+                ConfigurationConverter.FiresecConfiguration.zone = innerZones.ToArray();
         }
     }
 }

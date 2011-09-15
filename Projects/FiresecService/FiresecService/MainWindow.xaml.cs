@@ -19,23 +19,26 @@ namespace FiresecServiceRunner
             Current._textBox.Text += message + "\n";
         }
 
-        void Button_Click(object sender, RoutedEventArgs e)
+        void OnConnect(object sender, RoutedEventArgs e)
         {
             FiresecManager.ConnectFiresecCOMServer("adm", "");
             FiresecServiceManager.Open();
         }
 
-        void Button_Click_1(object sender, RoutedEventArgs e)
+        void OnConvertConfiguration(object sender, RoutedEventArgs e)
+        {
+            ConfigurationConverter.Convert();
+        }
+
+        void OnConvertJournal(object sender, RoutedEventArgs e)
+        {
+            JournalDataConverter.Convert();
+        }
+
+        void OnShowImitator(object sender, RoutedEventArgs e)
         {
             var imitatorView = new ImitatorView();
             imitatorView.Show();
-        }
-
-        readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
-        void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            //ConfigurationConverter.Convert();
-            JournalDataConverter.Convert();
         }
     }
 }

@@ -115,14 +115,14 @@ namespace FiresecService
         public void WriteConfiguration(Guid deviceUID)
         {
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceWriteConfig(FiresecManager.CoreConfig, device.PlaceInTree);
+            FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
         public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, string password)
         {
-            FiresecManager.ConvertBack(deviceConfiguration);
+            ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceSetPassword(FiresecManager.CoreConfig, device.PlaceInTree, password);
+            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password);
         }
 
         public SecurityConfiguration GetSecurityConfiguration()

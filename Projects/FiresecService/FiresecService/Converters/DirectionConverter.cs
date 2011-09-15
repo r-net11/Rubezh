@@ -9,13 +9,13 @@ namespace FiresecService.Converters
 {
     public class DirectionConverter
     {
-        public static void Convert(config firesecConfig)
+        public static void Convert()
         {
             FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
 
-            if (FiresecManager.CoreConfig.part != null)
+            if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
-                foreach (var innerDirection in FiresecManager.CoreConfig.part)
+                foreach (var innerDirection in ConfigurationConverter.FiresecConfiguration.part)
                 {
                     if (innerDirection.type == "direction")
                     {
@@ -104,7 +104,7 @@ namespace FiresecService.Converters
                 innerDirections.Add(innerDirection);
             }
 
-            FiresecManager.CoreConfig.part = innerDirections.ToArray();
+            ConfigurationConverter.FiresecConfiguration.part = innerDirections.ToArray();
         }
     }
 }
