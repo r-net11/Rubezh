@@ -22,7 +22,20 @@ namespace ReportsModule.Reports
 {
     public class ReportJournal
     {
-        List<Journal> JournalList;
+        public ReportJournal()
+        {
+            _archiveFilter = new ArchiveFilterViewModel();
+            _journalList = new List<Journal>();
+            JournalRecords = new List<JournalRecordViewModel>();
+
+            SetDefaultArchiveContent();
+        }
+
+        List<Journal> _journalList;
+        ArchiveFilterViewModel _archiveFilter;
+        public List<JournalRecordViewModel> JournalRecords { get; set; }
+
+
 
         public XpsDocument CreateReport()
         {
@@ -40,7 +53,7 @@ namespace ReportsModule.Reports
             var dateTime = DateTime.Now;
             data.ReportDocumentValues.Add("PrintDate", dateTime);
 
-            var dataTable = new DataTable("JournalList");
+            var dataTable = new DataTable("_journalList");
 
             Helper.AddDataColumns<Journal>(dataTable);
 
@@ -52,14 +65,51 @@ namespace ReportsModule.Reports
 
         void Initialize()
         {
-            var JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            //ArchiveFilterViewModel tmpArchiveFilter = new ArchiveFilterViewModel();
+            //_archiveFilter.CopyTo(tmpArchiveFilter);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(_archiveFilter))
+            {
+                ApplyFilter();
+            }
+        }
+
+        void ApplyFilter()
+        {
+            ArchiveFilter filter = new ArchiveFilter()
+            {
+                Descriptions = new List<string>(
+                    _archiveFilter.JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
+                ),
+                Subsystems = new List<SubsystemType>(
+                    _archiveFilter.Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
+                ),
+                UseSystemDate = _archiveFilter.UseSystemDate,
+                StartDate = _archiveFilter.StartDate,
+                EndDate = _archiveFilter.EndDate,
+            };
+            if (filter.Subsystems.Count == 0)
+            {
+                foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
+                {
+                    filter.Subsystems.Add(subsystem);
+                }
+            }
+
+            JournalRecords = new List<JournalRecordViewModel>(
+                FiresecManager.GetFilteredArchive(filter).Select(journalRecord => new JournalRecordViewModel(journalRecord))
             );
+        }
 
-            var filterViewModel = new ArchiveFilterViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(filterViewModel);
-
+        void SetDefaultArchiveContent()
+        {
+            try
+            {
+                JournalRecords = new List<JournalRecordViewModel>(
+                    FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
+                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
+                );
+            }
+            catch { ;}
         }
     }
 

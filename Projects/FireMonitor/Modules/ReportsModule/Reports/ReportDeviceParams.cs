@@ -26,7 +26,7 @@ namespace ReportsModule.Reports
 
             var reportDocument = new ReportDocument();
             string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceParamsFlowDocument.xaml";
-            
+
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
@@ -62,7 +62,6 @@ namespace ReportsModule.Reports
                 string zonePresentationName = "";
                 string dustiness = "";
                 string failureType = "";
-                int count = 0;
                 foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                 {
                     if ((device.Driver.Category == DeviceCategoryType.Other) ||
@@ -70,7 +69,6 @@ namespace ReportsModule.Reports
                     {
                         continue;
                     }
-                    count++;
                     zonePresentationName = "";
                     dustiness = "";
                     address = "";
@@ -82,7 +80,7 @@ namespace ReportsModule.Reports
                     address = device.DottedAddress;
                     if (device.Driver.IsZoneDevice)
                     {
-                        
+
                         if (FiresecManager.DeviceConfiguration.Zones.IsNotNullOrEmpty())
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
@@ -92,21 +90,29 @@ namespace ReportsModule.Reports
                             }
                         }
                     }
-                    var parameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == "dustiness");
-                    if (parameter != null)
-                    {
-                        dustiness = parameter.Value;
-                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
-                            dustiness = "";
-                    }
-                    parameter = device.Driver.Parameters.FirstOrDefault(x => x.Name == "FailureType");
-                    if (parameter != null)
-                    {
-                        failureType = parameter.Value;
-                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
-                            failureType = "";
-                    }
 
+                    dustiness = "";
+                    failureType = "";
+                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+                    if (deviceState.Parameters != null)
+                    {
+                        var parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));
+                        if (parameter != null)
+                        {
+                            if ((string.IsNullOrEmpty(parameter.Value) == false) && (parameter.Value != "<NULL>"))
+                            {
+                                dustiness = parameter.Value;
+                            }
+                        }
+                        parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "FailureType" && x.Visible));
+                        if (parameter != null)
+                        {
+                            if ((string.IsNullOrEmpty(parameter.Value) == false) && (parameter.Value != "<NULL>"))
+                            {
+                                failureType = parameter.Value;
+                            }
+                        }
+                    }
                     DeviceParams.Add(new DeviceParam()
                         {
                             Type = type,
