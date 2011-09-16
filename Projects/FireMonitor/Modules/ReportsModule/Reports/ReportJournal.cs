@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
-using Common;
-using FiresecClient;
-using Infrastructure.Common;
-using System.Windows.Documents;
-using System;
-using System.Text;
 using FiresecAPI.Models;
-using JournalModule.ViewModels;
-using JournalModule.Views;
+using FiresecClient;
 using Infrastructure;
-using System.Collections.ObjectModel;
-using System.Reflection;
-using ReportsModule.ViewModels;
+using JournalModule.ViewModels;
 
 namespace ReportsModule.Reports
 {
@@ -35,15 +27,13 @@ namespace ReportsModule.Reports
         ArchiveFilterViewModel _archiveFilter;
         public List<JournalRecordViewModel> JournalRecords { get; set; }
 
-
-
         public XpsDocument CreateReport()
         {
             Initialize();
 
             var reportDocument = new ReportDocument();
             //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\JournalFlowDocument.xaml";
-            string path = @"ReportTemplates/JournalFlowDocument.xaml";            
+            string path = @"ReportTemplates/JournalFlowDocument.xaml";
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
@@ -83,7 +73,8 @@ namespace ReportsModule.Reports
 
             foreach (var journalRecord in JournalRecords)
             {
-                _journalList.Add(new Journal() { 
+                _journalList.Add(new Journal()
+                {
                     DeviceTime = journalRecord.DeviceTime,
                     SystemTime = journalRecord.SystemTime,
                     ZoneName = journalRecord.ZoneName,
