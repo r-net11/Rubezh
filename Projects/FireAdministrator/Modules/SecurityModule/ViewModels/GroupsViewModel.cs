@@ -17,11 +17,12 @@ namespace SecurityModule.ViewModels
         public void Initialize()
         {
             Groups = new ObservableCollection<GroupViewModel>();
-            if (FiresecManager.SecurityConfiguration.UserGroups != null)
-                foreach (var group in FiresecManager.SecurityConfiguration.UserGroups)
-                {
-                    Groups.Add(new GroupViewModel(group));
-                }
+
+            if (FiresecManager.SecurityConfiguration.UserGroups == null)
+                return;
+
+            foreach (var group in FiresecManager.SecurityConfiguration.UserGroups)
+                Groups.Add(new GroupViewModel(group));
         }
 
         public ObservableCollection<GroupViewModel> Groups { get; private set; }
@@ -55,8 +56,7 @@ namespace SecurityModule.ViewModels
         {
             var groupDetailsViewModel = new GroupDetailsViewModel();
             groupDetailsViewModel.Initialize(SelectedGroup.Group);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel))
             {
                 SelectedGroup.Group = groupDetailsViewModel.Group;
                 SecurityModule.HasChanges = true;
@@ -68,20 +68,17 @@ namespace SecurityModule.ViewModels
         {
             var groupDetailsViewModel = new GroupDetailsViewModel();
             groupDetailsViewModel.Initialize();
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.UserGroups.Add(groupDetailsViewModel.Group);
-                var groupViewModel = new GroupViewModel(groupDetailsViewModel.Group);
-                Groups.Add(groupViewModel);
+                Groups.Add(new GroupViewModel(groupDetailsViewModel.Group));
                 SecurityModule.HasChanges = true;
             }
         }
 
         public override void OnShow()
         {
-            var usersMenuViewModel = new UsersMenuViewModel(AddCommand, DeleteCommand, EditCommand);
-            ServiceFactory.Layout.ShowMenu(usersMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new UsersMenuViewModel(AddCommand, DeleteCommand, EditCommand));
         }
 
         public override void OnHide()

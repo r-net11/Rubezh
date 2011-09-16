@@ -25,21 +25,18 @@ namespace FiresecService.Converters
 
         static void AddDevice(devType parentInnerDevice, Device parentDevice)
         {
-            parentDevice.Children = new List<Device>();
-            if (parentInnerDevice.dev != null)
-            {
-                foreach (var innerDevice in parentInnerDevice.dev)
-                {
-                    var device = new Device()
-                    {
-                        Parent = parentDevice
-                    };
+            if (parentInnerDevice.dev == null)
+                return;
 
-                    parentDevice.Children.Add(device);
-                    SetInnerDevice(device, innerDevice);
-                    FiresecManager.DeviceConfiguration.Devices.Add(device);
-                    AddDevice(innerDevice, device);
-                }
+            parentDevice.Children = new List<Device>();
+            foreach (var innerDevice in parentInnerDevice.dev)
+            {
+                var device = new Device() { Parent = parentDevice };
+
+                parentDevice.Children.Add(device);
+                SetInnerDevice(device, innerDevice);
+                FiresecManager.DeviceConfiguration.Devices.Add(device);
+                AddDevice(innerDevice, device);
             }
         }
 
@@ -192,7 +189,6 @@ namespace FiresecService.Converters
             }
 
             innerDevice.prop = AddProperties(device).ToArray();
-
             innerDevice.param = AddParameters(device).ToArray();
 
             return innerDevice;
@@ -201,27 +197,24 @@ namespace FiresecService.Converters
         static List<paramType> AddParameters(Device device)
         {
             var parameters = new List<paramType>();
-
             if (device.UID != Guid.Empty)
             {
-                var UIDParam = new paramType()
+                parameters.Add(new paramType()
                 {
                     name = "INT$DEV_GUID",
                     type = "String",
                     value = GuidHelper.ToString(device.UID)
-                };
-                parameters.Add(UIDParam);
+                });
             }
 
             if (device.DatabaseId != null)
             {
-                var DatabaseIdParam = new paramType()
+                parameters.Add(new paramType()
                 {
                     name = "DB$IDDevices",
                     type = "Int",
                     value = device.DatabaseId
-                };
-                parameters.Add(DatabaseIdParam);
+                });
             }
 
             return parameters;
@@ -230,10 +223,9 @@ namespace FiresecService.Converters
         static List<propType> AddProperties(Device device)
         {
             var propertyList = new List<propType>();
-
             if (device.Driver.DriverType != DriverType.Computer)
             {
-                if (device.Properties != null && device.Properties.Count > 0)
+                if (device.Properties.IsNotNullOrEmpty())
                 {
                     foreach (var deviceProperty in device.Properties)
                     {

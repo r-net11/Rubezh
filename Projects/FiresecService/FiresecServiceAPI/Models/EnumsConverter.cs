@@ -341,5 +341,22 @@
                     return SubsystemType.Other;
             }
         }
+
+        public static string ArchiveDefaultStateTypeToString(ArchiveDefaultStateType defaultArchiveStateType)
+        {
+            switch (defaultArchiveStateType)
+            {
+                case ArchiveDefaultStateType.LastHour:
+                    return "за последний час";
+                case ArchiveDefaultStateType.LastDay:
+                    return "за последние 24 часа";
+                case ArchiveDefaultStateType.FromDate:
+                    return "начиная с";
+                case ArchiveDefaultStateType.Range:
+                    return "согласно диапазону дат, введенному ранее";
+                default:
+                    return "";
+            }
+        }
     }
 }

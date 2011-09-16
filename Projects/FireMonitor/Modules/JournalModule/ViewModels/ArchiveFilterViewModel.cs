@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -9,41 +10,56 @@ namespace JournalModule.ViewModels
 {
     public class ArchiveFilterViewModel : DialogContent
     {
-        public ArchiveFilterViewModel()
+        static readonly DateTime _archiveFirstDate = FiresecManager.GetArchiveStartDate();
+
+        public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
         {
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            Title = "Фильтр архива";
-
-            IsClear = true;
-            _startDate = FiresecManager.GetArchiveStartDate();
-            _endDate = DateTime.Now;
-
-            Subsystems = new List<SubsystemViewModel>();
-            foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
-            {
-                Subsystems.Add(new SubsystemViewModel(subsystem));
-            }
+            _startDate = archiveFilter.StartDate;
+            _endDate = archiveFilter.EndDate;
+            UseSystemDate = archiveFilter.UseSystemDate;
 
             JournalEvents = new List<EventViewModel>(
                 FiresecClient.FiresecManager.GetDistinctRecords().
                 Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
             );
-
             JournalTypes = new List<ClassViewModel>(
                 JournalEvents.Select(x => x.ClassId).Distinct().
                 Select(x => new ClassViewModel((StateType) x))
             );
+            if (archiveFilter.Descriptions.IsNotNullOrEmpty())
+            {
+                JournalEvents.Where(x => archiveFilter.Descriptions.Any(description => description == x.Name)).
+                              AsParallel().ForAll(x => x.IsEnable = true);
+                JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.ClassId == x.Id && journalEvent.IsEnable)).
+                             AsParallel().ForAll(x => x.IsEnable = true);
+            }
 
-            FiresecEventSubscriber.NewJournalRecordEvent +=
-                new Action<JournalRecord>(OnNewJournaRecordEvent);
+            Subsystems = new List<SubsystemViewModel>();
+            foreach (SubsystemType item in Enum.GetValues(typeof(SubsystemType)))
+            {
+                Subsystems.Add(new SubsystemViewModel(item));
+            }
+            if (archiveFilter.Subsystems.IsNotNullOrEmpty())
+            {
+                Subsystems.Where(x => archiveFilter.Subsystems.Any(subsystem => subsystem == x.Subsystem)).
+                           AsParallel().ForAll(x => x.IsEnable = true);
+            }
+
+            Initialize();
+        }
+
+        void Initialize()
+        {
+            Title = "Настройки фильтра архива";
 
             ClearCommand = new RelayCommand(OnClear);
             SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
+        }
+
+        public DateTime ArchiveFirstDate
+        {
+            get { return _archiveFirstDate; }
         }
 
         public List<ClassViewModel> JournalTypes { get; private set; }
@@ -105,51 +121,36 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public bool IsClear { get; set; }
-
-        void OnNewJournaRecordEvent(JournalRecord newRecord)
+        public ArchiveFilter GetModel()
         {
-            if (JournalEvents.Any(x => x.Name == newRecord.Description) == false)
+            return new ArchiveFilter()
             {
-                JournalEvents.Add(new EventViewModel(newRecord.StateType, newRecord.Description));
-                if (JournalTypes.Any(x => x.Id == newRecord.StateType) == false)
-                    JournalTypes.Add(new ClassViewModel(newRecord.StateType));
-            }
-        }
-
-        public void CopyTo(ArchiveFilterViewModel dest)
-        {
-            dest.JournalEvents = new List<EventViewModel>(
-                JournalEvents.Select(x => new EventViewModel(x.ClassId, x.Name) { IsEnable = x.IsEnable })
-            );
-            dest.JournalTypes = new List<ClassViewModel>(
-                JournalTypes.Select(x => new ClassViewModel(x.Id) { IsEnable = x.IsEnable })
-            );
-            dest.Subsystems = new List<SubsystemViewModel>(
-                Subsystems.Select(x => new SubsystemViewModel(x.Subsystem) { IsEnable = x.IsEnable })
-            );
-            dest.UseSystemDate = UseSystemDate;
-            dest.StartDate = StartDate;
-            dest.StartTime = StartTime;
-            dest.EndDate = EndDate;
-            dest.EndTime = EndTime;
-            dest.IsClear = IsClear;
+                Descriptions = new List<string>(
+                    JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
+                ),
+                Subsystems = new List<SubsystemType>(
+                    Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
+                ),
+                UseSystemDate = UseSystemDate,
+                StartDate = StartDate,
+                EndDate = EndDate,
+            };
         }
 
         public RelayCommand ClearCommand { get; private set; }
         void OnClear()
         {
-            StartDate = EndDate = StartTime = EndTime = DateTime.Now;
+            StartDate = StartTime = EndDate = EndTime = DateTime.Now;
             UseSystemDate = false;
 
             JournalTypes.ForEach(x => x.IsEnable = false);
             JournalEvents.ForEach(x => x.IsEnable = false);
+            Subsystems.ForEach(x => x.IsEnable = false);
         }
 
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            IsClear = false;
             Close(true);
         }
 

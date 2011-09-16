@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 
@@ -32,17 +33,13 @@ namespace FiresecService
             bool evmEventViewChanged = ((EventMask & 2048) == 2048);
 
             if (evmStateChanged)
-            {
                 OnStateChanged();
-            }
+
             if (evmDeviceParamsUpdated)
-            {
                 OnParametersChanged();
-            }
+
             if (evmNewEvents)
-            {
                 OnNewEvent();
-            }
         }
 
         int LastEventId = 0;
@@ -51,7 +48,7 @@ namespace FiresecService
         void SetLastEvent()
         {
             Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1);
-            if ((journal.Journal != null) && (journal.Journal.Count() > 0))
+            if (journal.Journal.IsNotNullOrEmpty())
             {
                 LastEventId = int.Parse(journal.Journal[0].IDEvents);
             }
@@ -61,7 +58,7 @@ namespace FiresecService
         {
             var document = FiresecInternalClient.ReadEvents(0, 100);
 
-            if ((document != null) && (document.Journal.Count() > 0))
+            if (document != null && document.Journal.IsNotNullOrEmpty())
             {
                 foreach (var innerJournalItem in document.Journal)
                 {
@@ -79,7 +76,6 @@ namespace FiresecService
         void OnParametersChanged()
         {
             ChangedDevices = new List<DeviceState>();
-
             var coreParameters = FiresecInternalClient.GetDeviceParams();
             try
             {
@@ -90,13 +86,14 @@ namespace FiresecService
                     {
                         foreach (var parameter in deviceState.Parameters)
                         {
-                            if ((innerDevice.dev_param != null) && (innerDevice.dev_param.Any(x => x.name == parameter.Name)))
+                            if (innerDevice.dev_param != null &&
+                                innerDevice.dev_param.Any(x => x.name == parameter.Name))
                             {
                                 var innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-                                if (parameter.Value != innerParameter.value)
+                                if (parameter.Value != innerParameter.value &&
+                                    parameter.Visible)
                                 {
-                                    if (parameter.Visible)
-                                        ChangedDevices.Add(deviceState);
+                                    ChangedDevices.Add(deviceState);
                                 }
                                 parameter.Value = innerParameter.value;
                             }
@@ -113,7 +110,6 @@ namespace FiresecService
         public void OnStateChanged()
         {
             ChangedDevices = new List<DeviceState>();
-
             var coreState = FiresecInternalClient.GetCoreState();
             try
             {
@@ -134,7 +130,6 @@ namespace FiresecService
                 bool hasOneChangedState = false;
 
                 Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
-
                 if (innerDevice != null)
                 {
                     foreach (var driverState in deviceState.Device.Driver.States)
@@ -142,7 +137,7 @@ namespace FiresecService
                         var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
                         bool IsInnerStateActive = innerState != null;
 
-                        var state = deviceState.States.FirstOrDefault(x=>x.Code == driverState.Code);
+                        var state = deviceState.States.FirstOrDefault(x => x.Code == driverState.Code);
                         bool IsStateActive = state != null;
                         if (IsStateActive != IsInnerStateActive)
                         {
@@ -199,13 +194,15 @@ namespace FiresecService
                     {
                         foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                         {
-                            if ((chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree)) && (chilDevice.PlaceInTree != deviceState.PlaceInTree))
+                            if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) &&
+                                chilDevice.PlaceInTree != deviceState.PlaceInTree)
                             {
-                                var parentDeviceState = new ParentDeviceState();
-                                parentDeviceState.ParentDeviceId = deviceState.UID;
-                                parentDeviceState.Code = state.Code;
-                                parentDeviceState.DriverState = state.DriverState;
-                                chilDevice.ParentStates.Add(parentDeviceState);
+                                chilDevice.ParentStates.Add(new ParentDeviceState()
+                                {
+                                    ParentDeviceId = deviceState.UID,
+                                    Code = state.Code,
+                                    DriverState = state.DriverState
+                                });
                                 ChangedDevices.Add(chilDevice);
                             }
                         }
@@ -216,48 +213,41 @@ namespace FiresecService
 
         void CalculateZones()
         {
-            if (FiresecManager.DeviceConfigurationStates.ZoneStates != null)
+            if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
+                return;
+
+            foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
             {
-                foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+                var zoneHasDevices = false;
+                StateType minZoneStateType = StateType.Norm;
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
-                    var zoneHasDevices = false;
-                    StateType minZoneStateType = StateType.Norm;
-                    foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+                    if (deviceState.Device.ZoneNo == zoneState.No)
                     {
-                        if (deviceState.Device.ZoneNo == zoneState.No)
-                        {
-                            zoneHasDevices = true;
+                        zoneHasDevices = true;
 
-                            if (deviceState.Device.Driver.IgnoreInZoneState)
-                                continue;
+                        if (deviceState.Device.Driver.IgnoreInZoneState)
+                            continue;
 
-                            if (deviceState.StateType < minZoneStateType)
-                                minZoneStateType = deviceState.StateType;
-                        }
-                    }
-
-                    if (zoneHasDevices == false)
-                    {
-                        minZoneStateType = StateType.Unknown;
-                    }
-
-                    bool zoneChanged = (zoneState.StateType != minZoneStateType);
-                    zoneState.StateType = minZoneStateType;
-
-                    if (zoneChanged)
-                    {
-                        CallbackManager.OnZoneStateChanged(zoneState);
+                        if (deviceState.StateType < minZoneStateType)
+                            minZoneStateType = deviceState.StateType;
                     }
                 }
+
+                if (zoneHasDevices == false)
+                    minZoneStateType = StateType.Unknown;
+
+                zoneState.StateType = minZoneStateType;
+                if (zoneState.StateType != minZoneStateType)
+                    CallbackManager.OnZoneStateChanged(zoneState);
             }
         }
 
         Firesec.CoreState.devType FindDevice(Firesec.CoreState.devType[] innerDevices, string PlaceInTree)
         {
             if (innerDevices != null)
-            {
                 return innerDevices.FirstOrDefault(a => a.name == PlaceInTree);
-            }
+
             return null;
         }
     }

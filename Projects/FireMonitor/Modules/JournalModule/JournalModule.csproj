@@ -16,6 +16,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,31 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile>..\..\baseline.xml</CodeContractsBaseLineFile>
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>2</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\EventsToStringConverter.cs" />
     <Compile Include="Converters\ObjectToVisibilityConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
@@ -82,14 +109,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
+    <Compile Include="ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilterViewModel.cs" />
     <Compile Include="ViewModels\JournalRecordViewModel.cs" />
     <Compile Include="ViewModels\JournalsViewModel.cs" />
     <Compile Include="ViewModels\FilteredJournalViewModel.cs" />
     <Compile Include="ViewModels\SubsystemViewModel.cs" />
+    <Compile Include="Views\ArchiveSettingsView.xaml.cs">
+      <DependentUpon>ArchiveSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +175,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ArchiveSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

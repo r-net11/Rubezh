@@ -15,36 +15,35 @@ namespace FiresecService.Converters
 
             if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
-                foreach (var innerDirection in ConfigurationConverter.FiresecConfiguration.part)
+            foreach (var innerDirection in FiresecManager.CoreConfig.part)
+            {
+                if (innerDirection.type == "direction")
                 {
-                    if (innerDirection.type == "direction")
+                    var direction = new Direction()
                     {
-                        var direction = new Direction()
-                        {
-                            Id = int.Parse(innerDirection.id),
-                            Gid = innerDirection.gid,
-                            Name = innerDirection.name,
-                            Description = innerDirection.desc
-                        };
+                        Id = int.Parse(innerDirection.id),
+                        Gid = innerDirection.gid,
+                        Name = innerDirection.name,
+                        Description = innerDirection.desc
+                    };
 
-                        if (innerDirection.PinZ != null)
+                    if (innerDirection.PinZ != null)
+                    {
+                        foreach (var partZone in innerDirection.PinZ)
                         {
-                            foreach (var partZone in innerDirection.PinZ)
-                            {
-                                direction.Zones.Add(partZone.pidz);
-                            }
+                            direction.Zones.Add(partZone.pidz);
                         }
-
-                        if (innerDirection.param != null)
-                        {
-                            var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
-                            direction.DeviceRm = GuidHelper.ToGuid(rmParameter.value);
-                            var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
-                            direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
-                        }
-
-                        FiresecManager.DeviceConfiguration.Directions.Add(direction);
                     }
+
+                    if (innerDirection.param != null)
+                    {
+                        var rmParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_RM");
+                        direction.DeviceRm = GuidHelper.ToGuid(rmParameter.value);
+                        var buttonParameter = innerDirection.param.FirstOrDefault(x => x.name == "Device_AM");
+                        direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
+                    }
+
+                    FiresecManager.DeviceConfiguration.Directions.Add(direction);
                 }
             }
         }

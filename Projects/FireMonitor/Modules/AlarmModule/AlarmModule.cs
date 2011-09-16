@@ -8,24 +8,31 @@ namespace AlarmModule
 {
     public class AlarmModule : IModule
     {
-        AlarmWatcher _alarmWatcher;
+        static AlarmWatcher AlarmWatcher;
+
+        public AlarmModule()
+        {
+            var alarmGroupListViewModel = new AlarmGroupListViewModel();
+            ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
+        }
 
         public void Initialize()
         {
             RegisterResources();
-
-            var alarmGroupListViewModel = new AlarmGroupListViewModel();
-            ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
-
-            //ShowImitatorView();
-
-            _alarmWatcher = new AlarmWatcher();
+            CreateViewModels();
         }
 
         void RegisterResources()
         {
             var resourceService = ServiceFactory.Get<IResourceService>();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+        }
+
+        static void CreateViewModels()
+        {
+            //ShowImitatorView();
+
+            AlarmWatcher = new AlarmWatcher();
         }
 
         static void ShowImitatorView()

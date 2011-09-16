@@ -46,8 +46,7 @@ namespace Firesec
 
         public static string GetPlans()
         {
-            string plans = Connectoin.GetCoreAreasW();
-            return plans;
+            return Connectoin.GetCoreAreasW();
         }
 
         public static string GetMetadata()

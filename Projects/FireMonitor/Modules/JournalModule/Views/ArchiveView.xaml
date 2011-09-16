@@ -6,15 +6,21 @@
              xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <DockPanel>
-        <WrapPanel DockPanel.Dock="Top" VerticalAlignment="Center">
-            <XButtons:XButton Command="{Binding ShowFilterCommand}"
+        <DockPanel DockPanel.Dock="Top">
+            <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                <XButtons:XButton Command="{Binding ShowFilterCommand}"
                               Content="Настроить фильтр"
                               Background="Black" Foreground="White" Padding="5" Margin="5" />
-            <CheckBox Name="filterActivator" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
+                <CheckBox Name="filterActivator" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
                       Content="Включить фильтр"
                       Margin="5" Foreground="OrangeRed"
                       VerticalAlignment="Center"/>
-        </WrapPanel>
+            </WrapPanel>
+            <XButtons:XButton DockPanel.Dock="Right" HorizontalAlignment="Right"
+                              Command="{Binding ShowSettingsCommand}"
+                              Content="Настройки архива"
+                              Background="Black" Foreground="White" Padding="5" Margin="5" />
+        </DockPanel>
         <Views:JournalView />
     </DockPanel>
 </UserControl>

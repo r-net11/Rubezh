@@ -30,41 +30,39 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                bool result = CheckLogin(userName, password);
-                if (result)
+                if (CheckLogin(userName, password))
                 {
                     MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
                     DatabaseHelper.AddInfoMessage(_userFullName, "Вход пользователя в систему");
-                }
 
-                return result;
+                    return true;
+                }
+                return false;
             }
         }
 
         public bool Reconnect(string userName, string password)
         {
-            var oldUser = _userFullName;
-            var result = CheckLogin(userName, password);
-            if (result)
+            var oldUserFileName = _userFullName;
+            if (CheckLogin(userName, password))
             {
-                DatabaseHelper.AddInfoMessage(oldUser, "Дежурство сдал");
+                DatabaseHelper.AddInfoMessage(oldUserFileName, "Дежурство сдал");
                 DatabaseHelper.AddInfoMessage(_userFullName, "Дежурство принял");
-            }
 
-            return result;
+                return true;
+            }
+            return false;
         }
 
         bool CheckLogin(string userName, string password)
         {
             var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == userName);
-            if (user == null)
-                return false;
-
-            if (PasswordHashChecker.Check(password, user.PasswordHash) == false)
+            if (user == null || !PasswordHashChecker.Check(password, user.PasswordHash))
                 return false;
 
             _userName = userName;
             SetUserFullName();
+
             return true;
         }
 
@@ -208,11 +206,24 @@ namespace FiresecService
 
         public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
+            if (archiveFilter.Descriptions.IsNotNullOrEmpty())
+            {
+                if (archiveFilter.Subsystems.IsNotNullOrEmpty())
+                {
+                    return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+                        SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
+                        TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
+                        Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description)).
+                        Where(journal => archiveFilter.Subsystems.Any(subsystem => subsystem == journal.SubsystemType));
+                }
+                return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+                    SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
+                    TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
+                    Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
+            }
             return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
                 SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description)).
-                Where(journal => archiveFilter.Subsystems.Any(subsystem => subsystem == journal.SubsystemType));
+                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate);
         }
 
         public IEnumerable<JournalRecord> GetDistinctRecords()

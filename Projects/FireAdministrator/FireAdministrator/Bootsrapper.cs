@@ -4,8 +4,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Microsoft.Practices.Prism.UnityExtensions;
 using Infrastructure.Events;
+using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireAdministrator
 {
@@ -22,10 +22,7 @@ namespace FireAdministrator
         {
             var loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
-            if (loginScreen.IsLoggedIn == false)
-            {
-                return;
-            }
+            if (loginScreen.IsLoggedIn == false) return;
 
             if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ViewConfig) == false)
             {

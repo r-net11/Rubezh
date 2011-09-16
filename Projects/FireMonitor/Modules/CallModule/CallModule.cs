@@ -8,6 +8,8 @@ namespace CallModule
 {
     public class CallModule : IModule
     {
+        static CallViewModel CallViewModel;
+
         public CallModule()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
@@ -27,15 +29,13 @@ namespace CallModule
 
         static void CreateViewModels()
         {
-            callViewModel = new CallViewModel();
-            callViewModel.Initialize();
+            CallViewModel = new CallViewModel();
+            CallViewModel.Initialize();
         }
-
-        static CallViewModel callViewModel;
 
         static void OnShowCall(object obj)
         {
-            ServiceFactory.Layout.Show(callViewModel);
+            ServiceFactory.Layout.Show(CallViewModel);
         }
     }
 }

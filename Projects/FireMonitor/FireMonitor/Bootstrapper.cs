@@ -18,35 +18,32 @@ namespace FireMonitor
         {
             var shellView = new ShellView();
             ServiceFactory.RegisterInstance(shellView);
+
             return shellView;
         }
 
         public static bool Connect()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Connect();
-
-            if (result)
+            if (ServiceFactory.Get<ISecurityService>().Connect())
             {
                 if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Login) == false)
                 {
                     MessageBox.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
+
                     return false;
                 }
+
+                return true;
             }
 
-            return result;
+            return false;
         }
 
         protected override void InitializeShell()
         {
             RegisterServices();
-
-            bool result = Connect();
-            if (result == false)
-            {
-                return;
-            }
+            if (Connect() == false) return;
 
             InitializeKnownModules();
 

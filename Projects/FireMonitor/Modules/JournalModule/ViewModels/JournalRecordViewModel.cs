@@ -15,14 +15,14 @@ namespace JournalModule.ViewModels
 
         public JournalRecordViewModel(JournalRecord journalRecord)
         {
-            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
-            ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
-            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
-
             _journalRecord = journalRecord;
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
                 x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
                      x.DatabaseId == _journalRecord.PanelDatabaseId);
+
+            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
+            ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
+            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
         }
 
         public int Id

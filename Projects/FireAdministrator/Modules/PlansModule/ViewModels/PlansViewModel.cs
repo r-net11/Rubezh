@@ -16,15 +16,16 @@ namespace PlansModule.ViewModels
     {
         public PlansViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd);
-            AddSubCommand = new RelayCommand(OnAddSub, CanAddSub);
-            RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
-            EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Plans = new ObservableCollection<PlanViewModel>();
             MainCanvas = new Canvas();
             SolidColorBrush SolidColorBrush = new SolidColorBrush();
             SolidColorBrush.Color = Colors.Red;
             MainCanvas.Background = SolidColorBrush;
+
+            AddCommand = new RelayCommand(OnAdd);
+            AddSubCommand = new RelayCommand(OnAddSub, CanAddSub);
+            RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
+            EditCommand = new RelayCommand(OnEdit, CanEditRemove);
         }
 
         public void Initialize()
@@ -57,9 +58,9 @@ namespace PlansModule.ViewModels
             MainCanvas.Background = brush;
         }
 
-        public void BuildTree(List<Plan> _plans, PlanViewModel parent)
+        public void BuildTree(List<Plan> plans, PlanViewModel parent)
         {
-            foreach (var plan in _plans)
+            foreach (var plan in plans)
             {
                 var planViewModel = new PlanViewModel(plan);
                 planViewModel.AddChild(parent, planViewModel);
@@ -87,13 +88,10 @@ namespace PlansModule.ViewModels
             //OnPropertyChanged("Plans");
         }
 
-        public ObservableCollection<PlanViewModel> _plans;
+        ObservableCollection<PlanViewModel> _plans;
         public ObservableCollection<PlanViewModel> Plans
         {
-            get
-            {
-                return _plans;
-            }
+            get { return _plans; }
             set
             {
                 _plans = value;
@@ -104,10 +102,7 @@ namespace PlansModule.ViewModels
         PlanViewModel _selectedPlan;
         public PlanViewModel SelectedPlan
         {
-            get
-            {
-                return _selectedPlan;
-            }
+            get { return _selectedPlan; }
             set
             {
                 _selectedPlan = value;
@@ -179,23 +174,21 @@ namespace PlansModule.ViewModels
 
         public RelayCommand RemoveCommand { get; private set; }
 
-        bool RemovePlan(ObservableCollection<PlanViewModel> _plans, PlanViewModel _selectedPlan)
+        bool RemovePlan(ObservableCollection<PlanViewModel> plans, PlanViewModel selectedPlan)
         {
-            bool res = false;
-            if (_plans.Remove(SelectedPlan))
+            if (plans.Remove(SelectedPlan))
             {
                 FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
-                res = true;
+                return true;
             }
             else
             {
-                foreach (var plan in _plans)
+                foreach (var plan in plans)
                 {
-                    if (_plans.Remove(_selectedPlan))
+                    if (plans.Remove(selectedPlan))
                     {
                         FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
-                        res = true;
-                        break;
+                        return true;
                     }
                     else
                     {
@@ -203,7 +196,7 @@ namespace PlansModule.ViewModels
                     }
                 }
             }
-            return res;
+            return false;
         }
 
         void OnRemove()

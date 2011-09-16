@@ -25,7 +25,7 @@ namespace FiresecService
                 var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
                 {
-                    deviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    deviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return deviceConfiguration;
@@ -53,7 +53,7 @@ namespace FiresecService
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
                 using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
                 {
-                    systemConfiguration = (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    systemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return systemConfiguration;
@@ -81,7 +81,7 @@ namespace FiresecService
                 var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
                 {
-                    libraryConfiguration = (LibraryConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    libraryConfiguration = (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return libraryConfiguration;
@@ -103,13 +103,14 @@ namespace FiresecService
 
         public static PlansConfiguration GetPlansConfiguration()
         {
-            PlansConfiguration plansConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+                var plansConfiguration = new PlansConfiguration();
+
                 using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
                 {
-                    plansConfiguration = (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    plansConfiguration = (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return plansConfiguration;
@@ -131,13 +132,14 @@ namespace FiresecService
 
         public static SecurityConfiguration GetSecurityConfiguration()
         {
-            SecurityConfiguration securityConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
+                var securityConfiguration = new SecurityConfiguration();
+
                 using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Open))
                 {
-                    securityConfiguration = (SecurityConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    securityConfiguration = (SecurityConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return securityConfiguration;

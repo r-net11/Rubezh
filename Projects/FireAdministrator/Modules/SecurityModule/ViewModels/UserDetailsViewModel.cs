@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
+
 namespace SecurityModule.ViewModels
 {
     public class UserDetailsViewModel : SaveCancelDialogContent

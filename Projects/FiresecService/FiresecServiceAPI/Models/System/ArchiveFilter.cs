@@ -14,6 +14,12 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ArchiveFilter
     {
+        public ArchiveFilter()
+        {
+            Descriptions = new List<string>();
+            Subsystems = new List<SubsystemType>();
+        }
+
         [DataMember]
         public List<string> Descriptions { get; set; }
 

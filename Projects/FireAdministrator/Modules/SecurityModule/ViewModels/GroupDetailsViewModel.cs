@@ -3,7 +3,7 @@ using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
 {
-    class GroupDetailsViewModel : SaveCancelDialogContent
+    public class GroupDetailsViewModel : SaveCancelDialogContent
     {
         public UserGroup Group { get; private set; }
         bool _isNew;

@@ -12,12 +12,9 @@ namespace FiresecService.Imitator
         {
             DeviceState = deviceState;
 
-            DriverStates = new List<DeviceStateViewModel>();
-            foreach (var driverState in DeviceState.Device.Driver.States)
-            {
-                var deviceStateViewModel = new DeviceStateViewModel(driverState, ChangeState);
-                DriverStates.Add(deviceStateViewModel);
-            }
+            DriverStates = new List<DeviceStateViewModel>(
+                DeviceState.Device.Driver.States.Select(driverState => new DeviceStateViewModel(driverState, ChangeState))
+            );
 
             foreach (var deviceDriverState in deviceState.States)
             {
@@ -43,18 +40,14 @@ namespace FiresecService.Imitator
         public void ChangeState()
         {
             var deviceStates = new List<DeviceState>();
-            DeviceState.States = new List<DeviceDriverState>();
-            foreach (var state in DriverStates)
-            {
-                if (state.IsActive)
+            DeviceState.States = new List<DeviceDriverState>(
+                DriverStates.Where(state => state.IsActive).
+                Select(state => new DeviceDriverState()
                 {
-                    var deviceDriverState = new DeviceDriverState();
-                    deviceDriverState.Code = state.DriverState.Code;
-                    deviceDriverState.Time = DateTime.Now;
-                    DeviceState.States.Add(deviceDriverState);
-                }
-            }
-            deviceStates.Add(DeviceState);
+                    Code = state.DriverState.Code,
+                    Time = DateTime.Now
+                })
+            );
 
             CallbackManager.OnDeviceStatesChanged(deviceStates);
 

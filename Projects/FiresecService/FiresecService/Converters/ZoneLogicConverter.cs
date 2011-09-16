@@ -13,7 +13,7 @@ namespace FiresecService.Converters
         {
             var zoneLogic = new ZoneLogic();
 
-            if (innerZoneLogic != null && innerZoneLogic.clause != null && innerZoneLogic.clause.Length > 0)
+            if (innerZoneLogic != null && innerZoneLogic.clause.IsNotNullOrEmpty())
             {
                 foreach (var innerClause in innerZoneLogic.clause)
                 {
@@ -23,8 +23,7 @@ namespace FiresecService.Converters
                         clause.Zones = innerClause.zone.ToList();
                     }
 
-                    clause.State = (ZoneLogicState)int.Parse(innerClause.state);
-
+                    clause.State = (ZoneLogicState) int.Parse(innerClause.state);
                     switch (innerClause.operation)
                     {
                         case "and":
@@ -68,7 +67,7 @@ namespace FiresecService.Converters
             {
                 var innerClause = new clauseType();
 
-                innerClause.state = ((int)clause.State).ToString();
+                innerClause.state = ((int) clause.State).ToString();
 
                 switch (clause.Operation)
                 {

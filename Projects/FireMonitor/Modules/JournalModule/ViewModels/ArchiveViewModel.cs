@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -11,15 +10,26 @@ namespace JournalModule.ViewModels
 {
     public class ArchiveViewModel : RegionViewModel
     {
-        readonly ArchiveFilterViewModel _archiveFilter;
+        ArchiveFilter _archiveFilter;
+        readonly ArchiveDefaultState _archiveDefaultState;
 
         public ArchiveViewModel()
         {
-            SetDefaultArchiveContent();
-
-            _archiveFilter = new ArchiveFilterViewModel();
+            _archiveDefaultState = new ArchiveDefaultState()
+            {
+                ArchiveDefaultStateType = ArchiveDefaultStateType.LastDay,
+                ArchiveFilter = new ArchiveFilter()
+                {
+                    EndDate = DateTime.Now,
+                    StartDate = DateTime.Now.AddDays(-1),
+                    UseSystemDate = false
+                }
+            };
+            _archiveFilter = _archiveDefaultState.ArchiveFilter;
+            IsFilterOn = false;
 
             ShowFilterCommand = new RelayCommand(OnShowFilter);
+            ShowSettingsCommand = new RelayCommand(OnSettingsCommand);
         }
 
         bool _isFilterOn;
@@ -30,15 +40,7 @@ namespace JournalModule.ViewModels
             {
                 if (value)
                 {
-                    if (_archiveFilter.IsClear)
-                    {
-                        OnShowFilter();
-                        return;
-                    }
-                    else
-                    {
-                        ApplyFilter();
-                    }
+                    ApplyFilter();
                 }
                 else
                 {
@@ -74,52 +76,62 @@ namespace JournalModule.ViewModels
 
         void SetDefaultArchiveContent()
         {
-            try
+            switch (_archiveDefaultState.ArchiveDefaultStateType)
             {
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                    FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
-                );
+                case ArchiveDefaultStateType.LastHour:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddHours(-1);
+                    break;
+                case ArchiveDefaultStateType.LastDay:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddDays(-1);
+                    break;
+                case ArchiveDefaultStateType.FromDate:
+                    _archiveDefaultState.ArchiveFilter.EndDate = _archiveFilter.EndDate;
+                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+                    break;
+                case ArchiveDefaultStateType.Range:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+                    break;
             }
-            catch { ;}
+
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                FiresecManager.GetFilteredArchive(_archiveDefaultState.ArchiveFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
         }
 
         void ApplyFilter()
         {
-            ArchiveFilter filter = new ArchiveFilter()
-            {
-                Descriptions = new List<string>(
-                    _archiveFilter.JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
-                ),
-                Subsystems = new List<SubsystemType>(
-                    _archiveFilter.Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
-                ),
-                UseSystemDate = _archiveFilter.UseSystemDate,
-                StartDate = _archiveFilter.StartDate,
-                EndDate = _archiveFilter.EndDate,
-            };
-            if (filter.Subsystems.Count == 0)
-            {
-                foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
-                {
-                    filter.Subsystems.Add(subsystem);
-                }
-            }
-
             JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredArchive(filter).Select(journalRecord => new JournalRecordViewModel(journalRecord))
+                FiresecManager.GetFilteredArchive(_archiveFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
             );
         }
 
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            ArchiveFilterViewModel tmpArchiveFilter = new ArchiveFilterViewModel();
-            _archiveFilter.CopyTo(tmpArchiveFilter);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(tmpArchiveFilter))
+            var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
             {
-                tmpArchiveFilter.CopyTo(_archiveFilter);
+                _archiveFilter = archiveFilterViewModel.GetModel();
                 IsFilterOn = true;
+            }
+        }
+
+        public RelayCommand ShowSettingsCommand { get; private set; }
+        void OnSettingsCommand()
+        {
+            var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState.ArchiveDefaultStateType);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
+            {
+                var defaultStateType = archiveSettingsViewModel.ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
+                if (defaultStateType != _archiveDefaultState.ArchiveDefaultStateType)
+                {
+                    _archiveDefaultState.ArchiveDefaultStateType = defaultStateType;
+                }
             }
         }
     }

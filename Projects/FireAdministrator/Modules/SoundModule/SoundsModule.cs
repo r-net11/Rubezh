@@ -3,9 +3,6 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
 using SoundsModule.ViewModels;
-using SoundsModule.Views;
-using System.ComponentModel;
-using System.Windows;
 
 namespace SoundsModule
 {

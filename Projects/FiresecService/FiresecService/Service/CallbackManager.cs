@@ -37,7 +37,6 @@ namespace FiresecService
             lock (FiresecService.Locker)
             {
                 _failedCallbacks = new List<IFiresecCallback>();
-
                 foreach (var callback in _callbacks)
                 {
                     try
@@ -58,7 +57,6 @@ namespace FiresecService
         public static void OnDeviceStatesChanged(List<DeviceState> deviceStates)
         {
             _failedCallbacks = new List<IFiresecCallback>();
-
             foreach (var callback in _callbacks)
             {
                 try
@@ -77,7 +75,6 @@ namespace FiresecService
         public static void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
         {
             _failedCallbacks = new List<IFiresecCallback>();
-
             foreach (var callback in _callbacks)
             {
                 try

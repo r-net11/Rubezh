@@ -9,7 +9,7 @@ namespace PlansModule
 {
     public class PlansModule : IModule
     {
-        static PlansViewModel _plansViewModel;
+        static PlansViewModel PlansViewModel;
 
         public PlansModule()
         {
@@ -31,19 +31,19 @@ namespace PlansModule
 
         void CreateViewModels()
         {
-            _plansViewModel = new PlansViewModel();
-            _plansViewModel.Initialize();
+            PlansViewModel = new PlansViewModel();
+            PlansViewModel.Initialize();
         }
 
         static void OnShowPlan(object obj)
         {
-            ServiceFactory.Layout.Show(_plansViewModel);
+            ServiceFactory.Layout.Show(PlansViewModel);
         }
 
         static void OnShowDeviceOnPlan(Guid deviceUID)
         {
-            ServiceFactory.Layout.Show(_plansViewModel);
-            _plansViewModel.ShowDevice(deviceUID);
+            ServiceFactory.Layout.Show(PlansViewModel);
+            PlansViewModel.ShowDevice(deviceUID);
         }
     }
 }

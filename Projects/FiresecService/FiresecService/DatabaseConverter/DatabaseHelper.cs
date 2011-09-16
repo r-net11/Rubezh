@@ -27,7 +27,12 @@ namespace FiresecService
                 SystemTime = DateTime.Now,
                 StateType = StateType.Info,
                 Description = mesage,
-                User = userName
+                User = userName,
+                DeviceDatabaseId = "",
+                DeviceName = "",
+                PanelDatabaseId = "",
+                PanelName = "",
+                ZoneName = ""
             };
 
             lock (FiresecService.Locker)

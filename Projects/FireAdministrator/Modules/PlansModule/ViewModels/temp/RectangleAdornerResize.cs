@@ -8,25 +8,25 @@ namespace PlansModule.ViewModels
 {
     public class RectangleAdornerResize : Adorner
     {
-        private UIElement currentElement = null;
-        private Rectangle rectangle = null;
+        private UIElement currentElement;
+        private Rectangle rectangle;
         public Canvas canvas;
-        private double _leftOffset = 0;
-        private double _rightOffset = 0;
-        private double _topOffset = 0;
-        private double _heightOffset = 0;
-        private double _widthOffset = 0;
+        private double _leftOffset;
+        private double _rightOffset;
+        private double _topOffset;
+        private double _heightOffset;
+        private double _widthOffset;
         Rect adornedElementRect;
         int number;
         private double MinWidth;
         private double MinHeight;
-        private Rectangle _childRect = null;
+        private Rectangle _childRect;
         public RectangleAdornerResize(UIElement adornedElement)
             : base(adornedElement)
         {
             VisualBrush _brush = new VisualBrush(adornedElement);
             currentElement = adornedElement;
-            Rectangle rect = (Rectangle)currentElement;
+            Rectangle rect = (Rectangle) currentElement;
             _childRect = new Rectangle();
             _childRect.Width = adornedElement.RenderSize.Width;
             _childRect.Height = adornedElement.RenderSize.Height;
@@ -48,13 +48,14 @@ namespace PlansModule.ViewModels
             this.canvas = canvas;
             this.MinHeight = minheight;
             this.MinWidth = minwidth;
-
         }
+
         public void SetRect(Rect rect, int number)
         {
             this.adornedElementRect = rect;
             this.number = number;
         }
+
         protected override Size MeasureOverride(Size constraint)
         {
             _childRect.Measure(constraint);
@@ -105,7 +106,7 @@ namespace PlansModule.ViewModels
                 UpdatePosition();
             }
         }
-        
+
         public double LeftOffset
         {
             get
@@ -141,7 +142,6 @@ namespace PlansModule.ViewModels
                 _topOffset = value;
                 UpdatePosition();
             }
-
         }
 
         private void UpdatePosition()
@@ -155,7 +155,6 @@ namespace PlansModule.ViewModels
 
         public override GeneralTransform GetDesiredTransform(GeneralTransform transform)
         {
-            
             GeneralTransformGroup result = new GeneralTransformGroup();
             result.Children.Add(base.GetDesiredTransform(transform));
             result.Children.Add(new TranslateTransform(_leftOffset, _topOffset));

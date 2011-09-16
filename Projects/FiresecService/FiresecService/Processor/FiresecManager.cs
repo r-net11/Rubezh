@@ -17,8 +17,7 @@ namespace FiresecService
 
         public static bool ConnectFiresecCOMServer(string login, string password)
         {
-            bool result = FiresecInternalClient.Connect(login, password);
-            if (result)
+            if (FiresecInternalClient.Connect(login, password))
             {
                 ConvertMetadataFromFiresec();
                 DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
@@ -28,24 +27,21 @@ namespace FiresecService
 
                 var watcher = new Watcher();
                 watcher.Start();
+
+                return true;
             }
-            return result;
+            return false;
         }
 
         static void ConvertMetadataFromFiresec()
         {
-            var metadata = FiresecInternalClient.GetMetaData();
+            DriverConverter.Metadata = FiresecInternalClient.GetMetaData();
 
-            DriverConverter.Metadata = metadata;
-            Drivers = new List<Driver>();
-            foreach (var firesecDriver in metadata.drv)
-            {
-                var driver = DriverConverter.Convert(firesecDriver);
-                if (driver.IsIgnore == false)
-                {
-                    Drivers.Add(driver);
-                }
-            }
+            Drivers = new List<Driver>(
+                FiresecInternalClient.GetMetaData().drv.
+                Select(firesecDriver => DriverConverter.Convert(firesecDriver)).
+                Where(driver => driver.IsIgnore == false)
+            );
         }
 
         public static void Update()

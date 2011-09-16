@@ -1,11 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
-using System;
-using Common;
 
 namespace DevicesModule
 {

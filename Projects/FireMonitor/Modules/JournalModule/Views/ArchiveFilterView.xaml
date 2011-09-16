@@ -2,14 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
-             xmlns:ViewModels="clr-namespace:JournalModule.ViewModels"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinWidth="650"
              MinHeight="650">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="Subsystems" Source="{Binding Subsystems}" />
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
+        <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
     <DockPanel Margin="10">
         <GroupBox DockPanel.Dock="Top" Header="Временной диапазон" Padding="3">
@@ -22,8 +21,8 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <TextBlock Margin="5" Text="С" />
                         <Calendar Name="_startDate" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                                  DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
-                                  DisplayDateStart="{Binding StartDate, Mode=OneTime}"
                                   SelectedDate="{Binding StartDate}" />
                         <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding StartTime}" VerticalAlignment="Top" />
                     </StackPanel>

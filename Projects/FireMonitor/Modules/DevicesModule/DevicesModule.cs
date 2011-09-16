@@ -1,14 +1,17 @@
-﻿using DevicesModule.ViewModels;
+﻿using System;
+using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Modularity;
-using System;
 
 namespace DevicesModule
 {
     public class DevicesModule : IModule
     {
+        static DevicesViewModel DevicesViewModel;
+        static ZonesViewModel ZonesViewModel;
+
         public DevicesModule()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
@@ -30,32 +33,28 @@ namespace DevicesModule
 
         static void CreateViewModels()
         {
-            devicesViewModel = new DevicesViewModel();
-            devicesViewModel.Initialize();
+            DevicesViewModel = new DevicesViewModel();
+            DevicesViewModel.Initialize();
 
-            zonesViewModel = new ZonesViewModel();
-            zonesViewModel.Initialize();
+            ZonesViewModel = new ZonesViewModel();
+            ZonesViewModel.Initialize();
         }
-
-        static DevicesViewModel devicesViewModel;
-        static ZonesViewModel zonesViewModel;
 
         static void OnShowDevice(Guid deviceUID)
         {
-            devicesViewModel.Select(deviceUID);
-            ServiceFactory.Layout.Show(devicesViewModel);
+            DevicesViewModel.Select(deviceUID);
+            ServiceFactory.Layout.Show(DevicesViewModel);
         }
 
         static void OnShowZone(string zoneNo)
         {
-            zonesViewModel.Select(zoneNo);
-            ServiceFactory.Layout.Show(zonesViewModel);
+            ZonesViewModel.Select(zoneNo);
+            ServiceFactory.Layout.Show(ZonesViewModel);
         }
 
         static void OnShowDeviceDetails(Guid deviceUID)
         {
-            var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
-            ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
+            ServiceFactory.UserDialogs.ShowWindow(new DeviceDetailsViewModel(deviceUID));
         }
     }
 }
