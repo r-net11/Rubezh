@@ -24,8 +24,9 @@ namespace ReportsModule.Reports
             
             Initialize();
             var reportDocument = new ReportDocument();
-            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceListFlowDocument.xaml";
-            
+            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceListFlowDocument.xaml";
+            string path = @"ReportTemplates/DeviceListFlowDocument.xaml";
+            FileInfo fileInfo = new FileInfo(path);
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
@@ -60,10 +61,7 @@ namespace ReportsModule.Reports
                 foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                 {
                     zonePresentationName = "";
-                    var a = device.ZoneLogic;
-                    var b = device.IndicatorLogic;
                     type = device.Driver.ShortName;
-                    var category = device.Driver.Category;
                     address = device.DottedAddress;
                     if (device.Driver.IsZoneDevice)
                     {
@@ -78,6 +76,32 @@ namespace ReportsModule.Reports
                         }
                     }
 
+                    if (device.Driver.DriverType == DriverType.Indicator)
+                    {
+                        if (device.IndicatorLogic.Zones.Count == 1)
+                        {
+                            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
+                            string presentationName = "";
+                            if (zone != null)
+                            {
+                                presentationName = zone.PresentationName;
+                            }
+                            zonePresentationName = "Зоны: " + presentationName;
+                        }
+                        else
+                        {
+                            zonePresentationName = device.IndicatorLogic.ToString();
+                        }
+                    }
+
+                    if (device.Driver.DriverType == DriverType.Page)
+                    {
+                        address = device.IntAddress.ToString();
+                    }
+                    if (device.Driver.DriverType == DriverType.PumpStation)
+                    {
+
+                    }
                     DevicesList.Add(new DeviceList()
                         {
                             Type = type,

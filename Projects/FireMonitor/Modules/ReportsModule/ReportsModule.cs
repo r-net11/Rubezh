@@ -27,14 +27,15 @@ namespace ReportsModule
 
         static void CreateViewModels()
         {
-            reportsViewModel = new ReportsViewModel();
-            reportsViewModel.Initialize();
+            
         }
 
-        static ReportsViewModel reportsViewModel;
+        //static ReportsViewModel reportsViewModel;
 
         static void OnShowReports(object obj)
         {
+            var reportsViewModel = new ReportsViewModel();
+            reportsViewModel.Initialize();
             ServiceFactory.Layout.Show(reportsViewModel);
         }
     }

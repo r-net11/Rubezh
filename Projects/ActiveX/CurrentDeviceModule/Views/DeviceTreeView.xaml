@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"                      
-                            >
+                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                         <DataGridTemplateColumn.CellTemplate>

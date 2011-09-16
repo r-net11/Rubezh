@@ -25,8 +25,8 @@ namespace ReportsModule.Reports
             Initialize();
 
             var reportDocument = new ReportDocument();
-            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceParamsFlowDocument.xaml";
-
+            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceParamsFlowDocument.xaml";
+            string path = @"ReportTemplates/DeviceParamsFlowDocument.xaml";
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();

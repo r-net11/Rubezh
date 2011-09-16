@@ -104,11 +104,8 @@ namespace ReportsModule.Reports
         private int pageCount;
         private void PaginateData()
         {
-            // Create a test string for the purposes of measurement.
             FormattedText text = GetFormattedText("A");
-            // Count the lines that fit on a page.
             rowsPerPage = (int)((pageSize.Height - margin * 2) / text.Height);
-            // Leave a row for the headings
             rowsPerPage -= 1;
             pageCount = (int)Math.Ceiling((double)dt.Rows.Count / rowsPerPage);
         }
@@ -141,22 +138,17 @@ namespace ReportsModule.Reports
 
         public override DocumentPage GetPage(int pageNumber)
         {
-            // Create a test string for the purposes of measurement.
             FormattedText text = GetFormattedText("A");
             double col1_X = margin;
             double col2_X = col1_X + text.Width * 15;
             double col3_X = col2_X + text.Width * 15;
 
-            // Calculate the range of rows that fits on this page.
             int minRow = pageNumber * rowsPerPage;
             int maxRow = minRow + rowsPerPage;
-            // Create the visual for the page.
             DrawingVisual visual = new DrawingVisual();
-            // Set the position to the top-left corner of the printable area.
             Point point = new Point(margin, margin);
             using (DrawingContext dc = visual.RenderOpen())
             {
-                // Draw the column headers.
                 Typeface columnHeaderTypeface = new Typeface(
                 typeface.FontFamily, FontStyles.Normal, FontWeights.Bold,
                 FontStretches.Normal);
@@ -169,20 +161,19 @@ namespace ReportsModule.Reports
                 text = GetFormattedText("Column3", columnHeaderTypeface);
                 point.X = col3_X;
                 dc.DrawText(text, point);
-                // Draw the line underneath.
+
                 dc.DrawLine(new Pen(Brushes.Black, 2),
                 new Point(margin, margin + text.Height),
                 new Point(pageSize.Width - margin, margin + text.Height));
                 point.Y += text.Height;
-                // Draw the column values.
+
                 for (int i = minRow; i < maxRow; i++)
                 {
-                    // Check for the end of the last (half-filled) page.
                     if (i > (dt.Rows.Count - 1)) break;
                     point.X = col1_X;
                     text = GetFormattedText(dt.Rows[i]["Column1"].ToString());
                     dc.DrawText(text, point);
-                    // Add second column.
+
                     text = GetFormattedText(dt.Rows[i]["Column2"].ToString());
                     point.X = col2_X;
                     dc.DrawText(text, point);

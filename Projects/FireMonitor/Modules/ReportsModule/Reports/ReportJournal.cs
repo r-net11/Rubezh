@@ -42,23 +42,32 @@ namespace ReportsModule.Reports
             Initialize();
 
             var reportDocument = new ReportDocument();
-            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\JournalFlowDocument.xaml";
-            
+            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\JournalFlowDocument.xaml";
+            string path = @"ReportTemplates/JournalFlowDocument.xaml";            
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
             }
 
+            var DateNow = DateTime.Now;
             var data = new ReportData();
-            var dateTime = DateTime.Now;
-            data.ReportDocumentValues.Add("PrintDate", dateTime);
+            data.ReportDocumentValues.Add("PrintDateStart", _archiveFilter.StartDate);
+            data.ReportDocumentValues.Add("PrintDateEnd", _archiveFilter.EndDate);
+            data.ReportDocumentValues.Add("PrintDateNow", DateNow);
 
-            var dataTable = new DataTable("_journalList");
-
-            Helper.AddDataColumns<Journal>(dataTable);
-
-
-            
+            var dataTable = new DataTable("JournalList");
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            dataTable.Columns.Add();
+            foreach (var journal in _journalList)
+            {
+                dataTable.Rows.Add(journal.DeviceTime, journal.SystemTime, journal.ZoneName, journal.Description, journal.Device, journal.Panel, journal.User);
+            }
+            //Helper.AddDataColumns<Journal>(dataTable);
             data.DataTables.Add(dataTable);
             return reportDocument.CreateXpsDocument(data);
         }
@@ -70,6 +79,19 @@ namespace ReportsModule.Reports
             if (ServiceFactory.UserDialogs.ShowModalWindow(_archiveFilter))
             {
                 ApplyFilter();
+            }
+
+            foreach (var journalRecord in JournalRecords)
+            {
+                _journalList.Add(new Journal() { 
+                    DeviceTime = journalRecord.DeviceTime,
+                    SystemTime = journalRecord.SystemTime,
+                    ZoneName = journalRecord.ZoneName,
+                    Description = journalRecord.Description,
+                    Device = journalRecord.Device,
+                    Panel = journalRecord.Panel,
+                    User = journalRecord.User
+                });
             }
         }
 

@@ -5,6 +5,9 @@ using System.Windows.Xps.Packaging;
 using CodeReason.Reports;
 using Common;
 using FiresecClient;
+using Infrastructure.Common;
+using System.Windows.Documents;
+using System;
 
 namespace ReportsModule.Reports
 {
@@ -17,7 +20,8 @@ namespace ReportsModule.Reports
             Initialize();
 
             var reportDocument = new ReportDocument();
-            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TypesCountFlowDocument.xaml";
+            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TypesCountFlowDocument.xaml";
+            string path = @"ReportTemplates/TypesCountFlowDocument.xaml";            
             using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
@@ -31,7 +35,8 @@ namespace ReportsModule.Reports
             object[] obj = null;
 
             var data = new ReportData();
-
+            var dateTime = DateTime.Now;
+            data.ReportDocumentValues.Add("PrintDateNow", dateTime);
             using (tableHeader = new DataTable("Header"))
             using (tableData = new DataTable("Data"))
             {
@@ -54,12 +59,22 @@ namespace ReportsModule.Reports
             {
                 tableData.Columns.Add();
                 tableData.Columns.Add();
-                tableData.Rows.Add("Всего", DriverCounters.Count.ToString());
+                tableData.Rows.Add("Всего", CountDrivers().ToString());
 
                 data.DataTables.Add(tableData);
             }
 
             return reportDocument.CreateXpsDocument(data);
+        }
+
+        int CountDrivers()
+        {
+            int count = 0;
+            foreach (var driverCounter in DriverCounters)
+            {
+                count += driverCounter.Count;
+            }
+            return count;
         }
 
         void Initialize()

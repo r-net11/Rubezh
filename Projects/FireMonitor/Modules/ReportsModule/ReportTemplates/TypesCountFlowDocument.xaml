@@ -24,24 +24,32 @@
         <xrd:ReportProperties.ReportTitle>Количество устройств по типам</xrd:ReportProperties.ReportTitle>
     </xrd:ReportProperties>
 
-    <xrd:SectionReportFooter PageFooterHeight="3" Padding="10" FontSize="12">
-        <Table CellSpacing="0" Margin="10">
+    <xrd:SectionReportFooter PageFooterHeight="4" Padding="22,0,22,10" FontSize="12">
+        <Table CellSpacing="0">
             <Table.Columns>
                 <TableColumn Width="*" />
                 <TableColumn Width="*" />
             </Table.Columns>
             <TableRowGroup>
                 <TableRow>
+                    <TableCell ColumnSpan="2">
+                        <BlockUIContainer>
+                            <Rectangle
+                                    Fill="Black"
+                                    Height="1" />
+                        </BlockUIContainer>
+                    </TableCell>
+                </TableRow>
+                <TableRow >
                     <TableCell>
-                        <Paragraph>
+                        <Paragraph TextAlignment="Left">
+                            <xrd:InlineDocumentValue PropertyName="PrintDateNow" Format="dd.MM.yyyy HH:mm:ss" />
                         </Paragraph>
                     </TableCell>
                     <TableCell>
                         <Paragraph TextAlignment="Right">
-                            стр
+                            Страница
                             <xrd:InlineContextValue PropertyName="PageNumber" FontWeight="Bold" />
-                            из
-                            <xrd:InlineContextValue PropertyName="PageCount" FontWeight="Bold" />
                         </Paragraph>
                     </TableCell>
                 </TableRow>

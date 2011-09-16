@@ -23,9 +23,9 @@ namespace CurrentDeviceModule.ViewModels
 
         public Device Device { get; private set; }
 
-        public string DeviceId
+        public Guid DeviceId
         {
-            get { return Device.Id; }
+            get { return Device.UID; }
         }
 
         public string DriverShortName

@@ -32,7 +32,7 @@ namespace ActiveX
         CurrentDeviceViewModel _currentDeviceViewModel;
         CurrentDeviceView _currentDeviceView;
 
-        public string DeviceId { get; set; }
+        public Guid DeviceId { get; set; }
 
         private void ActiveXDeviceControl_Load(object sender, EventArgs e)
         {
@@ -45,16 +45,21 @@ namespace ActiveX
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
+
+            var app = new System.Windows.Application();
+            Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
+            var resources = System.Windows.Application.LoadComponent(uri) as System.Windows.ResourceDictionary;
+
+            app.Resources.MergedDictionaries.Add(resources);
             
-            //Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
             //_currentDeviceView.Resources.Source = uri;
             //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
             //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
             //ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
             //_currentDeviceView.Resources.MergedDictionaries.Add(resources);
             elementHost.Child = _currentDeviceView;
-            
-            if (string.IsNullOrWhiteSpace(DeviceId) == false)
+
+            if (DeviceId != Guid.Empty)
             {
                 _currentDeviceViewModel.Inicialize(DeviceId);
             }
@@ -71,13 +76,13 @@ namespace ActiveX
         {
             FiresecManager.Connect("adm", "");
         }
-        
+
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
             _currentDeviceViewModel.SelectDevice();
             DeviceId = _currentDeviceViewModel.DeviceId;
         }
-        
+
         #region ActiveX Control Registration
         ///	<summary>
         ///	Register the class as a	control	and	set	it's CodeBase entry
@@ -135,7 +140,7 @@ namespace ActiveX
 
         #endregion
 
-        
+
     }
 
 

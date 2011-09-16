@@ -22,8 +22,8 @@ namespace CurrentDeviceModule.ViewModels
             BuildDeviceTree();
         }
 
-        string _deviceId;
-        public string DeviceId
+        Guid _deviceId;
+        public Guid DeviceId
         {
             get { return _deviceId; }
             set { _deviceId = value; }
@@ -86,7 +86,7 @@ namespace CurrentDeviceModule.ViewModels
         public RelayCommand CanselCommand { get; private set; }
         void OnCansel()
         {
-            DeviceId = "";
+            DeviceId = Guid.Empty;
             OnClosing();
         }
 

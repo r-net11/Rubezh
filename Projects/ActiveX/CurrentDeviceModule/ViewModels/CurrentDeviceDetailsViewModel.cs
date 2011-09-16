@@ -11,7 +11,7 @@ namespace CurrentDeviceModule.ViewModels
 {
     public class CurrentDeviceDetailsViewModel : BaseViewModel
     {
-        public CurrentDeviceDetailsViewModel(string deviceId)
+        public CurrentDeviceDetailsViewModel(Guid deviceId)
         {
             DeviceDetailsViewModel = new DeviceDetailsViewModel(deviceId);
             ActiveXDeviceDetailsView = new ActiveXDeviceDetailsView();

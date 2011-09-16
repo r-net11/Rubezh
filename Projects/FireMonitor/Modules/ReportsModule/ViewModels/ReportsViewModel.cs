@@ -79,10 +79,10 @@ namespace ReportsModule.ViewModels
             ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
             cc.Visibility = Visibility.Visible;
             var a = _documentViewer.CommandBindings;
-            CommandBinding commandBinding = new CommandBinding();
-            commandBinding.Command = ApplicationCommands.Print;
-            commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
-            _documentViewer.CommandBindings.Add(commandBinding);
+            //CommandBinding commandBinding = new CommandBinding();
+            //commandBinding.Command = ApplicationCommands.Print;
+            //commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
+            //_documentViewer.CommandBindings.Add(commandBinding);
             var reportDeviceList = new ReportDevicesList();
             xpsDocument = reportDeviceList.CreateReport();
             _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();

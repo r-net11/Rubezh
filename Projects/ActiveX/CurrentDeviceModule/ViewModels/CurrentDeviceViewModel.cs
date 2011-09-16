@@ -18,18 +18,18 @@ namespace CurrentDeviceModule.ViewModels
     {
         public CurrentDeviceViewModel()
         {
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<string>(OnDeviceStateChanged);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
             CurrentDeviceControl = new DeviceControl();
             CurrentDevice = new Device();
             IsCurrentDeviceSelected = false;
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
-        public void Inicialize(string deviceId)
+        public void Inicialize(Guid deviceId)
         {
             DeviceId = deviceId;
-            CurrentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == DeviceId);
-            CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Id == DeviceId);
+            CurrentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
+            CurrentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceId);
             CurrentDeviceControl.DriverId = DriverId;
             Update();
             IsCurrentDeviceSelected = true;
@@ -47,16 +47,16 @@ namespace CurrentDeviceModule.ViewModels
 
         public Device CurrentDevice { get; private set; }
         public DeviceState CurrentDeviceState { get; private set; }
-        public string DeviceId { get; set; }
+        public Guid DeviceId { get; set; }
 
         public StateType StateType
         {
             get { return CurrentDeviceState.StateType; }
         }
 
-        public string DriverId
+        public Guid DriverId
         {
-            get { return CurrentDevice.Driver.Id; }
+            get { return CurrentDevice.Driver.UID; }
         }
 
         string _toolTip;
@@ -87,9 +87,9 @@ namespace CurrentDeviceModule.ViewModels
 
             newDeviceTreeView.ShowDialog();
 
-            if (!string.IsNullOrWhiteSpace(newDeviceTreeViewModel.DeviceId))
+            if (newDeviceTreeViewModel.DeviceId != Guid.Empty)
             {
-                DeviceId = string.Copy(newDeviceTreeViewModel.DeviceId);
+                DeviceId = newDeviceTreeViewModel.DeviceId;
                 Inicialize(DeviceId);
             }
         }
@@ -126,7 +126,7 @@ namespace CurrentDeviceModule.ViewModels
             CurrentDeviceControl.StateType = StateType;
         }
 
-        void OnDeviceStateChanged(string id)
+        void OnDeviceStateChanged(Guid id)
         {
             if (DeviceId == id)
             {
@@ -137,8 +137,8 @@ namespace CurrentDeviceModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         public void OnShowProperties()
         {
-            CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
-            CurrentDeviceDetailsViewModel deviceDetailsViewModel = new CurrentDeviceDetailsViewModel(DeviceId);
+            var deviceDetailsView = new CurrentDeviceDetailsView();
+            var deviceDetailsViewModel = new CurrentDeviceDetailsViewModel(DeviceId);
             deviceDetailsView.DataContext = deviceDetailsViewModel;
             deviceDetailsView.ShowDialog();
             //System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
