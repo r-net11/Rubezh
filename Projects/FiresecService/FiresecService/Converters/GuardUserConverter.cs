@@ -88,7 +88,7 @@ namespace FiresecService.Converters
             var innerGuardUsers = new List<partType>();
             int no = 0;
 
-            foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
+            foreach (var guardUser in currentConfiguration.GuardUsers)
             {
                 var innerGuardUser = new partType()
                 {

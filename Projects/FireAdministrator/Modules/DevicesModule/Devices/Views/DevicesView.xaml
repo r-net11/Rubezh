@@ -160,7 +160,7 @@
                     </StackPanel.Style>
                 </StackPanel>
                 <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                <TextBox Text="{Binding Device.Id, Mode=OneWay}" />
+                <TextBox Text="{Binding Device.UID, Mode=OneWay}" />
             </StackPanel>
         </Grid>
     </Grid>

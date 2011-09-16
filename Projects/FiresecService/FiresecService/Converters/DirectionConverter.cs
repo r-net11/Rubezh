@@ -54,7 +54,7 @@ namespace FiresecService.Converters
             var innerDirections = new List<partType>();
             int no = 0;
 
-            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
+            foreach (var direction in deviceConfiguration.Directions)
             {
                 var innerDirection = new partType()
                 {

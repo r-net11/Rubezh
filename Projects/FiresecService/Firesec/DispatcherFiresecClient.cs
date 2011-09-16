@@ -11,6 +11,7 @@ namespace Firesec
         delegate string StringDelegate();
         delegate string StringDelegateIntInt(int arg1, int arg2);
         delegate bool BoolDelegateStringString(string arg1, string arg2);
+        delegate string StringDelegateStringString(string arg1, string arg2);
 
         static DispatcherFiresecClient()
         {
@@ -92,9 +93,29 @@ namespace Firesec
             control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.AddUserMessage), message);
         }
 
-        public static void DeviceSetPassword(string coreConfig, string devicePath, string password)
+        public static void DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
         {
-            control.Dispatcher.Invoke(new Action<string, string, string>(NativeFiresecClient.DeviceSetPassword), coreConfig, devicePath, password);
+            control.Dispatcher.Invoke(new Action<string, string, string, int>(NativeFiresecClient.DeviceSetPassword), coreConfig, devicePath, password, deviceUser);
+        }
+
+        public static void DeviceDatetimeSync(string coreConfig, string devicePath)
+        {
+            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceDatetimeSync), coreConfig, devicePath);
+        }
+
+        public static string DeviceGetInformation(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
+        }
+
+        public static string DeviceReadEventLog(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadEventLog), coreConfig, devicePath);
+        }
+
+        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath);
         }
     }
 }

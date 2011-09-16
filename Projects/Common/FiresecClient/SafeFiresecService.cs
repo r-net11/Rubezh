@@ -156,15 +156,66 @@ namespace FiresecClient
             }
         }
 
-        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, string password)
+        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
             try
             {
-                _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, password);
+                _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
             }
             catch
             {
                 OnConnectionLost();
+            }
+        }
+
+        public void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceGetInformation(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceReadEventLog(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
             }
         }
 

@@ -231,9 +231,9 @@ namespace FiresecClient
             return _firesecService.GetFile(filepath);
         }
 
-        public static void AutoDetectDevice(Guid deviceUID)
+        public static string AutoDetectDevice(Guid deviceUID)
         {
-            ;
+            return _firesecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void ReadDeviceConfiguration(Guid deviceUID)
@@ -251,9 +251,14 @@ namespace FiresecClient
             ;
         }
 
+        public static string ReadDeviceJournal(Guid deviceUID)
+        {
+            return _firesecService.DeviceReadEventLog(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+        }
+
         public static void SynchronizeDevice(Guid deviceUID)
         {
-            ;
+            _firesecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void RebootDevice(Guid deviceUID)
@@ -268,12 +273,12 @@ namespace FiresecClient
 
         public static string GetDescription(Guid deviceUID)
         {
-            return "Описание устройства";
+            return _firesecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static void SetPassword(Guid deviceUID)
+        public static void SetPassword(Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
-            _firesecService.DeviceSetPassword(DeviceConfiguration, deviceUID, "312");
+            _firesecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, devicePasswordType, password);
         }
 
         public static void LoadFromFile(string fileName)

@@ -42,6 +42,12 @@ namespace FiresecService
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
             }
             FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
+            FiresecConfiguration.part = null;
+            FiresecConfiguration.secGUI = null;
+            FiresecConfiguration.secObjType = null;
+            FiresecConfiguration.user = null;
+            FiresecConfiguration.userGroup = null;
+            FiresecConfiguration.zone = null;
 
             ZoneConverter.ConvertBack(deviceConfiguration);
             DeviceConverter.ConvertBack(deviceConfiguration);

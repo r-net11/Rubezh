@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FiresecService.Converters
 {
@@ -170,7 +171,8 @@ namespace FiresecService.Converters
         static devType DeviceToInnerDevice(Device device)
         {
             var innerDevice = new devType();
-            innerDevice.drv = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.id == device.Driver.UID.ToString()).idx;
+
+            innerDevice.drv = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;
 
             if (device.Driver.HasAddress)
             {
@@ -269,7 +271,8 @@ namespace FiresecService.Converters
                 }
             }
 
-            if (device.IndicatorLogic != null)
+            
+            if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic != null))
             {
                 var indicatorLogicProperty = propertyList.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
                 if (indicatorLogicProperty == null)
@@ -285,7 +288,7 @@ namespace FiresecService.Converters
                 indicatorLogicProperty.value = indicatorLogicString;
             }
 
-            if (device.PDUGroupLogic != null)
+            if ((device.Driver.DriverType == DriverType.PDU) && (device.PDUGroupLogic != null))
             {
                 var pDUGroupLogicProperty = propertyList.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
                 if (pDUGroupLogicProperty == null)

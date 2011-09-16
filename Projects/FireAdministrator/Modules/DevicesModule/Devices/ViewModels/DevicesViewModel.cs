@@ -26,6 +26,7 @@ namespace DevicesModule.ViewModels
             RebootDeviceCommand = new RelayCommand(OnRebootDevice, CanRebootDevice);
             UpdateSoftCommand = new RelayCommand(OnUpdateSoft, CanUpdateSoft);
             GetDescriptionCommand = new RelayCommand(OnGetDescription, CanGetDescription);
+            GetDeveceJournalCommand = new RelayCommand(OnGetDeveceJournal, CanGetDeveceJournal);
             SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ShowAdditionalPropertiesCommand = new RelayCommand(OnShowAdditionalProperties, CanShowAdditionalProperties);
@@ -213,7 +214,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
+            var autodetection = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
         }
 
         bool CanAutoDetect()
@@ -310,6 +311,17 @@ namespace DevicesModule.ViewModels
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
         }
 
+        public RelayCommand GetDeveceJournalCommand { get; private set; }
+        void OnGetDeveceJournal()
+        {
+            var journal = FiresecManager.ReadDeviceJournal(SelectedDevice.Device.UID);
+        }
+
+        bool CanGetDeveceJournal()
+        {
+            return true;
+        }
+
         public RelayCommand SetPasswordCommand { get; private set; }
         void OnSetPassword()
         {
@@ -361,7 +373,8 @@ namespace DevicesModule.ViewModels
                     RebootDeviceCommand = RebootDeviceCommand,
                     UpdateSoftCommand = UpdateSoftCommand,
                     GetDescriptionCommand = GetDescriptionCommand,
-                    SetPasswordCommand = SetPasswordCommand
+                    SetPasswordCommand = SetPasswordCommand,
+                    GetDeveceJournalCommand = GetDeveceJournalCommand
                 };
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }

@@ -60,25 +60,6 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool IsRmAlarmDevice { get; set; }
 
-        public string AddressFullPath
-        {
-            get
-            {
-                string address = IntAddress.ToString();
-
-                var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
-                if (serialNoProperty != null)
-                    address = serialNoProperty.Value;
-
-                if (Driver.IsDeviceOnShleif)
-                {
-                    address = AddressConverter.IntToStringAddress(Driver, IntAddress);
-                }
-
-                return address;
-            }
-        }
-
         public string PresentationAddress
         {
             get
@@ -107,11 +88,29 @@ namespace FiresecAPI.Models
             IntAddress = AddressConverter.StringToIntAddress(Driver, address);
         }
 
+        public string AddressFullPath
+        {
+            get
+            {
+                string address = IntAddress.ToString();
+
+                var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
+                if (serialNoProperty != null)
+                    address = serialNoProperty.Value;
+
+                if (Driver.IsDeviceOnShleif)
+                {
+                    address = AddressConverter.IntToStringAddress(Driver, IntAddress);
+                }
+
+                return address;
+            }
+        }
+
         public string Id
         {
             get
             {
-                
                 string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
                 if (Parent != null)
                 {
@@ -211,6 +210,7 @@ namespace FiresecAPI.Models
 
             if (fullCopy)
             {
+                newDevice.UID = UID;
                 //newDevice.DatabaseId = DatabaseId;
             }
 

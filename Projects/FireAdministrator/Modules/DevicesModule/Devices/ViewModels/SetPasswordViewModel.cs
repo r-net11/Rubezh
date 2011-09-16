@@ -1,9 +1,8 @@
-﻿using Infrastructure.Common;
-using System.Linq;
-using FiresecClient;
+﻿using System;
 using System.Windows;
-using System.Collections.Generic;
-using System;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,14 +14,19 @@ namespace DevicesModule.ViewModels
         {
             _deviceUID = deviceUID;
             Title = "Смена пароля";
-
-            Users = new List<UserPassword>();
-            Users.Add(new UserPassword("Инсталлятора") { IsSelected = true });
-            Users.Add(new UserPassword("Администратора"));
-            Users.Add(new UserPassword("Дежурного"));
+            DevicePasswordType = DevicePasswordType.Administrator;
         }
 
-        public List<UserPassword> Users { get; private set; }
+        DevicePasswordType _devicePasswordType;
+        public DevicePasswordType DevicePasswordType
+        {
+            get { return _devicePasswordType; }
+            set
+            {
+                _devicePasswordType = value;
+                OnPropertyChanged("DevicePasswordType");
+            }
+        }
 
         string _password;
         public string Password
@@ -54,20 +58,7 @@ namespace DevicesModule.ViewModels
                 return;
             }
 
-            var userPassword = Users.FirstOrDefault(x => x.IsSelected == true);
-
-            FiresecManager.SetPassword(_deviceUID);
+            FiresecManager.SetPassword(_deviceUID, DevicePasswordType, Password);
         }
-    }
-
-    public class UserPassword
-    {
-        public UserPassword(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; set; }
-        public bool  IsSelected { get; set; }
     }
 }

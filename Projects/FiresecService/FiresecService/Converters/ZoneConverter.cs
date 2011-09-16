@@ -160,6 +160,8 @@ namespace FiresecService.Converters
 
             if (innerZones.Count > 0)
                 ConfigurationConverter.FiresecConfiguration.zone = innerZones.ToArray();
+            else
+                ConfigurationConverter.FiresecConfiguration.zone = null;
         }
     }
 }

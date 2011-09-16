@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
+using System.Linq;
 
 namespace FiresecAPI.Models
 {
@@ -48,6 +50,41 @@ namespace FiresecAPI.Models
                 Devices.Add(device);
                 AddChild(device);
             }
+        }
+
+        public DeviceConfiguration CopyOneBranch(Guid uid)
+        {
+            var deviceConfiguration = new DeviceConfiguration();
+
+            var device = Devices.FirstOrDefault(x => x.UID == uid);
+            Device currentDevice = device;
+            Device copyChildDevice = null;
+
+            while (true)
+            {
+                var copyDevice = new Device()
+                {
+                    UID = currentDevice.UID,
+                    DriverUID = currentDevice.DriverUID,
+                    IntAddress = currentDevice.IntAddress,
+                    Description = currentDevice.Description,
+                    ZoneNo = currentDevice.ZoneNo,
+                    Properties = currentDevice.Properties
+                };
+                if (copyChildDevice != null)
+                    copyDevice.Children.Add(copyChildDevice);
+
+                if (currentDevice.Parent == null)
+                {
+                    currentDevice = copyDevice;
+                    break;
+                }
+                copyChildDevice = copyDevice;
+                currentDevice = currentDevice.Parent;
+            }
+
+            deviceConfiguration.RootDevice = currentDevice;
+            return deviceConfiguration;
         }
     }
 }

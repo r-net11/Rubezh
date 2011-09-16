@@ -34,7 +34,19 @@ namespace FiresecAPI
         void WriteConfiguration(Guid deviceUID);
 
         [OperationContract]
-        void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, string password);
+        void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
+
+        [OperationContract]
+        void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();

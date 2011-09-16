@@ -12,6 +12,7 @@ namespace FiresecService
             if (result)
             {
                 FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
+                FiresecEventAggregator.Progress += new Action<int, string, int, int>(FiresecEventAggregator_Progress);
             }
             return result;
         }
@@ -88,9 +89,29 @@ namespace FiresecService
             DispatcherFiresecClient.AddUserMessage(message);
         }
 
-        public static void DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password)
+        public static void DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)
         {
-            DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password);
+            DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password, deviceUser);
+        }
+
+        public static void DeviceDatetimeSync(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceGetInformation(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceReadEventLog(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
         public static void NewEventsAvailable(int eventMask)
@@ -99,6 +120,13 @@ namespace FiresecService
                 NewEvent(eventMask);
         }
 
+        static void FiresecEventAggregator_Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        {
+            if (Progress != null)
+                Progress(Stage, Comment, PercentComplete, BytesRW);
+        }
+
         public static event Action<int> NewEvent;
+        public static event Action<int, string, int, int> Progress;
     }
 }

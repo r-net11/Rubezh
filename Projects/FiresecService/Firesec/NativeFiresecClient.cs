@@ -40,7 +40,6 @@ namespace Firesec
 
         public static string GetCoreConfig()
         {
-            //return Connectoin.GetCoreConfigW();
             return ReadFromStream(Connectoin.GetCoreConfig());
         }
 
@@ -72,11 +71,6 @@ namespace Firesec
         public static void SetNewConfig(string coreConfig)
         {
             Connectoin.SetNewConfig(coreConfig);
-        }
-
-        public static void DeviceWriteConfig(string coreConfig, string devicePath)
-        {
-            Connectoin.DeviceWriteConfig(coreConfig, devicePath);
         }
 
         public static void ResetStates(string states)
@@ -117,10 +111,64 @@ namespace Firesec
             Connectoin.StoreUserMessage(message);
         }
 
-        public static void DeviceSetPassword(string coreConfig, string devicePath, string password)
+        //*********************************************************************
+
+        public static void DeviceWriteConfig(string coreConfig, string devicePath)
         {
-            Connectoin.DeviceSetPassword(coreConfig, devicePath, password);
+            Connectoin.DeviceWriteConfig(coreConfig, devicePath);
         }
+
+        public static void DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
+        {
+            Connectoin.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
+            return;
+
+            DeviceDatetimeSync(coreConfig, devicePath);
+            var x1 = DeviceGetInformation(coreConfig, devicePath);
+            var x2 = DeviceGetSerialList(coreConfig, devicePath);
+            var x3 = DeviceReadConfig(coreConfig, devicePath);
+            var x4 = DeviceReadEventLog(coreConfig, devicePath);
+            DeviceRestart(coreConfig, devicePath);
+            var x6 = DeviceAutoDetectChildren(coreConfig, devicePath);
+        }
+
+        public static void DeviceDatetimeSync(string coreConfig, string devicePath)
+        {
+            Connectoin.DeviceDatetimeSync(coreConfig, devicePath);
+        }
+
+        public static string DeviceGetInformation(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceGetInformation(coreConfig, devicePath);
+        }
+
+        public static string DeviceGetSerialList(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceGetSerialList(coreConfig, devicePath);
+        }
+
+        public static string DeviceReadConfig(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceReadConfig(coreConfig, devicePath);
+        }
+
+        public static string DeviceReadEventLog(string coreConfig, string devicePath)
+        {
+            var journal = Connectoin.DeviceReadEventLog(coreConfig, devicePath, 0);
+            return journal;
+        }
+
+        public static void DeviceRestart(string coreConfig, string devicePath)
+        {
+            Connectoin.DeviceRestart(coreConfig, devicePath);
+        }
+
+        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceAutoDetectChildren(coreConfig, devicePath, true);
+        }
+
+        //*********************************************************************
 
         static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {

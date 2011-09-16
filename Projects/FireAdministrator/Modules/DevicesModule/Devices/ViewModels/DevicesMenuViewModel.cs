@@ -17,5 +17,6 @@ namespace DevicesModule.ViewModels
         public RelayCommand UpdateSoftCommand { get; set; }
         public RelayCommand GetDescriptionCommand { get; set; }
         public RelayCommand SetPasswordCommand { get; set; }
+        public RelayCommand GetDeveceJournalCommand { get; set; }
     }
 }

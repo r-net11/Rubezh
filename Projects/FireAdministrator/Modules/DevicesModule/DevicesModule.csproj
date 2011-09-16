@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />

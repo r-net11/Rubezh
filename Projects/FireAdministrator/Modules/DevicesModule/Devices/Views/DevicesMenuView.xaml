@@ -50,5 +50,9 @@
         <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль">
             <Image Source="/Controls;component/Images/Copy.png" Height="32" />
         </Button>
+
+        <Button Command="{Binding GetDeveceJournalCommand}" ToolTip="Журнал событий устройства">
+            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        </Button>
     </ToolBar>
 </UserControl>
