@@ -5,22 +5,24 @@
              xmlns:Views="clr-namespace:JournalModule.Views"
              xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
-            <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
-                <XButtons:XButton Command="{Binding ShowFilterCommand}"
+    <DockPanel >
+        <Border DockPanel.Dock="Top" Background="#CCff9829">
+            <DockPanel Background="White" Margin="5">
+                <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                    <Button Command="{Binding ShowFilterCommand}"
                               Content="Настроить фильтр"
-                              Background="Black" Foreground="White" Padding="5" Margin="5" />
-                <CheckBox Name="filterActivator" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
+                              Padding="5" Margin="7,5" />
+                    <CheckBox Name="filterActivator" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
                       Content="Включить фильтр"
                       Margin="5" Foreground="OrangeRed"
                       VerticalAlignment="Center"/>
-            </WrapPanel>
-            <XButtons:XButton DockPanel.Dock="Right" HorizontalAlignment="Right"
+                </WrapPanel>
+                <Button DockPanel.Dock="Right" HorizontalAlignment="Right"
                               Command="{Binding ShowSettingsCommand}"
                               Content="Настройки архива"
-                              Background="Black" Foreground="White" Padding="5" Margin="5" />
-        </DockPanel>
+                              Padding="5" Margin="7,5" />
+            </DockPanel>
+        </Border>
         <Views:JournalView />
     </DockPanel>
 </UserControl>

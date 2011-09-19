@@ -50,7 +50,7 @@ namespace LibraryModule.ViewModels
             {
                 if (IsAdditional)
                 {
-                    return String.Format("{0}.{1}", ClassName, AdditionalName);
+                    return String.Format("{0}. {1}", ClassName, AdditionalName);
                 }
 
                 return ClassName;
@@ -89,9 +89,7 @@ namespace LibraryModule.ViewModels
             state.Frames.Add(FrameViewModel.GetDefaultFrameWith(state.Frames.Count));
         }
 
-        public static LibraryState GetDefaultStateWith(
-            StateType stateType = DefaultStateType,
-            string code = null)
+        public static LibraryState GetDefaultStateWith(StateType stateType = DefaultStateType, string code = null)
         {
             var state = new LibraryState();
             state.StateType = stateType;

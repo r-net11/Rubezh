@@ -31,13 +31,14 @@
             <DataTemplate>
                 <DockPanel>
                     <WrapPanel DockPanel.Dock="Bottom">
-                        <Label Content="Слой: " />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" />
-                        <Label Content=" Длительность: " />
+                        <Label Content="Слой: " VerticalAlignment="Center" />
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" />
+                        <Label Content=" Длительность: " VerticalAlignment="Center" />
                         <ExtToolkit:IntegerUpDown Increment="100"
                                                   IsEditable="False"
                                                   Text="{Binding Duration,
-                                                                 Mode=TwoWay}" />
+                                                                 Mode=TwoWay}"
+                                                  Height="23" />
                         <Button Margin="10,5,0,0"
                                 Command="{Binding ImportSvgCommand}"
                                 Content="Импорт из .svg" />

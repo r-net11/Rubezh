@@ -20,7 +20,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <TextBlock Margin="5" Text="С" />
-                        <Calendar Name="_startDate" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                        <Calendar Name="_startDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedDate="{Binding StartDate}" />
@@ -28,7 +28,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <TextBlock Margin="5" Text="До" />
-                        <Calendar Name="_endDate" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                        <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayDateEnd="{Binding EndDate, Mode=OneTime}"
                                   SelectedDate="{Binding EndDate}" />
@@ -90,7 +90,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <GroupBox Grid.Column="0" Header="Классы событий" Padding="0,3">
-                <ListBox ItemsSource="{Binding JournalTypes,
+                <ListBox BorderThickness="0"
+                         ItemsSource="{Binding JournalTypes,
                                            Converter={StaticResource CollectionViewFactoryConverter},
                                            ConverterParameter=Id}">
                     <ListBox.ItemTemplate>
@@ -108,7 +109,8 @@
                 </ListBox>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="События" Padding="0,3">
-                <ListBox ItemsSource="{Binding JournalEvents,
+                <ListBox BorderThickness="0"
+                         ItemsSource="{Binding JournalEvents,
                                            Converter={StaticResource CollectionViewFactoryConverter},
                                            ConverterParameter=ClassId}">
                     <ListBox.ItemTemplate>

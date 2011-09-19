@@ -2,13 +2,22 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Сервер Firesec" Height="600" Width="600">
-    <Grid>
-        <StackPanel Margin="5">
-            <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="20" />
-            <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
-            <Button Content="Конвертация журнала событий" Click="OnConvertJournal"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
-            <Button Content="Имитатор" Click="OnShowImitator"  Height="30" Margin="2" Background="SkyBlue" Foreground="White" FontSize="20" />
-            <TextBox Name="_textBox" Height="200" Margin="2" />
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Colours.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Controls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel LastChildFill="True" Margin="5">
+        <StackPanel DockPanel.Dock="Top">
+            <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="23" />
+            <Button Content="конвертация конфигурации" Click="OnConvertConfiguration"  Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
+            <Button Content="конвертация журнала событий" Click="OnConvertJournal"  Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
+            <Button Content="имитатор" Click="OnShowImitator" Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
         </StackPanel>
-    </Grid>
+        <TextBox Name="_textBox" Margin="2" />
+    </DockPanel>
 </Window>

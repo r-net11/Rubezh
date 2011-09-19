@@ -21,6 +21,7 @@
         </TabControl.ItemTemplate>
         <TabControl.ItemContainerStyle>
             <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Background" Value="{x:Null}" />
                 <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count,
                                                               Converter={StaticResource CountToVisibilityConverter}}" />
                 <Setter Property="ToolTip">

@@ -28,8 +28,8 @@
         </Grid>
         <TextBlock Grid.Row="1" Name="_statusTextBlock" />
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-            <Controls:XButton Content="Ok" Click="OnSave" IsDefault="True" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkGreen" />
-            <Controls:XButton Content="Отмена" Click="OnCancel" FontSize="14" Width="100" Height="30" Margin="2" Background="DarkRed" />
+            <Button Content="Ok" Click="OnSave" IsDefault="True" FontSize="12" Width="100" Height="30" Margin="2" Foreground="DarkGreen" />
+            <Button Content="Отмена" Click="OnCancel" FontSize="12" Width="100" Height="30" Margin="2" Foreground="DarkRed" />
         </StackPanel>
     </Grid>
 </Window>

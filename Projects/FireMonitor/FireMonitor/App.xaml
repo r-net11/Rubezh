@@ -4,11 +4,16 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Colours.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Orange.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/BaseLight.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
-                <ResourceDictionary
+                <!--<ResourceDictionary
                 Source="/PresentationFramework.Aero, Version=3.0.0.0,
                Culture=neutral, PublicKeyToken=31bf3856ad364e35,
-               ProcessorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />
+               ProcessorArchitecture=MSIL;component/themes/Aero.NormalColor.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
