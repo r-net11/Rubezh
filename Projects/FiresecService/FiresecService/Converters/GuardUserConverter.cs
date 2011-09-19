@@ -9,7 +9,7 @@ namespace FiresecService.Converters
     {
         public static void Convert()
         {
-            FiresecManager.DeviceConfiguration.GuardUsers = new List<GuardUser>();
+            ConfigurationConverter.DeviceConfiguration.GuardUsers = new List<GuardUser>();
 
             if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
@@ -77,7 +77,7 @@ namespace FiresecService.Converters
                             }
                         }
 
-                        FiresecManager.DeviceConfiguration.GuardUsers.Add(guardUser);
+                        ConfigurationConverter.DeviceConfiguration.GuardUsers.Add(guardUser);
                     }
                 }
             }

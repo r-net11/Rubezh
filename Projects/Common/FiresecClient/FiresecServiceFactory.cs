@@ -17,6 +17,7 @@ namespace FiresecClient
             binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.MaxConnections = 10;
             binding.OpenTimeout = TimeSpan.FromMinutes(10);
+            binding.ReliableSession.InactivityTimeout = TimeSpan.FromMinutes(10);
             binding.ListenBacklog = 10;
             binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
             binding.MaxBufferSize = Int32.MaxValue;

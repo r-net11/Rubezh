@@ -7,25 +7,28 @@ namespace FiresecService
     public static class ConfigurationConverter
     {
         public static Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
+        public static DeviceConfiguration DeviceConfiguration { get; set; }
 
         public static void Convert()
         {
             FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
-            FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+            DeviceConfiguration = new DeviceConfiguration();
             ConvertConfiguration();
 
-            ConfigurationFileManager.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+            ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
             ConfigurationFileManager.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
 
             var plans = FiresecInternalClient.GetPlans();
             var plansConfiguration = PlansConverter.Convert(plans);
 
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+
+            FiresecManager.DeviceConfiguration = DeviceConfiguration;
         }
 
         static void ConvertConfiguration()
         {
-            FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+            DeviceConfiguration = new DeviceConfiguration();
             ZoneConverter.Convert();
             DirectionConverter.Convert();
             GuardUserConverter.Convert();

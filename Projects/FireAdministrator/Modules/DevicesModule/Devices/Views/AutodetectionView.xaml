@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="DevicesModule.Views.AutodetectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinHeight="400" MinWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Следующие Plug and Play устройства были обнаружены автоматически. Для добавления устройств в конфигурацию отметьте нужные устройства и нажмите кнопку 'OK'. Для того чтобы закрыть это окно без добавления устройств нажмите 'Отмена'" />
+        <TreeView Grid.Row="1" ItemsSource="{Binding Devices}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanSelect}" Margin="2" />
+                        <TextBlock Text="{Binding Name}" Margin="2" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <StackPanel Grid.Row="2">
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

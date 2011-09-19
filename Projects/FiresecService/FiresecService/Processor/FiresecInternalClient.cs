@@ -109,9 +109,10 @@ namespace FiresecService
             return DispatcherFiresecClient.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public static string DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static Firesec.CoreConfiguration.config DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            var stringConfig = DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
         }
 
         public static void NewEventsAvailable(int eventMask)
@@ -120,10 +121,10 @@ namespace FiresecService
                 NewEvent(eventMask);
         }
 
-        static void FiresecEventAggregator_Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        static void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
             if (Progress != null)
-                Progress(Stage, Comment, PercentComplete, BytesRW);
+                Progress(stage, comment, percentComplete, bytesRW);
         }
 
         public static event Action<int> NewEvent;

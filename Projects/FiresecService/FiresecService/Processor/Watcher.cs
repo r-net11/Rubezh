@@ -12,9 +12,15 @@ namespace FiresecService
         internal void Start()
         {
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
+            FiresecInternalClient.Progress += new Action<int, string, int, int>(FiresecInternalClient_Progress);
             OnStateChanged();
             OnParametersChanged();
             SetLastEvent();
+        }
+
+        void FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        {
+            CallbackManager.OnProgress(stage, comment, percentComplete, bytesRW);
         }
 
         void FiresecClient_NewEvent(int EventMask)

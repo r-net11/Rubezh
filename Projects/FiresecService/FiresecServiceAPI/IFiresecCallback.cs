@@ -7,6 +7,9 @@ namespace FiresecAPI
     public interface IFiresecCallback
     {
         [OperationContract(IsOneWay = true)]
+        void Progress(int stage, string comment, int percentComplete, int bytesRW);
+
+        [OperationContract(IsOneWay = true)]
         void DeviceStateChanged(List<DeviceState> deviceStates);
 
         [OperationContract(IsOneWay = true)]

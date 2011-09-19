@@ -63,11 +63,17 @@
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\AutoDetectedDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\AutodetectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ProgressViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
       <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\AutodetectionView.xaml.cs">
+      <DependentUpon>AutodetectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\BindMsView.xaml.cs">
       <DependentUpon>BindMsView.xaml</DependentUpon>
@@ -80,6 +86,9 @@
     <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
     <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
       <DependentUpon>IndicatorDeviceSelectionView.xaml</DependentUpon>
@@ -291,6 +300,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\AutodetectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\BindMsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -300,6 +313,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\DeviceDescriptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

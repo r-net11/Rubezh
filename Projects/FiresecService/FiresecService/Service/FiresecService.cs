@@ -144,11 +144,16 @@ namespace FiresecService
             return FiresecInternalClient.DeviceReadEventLog(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
-        public string DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            var config = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+
+            ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
+            ConfigurationConverter.FiresecConfiguration = config;
+            DeviceConverter.Convert();
+            return ConfigurationConverter.DeviceConfiguration;
         }
 
         public SecurityConfiguration GetSecurityConfiguration()

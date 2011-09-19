@@ -87,7 +87,7 @@ namespace FiresecService.Converters
 
                                 long idTempL = long.Parse(innerZone.id);
                                 int idTempI = (int)idTempL;
-                                foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+                                foreach (var zone in ConfigurationConverter.DeviceConfiguration.Zones)
                                 {
                                     foreach (var zoneShapeId in zone.ShapeIds)
                                     {
@@ -159,7 +159,7 @@ namespace FiresecService.Converters
                                 long idTempL = long.Parse(innerDevice.id);
                                 int idTempI = (int)idTempL;
 
-                                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+                                foreach (var device in ConfigurationConverter.DeviceConfiguration.Devices)
                                 {
                                     foreach (var deviceShapeId in device.ShapeIds)
                                     {

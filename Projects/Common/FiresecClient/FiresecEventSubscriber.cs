@@ -10,6 +10,11 @@ namespace FiresecClient
     [CallbackBehavior(ConcurrencyMode=ConcurrencyMode.Single)]
     public class FiresecEventSubscriber : IFiresecCallback
     {
+        public void Progress(int stage, string comment, int percentComplete, int bytesRW)
+        {
+            OnOperationProgress(stage, comment, percentComplete, bytesRW);
+        }
+
         public void DeviceStateChanged(List<DeviceState> newDeviceStates)
         {
             foreach (var newDeviceState in newDeviceStates)
@@ -28,7 +33,10 @@ namespace FiresecClient
                 foreach (var parentState in deviceState.ParentStates)
                 {
                     parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
-                    parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
+                    if (parentState.ParentDevice != null)
+                    {
+                        parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
+                    }
                 }
 
                 OnDeviceStateChanged(deviceState.UID);
@@ -55,6 +63,13 @@ namespace FiresecClient
         public void NewJournalRecord(JournalRecord journalRecord)
         {
             OnNewJournalRecordEvent(journalRecord);
+        }
+
+        public static event Action<int, string, int, int> OperationProgress;
+        public static void OnOperationProgress(int stage, string comment, int percentComplete, int bytesRW)
+        {
+            if (OperationProgress != null)
+                OperationProgress(stage, comment, percentComplete, bytesRW);
         }
 
         public static event Action<JournalRecord> NewJournalRecordEvent;

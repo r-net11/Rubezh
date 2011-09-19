@@ -121,15 +121,6 @@ namespace Firesec
         public static void DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
         {
             Connectoin.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
-            return;
-
-            DeviceDatetimeSync(coreConfig, devicePath);
-            var x1 = DeviceGetInformation(coreConfig, devicePath);
-            var x2 = DeviceGetSerialList(coreConfig, devicePath);
-            var x3 = DeviceReadConfig(coreConfig, devicePath);
-            var x4 = DeviceReadEventLog(coreConfig, devicePath);
-            DeviceRestart(coreConfig, devicePath);
-            var x6 = DeviceAutoDetectChildren(coreConfig, devicePath);
         }
 
         public static void DeviceDatetimeSync(string coreConfig, string devicePath)

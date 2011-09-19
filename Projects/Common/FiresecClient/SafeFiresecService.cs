@@ -206,7 +206,7 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {

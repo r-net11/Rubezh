@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using FiresecAPI.Models;
@@ -7,7 +9,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Win32;
-using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -210,11 +211,39 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            var autodetection = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
+            progressViewModel = new ProgressViewModel();
+            ServiceFactory.UserDialogs.ShowWindow(progressViewModel);
+
+            BackgroundWorker backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        DeviceConfiguration autodetectedDeviceConfiguration;
+        ProgressViewModel progressViewModel;
+
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            autodetectedDeviceConfiguration = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
+            //progressViewModel.CloseProgress();
+        }
+
+        void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            autodetectedDeviceConfiguration.Update();
+
+            foreach (var device in autodetectedDeviceConfiguration.Devices)
+            {
+                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+            }
+
+            var autodetectionViewModel = new AutodetectionViewModel();
+            autodetectionViewModel.Initialize(autodetectedDeviceConfiguration);
+            ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel);
         }
 
         bool CanAutoDetect()

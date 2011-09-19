@@ -12,16 +12,16 @@ namespace FiresecService.Converters
     {
         public static void Convert()
         {
-            FiresecManager.DeviceConfiguration.Devices = new List<Device>();
+            ConfigurationConverter.DeviceConfiguration.Devices = new List<Device>();
 
             var rootInnerDevice = ConfigurationConverter.FiresecConfiguration.dev[0];
             var rootDevice = new Device();
             rootDevice.Parent = null;
             SetInnerDevice(rootDevice, rootInnerDevice);
-            FiresecManager.DeviceConfiguration.Devices.Add(rootDevice);
+            ConfigurationConverter.DeviceConfiguration.Devices.Add(rootDevice);
             AddDevice(rootInnerDevice, rootDevice);
 
-            FiresecManager.DeviceConfiguration.RootDevice = rootDevice;
+            ConfigurationConverter.DeviceConfiguration.RootDevice = rootDevice;
         }
 
         static void AddDevice(devType parentInnerDevice, Device parentDevice)
@@ -36,7 +36,7 @@ namespace FiresecService.Converters
 
                 parentDevice.Children.Add(device);
                 SetInnerDevice(device, innerDevice);
-                FiresecManager.DeviceConfiguration.Devices.Add(device);
+                ConfigurationConverter.DeviceConfiguration.Devices.Add(device);
                 AddDevice(innerDevice, device);
             }
         }

@@ -32,6 +32,28 @@ namespace FiresecService
             }
         }
 
+        public static void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+        {
+            lock (FiresecService.Locker)
+            {
+                _failedCallbacks = new List<IFiresecCallback>();
+                foreach (var callback in _callbacks)
+                {
+                    try
+                    {
+                        callback.Progress(stage, comment, percentComplete, bytesRW);
+                        FiresecServiceRunner.MainWindow.AddMessage("Progress");
+                    }
+                    catch
+                    {
+                        _failedCallbacks.Add(callback);
+                    }
+                }
+
+                Clean();
+            }
+        }
+
         public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
             lock (FiresecService.Locker)

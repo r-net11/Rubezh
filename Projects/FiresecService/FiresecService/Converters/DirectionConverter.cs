@@ -11,7 +11,7 @@ namespace FiresecService.Converters
     {
         public static void Convert()
         {
-            FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
+            ConfigurationConverter.DeviceConfiguration.Directions = new List<Direction>();
 
             if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
@@ -43,7 +43,7 @@ namespace FiresecService.Converters
                             direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
                         }
 
-                        FiresecManager.DeviceConfiguration.Directions.Add(direction);
+                        ConfigurationConverter.DeviceConfiguration.Directions.Add(direction);
                     }
                 }
             }

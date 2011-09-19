@@ -231,7 +231,7 @@ namespace FiresecClient
             return _firesecService.GetFile(filepath);
         }
 
-        public static string AutoDetectDevice(Guid deviceUID)
+        public static DeviceConfiguration AutoDetectDevice(Guid deviceUID)
         {
             return _firesecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }

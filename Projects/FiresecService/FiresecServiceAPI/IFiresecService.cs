@@ -46,7 +46,7 @@ namespace FiresecAPI
         string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();

@@ -9,7 +9,7 @@ namespace FiresecService.Converters
     {
         public static void Convert()
         {
-            FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
+            ConfigurationConverter.DeviceConfiguration.Zones = new List<Zone>();
 
             if (ConfigurationConverter.FiresecConfiguration.zone != null)
             {
@@ -65,7 +65,7 @@ namespace FiresecService.Converters
                             zone.GuardZoneType = (GuardZoneType)int.Parse(guardZoneTypeParam.value);
                         }
                     }
-                    FiresecManager.DeviceConfiguration.Zones.Add(zone);
+                    ConfigurationConverter.DeviceConfiguration.Zones.Add(zone);
                 }
             }
         }
