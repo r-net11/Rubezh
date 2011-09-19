@@ -9,6 +9,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
+using System.Windows.Data;
 
 namespace ReportsModule.Reports
 {
@@ -16,16 +17,12 @@ namespace ReportsModule.Reports
     {
         public ReportJournal()
         {
-            _archiveFilter = new ArchiveFilterViewModel();
             _journalList = new List<Journal>();
-            JournalRecords = new List<JournalRecordViewModel>();
-
-            SetDefaultArchiveContent();
         }
 
         List<Journal> _journalList;
-        ArchiveFilterViewModel _archiveFilter;
-        public List<JournalRecordViewModel> JournalRecords { get; set; }
+        DateTime _startDate;
+        DateTime _endDate;
 
         public XpsDocument CreateReport()
         {
@@ -41,8 +38,8 @@ namespace ReportsModule.Reports
 
             var DateNow = DateTime.Now;
             var data = new ReportData();
-            data.ReportDocumentValues.Add("PrintDateStart", _archiveFilter.StartDate);
-            data.ReportDocumentValues.Add("PrintDateEnd", _archiveFilter.EndDate);
+            data.ReportDocumentValues.Add("PrintDateStart", _startDate);
+            data.ReportDocumentValues.Add("PrintDateEnd", _endDate);
             data.ReportDocumentValues.Add("PrintDateNow", DateNow);
 
             var dataTable = new DataTable("JournalList");
@@ -57,21 +54,15 @@ namespace ReportsModule.Reports
             {
                 dataTable.Rows.Add(journal.DeviceTime, journal.SystemTime, journal.ZoneName, journal.Description, journal.Device, journal.Panel, journal.User);
             }
-            //Helper.AddDataColumns<Journal>(dataTable);
             data.DataTables.Add(dataTable);
             return reportDocument.CreateXpsDocument(data);
         }
 
         void Initialize()
         {
-            //ArchiveFilterViewModel tmpArchiveFilter = new ArchiveFilterViewModel();
-            //_archiveFilter.CopyTo(tmpArchiveFilter);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(_archiveFilter))
-            {
-                ApplyFilter();
-            }
-
-            foreach (var journalRecord in JournalRecords)
+            ReportArchiveFilter _reportArchiveFilter = new ReportArchiveFilter();
+            _reportArchiveFilter.ShowFilter();
+            foreach (var journalRecord in _reportArchiveFilter.JournalRecords)
             {
                 _journalList.Add(new Journal()
                 {
@@ -84,45 +75,9 @@ namespace ReportsModule.Reports
                     User = journalRecord.User
                 });
             }
-        }
 
-        void ApplyFilter()
-        {
-            ArchiveFilter filter = new ArchiveFilter()
-            {
-                Descriptions = new List<string>(
-                    _archiveFilter.JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
-                ),
-                Subsystems = new List<SubsystemType>(
-                    _archiveFilter.Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
-                ),
-                UseSystemDate = _archiveFilter.UseSystemDate,
-                StartDate = _archiveFilter.StartDate,
-                EndDate = _archiveFilter.EndDate,
-            };
-            if (filter.Subsystems.Count == 0)
-            {
-                foreach (SubsystemType subsystem in Enum.GetValues(typeof(SubsystemType)))
-                {
-                    filter.Subsystems.Add(subsystem);
-                }
-            }
-
-            JournalRecords = new List<JournalRecordViewModel>(
-                FiresecManager.GetFilteredArchive(filter).Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
-        }
-
-        void SetDefaultArchiveContent()
-        {
-            try
-            {
-                JournalRecords = new List<JournalRecordViewModel>(
-                    FiresecManager.GetFilteredJournal(new JournalFilter() { LastRecordsCount = 100 }).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
-                );
-            }
-            catch { ;}
+            _startDate = _reportArchiveFilter.StartDate;
+            _endDate = _reportArchiveFilter.EndDate;
         }
     }
 
@@ -135,5 +90,112 @@ namespace ReportsModule.Reports
         public string Device { get; set; }
         public string Panel { get; set; }
         public string User { get; set; }
+    }
+
+    internal class ReportArchiveFilter
+    {
+        ArchiveFilter _archiveFilter;
+        readonly ArchiveDefaultState _archiveDefaultState;
+
+        public ReportArchiveFilter()
+        {
+            _archiveDefaultState = new ArchiveDefaultState()
+            {
+                ArchiveDefaultStateType = ArchiveDefaultStateType.LastDay,
+                ArchiveFilter = new ArchiveFilter()
+                {
+                    EndDate = DateTime.Now,
+                    StartDate = DateTime.Now.AddDays(-1),
+                    UseSystemDate = false
+                }
+            };
+            _archiveFilter = _archiveDefaultState.ArchiveFilter;
+            IsFilterOn = false;
+        }
+
+        public DateTime StartDate
+        {
+            get { return _archiveFilter.StartDate; }
+        }
+
+        public DateTime EndDate
+        {
+            get { return _archiveFilter.EndDate; }
+        }
+
+        bool _isFilterOn;
+        public bool IsFilterOn
+        {
+            get { return _isFilterOn; }
+            set
+            {
+                if (value)
+                {
+                    ApplyFilter();
+                }
+                else
+                {
+                    SetDefaultArchiveContent();
+                }
+
+                _isFilterOn = value;
+            }
+        }
+
+        List<JournalRecordViewModel> _journalRecords;
+        public List<JournalRecordViewModel> JournalRecords
+        {
+            get { return _journalRecords; }
+            private set
+            {
+                _journalRecords = value;
+            }
+        }
+
+        void SetDefaultArchiveContent()
+        {
+            switch (_archiveDefaultState.ArchiveDefaultStateType)
+            {
+                case ArchiveDefaultStateType.LastHour:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddHours(-1);
+                    break;
+                case ArchiveDefaultStateType.LastDay:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddDays(-1);
+                    break;
+                case ArchiveDefaultStateType.FromDate:
+                    _archiveDefaultState.ArchiveFilter.EndDate = _archiveFilter.EndDate;
+                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+                    break;
+                case ArchiveDefaultStateType.Range:
+                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
+                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+                    break;
+            }
+
+            JournalRecords = new List<JournalRecordViewModel>(
+                FiresecManager.GetFilteredArchive(_archiveDefaultState.ArchiveFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
+        }
+
+        void ApplyFilter()
+        {
+            JournalRecords = new List<JournalRecordViewModel>(
+                FiresecManager.GetFilteredArchive(_archiveFilter).
+                Select(journalRecord => new JournalRecordViewModel(journalRecord))
+            );
+        }
+
+        public void ShowFilter()
+        {
+            var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+            {
+                _archiveFilter = archiveFilterViewModel.GetModel();
+                IsFilterOn = true;
+            }
+        }
     }
 }
