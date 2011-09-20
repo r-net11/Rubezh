@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using Firesec;
 
 namespace FiresecService
 {
@@ -12,15 +13,15 @@ namespace FiresecService
         internal void Start()
         {
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-            FiresecInternalClient.Progress += new Action<int, string, int, int>(FiresecInternalClient_Progress);
+            FiresecInternalClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecInternalClient_Progress);
             OnStateChanged();
             OnParametersChanged();
             SetLastEvent();
         }
 
-        void FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
-            CallbackManager.OnProgress(stage, comment, percentComplete, bytesRW);
+            return CallbackManager.OnProgress(stage, comment, percentComplete, bytesRW);
         }
 
         void FiresecClient_NewEvent(int EventMask)

@@ -62,6 +62,9 @@ namespace FiresecService
 
         public static T Deserialize<T>(string input)
         {
+            if (string.IsNullOrEmpty(input))
+                return default(T);
+
             byte[] bytes = Encoding.Default.GetBytes(input);
             T output = default(T);
 

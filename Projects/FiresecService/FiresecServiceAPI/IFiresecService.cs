@@ -46,7 +46,7 @@ namespace FiresecAPI
         string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();
@@ -123,6 +123,9 @@ namespace FiresecAPI
         [OperationContract]
         [FaultContract(typeof(FiresecException))]
         string Test();
+
+        [OperationContract]
+        void StopProgress();
     }
 
     public class FiresecException : Exception

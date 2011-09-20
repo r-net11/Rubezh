@@ -1,8 +1,8 @@
-﻿using FiresecAPI.Models;
-using Infrastructure.Common;
-using System.Collections.Generic;
-using FiresecClient;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -24,6 +24,8 @@ namespace DevicesModule.ViewModels
             {
                 _isSelected = value;
                 OnPropertyChanged("IsSelected");
+
+                Children.ForEach(x => x.IsSelected = value);
             }
         }
 
@@ -39,7 +41,11 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return Device.PresentationAddress + Device.Driver.ShortName;
+                var name = "";
+                if (Device.Driver.HasAddress)
+                    name = Device.PresentationAddress + " - ";
+                name += Device.Driver.Name;
+                return name;
             }
         }
 

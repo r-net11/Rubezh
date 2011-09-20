@@ -15,7 +15,7 @@ using FiresecServiceRunner;
 namespace FiresecService
 {
     [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
-        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Single)]
+        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class FiresecService : IFiresecService, IDisposable
     {
         public readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
@@ -144,11 +144,15 @@ namespace FiresecService
             return FiresecInternalClient.DeviceReadEventLog(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
-        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
+            MustStopProgress = false;
+
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var config = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            var config = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fastSearch);
+            if (config == null)
+                return null;
 
             ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
             ConfigurationConverter.FiresecConfiguration = config;
@@ -367,6 +371,13 @@ namespace FiresecService
                 return "Test";
             }
         }
+
+        public void StopProgress()
+        {
+            MustStopProgress = true;
+        }
+
+        public static bool MustStopProgress;
 
         void SetUserFullName()
         {

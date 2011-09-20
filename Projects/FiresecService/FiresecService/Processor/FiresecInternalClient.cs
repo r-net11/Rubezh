@@ -12,7 +12,7 @@ namespace FiresecService
             if (result)
             {
                 FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-                FiresecEventAggregator.Progress += new Action<int, string, int, int>(FiresecEventAggregator_Progress);
+                DispatcherFiresecClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecEventAggregator_Progress);
             }
             return result;
         }
@@ -109,9 +109,9 @@ namespace FiresecService
             return DispatcherFiresecClient.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public static Firesec.CoreConfiguration.config DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static Firesec.CoreConfiguration.config DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath, bool fastSearch)
         {
-            var stringConfig = DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            var stringConfig = DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fastSearch);
             return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
         }
 
@@ -121,13 +121,14 @@ namespace FiresecService
                 NewEvent(eventMask);
         }
 
-        static void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        static bool FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
             if (Progress != null)
-                Progress(stage, comment, percentComplete, bytesRW);
+                return Progress(stage, comment, percentComplete, bytesRW);
+            return false;
         }
 
         public static event Action<int> NewEvent;
-        public static event Action<int, string, int, int> Progress;
+        public static event FiresecEventAggregator.ProgressDelegate Progress;
     }
 }

@@ -65,11 +65,14 @@ namespace FiresecClient
             OnNewJournalRecordEvent(journalRecord);
         }
 
-        public static event Action<int, string, int, int> OperationProgress;
-        public static void OnOperationProgress(int stage, string comment, int percentComplete, int bytesRW)
+        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
+
+        public static event ProgressDelegate OperationProgress;
+        public static bool OnOperationProgress(int stage, string comment, int percentComplete, int bytesRW)
         {
             if (OperationProgress != null)
-                OperationProgress(stage, comment, percentComplete, bytesRW);
+                return OperationProgress(stage, comment, percentComplete, bytesRW);
+            return false;
         }
 
         public static event Action<JournalRecord> NewJournalRecordEvent;

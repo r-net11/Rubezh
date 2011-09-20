@@ -46,6 +46,9 @@ namespace FiresecClient
             _duplexChannelFactory.Open();
 
             IFiresecService _firesecService = _duplexChannelFactory.CreateChannel();
+
+            (_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(10);
+
             return _firesecService;
         }
 

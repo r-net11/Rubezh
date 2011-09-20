@@ -11,11 +11,15 @@ namespace Firesec
                 NewEventAvaliable(eventMask);
         }
 
-        public static event Action<int, string, int, int> Progress;
-        public static void OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        //public static event FiresecEventAggregator.ProgressDelegate Progress;
+        public static bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            if (Progress != null)
-                Progress(Stage, Comment, PercentComplete, BytesRW);
+            return DispatcherFiresecClient.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+            //if (Progress != null)
+            //    return Progress(Stage, Comment, PercentComplete, BytesRW);
+            //return false;
         }
+
+        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
     }
 }

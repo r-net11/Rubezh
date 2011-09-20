@@ -12,6 +12,7 @@ namespace Firesec
         delegate string StringDelegateIntInt(int arg1, int arg2);
         delegate bool BoolDelegateStringString(string arg1, string arg2);
         delegate string StringDelegateStringString(string arg1, string arg2);
+        delegate string StringDelegateStringStringBool(string arg1, string arg2, bool arg3);
 
         static DispatcherFiresecClient()
         {
@@ -20,7 +21,7 @@ namespace Firesec
 
         public static bool Connect(string login, string password)
         {
-            return (bool) control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
+            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
         }
 
         public static void Disconnect()
@@ -45,7 +46,7 @@ namespace Firesec
 
         public static string GetCoreState()
         {
-            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
+            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
         }
 
         public static string GetCoreDeviceParams()
@@ -113,9 +114,23 @@ namespace Firesec
             return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadEventLog), coreConfig, devicePath);
         }
 
-        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath)
+        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath);
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
         }
+
+        public static bool ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        {
+            return (bool)control.Dispatcher.Invoke(new FiresecEventAggregator.ProgressDelegate(OnProgress), Stage, Comment, PercentComplete, BytesRW);
+        }
+
+        static bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        {
+            if (Progress != null)
+                return Progress(Stage, Comment, PercentComplete, BytesRW);
+            return false;
+        }
+
+        public static event FiresecEventAggregator.ProgressDelegate Progress;
     }
 }

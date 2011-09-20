@@ -9,6 +9,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using System.Diagnostics;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -214,41 +216,69 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            progressViewModel = new ProgressViewModel();
-            ServiceFactory.UserDialogs.ShowWindow(progressViewModel);
-
-            BackgroundWorker backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
-            backgroundWorker.RunWorkerAsync();
+            progressViewModel = new ProgressViewModel(SelectedDevice.Device);
+            RunAutodetection(true);
+            ServiceFactory.UserDialogs.ShowModalWindow(progressViewModel);
         }
 
         DeviceConfiguration autodetectedDeviceConfiguration;
         ProgressViewModel progressViewModel;
 
+        void RunAutodetection(bool fastSearch)
+        {
+            BackgroundWorker backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.RunWorkerAsync(fastSearch);
+        }
+
         void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            autodetectedDeviceConfiguration = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID);
+            bool fastSearch = (bool)e.Argument;
+            autodetectedDeviceConfiguration = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID, fastSearch);
             //progressViewModel.CloseProgress();
+        }
+
+        void StopProgress()
+        {
+            progressViewModel.CloseProgress();
         }
 
         void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Dispatcher.Invoke(new Action(StopProgress));
+
+            if (autodetectedDeviceConfiguration == null)
+            {
+                MessageBox.Show("Операция прервана");
+                return;
+            }
+
             autodetectedDeviceConfiguration.Update();
 
             foreach (var device in autodetectedDeviceConfiguration.Devices)
             {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID.ToString().ToUpper() == device.DriverUID.ToString().ToUpper());
+                device.Driver = driver;
             }
 
+            FiresecManager.Drivers.ForEach(x => { Trace.WriteLine(x.UID.ToString()); });
+            autodetectedDeviceConfiguration.Devices.ForEach(x => { Trace.WriteLine("--- " + x.DriverUID.ToString()); });
+
             var autodetectionViewModel = new AutodetectionViewModel();
+            autodetectionViewModel.DeviceViewModels = Devices;
             autodetectionViewModel.Initialize(autodetectedDeviceConfiguration);
-            ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel);
+            bool result = ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel);
+            if (result)
+            {
+                RunAutodetection(false);
+            }
         }
 
         bool CanAutoDetect()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
+            return true;
+            //return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
         }
 
         public RelayCommand ReadDeviceCommand { get; private set; }

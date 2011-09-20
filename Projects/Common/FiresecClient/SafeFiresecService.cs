@@ -206,11 +206,11 @@ namespace FiresecClient
             }
         }
 
-        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
             try
             {
-                return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID);
+                return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID, fastSearch);
             }
             catch
             {
@@ -547,6 +547,19 @@ namespace FiresecClient
                 OnConnectionLost();
             }
             return null;
+        }
+
+        public void StopProgress()
+        {
+            try
+            {
+                _iFiresecService.StopProgress();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return;
         }
     }
 }

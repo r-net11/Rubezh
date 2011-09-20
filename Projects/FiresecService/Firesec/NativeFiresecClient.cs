@@ -154,9 +154,16 @@ namespace Firesec
             Connectoin.DeviceRestart(coreConfig, devicePath);
         }
 
-        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath)
+        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
         {
-            return Connectoin.DeviceAutoDetectChildren(coreConfig, devicePath, true);
+            try
+            {
+                return Connectoin.DeviceAutoDetectChildren(coreConfig, devicePath, fastSearch);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         //*********************************************************************

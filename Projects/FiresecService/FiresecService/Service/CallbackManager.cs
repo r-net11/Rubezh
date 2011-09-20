@@ -32,7 +32,7 @@ namespace FiresecService
             }
         }
 
-        public static void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+        public static bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
         {
             lock (FiresecService.Locker)
             {
@@ -42,7 +42,7 @@ namespace FiresecService
                     try
                     {
                         callback.Progress(stage, comment, percentComplete, bytesRW);
-                        FiresecServiceRunner.MainWindow.AddMessage("Progress");
+                        return !FiresecService.MustStopProgress;
                     }
                     catch
                     {
@@ -51,6 +51,7 @@ namespace FiresecService
                 }
 
                 Clean();
+                return false;
             }
         }
 
