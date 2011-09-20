@@ -65,7 +65,6 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
-                //elementZoneView._polygon.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
             }
         }
@@ -99,8 +98,7 @@ namespace PlansModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Validate();
-            if (result)
+            if (ServiceFactory.Get<ISecurityService>().Validate())
             {
                 FiresecManager.AddToIgnoreList(DevicesToIgnore);
             }
@@ -109,8 +107,7 @@ namespace PlansModule.ViewModels
         public RelayCommand EnableCommand { get; private set; }
         void OnEnable()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Validate();
-            if (result)
+            if (ServiceFactory.Get<ISecurityService>().Validate())
             {
                 FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
             }

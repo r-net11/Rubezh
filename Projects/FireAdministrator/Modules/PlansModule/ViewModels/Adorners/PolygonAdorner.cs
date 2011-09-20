@@ -8,67 +8,53 @@ namespace PlansModule.ViewModels
 {
     public class PolygonAdorner : Adorner
     {
-        bool isMove = false;
-
-        private UIElement currentElement = null;
-        private Polygon polygon = null;
-        private double _leftOffset = 0;
-        private double _topOffset = 0;
-        
+        bool _isMove;
+        UIElement _currentElement;
+        Polygon _polygon;
+        double _leftOffset;
+        double _topOffset;
 
         public PolygonAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
-            VisualBrush _brush = new VisualBrush(adornedElement);
-            currentElement = adornedElement;
-            Polygon _polygon = (Polygon)currentElement;
-            polygon = new Polygon();
-            foreach (var point in _polygon.Points)
+            var brush = new VisualBrush(adornedElement);
+            _currentElement = adornedElement;
+            _polygon = new Polygon();
+            foreach (var point in (_currentElement as Polygon).Points)
             {
-                polygon.Points.Add(point);
+                _polygon.Points.Add(point);
             }
         }
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            //Rect adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
-            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
-            renderBrush.Opacity = 0.2;
-            Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-            Polygon polygon = currentElement as Polygon;
-            Point _start = polygon.Points[0];
-            Point _prev = _start;
+            Point start = (_currentElement as Polygon).Points[0];
+            Point prev = start;
             Point _point = new Point();
-            foreach (Point point in polygon.Points)
+            Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
+            foreach (Point point in (_currentElement as Polygon).Points)
             {
-                drawingContext.DrawLine(renderPen, new Point(_prev.X, _prev.Y + PlanCanvasView.dTop), new Point(point.X, point.Y + PlanCanvasView.dTop));
-                _prev = point;
+                drawingContext.DrawLine(renderPen, new Point(prev.X, prev.Y + PlanCanvasView.dTop), new Point(point.X, point.Y + PlanCanvasView.dTop));
+                prev = point;
                 _point = point;
             }
-            drawingContext.DrawLine(renderPen, new Point(_point.X, _point.Y + PlanCanvasView.dTop), new Point(_start.X, _start.Y + PlanCanvasView.dTop));
+            drawingContext.DrawLine(renderPen, new Point(_point.X, _point.Y + PlanCanvasView.dTop), new Point(start.X, start.Y + PlanCanvasView.dTop));
         }
 
-        public void SetOperationMove(bool _move)
+        public void SetOperationMove(bool isMove)
         {
-            isMove = _move;
+            _isMove = isMove;
         }
 
         public double LeftOffset
         {
-            get
-            {
-                return _leftOffset;
-            }
+            get { return _leftOffset; }
             set
             {
-                if (isMove)
-                {
+                if (_isMove)
                     _leftOffset = value;
-                }
                 else
-                {
                     _leftOffset = 0;
-                }
 
                 UpdatePosition();
             }
@@ -76,20 +62,13 @@ namespace PlansModule.ViewModels
 
         public double TopOffset
         {
-            get
-            {
-                return _topOffset;
-            }
+            get { return _topOffset; }
             set
             {
-                if (isMove)
-                {
+                if (_isMove)
                     _topOffset = value;
-                }
                 else
-                {
                     _topOffset = 0;
-                }
 
                 UpdatePosition();
             }
@@ -97,10 +76,9 @@ namespace PlansModule.ViewModels
 
         private void UpdatePosition()
         {
-            AdornerLayer adornerLayer = this.Parent as AdornerLayer;
-            if (adornerLayer != null)
+            if (Parent is AdornerLayer)
             {
-                adornerLayer.Update(AdornedElement);
+                (Parent as AdornerLayer).Update(AdornedElement);
             }
         }
 

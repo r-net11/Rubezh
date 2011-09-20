@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
@@ -9,54 +11,39 @@ namespace PlansModule.ViewModels
         public PlanViewModel(Plan plan)
         {
             Plan = plan;
-            Name = plan.Name;
-            Width = plan.Width;
-            Height = plan.Height;
-        }
+            BuildTree(plan.Children);
 
-        public void AddChild(PlanViewModel parent, PlanViewModel child)
-        {
-            if (parent.Children == null) parent.Children = new ObservableCollection<PlanViewModel>();
-            parent.Children.Add(child);
-        }
-
-        public void AddSubPlan(PlanViewModel parent, SubPlanViewModel subplan)
-        {
-            if (parent.ElementSubPlans == null) parent.ElementSubPlans = new ObservableCollection<SubPlanViewModel>();
-            parent.ElementSubPlans.Add(subplan);
+            Children = new ObservableCollection<PlanViewModel>();
+            ElementSubPlans = new ObservableCollection<SubPlanViewModel>();
         }
 
         public Plan Plan { get; private set; }
-        
-        private ObservableCollection<PlanViewModel> _children;
-        public ObservableCollection<PlanViewModel> Children
+        public ObservableCollection<PlanViewModel> Children { get; private set; }
+        public ObservableCollection<SubPlanViewModel> ElementSubPlans { get; private set; }
+
+        public string Name
         {
             get
             {
-                if (_children == null)
-                    _children = new ObservableCollection<PlanViewModel>();
-                return _children;
+                if (string.IsNullOrWhiteSpace(Plan.Name))
+                    return "План без названия";
+                return Plan.Name;
             }
-            set { _children = value; }
         }
-        private ObservableCollection<SubPlanViewModel> _elementZones;
-        private ObservableCollection<ZoneViewModel> ElementZones;
-        private ObservableCollection<SubPlanViewModel> _elementSubPlans;
-        
-        private ObservableCollection<SubPlanViewModel> ElementSubPlans
+        public double Width { get { return Plan.Width; } }
+        public double Height { get { return Plan.Height; } }
+
+        public void BuildTree(List<Plan> plans)
         {
-            get
+            if (plans.IsNotNullOrEmpty())
             {
-                if (_elementSubPlans == null)
-                    _elementSubPlans = new ObservableCollection<SubPlanViewModel>();
-                return _elementSubPlans;
+                foreach (var plan in plans)
+                {
+                    plan.Parent = Plan;
+                    Children.Add(new PlanViewModel(plan));
+                }
             }
-            set { _elementSubPlans = value; }
         }
-        
-        public string Name { get; private set; }
-        public double Width { get; private set; }
-        public double Height { get; private set; }
 
         public void Update()
         {

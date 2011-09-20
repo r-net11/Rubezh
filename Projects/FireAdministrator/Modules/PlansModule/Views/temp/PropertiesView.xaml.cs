@@ -52,7 +52,7 @@ namespace PlansModule.Views
                 string type = PlanCanvasView.PropertiesType.Items[IndexProperties].ToString();
                 switch (type)
                 {
-                    case "number":
+                    case "_number":
                         {
                             TextBox textbox = new TextBox();
                             textbox.KeyUp += new KeyEventHandler(textbox_KeyUp);
@@ -170,7 +170,7 @@ namespace PlansModule.Views
                 case (Key.Return):
                     {
                        OffEditMode(ListValue.Items);
-                        element = MainCanvasViewModel.canvas.Children[IndexElement];
+                        element = MainCanvasViewModel.Canvas.Children[IndexElement];
                         if (element is TextBox)
                         {
                             TextBox textbox = element as TextBox;
@@ -219,7 +219,7 @@ namespace PlansModule.Views
             if (EditMode)
             {
                 OffEditMode(ListValue.Items);
-                element = MainCanvasViewModel.canvas.Children[IndexElement];
+                element = MainCanvasViewModel.Canvas.Children[IndexElement];
                 if (element is TextBox)
                 {
                     TextBox textbox = element as TextBox;
@@ -245,7 +245,7 @@ namespace PlansModule.Views
 
         private void ListValue_GotFocus(object sender, RoutedEventArgs e)
         {
-            UIElement element = MainCanvasViewModel.canvas.Children[IndexElement];
+            UIElement element = MainCanvasViewModel.Canvas.Children[IndexElement];
             MainCanvasViewModel mainCanvasViewModel = new MainCanvasViewModel(element);
         }
     }

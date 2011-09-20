@@ -9,8 +9,7 @@ namespace PlansModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType)value;
-            switch (stateType)
+            switch ((StateType) value)
             {
                 case StateType.Fire:
                     return Brushes.Red;

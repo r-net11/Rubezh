@@ -8,6 +8,8 @@ namespace PlansModule
 {
     public class PlansModule : IModule
     {
+        static PlansViewModel PlansViewModel;
+
         public PlansModule()
         {
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
@@ -27,15 +29,12 @@ namespace PlansModule
 
         static void CreateViewModels()
         {
-            plansViewModel = new PlansViewModel();
-            plansViewModel.Initialize();
+            PlansViewModel = new PlansViewModel();
         }
-
-        static PlansViewModel plansViewModel;
 
         static void OnShowPlans(string obj)
         {
-            ServiceFactory.Layout.Show(plansViewModel);
+            ServiceFactory.Layout.Show(PlansViewModel);
         }
     }
 }

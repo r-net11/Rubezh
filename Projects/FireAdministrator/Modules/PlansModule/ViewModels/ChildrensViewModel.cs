@@ -16,9 +16,9 @@ namespace PlansModule.ViewModels
         {
             if (FiresecManager.SystemConfiguration.Plans != null)
             {
-                foreach (var plan in FiresecManager.SystemConfiguration.Plans)
+                foreach (var Plan in FiresecManager.SystemConfiguration.Plans)
                 {
-                    var planViewModel = new PlanViewModel(plan);
+                    var planViewModel = new PlanViewModel(Plan);
                     Instructions.Add(instructionViewModel);
                 }
             }

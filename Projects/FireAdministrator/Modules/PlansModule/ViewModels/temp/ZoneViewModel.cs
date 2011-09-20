@@ -6,10 +6,6 @@ namespace PlansModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
-        public Plan Parent { get; private set; }
-        public List<PolygonPoint> PolygonPoints { get; set; }
-        public string ZoneNo { get; set; }
-
         public ZoneViewModel(Plan plan)
         {
             Parent = plan;
@@ -21,10 +17,9 @@ namespace PlansModule.ViewModels
             PolygonPoints = polygonPoints;
         }
 
-        public void AddPolygonPoint(PolygonPoint point)
-        {
-            PolygonPoints.Add(point);
-        }
+        public Plan Parent { get; private set; }
+        public List<PolygonPoint> PolygonPoints { get; set; }
+        public string ZoneNo { get; set; }
 
         public void Update()
         {

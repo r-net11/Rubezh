@@ -1,96 +1,85 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using FiresecAPI.Models;
 
 namespace PlansModule.Resize
 {
-    public static class ResizePolygon
+    public static class PolygonResizer
     {
-        static UIElement resizeElement = null;
-        static UIElement resizeElementTextBox = null;
-        static Thumb thumb = null;
-        static Canvas canvas;
-        static Polygon polygon;
-        public static Plan plan;
+        static UIElement ResizeElement = null;
+        static UIElement ResizeElementTextBox = null;
+        static Thumb Thumb = null;
+        static Canvas Canvas;
+        static Polygon Polygon;
+        public static Plan Plan;
 
-        public static void SetCanvas(Canvas _canvas)
+        public static void SetCanvas(Canvas canvas)
         {
-            canvas = _canvas;
+            Canvas = canvas;
         }
 
-        public static void SetElementResize(UIElement _element, Thumb _thumb, UIElement textbox)
+        public static void SetElementResize(UIElement element, Thumb thumb, UIElement textbox)
         {
-            double test = Canvas.GetLeft(_element);
-            if (resizeElement!=null)
-            test = Canvas.GetLeft(resizeElement);
-            resizeElement = _element;
-            test = Canvas.GetLeft(resizeElement);
-            thumb = _thumb;
-            if (textbox != null) resizeElementTextBox = textbox;
+            double test = Canvas.GetLeft(element);
+            if (ResizeElement != null)
+                test = Canvas.GetLeft(ResizeElement);
+            ResizeElement = element;
+            test = Canvas.GetLeft(ResizeElement);
+            Thumb = thumb;
+            if (textbox != null) ResizeElementTextBox = textbox;
             GetTypeElement();
         }
 
         public static void RemovePolygon()
         {
-            canvas.Children.Remove(polygon);
-            polygon = null;
-            resizeElement = null;
+            Canvas.Children.Remove(Polygon);
+            Polygon = null;
+            ResizeElement = null;
         }
+
         public static PointCollection GetPolygonResize()
         {
-            return polygon.Points;
+            return Polygon.Points;
         }
 
         static void GetTypeElement()
         {
-            if (resizeElement is Polygon)
+            if (ResizeElement is Polygon)
             {
-                resizePolygon(resizeElement as Polygon);
+                ResizePolygon(ResizeElement as Polygon);
             }
         }
 
-        static void resizePolygon(Polygon _polygon)
+        static void ResizePolygon(Polygon polygon)
         {
-            double x = Canvas.GetLeft(thumb);
-            double y = Canvas.GetTop(thumb);
-            if (polygon == null)
+            if (Polygon == null)
             {
-                polygon = new Polygon();
-                polygon.Name = _polygon.Name;
-                
+                Polygon = new Polygon() { Name = polygon.Name };
             }
-            
-            string name = thumb.Name;
-            int indexThumb = int.Parse(name.Substring(5));
-            polygon.Stroke = System.Windows.Media.Brushes.Red;
 
-            int index = 0;
-            polygon.Points.Clear();
-            double dLeft = Canvas.GetLeft(_polygon);
-            double dTop = Canvas.GetTop(_polygon);
-            foreach (var _points in _polygon.Points)
+            Polygon.Stroke = System.Windows.Media.Brushes.Red;
+            Polygon.Points.Clear();
+            int indexThumb = int.Parse(Thumb.Name.Substring(5));
+            for (int i = 0; i < polygon.Points.Count; ++i)
             {
-                Point point = _points;
-                if (index == indexThumb)
+                if (i == indexThumb)
                 {
-                    point.X = x - dLeft;
-                    point.Y = y - dTop;
-                };
-                
-                polygon.Points.Add(point);
-                index++;
+                    var x = Canvas.GetLeft(Thumb) - Canvas.GetLeft(polygon);
+                    var y = Canvas.GetTop(Thumb) - Canvas.GetTop(polygon);
+                    Polygon.Points.Add(new Point(x, y));
+                }
+                else
+                {
+                    Polygon.Points.Add(new Point(polygon.Points[i].X, polygon.Points[i].Y));
+                }
             }
-            Canvas.SetLeft(polygon, dLeft);
-            Canvas.SetTop(polygon, dTop);
-            if (canvas.Children.IndexOf(polygon) == -1) canvas.Children.Add(polygon);
-                
+            Canvas.SetLeft(Polygon, Canvas.GetLeft(polygon));
+            Canvas.SetTop(Polygon, Canvas.GetTop(polygon));
+            if (Canvas.Children.IndexOf(Polygon) == -1)
+                Canvas.Children.Add(Polygon);
         }
     }
 }

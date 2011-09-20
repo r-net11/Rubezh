@@ -8,13 +8,11 @@ namespace PlansModule.ViewModels
 {
     public class TextBoxAdorner : Adorner
     {
-        bool isMove = false;
-
-        private UIElement currentElement = null;
-        private Rectangle rectangle = null;
-        
-        private double _leftOffset = 0;
-        private double _topOffset = 0;
+        bool isMove;
+        UIElement currentElement;
+        Rectangle rectangle;
+        double _leftOffset;
+        double _topOffset;
         Rect adornedElementRect;
 
         public TextBoxAdorner(UIElement adornedElement)
@@ -26,14 +24,11 @@ namespace PlansModule.ViewModels
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
-            renderBrush.Opacity = 0.2;
             Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
             adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
             adornedElementRect.Y = adornedElementRect.Y + PlanCanvasView.dTop;
             drawingContext.DrawRectangle(null, renderPen, adornedElementRect);
         }
-
 
         public void SetOperationMove(bool _move)
         {
@@ -42,20 +37,13 @@ namespace PlansModule.ViewModels
 
         public double LeftOffset
         {
-            get
-            {
-                return _leftOffset;
-            }
+            get { return _leftOffset; }
             set
             {
                 if (isMove)
-                {
                     _leftOffset = value;
-                }
                 else
-                {
                     _leftOffset = 0;
-                }
 
                 UpdatePosition();
             }
@@ -63,32 +51,23 @@ namespace PlansModule.ViewModels
 
         public double TopOffset
         {
-            get
-            {
-                return _topOffset;
-            }
+            get { return _topOffset; }
             set
             {
                 if (isMove)
-                {
                     _topOffset = value;
-                }
                 else
-                {
                     _topOffset = 0;
-                }
 
                 UpdatePosition();
             }
-
         }
 
         private void UpdatePosition()
         {
-            AdornerLayer adornerLayer = this.Parent as AdornerLayer;
-            if (adornerLayer != null)
+            if (Parent is AdornerLayer)
             {
-                adornerLayer.Update(AdornedElement);
+                (Parent as AdornerLayer).Update(AdornedElement);
             }
         }
 

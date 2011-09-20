@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Common;
@@ -16,60 +15,29 @@ namespace PlansModule.ViewModels
     {
         public PlansViewModel()
         {
-            Plans = new ObservableCollection<PlanViewModel>();
-            MainCanvas = new Canvas();
-            SolidColorBrush SolidColorBrush = new SolidColorBrush();
-            SolidColorBrush.Color = Colors.Red;
-            MainCanvas.Background = SolidColorBrush;
+            MainCanvas = new Canvas() { Background = new SolidColorBrush(Colors.Red) };
+            Initialize();
+        }
+
+        void Initialize()
+        {
+            if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
+            {
+                Plans = new ObservableCollection<PlanViewModel>(
+                    FiresecManager.PlansConfiguration.Plans.Select(plan => new PlanViewModel(plan))
+                );
+
+                SelectedPlan = Plans[0];
+            }
+            else
+            {
+                Plans = new ObservableCollection<PlanViewModel>();
+            }
 
             AddCommand = new RelayCommand(OnAdd);
             AddSubCommand = new RelayCommand(OnAddSub, CanAddSub);
             RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-        }
-
-        public void Initialize()
-        {
-            if (FiresecManager.PlansConfiguration.Plans != null)
-            {
-                foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-                {
-                    if (plan.ElementZones.IsNotNullOrEmpty())
-                    {
-                        Trace.WriteLine("Zone found");
-                    }
-
-                    if (plan.Name == null) plan.Name = "План без названия";
-                    var planViewModel = new PlanViewModel(plan);
-                    Plans.Add(planViewModel);
-                    if (plan.Children != null)
-                    {
-                        BuildTree(plan.Children, planViewModel);
-                    }
-                }
-
-                if (Plans.IsNotNullOrEmpty())
-                {
-                    SelectedPlan = Plans[0];
-                }
-            }
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Colors.Red;
-            MainCanvas.Background = brush;
-        }
-
-        public void BuildTree(List<Plan> plans, PlanViewModel parent)
-        {
-            foreach (var plan in plans)
-            {
-                var planViewModel = new PlanViewModel(plan);
-                planViewModel.AddChild(parent, planViewModel);
-                plan.Parent = parent.Plan;
-                if (plan.Children != null)
-                {
-                    BuildTree(plan.Children, planViewModel);
-                }
-            }
         }
 
         Canvas _mainCanvas;
@@ -108,71 +76,10 @@ namespace PlansModule.ViewModels
                 _selectedPlan = value;
 
                 OnPropertyChanged("SelectedPlan");
-                RePaintCanvas();
+                if (PlanCanvasView.Current != null)
+                    PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
             }
         }
-
-        public void RePaintCanvas()
-        {
-            if (PlanCanvasView.Current != null) PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
-        }
-
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            PlanDetailsViewModel planDetailsViewModel = null;
-            if (SelectedPlan != null)
-            {
-                planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
-                planDetailsViewModel.Initialize();
-            }
-            else
-            {
-                planDetailsViewModel = new PlanDetailsViewModel();
-                planDetailsViewModel.Initialize();
-            }
-
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
-            if (result)
-            {
-                if (SelectedPlan == null)
-                {
-                    var planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
-                    Plans.Add(planViewModel);
-                }
-                else
-                {
-                    var planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
-                    planViewModel.AddChild(SelectedPlan, planViewModel);
-                }
-            }
-        }
-
-        public RelayCommand AddSubCommand { get; private set; }
-        void OnAddSub()
-        {
-            var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
-            subPlanDetailsViewModel.Initialize();
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel);
-            if (result)
-            {
-                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.ElementSubPlan);
-                SelectedPlan.AddSubPlan(SelectedPlan, elementSubPlanViewModel);
-                subPlanDetailsViewModel.Initialize();
-            }
-        }
-
-        bool CanAddSub()
-        {
-            return SelectedPlan != null;
-        }
-
-        bool CanEditRemove()
-        {
-            return SelectedPlan != null;
-        }
-
-        public RelayCommand RemoveCommand { get; private set; }
 
         bool RemovePlan(ObservableCollection<PlanViewModel> plans, PlanViewModel selectedPlan)
         {
@@ -199,6 +106,47 @@ namespace PlansModule.ViewModels
             return false;
         }
 
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            var planDetailsViewModel = (SelectedPlan != null) ? new PlanDetailsViewModel(SelectedPlan.Plan) : new PlanDetailsViewModel();
+            planDetailsViewModel.Initialize();
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+            {
+                if (SelectedPlan != null)
+                {
+                    SelectedPlan.Children.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                }
+                else
+                {
+                    Plans.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                }
+            }
+        }
+
+        public RelayCommand AddSubCommand { get; private set; }
+        void OnAddSub()
+        {
+            var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel))
+            {
+                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.ElementSubPlan);
+                SelectedPlan.ElementSubPlans.Add(elementSubPlanViewModel);
+            }
+        }
+
+        bool CanAddSub()
+        {
+            return SelectedPlan != null;
+        }
+
+        bool CanEditRemove()
+        {
+            return SelectedPlan != null;
+        }
+
+        public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
             if (SelectedPlan.Plan.Parent != null)
@@ -224,8 +172,7 @@ namespace PlansModule.ViewModels
         {
             var planDetailsViewModel = new PlanDetailsViewModel();
             planDetailsViewModel.Initialize(SelectedPlan.Plan);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
                 SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
                 var plan = SelectedPlan.Plan;
@@ -233,13 +180,11 @@ namespace PlansModule.ViewModels
                 int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
                 FiresecManager.PlansConfiguration.Plans[index] = plan;
                 SelectedPlan.Update();
-                //SelectedPlan = null;
             }
         }
 
         public override void OnShow()
         {
-            //SelectedPlan = SelectedPlan;
             var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, AddSubCommand, EditCommand, RemoveCommand);
             var plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
             ServiceFactory.Layout.ShowMenu(plansMenuViewModel);

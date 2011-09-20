@@ -32,7 +32,7 @@ namespace PlansModule.ViewModels
             _elementDeviceView.DataContext = this;
             _elementDeviceView._deviceControl.Width = elementDevice.Width;
             _elementDeviceView._deviceControl.Height = elementDevice.Height;
-            //_elementDeviceView._deviceControl 
+            //_elementDeviceView._deviceControl
             _elementDeviceView._deviceControl.PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseButtonDown);
             Canvas.SetLeft(_elementDeviceView, elementDevice.Left);
             Canvas.SetTop(_elementDeviceView, elementDevice.Top);
@@ -86,8 +86,7 @@ namespace PlansModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Validate();
-            if (result)
+            if (ServiceFactory.Get<ISecurityService>().Validate())
             {
                 _deviceState.ChangeDisabled();
             }
@@ -118,10 +117,12 @@ namespace PlansModule.ViewModels
             tooltip = _device.PresentationAddress + " - " + _device.Driver.ShortName + "\n";
 
             if (_deviceState.ParentStringStates != null)
+            {
                 foreach (var parentState in _deviceState.ParentStringStates)
                 {
                     tooltip += parentState + "\n";
                 }
+            }
 
             foreach (var state in _deviceState.States)
             {

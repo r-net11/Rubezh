@@ -35,9 +35,9 @@ namespace PlansModule.ViewModels
         }
 
         /*
-        public void SetOperationMove(bool _move)
+        public void SetOperationMove(bool isMove)
         {
-            isMove = _move;
+            _isMove = isMove;
         }
         */
         public double LeftOffset
@@ -48,7 +48,7 @@ namespace PlansModule.ViewModels
             }
             set
             {
-                //if (isMove)
+                //if (_isMove)
                 {
                     _leftOffset = value;
                 }/*
@@ -69,7 +69,7 @@ namespace PlansModule.ViewModels
             }
             set
             {
-               //if (isMove)
+               //if (_isMove)
                // {
                     _topOffset = value;
                // }

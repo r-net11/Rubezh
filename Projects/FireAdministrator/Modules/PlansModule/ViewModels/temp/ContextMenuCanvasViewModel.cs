@@ -10,42 +10,42 @@ namespace PlansModule.ViewModels
     {
         RoutedEventHandler MouseDownEventHandler;
 
-        public ContextMenuCanvasViewModel(RoutedEventHandler MouseDownEventHandler)
+        public ContextMenuCanvasViewModel(RoutedEventHandler mouseDownEventHandler)
         {
-            this.MouseDownEventHandler = MouseDownEventHandler;
+            MouseDownEventHandler = mouseDownEventHandler;
         }
 
-        public ContextMenu GetElement(UIElement ActiveElement, object element)
+        public ContextMenu GetElement(UIElement activeElement, object element)
         {
-            ContextMenu contextMenu = null;
-            if (ActiveElement is Polygon)
+            if (activeElement is Polygon)
             {
-                PlanCanvasView.ElementProperties = (ActiveElement as Polygon).Name;
-                contextMenu = CreateContextMenu(element, "Свойства зоны");
+                PlanCanvasView.ElementProperties = (activeElement as Polygon).Name;
+                return CreateContextMenu(element, "Свойства зоны");
             }
-
-            if (ActiveElement is Rectangle)
+            else if (activeElement is Rectangle)
             {
-                PlanCanvasView.ElementProperties = (ActiveElement as Rectangle).Name;
-                contextMenu = CreateContextMenu(element, "Свойства прямоугольника");
+                PlanCanvasView.ElementProperties = (activeElement as Rectangle).Name;
+                return CreateContextMenu(element, "Свойства прямоугольника");
             }
-
-            if (ActiveElement is TextBox)
+            else if (activeElement is TextBox)
             {
-                PlanCanvasView.ElementProperties = (ActiveElement as TextBox).Name;
-                contextMenu = CreateContextMenu(element, "Свойства текста");
+                PlanCanvasView.ElementProperties = (activeElement as TextBox).Name;
+                return CreateContextMenu(element, "Свойства текста");
             }
-            return contextMenu;
+            return null;
         }
 
         ContextMenu CreateContextMenu(object element, string name)
         {
+            var menuItem = new MenuItem()
+            {
+                Tag = element,
+                Header = name
+            };
+            menuItem.Click += MouseDownEventHandler;
+
             var contextMenu = new ContextMenu();
-            var items = new MenuItem();
-            items.Tag = element;
-            items.Click += MouseDownEventHandler;
-            items.Header = name;
-            contextMenu.Items.Add(items);
+            contextMenu.Items.Add(menuItem);
             return contextMenu;
         }
     }

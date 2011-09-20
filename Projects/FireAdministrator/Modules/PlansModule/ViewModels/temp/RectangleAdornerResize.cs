@@ -8,25 +8,19 @@ namespace PlansModule.ViewModels
 {
     public class RectangleAdornerResize : Adorner
     {
-        private UIElement currentElement;
-        private Rectangle rectangle;
-        public Canvas canvas;
-        private double _leftOffset;
-        private double _rightOffset;
-        private double _topOffset;
-        private double _heightOffset;
-        private double _widthOffset;
-        Rect adornedElementRect;
-        int number;
-        private double MinWidth;
-        private double MinHeight;
-        private Rectangle _childRect;
+        UIElement _currentElement;
+        Rectangle _rectangle;
+        Canvas _canvas;
+        Rect _adornedElementRect;
+        int _number;
+        double MinWidth;
+        double MinHeight;
+        Rectangle _childRect;
+
         public RectangleAdornerResize(UIElement adornedElement)
             : base(adornedElement)
         {
-            VisualBrush _brush = new VisualBrush(adornedElement);
-            currentElement = adornedElement;
-            Rectangle rect = (Rectangle) currentElement;
+            _currentElement = adornedElement;
             _childRect = new Rectangle();
             _childRect.Width = adornedElement.RenderSize.Width;
             _childRect.Height = adornedElement.RenderSize.Height;
@@ -34,26 +28,22 @@ namespace PlansModule.ViewModels
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
-            renderBrush.Opacity = 0.2;
+            _adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
             Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-
-            adornedElementRect = new Rect(this.AdornedElement.DesiredSize);
-            //adornedElementRect.Y = adornedElementRect.Y + PlanCanvasView.dTop;
-            drawingContext.DrawRectangle(null, renderPen, adornedElementRect);
+            drawingContext.DrawRectangle(null, renderPen, _adornedElementRect);
         }
 
         public void SetCanvas(Canvas canvas, double minwidth, double minheight)
         {
-            this.canvas = canvas;
-            this.MinHeight = minheight;
-            this.MinWidth = minwidth;
+            _canvas = canvas;
+            MinHeight = minheight;
+            MinWidth = minwidth;
         }
 
         public void SetRect(Rect rect, int number)
         {
-            this.adornedElementRect = rect;
-            this.number = number;
+            _adornedElementRect = rect;
+            _number = number;
         }
 
         protected override Size MeasureOverride(Size constraint)
@@ -75,31 +65,24 @@ namespace PlansModule.ViewModels
 
         protected override int VisualChildrenCount
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
-        double tmpX = 0;
-        double tmpY = 0;
+
+        double _heightOffset;
         public double HeightOffset
         {
-            get
-            {
-                return _heightOffset;
-            }
+            get { return _heightOffset; }
             set
             {
                 _heightOffset = value;
                 UpdatePosition();
             }
         }
+
+        double _widthOffset;
         public double WidthOffset
         {
-            get
-            {
-                return _widthOffset;
-            }
+            get { return _widthOffset; }
             set
             {
                 _widthOffset = value;
@@ -107,36 +90,32 @@ namespace PlansModule.ViewModels
             }
         }
 
+        double _leftOffset;
         public double LeftOffset
         {
-            get
-            {
-                return _leftOffset;
-            }
+            get { return _leftOffset; }
             set
             {
                 _leftOffset = value;
                 UpdatePosition();
             }
         }
+
+        double _rightOffset;
         public double RightOffset
         {
-            get
-            {
-                return _rightOffset;
-            }
+            get { return _rightOffset; }
             set
             {
                 _rightOffset = value;
                 UpdatePosition();
             }
         }
+
+        double _topOffset;
         public double TopOffset
         {
-            get
-            {
-                return _topOffset;
-            }
+            get { return _topOffset; }
             set
             {
                 _topOffset = value;
@@ -144,12 +123,11 @@ namespace PlansModule.ViewModels
             }
         }
 
-        private void UpdatePosition()
+        void UpdatePosition()
         {
-            AdornerLayer adornerLayer = this.Parent as AdornerLayer;
-            if (adornerLayer != null)
+            if (Parent is AdornerLayer)
             {
-                adornerLayer.Update(AdornedElement);
+                (Parent as AdornerLayer).Update(AdornedElement);
             }
         }
 

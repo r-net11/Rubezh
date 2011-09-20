@@ -16,12 +16,15 @@ namespace PlansModule
         {
             try
             {
+                Plan plan = null;
                 DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                string ыек = PathHelper.Plans;
-                FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open);
-                XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
-                Plan plan = (Plan)dcs.ReadObject(reader);
-                reader.Close();
+
+                using (FileStream fs = new FileStream(PathHelper.Plans, FileMode.Open))
+                {
+                    var reader = XmlDictionaryReader.CreateTextReader(fs, XmlDictionaryReaderQuotas.Max);
+                    plan = (Plan) dcs.ReadObject(reader);
+                    reader.Close();
+                }
                 /*
                 Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
                 byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
@@ -51,8 +54,7 @@ namespace PlansModule
                 if (plan.BackgroundSource != null)
                 {
                     Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
-                    byte[] imageInfo = File.ReadAllBytes(uri.AbsolutePath);
-                    plan.BackgroundPixels = imageInfo;
+                    plan.BackgroundPixels = File.ReadAllBytes(uri.AbsolutePath);
                 }
                 if (plan.Children != null)
                 {
@@ -107,9 +109,7 @@ namespace PlansModule
                             XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
                             dcs.WriteObject(xdw, plan);
                             xdw.Close();
-                 
-                
-                
+
                             DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
                             FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
                             XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());

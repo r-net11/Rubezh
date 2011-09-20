@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -11,33 +10,23 @@ namespace PlansModule.ViewModels
         public PlanDetailsViewModel()
         {
             Title = "Новый план";
+
             Plan = new Plan();
-            Parent = null;
-            SaveCommand = new RelayCommand(OnSave);
+
+            SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Colors.Red;
-           
         }
 
         public PlanDetailsViewModel(Plan parent)
         {
             Title = "Новый план";
+
             Plan = new Plan();
             if (parent.Children == null) parent.Children = new List<FiresecAPI.Models.Plan>();
             parent.Children.Add(Plan);
             Plan.Parent = parent;
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
 
-        public PlanDetailsViewModel(Plan parent, ElementSubPlan subplan)
-        {
-            Title = "Новый субплан";
-            Plan = parent;
-            if (Plan.ElementSubPlans == null) Plan.ElementSubPlans = new List<ElementSubPlan>();
-            Plan.ElementSubPlans.Add(subplan);
-            SaveCommand = new RelayCommand(OnSave);
+            SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
@@ -45,37 +34,25 @@ namespace PlansModule.ViewModels
         {
             _isNew = true;
         }
+
         public void Initialize(Plan plan)
         {
+            Title = "Редактирование плана";
+
             _isNew = false;
             Name = plan.Name;
             Width = plan.Width;
             Height = plan.Height;
-            Title = "Редактирование плана";
-        }
-
-
-        public void Initialize(PlanViewModel plan)
-        {
-            _isNew = false;
-            Name = plan.Name;
-            Width = plan.Plan.Width;
-            Height = plan.Plan.Height;
-            Title = "Редактирование плана";
         }
 
         bool _isNew;
         public Plan Plan { get; private set; }
         public Plan Parent { get; private set; }
 
-
         string _name;
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get { return _name; }
             set
             {
                 _name = value;
@@ -131,13 +108,13 @@ namespace PlansModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            if (Name != null)
-            {
-                Save();
-                Close(true);
-            }
-            else Close(false);
+            Save();
+            Close(true);
+        }
 
+        bool CanSave()
+        {
+            return Name != null;
         }
 
         public RelayCommand CancelCommand { get; private set; }

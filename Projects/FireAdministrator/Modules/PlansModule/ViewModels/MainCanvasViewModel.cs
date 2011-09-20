@@ -14,100 +14,91 @@ namespace PlansModule.ViewModels
 {
     public class MainCanvasViewModel : RegionViewModel
     {
-        UIElement ActiveElement = null;
-        public static UIElement _originalElementToResize;
-        public static UIElement _originalElementToResizeTextBox;
-        public static Canvas canvas;
-        public static Plan plan;
+        UIElement _activeElement;
+        public static UIElement OriginalElementToResize;
+        public static UIElement OriginalElementToResizeTextBox;
+        public static Canvas Canvas;
+        public static Plan Plan;
 
-        public MainCanvasViewModel(UIElement _element)
+        public MainCanvasViewModel(UIElement element)
         {
-            ActiveElement = _element;
+            _activeElement = element;
             SetActive();
         }
 
         void SetActive()
         {
-            if (ActiveElement is Polygon)
+            if (_activeElement is Polygon)
             {
-                SetActivePolygon(ActiveElement as Polygon);
-                _originalElementToResize = ActiveElement as Polygon;
-                (ActiveElement as Polygon).Cursor = Cursors.Cross;
-            };
-            if (ActiveElement is Rectangle)
-            {
-                SetActiveRectangle(ActiveElement as Rectangle);
-                _originalElementToResize = ActiveElement as Rectangle;
-                (ActiveElement as Rectangle).Cursor = Cursors.Cross;
+                SetActivePolygon(_activeElement as Polygon);
+                OriginalElementToResize = _activeElement as Polygon;
+                (_activeElement as Polygon).Cursor = Cursors.Cross;
             }
-            if (ActiveElement is TextBox)
+            else if (_activeElement is Rectangle)
             {
-                SetActiveTextBox(ActiveElement as TextBox);
-                _originalElementToResizeTextBox = ActiveElement as TextBox;
-                (ActiveElement as TextBox).Cursor = Cursors.Cross;
+                SetActiveRectangle(_activeElement as Rectangle);
+                OriginalElementToResize = _activeElement as Rectangle;
+                (_activeElement as Rectangle).Cursor = Cursors.Cross;
             }
-
-            if (ActiveElement is Thumb)
+            else if (_activeElement is TextBox)
             {
-                SetActiveThumb(ActiveElement as Thumb);
+                SetActiveTextBox(_activeElement as TextBox);
+                OriginalElementToResizeTextBox = _activeElement as TextBox;
+                (_activeElement as TextBox).Cursor = Cursors.Cross;
+            }
+            else if (_activeElement is Thumb)
+            {
+                SetActiveThumb(_activeElement as Thumb);
             }
         }
 
-        void SetActiveTextBox(TextBox _textbox)
+        void SetActiveTextBox(TextBox textbox)
         {
-            var textbox = _textbox;
-
-            double d1 = Canvas.GetLeft(textbox);
-            double d2 = Canvas.GetTop(textbox);
-            double d3 = textbox.ActualHeight;
-            double d4 = textbox.ActualWidth;
-
-            Thickness Thickness = new System.Windows.Thickness();
-            Thickness.Bottom = 1;
-            Thickness.Top = 1;
-            Thickness.Left = 1;
-            Thickness.Right = 1;
-            Thumb thumb1 = new Thumb();
-            thumb1.Height = 4;
-            thumb1.Width = 4;
-            thumb1.Background = Brushes.Blue;
-            thumb1.BorderBrush = Brushes.Blue;
-            thumb1.Name = "thumb1";
+            Thumb thumb1 = new Thumb()
+            {
+                Height = 4,
+                Width = 4,
+                Background = Brushes.Blue,
+                BorderBrush = Brushes.Blue,
+                Name = "thumb1"
+            };
             Canvas.SetLeft(thumb1, Canvas.GetLeft(textbox) - 2);
             Canvas.SetTop(thumb1, Canvas.GetTop(textbox) - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb1);
 
-            Thumb thumb2 = new Thumb();
-            thumb2.Height = 4;
-            thumb2.Width = 4;
-            thumb2.Background = Brushes.Blue;
-            thumb2.BorderBrush = Brushes.Blue;
-            thumb2.Name = "thumb2";
-
+            Thumb thumb2 = new Thumb()
+            {
+                Height = 4,
+                Width = 4,
+                Background = Brushes.Blue,
+                BorderBrush = Brushes.Blue,
+                Name = "thumb2"
+            };
             Canvas.SetLeft(thumb2, Canvas.GetLeft(textbox) + textbox.ActualWidth - 2);
             Canvas.SetTop(thumb2, Canvas.GetTop(textbox) - 2);
-
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
-            Thumb thumb3 = new Thumb();
-            thumb3.Height = 4;
-            thumb3.Width = 4;
-            thumb3.Background = Brushes.Blue;
-            thumb3.BorderBrush = Brushes.Blue;
-            thumb3.Name = "thumb3";
+
+            Thumb thumb3 = new Thumb()
+            {
+                Height = 4,
+                Width = 4,
+                Background = Brushes.Blue,
+                BorderBrush = Brushes.Blue,
+                Name = "thumb3"
+            };
             Canvas.SetLeft(thumb3, Canvas.GetLeft(textbox) + textbox.ActualWidth - 2);
             Canvas.SetTop(thumb3, Canvas.GetTop(textbox) + textbox.ActualHeight - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
-            Thumb thumb4 = new Thumb();
-            thumb4.Height = 4;
-            thumb4.Width = 4;
-            thumb4.Background = Brushes.Blue;
-            thumb4.BorderBrush = Brushes.Blue;
-            thumb4.Name = "thumb4";
+
+            Thumb thumb4 = new Thumb()
+            {
+                Height = 4,
+                Width = 4,
+                Background = Brushes.Blue,
+                BorderBrush = Brushes.Blue,
+                Name = "thumb4"
+            };
             Canvas.SetLeft(thumb4, Canvas.GetLeft(textbox) - 2);
             Canvas.SetTop(thumb4, Canvas.GetTop(textbox) + textbox.ActualHeight - 2);
-            //PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
         }
 
@@ -118,38 +109,33 @@ namespace PlansModule.ViewModels
 
         void RemoveAllWrapperForTexBox(UIElementCollection UIElementCollection)
         {
-            bool res = false; ;
-            foreach (UIElement element in canvas.Children)
+            foreach (UIElement element in Canvas.Children)
             {
                 if (element is Rectangle)
                 {
-                    var rect = element as Rectangle;
-                    if (rect.Name == "textbox")
+                    if ((element as Rectangle).Name == "textbox")
                     {
-                        canvas.Children.Remove(element);
-                        res = true;
+                        Canvas.Children.Remove(element);
+                        RemoveAllWrapperForTexBox(Canvas.Children);
                         break;
-
                     }
                 }
             }
-            if (res) RemoveAllWrapperForTexBox(canvas.Children);
         }
 
         void DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            if (_originalElementToResize is Polygon)
+            if (OriginalElementToResize is Polygon)
             {
-                Polygon polygon = _originalElementToResize as Polygon;
-                polygon.Points = ResizePolygon.GetPolygonResize();
-                ResizePolygon.RemovePolygon();
-                PlanCanvasView.UpdateResizePlan(_originalElementToResize, plan);
-                _originalElementToResize = null;
-                ActiveElement = null;
+                (OriginalElementToResize as Polygon).Points = PolygonResizer.GetPolygonResize();
+                PolygonResizer.RemovePolygon();
+                PlanCanvasView.UpdateResizePlan(OriginalElementToResize, Plan);
+                OriginalElementToResize = null;
+                _activeElement = null;
             };
-            
-            RemoveAllWrapperForTexBox(canvas.Children);
-            MainCanvasViewModel._originalElementToResizeTextBox = null;
+
+            RemoveAllWrapperForTexBox(Canvas.Children);
+            MainCanvasViewModel.OriginalElementToResizeTextBox = null;
         }
 
         void DragDelta(object sender, DragDeltaEventArgs e)
@@ -161,21 +147,20 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb, dX);
             Canvas.SetTop(thumb, dY);
-            double test = Canvas.GetLeft(_originalElementToResize);
-            ResizePolygon.SetElementResize(_originalElementToResize, thumb, _originalElementToResizeTextBox);
-            if (_originalElementToResize is Rectangle)
+            double test = Canvas.GetLeft(OriginalElementToResize);
+            PolygonResizer.SetElementResize(OriginalElementToResize, thumb, OriginalElementToResizeTextBox);
+            if (OriginalElementToResize is Rectangle)
             {
                 string name = thumb.Name;
                 switch (name)
                 {
                     case "thumb1":
                         {
-                            if (_originalElementToResizeTextBox == null)
+                            if (OriginalElementToResizeTextBox == null)
                             {
-                                Rectangle rectangle = _originalElementToResize as Rectangle;
+                                Rectangle rectangle = OriginalElementToResize as Rectangle;
                                 double oldTop = Canvas.GetTop(rectangle);
                                 double oldLeft = Canvas.GetLeft(rectangle);
-
 
                                 if (dX < oldLeft)
                                 {
@@ -210,11 +195,10 @@ namespace PlansModule.ViewModels
                                         Canvas.SetTop(rectangle, dY);
                                     }
                                 }
-
                             }
                             else
                             {
-                                var textBox = _originalElementToResizeTextBox as TextBox;
+                                var textBox = OriginalElementToResizeTextBox as TextBox;
                                 double oldTop = Canvas.GetTop(textBox);
                                 double oldLeft = Canvas.GetLeft(textBox);
                                 if (dX < oldLeft)
@@ -254,13 +238,11 @@ namespace PlansModule.ViewModels
                         };
                     case "thumb2":
                         {
-
-                            if (_originalElementToResizeTextBox == null)
+                            if (OriginalElementToResizeTextBox == null)
                             {
-                                Rectangle rectangle = _originalElementToResize as Rectangle;
+                                Rectangle rectangle = OriginalElementToResize as Rectangle;
                                 double oldTop = Canvas.GetTop(rectangle);
                                 double oldLeft = Canvas.GetLeft(rectangle);
-
 
                                 if (dX < oldLeft + rectangle.Width)
                                 {
@@ -273,7 +255,6 @@ namespace PlansModule.ViewModels
                                 {
                                     if (rectangle.Width + Math.Abs(oldLeft + rectangle.Width - dX) > rectangle.MinWidth)
                                     {
-
                                         rectangle.Width = rectangle.Width + Math.Abs(oldLeft + rectangle.Width - dX);
                                     }
                                 }
@@ -297,24 +278,23 @@ namespace PlansModule.ViewModels
                             }
                             else
                             {/*
-                                thumb.Background = Brushes.Blue;
-                                thumb.BorderBrush = Brushes.Blue;
+                                Thumb.Background = Brushes.Blue;
+                                Thumb.BorderBrush = Brushes.Blue;
                                 dX = dX - e.HorizontalChange;
                                 dY = dY - e.VerticalChange;
-                                Canvas.SetLeft(thumb, dX);
-                                Canvas.SetTop(thumb, dY);
+                                Canvas.SetLeft(Thumb, dX);
+                                Canvas.SetTop(Thumb, dY);
 */
                             }
                             break;
                         };
                     case "thumb3":
                         {
-                            if (_originalElementToResizeTextBox == null)
+                            if (OriginalElementToResizeTextBox == null)
                             {
-                                Rectangle rectangle = _originalElementToResize as Rectangle;
+                                Rectangle rectangle = OriginalElementToResize as Rectangle;
                                 double oldTop = Canvas.GetTop(rectangle);
                                 double oldLeft = Canvas.GetLeft(rectangle);
-
 
                                 if (dX < oldLeft + rectangle.Width)
                                 {
@@ -327,7 +307,6 @@ namespace PlansModule.ViewModels
                                 {
                                     if (rectangle.Width + Math.Abs(oldLeft + rectangle.Width - dX) > rectangle.MinWidth)
                                     {
-
                                         rectangle.Width = rectangle.Width + Math.Abs(oldLeft + rectangle.Width - dX);
                                     }
                                 }
@@ -337,7 +316,6 @@ namespace PlansModule.ViewModels
                                     if ((rectangle.Height - Math.Abs(oldTop + rectangle.Height - dY)) > rectangle.MinHeight)
                                     {
                                         rectangle.Height = rectangle.Height - Math.Abs(oldTop + rectangle.Height - dY);
-
                                     }
                                 }
                                 else
@@ -345,14 +323,12 @@ namespace PlansModule.ViewModels
                                     if ((rectangle.Height + Math.Abs(oldTop + rectangle.Height - dY)) > rectangle.MinHeight)
                                     {
                                         rectangle.Height = rectangle.Height + Math.Abs(oldTop + rectangle.Height - dY);
-
                                     }
                                 }
                             }
                             else
                             {
-
-                                var textBox = _originalElementToResizeTextBox as TextBox;
+                                var textBox = OriginalElementToResizeTextBox as TextBox;
                                 double oldTop = Canvas.GetTop(textBox);
                                 double oldLeft = Canvas.GetLeft(textBox);
                                 if (dX < oldLeft + textBox.Width)
@@ -360,7 +336,6 @@ namespace PlansModule.ViewModels
                                     if (textBox.FontSize - Math.Abs(e.HorizontalChange) > 0)
                                     {
                                         textBox.FontSize = textBox.FontSize - e.HorizontalChange;
-
                                     }
                                 }
                                 else
@@ -368,7 +343,6 @@ namespace PlansModule.ViewModels
                                     if (textBox.FontSize + e.HorizontalChange > 0)
                                     {
                                         textBox.FontSize = textBox.FontSize + e.HorizontalChange;
-
                                     }
                                 }
                                 if (dY < oldTop + textBox.Height)
@@ -376,7 +350,6 @@ namespace PlansModule.ViewModels
                                     if (textBox.FontSize - e.VerticalChange > 0)
                                     {
                                         textBox.FontSize = textBox.FontSize - e.VerticalChange;
-
                                     }
                                 }
                                 else
@@ -384,7 +357,6 @@ namespace PlansModule.ViewModels
                                     if (textBox.FontSize + e.VerticalChange > 0)
                                     {
                                         textBox.FontSize = textBox.FontSize + e.VerticalChange;
-
                                     }
                                 }
                             }
@@ -392,12 +364,11 @@ namespace PlansModule.ViewModels
                         };
                     case "thumb4":
                         {
-                            if (_originalElementToResizeTextBox == null)
+                            if (OriginalElementToResizeTextBox == null)
                             {
-                                Rectangle rectangle = _originalElementToResize as Rectangle;
+                                Rectangle rectangle = OriginalElementToResize as Rectangle;
                                 double oldTop = Canvas.GetTop(rectangle);
                                 double oldLeft = Canvas.GetLeft(rectangle);
-
 
                                 if (dX < oldLeft)
                                 {
@@ -421,7 +392,6 @@ namespace PlansModule.ViewModels
                                     if ((rectangle.Height - Math.Abs(oldTop + rectangle.Height - dY)) > rectangle.MinHeight)
                                     {
                                         rectangle.Height = rectangle.Height - Math.Abs(oldTop + rectangle.Height - dY);
-
                                     }
                                 }
                                 else
@@ -429,32 +399,31 @@ namespace PlansModule.ViewModels
                                     if ((rectangle.Height + Math.Abs(oldTop + rectangle.Height - dY)) > rectangle.MinHeight)
                                     {
                                         rectangle.Height = rectangle.Height + Math.Abs(oldTop + rectangle.Height - dY);
-
                                     }
                                 }
                             }
                             else
                             {/*
-                                thumb.Background = Brushes.Blue;
-                                thumb.BorderBrush = Brushes.Blue;
+                                Thumb.Background = Brushes.Blue;
+                                Thumb.BorderBrush = Brushes.Blue;
                                 dX = dX - e.HorizontalChange;
                                 dY = dY - e.VerticalChange;
-                                Canvas.SetLeft(thumb, dX);
-                                Canvas.SetTop(thumb, dY);
+                                Canvas.SetLeft(Thumb, dX);
+                                Canvas.SetTop(Thumb, dY);
                                 */
                             }
                             break;
                         };
                 }
             }
-            if (_originalElementToResizeTextBox == null)
+            if (OriginalElementToResizeTextBox == null)
             {
-                PlanCanvasView.UpdateResizePlan(_originalElementToResize, plan);
+                PlanCanvasView.UpdateResizePlan(OriginalElementToResize, Plan);
             }
             else
             {
-                PlanCanvasView.UpdateResizePlan(_originalElementToResizeTextBox, plan);
-                //_originalElementToResizeTextBox = null;
+                PlanCanvasView.UpdateResizePlan(OriginalElementToResizeTextBox, Plan);
+                //OriginalElementToResizeTextBox = null;
             }
         }
 
@@ -493,7 +462,7 @@ namespace PlansModule.ViewModels
 
             Canvas.SetLeft(thumb2, Canvas.GetLeft(_rectangle) + _rectangle.Width - 2);
             Canvas.SetTop(thumb2, Canvas.GetTop(_rectangle) - 2);
-            
+
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb2);
 
             Thumb thumb3 = new Thumb();
@@ -507,7 +476,7 @@ namespace PlansModule.ViewModels
             thumb3.Name = "thumb3";
             Canvas.SetLeft(thumb3, Canvas.GetLeft(_rectangle) + _rectangle.Width - 2);
             Canvas.SetTop(thumb3, Canvas.GetTop(_rectangle) + _rectangle.Height - 2);
-            
+
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb3);
             Thumb thumb4 = new Thumb();
             thumb4.DragStarted += new DragStartedEventHandler(DragStarted);
@@ -520,7 +489,7 @@ namespace PlansModule.ViewModels
             thumb4.Name = "thumb4";
             Canvas.SetLeft(thumb4, Canvas.GetLeft(_rectangle) - 2);
             Canvas.SetTop(thumb4, Canvas.GetTop(_rectangle) + rectangle.Height - 2);
-            
+
             PlanCanvasView.Current.MainCanvas.Children.Add(thumb4);
         }
 
@@ -543,7 +512,7 @@ namespace PlansModule.ViewModels
 
                 Canvas.SetLeft(thumb, point.X - 2 + dLeft);
                 Canvas.SetTop(thumb, point.Y - 2 + dTop);
-                string s = "thumb" + (index).ToString();
+                string s = "Thumb" + (index).ToString();
                 try
                 {
                     thumb.Name = s;
@@ -552,23 +521,25 @@ namespace PlansModule.ViewModels
                 {
                     MessageBox.Show(ex.Message);
                 }
-                
+
                 PlanCanvasView.Current.MainCanvas.Children.Add(thumb);
                 index++;
             }
         }
 
-        void SetActiveThumb(Thumb _thumb)
+        void SetActiveThumb(Thumb thumb)
         {
-            _thumb.Background = Brushes.Red;
-            _thumb.BorderBrush = Brushes.Red;
-            Thickness Thickness = new System.Windows.Thickness();
-            Thickness.Bottom = 2;
-            Thickness.Top = 2;
-            Thickness.Left = 2;
-            Thickness.Right = 2;
-            _thumb.BorderThickness = Thickness;
-            _thumb.Cursor = Cursors.ScrollAll;
+            thumb.Background = Brushes.Red;
+            thumb.BorderBrush = Brushes.Red;
+            Thickness Thickness = new System.Windows.Thickness()
+            {
+                Bottom = 2,
+                Top = 2,
+                Left = 2,
+                Right = 2
+            };
+            thumb.BorderThickness = Thickness;
+            thumb.Cursor = Cursors.ScrollAll;
         }
     }
 }

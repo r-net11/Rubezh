@@ -7,36 +7,21 @@ namespace PlansModule.ViewModels
 {
     public class SubPlanDetailsViewModel : DialogContent
     {
-
         public SubPlanDetailsViewModel(Plan parent)
         {
             Title = "Новый субплан";
+
+            _isNew = true;
             ElementSubPlan = new ElementSubPlan();
             if (parent.ElementSubPlans == null) parent.ElementSubPlans = new List<ElementSubPlan>();
             parent.ElementSubPlans.Add(ElementSubPlan);
             Parent = parent;
-            SaveCommand = new RelayCommand(OnSave);
+            Name = Parent.Name;
+
+            SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
-        public void Initialize()
-        {
-            _isNew = true;
-        }
-        public void Initialize(Plan plan)
-        {
-            _isNew = false;
-            Name = plan.Name;
-            Title = "Редактирование субплана";
-        }
-
-        public void Initialize(PlanViewModel plan)
-        {
-            _isNew = false;
-            Name = plan.Name;
-            Title = "Редактирование субплана";
-        }
-        
         bool _isNew;
         public ElementSubPlan ElementSubPlan { get; private set; }
         public Plan Parent { get; private set; }
@@ -44,10 +29,7 @@ namespace PlansModule.ViewModels
         string _name;
         public string Name
         {
-            get 
-            { 
-                return _name; 
-            }
+            get { return _name; }
             set
             {
                 _name = value;
@@ -61,7 +43,6 @@ namespace PlansModule.ViewModels
             if (_isNew)
             {
                 Plan plan = Parent;
-                
                 while (plan.Parent != null) plan = plan.Parent;
 
                 if (FiresecManager.PlansConfiguration.Plans == null) FiresecManager.PlansConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
@@ -80,12 +61,13 @@ namespace PlansModule.ViewModels
         public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
-            if (Name != null)
-            {
-                Save();
-                Close(true);
-            }
-            else Close(false);
+            Save();
+            Close(true);
+        }
+
+        bool CanSave()
+        {
+            return Name != null;
         }
 
         public RelayCommand CancelCommand { get; private set; }

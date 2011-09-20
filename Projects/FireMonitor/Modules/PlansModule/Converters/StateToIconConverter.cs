@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
-using FiresecClient;
 
 namespace PlansModule.Converters
 {
@@ -9,16 +8,12 @@ namespace PlansModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType)value;
-            string icon = StateToIcon(stateType);
+            string icon = StateToIcon((StateType) value);
             if (icon != null)
             {
                 return FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
