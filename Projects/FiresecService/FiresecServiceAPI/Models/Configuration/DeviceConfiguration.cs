@@ -37,9 +37,12 @@ namespace FiresecAPI.Models
         public void Update()
         {
             Devices = new List<Device>();
-            RootDevice.Parent = null;
-            Devices.Add(RootDevice);
-            AddChild(RootDevice);
+            if (RootDevice != null)
+            {
+                RootDevice.Parent = null;
+                Devices.Add(RootDevice);
+                AddChild(RootDevice);
+            }
         }
 
         void AddChild(Device parentDevice)

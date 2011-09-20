@@ -39,6 +39,7 @@ namespace FiresecService
         public static void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+            Directory.CreateDirectory("Configuration");
             using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
             {
                 dataContractSerializer.WriteObject(fileStream, deviceConfiguration);

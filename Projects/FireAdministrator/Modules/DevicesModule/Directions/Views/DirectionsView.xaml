@@ -57,8 +57,13 @@
                 </Grid>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Button Content="Добавить" Command="{Binding AddZoneCommand}" Width="100" />
-                    <Button Content="Удалить" Command="{Binding RemoveZoneCommand}" Width="100" />
+                    <Button Command="{Binding AddZoneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                        <Image Source="/Controls;component/Images/ArrowUp.png" Height="24" />
+                    </Button>
+
+                    <Button Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                        <Image Source="/Controls;component/Images/ArrowDown.png" Height="24" />
+                    </Button>
                 </StackPanel>
 
                 <Grid Grid.Row="2">

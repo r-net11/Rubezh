@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
-        <Controls:XButton Command="{Binding ChangeUserCommand}" Height="30" Margin="2" Background="DarkRed" >
-            <TextBlock Text="Сменить пользователя" FontSize="12" Margin="4" />
-        </Controls:XButton>
+        <Button Command="{Binding ChangeUserCommand}" ToolTip="Сменить пользователя" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/user.png" Height="24" Opacity="0.5" />
+        </Button>
     </Grid>
 </UserControl>

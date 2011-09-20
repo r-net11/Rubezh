@@ -6,6 +6,7 @@
         <ResourceDictionary Source="TreeExpanderStyle.xaml" />
         <ResourceDictionary Source="OutlookTabControlStyle.xaml" />
         <ResourceDictionary Source="ToolBarStyle.xaml" />
+        <ResourceDictionary Source="ToolBarButtonStyle.xaml" />
         <ResourceDictionary Source="HyperlinkStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

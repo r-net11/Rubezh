@@ -93,6 +93,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\ToolBarButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\TreeExpanderStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -123,52 +127,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Alarm_Main_1_Fire.png" />
-    <Resource Include="Images\Alarm_main_2_Attention.png" />
-    <Resource Include="Images\Alarm_main_3_Failure.png" />
-    <Resource Include="Images\Alarm_main_4_Off.png" />
-    <Resource Include="Images\Alarm_main_5_Info.png" />
-    <Resource Include="Images\Alarm_main_6_Service.png" />
-    <Resource Include="Images\Alarm_main_7_Auto.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Views\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\RightDoubleArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Cut.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\DeleteAll.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\DeleteAllEmpty.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LeftArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\LeftDoubleArrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\RightArrow.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
@@ -177,22 +136,65 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Alarm_Main_1_Fire.png" />
+    <Resource Include="Images\Alarm_main_2_Attention.png" />
+    <Resource Include="Images\Alarm_main_3_Failure.png" />
+    <Resource Include="Images\Alarm_main_4_Off.png" />
+    <Resource Include="Images\Alarm_main_5_Info.png" />
+    <Resource Include="Images\Alarm_main_6_Service.png" />
+    <Resource Include="Images\Alarm_main_7_Auto.png" />
+    <Resource Include="Images\arrow-left-right.png" />
+    <Resource Include="Images\book.png" />
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\cut.png" />
+    <Resource Include="Images\DeleteAll.png" />
+    <Resource Include="Images\download.png" />
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\filter.png" />
+    <Resource Include="Images\information.png" />
+    <Resource Include="Images\levels.png" />
+    <Resource Include="Images\load.png" />
     <Resource Include="Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Validate.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Images\map.png" />
+    <Resource Include="Images\music.png" />
     <Resource Include="Images\New.png" />
+    <Resource Include="Images\paste.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\tree.png" />
+    <Resource Include="Images\user.png" />
+    <Resource Include="Images\users.png" />
+    <Resource Include="Images\zones.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Open.png" />
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\mute.png" />
+    <Resource Include="Images\sound.png" />
+    <Resource Include="Images\windowCross.png" />
+    <Resource Include="Images\windowNormal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SaveToServer.png" />
+    <Resource Include="Images\archive.png" />
+    <Resource Include="Images\phone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\leftLeft.png" />
+    <Resource Include="Images\right.png" />
+    <Resource Include="Images\rightRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrowDown.png" />
+    <Resource Include="Images\arrowUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\logic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

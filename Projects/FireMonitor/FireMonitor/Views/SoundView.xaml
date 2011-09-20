@@ -3,33 +3,33 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <Controls:XButton Name="SoundButtonOn" Margin="2" Padding="2"
-                          FontWeight="Black" Background="Black"
-                          Command="{Binding PlaySoundCommand}">
-            <Controls:XButton.Style>
-                <Style>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSoundOn}" Value="True">
-                            <DataTrigger.Setters>
-                                <Setter Property="Controls:XButton.Content">
-                                    <Setter.Value>
-                                        <Image Source="Images\sound.png" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsSoundOn}" Value="False">
-                            <DataTrigger.Setters>
-                                <Setter Property="Controls:XButton.Content">
-                                    <Setter.Value>
-                                        <Image Source="Images\mute.png" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Controls:XButton.Style>
-        </Controls:XButton>
+        <Button Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук" Style="{StaticResource ToolarButtonStyle}">
+            <ContentControl>
+                <ContentControl.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSoundOn}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="ContentControl.Content">
+                                        <Setter.Value>
+                                            <Image Source="/Controls;component/Images/sound.png" Opacity="0.5" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSoundOn}" Value="False">
+                                <DataTrigger.Setters>
+                                    <Setter Property="ContentControl.Content">
+                                        <Setter.Value>
+                                            <Image Source="/Controls;component/Images/mute.png" Opacity="0.5" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </Button>
     </Grid>
 </UserControl>

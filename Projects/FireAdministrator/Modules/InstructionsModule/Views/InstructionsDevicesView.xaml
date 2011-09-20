@@ -79,7 +79,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnAddDevice" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddDeviceCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/RightArrow.png" />
+                        <Image Source="/Controls;component/Images/Right.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить устройство" />
@@ -88,7 +88,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnAddAllDevice" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddAllDeviceCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/RightDoubleArrow.png" />
+                        <Image Source="/Controls;component/Images/RightRight.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить все устройства" />
@@ -97,7 +97,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnRemoveDevice" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveDeviceCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/LeftArrow.png" />
+                        <Image Source="/Controls;component/Images/Left.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить устройство" />
@@ -106,7 +106,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnRemoveAllDevice" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveAllDeviceCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/LeftDoubleArrow.png" />
+                        <Image Source="/Controls;component/Images/LeftLeft.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить все устройства" />

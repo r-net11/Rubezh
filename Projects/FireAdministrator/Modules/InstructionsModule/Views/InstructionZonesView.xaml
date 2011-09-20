@@ -33,7 +33,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnAddZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddZoneCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/RightArrow.png" />
+                        <Image Source="/Controls;component/Images/Right.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить зону" />
@@ -42,7 +42,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnAddAllZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddAllZoneCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/RightDoubleArrow.png" />
+                        <Image Source="/Controls;component/Images/RightRight.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Добавить все зоны" />
@@ -51,7 +51,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnRemoveZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveZoneCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/LeftArrow.png" />
+                        <Image Source="/Controls;component/Images/Left.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить зону" />
@@ -60,7 +60,7 @@
                 <Controls:XButton Grid.Column="1" Name="btnRemoveAllZone" FontWeight="Black" Background="Black"
                               Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveAllZoneCommand}">
                     <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/LeftDoubleArrow.png" />
+                        <Image Source="/Controls;component/Images/LeftLeft.png" />
                     </Controls:XButton.Content>
                     <Controls:XButton.ToolTip>
                         <TextBlock Text="Удалить все зоны" />

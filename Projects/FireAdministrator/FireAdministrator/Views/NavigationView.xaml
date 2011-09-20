@@ -1,101 +1,156 @@
 ﻿<UserControl x:Class="FireAdministrator.NavigationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel>
-        <TabControl Template="{StaticResource OutlookTab}">
-            <TabItem IsSelected="{Binding IsDevicesSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Устройства" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsZonesSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Зоны" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsDerectonsSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Направления пожаротушения" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsGuardSelected}">
-                <TabItem.Header>
-                    <Expander Name="_groupExpander" VerticalAlignment="Center">
-                        <Expander.Header>
-                            <TextBlock Text="Охрана" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
-                        </Expander.Header>
-                    </Expander>
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsGuardUsersSelected}" Margin="10, 0, 0, 5"
+
+    <TabControl Template="{StaticResource OutlookTab}" VerticalAlignment="Top">
+        <TabControl.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="FontSize" Value="11" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10, 0, 0, 0" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            <Style TargetType="{x:Type Image}">
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />
+            </Style>
+        </TabControl.Resources>
+        
+        <TabItem IsSelected="{Binding IsDevicesSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/tree.png"  />
+                    <TextBlock Text="Устройства" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsZonesSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/zones.png" />
+                    <TextBlock Text="Зоны" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsDerectonsSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/arrow-left-right.png" />
+                    <TextBlock Text="Направления пожаротушения" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsGuardSelected}">
+            <TabItem.Header>
+                <Expander Name="_groupExpander" VerticalAlignment="Center">
+                    <Expander.Header>
+                        <TextBlock Text="Охрана" />
+                    </Expander.Header>
+                </Expander>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsGuardUsersSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <TextBlock Text="Пользователи" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsGuardLevelsSelected}" Margin="10, 0, 0, 5"
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/user.png" />
+                    <TextBlock Text="Пользователи"  />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsGuardLevelsSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <TextBlock Text="Уровни доступа" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="10, 0, 0, 5"
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/levels.png" />
+                    <TextBlock Text="Уровни доступа" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <TextBlock Text="Устройства" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsLibrarySelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Библиотека" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsPlanSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Планы" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsSecuritySelected}">
-                <TabItem.Header>
-                    <Expander Name="_securityExpander" VerticalAlignment="Center">
-                        <Expander.Header>
-                            <TextBlock Text="Права" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" />
-                        </Expander.Header>
-                    </Expander>
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsUsersSelected}" Margin="10, 0, 0, 5"
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/tree.png" />
+                    <TextBlock Text="Устройства" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsLibrarySelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/book.png" />
+                    <TextBlock Text="Библиотека" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsPlanSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/map.png" />
+                    <TextBlock Text="Планы" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsSecuritySelected}">
+            <TabItem.Header>
+                <Expander Name="_securityExpander" VerticalAlignment="Center">
+                    <Expander.Header>
+                        <TextBlock Text="Права" />
+                    </Expander.Header>
+                </Expander>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsUsersSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <TextBlock Text="Пользователи" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="10, 0, 0, 5"
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/user.png" />
+                    <TextBlock Text="Пользователи" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="10, 0, 0, 5"
                      Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <TextBlock Text="Группы" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsJournalSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Фильтры" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsSoundsSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Звуки" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsInstructionsSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Инструкции" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-            <TabItem IsSelected="{Binding IsSettingsSelected}">
-                <TabItem.Header>
-                    <TextBlock Text="Настройки" FontWeight="Bold" />
-                </TabItem.Header>
-            </TabItem>
-        </TabControl>
-    </StackPanel>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/users.png" />
+                    <TextBlock Text="Группы" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsJournalSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/filter.png"  />
+                    <TextBlock Text="Фильтры" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsSoundsSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/music.png" />
+                    <TextBlock Text="Звуки" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsInstructionsSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/information.png" />
+                    <TextBlock Text="Инструкции" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsSettingsSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/settings.png" />
+                    <TextBlock Text="Настройки" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+    </TabControl>
 </UserControl>

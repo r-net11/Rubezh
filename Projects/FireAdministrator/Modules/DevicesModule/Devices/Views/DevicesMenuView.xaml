@@ -1,58 +1,60 @@
 ﻿<UserControl x:Class="DevicesModule.Views.DevicesMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <StackPanel Orientation="Horizontal">
 
-    <ToolBar Style="{StaticResource ToolBarStyle}" >
-        <Button Command="{Binding CopyCommand}" ToolTip="Копировать">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding CutCommand}" ToolTip="Вырезать">
-            <Image Source="/Controls;component/Images/Cut.png" Height="32" />
+        <Button Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding PasteCommand}" ToolTip="Вставить">
-            <Image Source="/Controls;component/Images/Paste.png" Height="32" />
+        <Button Command="{Binding CutCommand}" ToolTip="Вырезать" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/cut.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding AutoDetectCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding PasteCommand}" ToolTip="Вставить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/paste.png" Height="24" />
+        </Button>
+        
+        <Button Command="{Binding AutoDetectCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding ReadDeviceCommand}" ToolTip="Считать конфигурацию из устройства">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding ReadDeviceCommand}" ToolTip="Считать конфигурацию из устройства" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding WriteDeviceCommand}" ToolTip="Записать конфигурацию в устройство">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding WriteDeviceCommand}" ToolTip="Записать конфигурацию в устройство" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding WriteAllDeviceCommand}" ToolTip="Записать конфигурацию во все устройства">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding WriteAllDeviceCommand}" ToolTip="Записать конфигурацию во все устройства" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding SynchronizeDeviceCommand}" ToolTip="Синзронизировать часы устройства с системными">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding SynchronizeDeviceCommand}" ToolTip="Синзронизировать часы устройства с системными" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding UpdateSoftCommand}" ToolTip="Обновление ПО">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding UpdateSoftCommand}" ToolTip="Обновление ПО" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding GetDescriptionCommand}" ToolTip="Информация об устройстве">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding GetDescriptionCommand}" ToolTip="Информация об устройстве" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
+        <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding GetDeveceJournalCommand}" ToolTip="Журнал событий устройства">
-            <Image Source="/Controls;component/Images/Copy.png" Height="32" />
-        </Button>
-    </ToolBar>
+    </StackPanel>
 </UserControl>

@@ -3,26 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <ToolBar Style="{StaticResource ToolBarStyle}">
-        <Button Command="{Binding AddCommand}" ToolTip="Добавить">
-            <Image Source="/Controls;component/Images/Add.png" Height="32" />
+    <StackPanel Orientation="Horizontal">
+        <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding DeleteCommand}" ToolTip="Удалить">
-            <Image Source="/Controls;component/Images/Delete.png" Height="32" />
+        <Button Command="{Binding DeleteCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/delete.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding EditCommand}" ToolTip="Редактировать">
-            <Image Source="/Controls;component/Images/Edit.png" Height="32" />
+        <Button Command="{Binding EditCommand}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/edit.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding DeleteAllCommand}" ToolTip="Удалить все зоны">
-            <Image Source="/Controls;component/Images/DeleteAll.png" Height="32" />
+        <Button Command="{Binding DeleteAllCommand}" ToolTip="Удалить все зоны" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/DeleteAll.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны">
-            <Image Source="/Controls;component/Images/DeleteAllEmpty.png" Height="32" />
+        <Button Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/DeleteEmpty.png" Height="24" />
         </Button>
-
-    </ToolBar>
+    </StackPanel>
+    
 </UserControl>
