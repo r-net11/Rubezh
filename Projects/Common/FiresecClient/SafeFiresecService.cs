@@ -43,12 +43,20 @@ namespace FiresecClient
 
         bool _isConnected = true;
 
+        System.Timers.Timer _pingTimer;
+
         public void StartPing()
         {
-            System.Timers.Timer pingTimer = new System.Timers.Timer();
-            pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
-            pingTimer.Interval = 1000;
-            pingTimer.Enabled = true;
+            _pingTimer = new System.Timers.Timer();
+            _pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
+            _pingTimer.Interval = 1000;
+            _pingTimer.Enabled = true;
+        }
+
+        public void StopPing()
+        {
+            _pingTimer.Enabled = false;
+            _pingTimer.Dispose();
         }
 
         private void OnTimerPing(object source, ElapsedEventArgs e)

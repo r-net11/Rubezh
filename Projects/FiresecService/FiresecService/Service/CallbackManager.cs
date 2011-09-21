@@ -42,7 +42,9 @@ namespace FiresecService
                     try
                     {
                         callback.Progress(stage, comment, percentComplete, bytesRW);
-                        return !FiresecService.MustStopProgress;
+                        var mustStopProgress = FiresecService.MustStopProgress;
+                        FiresecService.MustStopProgress = false;
+                        return !mustStopProgress;
                     }
                     catch
                     {

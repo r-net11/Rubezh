@@ -145,8 +145,15 @@ namespace Firesec
 
         public static string DeviceReadEventLog(string coreConfig, string devicePath)
         {
-            var journal = Connectoin.DeviceReadEventLog(coreConfig, devicePath, 0);
-            return journal;
+            try
+            {
+                var journal = Connectoin.DeviceReadEventLog(coreConfig, devicePath, 0);
+                return journal;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static void DeviceRestart(string coreConfig, string devicePath)

@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-    public partial class AutodetectionView : UserControl
+    public partial class AutoSearchView : UserControl
     {
-        public AutodetectionView()
+        public AutoSearchView()
         {
             InitializeComponent();
         }

@@ -146,8 +146,6 @@ namespace FiresecService
 
         public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
-            MustStopProgress = false;
-
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             var config = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fastSearch);

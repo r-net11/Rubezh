@@ -216,63 +216,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            progressViewModel = new ProgressViewModel(SelectedDevice.Device);
-            RunAutodetection(true);
-            ServiceFactory.UserDialogs.ShowModalWindow(progressViewModel);
-        }
-
-        DeviceConfiguration autodetectedDeviceConfiguration;
-        ProgressViewModel progressViewModel;
-
-        void RunAutodetection(bool fastSearch)
-        {
-            BackgroundWorker backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
-            backgroundWorker.RunWorkerAsync(fastSearch);
-        }
-
-        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            bool fastSearch = (bool)e.Argument;
-            autodetectedDeviceConfiguration = FiresecManager.AutoDetectDevice(SelectedDevice.Device.UID, fastSearch);
-            //progressViewModel.CloseProgress();
-        }
-
-        void StopProgress()
-        {
-            progressViewModel.CloseProgress();
-        }
-
-        void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Dispatcher.Invoke(new Action(StopProgress));
-
-            if (autodetectedDeviceConfiguration == null)
-            {
-                MessageBox.Show("Операция прервана");
-                return;
-            }
-
-            autodetectedDeviceConfiguration.Update();
-
-            foreach (var device in autodetectedDeviceConfiguration.Devices)
-            {
-                var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID.ToString().ToUpper() == device.DriverUID.ToString().ToUpper());
-                device.Driver = driver;
-            }
-
-            FiresecManager.Drivers.ForEach(x => { Trace.WriteLine(x.UID.ToString()); });
-            autodetectedDeviceConfiguration.Devices.ForEach(x => { Trace.WriteLine("--- " + x.DriverUID.ToString()); });
-
-            var autodetectionViewModel = new AutodetectionViewModel();
-            autodetectionViewModel.DeviceViewModels = Devices;
-            autodetectionViewModel.Initialize(autodetectedDeviceConfiguration);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel);
-            if (result)
-            {
-                RunAutodetection(false);
-            }
+            AutoSearchHelper.Run(SelectedDevice);
         }
 
         bool CanAutoDetect()
@@ -361,8 +305,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand GetDescriptionCommand { get; private set; }
         void OnGetDescription()
         {
-            var deviceDescriptionViewModel = new DeviceDescriptionViewModel(SelectedDevice.Device.UID);
-            ServiceFactory.UserDialogs.ShowModalWindow(deviceDescriptionViewModel);
+            GetInformationHelper.Run(SelectedDevice.Device);
         }
 
         bool CanGetDescription()
@@ -373,7 +316,11 @@ namespace DevicesModule.ViewModels
         public RelayCommand GetDeveceJournalCommand { get; private set; }
         void OnGetDeveceJournal()
         {
-            var journal = FiresecManager.ReadDeviceJournal(SelectedDevice.Device.UID);
+            var deviceJournalViewModel = new DeviceJournalViewModel("<h2>Журнал событий устройства Рубеж-2AM 1.30</h2>");
+            ServiceFactory.UserDialogs.ShowModalWindow(deviceJournalViewModel);
+            return;
+
+            DeviceJournalHelper.Run(SelectedDevice.Device);
         }
 
         bool CanGetDeveceJournal()

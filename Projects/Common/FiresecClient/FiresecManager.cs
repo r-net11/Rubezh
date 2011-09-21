@@ -145,6 +145,7 @@ namespace FiresecClient
 
         public static void Disconnect()
         {
+            _firesecService.StopPing();
             _firesecService.Disconnect();
             FiresecServiceFactory.Dispose();
         }

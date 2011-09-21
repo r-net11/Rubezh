@@ -10,6 +10,15 @@ namespace DevicesModule
 {
     public class DevicesModule : IModule
     {
+        public static bool HasChanges { get; set; }
+
+        static DevicesViewModel _devicesViewModel;
+        static ZonesViewModel _zonesViewModel;
+        static DirectionsViewModel _directionsViewModel;
+        static GuardUsersViewModel _guardUsersViewModel;
+        static GuardLevelsViewModel _guardLevelsViewModel;
+        static GuardDevicesViewModel _guardDevicesViewModel;
+
         public DevicesModule()
         {
             HasChanges = false;
@@ -39,70 +48,61 @@ namespace DevicesModule
 
         public static void CreateViewModels()
         {
-            devicesViewModel = new DevicesViewModel();
-            devicesViewModel.Initialize();
+            _devicesViewModel = new DevicesViewModel();
+            _devicesViewModel.Initialize();
 
-            zonesViewModel = new ZonesViewModel();
-            zonesViewModel.Initialize();
+            _zonesViewModel = new ZonesViewModel();
+            _zonesViewModel.Initialize();
 
-            directionsViewModel = new DirectionsViewModel();
-            directionsViewModel.Initialize();
+            _directionsViewModel = new DirectionsViewModel();
+            _directionsViewModel.Initialize();
 
-            guardUsersViewModel = new GuardUsersViewModel();
-            guardUsersViewModel.Initialize();
+            _guardUsersViewModel = new GuardUsersViewModel();
+            _guardUsersViewModel.Initialize();
 
-            guardLevelsViewModel = new GuardLevelsViewModel();
-            guardLevelsViewModel.Initialize();
+            _guardLevelsViewModel = new GuardLevelsViewModel();
+            _guardLevelsViewModel.Initialize();
 
-            guardDevicesViewModel = new GuardDevicesViewModel();
-            guardDevicesViewModel.Initialize();
+            _guardDevicesViewModel = new GuardDevicesViewModel();
+            _guardDevicesViewModel.Initialize();
         }
-
-        static DevicesViewModel devicesViewModel;
-        static ZonesViewModel zonesViewModel;
-        static DirectionsViewModel directionsViewModel;
-        static GuardUsersViewModel guardUsersViewModel;
-        static GuardLevelsViewModel guardLevelsViewModel;
-        static GuardDevicesViewModel guardDevicesViewModel;
 
         static void OnShowDevice(Guid deviceUID)
         {
             if (deviceUID != Guid.Empty)
             {
-                devicesViewModel.Select(deviceUID);
+                _devicesViewModel.Select(deviceUID);
             }
-            ServiceFactory.Layout.Show(devicesViewModel);
+            ServiceFactory.Layout.Show(_devicesViewModel);
         }
 
         static void OnShowZone(string zoneNo)
         {
             if (string.IsNullOrEmpty(zoneNo) == false)
             {
-                zonesViewModel.SelectedZone = zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
+                _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
             }
-            ServiceFactory.Layout.Show(zonesViewModel);
+            ServiceFactory.Layout.Show(_zonesViewModel);
         }
 
         static void OnShowDirections(string obj)
         {
-            ServiceFactory.Layout.Show(directionsViewModel);
+            ServiceFactory.Layout.Show(_directionsViewModel);
         }
 
         static void OnShowGuardUsers(string obj)
         {
-            ServiceFactory.Layout.Show(guardUsersViewModel);
+            ServiceFactory.Layout.Show(_guardUsersViewModel);
         }
 
         static void OnShowGuardDevices(string obj)
         {
-            ServiceFactory.Layout.Show(guardDevicesViewModel);
+            ServiceFactory.Layout.Show(_guardDevicesViewModel);
         }
 
         static void OnShowGuardLevels(string obj)
         {
-            ServiceFactory.Layout.Show(guardLevelsViewModel);
+            ServiceFactory.Layout.Show(_guardLevelsViewModel);
         }
-
-        public static bool HasChanges { get; set; }
     }
 }

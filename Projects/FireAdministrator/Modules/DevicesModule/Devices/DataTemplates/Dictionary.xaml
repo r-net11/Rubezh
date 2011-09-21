@@ -59,12 +59,16 @@
         <Views:AdditionalPropertiesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AutodetectionViewModel}">
-        <Views:AutodetectionView />
+    <DataTemplate DataType="{x:Type ViewModels:AutoSearchViewModel}">
+        <Views:AutoSearchView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
         <Views:ProgressView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DeviceJournalViewModel}">
+        <Views:DeviceJournalView />
     </DataTemplate>
 
 </ResourceDictionary>

@@ -7,29 +7,30 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutodetectionViewModel : DialogContent
+    public class AutoSearchViewModel : DialogContent
     {
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; set; }
-        List<AutoDetectedDeviceViewModel> allDevices;
+        List<AutoSearchDeviceViewModel> allDevices;
 
-        public AutodetectionViewModel()
+        public AutoSearchViewModel()
         {
             ContinueCommand = new RelayCommand(OnContinue);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
+            Title = "Добавление устройств";
         }
 
         public void Initialize(DeviceConfiguration autodetectedDeviceConfiguration)
         {
-            allDevices = new List<AutoDetectedDeviceViewModel>();
-            Devices = new List<AutoDetectedDeviceViewModel>();
+            allDevices = new List<AutoSearchDeviceViewModel>();
+            Devices = new List<AutoSearchDeviceViewModel>();
             var root = AddDevice(autodetectedDeviceConfiguration.RootDevice, null);
             Devices.Add(root);
         }
 
-        AutoDetectedDeviceViewModel AddDevice(Device device, AutoDetectedDeviceViewModel parentDeviceViewModel)
+        AutoSearchDeviceViewModel AddDevice(Device device, AutoSearchDeviceViewModel parentDeviceViewModel)
         {
-            var deviceViewModel = new AutoDetectedDeviceViewModel(device);
+            var deviceViewModel = new AutoSearchDeviceViewModel(device);
 
             foreach (var childDevice in device.Children)
             {
@@ -46,7 +47,7 @@ namespace DevicesModule.ViewModels
             return deviceViewModel;
         }
 
-        public List<AutoDetectedDeviceViewModel> Devices { get; set; }
+        public List<AutoSearchDeviceViewModel> Devices { get; set; }
 
         public RelayCommand ContinueCommand { get; private set; }
         void OnContinue()
@@ -61,7 +62,7 @@ namespace DevicesModule.ViewModels
             Close(false);
         }
 
-        void AddFromTree(AutoDetectedDeviceViewModel parentAutoDetectedDevice)
+        void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)
         {
             foreach (var autodetectedDevice in parentAutoDetectedDevice.Children)
             {
@@ -73,7 +74,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void AddAutoDevice(AutoDetectedDeviceViewModel autoDetectedDevice)
+        void AddAutoDevice(AutoSearchDeviceViewModel autoDetectedDevice)
         {
             var device = autoDetectedDevice.Device;
             var parentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == device.Parent.Id);

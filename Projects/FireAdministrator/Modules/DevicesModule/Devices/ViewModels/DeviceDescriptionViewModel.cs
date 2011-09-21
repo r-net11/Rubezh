@@ -6,10 +6,10 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceDescriptionViewModel : DialogContent
     {
-        public DeviceDescriptionViewModel(Guid deviceUID)
+        public DeviceDescriptionViewModel(Guid deviceUID, string description)
         {
             Title = "Описание устройства";
-            Description = FiresecManager.GetDescription(deviceUID);
+            Description = description;
         }
 
         string _description;

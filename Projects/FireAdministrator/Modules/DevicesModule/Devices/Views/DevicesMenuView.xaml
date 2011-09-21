@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <StackPanel Orientation="Horizontal">
-
         <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
@@ -53,6 +52,10 @@
         </Button>
 
         <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+        </Button>
+
+        <Button Command="{Binding GetDeveceJournalCommand}" ToolTip="Считать журнал событий устройства" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 

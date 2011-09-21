@@ -6,14 +6,14 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoDetectedDeviceViewModel : BaseViewModel
+    public class AutoSearchDeviceViewModel : BaseViewModel
     {
         public Device Device { get; private set; }
 
-        public AutoDetectedDeviceViewModel(Device device)
+        public AutoSearchDeviceViewModel(Device device)
         {
             Device = device;
-            Children = new List<AutoDetectedDeviceViewModel>();
+            Children = new List<AutoSearchDeviceViewModel>();
         }
 
         bool _isSelected;
@@ -49,6 +49,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public List<AutoDetectedDeviceViewModel> Children { get; set; }
+        public List<AutoSearchDeviceViewModel> Children { get; set; }
     }
 }

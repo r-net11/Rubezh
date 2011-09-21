@@ -63,17 +63,23 @@
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\AutoDetectedDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\AutodetectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\AutoSearchDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\AutoSearchViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\AutoSearchHelper.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceJournalHelper.cs" />
+    <Compile Include="Devices\ViewModels\DeviceJournalViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\GetInformationHelper.cs" />
     <Compile Include="Devices\ViewModels\ProgressViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
       <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AutodetectionView.xaml.cs">
-      <DependentUpon>AutodetectionView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\AutoSearchView.xaml.cs">
+      <DependentUpon>AutoSearchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\BindMsView.xaml.cs">
       <DependentUpon>BindMsView.xaml</DependentUpon>
@@ -86,6 +92,9 @@
     <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
     <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceJournalView.xaml.cs">
+      <DependentUpon>DeviceJournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
@@ -300,7 +309,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\AutodetectionView.xaml">
+    <Page Include="Devices\Views\AutoSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -313,6 +322,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\DeviceDescriptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DeviceJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

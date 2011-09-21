@@ -58,7 +58,7 @@ namespace DevicesModule.ViewModels
                 return;
             }
 
-            FiresecManager.SetPassword(_deviceUID, DevicePasswordType, Password);
+            SetPasswordHelper.Run(_deviceUID, _devicePasswordType, _password);
         }
     }
 }

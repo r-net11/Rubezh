@@ -1,17 +1,15 @@
-﻿using System;
+﻿using System.Threading;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI.Models;
-using System.Threading;
 
 namespace DevicesModule.ViewModels
 {
     public class ProgressViewModel : DialogContent
     {
-        public ProgressViewModel(Device device)
+        public ProgressViewModel(string title)
         {
             StopCommand = new RelayCommand(OnStop);
-            Title = device.Driver.Name + ". Автопоиск устройств";
+            Title = title;
             FiresecEventSubscriber.OperationProgress += new FiresecEventSubscriber.ProgressDelegate(FiresecEventSubscriber_OperationProgress);
         }
 
@@ -25,6 +23,17 @@ namespace DevicesModule.ViewModels
         {
             Description = comment;
             Percent = percentComplete;
+
+            CancelText = "Отменить";
+            if (stage == -100)
+                CancelText = "Остановить";
+
+            if (stage > 0)
+            {
+                int stageNo = stage / (256 * 256);
+                int stageCount = stage - stageNo * 256 * 256;
+            }
+
             return true;
         }
 
@@ -50,10 +59,21 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        string _cancelText;
+        public string CancelText
+        {
+            get { return _cancelText; }
+            set
+            {
+                _cancelText = value;
+                OnPropertyChanged("CancelText");
+            }
+        }
+
         public RelayCommand StopCommand { get; private set; }
         void OnStop()
         {
-            Thread thread = new Thread(Stop);
+            var thread = new Thread(Stop);
             thread.Start();
         }
 

@@ -83,6 +83,18 @@ namespace FiresecAPI.Models
             }
         }
 
+        public string PresentationAddressDriver
+        {
+            get
+            {
+                string result = "";
+                if (Driver.HasAddress)
+                    result = PresentationAddress + " - ";
+                return result + Driver.Name;
+            }
+        }
+                
+
         public void SetAddress(string address)
         {
             IntAddress = AddressConverter.StringToIntAddress(Driver, address);

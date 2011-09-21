@@ -5,6 +5,9 @@ using Common;
 using CustomWindow;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
+using System;
 
 namespace FireAdministrator
 {
@@ -14,6 +17,10 @@ namespace FireAdministrator
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        private void EssentialWindow_Loaded(object sender, RoutedEventArgs e)
+        {
         }
 
         protected override Decorator GetWindowButtonsPlaceholder()

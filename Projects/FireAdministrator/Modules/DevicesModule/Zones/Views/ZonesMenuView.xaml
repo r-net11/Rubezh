@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ZonesMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel Orientation="Horizontal">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
@@ -21,7 +20,7 @@
         </Button>
 
         <Button Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/DeleteEmpty.png" Height="24" />
+            <Image Source="/Controls;component/Images/deleteEmpty.png" Height="24" Width="24" />
         </Button>
     </StackPanel>
     

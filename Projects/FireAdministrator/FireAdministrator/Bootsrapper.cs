@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.UnityExtensions;
+using System;
 
 namespace FireAdministrator
 {
