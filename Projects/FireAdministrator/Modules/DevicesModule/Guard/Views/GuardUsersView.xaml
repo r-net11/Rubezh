@@ -9,20 +9,13 @@
                 <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding GuardUser.Name}" />
                 <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
             </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-                                <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
-                                <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu DataContext="{Binding RelativeSource={RelativeSource Mode=Self}, Path=PlacementTarget.DataContext}">
+                    <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </UserControl>
