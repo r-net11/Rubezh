@@ -20,7 +20,7 @@
         <TabItem IsSelected="{Binding IsAlarmSelected}">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/FireMonitor;component/Views/Images/Tree_Alarms.png" />
+                    <Image Source="/Controls;component/Images/Alarm.png" />
                     <TextBlock Text="Тревоги" />
                 </StackPanel>
             </TabItem.Header>

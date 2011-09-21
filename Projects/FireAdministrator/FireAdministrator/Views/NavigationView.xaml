@@ -36,7 +36,7 @@
         <TabItem IsSelected="{Binding IsDerectonsSelected}">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/Controls;component/Images/arrow-left-right.png" />
+                    <Image Source="/Controls;component/Images/direction.png" />
                     <TextBlock Text="Направления пожаротушения" />
                 </StackPanel>
             </TabItem.Header>

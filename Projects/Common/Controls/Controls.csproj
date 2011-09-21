@@ -93,6 +93,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\ScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ToolBarButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +199,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\logic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alarm.png" />
+    <Resource Include="Images\deleteEmpty.png" />
+    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\Ind_C-C.png" />
+    <Resource Include="Images\Ind_C-P.png" />
+    <Resource Include="Images\Ind_CxC.png" />
+    <Resource Include="Images\Ind_CxP.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ScrollBarStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
     <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
     <SolidColorBrush x:Key="DefaultControlForegroundBrush" Color="#FF10257F"/>
@@ -144,7 +148,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="True"
                         Padding="{TemplateBinding Padding}">
-                        <ScrollViewer Focusable="false" Name="DG_ScrollViewer">
+                        <ScrollViewer Focusable="false" Name="DG_ScrollViewer" Style="{StaticResource FavsScrollViewer}">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                     <Grid>

@@ -39,7 +39,7 @@
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
 
-                            <Image Margin="10 5 0 0" HorizontalAlignment="Left" Source="Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                            <Image Margin="10 5 0 0" HorizontalAlignment="Left" Source="/Controls;component/Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
                             <Views:TimePresenterView Grid.Row="1" Margin="10 15 0 0"  />
 

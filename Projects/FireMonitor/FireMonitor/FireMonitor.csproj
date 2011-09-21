@@ -232,23 +232,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Images\Tree_Alarms.png" />
-    <Resource Include="Views\Images\Tree_Equipment.png" />
-    <Resource Include="Views\Images\Tree_Journal.png" />
-    <Resource Include="Views\Images\Tree_Plans.png" />
-    <Resource Include="Views\Images\Tree_Reports.png" />
-    <Resource Include="Views\Images\Tree_Zones.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Views\Images\Ind_C-C.png" />
-    <Resource Include="Views\Images\Ind_C-P.png" />
-    <Resource Include="Views\Images\Ind_CxC.png" />
-    <Resource Include="Views\Images\Ind_CxP.png" />
-    <Resource Include="Views\Images\logo.png" />
-    <Resource Include="Views\Images\mute.png" />
-    <Resource Include="Views\Images\sound.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
@@ -269,9 +252,6 @@
       <ProductName>Установщик Windows 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Views\Images\Tie_Advanced.ico" />
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="SplashScreen.png" />

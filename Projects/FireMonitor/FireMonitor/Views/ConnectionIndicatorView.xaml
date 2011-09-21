@@ -11,13 +11,13 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsServiceConnected}" Value="True">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="Images/Ind_C-C.png" />
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
                                     <Setter Property="Image.ToolTip" Value="Связь с сервером в норме" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsServiceConnected}" Value="False">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="Images/Ind_CxC.png" />
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
                                     <Setter Property="Image.ToolTip" Value="Связь с сервером в потеряна" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
@@ -32,13 +32,13 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="Images/Ind_C-P.png" />
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
                                     <Setter Property="Image.ToolTip" Value="Связь с устройствами в норме" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="Images/Ind_CxP.png" />
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
                                     <Setter Property="Image.ToolTip" Value="Связь с устройствами в потеряна" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
