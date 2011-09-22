@@ -31,7 +31,10 @@ namespace FiresecAPI
         void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
-        void WriteConfiguration(Guid deviceUID);
+        void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
         void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
@@ -40,13 +43,28 @@ namespace FiresecAPI
         void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
+        void DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
         string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content);
+
+        [OperationContract]
+        string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content);
 
         [OperationContract]
         string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
+
+        [OperationContract]
+        DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();

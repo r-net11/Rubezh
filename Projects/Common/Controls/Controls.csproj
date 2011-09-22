@@ -202,7 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Alarm.png" />
-    <Resource Include="Images\deleteEmpty.png" />
     <Resource Include="Images\direction.png" />
     <Resource Include="Images\Ind_C-C.png" />
     <Resource Include="Images\Ind_C-P.png" />

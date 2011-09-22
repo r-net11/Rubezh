@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\FiresecSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepFileManager", "RepFileManager\RepFileManager.csproj", "{BB9A01BD-1250-4F60-BA06-CF1736FEDC0C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Firesec", "Firesec", "{FA591CB6-4132-43FD-8B35-74CB2D86FB05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,5 +64,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {FA591CB6-4132-43FD-8B35-74CB2D86FB05}
+		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {FA591CB6-4132-43FD-8B35-74CB2D86FB05}
 	EndGlobalSection
 EndGlobal

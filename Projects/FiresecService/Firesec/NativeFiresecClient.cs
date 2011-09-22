@@ -128,6 +128,11 @@ namespace Firesec
             Connectoin.DeviceDatetimeSync(coreConfig, devicePath);
         }
 
+        public static void DeviceRestart(string coreConfig, string devicePath)
+        {
+            Connectoin.DeviceRestart(coreConfig, devicePath);
+        }
+
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
             return Connectoin.DeviceGetInformation(coreConfig, devicePath);
@@ -136,6 +141,16 @@ namespace Firesec
         public static string DeviceGetSerialList(string coreConfig, string devicePath)
         {
             return Connectoin.DeviceGetSerialList(coreConfig, devicePath);
+        }
+
+        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string content)
+        {
+            return Connectoin.DeviceUpdateFirmware(coreConfig, devicePath, content);
+        }
+
+        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string content)
+        {
+            return Connectoin.DeviceVerifyFirmwareVersion(coreConfig, devicePath, content);
         }
 
         public static string DeviceReadConfig(string coreConfig, string devicePath)
@@ -154,11 +169,6 @@ namespace Firesec
             {
                 return null;
             }
-        }
-
-        public static void DeviceRestart(string coreConfig, string devicePath)
-        {
-            Connectoin.DeviceRestart(coreConfig, devicePath);
         }
 
         public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)

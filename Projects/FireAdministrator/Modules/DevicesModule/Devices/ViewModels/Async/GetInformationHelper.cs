@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _description = FiresecManager.GetDescription(_device.UID);
+            _description = FiresecManager.DeviceGetInformation(_device.UID);
         }
 
         static void OnlCompleted()

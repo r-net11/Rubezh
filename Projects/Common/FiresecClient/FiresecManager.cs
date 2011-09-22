@@ -234,19 +234,19 @@ namespace FiresecClient
             return _firesecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, fastSearch);
         }
 
-        public static void ReadDeviceConfiguration(Guid deviceUID)
+        public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID)
         {
-            ;
+            return _firesecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static void WriteDeviceConfiguration(Guid deviceUID)
+        public static void DeviceWriteConfiguration(Guid deviceUID)
         {
-            ;
+            _firesecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void WriteAllDeviceConfiguration()
         {
-            ;
+            _firesecService.DeviceWriteAllConfiguration(DeviceConfiguration);
         }
 
         public static string ReadDeviceJournal(Guid deviceUID)
@@ -259,19 +259,29 @@ namespace FiresecClient
             _firesecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static void RebootDevice(Guid deviceUID)
+        public static void DeviceRestart(Guid deviceUID)
         {
-            ;
+            _firesecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static void UpdateSoft(Guid deviceUID)
+        public static string DeviceUpdateFirmware(Guid deviceUID, string content)
         {
-            ;
+            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, content);
         }
 
-        public static string GetDescription(Guid deviceUID)
+        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, string content)
+        {
+            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, content);
+        }
+
+        public static string DeviceGetInformation(Guid deviceUID)
         {
             return _firesecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+        }
+
+        public static string DeviceGetSerialList(Guid deviceUID)
+        {
+            return _firesecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void SetPassword(Guid deviceUID, DevicePasswordType devicePasswordType, string password)

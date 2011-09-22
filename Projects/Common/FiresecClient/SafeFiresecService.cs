@@ -152,15 +152,40 @@ namespace FiresecClient
             }
         }
 
-        public void WriteConfiguration(Guid deviceUID)
+        public void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                _iFiresecService.WriteConfiguration(deviceUID);
+                _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
             }
             catch
             {
                 OnConnectionLost();
+            }
+        }
+
+        public void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
+        {
+            try
+            {
+                _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceReadConfiguration(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
             }
         }
 
@@ -188,11 +213,62 @@ namespace FiresecClient
             }
         }
 
+        public void DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                _iFiresecService.DeviceRestart(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
         public string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
                 return _iFiresecService.DeviceGetInformation(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceGetSerialList(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        {
+            try
+            {
+                return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, content);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        {
+            try
+            {
+                return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, content);
             }
             catch
             {

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;
+using System.Windows.Controls;
 
 namespace RepFileManager
 {
@@ -27,6 +28,7 @@ namespace RepFileManager
             CreateStateRules();
             CreateCommands();
             CreateProperties();
+            CreateImages();
         }
 
         void CreateChildren()
@@ -102,6 +104,29 @@ namespace RepFileManager
                 stringProperty.value = "";
                 stringProperties.Add(stringProperty);
                 Device.properties = stringProperties.ToArray();
+            }
+        }
+
+        void CreateImages()
+        {
+            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _driver.UID);
+            if (libraryDevice != null)
+            {
+                foreach (var state in libraryDevice.States)
+                {
+                    var name = _driver.DriverType.ToString() + "." + state.StateType.ToString() + ".bmp";
+
+                    var canvas = Helper.Xml2Canvas(state.Frames[0].Image);
+
+                    //var parentCanvas = new Canvas();
+                    //parentCanvas.Children.Add(canvas);
+                    //UserControl userControl = new UserControl();
+                    //userControl.Content = canvas;
+
+
+                    var imageConverter = new ImageConverter();
+                    imageConverter.SaveWindowSnapshot(canvas, name);
+                }
             }
         }
 

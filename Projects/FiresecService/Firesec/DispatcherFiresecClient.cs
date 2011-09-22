@@ -13,6 +13,7 @@ namespace Firesec
         delegate bool BoolDelegateStringString(string arg1, string arg2);
         delegate string StringDelegateStringString(string arg1, string arg2);
         delegate string StringDelegateStringStringBool(string arg1, string arg2, bool arg3);
+        delegate string StringDelegateStringStringString(string arg1, string arg2, string arg3);
 
         static DispatcherFiresecClient()
         {
@@ -104,9 +105,29 @@ namespace Firesec
             control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceDatetimeSync), coreConfig, devicePath);
         }
 
+        public static void DeviceRestart(string coreConfig, string devicePath)
+        {
+            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceRestart), coreConfig, devicePath);
+        }
+
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
             return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
+        }
+
+        public static string DeviceGetSerialList(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetSerialList), coreConfig, devicePath);
+        }
+
+        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string content)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, content);
+        }
+
+        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string content)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, content);
         }
 
         public static string DeviceReadEventLog(string coreConfig, string devicePath)
@@ -117,6 +138,11 @@ namespace Firesec
         public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
         {
             return (string)control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
+        }
+
+        public static string DeviceReadConfig(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadConfig), coreConfig, devicePath);
         }
 
         public static bool ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)

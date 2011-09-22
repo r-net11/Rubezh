@@ -99,9 +99,29 @@ namespace FiresecService
             DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
+        public static void DeviceRestart(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            DispatcherFiresecClient.DeviceRestart(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
         public static string DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
             return DispatcherFiresecClient.DeviceGetInformation(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceGetSerialList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceGetSerialList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceUpdateFirmware(Firesec.CoreConfiguration.config coreConfig, string devicePath, string content)
+        {
+            return DispatcherFiresecClient.DeviceUpdateFirmware(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, content);
+        }
+
+        public static string DeviceVerifyFirmwareVersion(Firesec.CoreConfiguration.config coreConfig, string devicePath, string content)
+        {
+            return DispatcherFiresecClient.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, content);
         }
 
         public static string DeviceReadEventLog(Firesec.CoreConfiguration.config coreConfig, string devicePath)
@@ -112,6 +132,12 @@ namespace FiresecService
         public static Firesec.CoreConfiguration.config DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath, bool fastSearch)
         {
             var stringConfig = DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fastSearch);
+            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
+        }
+
+        public static Firesec.CoreConfiguration.config DeviceReadConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            var stringConfig = DispatcherFiresecClient.DeviceReadConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
             return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
         }
 

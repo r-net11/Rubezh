@@ -1,88 +1,30 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Xml.Serialization;
-using FiresecClient;
-using ItvIntergation.Ngi;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Media;
+using System.Windows;
+using System.IO;
 using System.Windows.Media.Imaging;
-using System;
-using System.Windows.Controls;
 
 namespace RepFileManager
 {
-    public partial class MainWindow : Window
+    public class ImageConverter
     {
-        public MainWindow()
+        public void SaveWindowSnapshot(Visual targetVisual, string fileName)
         {
-            InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            bool result = FiresecManager.Connect("adm", "");
-            if (result == false)
-            {
-                MessageBox.Show("Не удается соединиться с сервером");
-                return;
-            }
-
-            var repositoryModule = new repositoryModule();
-            repositoryModule.name = "Устройства Рубеж";
-            repositoryModule.version = "1.0.0";
-            repositoryModule.port = "1234";
-            var repository = new repository();
-            repository.module = repositoryModule;
-
-            var devices = new List<repositoryModuleDevice>();
-            foreach (var driver in FiresecManager.Drivers)
-            {
-                var repDevice = new RepDevice();
-                repDevice.Initialize(driver);
-                devices.Add(repDevice.Device);
-            }
-
-            repositoryModule.device = devices.ToArray();
-
-            var serializer = new XmlSerializer(typeof(repositoryModule));
-            using (var fileStream = File.CreateText("Rubezh.rep"))
-            {
-                serializer.Serialize(fileStream, repositoryModule);
-            }
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            Button button = new Button();
-            button.Width = 100;
-            button.Height = 100;
-            button.Content = "Hello";
-            button.SnapsToDevicePixels = false;
-
-            //this.AddLogicalChild(button);
-            SaveWindowSnapshot(button, "xxx.jpg");
-
-            SaveWindowSnapshot(this, "!!!__!!!__MyWindowSnapshot.jpg");
-
-            // add Button name "button1" before
-            SaveWindowSnapshot(button1, "!!!__!!!__MyButtonSnapshot.jpg");
-        }
-
-        private void SaveWindowSnapshot(Visual targetVisual, string fileName)
-        {
-            //Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
+            //Matrix m = PresentationSource.FromVisual(source).CompositionTarget.TransformToDevice;
             //double myDeviceDpiX = m.M11 * 96.0;
             //double myDeviceDpiY = m.M22 * 96.0;
-
             double myDeviceDpiX = 100 * 96.0;
             double myDeviceDpiY = 100 * 96.0;
 
-            var imgStream = GrabSnapshotStream(targetVisual, myDeviceDpiX, myDeviceDpiY, ImageFormats.JPG);
+            var imgStream = GrabSnapshotStream(targetVisual, myDeviceDpiX, myDeviceDpiY, ImageFormats.BMP);
             using (imgStream)
             {
                 imgStream.Position = 0;
 
-                var fileStream = new FileStream(@"c:/" + fileName, FileMode.OpenOrCreate);
+                var fileStream = new FileStream(@"D:/BMP" + fileName, FileMode.OpenOrCreate);
                 using (fileStream)
                 {
                     for (int i = 0; i < imgStream.Length; i++)

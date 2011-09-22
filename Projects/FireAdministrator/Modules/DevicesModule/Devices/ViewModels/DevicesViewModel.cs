@@ -228,7 +228,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadDeviceCommand { get; private set; }
         void OnReadDevice()
         {
-            FiresecManager.ReadDeviceConfiguration(SelectedDevice.Device.UID);
+            FiresecManager.DeviceReadConfiguration(SelectedDevice.Device.UID);
         }
 
         bool CanReadDevice()
@@ -239,7 +239,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteDeviceCommand { get; private set; }
         void OnWriteDevice()
         {
-            FiresecManager.WriteDeviceConfiguration(SelectedDevice.Device.UID);
+            FiresecManager.DeviceWriteConfiguration(SelectedDevice.Device.UID);
         }
 
         bool CanWriteDevice()
@@ -272,7 +272,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RebootDeviceCommand { get; private set; }
         void OnRebootDevice()
         {
-            FiresecManager.RebootDevice(SelectedDevice.Device.UID);
+            FiresecManager.DeviceRestart(SelectedDevice.Device.UID);
         }
 
         bool CanRebootDevice()
@@ -293,7 +293,8 @@ namespace DevicesModule.ViewModels
                 streamReader.Close();
                 fileStream.Close();
 
-                FiresecManager.UpdateSoft(SelectedDevice.Device.UID);
+                string content = "";
+                FiresecManager.DeviceUpdateFirmware(SelectedDevice.Device.UID, content);
             }
         }
 
