@@ -2,10 +2,10 @@
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
-using Microsoft.Win32;
-using Infrastructure.Events;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Events;
+using Microsoft.Win32;
 
 namespace SettingsModule.ViewModels
 {
@@ -84,7 +84,7 @@ namespace SettingsModule.ViewModels
                 var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
                 using (var fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    fullConfiguration = (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
+                    fullConfiguration = (FullConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
 
                 return fullConfiguration;

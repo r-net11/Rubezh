@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
         public UserGroup()
         {
             Permissions = new List<string>();
+            Permisions = new List<PermissionType>();
         }
 
         [DataMember]
@@ -16,6 +17,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public List<PermissionType> Permisions { get; set; }
 
         [DataMember]
         public List<string> Permissions { get; set; }

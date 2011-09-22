@@ -33,8 +33,9 @@ namespace FiltersModule.ViewModels
             var filterDetailsViewModel = new FilterDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
-                FilterViewModels.Add(new FilterViewModel(filterDetailsViewModel.GetModel()));
+                var filter = filterDetailsViewModel.GetModel();
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
+                FilterViewModels.Add(new FilterViewModel(filter));
                 FilterModule.HasChanges = true;
             }
         }

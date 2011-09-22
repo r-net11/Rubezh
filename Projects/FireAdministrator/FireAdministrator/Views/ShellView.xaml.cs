@@ -68,7 +68,7 @@ namespace FireAdministrator
                 FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges ||
                 InstructionsModule.InstructionsModule.HasChanges || SecurityModule.SecurityModule.HasChanges)
             {
-                var result = MessageBox.Show("Настройки изменены. Желаете сохранить изменения?", "Подтверждение", MessageBoxButton.YesNoCancel);
+                var result = MessageBox.Show("Сохранить изменения в настройках?", "Firesec", MessageBoxButton.YesNoCancel);
 
                 switch (result)
                 {

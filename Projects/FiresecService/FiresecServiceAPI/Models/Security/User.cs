@@ -11,6 +11,8 @@ namespace FiresecAPI.Models
             Groups = new List<string>();
             Permissions = new List<string>();
             RemovedPermissions = new List<string>();
+            Permisions = new List<PermissionType>();
+            RemovedPermisions = new List<PermissionType>();
         }
 
         [DataMember]
@@ -30,6 +32,12 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<string> Groups { get; set; }
+
+        [DataMember]
+        public List<PermissionType> Permisions { get; set; }
+
+        [DataMember]
+        public List<PermissionType> RemovedPermisions { get; set; }
 
         [DataMember]
         public List<string> Permissions { get; set; }

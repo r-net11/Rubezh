@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -11,31 +12,21 @@ namespace Common
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
             var hashTable = new Dictionary<string, string>();
-            var stringBuilder = new StringBuilder();
-            byte[] hash = null;
 
             var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
             if (directoryInfo.Exists)
             {
+                string hash = null;
                 foreach (var fileInfo in directoryInfo.EnumerateFiles())
                 {
-                    using (var fileStream = fileInfo.Open(FileMode.Open))
-                    using (var md5Hash = MD5.Create())
+                    if ((hash = GetHashFromFile(fileInfo)) != null)
                     {
-                        hash = md5Hash.ComputeHash(fileStream);
-                        for (int i = 0; i < hash.Length; ++i)
+                        hash += fileInfo.Name;
+                        if (hashTable.ContainsKey(hash) == false)
                         {
-                            stringBuilder.Append(hash[i].ToString("x2"));
+                            hashTable.Add(hash, fileInfo.Name);
                         }
-                        stringBuilder.Append(fileInfo.Name);
                     }
-
-                    if (hashTable.ContainsKey(stringBuilder.ToString()) == false)
-                    {
-                        hashTable.Add(stringBuilder.ToString(), fileInfo.Name);
-                    }
-
-                    stringBuilder.Length = 0;
                 }
             }
 
@@ -44,17 +35,50 @@ namespace Common
 
         public static List<string> GetFileNamesList(string directory)
         {
-            var fileNames = new List<string>();
             var directoryInfo = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory));
             if (directoryInfo.Exists)
             {
-                foreach (var fileInfo in directoryInfo.EnumerateFiles())
+                return new List<string>(
+                    directoryInfo.EnumerateFiles().Select(fileInfo => fileInfo.Name)
+                );
+            }
+
+            return new List<string>();
+        }
+
+        public static bool CheckPass(string password, string hash)
+        {
+            return hash.Equals(GetHashFromString(password), System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static string GetHashFromString(string str)
+        {
+            var mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
+            var hash = new StringBuilder();
+            foreach (byte passByte in mD5CryptoServiceProvider.ComputeHash(Encoding.UTF8.GetBytes(str)))
+            {
+                hash.Append(passByte.ToString("x2"));
+            }
+
+            return hash.ToString();
+        }
+
+        public static string GetHashFromFile(FileInfo fileInfo)
+        {
+            if (fileInfo.Exists == false)
+                return null;
+
+            var mD5CryptoServiceProvider = new MD5CryptoServiceProvider();
+            var hash = new StringBuilder();
+            using (var fileStream = fileInfo.Open(FileMode.Open))
+            {
+                foreach (byte passByte in mD5CryptoServiceProvider.ComputeHash(fileStream))
                 {
-                    fileNames.Add(fileInfo.Name);
+                    hash.Append(passByte.ToString("x2"));
                 }
             }
 
-            return fileNames;
+            return hash.ToString();
         }
     }
 }

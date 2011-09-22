@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -9,20 +10,16 @@ namespace SecurityModule.ViewModels
     {
         public GroupsViewModel()
         {
+            Groups = new ObservableCollection<GroupViewModel>();
+            if (FiresecManager.SecurityConfiguration.UserGroups != null)
+            {
+                foreach (var group in FiresecManager.SecurityConfiguration.UserGroups)
+                    Groups.Add(new GroupViewModel(group));
+            }
+
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
-        }
-
-        public void Initialize()
-        {
-            Groups = new ObservableCollection<GroupViewModel>();
-
-            if (FiresecManager.SecurityConfiguration.UserGroups == null)
-                return;
-
-            foreach (var group in FiresecManager.SecurityConfiguration.UserGroups)
-                Groups.Add(new GroupViewModel(group));
         }
 
         public ObservableCollection<GroupViewModel> Groups { get; private set; }
@@ -38,24 +35,23 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        bool CanEditDelete()
-        {
-            return SelectedGroup != null;
-        }
-
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            FiresecManager.SecurityConfiguration.UserGroups.Remove(SelectedGroup.Group);
-            Groups.Remove(SelectedGroup);
-            SecurityModule.HasChanges = true;
+            var result = MessageBox.Show(string.Format("Вы уверенны, что хотите удалить группу \"{0}\" из списка", SelectedGroup.Group.Name),
+                "Firesec", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                FiresecManager.SecurityConfiguration.UserGroups.Remove(SelectedGroup.Group);
+                Groups.Remove(SelectedGroup);
+                SecurityModule.HasChanges = true;
+            }
         }
 
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var groupDetailsViewModel = new GroupDetailsViewModel();
-            groupDetailsViewModel.Initialize(SelectedGroup.Group);
+            var groupDetailsViewModel = new GroupDetailsViewModel(SelectedGroup.Group);
             if (ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel))
             {
                 SelectedGroup.Group = groupDetailsViewModel.Group;
@@ -63,11 +59,15 @@ namespace SecurityModule.ViewModels
             }
         }
 
+        bool CanEditDelete()
+        {
+            return SelectedGroup != null;
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
             var groupDetailsViewModel = new GroupDetailsViewModel();
-            groupDetailsViewModel.Initialize();
             if (ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.UserGroups.Add(groupDetailsViewModel.Group);

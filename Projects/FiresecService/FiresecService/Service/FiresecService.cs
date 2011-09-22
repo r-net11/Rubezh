@@ -57,7 +57,7 @@ namespace FiresecService
         bool CheckLogin(string userName, string password)
         {
             var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == userName);
-            if (user == null || !PasswordHashChecker.Check(password, user.PasswordHash))
+            if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
                 return false;
 
             _userName = userName;
@@ -120,7 +120,7 @@ namespace FiresecService
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int)devicePasswordType);
+            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int) devicePasswordType);
         }
 
         public void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)

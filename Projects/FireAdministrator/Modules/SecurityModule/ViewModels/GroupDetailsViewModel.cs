@@ -1,4 +1,7 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
@@ -6,38 +9,29 @@ namespace SecurityModule.ViewModels
     public class GroupDetailsViewModel : SaveCancelDialogContent
     {
         public UserGroup Group { get; private set; }
-        bool _isNew;
 
         public GroupDetailsViewModel()
         {
+            Title = "Новая группа";
+            Group = new UserGroup()
+            {
+                Id = (int.Parse(FiresecManager.SecurityConfiguration.UserGroups.Last().Id) + 1).ToString()
+            };
+
+            Initialize();
         }
 
-        public void Initialize(UserGroup group = null)
+        public GroupDetailsViewModel(UserGroup group)
         {
-            if (group == null)
-            {
-                _isNew = true;
-                Title = "Новая группа";
-                Group = new UserGroup();
-            }
-            else
-            {
-                _isNew = false;
-                Title = "Редактирование группы";
-                Group = group;
-            }
+            Title = "Редактирование группы";
+            Group = group;
 
+            Initialize();
+        }
+
+        void Initialize()
+        {
             CopyProperties();
-        }
-
-        void CopyProperties()
-        {
-            Name = Group.Name;
-        }
-
-        void SaveProperties()
-        {
-            Group.Name = Name;
         }
 
         string _name;
@@ -51,9 +45,26 @@ namespace SecurityModule.ViewModels
             }
         }
 
+        public ObservableCollection<PermissionViewModel> PermissionViewModels { get; set; }
+
+        void CopyProperties()
+        {
+            Name = Group.Name;
+        }
+
+        void SaveProperties()
+        {
+            Group.Name = Name;
+        }
+
         protected override void Save(ref bool cancel)
         {
             SaveProperties();
+        }
+
+        protected override bool CanSave()
+        {
+            return Group.Name != Name;
         }
     }
 }

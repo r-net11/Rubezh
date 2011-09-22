@@ -358,5 +358,71 @@
                     return "";
             }
         }
+
+        public static string PermissionTypeToString(PermissionType permissionType)
+        {
+            switch (permissionType)
+            {
+                case PermissionType.Adm_ChangeConfigDb:
+                    return "АДМ: Изменение конфигурации в БД";
+
+                case PermissionType.Adm_ChangeConfigDevices:
+                    return "АДМ: Изменение конфигурации в устройствах";
+
+                case PermissionType.Adm_ChangeDevicesSoft:
+                    return "АДМ: Изменение ПО в устройствах";
+
+                case PermissionType.Adm_ClearJournal:
+                    return "АДМ: Очистка журнала";
+
+                case PermissionType.Adm_ViewConfig:
+                    return "АДМ: Просмотр конфигурации";
+
+                case PermissionType.Adm_Security:
+                    return "АДМ: Управление правами пользователей";
+
+                case PermissionType.Oper_AutoOn:
+                    return "ОЗ: Включение автоматики";
+
+                case PermissionType.Oper_Login:
+                    return "ОЗ: Вход";
+
+                case PermissionType.Oper_Logout:
+                    return "ОЗ: Выход";
+
+                case PermissionType.Oper_LogoutWithoutPassword:
+                    return "ОЗ: Выход без пароля";
+
+                case PermissionType.Oper_AddToIgnoreList:
+                    return "ОЗ: Добавление в список обхода";
+
+                case PermissionType.Oper_AdditionalMode:
+                    return "ОЗ: Дополнительные режимы";
+
+                case PermissionType.Oper_ChangeLayout:
+                    return "ОЗ: Изменение размеров и положения окон";
+
+                case PermissionType.Oper_NoAlarmConfirm:
+                    return "ОЗ: Не требуется подтверждение тревог";
+
+                case PermissionType.Oper_AlarmEdit:
+                    return "ОЗ: Обработка тревог";
+
+                case PermissionType.Oper_SecurityZone:
+                    return "ОЗ: Постановка, снятие зон с охраны";
+
+                case PermissionType.Oper_IgnoreListEditing:
+                    return "ОЗ: Расширенное редактирование списка обхода";
+
+                case PermissionType.Oper_RemoveFromIgnoreList:
+                    return "ОЗ: Удаление из списка обхода";
+
+                case PermissionType.Oper_ShowPlans:
+                    return "ОЗ: Управление показом планов";
+
+                default:
+                    return "";
+            }
+        }
     }
 }

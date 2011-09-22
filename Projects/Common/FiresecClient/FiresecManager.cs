@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace FiresecClient
@@ -22,11 +21,8 @@ namespace FiresecClient
 
         public static bool Connect(string login, string password)
         {
-            IFiresecService firesecService = FiresecServiceFactory.Create();
-            _firesecService = new SafeFiresecService(firesecService);
-
-            bool result = _firesecService.Connect(login, password);
-            if (result)
+            _firesecService = new SafeFiresecService(FiresecServiceFactory.Create());
+            if (_firesecService.Connect(login, password))
             {
                 FileHelper.Synchronize();
                 Drivers = _firesecService.GetDrivers();
@@ -42,23 +38,23 @@ namespace FiresecClient
                 UpdateStates();
 
                 _firesecService.Subscribe();
-
                 _loggedInUserName = login;
-
                 _firesecService.StartPing();
+
+                return true;
             }
 
-            return result;
+            return false;
         }
 
         public static bool Reconnect(string login, string password)
         {
-            bool result = _firesecService.Reconnect(login, password);
-            if (result)
+            if (_firesecService.Reconnect(login, password))
             {
                 _loggedInUserName = login;
+                return true;
             }
-            return result;
+            return false;
         }
 
         public static void UpdateDrivers()
@@ -77,7 +73,7 @@ namespace FiresecClient
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 
-                if ((device.Driver.IsIndicatorDevice) || (device.IndicatorLogic != null))
+                if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
                 {
                     var indicatorDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
                     device.IndicatorLogic.Device = indicatorDevice;
@@ -159,6 +155,7 @@ namespace FiresecClient
             _firesecService.SetPlansConfiguration(PlansConfiguration);
             _firesecService.SetLibraryConfiguration(LibraryConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
+            _firesecService.SetSecurityConfiguration(SecurityConfiguration);
         }
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)

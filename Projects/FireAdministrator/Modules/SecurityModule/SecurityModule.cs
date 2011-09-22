@@ -8,6 +8,9 @@ namespace SecurityModule
 {
     public class SecurityModule : IModule
     {
+        static UsersViewModel UsersViewModel;
+        static GroupsViewModel GroupsViewModel;
+
         public SecurityModule()
         {
             ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
@@ -28,24 +31,18 @@ namespace SecurityModule
 
         static void CreateViewModels()
         {
-            usersViewModel = new UsersViewModel();
-            usersViewModel.Initialize();
-
-            groupsViewModel = new GroupsViewModel();
-            groupsViewModel.Initialize();
+            UsersViewModel = new UsersViewModel();
+            GroupsViewModel = new GroupsViewModel();
         }
-
-        static UsersViewModel usersViewModel;
-        static GroupsViewModel groupsViewModel;
 
         static void OnShowUsers(string obj)
         {
-            ServiceFactory.Layout.Show(usersViewModel);
+            ServiceFactory.Layout.Show(UsersViewModel);
         }
 
         static void OnShowUserGroups(string obj)
         {
-            ServiceFactory.Layout.Show(groupsViewModel);
+            ServiceFactory.Layout.Show(GroupsViewModel);
         }
 
         public static bool HasChanges { get; set; }

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
-using System;
 
 namespace FireAdministrator
 {
@@ -84,6 +84,9 @@ namespace FireAdministrator
             get { return _isGuardSelected; }
             set
             {
+                if (!value && (IsGuardUsersSelected || IsGuardLevelsSelected || IsGuardDevicesSelected))
+                    return;
+
                 _isGuardSelected = value;
                 OnPropertyChanged("IsGuardSelected");
             }
@@ -100,6 +103,10 @@ namespace FireAdministrator
                 {
                     ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Publish(null);
                 }
+                else
+                {
+                    IsGuardSelected = false;
+                }
                 OnPropertyChanged("IsGuardUsersSelected");
             }
         }
@@ -115,6 +122,10 @@ namespace FireAdministrator
                 {
                     ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Publish(null);
                 }
+                else
+                {
+                    IsGuardSelected = false;
+                }
                 OnPropertyChanged("IsGuardLevelsSelected");
             }
         }
@@ -129,6 +140,10 @@ namespace FireAdministrator
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Publish(null);
+                }
+                else
+                {
+                    IsGuardSelected = false;
                 }
                 OnPropertyChanged("IsGuardLevelsSelected");
             }
@@ -170,6 +185,10 @@ namespace FireAdministrator
             get { return _isSecuritySelected; }
             set
             {
+                if (!value && (IsUsersSelected || IsUserGroupsSelected))
+                    return;
+
+                _isSecuritySelected = value;
                 OnPropertyChanged("IsSecuritySelected");
             }
         }
@@ -185,6 +204,10 @@ namespace FireAdministrator
                 {
                     ServiceFactory.Events.GetEvent<ShowUsersEvent>().Publish(null);
                 }
+                else
+                {
+                    IsSecuritySelected = false;
+                }
                 OnPropertyChanged("IsUsersSelected");
             }
         }
@@ -199,6 +222,10 @@ namespace FireAdministrator
                 if (value)
                 {
                     ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Publish(null);
+                }
+                else
+                {
+                    IsSecuritySelected = false;
                 }
                 OnPropertyChanged("IsUserGroupsSelected");
             }

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading;
+using System.Windows;
 using FiresecClient;
 
 namespace FireAdministrator
@@ -17,22 +19,20 @@ namespace FireAdministrator
         {
             _info.Text = "Соединение с сервером";
 
-            string name = _userName.Text;
-            string password = _password.Password;
+            string[] args = { _userName.Text, _password.Password };
+            ThreadPool.QueueUserWorkItem(new WaitCallback(TryConnect), args);
+        }
 
-            bool result = FiresecManager.Connect(name, password);
+        void TryConnect(object obj)
+        {
+            string[] args = obj as string[];
+            IsLoggedIn = FiresecManager.Connect(args[0], args[1]);
+            if (IsLoggedIn)
+            {
+                Dispatcher.Invoke(new Action(() => Close()));
+            }
 
-            if (result)
-            {
-                IsLoggedIn = true;
-                _info.Text = "Соединение с сервером установлено";
-            }
-            else
-            {
-                _info.Text = "Не удается установить связь с сервером";
-                return;
-            }
-            Close();
+            Dispatcher.Invoke(new Action(() => _info.Text = "Не удается установить связь с сервером"));
         }
 
         void OnCancel(object sender, RoutedEventArgs e)

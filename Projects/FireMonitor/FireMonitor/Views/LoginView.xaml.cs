@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using FiresecClient;
 using Common;
+using FiresecClient;
 
 namespace FireMonitor
 {
@@ -61,7 +61,7 @@ namespace FireMonitor
                     break;
 
                 case PasswordViewType.Validate:
-                    IsConnected = PasswordHashChecker.Check(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
+                    IsConnected = HashHelper.CheckPass(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
                     break;
             }
 

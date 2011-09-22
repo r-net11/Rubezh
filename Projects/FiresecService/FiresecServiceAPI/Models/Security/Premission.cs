@@ -28,7 +28,7 @@ namespace FiresecAPI.Models
         Oper_AutoOn = 20,
         Oper_Login = 1,
         Oper_Logout = 2,
-        Oper_LogoutNoPassword = 13,
+        Oper_LogoutWithoutPassword = 13,
         Oper_AddToIgnoreList = 16,
         Oper_AdditionalMode = 11,
         Oper_ChangeLayout = 18,

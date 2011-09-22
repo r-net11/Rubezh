@@ -23,7 +23,7 @@ namespace Controls
         {
             System.Collections.IList collection = value as System.Collections.IList;
             ListCollectionView view = new ListCollectionView(collection);
-            var parameters = (parameter as string).Split('.');
+            var parameters = (parameter as string).Split(';');
             foreach (var param in parameters)
             {
                 SortDescription sort = new SortDescription(param.ToString(), ListSortDirection.Ascending);
