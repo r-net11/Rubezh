@@ -1,21 +1,68 @@
 ﻿using Infrastructure.Common;
 using System;
+using System.Linq;
+using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
     public class BindMsViewModel : SaveCancelDialogContent
     {
-        Guid _deviceUID;
+        Device _device;
 
-        public BindMsViewModel(Guid deviceUID)
+        public BindMsViewModel(Device device, List<string> serials)
         {
-            _deviceUID = deviceUID;
-            Title = "Привязка оборудования";
+            _device = device;
+            Serials = serials;
+            Title = "Выбор серийного номера для устройства";
+        }
+
+        public string CurrentSerial
+        {
+            get
+            {
+                string serialNo = "";
+                var serialNoProperty = _device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+                if (serialNoProperty != null)
+                    serialNo = serialNoProperty.Value;
+
+                return serialNo;
+            }
+        }
+
+        public List<string> Serials { get; set; }
+
+        string _selectedSerial;
+        public string SelectedSerial
+        {
+            get { return _selectedSerial; }
+            set
+            {
+                _selectedSerial = value;
+                OnPropertyChanged("SelectedSerial");
+            }
+        }
+
+        void SetSerialNo(string serialNo)
+        {
+            var serialNoProperty = _device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+            if (serialNoProperty == null)
+            {
+                serialNoProperty = new Property()
+                {
+                    Name = "SerialNo"
+                };
+                _device.Properties.Add(serialNoProperty);
+            }
+            serialNoProperty.Value = serialNo;
         }
 
         protected override void Save(ref bool cancel)
         {
-            ;
+            if (SelectedSerial != null)
+            {
+                SetSerialNo(SelectedSerial);
+            }
         }
     }
 }

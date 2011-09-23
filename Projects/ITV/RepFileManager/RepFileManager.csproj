@@ -56,7 +56,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper.cs" />
-    <Compile Include="ImageConverter.cs" />
     <Compile Include="RepDevice.cs" />
     <Compile Include="XSD\ngi.cs">
       <DependentUpon>ngi.xsd</DependentUpon>

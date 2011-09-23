@@ -13,6 +13,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; set; }
         public RelayCommand SynchronizeDeviceCommand { get; set; }
         public RelayCommand RebootDeviceCommand { get; set; }
+        public RelayCommand BindMsCommand { get; set; }
 
         public RelayCommand UpdateSoftCommand { get; set; }
         public RelayCommand GetDescriptionCommand { get; set; }

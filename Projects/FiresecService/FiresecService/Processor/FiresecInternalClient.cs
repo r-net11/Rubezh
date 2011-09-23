@@ -114,14 +114,14 @@ namespace FiresecService
             return DispatcherFiresecClient.DeviceGetSerialList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public static string DeviceUpdateFirmware(Firesec.CoreConfiguration.config coreConfig, string devicePath, string content)
+        public static string DeviceUpdateFirmware(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
         {
-            return DispatcherFiresecClient.DeviceUpdateFirmware(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, content);
+            return DispatcherFiresecClient.DeviceUpdateFirmware(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
         }
 
-        public static string DeviceVerifyFirmwareVersion(Firesec.CoreConfiguration.config coreConfig, string devicePath, string content)
+        public static string DeviceVerifyFirmwareVersion(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
         {
-            return DispatcherFiresecClient.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, content);
+            return DispatcherFiresecClient.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
         }
 
         public static string DeviceReadEventLog(Firesec.CoreConfiguration.config coreConfig, string devicePath)

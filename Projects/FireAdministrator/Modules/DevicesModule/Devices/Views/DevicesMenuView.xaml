@@ -59,5 +59,9 @@
             <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
+        <Button Command="{Binding BindMsCommand}" ToolTip="Привязать" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+        </Button>
+
     </StackPanel>
 </UserControl>

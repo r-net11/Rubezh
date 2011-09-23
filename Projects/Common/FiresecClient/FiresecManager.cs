@@ -239,14 +239,14 @@ namespace FiresecClient
             _firesecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static string DeviceUpdateFirmware(Guid deviceUID, string content)
+        public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes)
         {
-            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, content);
+            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
         }
 
-        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, string content)
+        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes)
         {
-            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, content);
+            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
         }
 
         public static string DeviceGetInformation(Guid deviceUID)
@@ -254,7 +254,7 @@ namespace FiresecClient
             return _firesecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static string DeviceGetSerialList(Guid deviceUID)
+        public static List<string> DeviceGetSerialList(Guid deviceUID)
         {
             return _firesecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }

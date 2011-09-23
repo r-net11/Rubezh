@@ -157,25 +157,40 @@ namespace FiresecService
             return FiresecInternalClient.DeviceGetInformation(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
-        public string DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public List<string> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceGetSerialList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            string serials = FiresecInternalClient.DeviceGetSerialList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            return serials.Split(';').ToList();
         }
 
-        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
+            var fileName = "temp";
+            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Close();
+
+            return "";
+
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, content);
+            return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
         }
 
-        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
+            var fileName = "temp";
+            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Close();
+
+            return "";
+
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, content);
+            return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
         }
 
         public string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)

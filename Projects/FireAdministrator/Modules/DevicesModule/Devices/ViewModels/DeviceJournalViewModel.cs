@@ -9,7 +9,8 @@ namespace DevicesModule.ViewModels
         public DeviceJournalViewModel(string htmlJournal)
         {
             Title = "Журнал событий устройства";
-            HtmlString = htmlJournal;
+            string content = "<head>\n<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>\n</head>" + htmlJournal;
+            HtmlString = content;
         }
 
         public string HtmlString { get; set; }

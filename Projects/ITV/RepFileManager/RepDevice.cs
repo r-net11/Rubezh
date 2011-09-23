@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;
-using System.Windows.Controls;
 
 namespace RepFileManager
 {
@@ -112,20 +112,46 @@ namespace RepFileManager
             var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _driver.UID);
             if (libraryDevice != null)
             {
+                foreach (var stateType in AllStates)
+                {
+                    var state = libraryDevice.States.FirstOrDefault(x=>x.StateType == stateType && x.Code == null);
+                    if (state == null)
+                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
+
+                    var name = "D:/BMP/" + _driver.DriverType.ToString() + "." + stateType.ToString() + ".bmp";
+                    var canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
+
+                    if (canvas.Children.Count == 0)
+                    {
+                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
+                        canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
+                    }
+
+                    canvas.Background = new SolidColorBrush(Colors.Magenta);
+                    ImageHelper.XAMLToBitmap(canvas, name);
+                }
+
+                return;
+
                 foreach (var state in libraryDevice.States)
                 {
-                    var name = _driver.DriverType.ToString() + "." + state.StateType.ToString() + ".bmp";
+                    if (state.Code != null)
+                        continue;
 
-                    var canvas = Helper.Xml2Canvas(state.Frames[0].Image);
+                    var name = "D:/BMP/" + _driver.DriverType.ToString() + "." + state.StateType.ToString() + ".bmp";
 
-                    //var parentCanvas = new Canvas();
-                    //parentCanvas.Children.Add(canvas);
-                    //UserControl userControl = new UserControl();
-                    //userControl.Content = canvas;
+                    var canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
 
+                    if (canvas.Children.Count == 0)
+                    {
+                        var baseState = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
+                        canvas = ImageHelper.XmlToCanvas(baseState.Frames[0].Image);
 
-                    var imageConverter = new ImageConverter();
-                    imageConverter.SaveWindowSnapshot(canvas, name);
+                        name = "D:/BMP/___" + _driver.DriverType.ToString() + "." + state.StateType.ToString() + ".bmp";
+                    }
+                    canvas.Background = new SolidColorBrush(Colors.Magenta);
+
+                    ImageHelper.XAMLToBitmap(canvas, name);
                 }
             }
         }

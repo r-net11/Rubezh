@@ -64,6 +64,8 @@
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\FirmwareUpdateHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\GetSerialsHelper.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\AutoSearchHelper.cs" />

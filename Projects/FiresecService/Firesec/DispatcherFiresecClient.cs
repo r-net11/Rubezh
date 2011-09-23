@@ -120,14 +120,14 @@ namespace Firesec
             return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetSerialList), coreConfig, devicePath);
         }
 
-        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string content)
+        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, content);
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, fileName);
         }
 
-        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string content)
+        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, content);
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, fileName);
         }
 
         public static string DeviceReadEventLog(string coreConfig, string devicePath)

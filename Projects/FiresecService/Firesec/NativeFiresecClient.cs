@@ -143,14 +143,14 @@ namespace Firesec
             return Connectoin.DeviceGetSerialList(coreConfig, devicePath);
         }
 
-        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string content)
+        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
         {
-            return Connectoin.DeviceUpdateFirmware(coreConfig, devicePath, content);
+            return Connectoin.DeviceUpdateFirmware(coreConfig, devicePath, fileName);
         }
 
-        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string content)
+        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
         {
-            return Connectoin.DeviceVerifyFirmwareVersion(coreConfig, devicePath, content);
+            return Connectoin.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
         }
 
         public static string DeviceReadConfig(string coreConfig, string devicePath)

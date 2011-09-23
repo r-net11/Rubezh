@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.Timers;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.IO;
 
 namespace FiresecClient
 {
@@ -238,7 +239,7 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public List<string> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -251,11 +252,11 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
             try
             {
-                return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, content);
+                return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes);
             }
             catch
             {
@@ -264,11 +265,11 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string content)
+        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
             try
             {
-                return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, content);
+                return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes);
             }
             catch
             {

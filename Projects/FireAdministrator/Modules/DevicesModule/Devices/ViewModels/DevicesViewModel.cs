@@ -283,19 +283,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand UpdateSoftCommand { get; private set; }
         void OnUpdateSoft()
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open);
-                var streamReader = new StreamReader(fileStream);
-                streamReader.Close();
-                fileStream.Close();
-
-                string content = "";
-                FiresecManager.DeviceUpdateFirmware(SelectedDevice.Device.UID, content);
-            }
+            FirmwareUpdateHelper.Run(SelectedDevice.Device);
         }
 
         bool CanUpdateSoft()
@@ -317,9 +305,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand GetDeveceJournalCommand { get; private set; }
         void OnGetDeveceJournal()
         {
-            var deviceJournalViewModel = new DeviceJournalViewModel("<h2>Журнал событий устройства Рубеж-2AM 1.30</h2>");
-            ServiceFactory.UserDialogs.ShowModalWindow(deviceJournalViewModel);
-            return;
+            //string content = "<head>" + "\n" + "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" + "\n" + "</head>" +
+            //    "<h2>Журнал событий устройства Рубеж-2AM 1.30</h2>";
+
+            //var deviceJournalViewModel = new DeviceJournalViewModel(content);
+            //ServiceFactory.UserDialogs.ShowModalWindow(deviceJournalViewModel);
+            //return;
 
             DeviceJournalHelper.Run(SelectedDevice.Device);
         }
@@ -344,13 +335,19 @@ namespace DevicesModule.ViewModels
         public RelayCommand BindMsCommand { get; private set; }
         void OnBindMs()
         {
-            var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device.UID);
-            ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
+            GetSerialsHelper.Run(SelectedDevice.Device);
+            return;
+
+            bool canBind = ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == (DriverType.MS_1 | DriverType.MS_2)));
+
+            //var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device);
+            //ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
         }
 
         bool CanBindMs()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
+            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == (DriverType.MS_1 | DriverType.MS_2)));
         }
 
         public RelayCommand ShowAdditionalPropertiesCommand { get; private set; }
@@ -381,7 +378,8 @@ namespace DevicesModule.ViewModels
                     UpdateSoftCommand = UpdateSoftCommand,
                     GetDescriptionCommand = GetDescriptionCommand,
                     SetPasswordCommand = SetPasswordCommand,
-                    GetDeveceJournalCommand = GetDeveceJournalCommand
+                    GetDeveceJournalCommand = GetDeveceJournalCommand,
+                    BindMsCommand = BindMsCommand
                 };
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }
