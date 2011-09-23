@@ -11,13 +11,13 @@
     <DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
         <Views:UsersMenuView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:GroupsViewModel}">
-        <Views:GroupsView />
+    <DataTemplate DataType="{x:Type ViewModels:RolesViewModel}">
+        <Views:RolesView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:GroupDetailsViewModel}">
-        <Views:GroupDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:RoleDetailsViewModel}">
+        <Views:RoleDetailsView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:GroupsMenuViewModel}">
-        <Views:GroupsMenuView />
+    <DataTemplate DataType="{x:Type ViewModels:RolesMenuViewModel}">
+        <Views:RolesMenuView />
     </DataTemplate>
 </ResourceDictionary>

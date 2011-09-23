@@ -2,9 +2,9 @@
 
 namespace SecurityModule.Views
 {
-    public partial class GroupsMenuView : UserControl
+    public partial class RoleDetailsView : UserControl
     {
-        public GroupsMenuView()
+        public RoleDetailsView()
         {
             InitializeComponent();
         }

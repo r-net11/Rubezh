@@ -8,9 +8,12 @@ namespace SecurityModule.ViewModels
         public PermissionViewModel(PermissionType permissionType)
         {
             PermissionType = permissionType;
+            PermissionTypeName = EnumsConverter.PermissionTypeToString(permissionType);
         }
 
         public PermissionType PermissionType { get; private set; }
+
+        public string PermissionTypeName { get; private set; }
 
         bool _isEnable;
         public bool IsEnable

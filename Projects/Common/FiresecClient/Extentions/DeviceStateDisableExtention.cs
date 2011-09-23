@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using System;
 
 namespace FiresecClient
 {
@@ -13,11 +13,11 @@ namespace FiresecClient
             {
                 if (deviceState.IsDisabled)
                 {
-                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_RemoveFromIgnoreList);
+                    return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList);
                 }
                 else
                 {
-                    return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_AddToIgnoreList);
+                    return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList);
                 }
             }
             return false;

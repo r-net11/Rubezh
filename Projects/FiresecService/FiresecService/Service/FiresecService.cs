@@ -21,19 +21,19 @@ namespace FiresecService
         public readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
 
         IFiresecCallback _currentCallback;
+        string _userLogin;
         string _userName;
-        string _userFullName;
 
         public static readonly object Locker = new object();
 
-        public bool Connect(string userName, string password)
+        public bool Connect(string login, string password)
         {
             lock (Locker)
             {
-                if (CheckLogin(userName, password))
+                if (CheckLogin(login, password))
                 {
-                    MainWindow.AddMessage("Connected. UserName = " + userName + ". SessionId = " + OperationContext.Current.SessionId);
-                    DatabaseHelper.AddInfoMessage(_userFullName, "Вход пользователя в систему");
+                    MainWindow.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
+                    DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
                     return true;
                 }
@@ -41,26 +41,26 @@ namespace FiresecService
             }
         }
 
-        public bool Reconnect(string userName, string password)
+        public bool Reconnect(string login, string password)
         {
-            var oldUserFileName = _userFullName;
-            if (CheckLogin(userName, password))
+            var oldUserFileName = _userName;
+            if (CheckLogin(login, password))
             {
                 DatabaseHelper.AddInfoMessage(oldUserFileName, "Дежурство сдал");
-                DatabaseHelper.AddInfoMessage(_userFullName, "Дежурство принял");
+                DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
 
                 return true;
             }
             return false;
         }
 
-        bool CheckLogin(string userName, string password)
+        bool CheckLogin(string login, string password)
         {
-            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == userName);
+            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
             if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
                 return false;
 
-            _userName = userName;
+            _userLogin = login;
             SetUserFullName();
 
             return true;
@@ -69,7 +69,7 @@ namespace FiresecService
         [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
         public void Disconnect()
         {
-            DatabaseHelper.AddInfoMessage(_userFullName, "Выход пользователя из системы");
+            DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
             CallbackManager.Remove(_currentCallback);
         }
 
@@ -87,19 +87,19 @@ namespace FiresecService
             }
         }
 
-        public DeviceConfiguration GetDeviceConfiguration()
-        {
-            lock (Locker)
-            {
-                return ConfigurationFileManager.GetDeviceConfiguration();
-            }
-        }
-
         public DeviceConfigurationStates GetStates()
         {
             lock (Locker)
             {
                 return FiresecManager.DeviceConfigurationStates;
+            }
+        }
+
+        public DeviceConfiguration GetDeviceConfiguration()
+        {
+            lock (Locker)
+            {
+                return FiresecManager.DeviceConfiguration;
             }
         }
 
@@ -217,7 +217,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return ConfigurationFileManager.GetSecurityConfiguration();
+                return FiresecManager.SecurityConfiguration;
             }
         }
 
@@ -231,7 +231,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return ConfigurationFileManager.GetSystemConfiguration();
+                return FiresecManager.SystemConfiguration;
             }
         }
 
@@ -245,7 +245,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return ConfigurationFileManager.GetLibraryConfiguration();
+                return FiresecManager.LibraryConfiguration;
             }
         }
 
@@ -259,13 +259,14 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return ConfigurationFileManager.GetPlansConfiguration();
+                return FiresecManager.PlansConfiguration;
             }
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+            FiresecManager.PlansConfiguration = plansConfiguration;
         }
 
         public List<JournalRecord> ReadJournal(int startIndex, int count)
@@ -363,7 +364,7 @@ namespace FiresecService
 
         public void AddJournalRecord(JournalRecord journalRecord)
         {
-            journalRecord.User = _userFullName;
+            journalRecord.User = _userName;
             DatabaseHelper.AddJournalRecord(journalRecord);
             CallbackManager.OnNewJournalRecord(journalRecord);
         }
@@ -419,7 +420,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                DatabaseHelper.AddInfoMessage(_userFullName, "Вход пользователя в систему");
+                DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
                 return "Test";
             }
@@ -441,8 +442,8 @@ namespace FiresecService
             if (ip == "127.0.0.1")
                 ip = "localhost";
 
-            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _userName);
-            _userFullName = user.FullName + " (" + ip + ")";
+            var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
+            _userName = user.Name + " (" + ip + ")";
         }
     }
 }

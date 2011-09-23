@@ -2,9 +2,9 @@
 
 namespace SecurityModule.ViewModels
 {
-    public class GroupsMenuViewModel : BaseViewModel
+    public class RolesMenuViewModel : BaseViewModel
     {
-        public GroupsMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
+        public RolesMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
         {
             AddCommand = addCommand;
             DeleteCommand = deleteCommand;

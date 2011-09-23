@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\PermissionTypeToStringConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -71,26 +72,28 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SecurityModule.cs" />
-    <Compile Include="ViewModels\GroupDetailsViewModel.cs" />
-    <Compile Include="ViewModels\GroupViewModel.cs" />
+    <Compile Include="ViewModels\RoleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\RoleViewModel.cs" />
     <Compile Include="ViewModels\PermissionViewModel.cs" />
-    <Compile Include="ViewModels\UserDetailsViewModel.cs" />
-    <Compile Include="ViewModels\GroupsMenuViewModel.cs" />
-    <Compile Include="ViewModels\GroupsViewModel.cs" />
+    <Compile Include="ViewModels\RolesMenuViewModel.cs" />
+    <Compile Include="ViewModels\RolesViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ViewModels\UsersMenuViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
-    <Compile Include="Views\GroupsView.xaml.cs">
-      <DependentUpon>GroupsView.xaml</DependentUpon>
+    <Compile Include="Views\RolesView.xaml.cs">
+      <DependentUpon>RolesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroupDetailsView.xaml.cs">
-      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    <Compile Include="Views\RoleDetailsView.xaml.cs">
+      <DependentUpon>RoleDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroupsMenuView.xaml.cs">
-      <DependentUpon>GroupsMenuView.xaml</DependentUpon>
+    <Compile Include="Views\RolesMenuView.xaml.cs">
+      <DependentUpon>RolesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsersMenuView.xaml.cs">
       <DependentUpon>UsersMenuView.xaml</DependentUpon>
@@ -140,7 +143,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GroupsView.xaml">
+    <Page Include="Views\RolesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,11 +151,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GroupDetailsView.xaml">
+    <Page Include="Views\RoleDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GroupsMenuView.xaml">
+    <Page Include="Views\RolesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

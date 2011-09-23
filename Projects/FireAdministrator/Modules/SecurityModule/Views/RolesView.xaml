@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="SecurityModule.Views.RolesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <DataGrid  ItemsSource="{Binding Roles,
+                                         Converter={StaticResource CollectionViewFactoryConverter},
+                                         ConverterParameter=Role.Name}"
+                   SelectedItem="{Binding SelectedRole}"
+                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                   CellStyle="{StaticResource DataGridCellStyle}"
+                   Style="{StaticResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Role.Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

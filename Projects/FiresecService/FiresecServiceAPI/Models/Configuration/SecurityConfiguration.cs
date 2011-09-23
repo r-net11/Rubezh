@@ -9,17 +9,13 @@ namespace FiresecAPI.Models
         public SecurityConfiguration()
         {
             Users = new List<User>();
-            UserGroups = new List<UserGroup>();
-            Perimissions = new List<Perimission>();
+            UserRoles = new List<UserRole>();
         }
 
         [DataMember]
         public List<User> Users { get; set; }
 
         [DataMember]
-        public List<UserGroup> UserGroups { get; set; }
-
-        [DataMember]
-        public List<Perimission> Perimissions { get; set; }
+        public List<UserRole> UserRoles { get; set; }
     }
 }

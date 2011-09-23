@@ -25,7 +25,7 @@ namespace FireAdministrator
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn == false) return;
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Adm_ViewConfig) == false)
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
             {
                 MessageBox.Show("Нет прав на работу с программой");
                 FiresecManager.Disconnect();

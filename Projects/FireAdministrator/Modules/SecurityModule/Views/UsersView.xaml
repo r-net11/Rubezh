@@ -1,12 +1,19 @@
 ﻿<UserControl x:Class="SecurityModule.Views.UsersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Margin="5">
-        <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Users,
+                                        Converter={StaticResource CollectionViewFactoryConverter},
+                                        ConverterParameter=User.Login}"
+                  SelectedItem="{Binding SelectedUser}"
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                  CellStyle="{StaticResource DataGridCellStyle}"
+                  Style="{StaticResource DataGridStyle}"
+                  GridLinesVisibility="All">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Логин" Width="1*" Binding="{Binding User.Login}" />
                 <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding User.Name}" />
-                <DataGridTextColumn Header="Полное имя" Width="1*" Binding="{Binding User.FullName}" />
+                <DataGridTextColumn Header="Роль" Width="1*" Binding="{Binding RoleName}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

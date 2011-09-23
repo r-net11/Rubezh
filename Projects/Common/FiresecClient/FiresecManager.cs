@@ -30,6 +30,7 @@ namespace FiresecClient
                 LibraryConfiguration = _firesecService.GetLibraryConfiguration();
                 PlansConfiguration = _firesecService.GetPlansConfiguration();
                 SecurityConfiguration = _firesecService.GetSecurityConfiguration();
+                if (SecurityConfiguration.UserRoles == null) SecurityConfiguration.UserRoles = new List<UserRole>();
                 DeviceConfiguration = _firesecService.GetDeviceConfiguration();
                 DeviceStates = _firesecService.GetStates();
 
@@ -38,7 +39,7 @@ namespace FiresecClient
                 UpdateStates();
 
                 _firesecService.Subscribe();
-                _loggedInUserName = login;
+                _userLogin = login;
                 _firesecService.StartPing();
 
                 return true;
@@ -51,7 +52,7 @@ namespace FiresecClient
         {
             if (_firesecService.Reconnect(login, password))
             {
-                _loggedInUserName = login;
+                _userLogin = login;
                 return true;
             }
             return false;
@@ -111,36 +112,10 @@ namespace FiresecClient
             }
         }
 
-        static string _loggedInUserName;
+        static string _userLogin;
         public static User CurrentUser
         {
-            get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Name == _loggedInUserName); }
-        }
-
-        public static List<Perimission> CurrentPermissions
-        {
-            get
-            {
-                var permissionIds = new List<string>();
-
-                foreach (var groupId in CurrentUser.Groups)
-                {
-                    var group = SecurityConfiguration.UserGroups.FirstOrDefault(x => x.Id == groupId);
-                    if (group != null)
-                        permissionIds.AddRange(group.Permissions);
-                }
-                permissionIds.AddRange(CurrentUser.Permissions);
-
-                foreach (var permissionId in CurrentUser.RemovedPermissions)
-                {
-                    permissionIds.Remove(permissionId);
-                }
-
-                var permissions = new List<Perimission>(from permission in SecurityConfiguration.Perimissions
-                                                        where permissionIds.Contains(permission.Id)
-                                                        select permission);
-                return permissions;
-            }
+            get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin); }
         }
 
         public static void Disconnect()
@@ -153,10 +128,10 @@ namespace FiresecClient
         public static void SetConfiguration()
         {
             _firesecService.SetSystemConfiguration(SystemConfiguration);
-            _firesecService.SetPlansConfiguration(PlansConfiguration);
+            _firesecService.SetSecurityConfiguration(SecurityConfiguration);
             _firesecService.SetLibraryConfiguration(LibraryConfiguration);
             _firesecService.SetDeviceConfiguration(DeviceConfiguration);
-            _firesecService.SetSecurityConfiguration(SecurityConfiguration);
+            _firesecService.SetPlansConfiguration(PlansConfiguration);
         }
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)

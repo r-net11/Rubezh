@@ -1,22 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace FiresecAPI.Models
+﻿namespace FiresecAPI.Models
 {
-    [DataContract]
-    public class Perimission
-    {
-        [DataMember]
-        public string Id { get; set; }
-
-        [DataMember]
-        public string Name { get; set; }
-
-        public PermissionType PermissionType
-        {
-            get { return (PermissionType) int.Parse(Id); }
-        }
-    }
-
     public enum PermissionType
     {
         Adm_ChangeConfigDb = 6,

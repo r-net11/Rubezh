@@ -22,6 +22,10 @@ namespace FiresecService
                 ConvertMetadataFromFiresec();
                 DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
                 SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+                LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+                SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+                PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+
                 Update();
                 DeviceStatesConverter.Convert();
 

@@ -1,4 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using System.Linq;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
@@ -17,8 +19,20 @@ namespace SecurityModule.ViewModels
             set
             {
                 _user = value;
+
+                _roleName = string.Empty;
+                if (value != null)
+                {
+                    var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.Id == value.RoleId);
+                    if (role != null)
+                        _roleName = role.Name;
+                }
+
                 OnPropertyChanged("User");
             }
         }
+
+        string _roleName;
+        public string RoleName { get { return _roleName; } }
     }
 }

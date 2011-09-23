@@ -38,12 +38,13 @@ namespace SecurityModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var result = MessageBox.Show(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.FullName),
+            var result = MessageBox.Show(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name),
                 "Firesec", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
                 Users.Remove(SelectedUser);
+
                 SecurityModule.HasChanges = true;
             }
         }
@@ -59,7 +60,10 @@ namespace SecurityModule.ViewModels
             var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
             if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
             {
+                FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
                 SelectedUser.User = userDetailsViewModel.User;
+                FiresecManager.SecurityConfiguration.Users.Add(SelectedUser.User);
+
                 SecurityModule.HasChanges = true;
             }
         }
@@ -77,6 +81,7 @@ namespace SecurityModule.ViewModels
             {
                 FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
                 Users.Add(new UserViewModel(userDetailsViewModel.User));
+
                 SecurityModule.HasChanges = true;
             }
         }

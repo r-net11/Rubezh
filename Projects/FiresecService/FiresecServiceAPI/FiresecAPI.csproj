@@ -81,6 +81,7 @@
     <Compile Include="Models\Plans\CaptionBox.cs" />
     <Compile Include="Models\Plans\PolygonPoint.cs" />
     <Compile Include="Models\Plans\RectangleBox.cs" />
+    <Compile Include="Models\Security\UserRole.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
@@ -123,12 +124,10 @@
     <Compile Include="DriversHelper.cs" />
     <Compile Include="Models\States\DriverState.cs" />
     <Compile Include="Models\Driver\Parameter.cs" />
-    <Compile Include="Models\Security\Premission.cs" />
     <Compile Include="Models\Driver\Property.cs" />
     <Compile Include="Models\ResetItem.cs" />
     <Compile Include="Models\States\StateType.cs" />
     <Compile Include="Models\Security\User.cs" />
-    <Compile Include="Models\Security\UserGroup.cs" />
     <Compile Include="Models\Zone\Zone.cs" />
     <Compile Include="Models\Zone\ZoneLogic.cs" />
     <Compile Include="Models\States\ZoneState.cs" />

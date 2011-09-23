@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -14,12 +15,14 @@ namespace SecurityModule.ViewModels
 
         public UserDetailsViewModel()
         {
-            Title = "Новый пользователь";
+            Title = "Создание новой учетной записи";
+            IsNew = true;
+
             User = new User()
             {
-                Id = (int.Parse(FiresecManager.SecurityConfiguration.Users.Last().Id) + 1).ToString(),
-                FullName = "",
+                Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
                 Name = "",
+                Login = "",
                 PasswordHash = HashHelper.GetHashFromString(""),
             };
 
@@ -28,7 +31,9 @@ namespace SecurityModule.ViewModels
 
         public UserDetailsViewModel(User user)
         {
-            Title = "Редактирование пользователя";
+            Title = string.Format("Свойства учетной записи: {0}", user.Name);
+            IsNew = false;
+
             User = user;
 
             Initialize();
@@ -36,7 +41,32 @@ namespace SecurityModule.ViewModels
 
         void Initialize()
         {
+            Password = string.Empty;
+            NewPassword = string.Empty;
+            NewPasswordConfirmation = string.Empty;
+
+            Roles = new ObservableCollection<UserRole>() { null };
+            if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
+            {
+                foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+                    Roles.Add(role);
+            }
+
             CopyProperties();
+        }
+
+        public bool IsNew { get; private set; }
+        public bool IsNotNew { get { return !IsNew; } }
+
+        string _login;
+        public string Login
+        {
+            get { return _login; }
+            set
+            {
+                _login = value;
+                OnPropertyChanged("Login");
+            }
         }
 
         string _name;
@@ -50,36 +80,36 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        string _fullName;
-        public string FullName
+        string _password;
+        public string Password
         {
-            get { return _fullName; }
+            get { return _password; }
             set
             {
-                _fullName = value;
-                OnPropertyChanged("FullName");
+                _password = value;
+                OnPropertyChanged("Password");
             }
         }
 
-        string _passHash;
-        public string PasswordHash
+        string _newPass;
+        public string NewPassword
         {
-            get { return _passHash; }
+            get { return _newPass; }
             set
             {
-                _passHash = value;
-                OnPropertyChanged("PasswordHash");
+                _newPass = value;
+                OnPropertyChanged("NewPassword");
             }
         }
 
-        string _newPassHash;
-        public string NewPasswordHash
+        string _newPassConfirm;
+        public string NewPasswordConfirmation
         {
-            get { return _newPassHash; }
+            get { return _newPassConfirm; }
             set
             {
-                _newPassHash = value;
-                OnPropertyChanged("NewPasswordHash");
+                _newPassConfirm = value;
+                OnPropertyChanged("NewPasswordConfirmation");
             }
         }
 
@@ -94,8 +124,10 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        UserGroup _userRole;
-        public UserGroup UserRole
+        public ObservableCollection<UserRole> Roles { get; private set; }
+
+        UserRole _userRole;
+        public UserRole UserRole
         {
             get { return _userRole; }
             set
@@ -104,23 +136,39 @@ namespace SecurityModule.ViewModels
                 if (_userRole != null)
                 {
                     Permissions = new ObservableCollection<PermissionViewModel>(
-                        _userRole.Permissions.Select(x => new PermissionViewModel((PermissionType) (int.Parse(x))))
+                        _userRole.Permissions.Select(permissionType => new PermissionViewModel(permissionType) { IsEnable = true })
                     );
 
-                    foreach (var permissionId in User.Permissions)
-                    {
-                        var permission = Permissions.FirstOrDefault(x => ((int) (x.PermissionType)).ToString() == permissionId);
-                        if (permission == null)
-                        {
-                            User.Permissions.Remove(permissionId);
-                        }
-                        else
-                        {
-                            permission.IsEnable = true;
-                        }
-                    }
+                    CheckPermissions();
                 }
+                else
+                {
+                    Permissions = new ObservableCollection<PermissionViewModel>();
+                }
+
                 OnPropertyChanged("UserRole");
+            }
+        }
+
+        void CheckPermissions()
+        {
+            if (UserRole.Id != User.RoleId && UserRole.Permissions.IsNotNullOrEmpty())
+                return;
+
+            foreach (var permissionType in User.Permissions)
+            {
+                if (!Permissions.Any(x => x.PermissionType == permissionType))
+                {
+                    User.Permissions.Remove(permissionType);
+                }
+            }
+
+            foreach (var permission in Permissions)
+            {
+                if (!User.Permissions.Any(x => x == permission.PermissionType))
+                {
+                    permission.IsEnable = false;
+                }
             }
         }
 
@@ -137,41 +185,92 @@ namespace SecurityModule.ViewModels
 
         void CopyProperties()
         {
+            Login = User.Login;
             Name = User.Name;
-            FullName = User.FullName;
-            PasswordHash = User.PasswordHash;
-            if (User.Groups.IsNotNullOrEmpty())
-            {
-                UserRole = FiresecManager.SecurityConfiguration.UserGroups.FirstOrDefault(group => group.Id == User.Groups[0]);
-            }
-            else
-            {
-                UserRole = null;
-            }
+            UserRole = IsNew ? Roles[0] : Roles.Where(role => role != null).First(role => role.Id == User.RoleId);
         }
 
         void SaveProperties()
         {
+            User.Login = Login;
             User.Name = Name;
-            User.FullName = FullName;
-            if (IsChangePassword)
-                User.PasswordHash = NewPasswordHash;
-            User.Groups = new List<string>() { UserRole.Id };
-            User.Permissions = new List<string>(
-                Permissions.
-                Where(x => x.IsEnable).
-                Select(x => ((int) (x.PermissionType)).ToString())
+            if (IsNew)
+            {
+                User.PasswordHash = HashHelper.GetHashFromString(Password);
+            }
+            else if (IsChangePassword)
+            {
+                User.PasswordHash = HashHelper.GetHashFromString(NewPassword);
+            }
+            User.RoleId = UserRole.Id;
+            User.Permissions = new List<PermissionType>(
+                Permissions.Where(x => x.IsEnable).
+                Select(x => x.PermissionType)
             );
         }
 
         protected override void Save(ref bool cancel)
         {
-            SaveProperties();
+            if (CheckLogin() && CheckPass() && CheckRole())
+                SaveProperties();
+            else
+                cancel = true;
         }
 
-        protected override bool CanSave()
+        void ShowMessage(string message)
         {
-            return User.Name != Name;
+            MessageBox.Show(message, "Firesec", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        bool CheckLogin()
+        {
+            if (string.IsNullOrWhiteSpace(Login))
+            {
+                ShowMessage("Сначала введите логин");
+                return false;
+            }
+            else if (Name != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
+            {
+                ShowMessage("Введенный логин уже зарезервирован");
+                return false;
+            }
+            return true;
+        }
+
+        bool CheckPass()
+        {
+            if (IsNew)
+            {
+                if (NewPassword != NewPasswordConfirmation)
+                {
+                    ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+                    return false;
+                }
+            }
+            else if (IsChangePassword)
+            {
+                if (User.PasswordHash != HashHelper.GetHashFromString(Password))
+                {
+                    ShowMessage("Значение в поле \"Действующий пароль\" неверное");
+                    return false;
+                }
+                if (NewPassword != NewPasswordConfirmation)
+                {
+                    ShowMessage("Поля \"Новый пароль\" и \"Подтверждение\" должны совпадать");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        bool CheckRole()
+        {
+            if (UserRole == null)
+            {
+                ShowMessage("Сначала введите роль");
+                return false;
+            }
+            return true;
         }
     }
 }

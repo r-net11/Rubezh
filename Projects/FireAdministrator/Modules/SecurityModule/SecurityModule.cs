@@ -9,7 +9,7 @@ namespace SecurityModule
     public class SecurityModule : IModule
     {
         static UsersViewModel UsersViewModel;
-        static GroupsViewModel GroupsViewModel;
+        static RolesViewModel GroupsViewModel;
 
         public SecurityModule()
         {
@@ -31,17 +31,17 @@ namespace SecurityModule
 
         static void CreateViewModels()
         {
-            UsersViewModel = new UsersViewModel();
-            GroupsViewModel = new GroupsViewModel();
         }
 
         static void OnShowUsers(string obj)
         {
+            UsersViewModel = new UsersViewModel();
             ServiceFactory.Layout.Show(UsersViewModel);
         }
 
         static void OnShowUserGroups(string obj)
         {
+            GroupsViewModel = new RolesViewModel();
             ServiceFactory.Layout.Show(GroupsViewModel);
         }
 
