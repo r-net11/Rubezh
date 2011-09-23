@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
+using Common;
 using CustomWindow;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Windows.Controls;
-using Common;
 
 namespace FireMonitor
 {
@@ -68,14 +68,14 @@ namespace FireMonitor
         {
             AlarmPlayerHelper.Dispose();
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_Logout) == false)
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
             {
                 MessageBox.Show("Нет прав для выхода из программы");
                 e.Cancel = true;
                 return;
             }
 
-            if (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_LogoutNoPassword))
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
             {
                 return;
             }

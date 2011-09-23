@@ -108,7 +108,7 @@ namespace PlansModule.ViewModels
 
         public bool CanZoom
         {
-            get { return FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_ShowPlans); }
+            get { return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_ShowPlans); }
         }
     }
 }

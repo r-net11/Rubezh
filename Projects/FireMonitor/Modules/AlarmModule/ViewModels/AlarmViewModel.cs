@@ -66,7 +66,7 @@ namespace AlarmModule.ViewModels
             get
             {
                 return ((Alarm.AlarmType == AlarmType.Fire) &&
-                    (FiresecManager.CurrentPermissions.Any(x => x.PermissionType == PermissionType.Oper_NoAlarmConfirm) == false));
+                    (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_NoAlarmConfirm) == false));
             }
         }
 
@@ -140,19 +140,16 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-
         }
 
         public RelayCommand NotifyPhoneCommand { get; private set; }
         void OnNotifyPhone()
         {
-
         }
 
         public RelayCommand NotifySmsCommand { get; private set; }
         void OnNotifySms()
         {
-
         }
 
         public RelayCommand ShowVideoCommand { get; private set; }
