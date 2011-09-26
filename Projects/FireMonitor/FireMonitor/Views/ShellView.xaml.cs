@@ -8,7 +8,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Microsoft.Windows.Controls;
 
 namespace FireMonitor
 {
@@ -70,7 +69,7 @@ namespace FireMonitor
 
             if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
             {
-                MessageBox.Show("Нет прав для выхода из программы");
+                DialogBox.DialogBox.Show("Нет прав для выхода из программы");
                 e.Cancel = true;
                 return;
             }

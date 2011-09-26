@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -40,7 +39,7 @@ namespace DevicesModule.ViewModels
         void CreateNew()
         {
             Direction = new Direction();
-            
+
             if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
             {
                 int maxId = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id);
@@ -183,7 +182,7 @@ namespace DevicesModule.ViewModels
             {
                 if (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    MessageBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    DialogBox.DialogBox.Show("Невозможно сохранить. Номера направдений совпадают");
                     cancel = true;
                     return;
                 }
@@ -193,7 +192,7 @@ namespace DevicesModule.ViewModels
             {
                 if (Id != Direction.Id && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    MessageBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    DialogBox.DialogBox.Show("Невозможно сохранить. Номера направдений совпадают");
                     cancel = true;
                     return;
                 }

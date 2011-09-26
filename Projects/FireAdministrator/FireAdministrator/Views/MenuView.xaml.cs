@@ -33,7 +33,7 @@ namespace FireAdministrator
 
         void OnCreateNew(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Вы уверены, что хотите создать новую конфигурацию", "Новая конфигурация", MessageBoxButton.YesNo);
+            var result = DialogBox.DialogBox.Show("Вы уверены, что хотите создать новую конфигурацию", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Devices = new System.Collections.Generic.List<Device>();

@@ -135,6 +135,9 @@ namespace SecurityModule.ViewModels
                 _userRole = value;
                 if (_userRole != null)
                 {
+                    if (Roles[0] == null)
+                        Roles.RemoveAt(0);
+
                     Permissions = new ObservableCollection<PermissionViewModel>(
                         _userRole.Permissions.Select(permissionType => new PermissionViewModel(permissionType) { IsEnable = true })
                     );
@@ -219,7 +222,7 @@ namespace SecurityModule.ViewModels
 
         void ShowMessage(string message)
         {
-            MessageBox.Show(message, "Firesec", MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogBox.DialogBox.Show(message, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         bool CheckLogin()
@@ -229,7 +232,7 @@ namespace SecurityModule.ViewModels
                 ShowMessage("Сначала введите логин");
                 return false;
             }
-            else if (Name != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
+            else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
             {
                 ShowMessage("Введенный логин уже зарезервирован");
                 return false;
@@ -267,7 +270,7 @@ namespace SecurityModule.ViewModels
         {
             if (UserRole == null)
             {
-                ShowMessage("Сначала введите роль");
+                ShowMessage("Сначала выберите роль");
                 return false;
             }
             return true;

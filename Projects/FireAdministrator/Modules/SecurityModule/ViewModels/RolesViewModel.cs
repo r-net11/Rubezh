@@ -43,8 +43,8 @@ namespace SecurityModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var result = MessageBox.Show(string.Format("Вы уверенны, что хотите удалить роль \"{0}\" из списка? Тогда будут удалены и все пользователи с этой ролью", SelectedRole.Role.Name),
-                "Firesec", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = DialogBox.DialogBox.Show(string.Format("Вы уверенны, что хотите удалить роль \"{0}\" из списка? Тогда будут удалены и все пользователи с этой ролью", SelectedRole.Role.Name),
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);

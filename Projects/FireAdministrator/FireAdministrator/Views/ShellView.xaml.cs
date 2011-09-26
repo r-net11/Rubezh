@@ -5,9 +5,6 @@ using Common;
 using CustomWindow;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure;
-using Infrastructure.Events;
-using System;
 
 namespace FireAdministrator
 {
@@ -75,15 +72,17 @@ namespace FireAdministrator
                 FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges ||
                 InstructionsModule.InstructionsModule.HasChanges || SecurityModule.SecurityModule.HasChanges)
             {
-                var result = MessageBox.Show("Сохранить изменения в настройках?", "Firesec", MessageBoxButton.YesNoCancel);
+                var result = DialogBox.DialogBox.Show("Сохранить изменения в настройках?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
                         FiresecManager.SetConfiguration();
                         return;
+
                     case MessageBoxResult.No:
                         return;
+
                     case MessageBoxResult.Cancel:
                         e.Cancel = true;
                         return;

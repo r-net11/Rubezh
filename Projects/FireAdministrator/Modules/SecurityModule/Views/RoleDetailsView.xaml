@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SecurityModule.Converters"
              MinWidth="400" MinHeight="500">
-    <UserControl.Resources></UserControl.Resources>
     <DockPanel Margin="10" LastChildFill="True">
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />

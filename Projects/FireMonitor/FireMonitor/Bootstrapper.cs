@@ -28,7 +28,7 @@ namespace FireMonitor
             {
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login) == false)
                 {
-                    MessageBox.Show("Нет прав на работу с программой");
+                    DialogBox.DialogBox.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
 
                     return false;

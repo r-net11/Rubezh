@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Windows;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
@@ -54,7 +52,7 @@ namespace DevicesModule.ViewModels
         {
             if (Password != PasswordConfirm)
             {
-                MessageBox.Show("Пароль не был корректно подтвержден. Пароль и подтверждение должны совпадать");
+                DialogBox.DialogBox.Show("Пароль не был корректно подтвержден. Пароль и подтверждение должны совпадать");
                 return;
             }
 

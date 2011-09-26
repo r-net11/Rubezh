@@ -202,7 +202,7 @@ namespace DevicesModule.ViewModels
         {
             if (_zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
             {
-                System.Windows.MessageBox.Show("Зона с таким номером уже существует");
+                DialogBox.DialogBox.Show("Зона с таким номером уже существует");
                 return;
             }
 

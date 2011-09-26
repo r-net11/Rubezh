@@ -20,7 +20,7 @@ namespace FireMonitor
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.ToString());
+            DialogBox.DialogBox.Show(e.ExceptionObject.ToString());
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -806,7 +806,7 @@ namespace PlansModule.Views
         void MenuClicked(object sender, RoutedEventArgs e)
         {
             var menu = sender as MenuItem;
-            MessageBox.Show("test");
+            DialogBox.DialogBox.Show("test");
             e.Handled = true;
         }
 

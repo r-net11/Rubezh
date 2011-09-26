@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -33,7 +32,7 @@ namespace DevicesModule.ViewModels
         {
             if (_autodetectedDeviceConfiguration == null)
             {
-                MessageBox.Show("Операция прервана");
+                DialogBox.DialogBox.Show("Операция прервана");
                 return;
             }
 

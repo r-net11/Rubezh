@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using FiresecAPI.Models;
-using Microsoft.Win32;
-using System.IO;
 using FiresecClient;
-using System.Windows;
+using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels
 {
@@ -40,7 +35,7 @@ namespace DevicesModule.ViewModels
 
         static void OnCompleted()
         {
-            MessageBox.Show(_question);
+            DialogBox.DialogBox.Show(_question);
         }
     }
 }

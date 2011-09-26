@@ -187,18 +187,18 @@ namespace DevicesModule.Views
             int leftPart = LeftPart;
             if (leftPart < LeftPartMin)
             {
-                MessageBox.Show(
+                DialogBox.DialogBox.Show(
                     string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 LeftPart = LeftPartMin;
                 addressRedactor.CaretIndex = caretIndex;
             }
             else if (leftPart > LeftPartMax)
             {
-                MessageBox.Show(
+                DialogBox.DialogBox.Show(
                     string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 LeftPart = LeftPartMax;
                 addressRedactor.CaretIndex = caretIndex;
@@ -215,18 +215,18 @@ namespace DevicesModule.Views
 
             if (rightPart < RightPartMin)
             {
-                MessageBox.Show(
+                DialogBox.DialogBox.Show(
                     string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 RightPart = RightPartMin;
                 addressRedactor.CaretIndex = caretIndex;
             }
             else if (rightPart > RightPartMax)
             {
-                MessageBox.Show(
+                DialogBox.DialogBox.Show(
                     string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 RightPart = RightPartMax;
                 addressRedactor.CaretIndex = caretIndex;

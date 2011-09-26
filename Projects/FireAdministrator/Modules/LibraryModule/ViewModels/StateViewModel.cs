@@ -111,8 +111,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            var result = MessageBox.Show("Удалить выбранный кадр?",
-                                        "Окно подтверждения",
+            var result = DialogBox.DialogBox.Show("Удалить выбранный кадр?",
                                         MessageBoxButton.OKCancel,
                                         MessageBoxImage.Question);
 

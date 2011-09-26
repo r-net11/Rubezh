@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -6,7 +7,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System;
 
 namespace LibraryModule.ViewModels
 {
@@ -139,8 +139,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
         {
-            var dialogResult = MessageBox.Show("Удалить выбранное состояние?",
-                                                "Окно подтверждения",
+            var dialogResult = DialogBox.DialogBox.Show("Удалить выбранное состояние?",
                                                 MessageBoxButton.OKCancel,
                                                 MessageBoxImage.Question);
 

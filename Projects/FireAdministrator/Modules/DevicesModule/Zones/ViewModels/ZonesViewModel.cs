@@ -1,12 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -90,7 +88,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, "Подтверждение", MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, MessageBoxButton.YesNo);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
@@ -120,7 +118,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllCommand { get; private set; }
         void OnDeleteAll()
         {
-            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить все зоны ?", MessageBoxButton.YesNo);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Clear();
@@ -137,7 +135,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllEmptyCommand { get; private set; }
         void OnDeleteAllEmpty()
         {
-            var dialogResult = MessageBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", "Подтверждение", MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", MessageBoxButton.YesNo);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 var devices = FiresecManager.DeviceConfiguration.Devices;

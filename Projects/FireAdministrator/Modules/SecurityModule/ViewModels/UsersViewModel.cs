@@ -38,8 +38,8 @@ namespace SecurityModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var result = MessageBox.Show(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name),
-                "Firesec", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = DialogBox.DialogBox.Show(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name),
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);

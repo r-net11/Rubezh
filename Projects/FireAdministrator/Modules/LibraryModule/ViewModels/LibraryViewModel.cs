@@ -50,8 +50,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            var result = MessageBox.Show("Вы уверены что хотите удалить выбранное устройство?",
-                                          "Окно подтверждения",
+            var result = DialogBox.DialogBox.Show("Вы уверены что хотите удалить выбранное устройство?",
                                           MessageBoxButton.OKCancel,
                                           MessageBoxImage.Question);
 

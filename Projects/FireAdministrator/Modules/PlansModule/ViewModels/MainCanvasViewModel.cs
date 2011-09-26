@@ -519,7 +519,7 @@ namespace PlansModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    DialogBox.DialogBox.Show(ex.Message);
                 }
 
                 PlanCanvasView.Current.MainCanvas.Children.Add(thumb);

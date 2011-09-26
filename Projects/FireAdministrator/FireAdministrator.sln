@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogBox", "..\Common\DialogWindow\DialogWindow\DialogBox.csproj", "{8F228E65-E3D4-4A94-BC30-E5C428FE3493}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -206,6 +208,16 @@ Global
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.ActiveCfg = Release|x86
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.Build.0 = Release|x86
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,5 +236,6 @@ Global
 		{FE37B6D4-73E5-40F2-A770-A974561430B8} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
+		{8F228E65-E3D4-4A94-BC30-E5C428FE3493} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 	EndGlobalSection
 EndGlobal

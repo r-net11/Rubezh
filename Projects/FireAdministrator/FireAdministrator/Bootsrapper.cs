@@ -6,7 +6,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.UnityExtensions;
-using System;
 
 namespace FireAdministrator
 {
@@ -27,7 +26,7 @@ namespace FireAdministrator
 
             if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
             {
-                MessageBox.Show("Нет прав на работу с программой");
+                DialogBox.DialogBox.Show("Нет прав на работу с программой");
                 FiresecManager.Disconnect();
                 return;
             }
