@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using FiresecAPI.Models;
+using FiresecClient;
+using System.Collections.Generic;
 
 namespace ItvIntegration
 {
@@ -42,6 +44,40 @@ namespace ItvIntegration
             {
                 _stateType = value;
                 OnPropertyChanged("StateType");
+            }
+        }
+
+        public void ExecuteCommand(string commandName)
+        {
+            if (DeviceState.Device.Driver.IsIgnore)
+            {
+                var deviceUIDs = new List<Guid>();
+                deviceUIDs.Add(DeviceState.UID);
+
+                switch (commandName)
+                {
+                    case "Dasable":
+                        FiresecManager.AddToIgnoreList(deviceUIDs);
+                        break;
+
+                    case "Enable":
+                        FiresecManager.RemoveFromIgnoreList(deviceUIDs);
+                        break;
+                }
+            }
+
+            if (DeviceState.Device.Driver.DriverType == DriverType.Valve)
+            {
+                switch (commandName)
+                {
+                    case "BoltClose":
+                    case "BoltStop":
+                    case "BoltOpen":
+                    case "BoltAutoOn":
+                    case "BoltAutoOff":
+                        FiresecManager.ExecuteCommand(DeviceState.UID, commandName);
+                        break;
+                }
             }
         }
 

@@ -26,7 +26,7 @@ namespace FireAdministrator
         void TryConnect(object obj)
         {
             string[] args = obj as string[];
-            IsLoggedIn = FiresecManager.Connect(args[0], args[1]);
+            IsLoggedIn = FiresecManager.Connect(args[0], args[1], true, false);
             if (IsLoggedIn)
             {
                 Dispatcher.Invoke(new Action(() => Close()));

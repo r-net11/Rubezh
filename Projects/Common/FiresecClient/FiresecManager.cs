@@ -19,18 +19,23 @@ namespace FiresecClient
 
         static SafeFiresecService _firesecService;
 
-        public static bool Connect(string login, string password)
+        public static bool Connect(string login, string password, bool isFullCopy, bool isMonitoring)
         {
             _firesecService = new SafeFiresecService(FiresecServiceFactory.Create());
             if (_firesecService.Connect(login, password))
             {
-                FileHelper.Synchronize();
+                _userLogin = login;
+
+                if (isFullCopy)
+                {
+                    FileHelper.Synchronize();
+                    SecurityConfiguration = _firesecService.GetSecurityConfiguration();
+                    SystemConfiguration = _firesecService.GetSystemConfiguration();
+                    PlansConfiguration = _firesecService.GetPlansConfiguration();
+                }
+
                 Drivers = _firesecService.GetDrivers();
-                SystemConfiguration = _firesecService.GetSystemConfiguration();
                 LibraryConfiguration = _firesecService.GetLibraryConfiguration();
-                PlansConfiguration = _firesecService.GetPlansConfiguration();
-                SecurityConfiguration = _firesecService.GetSecurityConfiguration();
-                if (SecurityConfiguration.UserRoles == null) SecurityConfiguration.UserRoles = new List<UserRole>();
                 DeviceConfiguration = _firesecService.GetDeviceConfiguration();
                 DeviceStates = _firesecService.GetStates();
 
@@ -38,9 +43,11 @@ namespace FiresecClient
                 UpdateConfiguration();
                 UpdateStates();
 
-                _firesecService.Subscribe();
-                _userLogin = login;
-                _firesecService.StartPing();
+                if (isMonitoring)
+                {
+                    _firesecService.Subscribe();
+                    _firesecService.StartPing();
+                }
 
                 return true;
             }
@@ -262,6 +269,16 @@ namespace FiresecClient
         public static void SetPassword(Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
             _firesecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, devicePasswordType, password);
+        }
+
+        public static List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        {
+            return _firesecService.DeviceCustomFunctionList(driverUID);
+        }
+
+        public static string DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
+        {
+            return _firesecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, functionName);
         }
 
         public static void LoadFromFile(string fileName)

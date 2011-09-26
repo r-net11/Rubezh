@@ -67,6 +67,7 @@
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
+    <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorColorType.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorLogic.cs" />

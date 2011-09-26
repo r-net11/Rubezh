@@ -12,8 +12,8 @@ namespace Firesec
         {
             Trace.WriteLine("Progress: Stage=" + Stage.ToString() + " Comment:" + Comment +
                 " PercentComplete:" + PercentComplete.ToString() + " BytesRW:" + BytesRW.ToString());
-            return FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
-            //return true;
+            var result = FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
+            return true;
         }
     }
 }

@@ -55,8 +55,8 @@
         <Views:BindMsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AdditionalPropertiesViewModel}">
-        <Views:AdditionalPropertiesView />
+    <DataTemplate DataType="{x:Type ViewModels:CustomAdminFunctionsCommandViewModel}">
+        <Views:CustomAdminFunctionsCommandView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:AutoSearchViewModel}">

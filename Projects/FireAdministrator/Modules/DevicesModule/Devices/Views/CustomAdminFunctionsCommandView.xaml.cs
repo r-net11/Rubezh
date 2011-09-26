@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-    public partial class AdditionalPropertiesView : UserControl
+    public partial class CustomAdminFunctionsCommandView : UserControl
     {
-        public AdditionalPropertiesView()
+        public CustomAdminFunctionsCommandView()
         {
             InitializeComponent();
         }

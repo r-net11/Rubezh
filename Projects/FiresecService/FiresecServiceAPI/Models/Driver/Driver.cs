@@ -178,5 +178,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool CanUpdateSoft { get; set; }
+
+        [DataMember]
+        public bool CanExecuteCustomAdminFunctions { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace FiresecService.Converters
             driver.IsChildAddressReservedRange = innerDriver.res_addr != null;
 
             driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
-            driver.DisableAutoCreateChildren = innerDriver.options != null && innerDriver.options.Contains("DisableAutoCreateChildren");
+            
 
             if (innerDriver.addrMask == "[0(1)-8(8)]")
                 driver.IsRangeEnabled = true;
@@ -100,9 +100,6 @@ namespace FiresecService.Converters
 
             driver.HasImage = driver.ImageSource != @"Device_Device";
             driver.IsZoneDevice = ((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0")) == false;
-            driver.IsZoneLogicDevice = innerDriver.options != null && innerDriver.options.Contains("ExtendedZoneLogic");
-            driver.CanDisable = innerDriver.options != null && innerDriver.options.Contains("Ignorable");
-            driver.IsPlaceable = innerDriver.options != null && innerDriver.options.Contains("Placeable");
             driver.IsIndicatorDevice = innerDriver.name == "Индикатор";
             driver.CanControl = driver.DriverType == DriverType.Valve;
 
@@ -118,9 +115,6 @@ namespace FiresecService.Converters
                     driver.IsBUtton = true;
                     break;
             }
-
-            driver.IsOutDevice = innerDriver.options != null && innerDriver.options.Contains("OutDevice");
-            driver.IgnoreInZoneState = innerDriver.options != null && innerDriver.options.Contains("IgnoreInZoneState");
 
             driver.Category = (DeviceCategoryType)int.Parse(innerDriver.cat);
             driver.CategoryName = EnumsConverter.CategoryTypeToCategoryName(driver.Category);
@@ -287,6 +281,13 @@ namespace FiresecService.Converters
 
             if (innerDriver.options != null)
             {
+                driver.DisableAutoCreateChildren = innerDriver.options.Contains("DisableAutoCreateChildren");
+                driver.IsZoneLogicDevice = innerDriver.options.Contains("ExtendedZoneLogic");
+                driver.CanDisable = innerDriver.options.Contains("Ignorable");
+                driver.IsPlaceable = innerDriver.options.Contains("Placeable");
+                driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
+                driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
+
                 driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
                 driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
                 driver.CanAutoDetect = innerDriver.options.Contains("CanAutoDetectInstances");
@@ -295,6 +296,7 @@ namespace FiresecService.Converters
                 driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
                 driver.CanSetPassword = innerDriver.options.Contains("PasswordManagement");
                 driver.CanUpdateSoft = innerDriver.options.Contains("SoftUpdates");
+                driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
             }
 
             return driver;

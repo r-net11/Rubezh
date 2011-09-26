@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DeviceCustomFunctionConverter.cs" />
     <Compile Include="Converters\DeviceStatesConverter.cs" />
     <Compile Include="Converters\GuardUserConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Imitator\ImitatorView.xaml.cs">
       <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XSD\DeviceCustomFunctions.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
       <DependentUpon>GetCoreConfig.xsd</DependentUpon>
     </Compile>

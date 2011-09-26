@@ -4,6 +4,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using FiresecClient;
 using ItvIntergation.Ngi;
+using System.Windows.Media;
 
 namespace RepFileManager
 {
@@ -23,8 +24,10 @@ namespace RepFileManager
                 return;
             }
 
+            Directory.CreateDirectory("BMP");
+
             var repositoryModule = new repositoryModule();
-            repositoryModule.name = "Устройства Рубеж";
+            repositoryModule.name = "Rubezh devices";
             repositoryModule.version = "1.0.0";
             repositoryModule.port = "1234";
             var repository = new repository();

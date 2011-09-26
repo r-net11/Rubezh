@@ -141,6 +141,17 @@ namespace FiresecService
             return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
         }
 
+        public static Firesec.DeviceCustomFunctions.functions DeviceCustomFunctionList(string driverUID)
+        {
+            var stringFunctions = DispatcherFiresecClient.DeviceCustomFunctionList(driverUID);
+            return SerializerHelper.Deserialize<Firesec.DeviceCustomFunctions.functions>(stringFunctions);
+        }
+
+        public static string DeviceCustomFunctionExecute(Firesec.CoreConfiguration.config coreConfig, string devicePath, string functionName)
+        {
+            return DispatcherFiresecClient.DeviceCustomFunctionExecute(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, functionName);
+        }
+
         public static void NewEventsAvailable(int eventMask)
         {
             if (NewEvent != null)

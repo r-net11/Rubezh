@@ -19,5 +19,6 @@ namespace DevicesModule.ViewModels
         public RelayCommand GetDescriptionCommand { get; set; }
         public RelayCommand SetPasswordCommand { get; set; }
         public RelayCommand GetDeveceJournalCommand { get; set; }
+        public RelayCommand ExecuteCustomAdminFunctionsCommand { get; set; }
     }
 }

@@ -67,6 +67,12 @@ namespace FiresecAPI
         DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
+        List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID);
+
+        [OperationContract]
+        string DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
+
+        [OperationContract]
         SystemConfiguration GetSystemConfiguration();
 
         [OperationContract]

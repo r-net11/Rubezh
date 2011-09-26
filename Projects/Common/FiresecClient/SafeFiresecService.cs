@@ -56,8 +56,11 @@ namespace FiresecClient
 
         public void StopPing()
         {
-            _pingTimer.Enabled = false;
-            _pingTimer.Dispose();
+            if (_pingTimer != null)
+            {
+                _pingTimer.Enabled = false;
+                _pingTimer.Dispose();
+            }
         }
 
         private void OnTimerPing(object source, ElapsedEventArgs e)
@@ -296,6 +299,32 @@ namespace FiresecClient
             try
             {
                 return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID, fastSearch);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceCustomFunctionList(driverUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
+        {
+            try
+            {
+                return _iFiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName);
             }
             catch
             {

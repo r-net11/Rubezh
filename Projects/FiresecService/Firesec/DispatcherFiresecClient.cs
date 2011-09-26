@@ -9,6 +9,7 @@ namespace Firesec
         static Control control;
 
         delegate string StringDelegate();
+        delegate string StringDelegateString(string arg1);
         delegate string StringDelegateIntInt(int arg1, int arg2);
         delegate bool BoolDelegateStringString(string arg1, string arg2);
         delegate string StringDelegateStringString(string arg1, string arg2);
@@ -138,6 +139,16 @@ namespace Firesec
         public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
         {
             return (string)control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
+        }
+
+        public static string DeviceCustomFunctionList(string driverUID)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateString(NativeFiresecClient.DeviceCustomFunctionList), driverUID);
+        }
+
+        public static string DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceCustomFunctionExecute), coreConfig, devicePath, functionName);
         }
 
         public static string DeviceReadConfig(string coreConfig, string devicePath)

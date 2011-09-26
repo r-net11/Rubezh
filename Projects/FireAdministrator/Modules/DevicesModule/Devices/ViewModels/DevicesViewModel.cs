@@ -32,7 +32,7 @@ namespace DevicesModule.ViewModels
             GetDeveceJournalCommand = new RelayCommand(OnGetDeveceJournal, CanGetDeveceJournal);
             SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
-            ShowAdditionalPropertiesCommand = new RelayCommand(OnShowAdditionalProperties, CanShowAdditionalProperties);
+            ExecuteCustomAdminFunctionsCommand = new RelayCommand(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
         }
 
         public void Initialize()
@@ -336,12 +336,6 @@ namespace DevicesModule.ViewModels
         void OnBindMs()
         {
             GetSerialsHelper.Run(SelectedDevice.Device);
-            return;
-
-            bool canBind = ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == (DriverType.MS_1 | DriverType.MS_2)));
-
-            //var bindMsViewModel = new BindMsViewModel(SelectedDevice.Device);
-            //ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
         }
 
         bool CanBindMs()
@@ -350,16 +344,17 @@ namespace DevicesModule.ViewModels
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == (DriverType.MS_1 | DriverType.MS_2)));
         }
 
-        public RelayCommand ShowAdditionalPropertiesCommand { get; private set; }
-        void OnShowAdditionalProperties()
+        public RelayCommand ExecuteCustomAdminFunctionsCommand { get; private set; }
+        void OnExecuteCustomAdminFunctions()
         {
-            var additionalPropertiesViewModel = new AdditionalPropertiesViewModel(SelectedDevice.Device.UID);
-            ServiceFactory.UserDialogs.ShowModalWindow(additionalPropertiesViewModel);
+            var customAdminFunctionsCommandViewModel = new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device);
+            ServiceFactory.UserDialogs.ShowModalWindow(customAdminFunctionsCommandViewModel);
         }
 
-        bool CanShowAdditionalProperties()
+        bool CanExecuteCustomAdminFunctions()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
+            return true;
+            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
         }
 
         public override void OnShow()
@@ -379,7 +374,8 @@ namespace DevicesModule.ViewModels
                     GetDescriptionCommand = GetDescriptionCommand,
                     SetPasswordCommand = SetPasswordCommand,
                     GetDeveceJournalCommand = GetDeveceJournalCommand,
-                    BindMsCommand = BindMsCommand
+                    BindMsCommand = BindMsCommand,
+                    ExecuteCustomAdminFunctionsCommand = ExecuteCustomAdminFunctionsCommand
                 };
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }

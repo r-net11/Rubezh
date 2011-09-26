@@ -183,6 +183,16 @@ namespace Firesec
             }
         }
 
+        public static string DeviceCustomFunctionList(string driverUID)
+        {
+            return Connectoin.DeviceCustomFunctionList(driverUID);
+        }
+
+        public static string DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
+        {
+            return Connectoin.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
+        }
+
         //*********************************************************************
 
         static FS_Types.IFSC_Connection GetConnection(string login, string password)

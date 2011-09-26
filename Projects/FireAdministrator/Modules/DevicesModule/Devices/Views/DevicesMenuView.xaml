@@ -63,5 +63,9 @@
             <Image Source="/Controls;component/Images/Copy.png" Height="24" />
         </Button>
 
+        <Button Command="{Binding ExecuteCustomAdminFunctionsCommand}" ToolTip="Другие функции" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+        </Button>
+        
     </StackPanel>
 </UserControl>

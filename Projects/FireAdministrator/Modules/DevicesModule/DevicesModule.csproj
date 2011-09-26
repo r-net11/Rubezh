@@ -62,7 +62,8 @@
   <ItemGroup>
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
-    <Compile Include="Devices\ViewModels\AdditionalPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\CustomAdminFunctionsHelper.cs" />
+    <Compile Include="Devices\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
     <Compile Include="Devices\ViewModels\Async\FirmwareUpdateHelper.cs" />
     <Compile Include="Devices\ViewModels\Async\GetSerialsHelper.cs" />
@@ -77,8 +78,8 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\SetPasswordHelper.cs" />
-    <Compile Include="Devices\Views\AdditionalPropertiesView.xaml.cs">
-      <DependentUpon>AdditionalPropertiesView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\CustomAdminFunctionsCommandView.xaml.cs">
+      <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AutoSearchView.xaml.cs">
       <DependentUpon>AutoSearchView.xaml</DependentUpon>
@@ -311,7 +312,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Devices\Views\AdditionalPropertiesView.xaml">
+    <Page Include="Devices\Views\CustomAdminFunctionsCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

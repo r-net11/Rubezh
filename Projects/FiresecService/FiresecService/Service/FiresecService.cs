@@ -167,7 +167,8 @@ namespace FiresecService
 
         public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
-            var fileName = "temp";
+            Directory.CreateDirectory("Temp");
+            var fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + "tempFile.HXC";
             FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             stream.Write(bytes, 0, bytes.Length);
             stream.Close();
@@ -181,12 +182,13 @@ namespace FiresecService
 
         public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
         {
-            var fileName = "temp";
+            Directory.CreateDirectory("Temp");
+            var fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + "tempFile.HXC";
             FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
             stream.Write(bytes, 0, bytes.Length);
             stream.Close();
 
-            return "";
+            //return "";
 
             ConfigurationConverter.ConvertBack(deviceConfiguration);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -226,6 +228,19 @@ namespace FiresecService
             ConfigurationConverter.FiresecConfiguration = config;
             DeviceConverter.Convert();
             return ConfigurationConverter.DeviceConfiguration;
+        }
+
+        public List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        {
+            var functions = FiresecInternalClient.DeviceCustomFunctionList(driverUID.ToString().ToUpper());
+            return DeviceCustomFunctionConverter.Convert(functions);
+        }
+
+        public string DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
+        {
+            ConfigurationConverter.ConvertBack(deviceConfiguration);
+            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            return FiresecInternalClient.DeviceCustomFunctionExecute(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, functionName);
         }
 
         public SecurityConfiguration GetSecurityConfiguration()
