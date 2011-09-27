@@ -57,7 +57,7 @@ namespace FiresecClient
             UpdateConfiguration();
             UpdateStates();
 
-            FiresecService.Subscribe();
+            //FiresecService.Subscribe();
         }
 
         public static string Reconnect(string login, string password)
@@ -251,12 +251,12 @@ namespace FiresecClient
 
         public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes, string fileName)
         {
-            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
+            return FiresecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
         }
 
         public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes, string fileName)
         {
-            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
+            return FiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
         }
 
         public static string DeviceGetInformation(Guid deviceUID)

@@ -10,22 +10,27 @@
                 <GradientStop Color="#E3EFFF" Offset="0" />
                 <GradientStop Color="#AFD2FF" Offset="1" />
             </LinearGradientBrush>
+            
             <LinearGradientBrush x:Key="ButtonNormalBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#434247" Offset="0" />
                 <GradientStop Color="#383438" Offset="1" />
             </LinearGradientBrush>
+            
             <LinearGradientBrush x:Key="ButtonSelectedBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#F2B352" Offset="0" />
                 <GradientStop Color="#DF8E2A" Offset="1" />
             </LinearGradientBrush>
+            
             <LinearGradientBrush x:Key="ButtonPressedBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#DEA34B" Offset="0" />
                 <GradientStop Color="#C98226" Offset="1" />
             </LinearGradientBrush>
+            
             <LinearGradientBrush x:Key="ButtonHoverBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#F2B352" Offset="0" />
                 <GradientStop Color="#DF8E2A" Offset="1" />
             </LinearGradientBrush>
+            
             <!-- This style sets the default template for a TabItem -->
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Padding" Value="12,2,12,2"/>

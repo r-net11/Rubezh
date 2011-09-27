@@ -1,14 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Common;
 using FiresecClient;
-using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecAPI.Models;
-using System;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Collections.Generic;
 
 namespace InstructionsModule.ViewModels
 {
