@@ -276,12 +276,12 @@ namespace FiresecClient
 
         public static List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
         {
-            return _firesecService.DeviceCustomFunctionList(driverUID);
+            return FiresecService.DeviceCustomFunctionList(driverUID);
         }
 
         public static string DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
         {
-            return _firesecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, functionName);
+            return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, functionName);
         }
 
         public static void LoadFromFile(string fileName)

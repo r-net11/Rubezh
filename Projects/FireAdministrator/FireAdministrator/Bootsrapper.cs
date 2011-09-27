@@ -62,8 +62,8 @@ namespace FireAdministrator
             var libraryModule = new LibraryModule.LibraryModule();
             libraryModule.Initialize();
 
-            //var plansModule = new PlansModule.PlansModule();
-            //plansModule.Initialize();
+            var plansModule = new PlansModule.PlansModule();
+            plansModule.Initialize();
 
             var sequrityModule = new SecurityModule.SecurityModule();
             sequrityModule.Initialize();
