@@ -22,33 +22,39 @@ namespace FireAdministrator
         {
             var loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
-            if (loginScreen.IsLoggedIn == false) return;
-
-            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
+            if (loginScreen.IsLoggedIn)
             {
-                DialogBox.DialogBox.Show("Нет прав на работу с программой");
-                FiresecManager.Disconnect();
-                return;
+                var preLoadWindow = new PreLoadWindow();
+                preLoadWindow.Show();
+                FiresecManager.SelectiveFetch();
+
+                if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
+                {
+                    DialogBox.DialogBox.Show("Нет прав на работу с программой");
+                    FiresecManager.Disconnect();
+                    preLoadWindow.Close();
+                }
+                else
+                {
+                    RegisterServices();
+                    InitializeKnownModules();
+                    preLoadWindow.Close();
+
+                    App.Current.MainWindow = (Window) this.Shell;
+                    App.Current.MainWindow.Show();
+                }
             }
-
-            RegisterServices();
-
-            InitializeKnownModules();
-
-            App.Current.MainWindow = (Window) this.Shell;
-            App.Current.MainWindow.Show();
         }
 
-        void RegisterServices()
+        static void RegisterServices()
         {
             ServiceFactory.RegisterType<IResourceService, ResourceService>();
             ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
             ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
-
             ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
         }
 
-        void InitializeKnownModules()
+        static void InitializeKnownModules()
         {
             var devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();

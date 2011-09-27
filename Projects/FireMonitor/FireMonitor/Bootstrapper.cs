@@ -10,10 +10,6 @@ namespace FireMonitor
 {
     public class Bootstrapper : UnityBootstrapper
     {
-        public Bootstrapper()
-        {
-        }
-
         protected override System.Windows.DependencyObject CreateShell()
         {
             var shellView = new ShellView();
@@ -22,33 +18,30 @@ namespace FireMonitor
             return shellView;
         }
 
-        public static bool Connect()
+        protected override void InitializeShell()
         {
+            RegisterServices();
             if (ServiceFactory.Get<ISecurityService>().Connect())
             {
+                var preLoadWindow = new PreLoadWindow();
+                preLoadWindow.Show();
+                FiresecManager.SelectiveFetch();
+
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login) == false)
                 {
                     DialogBox.DialogBox.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
-
-                    return false;
+                    preLoadWindow.Close();
                 }
+                else
+                {
+                    InitializeKnownModules();
+                    preLoadWindow.Close();
 
-                return true;
+                    App.Current.MainWindow = (Window) this.Shell;
+                    App.Current.MainWindow.Show();
+                }
             }
-
-            return false;
-        }
-
-        protected override void InitializeShell()
-        {
-            RegisterServices();
-            if (Connect() == false) return;
-
-            InitializeKnownModules();
-
-            App.Current.MainWindow = (Window) this.Shell;
-            App.Current.MainWindow.Show();
         }
 
         static void RegisterServices()
@@ -64,9 +57,6 @@ namespace FireMonitor
             var devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();
 
-            var plansModule = new PlansModule.PlansModule();
-            plansModule.Initialize();
-
             var journalModule = new JournalModule.JournalModule();
             journalModule.Initialize();
 
@@ -78,6 +68,9 @@ namespace FireMonitor
 
             var callModule = new CallModule.CallModule();
             callModule.Initialize();
+
+            var plansModule = new PlansModule.PlansModule();
+            plansModule.Initialize();
         }
     }
 }

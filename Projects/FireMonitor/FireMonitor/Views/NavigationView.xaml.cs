@@ -66,7 +66,7 @@ namespace FireMonitor
         {
             if (IsJournalSelected == false)
             {
-                UnreadJournalCount++;
+                ++UnreadJournalCount;
             }
         }
 

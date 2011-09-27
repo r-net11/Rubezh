@@ -17,60 +17,68 @@ namespace FiresecClient
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-        static SafeFiresecService _firesecService;
+        static public SafeFiresecService FiresecService { get; private set; }
 
-        public static bool Connect(string login, string password, bool isFullCopy, bool isMonitoring)
+        static FiresecManager()
         {
-            _firesecService = new SafeFiresecService(FiresecServiceFactory.Create());
-            if (_firesecService.Connect(login, password))
-            {
-                _userLogin = login;
-
-                if (isFullCopy)
-                {
-                    FileHelper.Synchronize();
-                    SecurityConfiguration = _firesecService.GetSecurityConfiguration();
-                    SystemConfiguration = _firesecService.GetSystemConfiguration();
-                    PlansConfiguration = _firesecService.GetPlansConfiguration();
-                }
-
-                Drivers = _firesecService.GetDrivers();
-                LibraryConfiguration = _firesecService.GetLibraryConfiguration();
-                DeviceConfiguration = _firesecService.GetDeviceConfiguration();
-                DeviceStates = _firesecService.GetStates();
-
-                UpdateDrivers();
-                UpdateConfiguration();
-                UpdateStates();
-
-                if (isMonitoring)
-                {
-                    _firesecService.Subscribe();
-                    _firesecService.StartPing();
-                }
-
-                return true;
-            }
-
-            return false;
+            FiresecService = new SafeFiresecService(FiresecServiceFactory.Create());
         }
 
-        public static bool Reconnect(string login, string password)
+        public static string Connect(string login, string password)
         {
-            if (_firesecService.Reconnect(login, password))
+            bool? result = FiresecService.Connect(login, password);
+            if (result == null)
             {
-                _userLogin = login;
-                return true;
+                return "Не удается соединиться с сервером";
             }
-            return false;
+            else if (result == false)
+            {
+                return "Неверный логин или пароль";
+            }
+
+            _userLogin = login;
+            FiresecService.StartPing();
+
+            return null;
+        }
+
+        public static void SelectiveFetch()
+        {
+            FileHelper.Synchronize();
+            SystemConfiguration = FiresecManager.FiresecService.GetSystemConfiguration();
+            LibraryConfiguration = FiresecManager.FiresecService.GetLibraryConfiguration();
+            PlansConfiguration = FiresecManager.FiresecService.GetPlansConfiguration();
+            SecurityConfiguration = FiresecManager.FiresecService.GetSecurityConfiguration();
+            Drivers = FiresecManager.FiresecService.GetDrivers();
+            DeviceConfiguration = FiresecManager.FiresecService.GetDeviceConfiguration();
+            DeviceStates = FiresecManager.FiresecService.GetStates();
+
+            UpdateDrivers();
+            UpdateConfiguration();
+            UpdateStates();
+
+            FiresecService.Subscribe();
+        }
+
+        public static string Reconnect(string login, string password)
+        {
+            bool? result = FiresecService.Reconnect(login, password);
+            if (result == null)
+            {
+                return "Не удается соединиться с сервером";
+            }
+            else if (result == false)
+            {
+                return "Неверный логин или пароль";
+            }
+
+            _userLogin = login;
+            return null;
         }
 
         public static void UpdateDrivers()
         {
-            foreach (var driver in Drivers)
-            {
-                driver.ImageSource = FileHelper.GetIconFilePath(driver.ImageSource) + ".ico";
-            }
+            Drivers.ForEach(x => x.ImageSource = FileHelper.GetIconFilePath(x.ImageSource) + ".ico");
         }
 
         public static void UpdateConfiguration()
@@ -80,21 +88,16 @@ namespace FiresecClient
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-
                 if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
                 {
-                    var indicatorDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-                    device.IndicatorLogic.Device = indicatorDevice;
+                    device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
                 }
 
                 if (device.Driver.IsZoneLogicDevice)
                 {
-                    foreach (var clause in device.ZoneLogic.Clauses)
+                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
                     {
-                        if (clause.DeviceUID != Guid.Empty)
-                        {
-                            clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-                        }
+                        clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
                     }
                 }
             }
@@ -127,148 +130,148 @@ namespace FiresecClient
 
         public static void Disconnect()
         {
-            _firesecService.StopPing();
-            _firesecService.Disconnect();
+            FiresecService.StopPing();
+            FiresecService.Disconnect();
             FiresecServiceFactory.Dispose();
         }
 
         public static void SetConfiguration()
         {
-            _firesecService.SetSystemConfiguration(SystemConfiguration);
-            _firesecService.SetSecurityConfiguration(SecurityConfiguration);
-            _firesecService.SetLibraryConfiguration(LibraryConfiguration);
-            _firesecService.SetDeviceConfiguration(DeviceConfiguration);
-            _firesecService.SetPlansConfiguration(PlansConfiguration);
+            FiresecService.SetSystemConfiguration(SystemConfiguration);
+            FiresecService.SetSecurityConfiguration(SecurityConfiguration);
+            FiresecService.SetLibraryConfiguration(LibraryConfiguration);
+            FiresecService.SetDeviceConfiguration(DeviceConfiguration);
+            FiresecService.SetPlansConfiguration(PlansConfiguration);
         }
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)
         {
-            _firesecService.AddToIgnoreList(deviceUIDs);
+            FiresecService.AddToIgnoreList(deviceUIDs);
         }
 
         public static void RemoveFromIgnoreList(List<Guid> deviceUIDs)
         {
-            _firesecService.RemoveFromIgnoreList(deviceUIDs);
+            FiresecService.RemoveFromIgnoreList(deviceUIDs);
         }
 
         public static void ResetStates(List<ResetItem> resetItems)
         {
-            _firesecService.ResetStates(resetItems);
+            FiresecService.ResetStates(resetItems);
         }
 
         public static void AddUserMessage(string message)
         {
-            _firesecService.AddUserMessage(message);
+            FiresecService.AddUserMessage(message);
         }
 
         public static void AddJournalRecord(JournalRecord journalRecord)
         {
-            _firesecService.AddJournalRecord(journalRecord);
+            FiresecService.AddJournalRecord(journalRecord);
         }
 
         public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
-            _firesecService.ExecuteCommand(deviceUID, methodName);
+            FiresecService.ExecuteCommand(deviceUID, methodName);
         }
 
         public static List<JournalRecord> ReadJournal(int startIndex, int count)
         {
-            return _firesecService.ReadJournal(startIndex, count);
+            return FiresecService.ReadJournal(startIndex, count);
         }
 
         public static IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
-            return _firesecService.GetFilteredJournal(journalFilter);
+            return FiresecService.GetFilteredJournal(journalFilter);
         }
 
         public static IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
-            return _firesecService.GetFilteredArchive(archiveFilter);
+            return FiresecService.GetFilteredArchive(archiveFilter);
         }
 
         public static IEnumerable<JournalRecord> GetDistinctRecords()
         {
-            return _firesecService.GetDistinctRecords();
+            return FiresecService.GetDistinctRecords();
         }
 
         public static DateTime GetArchiveStartDate()
         {
-            return _firesecService.GetArchiveStartDate();
+            return FiresecService.GetArchiveStartDate();
         }
 
         public static List<string> GetFileNamesList(string directory)
         {
-            return _firesecService.GetFileNamesList(directory);
+            return FiresecService.GetFileNamesList(directory);
         }
 
         public static Dictionary<string, string> GetDirectoryHash(string directory)
         {
-            return _firesecService.GetDirectoryHash(directory);
+            return FiresecService.GetDirectoryHash(directory);
         }
 
         public static Stream GetFile(string filepath)
         {
-            return _firesecService.GetFile(filepath);
+            return FiresecService.GetFile(filepath);
         }
 
         public static DeviceConfiguration AutoDetectDevice(Guid deviceUID, bool fastSearch)
         {
-            return _firesecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, fastSearch);
+            return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, fastSearch);
         }
 
         public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID)
         {
-            return _firesecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void DeviceWriteConfiguration(Guid deviceUID)
         {
-            _firesecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void WriteAllDeviceConfiguration()
         {
-            _firesecService.DeviceWriteAllConfiguration(DeviceConfiguration);
+            FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
         }
 
         public static string ReadDeviceJournal(Guid deviceUID)
         {
-            return _firesecService.DeviceReadEventLog(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceReadEventLog(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void SynchronizeDevice(Guid deviceUID)
         {
-            _firesecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            FiresecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void DeviceRestart(Guid deviceUID)
         {
-            _firesecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            FiresecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes)
         {
-            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
+            return FiresecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
         }
 
         public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes)
         {
-            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
+            return FiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
         }
 
         public static string DeviceGetInformation(Guid deviceUID)
         {
-            return _firesecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static List<string> DeviceGetSerialList(Guid deviceUID)
         {
-            return _firesecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
         public static void SetPassword(Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
-            _firesecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, devicePasswordType, password);
+            FiresecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, devicePasswordType, password);
         }
 
         public static List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
@@ -303,12 +306,12 @@ namespace FiresecClient
 
         public static void Test()
         {
-            _firesecService.Test();
+            FiresecService.Test();
         }
 
         public static void StopProgress()
         {
-            _firesecService.StopProgress();
+            FiresecService.StopProgress();
         }
     }
 }

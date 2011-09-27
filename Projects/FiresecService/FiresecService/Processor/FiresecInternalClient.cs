@@ -8,13 +8,14 @@ namespace FiresecService
     {
         public static bool Connect(string login, string password)
         {
-            bool result = DispatcherFiresecClient.Connect(login, password);
-            if (result)
+            if (DispatcherFiresecClient.Connect(login, password))
             {
                 FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
                 DispatcherFiresecClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecEventAggregator_Progress);
+
+                return true;
             }
-            return result;
+            return false;
         }
 
         public static void Disconnect()
@@ -54,8 +55,7 @@ namespace FiresecService
 
         public static void SetNewConfig(Firesec.CoreConfiguration.config coreConfig)
         {
-            var stringConfig = SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig);
-            DispatcherFiresecClient.SetNewConfig(stringConfig);
+            DispatcherFiresecClient.SetNewConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig));
         }
 
         public static void DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
@@ -65,8 +65,7 @@ namespace FiresecService
 
         public static void ResetStates(Firesec.CoreState.config coreState)
         {
-            string stringCoreState = SerializerHelper.Serialize<Firesec.CoreState.config>(coreState);
-            DispatcherFiresecClient.ResetStates(stringCoreState);
+            DispatcherFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.CoreState.config>(coreState));
         }
 
         public static void ExecuteCommand(string devicePath, string methodName)
@@ -160,9 +159,7 @@ namespace FiresecService
 
         static bool FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
-            if (Progress != null)
-                return Progress(stage, comment, percentComplete, bytesRW);
-            return false;
+            return Progress != null ? Progress(stage, comment, percentComplete, bytesRW) : false;
         }
 
         public static event Action<int> NewEvent;

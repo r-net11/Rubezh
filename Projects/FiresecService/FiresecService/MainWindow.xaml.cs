@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using FiresecService;
-using FiresecService.DatabaseConverter;
 using FiresecService.Imitator;
 
 namespace FiresecServiceRunner
@@ -16,7 +16,8 @@ namespace FiresecServiceRunner
         public static MainWindow Current { get; private set; }
         public static void AddMessage(string message)
         {
-            Current._textBox.Text += message + "\n";
+            Current._textBox.AppendText(message);
+            Current._textBox.AppendText(Environment.NewLine);
         }
 
         void OnConnect(object sender, RoutedEventArgs e)

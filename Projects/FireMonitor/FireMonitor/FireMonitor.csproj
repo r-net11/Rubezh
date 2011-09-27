@@ -92,6 +92,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\PreLoadWindow.xaml.cs">
+      <DependentUpon>PreLoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AutoActivationControl.xaml.cs">
       <DependentUpon>AutoActivationControl.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\PreLoadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AutoActivationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

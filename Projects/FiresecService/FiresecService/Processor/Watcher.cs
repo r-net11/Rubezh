@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using Firesec;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using Firesec;
 
 namespace FiresecService
 {
     public class Watcher
     {
-        internal void Start()
+        public void Start()
         {
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
             FiresecInternalClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecInternalClient_Progress);
@@ -55,7 +55,7 @@ namespace FiresecService
         void SetLastEvent()
         {
             Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1);
-            if (journal.Journal.IsNotNullOrEmpty())
+            if (journal != null && journal.Journal.IsNotNullOrEmpty())
             {
                 LastEventId = int.Parse(journal.Journal[0].IDEvents);
             }
@@ -64,7 +64,6 @@ namespace FiresecService
         void OnNewEvent()
         {
             var document = FiresecInternalClient.ReadEvents(0, 100);
-
             if (document != null && document.Journal.IsNotNullOrEmpty())
             {
                 foreach (var innerJournalItem in document.Journal)
@@ -97,8 +96,7 @@ namespace FiresecService
                                 innerDevice.dev_param.Any(x => x.name == parameter.Name))
                             {
                                 var innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-                                if (parameter.Value != innerParameter.value &&
-                                    parameter.Visible)
+                                if (parameter.Value != innerParameter.value && parameter.Visible)
                                 {
                                     ChangedDevices.Add(deviceState);
                                 }
@@ -142,16 +140,13 @@ namespace FiresecService
                     foreach (var driverState in deviceState.Device.Driver.States)
                     {
                         var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
-                        bool IsInnerStateActive = innerState != null;
-
                         var state = deviceState.States.FirstOrDefault(x => x.Code == driverState.Code);
-                        bool IsStateActive = state != null;
-                        if (IsStateActive != IsInnerStateActive)
+                        if (state != null || innerState != null)
                         {
                             hasOneChangedState = true;
                         }
 
-                        if (IsInnerStateActive)
+                        if (innerState != null)
                         {
                             if (state == null)
                             {
@@ -195,23 +190,20 @@ namespace FiresecService
 
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                foreach (var state in deviceState.States)
+                foreach (var state in deviceState.States.Where(x => x.DriverState.AffectChildren))
                 {
-                    if (state.DriverState.AffectChildren)
+                    foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                     {
-                        foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
+                        if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) &&
+                            chilDevice.PlaceInTree != deviceState.PlaceInTree)
                         {
-                            if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) &&
-                                chilDevice.PlaceInTree != deviceState.PlaceInTree)
+                            chilDevice.ParentStates.Add(new ParentDeviceState()
                             {
-                                chilDevice.ParentStates.Add(new ParentDeviceState()
-                                {
-                                    ParentDeviceId = deviceState.UID,
-                                    Code = state.Code,
-                                    DriverState = state.DriverState
-                                });
-                                ChangedDevices.Add(chilDevice);
-                            }
+                                ParentDeviceId = deviceState.UID,
+                                Code = state.Code,
+                                DriverState = state.DriverState
+                            });
+                            ChangedDevices.Add(chilDevice);
                         }
                     }
                 }
@@ -225,23 +217,16 @@ namespace FiresecService
 
             foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
             {
-                var zoneHasDevices = false;
                 StateType minZoneStateType = StateType.Norm;
-                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates.
+                    Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState))
                 {
-                    if (deviceState.Device.ZoneNo == zoneState.No)
-                    {
-                        zoneHasDevices = true;
-
-                        if (deviceState.Device.Driver.IgnoreInZoneState)
-                            continue;
-
-                        if (deviceState.StateType < minZoneStateType)
-                            minZoneStateType = deviceState.StateType;
-                    }
+                    if (deviceState.StateType < minZoneStateType)
+                        minZoneStateType = deviceState.StateType;
                 }
 
-                if (zoneHasDevices == false)
+                if (FiresecManager.DeviceConfigurationStates.DeviceStates.
+                    Any(x => x.Device.ZoneNo == zoneState.No) == false)
                     minZoneStateType = StateType.Unknown;
 
                 zoneState.StateType = minZoneStateType;
@@ -252,10 +237,7 @@ namespace FiresecService
 
         Firesec.CoreState.devType FindDevice(Firesec.CoreState.devType[] innerDevices, string PlaceInTree)
         {
-            if (innerDevices != null)
-                return innerDevices.FirstOrDefault(a => a.name == PlaceInTree);
-
-            return null;
+            return innerDevices != null ? innerDevices.FirstOrDefault(a => a.name == PlaceInTree) : null;
         }
     }
 }

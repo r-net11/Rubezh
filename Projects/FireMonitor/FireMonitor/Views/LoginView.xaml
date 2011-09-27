@@ -23,12 +23,12 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Пользователь" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Пароль" Margin="2" />
-            <TextBox Grid.Row="0" Grid.Column="1" Name="_userNameTextBox" Margin="2" />
-            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Name="_passwordTextBox" Margin="2" />
+            <TextBox Grid.Row="0" Grid.Column="1" Name="_userName" Margin="2" />
+            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Name="_password" Margin="2" />
         </Grid>
-        <TextBlock Grid.Row="1" Name="_statusTextBlock" />
+        <TextBlock Grid.Row="1" Name="_info" />
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-            <Button Content="Ok" Click="OnSave" IsDefault="True" FontSize="12" Width="100" Height="30" Margin="2" Foreground="DarkGreen" />
+            <Button Content="Ok" Click="OnConnect" IsDefault="True" FontSize="12" Width="100" Height="30" Margin="2" Foreground="DarkGreen" />
             <Button Content="Отмена" Click="OnCancel" FontSize="12" Width="100" Height="30" Margin="2" Foreground="DarkRed" />
         </StackPanel>
     </Grid>

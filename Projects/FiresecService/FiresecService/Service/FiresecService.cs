@@ -26,7 +26,7 @@ namespace FiresecService
 
         public static readonly object Locker = new object();
 
-        public bool Connect(string login, string password)
+        public bool? Connect(string login, string password)
         {
             lock (Locker)
             {
@@ -41,7 +41,7 @@ namespace FiresecService
             }
         }
 
-        public bool Reconnect(string login, string password)
+        public bool? Reconnect(string login, string password)
         {
             var oldUserFileName = _userName;
             if (CheckLogin(login, password))

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Common;
 
 namespace FiresecClient
@@ -21,34 +22,21 @@ namespace FiresecClient
 
         static void SynchronizeDirectory(string directory)
         {
+            var remoteFileNamesList = FiresecManager.GetFileNamesList(directory);
             var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
 
-            var remoteFileNamesList = FiresecManager.GetFileNamesList(directory);
-            var localFileNamesList = GetFileNamesList(directory);
-            foreach (var localFileName in localFileNamesList)
-            {
-                if (remoteFileNamesList.Contains(localFileName) == false)
-                {
-                    File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
-                }
-            }
-            var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
-            var remoteDirectoryHash = FiresecManager.GetDirectoryHash(directory);
+            foreach (var localFileName in GetFileNamesList(directory).Where(x => remoteFileNamesList.Contains(x) == false))
+                File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
 
-            if (remoteDirectoryHash.IsNotNullOrEmpty())
+            var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
+            foreach (var remoteFileHash in FiresecManager.GetDirectoryHash(directory).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
             {
-                foreach (var remoteFileHash in remoteDirectoryHash)
+                var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
+                if (File.Exists(fileName))
                 {
-                    if (localDirectoryHash.ContainsKey(remoteFileHash.Key) == false)
-                    {
-                        var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
-                        if (File.Exists(fileName))
-                        {
-                            File.Delete(fileName);
-                        }
-                        DownloadFile(filesDirectory.Name + @"\" + remoteFileHash.Value, fileName);
-                    }
+                    File.Delete(fileName);
                 }
+                DownloadFile(Path.Combine(filesDirectory.Name, remoteFileHash.Value), fileName);
             }
         }
 
@@ -63,23 +51,18 @@ namespace FiresecClient
 
         static List<string> GetFileNamesList(string directory)
         {
-            var fileNames = new List<string>();
             if (Directory.Exists(CurrentDirectory(directory)))
             {
-                foreach (var str in Directory.EnumerateFiles(CurrentDirectory(directory)))
-                {
-                    fileNames.Add(Path.GetFileName(str));
-                }
+                return new List<string>(
+                    Directory.EnumerateFiles(CurrentDirectory(directory)).Select(x => Path.GetFileName(x))
+                );
             }
-            return fileNames;
+            return new List<string>();
         }
 
         public static void Synchronize()
         {
-            foreach (var directory in _directoriesList)
-            {
-                SynchronizeDirectory(directory);
-            }
+            _directoriesList.ForEach(x => SynchronizeDirectory(x));
         }
 
         public static List<string> SoundsList
@@ -89,20 +72,12 @@ namespace FiresecClient
 
         public static string GetIconFilePath(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                return null;
-            }
-            return CurrentDirectory(_directoriesList[1]) + @"\" + fileName;
+            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[1]), fileName);
         }
 
         public static string GetSoundFilePath(string fileName)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                return null;
-            }
-            return CurrentDirectory(_directoriesList[0]) + @"\" + fileName;
+            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[0]), fileName);
         }
     }
 }

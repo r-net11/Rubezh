@@ -19,10 +19,11 @@ namespace FiresecService
 
         public static DeviceConfiguration GetDeviceConfiguration()
         {
-            DeviceConfiguration deviceConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+                DeviceConfiguration deviceConfiguration;
+
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
                 {
                     deviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
@@ -48,10 +49,11 @@ namespace FiresecService
 
         public static SystemConfiguration GetSystemConfiguration()
         {
-            SystemConfiguration systemConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+                SystemConfiguration systemConfiguration;
+
                 using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
                 {
                     systemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
@@ -76,10 +78,11 @@ namespace FiresecService
 
         public static LibraryConfiguration GetLibraryConfiguration()
         {
-            LibraryConfiguration libraryConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
+                LibraryConfiguration libraryConfiguration;
+
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
                 {
                     libraryConfiguration = (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);

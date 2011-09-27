@@ -4,7 +4,6 @@ using System.ServiceModel;
 using System.Timers;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.IO;
 
 namespace FiresecClient
 {
@@ -68,7 +67,7 @@ namespace FiresecClient
             Ping();
         }
 
-        public bool Connect(string userName, string password)
+        public bool? Connect(string userName, string password)
         {
             try
             {
@@ -78,10 +77,10 @@ namespace FiresecClient
             {
                 OnConnectionLost();
             }
-            return false;
+            return null;
         }
 
-        public bool Reconnect(string userName, string password)
+        public bool? Reconnect(string userName, string password)
         {
             try
             {
@@ -91,7 +90,7 @@ namespace FiresecClient
             {
                 OnConnectionLost();
             }
-            return false;
+            return null;
         }
 
         public void Disconnect()

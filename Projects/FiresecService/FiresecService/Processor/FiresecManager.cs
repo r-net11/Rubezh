@@ -19,13 +19,13 @@ namespace FiresecService
         {
             if (FiresecInternalClient.Connect(login, password))
             {
-                ConvertMetadataFromFiresec();
                 DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
                 SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
                 LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
                 SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
                 PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 
+                ConvertMetadataFromFiresec();
                 Update();
                 DeviceStatesConverter.Convert();
 
@@ -40,9 +40,8 @@ namespace FiresecService
         static void ConvertMetadataFromFiresec()
         {
             DriverConverter.Metadata = FiresecInternalClient.GetMetaData();
-
             Drivers = new List<Driver>(
-                FiresecInternalClient.GetMetaData().drv.
+                DriverConverter.Metadata.drv.
                 Select(firesecDriver => DriverConverter.Convert(firesecDriver)).
                 Where(driver => driver.IsIgnore == false)
             );
@@ -51,7 +50,6 @@ namespace FiresecService
         public static void Update()
         {
             DeviceConfiguration.Update();
-
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);

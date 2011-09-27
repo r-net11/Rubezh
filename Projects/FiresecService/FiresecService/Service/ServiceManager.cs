@@ -12,6 +12,7 @@ namespace FiresecService
         {
             if (host != null)
                 return;
+
             host = new ServiceHost(typeof(FiresecService));
 
             NetTcpBinding binding = new NetTcpBinding()

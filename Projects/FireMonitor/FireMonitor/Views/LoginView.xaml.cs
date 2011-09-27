@@ -19,65 +19,62 @@ namespace FireMonitor
         }
 
         PasswordViewType _passwordViewType;
-        public bool IsConnected { get; private set; }
+        public bool IsLoggedIn { get; private set; }
 
         public void Initialize(PasswordViewType passwordViewType)
         {
             _passwordViewType = passwordViewType;
-
-            _passwordTextBox.Password = "";
-
-            switch (passwordViewType)
+            _password.Password = "";
+            switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    _userNameTextBox.Text = "adm";
-                    _userNameTextBox.IsEnabled = true;
+                    _userName.Text = "adm";
+                    _userName.IsEnabled = true;
                     break;
 
                 case PasswordViewType.Reconnect:
-                    _userNameTextBox.Text = "";
-                    _userNameTextBox.IsEnabled = true;
+                    _userName.Text = "";
+                    _userName.IsEnabled = true;
                     break;
 
                 case PasswordViewType.Validate:
-                    _userNameTextBox.Text = FiresecManager.CurrentUser.Name;
-                    _userNameTextBox.IsEnabled = false;
+                    _userName.Text = FiresecManager.CurrentUser.Name;
+                    _userName.IsEnabled = false;
                     break;
             }
         }
 
-        void OnSave(object sender, RoutedEventArgs e)
+        void OnConnect(object sender, RoutedEventArgs e)
         {
-            _statusTextBlock.Text = "Соединение с сервером";
-
+            string message = string.Empty;
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    IsConnected = FiresecManager.Connect(_userNameTextBox.Text, _passwordTextBox.Password);
+                    message = FiresecManager.Connect(_userName.Text, _password.Password);
                     break;
 
                 case PasswordViewType.Reconnect:
-                    IsConnected = FiresecManager.Reconnect(_userNameTextBox.Text, _passwordTextBox.Password);
+                    message = FiresecManager.Reconnect(_userName.Text, _password.Password);
                     break;
 
                 case PasswordViewType.Validate:
-                    IsConnected = HashHelper.CheckPass(_passwordTextBox.Password, FiresecManager.CurrentUser.PasswordHash);
+                    message = "Валидация не пройдена";
+                    if (HashHelper.CheckPass(_password.Password, FiresecManager.CurrentUser.PasswordHash))
+                    {
+                        message = null;
+                    }
                     break;
             }
-
-            if (IsConnected)
+            if (message == null)
             {
+                IsLoggedIn = true;
                 Close();
             }
-            else
-            {
-                _statusTextBlock.Text = "Неправильное имя пользователя и пароль";
-            }
+            _info.Text = message;
         }
 
         void OnCancel(object sender, RoutedEventArgs e)
         {
-            IsConnected = false;
             Close();
         }
     }

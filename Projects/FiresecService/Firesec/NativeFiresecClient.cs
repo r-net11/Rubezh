@@ -96,14 +96,12 @@ namespace Firesec
 
         public static void AddToIgnoreList(List<string> devicePaths)
         {
-            string devices = ConvertDeviceList(devicePaths);
-            Connectoin.IgoreListOperation(devices, true);
+            Connectoin.IgoreListOperation(ConvertDeviceList(devicePaths), true);
         }
 
         public static void RemoveFromIgnoreList(List<string> devicePaths)
         {
-            string devices = ConvertDeviceList(devicePaths);
-            Connectoin.IgoreListOperation(devices, false);
+            Connectoin.IgoreListOperation(ConvertDeviceList(devicePaths), false);
         }
 
         public static void AddUserMessage(string message)
@@ -162,8 +160,7 @@ namespace Firesec
         {
             try
             {
-                var journal = Connectoin.DeviceReadEventLog(coreConfig, devicePath, 0);
-                return journal;
+                return Connectoin.DeviceReadEventLog(coreConfig, devicePath, 0);
             }
             catch
             {
@@ -200,16 +197,16 @@ namespace Firesec
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
             FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass) objectHandle.Unwrap();
             //FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
-            FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo();
-            serverInfo.Port = 211;
-            serverInfo.ServerName = "localhost";
-
-            NotificationCallBack notificationCallBack = new NotificationCallBack();
+            FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo()
+            {
+                Port = 211,
+                ServerName = "localhost"
+            };
 
             FS_Types.IFSC_Connection connectoin;
             try
             {
-                connectoin = library.Connect2(login, password, serverInfo, notificationCallBack);
+                connectoin = library.Connect2(login, password, serverInfo, new NotificationCallBack());
             }
             catch
             {
@@ -221,7 +218,6 @@ namespace Firesec
         static string ReadFromStream(mscoree.IStream stream)
         {
             var stringBuilder = new StringBuilder();
-
             try
             {
                 unsafe
