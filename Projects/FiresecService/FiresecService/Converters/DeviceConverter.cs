@@ -147,12 +147,29 @@ namespace FiresecService.Converters
 
         public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
+            ConvertDriversBack();
             var rootDevice = deviceConfiguration.RootDevice;
             var rootInnerDevice = DeviceToInnerDevice(rootDevice);
             AddInnerDevice(rootDevice, rootInnerDevice);
 
             ConfigurationConverter.FiresecConfiguration.dev = new devType[1];
             ConfigurationConverter.FiresecConfiguration.dev[0] = rootInnerDevice;
+        }
+
+        static void ConvertDriversBack()
+        {
+            var drivers = new List<drvType>();
+            foreach (var driver in FiresecManager.Drivers)
+            {
+                var firesecDriver = new drvType()
+                {
+                    idx = FiresecManager.Drivers.IndexOf(driver).ToString(),
+                    id = driver.UID.ToString().ToUpper(),
+                    name = driver.Name
+                };
+                drivers.Add(firesecDriver);
+            }
+            ConfigurationConverter.FiresecConfiguration.drv = drivers.ToArray();
         }
 
         static void AddInnerDevice(Device parentDevice, devType parentInnerDevice)

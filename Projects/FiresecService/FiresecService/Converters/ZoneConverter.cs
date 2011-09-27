@@ -149,6 +149,7 @@ namespace FiresecService.Converters
                 zoneParams.Add(new paramType()
                 {
                     name = "GuardZoneType",
+                    type = "Int",
                     value = GuardZoneTypeParamString
                 });
 

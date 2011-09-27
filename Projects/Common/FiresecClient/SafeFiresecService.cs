@@ -254,11 +254,11 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
+        public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
             try
             {
-                return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes);
+                return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes, fileName);
             }
             catch
             {
@@ -267,11 +267,11 @@ namespace FiresecClient
             }
         }
 
-        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes)
+        public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
             try
             {
-                return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes);
+                return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes, fileName);
             }
             catch
             {

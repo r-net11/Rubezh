@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using FiresecClient;
 using ItvIntergation.Ngi;
 using System.Windows.Media;
+using FiresecAPI.Models;
 
 namespace RepFileManager
 {
@@ -17,7 +18,7 @@ namespace RepFileManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool result = FiresecManager.Connect("adm", "");
+            bool result = FiresecManager.Connect("adm", "", false, true);
             if (result == false)
             {
                 MessageBox.Show("Не удается соединиться с сервером");
@@ -34,8 +35,29 @@ namespace RepFileManager
             repository.module = repositoryModule;
 
             var devices = new List<repositoryModuleDevice>();
+
+            var commonPanelDevice = new CommonPanelDevice();
+            devices.Add(commonPanelDevice.Device);
+
             foreach (var driver in FiresecManager.Drivers)
             {
+                switch (driver.DriverType)
+                {
+                    case DriverType.BUNS:
+                    case DriverType.Rubezh_10AM:
+                    case DriverType.Rubezh_2AM:
+                    case DriverType.Rubezh_2OP:
+                    case DriverType.Rubezh_4A:
+                        continue;
+
+                    // все устройства, подключаемые через USB игнорить совсем
+                    case DriverType.USB_BUNS:
+                    case DriverType.USB_Rubezh_2AM:
+                    case DriverType.USB_Rubezh_4A:
+                    case DriverType.USB_Rubezh_2OP:
+                        continue;
+                }
+
                 var repDevice = new RepDevice();
                 repDevice.Initialize(driver);
                 devices.Add(repDevice.Device);

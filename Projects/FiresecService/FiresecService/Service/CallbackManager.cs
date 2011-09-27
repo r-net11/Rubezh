@@ -8,27 +8,27 @@ namespace FiresecService
     {
         static CallbackManager()
         {
-            _callbacks = new List<IFiresecCallback>();
+            _serviceInstances = new List<FiresecService>();
         }
 
-        static List<IFiresecCallback> _callbacks;
-        static List<IFiresecCallback> _failedCallbacks;
+        static List<FiresecService> _serviceInstances;
+        static List<FiresecService> _failedServiceInstances;
 
-        public static void Add(IFiresecCallback callback)
+        public static void Add(FiresecService serviceInstance)
         {
-            _callbacks.Add(callback);
+            _serviceInstances.Add(serviceInstance);
         }
 
-        public static void Remove(IFiresecCallback callback)
+        public static void Remove(FiresecService serviceInstance)
         {
-            _callbacks.Remove(callback);
+            _serviceInstances.Remove(serviceInstance);
         }
 
         static void Clean()
         {
-            foreach (var failedCallback in _failedCallbacks)
+            foreach (var failedCallback in _failedServiceInstances)
             {
-                _callbacks.Remove(failedCallback);
+                _failedServiceInstances.Remove(failedCallback);
             }
         }
 
@@ -36,19 +36,19 @@ namespace FiresecService
         {
             lock (FiresecService.Locker)
             {
-                _failedCallbacks = new List<IFiresecCallback>();
-                foreach (var callback in _callbacks)
+                _failedServiceInstances = new List<FiresecService>();
+                foreach (var serviceInstance in _serviceInstances)
                 {
                     try
                     {
-                        callback.Progress(stage, comment, percentComplete, bytesRW);
-                        var mustStopProgress = FiresecService.MustStopProgress;
-                        FiresecService.MustStopProgress = false;
+                        serviceInstance.Callback.Progress(stage, comment, percentComplete, bytesRW);
+                        var mustStopProgress = serviceInstance.MustStopProgress;
+                        serviceInstance.MustStopProgress = false;
                         return !mustStopProgress;
                     }
                     catch
                     {
-                        _failedCallbacks.Add(callback);
+                        _failedServiceInstances.Add(serviceInstance);
                     }
                 }
 
@@ -61,18 +61,19 @@ namespace FiresecService
         {
             lock (FiresecService.Locker)
             {
-                _failedCallbacks = new List<IFiresecCallback>();
-                foreach (var callback in _callbacks)
+                _failedServiceInstances = new List<FiresecService>();
+                foreach (var serviceInstance in _serviceInstances)
                 {
-                    try
-                    {
-                        callback.NewJournalRecord(journalRecord);
-                        FiresecServiceRunner.MainWindow.AddMessage("New Journal Event");
-                    }
-                    catch
-                    {
-                        _failedCallbacks.Add(callback);
-                    }
+                    if (serviceInstance.IsSubscribed)
+                        try
+                        {
+                            serviceInstance.Callback.NewJournalRecord(journalRecord);
+                            FiresecServiceRunner.MainWindow.AddMessage("New Journal Event");
+                        }
+                        catch
+                        {
+                            _failedServiceInstances.Add(serviceInstance);
+                        }
                 }
 
                 Clean();
@@ -81,17 +82,18 @@ namespace FiresecService
 
         public static void OnDeviceStatesChanged(List<DeviceState> deviceStates)
         {
-            _failedCallbacks = new List<IFiresecCallback>();
-            foreach (var callback in _callbacks)
+            _failedServiceInstances = new List<FiresecService>();
+            foreach (var serviceInstance in _serviceInstances)
             {
-                try
-                {
-                    callback.DeviceStateChanged(deviceStates);
-                }
-                catch
-                {
-                    _failedCallbacks.Add(callback);
-                }
+                if (serviceInstance.IsSubscribed)
+                    try
+                    {
+                        serviceInstance.Callback.DeviceStateChanged(deviceStates);
+                    }
+                    catch
+                    {
+                        _failedServiceInstances.Add(serviceInstance);
+                    }
             }
 
             Clean();
@@ -99,17 +101,18 @@ namespace FiresecService
 
         public static void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
         {
-            _failedCallbacks = new List<IFiresecCallback>();
-            foreach (var callback in _callbacks)
+            _failedServiceInstances = new List<FiresecService>();
+            foreach (var serviceInstance in _serviceInstances)
             {
-                try
-                {
-                    callback.DeviceParametersChanged(deviceParameters);
-                }
-                catch
-                {
-                    _failedCallbacks.Add(callback);
-                }
+                if (serviceInstance.IsSubscribed)
+                    try
+                    {
+                        serviceInstance.Callback.DeviceParametersChanged(deviceParameters);
+                    }
+                    catch
+                    {
+                        _failedServiceInstances.Add(serviceInstance);
+                    }
             }
 
             Clean();
@@ -117,18 +120,19 @@ namespace FiresecService
 
         public static void OnZoneStateChanged(ZoneState zoneState)
         {
-            _failedCallbacks = new List<IFiresecCallback>();
+            _failedServiceInstances = new List<FiresecService>();
 
-            foreach (var callback in _callbacks)
+            foreach (var serviceInstance in _serviceInstances)
             {
-                try
-                {
-                    callback.ZoneStateChanged(zoneState);
-                }
-                catch
-                {
-                    _failedCallbacks.Add(callback);
-                }
+                if (serviceInstance.IsSubscribed)
+                    try
+                    {
+                        serviceInstance.Callback.ZoneStateChanged(zoneState);
+                    }
+                    catch
+                    {
+                        _failedServiceInstances.Add(serviceInstance);
+                    }
             }
 
             Clean();

@@ -1,0 +1,22 @@
+﻿<Window x:Class="MultiClient.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShellView" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel>
+                <Button Content="Test" Click="Button_Click" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <ContentControl Name="_mainRegionHost" />
+        </Grid>
+
+    </Grid>
+</Window>

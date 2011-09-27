@@ -36,7 +36,7 @@ namespace FiresecService
             DeviceConverter.Convert();
         }
 
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
+        public static void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
         {
             deviceConfiguration.Update();
 
@@ -44,13 +44,16 @@ namespace FiresecService
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
             }
-            FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
-            FiresecConfiguration.part = null;
-            FiresecConfiguration.secGUI = null;
-            FiresecConfiguration.secObjType = null;
-            FiresecConfiguration.user = null;
-            FiresecConfiguration.userGroup = null;
-            FiresecConfiguration.zone = null;
+
+            if (includeSecurity)
+            {
+                FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
+                FiresecConfiguration.part = null;
+            }
+            else
+            {
+                FiresecConfiguration = new Firesec.CoreConfiguration.config();
+            }
 
             ZoneConverter.ConvertBack(deviceConfiguration);
             DeviceConverter.ConvertBack(deviceConfiguration);

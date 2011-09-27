@@ -12,7 +12,8 @@ namespace FiresecService.Converters
         public static PlansConfiguration Convert(surfaces innerPlans)
         {
             var plansConfiguration = new PlansConfiguration();
-            if (innerPlans.surface != null)
+
+            if ((innerPlans != null) && (innerPlans.surface != null))
             {
                 foreach (var innerPlan in innerPlans.surface)
                 {

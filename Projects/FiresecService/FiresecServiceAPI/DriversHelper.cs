@@ -99,7 +99,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD", 0, "Состав", DriverType.Sostav));
             DriverDataList.Add(new DriverData("B9680002-511D-4505-9EF6-0C322E61135F", 0, "USB Канал", DriverType.USB_Channel));
             DriverDataList.Add(new DriverData("1EDE7282-0003-424E-B76C-BB7B413B4F3B", 1, "USB Рубеж-2AM", DriverType.USB_Rubezh_2AM));
-            DriverDataList.Add(new DriverData("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A", DriverType.USB_Rubezh_2A));
+            DriverDataList.Add(new DriverData("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A", DriverType.USB_Rubezh_4A));
             DriverDataList.Add(new DriverData("39DBC715-C4B5-4AE6-A809-4F214BBBD6C1", 1, "USB Рубеж-2ОП", DriverType.USB_Rubezh_2OP));
             DriverDataList.Add(new DriverData("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС", DriverType.USB_BUNS));
             //DriverDataList.Add(new DriverData("zone", 0, "zone"));

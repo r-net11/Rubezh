@@ -8,7 +8,7 @@ namespace ItvIntegration
     {
         public void Initialize()
         {
-            bool result = FiresecManager.Connect("adm", "");
+            bool result = FiresecManager.Connect("adm", "", false, false);
             if (result == false)
                 return;
 

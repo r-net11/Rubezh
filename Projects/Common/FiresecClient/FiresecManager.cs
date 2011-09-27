@@ -249,14 +249,14 @@ namespace FiresecClient
             FiresecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }
 
-        public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes)
+        public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes, string fileName)
         {
-            return FiresecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
+            return _firesecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
         }
 
-        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes)
+        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes, string fileName)
         {
-            return FiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes);
+            return _firesecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
         }
 
         public static string DeviceGetInformation(Guid deviceUID)

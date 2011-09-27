@@ -34,7 +34,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" Margin="2" />
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" Margin="2" />
 
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
                         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" />
                     </Grid>

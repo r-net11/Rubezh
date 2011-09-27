@@ -261,7 +261,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand SynchronizeDeviceCommand { get; private set; }
         void OnSynchronizeDevice()
         {
-            FiresecManager.SynchronizeDevice(SelectedDevice.Device.UID);
+            DeviceSynchrinizationHelper.Run(SelectedDevice.Device.UID);
         }
 
         bool CanSynchronizeDevice()

@@ -52,10 +52,10 @@ namespace FiresecAPI
         List<string> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes);
+        string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
         [OperationContract]
-        string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes);
+        string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
         [OperationContract]
         string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);

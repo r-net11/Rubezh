@@ -70,7 +70,7 @@
         Sostav,
         USB_Channel,
         USB_Rubezh_2AM,
-        USB_Rubezh_2A,
+        USB_Rubezh_4A,
         USB_Rubezh_2OP,
         USB_BUNS
     }

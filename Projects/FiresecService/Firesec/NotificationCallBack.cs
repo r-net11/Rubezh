@@ -10,10 +10,8 @@ namespace Firesec
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            Trace.WriteLine("Progress: Stage=" + Stage.ToString() + " Comment:" + Comment +
-                " PercentComplete:" + PercentComplete.ToString() + " BytesRW:" + BytesRW.ToString());
             var result = FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
-            return true;
+            return result;
         }
     }
 }

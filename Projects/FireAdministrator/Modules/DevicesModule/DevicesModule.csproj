@@ -63,6 +63,7 @@
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\ViewModels\Async\CustomAdminFunctionsHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceSynchrinizationHelper.cs" />
     <Compile Include="Devices\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
     <Compile Include="Devices\ViewModels\Async\FirmwareUpdateHelper.cs" />

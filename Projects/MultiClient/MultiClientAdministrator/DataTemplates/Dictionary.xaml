@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Views="clr-namespace:MultiClient.Views"
+                    xmlns:ViewModels="clr-namespace:MultiClient.ViewModels">
+
+    <DataTemplate DataType="{x:Type ViewModels:ServerViewModel}">
+        <Views:ServerView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ServerDetailsViewModel}">
+        <Views:ServerDetailsView />
+    </DataTemplate>
+    
+</ResourceDictionary>

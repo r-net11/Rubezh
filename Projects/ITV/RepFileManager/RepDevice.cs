@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;
-using System.IO;
 
 namespace RepFileManager
 {
@@ -62,7 +61,7 @@ namespace RepFileManager
         void CreateStates()
         {
             List<repositoryModuleDeviceState> deviceStates = new List<repositoryModuleDeviceState>();
-            foreach (var stateType in AllStates)
+            foreach (var stateType in Helper.AllStates)
             {
                 var deviceState = new repositoryModuleDeviceState();
                 deviceState.id = stateType.ToString();
@@ -109,23 +108,24 @@ namespace RepFileManager
 
         void CreateProperties()
         {
+            List<PropertyStringType> stringProperties = new List<PropertyStringType>();
+
             if (_driver.HasAddress)
             {
-                List<PropertyStringType> stringProperties = new List<PropertyStringType>();
-
-                foreach (var driverProperty in _driver.Properties)
-                {
-                    if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.StringType)
-                    {
-                        var stringProperty = new PropertyStringType();
-                        stringProperty.id = driverProperty.Name; // driverProperty.Caption - на русском языке для локализации
-                        stringProperty.value = driverProperty.Default;
-                        stringProperties.Add(stringProperty);
-                    }
-                }
-
-                Device.properties = stringProperties.ToArray();
             }
+
+            foreach (var driverProperty in _driver.Properties)
+            {
+                if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.StringType)
+                {
+                    var stringProperty = new PropertyStringType();
+                    stringProperty.id = driverProperty.Name; // driverProperty.Caption - на русском языке для локализации
+                    stringProperty.value = driverProperty.Default;
+                    stringProperties.Add(stringProperty);
+                }
+            }
+
+            Device.properties = stringProperties.ToArray();
         }
 
         void CreateImages()
@@ -133,9 +133,9 @@ namespace RepFileManager
             var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _driver.UID);
             if (libraryDevice != null)
             {
-                foreach (var stateType in AllStates)
+                foreach (var stateType in Helper.AllStates)
                 {
-                    var state = libraryDevice.States.FirstOrDefault(x=>x.StateType == stateType && x.Code == null);
+                    var state = libraryDevice.States.FirstOrDefault(x => x.StateType == stateType && x.Code == null);
                     if (state == null)
                         state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
 
@@ -152,11 +152,6 @@ namespace RepFileManager
                     ImageHelper.XAMLToBitmap(canvas, name);
                 }
             }
-        }
-
-        List<StateType> AllStates
-        {
-            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).Cast<StateType>()); }
         }
     }
 }
