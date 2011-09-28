@@ -18,54 +18,44 @@
         <Button Command="{Binding PasteCommand}" ToolTip="Вставить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/paste.png" Height="24" />
         </Button>
-        
-        <Button Command="{Binding AutoDetectCommand}" ToolTip="Автоматический поиск устройств, подключенных к выбранному" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
 
-        <Button Command="{Binding ReadDeviceCommand}" ToolTip="Считать конфигурацию из устройства" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
+        <Menu Background="Transparent" VerticalAlignment="Center">
+            <MenuItem>
+                <MenuItem.Header>
+                    <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+                </MenuItem.Header>
 
-        <Button Command="{Binding WriteDeviceCommand}" ToolTip="Записать конфигурацию в устройство" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
+                <MenuItem Command="{Binding AutoDetectCommand}" Header="Автпоиск" />
+                <MenuItem Command="{Binding ReadDeviceCommand}" Header="Считать конфигурацию из устройства" />
+                <MenuItem Header="Синхронизировать охранных пользователей" IsEnabled="False" />
+                <MenuItem Command="{Binding GetDescriptionCommand}" Header="Информация об устройстве" />
+                <MenuItem Command="{Binding GetDeveceJournalCommand}" Header="Журнал событий" />
+                <Separator />
+                <MenuItem Command="{Binding WriteDeviceCommand}" Header="Записать конфигурацию в устройство" />
+                <MenuItem Command="{Binding WriteAllDeviceCommand}" Header="Записать конфигурацию во все устройства" />
+                <Separator />
+                <MenuItem Command="{Binding SynchronizeDeviceCommand}" Header="Синзронизировать часы устройства с системными" />
+                <MenuItem Command="{Binding RebootDeviceCommand}" Header="Перезагрузить устройство" />
+                <MenuItem Command="{Binding UpdateSoftCommand}" Header="Обновление ПО" />
+                <MenuItem Command="{Binding SetPasswordCommand}" Header="Задать пароль" />
+                <MenuItem Header="Установить адрес" IsEnabled="False" />
+                <MenuItem Command="{Binding BindMsCommand}" Header="Привязать" />
+                <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" Header="Другие функции" />
+                
+                <MenuItem Header="USB" Margin="10, 0, 0, 0">
+                    <MenuItem Command="{Binding ReadDeviceCommand}" Header="Считать конфигурацию из устройства" />
+                    <MenuItem Command="{Binding GetDescriptionCommand}" Header="Информация об устройстве" />
+                    <MenuItem Command="{Binding GetDeveceJournalCommand}" Header="Журнал событий" />
+                    <Separator />
+                    <MenuItem Command="{Binding WriteDeviceCommand}" Header="Записать конфигурацию в устройство" />
+                    <Separator />
+                    <MenuItem Command="{Binding SynchronizeDeviceCommand}" Header="Синзронизировать часы устройства с системными" />
+                    <MenuItem Command="{Binding UpdateSoftCommand}" Header="Обновление ПО" />
+                    <MenuItem Command="{Binding SetPasswordCommand}" Header="Задать пароль" />
+                    <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" Header="Другие функции" />
+                </MenuItem>
+            </MenuItem>
+        </Menu>
 
-        <Button Command="{Binding WriteAllDeviceCommand}" ToolTip="Записать конфигурацию во все устройства" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding SynchronizeDeviceCommand}" ToolTip="Синзронизировать часы устройства с системными" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding RebootDeviceCommand}" ToolTip="Перезагрузить устройство" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding UpdateSoftCommand}" ToolTip="Обновление ПО" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding GetDescriptionCommand}" ToolTip="Информация об устройстве" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding SetPasswordCommand}" ToolTip="Задать пароль" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding GetDeveceJournalCommand}" ToolTip="Считать журнал событий устройства" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding BindMsCommand}" ToolTip="Привязать" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-
-        <Button Command="{Binding ExecuteCustomAdminFunctionsCommand}" ToolTip="Другие функции" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Copy.png" Height="24" />
-        </Button>
-        
     </StackPanel>
 </UserControl>

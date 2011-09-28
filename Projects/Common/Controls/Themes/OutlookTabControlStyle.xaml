@@ -3,13 +3,9 @@
 
     <ControlTemplate x:Key="OutlookTab" TargetType="{x:Type TabControl}">
         <ControlTemplate.Resources>
-            <SolidColorBrush x:Key="LabelHighlightBrush" Color= "#FFFFFF" />
+            
             <SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
             <SolidColorBrush x:Key="BorderBrush" Color="#343337" />
-            <LinearGradientBrush x:Key="LabelBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#E3EFFF" Offset="0" />
-                <GradientStop Color="#AFD2FF" Offset="1" />
-            </LinearGradientBrush>
             
             <LinearGradientBrush x:Key="ButtonNormalBrush" StartPoint="0, 0" EndPoint="0,1">
                 <GradientStop Color="#434247" Offset="0" />

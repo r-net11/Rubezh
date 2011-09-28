@@ -6,22 +6,9 @@
         <ResourceDictionary Source="ScrollBarStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="DefaultControlBorderBrush" Color="#FF688CAF"/>
-    <SolidColorBrush x:Key="DefaultControlBackgroundBrush" Color="#FFE3F1FE"/>
-    <SolidColorBrush x:Key="DefaultControlForegroundBrush" Color="#FF10257F"/>
-    <!-- DataGrid related brushes -->
-    
-    <SolidColorBrush x:Key="GridLineColorBrush" Color="#FFCEDFF6" />
-    <LinearGradientBrush x:Key="AlternateRowBackgroundBrush" StartPoint="0.5,0.0" EndPoint="0.5,1.0">
-        <GradientStop Color="#FFFEFEFF" Offset="0"/>
-        <GradientStop Color="#FFE4F0FC" Offset="1"/>
-    </LinearGradientBrush>
-    
-    <!-- Header related brushes -->
     <SolidColorBrush x:Key="HeaderBorderBrush" Color="Black"/>
-    
     <SolidColorBrush x:Key="HeaderInnerBorderBrush" Color="Transparent" />
-
+    
     <LinearGradientBrush x:Key="RowSelectionBrush" StartPoint="0, 0" EndPoint="0,1">
         <GradientStop Color="#DEA34B" Offset="0" />
         <GradientStop Color="#C98226" Offset="1" />
@@ -250,4 +237,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

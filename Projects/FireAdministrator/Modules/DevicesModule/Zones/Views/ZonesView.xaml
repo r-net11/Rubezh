@@ -4,34 +4,25 @@
              xmlns:Views="clr-namespace:DevicesModule.Views">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-
-
-            <Grid Grid.Column="0" Margin="2, 2, 10, 2">
-                <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
+        <Grid Grid.Column="0" Margin="2, 2, 10, 2">
+            <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
                             ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}"
                       Name="_dataGrid" SelectionChanged="_dataGrid_SelectionChanged">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
-                        <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                        <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
-                        <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-
-            <Views:ZoneDevicesView Grid.Column="1" DataContext="{Binding ZoneDevices}" />
-
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
+                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
+                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
+
+        <Views:ZoneDevicesView Grid.Column="1" DataContext="{Binding ZoneDevices}" />
 
     </Grid>
 </UserControl>

@@ -1,16 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <LinearGradientBrush x:Key="ToolarButtonMouseover" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="1.5" Color="Orange"/>
-        <GradientStop Offset="0.5" Color="Orange"/>
-        <GradientStop Offset="-0.5" Color="Yellow"/>
+    <LinearGradientBrush x:Key="ToolarButtonMouseover" StartPoint="0, 0" EndPoint="0,1">
+        <GradientStop Color="#F2B352" Offset="0" />
+        <GradientStop Color="#DF8E2A" Offset="1" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="ToolarButtonClicked" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="1.5" Color="Yellow"/>
-        <GradientStop Offset="0.5" Color="Orange"/>
-        <GradientStop Offset="-0.5" Color="Orange"/>
+    <LinearGradientBrush x:Key="ToolarButtonClicked" StartPoint="0, 0" EndPoint="0,1">
+        <GradientStop Color="#DF8E2A" Offset="0" />
+        <GradientStop Color="#F2B352" Offset="1" />
     </LinearGradientBrush>
     
     <Style x:Key="ToolarButtonStyle" TargetType="{x:Type Button}">
