@@ -134,12 +134,6 @@
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj">
-      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
-      <Name>FiresecAPI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Alarm_Main_1_Fire.png" />
     <Resource Include="Images\Alarm_main_2_Attention.png" />
     <Resource Include="Images\Alarm_main_3_Failure.png" />
@@ -210,6 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\deleteEmpty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
