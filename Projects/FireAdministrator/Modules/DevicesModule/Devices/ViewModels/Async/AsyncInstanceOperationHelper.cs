@@ -1,17 +1,21 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DevicesModule.ViewModels;
 using System.Windows.Threading;
+using System.ComponentModel;
 using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
-    public static class AsyncOperationHelper
+    class AsyncInstanceOperationHelper
     {
-        static ProgressViewModel _progressViewModel;
-        static Action _work;
-        static Action _completed;
+        ProgressViewModel _progressViewModel;
+        Action _work;
+        Action _completed;
 
-        public static void Run(Action work, Action completed, string tite)
+        public void Run(Action work, Action completed, string tite)
         {
             _work = work;
             _completed = completed;
@@ -25,13 +29,13 @@ namespace DevicesModule.ViewModels
             ServiceFactory.UserDialogs.ShowModalWindow(_progressViewModel);
         }
 
-        static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             if (_work != null)
                 _work();
         }
 
-        static void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Dispatcher.CurrentDispatcher.Invoke(new Action(StopProgress));
 
@@ -39,7 +43,7 @@ namespace DevicesModule.ViewModels
                 _completed();
         }
 
-        public static void StopProgress()
+        public void StopProgress()
         {
             _progressViewModel.CloseProgress();
         }

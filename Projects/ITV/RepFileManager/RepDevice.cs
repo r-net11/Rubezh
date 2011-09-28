@@ -27,7 +27,7 @@ namespace RepFileManager
             CreateStates();
             //CreateStateRules();
             CreateCommands();
-            CreateProperties();
+            //CreateProperties();
             CreateImages();
         }
 
@@ -50,6 +50,9 @@ namespace RepFileManager
 
             foreach (var driverState in _driver.States)
             {
+                if (driverState.Code.StartsWith("Reserved_"))
+                    continue;
+
                 var deviceEvent = new repositoryModuleDeviceEvent();
                 deviceEvent.id = driverState.Code; // driverState.Name - на русском языке для локализации
                 deviceEvents.Add(deviceEvent);
@@ -106,27 +109,27 @@ namespace RepFileManager
             }
         }
 
-        void CreateProperties()
-        {
-            List<PropertyStringType> stringProperties = new List<PropertyStringType>();
+        //void CreateProperties()
+        //{
+        //    List<PropertyStringType> stringProperties = new List<PropertyStringType>();
 
-            if (_driver.HasAddress)
-            {
-            }
+        //    if (_driver.HasAddress)
+        //    {
+        //    }
 
-            foreach (var driverProperty in _driver.Properties)
-            {
-                if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.StringType)
-                {
-                    var stringProperty = new PropertyStringType();
-                    stringProperty.id = driverProperty.Name; // driverProperty.Caption - на русском языке для локализации
-                    stringProperty.value = driverProperty.Default;
-                    stringProperties.Add(stringProperty);
-                }
-            }
+        //    foreach (var driverProperty in _driver.Properties)
+        //    {
+        //        if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.StringType)
+        //        {
+        //            var stringProperty = new PropertyStringType();
+        //            stringProperty.id = driverProperty.Name; // driverProperty.Caption - на русском языке для локализации
+        //            stringProperty.value = driverProperty.Default;
+        //            stringProperties.Add(stringProperty);
+        //        }
+        //    }
 
-            Device.properties = stringProperties.ToArray();
-        }
+        //    Device.properties = stringProperties.ToArray();
+        //}
 
         void CreateImages()
         {

@@ -173,28 +173,42 @@ namespace FiresecService
 
         public string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
-            Directory.CreateDirectory("Temp");
-            fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Close();
+            lock (Locker)
+            {
+                fileName = Guid.NewGuid().ToString();
+                Directory.CreateDirectory("Temp");
+                fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
+                using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
 
-            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
-            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
+                fileName = "D://XHC//sborka2_23rc35.HXC";
+
+                ConfigurationConverter.ConvertBack(deviceConfiguration, false);
+                var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
+            }
         }
 
         public string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
-            Directory.CreateDirectory("Temp");
-            fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-            FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Close();
+            lock (Locker)
+            {
+                fileName = Guid.NewGuid().ToString();
+                Directory.CreateDirectory("Temp");
+                fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
+                using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                {
+                    stream.Write(bytes, 0, bytes.Length);
+                }
 
-            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
-            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
+                fileName = "D://XHC//sborka2_23rc35.HXC";
+
+                ConfigurationConverter.ConvertBack(deviceConfiguration, false);
+                var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
+            }
         }
 
         public string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)

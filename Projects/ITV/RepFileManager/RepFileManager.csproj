@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommonCommunicationDevice.cs" />
+    <Compile Include="ComputerDevice.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="CommonPanelDevice.cs" />

@@ -7,6 +7,7 @@ using FiresecClient;
 using FiresecAPI.Models;
 using System.IO;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace RepFileManager
 {
@@ -20,6 +21,7 @@ namespace RepFileManager
             Device.id = "CommonPanelDevice";
 
             CreateStates();
+            CreateEvents();
             CreateProperties();
             CreateImages();
         }
@@ -39,29 +41,52 @@ namespace RepFileManager
             Device.states = deviceStates.ToArray();
         }
 
-        void CreateProperties()
+        void CreateEvents()
         {
-            List<PropertyStringType> stringProperties = new List<PropertyStringType>();
-
-            //HashSet<DriverProperty> driverProperties;
-
+            var states = new HashSet<string>();
             foreach (var driver in Helper.CommonPanelDrivers)
             {
-                //driver.Properties
-            }
-
-            foreach (var driverProperty in _driver.Properties)
-            {
-                if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.StringType)
+                foreach (var driverState in driver.States)
                 {
-                    var stringProperty = new PropertyStringType();
-                    stringProperty.id = driverProperty.Name; // driverProperty.Caption - на русском языке для локализации
-                    stringProperty.value = driverProperty.Default;
-                    stringProperties.Add(stringProperty);
+                    if (driverState.Code.StartsWith("Reserved_"))
+                        continue;
+
+                    states.Add(driverState.Code);
                 }
             }
 
-            Device.properties = stringProperties.ToArray();
+            var deviceEvents = new List<repositoryModuleDeviceEvent>();
+            foreach (var state in states)
+            {
+                var deviceEvent = new repositoryModuleDeviceEvent();
+                deviceEvent.id = state; // driverState.Name - на русском языке для локализации
+                deviceEvents.Add(deviceEvent);
+            }
+            Device.events = deviceEvents.ToArray();
+
+            Device.events.ToList().ForEach((x) => { Trace.WriteLine(x.id); });
+        }
+
+        void CreateProperties()
+        {
+            var stringProperties = new HashSet<PropertyStringType>();
+
+            var properties = new List<PropertyStringEnumType>();
+
+            var property = new PropertyStringEnumType();
+            var propertyValues = new List<PropertyStringEnumTypeValue>();
+
+            foreach (var driver in Helper.CommonPanelDrivers)
+            {
+                var propertyValue = new PropertyStringEnumTypeValue();
+                propertyValue.Value = driver.DriverType.ToString();
+                propertyValues.Add(propertyValue);
+            }
+
+            property.value = propertyValues.ToArray();
+            properties.Add(property);
+
+            Device.properties = properties.ToArray();
         }
 
         void CreateImages()

@@ -26,5 +26,16 @@ namespace RepFileManager
                 return drivers;
             }
         }
+
+        public static List<Driver> CommonCommunicationDrivers
+        {
+            get
+            {
+                var drivers = new List<Driver>();
+                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
+                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
+                return drivers;
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using FiresecClient;
+using System.Windows;
 
 namespace ItvIntegration
 {
@@ -8,9 +9,13 @@ namespace ItvIntegration
     {
         public void Initialize()
         {
-            bool result = FiresecManager.Connect("adm", "", false, false);
-            if (result == false)
+            var result = FiresecManager.Connect("adm", "");
+            if (result != null)
+            {
+                MessageBox.Show(result);
                 return;
+            }
+            FiresecManager.SelectiveFetch();
 
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)

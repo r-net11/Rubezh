@@ -6,6 +6,7 @@ using FiresecClient;
 using ItvIntergation.Ngi;
 using System.Windows.Media;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace RepFileManager
 {
@@ -18,12 +19,13 @@ namespace RepFileManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool result = FiresecManager.Connect("adm", "", false, true);
-            if (result == false)
+            var result = FiresecManager.Connect("adm", "");
+            if (result != null)
             {
-                MessageBox.Show("Не удается соединиться с сервером");
+                MessageBox.Show(result);
                 return;
             }
+            FiresecManager.SelectiveFetch();
 
             Directory.CreateDirectory("BMP");
 
@@ -39,10 +41,19 @@ namespace RepFileManager
             var commonPanelDevice = new CommonPanelDevice();
             devices.Add(commonPanelDevice.Device);
 
+            var commonCommunicationDevice = new CommonCommunicationDevice();
+            devices.Add(commonCommunicationDevice.Device);
+
+            //return;
+
             foreach (var driver in FiresecManager.Drivers)
             {
                 switch (driver.DriverType)
                 {
+                    case DriverType.MS_1:
+                    case DriverType.MS_2:
+                        continue;
+
                     case DriverType.BUNS:
                     case DriverType.Rubezh_10AM:
                     case DriverType.Rubezh_2AM:

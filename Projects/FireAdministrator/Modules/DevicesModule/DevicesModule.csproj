@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
+    <Compile Include="Devices\ViewModels\Async\AsyncInstanceOperationHelper.cs" />
     <Compile Include="Devices\ViewModels\Async\CustomAdminFunctionsHelper.cs" />
     <Compile Include="Devices\ViewModels\Async\DeviceSynchrinizationHelper.cs" />
     <Compile Include="Devices\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />

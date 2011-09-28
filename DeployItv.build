@@ -1,0 +1,70 @@
+﻿<project name="Simple" default="run">
+	<property name="nant.settings.currentframework" value="net-4.0" />
+	<property name="debug" value="true"/>
+	<property name="intellectFolder" value="..\ItvIntegration"/>
+
+	<target name="run">		
+		<call target="Clear" />
+		<call target="Compile" />
+		<call target="CopyFiles" />
+	</target>
+	
+	<target name="Clear">
+		<delete dir="${intellectFolder}\Server" />
+		<delete dir="${intellectFolder}\Projects\ITV" />
+		<delete dir="${intellectFolder}\Projects\Common" />
+	</target>
+	
+	<target name="Compile">
+		<msbuild project="Projects\FiresecService\FiresecService.sln">
+			<property name="Configuration" value="Release"/>
+		</msbuild>
+	</target>
+	
+	<target name="CopyFiles">
+		<copy todir="${intellectFolder}\Server">
+			<fileset basedir="Projects\FiresecService\FiresecService\bin\Release">
+				<include name="*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Server\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\Configuration">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Firesec">
+			<fileset basedir="3rdParty\Firesec">
+				<include name="*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Projects\Common\Common">
+			<fileset basedir="Projects\Common\Common">
+				<include name="*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Projects\Common\FiresecClient">
+			<fileset basedir="Projects\Common\FiresecClient">
+				<include name="*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Projects\ITV">
+			<fileset basedir="Projects\ITV">
+				<include name="*" />
+			</fileset>
+		</copy>
+	</target>	
+	
+	<target name="CopyBack">
+		<copy todir="Projects\ITV">
+			<fileset basedir="${intellectFolder}\Projects\ITV">
+				<include name="*" />
+			</fileset>
+		</copy>
+	</target>	
+	
+</project>
