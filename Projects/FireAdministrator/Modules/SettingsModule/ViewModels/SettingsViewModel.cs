@@ -78,16 +78,13 @@ namespace SettingsModule.ViewModels
 
         FullConfiguration LoadFromFile(string fileName)
         {
-            FullConfiguration fullConfiguration;
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
                 using (var fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    fullConfiguration = (FullConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (FullConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return fullConfiguration;
             }
             catch
             {

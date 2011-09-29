@@ -22,14 +22,10 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-                DeviceConfiguration deviceConfiguration;
-
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
                 {
-                    deviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return deviceConfiguration;
             }
             catch
             {
@@ -52,14 +48,11 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-                SystemConfiguration systemConfiguration;
 
                 using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
                 {
-                    systemConfiguration = (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return systemConfiguration;
             }
             catch
             {
@@ -81,14 +74,10 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-                LibraryConfiguration libraryConfiguration;
-
                 using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
                 {
-                    libraryConfiguration = (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (LibraryConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return libraryConfiguration;
             }
             catch
             {
@@ -110,14 +99,10 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-                var plansConfiguration = new PlansConfiguration();
-
                 using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
                 {
-                    plansConfiguration = (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return plansConfiguration;
             }
             catch
             {
@@ -139,14 +124,10 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
-                var securityConfiguration = new SecurityConfiguration();
-
                 using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Open))
                 {
-                    securityConfiguration = (SecurityConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (SecurityConfiguration) dataContractSerializer.ReadObject(fileStream);
                 }
-
-                return securityConfiguration;
             }
             catch
             {

@@ -10,26 +10,18 @@ namespace JournalModule.ViewModels
 {
     public class ArchiveViewModel : RegionViewModel
     {
+        static public readonly DateTime ArchiveFirstDate = FiresecManager.GetArchiveStartDate();
+        ArchiveDefaultState _archiveDefaultState;
         ArchiveFilter _archiveFilter;
-        readonly ArchiveDefaultState _archiveDefaultState;
 
         public ArchiveViewModel()
         {
-            _archiveDefaultState = new ArchiveDefaultState()
-            {
-                ArchiveDefaultStateType = ArchiveDefaultStateType.LastDay,
-                ArchiveFilter = new ArchiveFilter()
-                {
-                    EndDate = DateTime.Now,
-                    StartDate = DateTime.Now.AddDays(-1),
-                    UseSystemDate = false
-                }
-            };
-            _archiveFilter = _archiveDefaultState.ArchiveFilter;
+            _archiveDefaultState = new ArchiveDefaultState() { ArchiveDefaultStateType = ArchiveDefaultStateType.All };
+            _archiveFilter = null;
             IsFilterOn = false;
 
             ShowFilterCommand = new RelayCommand(OnShowFilter);
-            ShowSettingsCommand = new RelayCommand(OnSettingsCommand);
+            ShowSettingsCommand = new RelayCommand(OnShowSettings);
         }
 
         bool _isFilterOn;
@@ -38,7 +30,7 @@ namespace JournalModule.ViewModels
             get { return _isFilterOn; }
             set
             {
-                if (value)
+                if (value && _archiveFilter != null)
                 {
                     ApplyFilter();
                 }
@@ -74,30 +66,45 @@ namespace JournalModule.ViewModels
             }
         }
 
-        void SetDefaultArchiveContent()
+        ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
         {
-            switch (_archiveDefaultState.ArchiveDefaultStateType)
+            var filter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now };
+            switch (archiveDefaultState.ArchiveDefaultStateType)
             {
-                case ArchiveDefaultStateType.LastHour:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddHours(-1);
+                case ArchiveDefaultStateType.LastHours:
+                    if (archiveDefaultState.Count.HasValue)
+                        filter.StartDate = filter.EndDate.AddHours(-archiveDefaultState.Count.Value);
                     break;
-                case ArchiveDefaultStateType.LastDay:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddDays(-1);
+
+                case ArchiveDefaultStateType.LastDays:
+                    if (archiveDefaultState.Count.HasValue)
+                        filter.StartDate = filter.EndDate.AddDays(-archiveDefaultState.Count.Value);
                     break;
+
                 case ArchiveDefaultStateType.FromDate:
-                    _archiveDefaultState.ArchiveFilter.EndDate = _archiveFilter.EndDate;
-                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+                    if (archiveDefaultState.StartDate.HasValue)
+                        filter.StartDate = archiveDefaultState.StartDate.Value;
                     break;
-                case ArchiveDefaultStateType.Range:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
+
+                case ArchiveDefaultStateType.RangeDate:
+                    if (archiveDefaultState.StartDate.HasValue)
+                        filter.StartDate = archiveDefaultState.StartDate.Value;
+                    if (archiveDefaultState.EndDate.HasValue)
+                        filter.StartDate = archiveDefaultState.EndDate.Value;
+                    break;
+
+                case ArchiveDefaultStateType.All:
+                default:
                     break;
             }
 
+            return filter;
+        }
+
+        void SetDefaultArchiveContent()
+        {
             JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredArchive(_archiveDefaultState.ArchiveFilter).
+                FiresecManager.GetFilteredArchive(GerFilterFromDefaultState(_archiveDefaultState)).
                 Select(journalRecord => new JournalRecordViewModel(journalRecord))
             );
         }
@@ -113,7 +120,12 @@ namespace JournalModule.ViewModels
         public RelayCommand ShowFilterCommand { get; private set; }
         void OnShowFilter()
         {
-            var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+            ArchiveFilterViewModel archiveFilterViewModel = null;
+            if (_archiveFilter != null)
+                archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+            else
+                archiveFilterViewModel = new ArchiveFilterViewModel(GerFilterFromDefaultState(_archiveDefaultState));
+
             if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
             {
                 _archiveFilter = archiveFilterViewModel.GetModel();
@@ -122,16 +134,12 @@ namespace JournalModule.ViewModels
         }
 
         public RelayCommand ShowSettingsCommand { get; private set; }
-        void OnSettingsCommand()
+        void OnShowSettings()
         {
-            var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState.ArchiveDefaultStateType);
+            var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
             if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
             {
-                var defaultStateType = archiveSettingsViewModel.ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
-                if (defaultStateType != _archiveDefaultState.ArchiveDefaultStateType)
-                {
-                    _archiveDefaultState.ArchiveDefaultStateType = defaultStateType;
-                }
+                _archiveDefaultState = archiveSettingsViewModel.GetModel();
             }
         }
     }

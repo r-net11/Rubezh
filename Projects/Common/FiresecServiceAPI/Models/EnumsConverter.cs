@@ -335,8 +335,10 @@
             {
                 case "0":
                     return SubsystemType.Fire;
+
                 case "1":
                     return SubsystemType.Guard;
+
                 default:
                     return SubsystemType.Other;
             }
@@ -346,14 +348,21 @@
         {
             switch (defaultArchiveStateType)
             {
-                case ArchiveDefaultStateType.LastHour:
-                    return "за последний час";
-                case ArchiveDefaultStateType.LastDay:
-                    return "за последние 24 часа";
+                case ArchiveDefaultStateType.LastHours:
+                    return "за указанное число последних часов";
+
+                case ArchiveDefaultStateType.LastDays:
+                    return "за указанное число последних дней";
+
+                case ArchiveDefaultStateType.All:
+                    return "из всего архива";
+
                 case ArchiveDefaultStateType.FromDate:
-                    return "начиная с";
-                case ArchiveDefaultStateType.Range:
-                    return "согласно диапазону дат, введенному ранее";
+                    return "начиная с указанной даты";
+
+                case ArchiveDefaultStateType.RangeDate:
+                    return "согласно указанному дипазону дат";
+
                 default:
                     return "";
             }

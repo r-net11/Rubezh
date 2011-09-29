@@ -1,13 +1,15 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
     public enum ArchiveDefaultStateType
     {
-        LastHour,
-        LastDay,
+        LastHours,
+        LastDays,
+        All,
         FromDate,
-        Range
+        RangeDate
     }
 
     [DataContract]
@@ -17,6 +19,12 @@ namespace FiresecAPI.Models
         public ArchiveDefaultStateType ArchiveDefaultStateType { get; set; }
 
         [DataMember]
-        public ArchiveFilter ArchiveFilter { get; set; }
+        public int? Count { get; set; }
+
+        [DataMember]
+        public DateTime? StartDate { get; set; }
+
+        [DataMember]
+        public DateTime? EndDate { get; set; }
     }
 }

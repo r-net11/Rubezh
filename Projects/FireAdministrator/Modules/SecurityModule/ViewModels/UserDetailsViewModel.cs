@@ -252,7 +252,7 @@ namespace SecurityModule.ViewModels
             }
             else if (IsChangePassword)
             {
-                if (User.PasswordHash != HashHelper.GetHashFromString(Password))
+                if (!HashHelper.CheckPass(Password, User.PasswordHash))
                 {
                     ShowMessage("Значение в поле \"Действующий пароль\" неверное");
                     return false;

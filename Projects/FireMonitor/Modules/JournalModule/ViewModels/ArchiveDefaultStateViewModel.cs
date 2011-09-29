@@ -1,5 +1,7 @@
 ﻿using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
+using JournalModule.Events;
 
 namespace JournalModule.ViewModels
 {
@@ -12,13 +14,19 @@ namespace JournalModule.ViewModels
 
         public ArchiveDefaultStateType ArchiveDefaultStateType { get; private set; }
 
-        bool _IsActive;
+        bool _isActive;
         public bool IsActive
         {
-            get { return _IsActive; }
+            get { return _isActive; }
             set
             {
-                _IsActive = value;
+                _isActive = value;
+
+                if (_isActive)
+                {
+                    ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Publish(this);
+                }
+
                 OnPropertyChanged("IsActive");
             }
         }

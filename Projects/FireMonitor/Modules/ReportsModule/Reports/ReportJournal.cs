@@ -9,7 +9,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
-using System.Windows.Data;
 
 namespace ReportsModule.Reports
 {
@@ -95,21 +94,15 @@ namespace ReportsModule.Reports
     internal class ReportArchiveFilter
     {
         ArchiveFilter _archiveFilter;
-        readonly ArchiveDefaultState _archiveDefaultState;
 
         public ReportArchiveFilter()
         {
-            _archiveDefaultState = new ArchiveDefaultState()
+            _archiveFilter = new ArchiveFilter()
             {
-                ArchiveDefaultStateType = ArchiveDefaultStateType.LastDay,
-                ArchiveFilter = new ArchiveFilter()
-                {
-                    EndDate = DateTime.Now,
-                    StartDate = DateTime.Now.AddDays(-1),
-                    UseSystemDate = false
-                }
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now.AddDays(-1),
+                UseSystemDate = false
             };
-            _archiveFilter = _archiveDefaultState.ArchiveFilter;
             IsFilterOn = false;
         }
 
@@ -133,10 +126,6 @@ namespace ReportsModule.Reports
                 {
                     ApplyFilter();
                 }
-                else
-                {
-                    SetDefaultArchiveContent();
-                }
 
                 _isFilterOn = value;
             }
@@ -150,34 +139,6 @@ namespace ReportsModule.Reports
             {
                 _journalRecords = value;
             }
-        }
-
-        void SetDefaultArchiveContent()
-        {
-            switch (_archiveDefaultState.ArchiveDefaultStateType)
-            {
-                case ArchiveDefaultStateType.LastHour:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddHours(-1);
-                    break;
-                case ArchiveDefaultStateType.LastDay:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddDays(-1);
-                    break;
-                case ArchiveDefaultStateType.FromDate:
-                    _archiveDefaultState.ArchiveFilter.EndDate = _archiveFilter.EndDate;
-                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
-                    break;
-                case ArchiveDefaultStateType.Range:
-                    _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                    _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
-                    break;
-            }
-
-            JournalRecords = new List<JournalRecordViewModel>(
-                FiresecManager.GetFilteredArchive(_archiveDefaultState.ArchiveFilter).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
         }
 
         void ApplyFilter()

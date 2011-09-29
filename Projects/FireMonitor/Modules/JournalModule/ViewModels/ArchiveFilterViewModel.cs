@@ -3,29 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
     public class ArchiveFilterViewModel : DialogContent
     {
-        static readonly DateTime _archiveFirstDate = FiresecManager.GetArchiveStartDate();
-
         public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
         {
+            Initialize();
+
             _startDate = archiveFilter.StartDate;
             _endDate = archiveFilter.EndDate;
             UseSystemDate = archiveFilter.UseSystemDate;
 
-            JournalEvents = new List<EventViewModel>(
-                FiresecClient.FiresecManager.GetDistinctRecords().
-                Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
-            );
-            JournalTypes = new List<ClassViewModel>(
-                JournalEvents.Select(x => x.ClassId).Distinct().
-                Select(x => new ClassViewModel((StateType) x))
-            );
             if (archiveFilter.Descriptions.IsNotNullOrEmpty())
             {
                 JournalEvents.Where(x => archiveFilter.Descriptions.Any(description => description == x.Name)).
@@ -34,23 +25,32 @@ namespace JournalModule.ViewModels
                              AsParallel().ForAll(x => x.IsEnable = true);
             }
 
-            Subsystems = new List<SubsystemViewModel>();
-            foreach (SubsystemType item in Enum.GetValues(typeof(SubsystemType)))
-            {
-                Subsystems.Add(new SubsystemViewModel(item));
-            }
             if (archiveFilter.Subsystems.IsNotNullOrEmpty())
             {
                 Subsystems.Where(x => archiveFilter.Subsystems.Any(subsystem => subsystem == x.Subsystem)).
                            AsParallel().ForAll(x => x.IsEnable = true);
             }
-
-            Initialize();
         }
 
         void Initialize()
         {
-            Title = "Настройки фильтра архива";
+            Title = "Настройки фильтра";
+
+            JournalEvents = new List<EventViewModel>(
+                FiresecClient.FiresecManager.GetDistinctRecords().
+                Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
+            );
+
+            JournalTypes = new List<ClassViewModel>(
+                JournalEvents.Select(x => x.ClassId).Distinct().
+                Select(x => new ClassViewModel((StateType) x))
+            );
+
+            Subsystems = new List<SubsystemViewModel>();
+            foreach (SubsystemType item in Enum.GetValues(typeof(SubsystemType)))
+            {
+                Subsystems.Add(new SubsystemViewModel(item));
+            }
 
             ClearCommand = new RelayCommand(OnClear);
             SaveCommand = new RelayCommand(OnSave, CanSave);
@@ -59,7 +59,12 @@ namespace JournalModule.ViewModels
 
         public DateTime ArchiveFirstDate
         {
-            get { return _archiveFirstDate; }
+            get { return ArchiveViewModel.ArchiveFirstDate; }
+        }
+
+        public DateTime NowDate
+        {
+            get { return DateTime.Now; }
         }
 
         public List<ClassViewModel> JournalTypes { get; private set; }

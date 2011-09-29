@@ -9,18 +9,20 @@ namespace DeviceControls
     {
         public static Canvas Xml2Canvas(string xmlOfimage, int layer)
         {
-            var canvas = new Canvas();
             try
             {
                 using (var stringReader = new StringReader(xmlOfimage))
                 {
                     var xmlReader = XmlReader.Create(stringReader);
-                    canvas = (Canvas) XamlReader.Load(xmlReader);
+                    var canvas = (Canvas) XamlReader.Load(xmlReader);
                     Panel.SetZIndex(canvas, layer);
+                    return canvas;
                 }
             }
-            catch { }
-            return canvas;
+            catch
+            {
+                return null;
+            }
         }
     }
 }

@@ -44,7 +44,9 @@ namespace FiresecClient
 
         public static void SelectiveFetch()
         {
-            FileHelper.Synchronize();
+            Action synchronizer = new Action(FileHelper.Synchronize);
+            IAsyncResult result = synchronizer.BeginInvoke(null, null);
+
             SystemConfiguration = FiresecManager.FiresecService.GetSystemConfiguration();
             LibraryConfiguration = FiresecManager.FiresecService.GetLibraryConfiguration();
             PlansConfiguration = FiresecManager.FiresecService.GetPlansConfiguration();
@@ -57,7 +59,9 @@ namespace FiresecClient
             UpdateConfiguration();
             UpdateStates();
 
-            //FiresecService.Subscribe();
+            FiresecService.Subscribe();
+
+            synchronizer.EndInvoke(result);
         }
 
         public static string Reconnect(string login, string password)

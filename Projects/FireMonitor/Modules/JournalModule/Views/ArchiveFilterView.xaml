@@ -30,7 +30,7 @@
                         <TextBlock Margin="5" Text="До" />
                         <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
-                                  DisplayDateEnd="{Binding EndDate, Mode=OneTime}"
+                                  DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   SelectedDate="{Binding EndDate}" />
                         <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding EndTime}" VerticalAlignment="Top" />
                     </StackPanel>

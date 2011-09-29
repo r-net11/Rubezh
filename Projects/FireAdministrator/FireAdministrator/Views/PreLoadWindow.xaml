@@ -5,7 +5,7 @@
         ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" WindowStyle="None" Background="Red"
         Foreground="White">
     <Grid>
-        <TextBlock Text="Инициализация компоненет..."
+        <TextBlock Text="Инициализация компонент..."
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontSize="17" FontWeight="Black"/>
     </Grid>
