@@ -80,7 +80,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
-            var guardUsersMenuViewModel = new GuardUsersMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            var guardUsersMenuViewModel = new GuardUsersMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(guardUsersMenuViewModel);
         }
 

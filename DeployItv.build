@@ -4,15 +4,16 @@
 	<property name="intellectFolder" value="..\ItvIntegration"/>
 
 	<target name="run">		
-		<call target="Clear" />
+		<call target="Clean" />
 		<call target="Compile" />
 		<call target="CopyFiles" />
 	</target>
 	
-	<target name="Clear">
+	<target name="Clean">
 		<delete dir="${intellectFolder}\Server" />
 		<delete dir="${intellectFolder}\Projects\ITV" />
 		<delete dir="${intellectFolder}\Projects\Common" />
+		<delete dir="Projects\ITV\RepFileManager\bin" />
 	</target>
 	
 	<target name="Compile">
@@ -34,35 +35,41 @@
 			</fileset>
 		</copy>
 		
-		<copy todir="${intellectFolder}\Firesec">
+		<copy todir="${intellectFolder}\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="3rdParty\Firesec">
-				<include name="*" />
+				<include name="**\*" />
 			</fileset>
 		</copy>
 		
-		<copy todir="${intellectFolder}\Projects\Common\Common">
-			<fileset basedir="Projects\Common\Common">
-				<include name="*" />
-			</fileset>
-		</copy>
-		
-		<copy todir="${intellectFolder}\Projects\Common\FiresecClient">
+		<copy todir="${intellectFolder}\Projects\Common\FiresecClient" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="Projects\Common\FiresecClient">
-				<include name="*" />
+				<include name="**\*" />
 			</fileset>
 		</copy>
 		
-		<copy todir="${intellectFolder}\Projects\ITV">
+		<copy todir="${intellectFolder}\Projects\Common\FiresecServiceApi" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Common\FiresecServiceApi">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+
+		<copy todir="${intellectFolder}\Projects\Common\Common" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Common\Common">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${intellectFolder}\Projects\ITV" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="Projects\ITV">
-				<include name="*" />
+				<include name="**\*" />
 			</fileset>
 		</copy>
 	</target>	
 	
-	<target name="CopyBack">
+	<target name="CopyBack" includeemptydirs="true" overwrite="true" verbose="true">
 		<copy todir="Projects\ITV">
 			<fileset basedir="${intellectFolder}\Projects\ITV">
-				<include name="*" />
+				<include name="**\*" />
 			</fileset>
 		</copy>
 	</target>	

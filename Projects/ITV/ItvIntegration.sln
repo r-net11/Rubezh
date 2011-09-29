@@ -5,13 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItvIntegration", "ItvIntegr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\FiresecClient\FiresecClient.csproj", "{F46953E0-CA12-4659-AE8C-88241B541F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\FiresecService\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepFileManager", "RepFileManager\RepFileManager.csproj", "{BB9A01BD-1250-4F60-BA06-CF1736FEDC0C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Firesec", "Firesec", "{FA591CB6-4132-43FD-8B35-74CB2D86FB05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItvDevices", "ItvDevices\ItvDevices.csproj", "{B15A7027-B448-40EF-8380-EF6A2046F711}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,16 +43,6 @@ Global
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F46953E0-CA12-4659-AE8C-88241B541F6C}.Release|x86.ActiveCfg = Release|Any CPU
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|x86.ActiveCfg = Debug|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|x86.Build.0 = Debug|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Any CPU.ActiveCfg = Release|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Mixed Platforms.Build.0 = Release|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.ActiveCfg = Release|x86
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.Build.0 = Release|x86
 		{BB9A01BD-1250-4F60-BA06-CF1736FEDC0C}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{BB9A01BD-1250-4F60-BA06-CF1736FEDC0C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{BB9A01BD-1250-4F60-BA06-CF1736FEDC0C}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -73,12 +63,22 @@ Global
 		{B15A7027-B448-40EF-8380-EF6A2046F711}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B15A7027-B448-40EF-8380-EF6A2046F711}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B15A7027-B448-40EF-8380-EF6A2046F711}.Release|x86.ActiveCfg = Release|Any CPU
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|x86.ActiveCfg = Debug|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Debug|x86.Build.0 = Debug|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Any CPU.ActiveCfg = Release|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.ActiveCfg = Release|x86
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {FA591CB6-4132-43FD-8B35-74CB2D86FB05}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {FA591CB6-4132-43FD-8B35-74CB2D86FB05}
+		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {FA591CB6-4132-43FD-8B35-74CB2D86FB05}
 	EndGlobalSection
 EndGlobal

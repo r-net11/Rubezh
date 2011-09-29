@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -27,23 +27,27 @@ namespace DevicesModule.ViewModels
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
+            var zoneTypeFilter = ZoneType.Fire;
+            switch (zoneLogicState)
+            {
+                case ZoneLogicState.Alarm:
+                case ZoneLogicState.GuardSet:
+                case ZoneLogicState.GuardUnSet:
+                case ZoneLogicState.PCN:
+                case ZoneLogicState.Lamp:
+                    zoneTypeFilter = ZoneType.Guard;
+                    break;
+            }
+
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                var zoneTypeFilter = ZoneType.Fire;
-
-                switch (zoneLogicState)
-                {
-                    case ZoneLogicState.Alarm:
-                    case ZoneLogicState.GuardSet:
-                    case ZoneLogicState.GuardUnSet:
-                    case ZoneLogicState.PCN:
-                    case ZoneLogicState.Lamp:
-                        zoneTypeFilter = ZoneType.Guard;
-                        break;
-                }
+                var zoneViewModel = new ZoneViewModel(zone);
 
                 if (zone.ZoneType != zoneTypeFilter)
+                {
+                    SourceZones.Add(zoneViewModel);
                     continue;
+                }
 
                 if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
                 {
@@ -58,22 +62,21 @@ namespace DevicesModule.ViewModels
                         }
                     }
                     if (canAdd == false)
+                    {
+                        SourceZones.Add(zoneViewModel);
                         continue;
+                    }
                 }
 
                 if ((device.Parent.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                 {
-                    var canAdd = false;
-                    foreach (var guardDevice in device.Parent.Children)
-                    {
-                        if (guardDevice.ZoneNo == zone.No)
-                            canAdd = true;
-                    }
+                    var canAdd = device.Parent.Children.Any(x => x.ZoneNo == zone.No);
                     if (canAdd == false)
+                    {
+                        SourceZones.Add(zoneViewModel);
                         continue;
+                    }
                 }
-
-                var zoneViewModel = new ZoneViewModel(zone);
 
                 if (Zones.Contains(zone.No))
                 {
@@ -105,16 +108,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ObservableCollection<ZoneViewModel> _targetZones;
-        public ObservableCollection<ZoneViewModel> TargetZones
-        {
-            get { return _targetZones; }
-            set
-            {
-                _targetZones = value;
-                OnPropertyChanged("TargetZones");
-            }
-        }
+        public ObservableCollection<ZoneViewModel> TargetZones{ get; private set; }
 
         ZoneViewModel _selectedTargetZone;
         public ZoneViewModel SelectedTargetZone

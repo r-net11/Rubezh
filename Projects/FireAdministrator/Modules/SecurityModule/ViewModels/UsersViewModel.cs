@@ -88,7 +88,7 @@ namespace SecurityModule.ViewModels
 
         public override void OnShow()
         {
-            var usersMenuViewModel = new UsersMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            var usersMenuViewModel = new UsersMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(usersMenuViewModel);
         }
 

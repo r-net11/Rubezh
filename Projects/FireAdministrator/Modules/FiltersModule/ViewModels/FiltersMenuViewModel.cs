@@ -4,15 +4,11 @@ namespace FiltersModule.ViewModels
 {
     public class FiltersMenuViewModel
     {
-        public FiltersMenuViewModel(RelayCommand addCommand, RelayCommand editCommand, RelayCommand removeCommand)
+        public FiltersMenuViewModel(FiltersViewModel context)
         {
-            AddCommand = addCommand;
-            RemoveCommand = removeCommand;
-            EditCommand = editCommand;
+            Context = context;
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
-        public RelayCommand RemoveCommand { get; private set; }
+        public FiltersViewModel Context { get; private set; }
     }
 }

@@ -1,8 +1,15 @@
 ﻿<UserControl x:Class="DevicesModule.Views.DevicesMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <StackPanel Orientation="Horizontal">
+
+    <UserControl.Resources>
+        <s:Boolean x:Key="True">True</s:Boolean>
+        <s:Boolean x:Key="False">False</s:Boolean>
+    </UserControl.Resources>
+
+
+    <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
         <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
@@ -19,40 +26,39 @@
             <Image Source="/Controls;component/Images/paste.png" Height="24" />
         </Button>
 
-        <Menu Background="Transparent" VerticalAlignment="Center">
+        <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
             <MenuItem>
                 <MenuItem.Header>
                     <Image Source="/Controls;component/Images/Copy.png" Height="24" />
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding AutoDetectCommand}" Header="Автпоиск" />
-                <MenuItem Command="{Binding ReadDeviceCommand}" Header="Считать конфигурацию из устройства" />
+                <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="Считать конфигурацию из устройства" />
                 <MenuItem Header="Синхронизировать охранных пользователей" IsEnabled="False" />
-                <MenuItem Command="{Binding GetDescriptionCommand}" Header="Информация об устройстве" />
-                <MenuItem Command="{Binding GetDeveceJournalCommand}" Header="Журнал событий" />
+                <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="Информация об устройстве" />
+                <MenuItem Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource False}" Header="Журнал событий" />
                 <Separator />
-                <MenuItem Command="{Binding WriteDeviceCommand}" Header="Записать конфигурацию в устройство" />
+                <MenuItem Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource False}" Header="Записать конфигурацию в устройство" />
                 <MenuItem Command="{Binding WriteAllDeviceCommand}" Header="Записать конфигурацию во все устройства" />
                 <Separator />
-                <MenuItem Command="{Binding SynchronizeDeviceCommand}" Header="Синзронизировать часы устройства с системными" />
+                <MenuItem Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="Синзронизировать часы устройства с системными" />
                 <MenuItem Command="{Binding RebootDeviceCommand}" Header="Перезагрузить устройство" />
-                <MenuItem Command="{Binding UpdateSoftCommand}" Header="Обновление ПО" />
-                <MenuItem Command="{Binding SetPasswordCommand}" Header="Задать пароль" />
-                <MenuItem Header="Установить адрес" IsEnabled="False" />
+                <MenuItem Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource False}" Header="Обновление ПО" />
+                <MenuItem Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="Задать пароль" />
                 <MenuItem Command="{Binding BindMsCommand}" Header="Привязать" />
-                <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" Header="Другие функции" />
-                
-                <MenuItem Header="USB" Margin="10, 0, 0, 0">
-                    <MenuItem Command="{Binding ReadDeviceCommand}" Header="Считать конфигурацию из устройства" />
-                    <MenuItem Command="{Binding GetDescriptionCommand}" Header="Информация об устройстве" />
-                    <MenuItem Command="{Binding GetDeveceJournalCommand}" Header="Журнал событий" />
+                <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="Другие функции" />
+
+                <MenuItem Header="USB" Margin="12, 0, 0, 0" Visibility="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="Считать конфигурацию из устройства" />
+                    <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="Информация об устройстве" />
+                    <MenuItem Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource True}" Header="Журнал событий" />
                     <Separator />
-                    <MenuItem Command="{Binding WriteDeviceCommand}" Header="Записать конфигурацию в устройство" />
+                    <MenuItem Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource True}" Header="Записать конфигурацию в устройство" />
                     <Separator />
-                    <MenuItem Command="{Binding SynchronizeDeviceCommand}" Header="Синзронизировать часы устройства с системными" />
-                    <MenuItem Command="{Binding UpdateSoftCommand}" Header="Обновление ПО" />
-                    <MenuItem Command="{Binding SetPasswordCommand}" Header="Задать пароль" />
-                    <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" Header="Другие функции" />
+                    <MenuItem Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource True}" Header="Синзронизировать часы устройства с системными" />
+                    <MenuItem Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource True}" Header="Обновление ПО" />
+                    <MenuItem Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource True}" Header="Задать пароль" />
+                    <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="Другие функции" />
                 </MenuItem>
             </MenuItem>
         </Menu>

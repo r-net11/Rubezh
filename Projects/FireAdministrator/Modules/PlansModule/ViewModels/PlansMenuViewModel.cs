@@ -4,15 +4,11 @@ namespace PlansModule.ViewModels
 {
     public class PlansMenuViewModel
     {
-        public PlansMenuViewModel(RelayCommand addCommand, RelayCommand editCommand, RelayCommand removeCommand)
+        public PlansMenuViewModel(PlansViewModel context)
         {
-            AddCommand = addCommand;
-            RemoveCommand = removeCommand;
-            EditCommand = editCommand;
+            Context = context;
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
-        public RelayCommand RemoveCommand { get; private set; }
+        public PlansViewModel Context { get; private set; }
     }
 }

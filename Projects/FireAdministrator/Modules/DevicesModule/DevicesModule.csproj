@@ -72,6 +72,7 @@
     <Compile Include="Devices\ViewModels\AutoSearchDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\AutoSearchViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\AutoSearchHelper.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Async\DeviceJournalHelper.cs" />
     <Compile Include="Devices\ViewModels\DeviceJournalViewModel.cs" />

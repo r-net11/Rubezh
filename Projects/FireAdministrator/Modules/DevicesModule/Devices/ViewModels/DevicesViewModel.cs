@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Microsoft.Win32;
-using System.Diagnostics;
-using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -21,18 +16,7 @@ namespace DevicesModule.ViewModels
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
-            AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
-            ReadDeviceCommand = new RelayCommand(OnReadDevice, CanReadDevice);
-            WriteDeviceCommand = new RelayCommand(OnWriteDevice, CanWriteDevice);
-            WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
-            SynchronizeDeviceCommand = new RelayCommand(OnSynchronizeDevice, CanSynchronizeDevice);
-            RebootDeviceCommand = new RelayCommand(OnRebootDevice, CanRebootDevice);
-            UpdateSoftCommand = new RelayCommand(OnUpdateSoft, CanUpdateSoft);
-            GetDescriptionCommand = new RelayCommand(OnGetDescription, CanGetDescription);
-            GetDeveceJournalCommand = new RelayCommand(OnGetDeveceJournal, CanGetDeveceJournal);
-            SetPasswordCommand = new RelayCommand(OnSetPassword, CanSetPassword);
-            BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
-            ExecuteCustomAdminFunctionsCommand = new RelayCommand(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
+            DeviceCommandsViewModel = new DeviceCommandsViewModel(SelectedDevice);
         }
 
         public void Initialize()
@@ -213,170 +197,11 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-        public RelayCommand AutoDetectCommand { get; private set; }
-        void OnAutoDetect()
-        {
-            AutoSearchHelper.Run(SelectedDevice);
-        }
-
-        bool CanAutoDetect()
-        {
-            return true;
-            //return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
-        }
-
-        public RelayCommand ReadDeviceCommand { get; private set; }
-        void OnReadDevice()
-        {
-            FiresecManager.DeviceReadConfiguration(SelectedDevice.Device.UID);
-        }
-
-        bool CanReadDevice()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
-        }
-
-        public RelayCommand WriteDeviceCommand { get; private set; }
-        void OnWriteDevice()
-        {
-            FiresecManager.DeviceWriteConfiguration(SelectedDevice.Device.UID);
-        }
-
-        bool CanWriteDevice()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanWriteDatabase));
-        }
-
-        public RelayCommand WriteAllDeviceCommand { get; private set; }
-        void OnWriteAllDevice()
-        {
-            FiresecManager.WriteAllDeviceConfiguration();
-        }
-
-        bool CanWriteAllDevice()
-        {
-            return Devices.Count > 0;
-        }
-
-        public RelayCommand SynchronizeDeviceCommand { get; private set; }
-        void OnSynchronizeDevice()
-        {
-            DeviceSynchrinizationHelper.Run(SelectedDevice.Device.UID);
-        }
-
-        bool CanSynchronizeDevice()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSynchonize));
-        }
-
-        public RelayCommand RebootDeviceCommand { get; private set; }
-        void OnRebootDevice()
-        {
-            FiresecManager.DeviceRestart(SelectedDevice.Device.UID);
-        }
-
-        bool CanRebootDevice()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReboot));
-        }
-
-        public RelayCommand UpdateSoftCommand { get; private set; }
-        void OnUpdateSoft()
-        {
-            FirmwareUpdateHelper.Run(SelectedDevice.Device);
-        }
-
-        bool CanUpdateSoft()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanUpdateSoft));
-        }
-
-        public RelayCommand GetDescriptionCommand { get; private set; }
-        void OnGetDescription()
-        {
-            GetInformationHelper.Run(SelectedDevice.Device);
-        }
-
-        bool CanGetDescription()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
-        }
-
-        public RelayCommand GetDeveceJournalCommand { get; private set; }
-        void OnGetDeveceJournal()
-        {
-            //string content = "<head>" + "\n" + "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" + "\n" + "</head>" +
-            //    "<h2>Журнал событий устройства Рубеж-2AM 1.30</h2>";
-
-            //var deviceJournalViewModel = new DeviceJournalViewModel(content);
-            //ServiceFactory.UserDialogs.ShowModalWindow(deviceJournalViewModel);
-            //return;
-
-            DeviceJournalHelper.Run(SelectedDevice.Device);
-        }
-
-        bool CanGetDeveceJournal()
-        {
-            return true;
-        }
-
-        public RelayCommand SetPasswordCommand { get; private set; }
-        void OnSetPassword()
-        {
-            var setPasswordViewModel = new SetPasswordViewModel(SelectedDevice.Device.UID);
-            ServiceFactory.UserDialogs.ShowModalWindow(setPasswordViewModel);
-        }
-
-        bool CanSetPassword()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
-        }
-
-        public RelayCommand BindMsCommand { get; private set; }
-        void OnBindMs()
-        {
-            GetSerialsHelper.Run(SelectedDevice.Device);
-        }
-
-        bool CanBindMs()
-        {
-            return true;
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == (DriverType.MS_1 | DriverType.MS_2)));
-        }
-
-        public RelayCommand ExecuteCustomAdminFunctionsCommand { get; private set; }
-        void OnExecuteCustomAdminFunctions()
-        {
-            var customAdminFunctionsCommandViewModel = new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device);
-            ServiceFactory.UserDialogs.ShowModalWindow(customAdminFunctionsCommandViewModel);
-        }
-
-        bool CanExecuteCustomAdminFunctions()
-        {
-            return true;
-            return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
-        }
+        public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
         public override void OnShow()
         {
-            var devicesMenuViewModel = new DevicesMenuViewModel()
-                {
-                    CopyCommand = CopyCommand,
-                    CutCommand = CutCommand,
-                    PasteCommand = PasteCommand,
-                    AutoDetectCommand = AutoDetectCommand,
-                    ReadDeviceCommand = ReadDeviceCommand,
-                    WriteDeviceCommand = WriteDeviceCommand,
-                    WriteAllDeviceCommand = WriteAllDeviceCommand,
-                    SynchronizeDeviceCommand = SynchronizeDeviceCommand,
-                    RebootDeviceCommand = RebootDeviceCommand,
-                    UpdateSoftCommand = UpdateSoftCommand,
-                    GetDescriptionCommand = GetDescriptionCommand,
-                    SetPasswordCommand = SetPasswordCommand,
-                    GetDeveceJournalCommand = GetDeveceJournalCommand,
-                    BindMsCommand = BindMsCommand,
-                    ExecuteCustomAdminFunctionsCommand = ExecuteCustomAdminFunctionsCommand
-                };
+            var devicesMenuViewModel = new DevicesMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
         }
 

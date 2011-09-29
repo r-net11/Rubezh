@@ -93,7 +93,6 @@ namespace FiresecAPI.Models
                 return result + Driver.Name;
             }
         }
-                
 
         public void SetAddress(string address)
         {
@@ -106,9 +105,15 @@ namespace FiresecAPI.Models
             {
                 string address = IntAddress.ToString();
 
-                var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
-                if (serialNoProperty != null)
-                    address = serialNoProperty.Value;
+                if ((Driver.DriverType == DriverType.MS_1) || (Driver.DriverType == DriverType.MS_2))
+                {
+                    if ((Parent.Children != null) && (Parent.Children.Any(x => ((x.Driver.DriverType == DriverType.MS_1) || (x.Driver.DriverType == DriverType.MS_2)))))
+                    {
+                        var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
+                        if (serialNoProperty != null)
+                            address = serialNoProperty.Value;
+                    }
+                }
 
                 if (Driver.IsDeviceOnShleif)
                 {
@@ -160,9 +165,7 @@ namespace FiresecAPI.Models
             get
             {
                 if (Parent == null)
-                {
                     return "";
-                }
 
                 string localPlaceInTree = Parent.Children.IndexOf(this).ToString();
                 if (Parent.PlaceInTree == "")

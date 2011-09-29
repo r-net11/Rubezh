@@ -186,7 +186,7 @@ namespace PlansModule.ViewModels
         public override void OnShow()
         {
             var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, AddSubCommand, EditCommand, RemoveCommand);
-            var plansMenuViewModel = new PlansMenuViewModel(AddCommand, EditCommand, RemoveCommand);
+            var plansMenuViewModel = new PlansMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
         }
 

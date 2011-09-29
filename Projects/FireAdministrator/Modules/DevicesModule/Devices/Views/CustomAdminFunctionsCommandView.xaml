@@ -12,23 +12,23 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <TextBlock Text="Выберите функцию для выполнения" />
+            <TextBlock Text="Выберите функцию для выполнения" Margin="2" />
         </Grid>
 
         <Grid Grid.Row="1">
-            <ListBox ItemsSource="{Binding Functions}" SelectedItem="{Binding SelectedFunction}">
+            <ListBox ItemsSource="{Binding Functions}" SelectedItem="{Binding SelectedFunction}" Margin="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding Name}" Margin="2" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
 
         <Grid Grid.Row="2" DataContext="{Binding SelectedFunction}">
-            <TextBlock Text="{Binding Description}" />
+            <TextBlock Text="{Binding Description}" Margin="2" />
         </Grid>
-        
+
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" >
             <Button Content="Ок" Command="{Binding SaveCommand}" Width="100" Margin="2" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />

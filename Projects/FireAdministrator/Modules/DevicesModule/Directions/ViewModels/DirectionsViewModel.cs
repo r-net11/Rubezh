@@ -25,16 +25,7 @@ namespace DevicesModule.ViewModels
                 SelectedDirection = Directions[0];
         }
 
-        ObservableCollection<DirectionViewModel> _directions;
-        public ObservableCollection<DirectionViewModel> Directions
-        {
-            get { return _directions; }
-            set
-            {
-                _directions = value;
-                OnPropertyChanged("Directions");
-            }
-        }
+        public ObservableCollection<DirectionViewModel> Directions { get; private set; }
 
         DirectionViewModel _selectedDirection;
         public DirectionViewModel SelectedDirection
@@ -95,7 +86,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
-            var directionsMenuViewModel = new DirectionsMenuViewModel(AddCommand, DeleteCommand, EditCommand);
+            var directionsMenuViewModel = new DirectionsMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(directionsMenuViewModel);
         }
 

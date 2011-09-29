@@ -181,5 +181,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool CanExecuteCustomAdminFunctions { get; set; }
+
+        [DataMember]
+        public bool IsAlternativeUSB { get; set; }
     }
 }

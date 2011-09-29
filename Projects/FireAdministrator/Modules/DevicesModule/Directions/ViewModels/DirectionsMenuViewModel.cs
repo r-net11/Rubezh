@@ -4,15 +4,11 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionsMenuViewModel
     {
-        public DirectionsMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
+        public DirectionsMenuViewModel(DirectionsViewModel context)
         {
-            AddCommand = addCommand;
-            DeleteCommand = deleteCommand;
-            EditCommand = editCommand;
+            Context = context;
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
+        public DirectionsViewModel Context { get; private set; }
     }
 }

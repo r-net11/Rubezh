@@ -19,8 +19,7 @@ namespace FiltersModule.ViewModels
             FilterViewModels = new ObservableCollection<FilterViewModel>();
             if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpty())
             {
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(
-                    journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
             }
         }
 
@@ -68,7 +67,7 @@ namespace FiltersModule.ViewModels
 
         public override void OnShow()
         {
-            var filtersMenuViewModel = new FiltersMenuViewModel(CreateCommand, EditCommand, RemoveCommand);
+            var filtersMenuViewModel = new FiltersMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
         }
 

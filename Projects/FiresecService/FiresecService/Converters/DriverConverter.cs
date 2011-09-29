@@ -21,8 +21,34 @@ namespace FiresecService.Converters
                 IsAutoCreate = innerDriver.acr_enabled == "1",
                 MinAutoCreateAddress = int.Parse(innerDriver.acr_from),
                 MaxAutoCreateAddress = int.Parse(innerDriver.acr_to),
-                HasAddressMask = innerDriver.addrMask != null
+                HasAddressMask = innerDriver.addrMask != null,
+                IsAlternativeUSB = innerDriver.altIntf != null,
+                AddressMask = innerDriver.addrMask,
+                ChildAddressMask = innerDriver.childAddrMask,
+                IsZoneDevice = ((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0")) == false,
+                IsIndicatorDevice = innerDriver.name == "Индикатор",
+                IsDeviceOnShleif = innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]")
             };
+
+            if (innerDriver.options != null)
+            {
+                driver.DisableAutoCreateChildren = innerDriver.options.Contains("DisableAutoCreateChildren");
+                driver.IsZoneLogicDevice = innerDriver.options.Contains("ExtendedZoneLogic");
+                driver.CanDisable = innerDriver.options.Contains("Ignorable");
+                driver.IsPlaceable = innerDriver.options.Contains("Placeable");
+                driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
+                driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
+
+                driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
+                driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
+                driver.CanAutoDetect = innerDriver.options.Contains("CanAutoDetectInstances");
+                driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
+                driver.CanReboot = innerDriver.options.Contains("RemoteReload");
+                driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
+                driver.CanSetPassword = innerDriver.options.Contains("PasswordManagement");
+                driver.CanUpdateSoft = innerDriver.options.Contains("SoftUpdates");
+                driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
+            }
 
             driver.CanEditAddress = true;
             if (innerDriver.ar_no_addr != null)
@@ -33,9 +59,6 @@ namespace FiresecService.Converters
                 if (innerDriver.acr_enabled == "1")
                     driver.CanEditAddress = false;
             }
-
-            driver.AddressMask = innerDriver.addrMask;
-            driver.ChildAddressMask = innerDriver.childAddrMask;
 
             driver.ShleifCount = 0;
             if (innerDriver.childAddrMask != null)
@@ -56,8 +79,6 @@ namespace FiresecService.Converters
                 }
             }
 
-            driver.IsDeviceOnShleif = innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]");
-
             driver.HasShleif = driver.ShleifCount == 0 ? false : true;
 
             if (innerDriver.name == "Насосная Станция")
@@ -66,7 +87,6 @@ namespace FiresecService.Converters
                 driver.UseParentAddressSystem = innerDriver.options != null && innerDriver.options.Contains("UseParentAddressSystem");
 
             driver.IsChildAddressReservedRange = innerDriver.res_addr != null;
-
             driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
             
 
@@ -97,10 +117,7 @@ namespace FiresecService.Converters
             }
 
             driver.ImageSource = imageSource;
-
             driver.HasImage = driver.ImageSource != @"Device_Device";
-            driver.IsZoneDevice = ((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0")) == false;
-            driver.IsIndicatorDevice = innerDriver.name == "Индикатор";
             driver.CanControl = driver.DriverType == DriverType.Valve;
 
             driver.IsBUtton = false;
@@ -144,7 +161,6 @@ namespace FiresecService.Converters
             var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
             if (driverData != null)
             {
-                //driver.DriverName = driverData.Name;
                 driver.DriverType = driverData.DriverType;
             }
 
@@ -193,12 +209,14 @@ namespace FiresecService.Converters
                     if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
                         continue;
 
-                    var driverProperty = new DriverProperty();
-                    driverProperty.Name = internalProperty.name;
-                    driverProperty.Caption = internalProperty.caption;
-                    driverProperty.Default = internalProperty.@default;
-                    driverProperty.Visible = internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0";
-                    driverProperty.IsHidden = internalProperty.hidden == "1";
+                    var driverProperty = new DriverProperty()
+                    {
+                        Name = internalProperty.name,
+                        Caption = internalProperty.caption,
+                        Default = internalProperty.@default,
+                        Visible = internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0",
+                        IsHidden = internalProperty.hidden == "1"
+                    };
 
                     driverProperty.Parameters = new List<DriverPropertyParameter>();
                     if (internalProperty.param != null)
@@ -277,26 +295,6 @@ namespace FiresecService.Converters
                         Code = innerState.code
                     });
                 }
-            }
-
-            if (innerDriver.options != null)
-            {
-                driver.DisableAutoCreateChildren = innerDriver.options.Contains("DisableAutoCreateChildren");
-                driver.IsZoneLogicDevice = innerDriver.options.Contains("ExtendedZoneLogic");
-                driver.CanDisable = innerDriver.options.Contains("Ignorable");
-                driver.IsPlaceable = innerDriver.options.Contains("Placeable");
-                driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
-                driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
-
-                driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
-                driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
-                driver.CanAutoDetect = innerDriver.options.Contains("CanAutoDetectInstances");
-                driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
-                driver.CanReboot = innerDriver.options.Contains("RemoteReload");
-                driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
-                driver.CanSetPassword = innerDriver.options.Contains("PasswordManagement");
-                driver.CanUpdateSoft = innerDriver.options.Contains("SoftUpdates");
-                driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
             }
 
             return driver;

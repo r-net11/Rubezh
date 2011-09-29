@@ -26,10 +26,14 @@ namespace FiresecService
 
         static void Clean()
         {
-            foreach (var failedCallback in _failedServiceInstances)
+            try
             {
-                _failedServiceInstances.Remove(failedCallback);
+                foreach (var failedCallback in _failedServiceInstances)
+                {
+                    _failedServiceInstances.Remove(failedCallback);
+                }
             }
+            catch { ;}
         }
 
         public static bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)

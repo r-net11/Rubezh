@@ -111,7 +111,7 @@ namespace SecurityModule.ViewModels
 
         public override void OnShow()
         {
-            ServiceFactory.Layout.ShowMenu(new UsersMenuViewModel(AddCommand, DeleteCommand, EditCommand));
+            ServiceFactory.Layout.ShowMenu(new RolesMenuViewModel(this));
         }
 
         public override void OnHide()

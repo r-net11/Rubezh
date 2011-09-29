@@ -99,6 +99,12 @@ namespace DevicesModule.ViewModels
                     parent.Children.Add(device);
                 }
             }
+
+            if (Devices.Count > 0)
+                SelectedDevice = Devices[Devices.Count - 1];
+
+            if (AvailableDevices.Count > 0)
+                SelectedAvailableDevice = AvailableDevices[AvailableDevices.Count - 1];
         }
 
         public void Clear()
@@ -117,16 +123,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ObservableCollection<DeviceViewModel> _devices;
-        public ObservableCollection<DeviceViewModel> Devices
-        {
-            get { return _devices; }
-            set
-            {
-                _devices = value;
-                OnPropertyChanged("Devices");
-            }
-        }
+        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
         DeviceViewModel _selectedDevice;
         public DeviceViewModel SelectedDevice
@@ -139,16 +136,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ObservableCollection<DeviceViewModel> _availableDevices;
-        public ObservableCollection<DeviceViewModel> AvailableDevices
-        {
-            get { return _availableDevices; }
-            set
-            {
-                _availableDevices = value;
-                OnPropertyChanged("AvailableDevices");
-            }
-        }
+        public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
 
         DeviceViewModel _selectedAvailableDevice;
         public DeviceViewModel SelectedAvailableDevice

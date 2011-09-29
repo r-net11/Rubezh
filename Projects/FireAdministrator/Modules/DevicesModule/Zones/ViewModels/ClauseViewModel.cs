@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System;
-using System.Linq;
-using FiresecClient;
-using DevicesModule.Zones.Events;
 
 namespace DevicesModule.ViewModels
 {

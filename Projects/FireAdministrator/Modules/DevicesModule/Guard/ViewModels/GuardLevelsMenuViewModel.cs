@@ -8,15 +8,11 @@ namespace DevicesModule.ViewModels
 {
     public class GuardLevelsMenuViewModel : BaseViewModel
     {
-        public GuardLevelsMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
+        public GuardLevelsMenuViewModel(GuardLevelsViewModel context)
         {
-            AddCommand = addCommand;
-            DeleteCommand = deleteCommand;
-            EditCommand = editCommand;
+            Context = context;
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
+        public GuardLevelsViewModel Context { get; private set; }
     }
 }

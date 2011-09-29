@@ -33,16 +33,7 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones[0];
         }
 
-        ObservableCollection<ZoneViewModel> _zones;
-        public ObservableCollection<ZoneViewModel> Zones
-        {
-            get { return _zones; }
-            set
-            {
-                _zones = value;
-                OnPropertyChanged("Zones");
-            }
-        }
+        public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
         ZoneViewModel _selectedZone;
         public ZoneViewModel SelectedZone
@@ -164,7 +155,7 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             SelectedZone = SelectedZone;
-            var zonesMenuViewModel = new ZonesMenuViewModel(AddCommand, DeleteCommand, EditCommand, DeleteAllCommand, DeleteAllEmptyCommand);
+            var zonesMenuViewModel = new ZonesMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
         }
 

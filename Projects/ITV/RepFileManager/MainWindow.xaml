@@ -1,7 +1,7 @@
 ﻿<Window x:Class="RepFileManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Генератор REP файла" Height="350" Width="525">
+        Title="Генератор REP файла" Height="300" Width="300">
     <Grid Margin="10">
         <StackPanel>
             <Button Content="Сгенерировать" Width="100" Click="Button_Click" Margin="2" Name="button1" />

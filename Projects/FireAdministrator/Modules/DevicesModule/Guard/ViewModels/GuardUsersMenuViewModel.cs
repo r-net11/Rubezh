@@ -4,15 +4,11 @@ namespace DevicesModule.ViewModels
 {
     public class GuardUsersMenuViewModel : BaseViewModel
     {
-        public GuardUsersMenuViewModel(RelayCommand addCommand, RelayCommand deleteCommand, RelayCommand editCommand)
+        public GuardUsersMenuViewModel(GuardUsersViewModel context)
         {
-            AddCommand = addCommand;
-            DeleteCommand = deleteCommand;
-            EditCommand = editCommand;
+            Context = context;
         }
 
-        public RelayCommand AddCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
-        public RelayCommand EditCommand { get; private set; }
+        public GuardUsersViewModel Context { get; private set; }
     }
 }
