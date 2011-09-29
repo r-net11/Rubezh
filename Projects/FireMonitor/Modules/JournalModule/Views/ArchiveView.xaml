@@ -10,16 +10,18 @@
             <DockPanel Background="White" Margin="5">
                 <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
                     <Button Command="{Binding ShowFilterCommand}"
-                              Content="Настроить фильтр"
+                              Content="Задать фильтр"
                               Padding="5" Margin="7,5" />
-                    <CheckBox Name="filterActivator" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
-                      Content="Включить фильтр"
-                      Margin="5" Foreground="OrangeRed"
-                      VerticalAlignment="Center"/>
+                    <CheckBox Name="filterActivator"
+                              IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
+                              IsEnabled="{Binding IsFilterExists, Mode=OneWay}"
+                              Content="Включить фильтр"
+                              Margin="5" Foreground="OrangeRed"
+                              VerticalAlignment="Center"/>
                 </WrapPanel>
                 <Button DockPanel.Dock="Right" HorizontalAlignment="Right"
                               Command="{Binding ShowSettingsCommand}"
-                              Content="Настройки архива"
+                              Content="Настройки"
                               Padding="5" Margin="7,5" />
             </DockPanel>
         </Border>

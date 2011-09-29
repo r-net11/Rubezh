@@ -12,6 +12,7 @@
         <TextBlock DockPanel.Dock="Top"
                    FontFamily="Microsoft Sans Serif"
                    FontSize="14"
+                   Foreground="White"
                    Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи."
                    TextWrapping="Wrap" />
         <TextBlock DockPanel.Dock="Top" Text="" />

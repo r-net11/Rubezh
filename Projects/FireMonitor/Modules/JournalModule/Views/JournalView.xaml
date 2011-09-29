@@ -70,7 +70,10 @@
         <DataGrid Name="journalDataGrid"
                   ItemsSource="{Binding JournalRecords}"
                   SelectedItem="{Binding SelectedRecord}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" Style="{StaticResource DataGridStyle}">
+                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                  Style="{StaticResource DataGridStyle}"
+                  EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
                 <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />

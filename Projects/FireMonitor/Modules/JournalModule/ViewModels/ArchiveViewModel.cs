@@ -30,7 +30,7 @@ namespace JournalModule.ViewModels
             get { return _isFilterOn; }
             set
             {
-                if (value && _archiveFilter != null)
+                if (value)
                 {
                     ApplyFilter();
                 }
@@ -64,6 +64,11 @@ namespace JournalModule.ViewModels
                 _selectedRecord = value;
                 OnPropertyChanged("SelectedRecord");
             }
+        }
+
+        public bool IsFilterExists
+        {
+            get { return _archiveFilter != null; }
         }
 
         ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
@@ -129,6 +134,7 @@ namespace JournalModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
             {
                 _archiveFilter = archiveFilterViewModel.GetModel();
+                OnPropertyChanged("IsFilterExists");
                 IsFilterOn = true;
             }
         }

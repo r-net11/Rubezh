@@ -50,7 +50,7 @@ namespace FireMonitor
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    IsConnected = FiresecManager.Connect(_userNameTextBox.Text, _passwordTextBox.Password, true, true);
+                    message = FiresecManager.Connect(_userName.Text, _password.Password);
                     break;
 
                 case PasswordViewType.Reconnect:
