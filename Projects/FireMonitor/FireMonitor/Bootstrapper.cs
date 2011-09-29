@@ -69,8 +69,8 @@ namespace FireMonitor
             var callModule = new CallModule.CallModule();
             callModule.Initialize();
 
-            var plansModule = new PlansModule.PlansModule();
-            plansModule.Initialize();
+            //var plansModule = new PlansModule.PlansModule();
+            //plansModule.Initialize();
         }
     }
 }

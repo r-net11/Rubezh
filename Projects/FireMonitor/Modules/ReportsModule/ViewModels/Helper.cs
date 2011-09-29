@@ -5,83 +5,66 @@ using System.Text;
 using System.Data;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
+using System.Reflection;
+using Microsoft.Reporting.WinForms;
+using Common;
 
 namespace ReportsModule
 {
     public static class Helper
     {
-        public static void AddDataColumns<T>(DataTable dataTable)
+        public static DataTable CreateDataTable<T>(string name, List<T> dataList)
+        {
+            using (var dataTable = new DataTable(name))
+            {
+                FillDataTable<T>(dataList, dataTable);
+                return dataTable;
+            }
+        }
+
+        static void FillDataTable<T>(List<T> dataList, DataTable dataTable)
         {
             var propertyInfos = typeof(T).GetProperties();
+            for (int i = 0; i < propertyInfos.Length; i++)
+            {
+                dataTable.Columns.Add();
+            }
+            foreach (var dataClass in dataList)
+            {
+
+                dataTable.Rows.Add(CreateParamsString<T>(dataClass, propertyInfos));
+            }
+        }
+
+        static object[] CreateParamsString<T>(T dataClass, PropertyInfo[] propertyInfos)
+        {
+            object[] obj = new object[propertyInfos.Length];
+            int i = 0;
             foreach (var propertyInfo in propertyInfos)
             {
-                dataTable.Columns.Add(propertyInfo.Name, propertyInfo.PropertyType);
+                obj[i] = propertyInfo.GetValue(dataClass, null);
+                i++;
             }
-        }
-        public static Size Subtract(this Size s1, Size s2)
-        {
-            return new Size(s1.Width - s2.Width, s1.Height - s2.Height);
-        }
-    }
-
-    public static class BindableExtender
-    {
-        public static Table GetBindableTable(DependencyObject obj)
-        {
-            return (Table)obj.GetValue(BindableTableProperty);
+            return obj;
         }
 
-        public static void SetBindableTable(DependencyObject obj, Table tbl)
+        public static ReportViewer CreateReportViewer<T>(List<T> dataList,string dataListName, string rdlcFileName)
         {
-            obj.SetValue(BindableTableProperty, tbl);
-        }
-
-        public static string GetBindableText(DependencyObject obj)
-        {
-            return (string)obj.GetValue(BindableTextProperty);
-
-        }
-
-        public static void SetBindableText(DependencyObject obj, string value)
-        {
-            obj.SetValue(BindableTextProperty, value);
-        }
-
-        public static readonly DependencyProperty BindableTextProperty = DependencyProperty.RegisterAttached("BindableText",
-                typeof(string), typeof(BindableExtender), new UIPropertyMetadata(null, BindableProperty_PropertyChanged));
-
-        public static readonly DependencyProperty BindableTableProperty = DependencyProperty.RegisterAttached("BindableTable",
-            typeof(Table), typeof(BindableExtender), new UIPropertyMetadata(null,
-                    BindableProperty_PropertyChanged));
-
-        private static void BindableProperty_PropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            if (dependencyObject is Run)
+            if (dataList.IsNotNullOrEmpty() == false)
             {
-                ((Run)dependencyObject).Text = (string)e.NewValue;
+                return null;
             }
-            if (dependencyObject is FlowDocument)
-            {
-                ((FlowDocument)dependencyObject).Blocks.Clear();
-                if (e.NewValue != null)
-                {
-                    ((FlowDocument)dependencyObject).Blocks.Add((Block)e.NewValue);
-                }
-            }
-        }
-
-        private static Table BuildTable()
-        {
-            Table tbl = new Table();
-            TableRowGroup rowGrp = new TableRowGroup();
-            tbl.RowGroups.Add(rowGrp);
-            TableRow row = new TableRow();
-            rowGrp.Rows.Add(row);
-            row.Cells.Add(new TableCell(new Paragraph(new Run("DataLabel:"))));
-            //Paragraph pg = new Paragraph();
-            //pg.Inlines.Add(new Run("Some data"));
-            //row.Cells.Add(pg);
-            return tbl;
+            var reportViewer = new ReportViewer();
+            //var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
+            //var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.LocalReport.ReportPath = rdlcFileName;
+            //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { startDate2 });
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataListName, dataList));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("Start", "abc"));
+            reportViewer.RefreshReport();
+            return reportViewer;
         }
     }
 }

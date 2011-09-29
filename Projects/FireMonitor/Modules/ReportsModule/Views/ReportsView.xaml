@@ -1,35 +1,31 @@
 ﻿<UserControl x:Class="ReportsModule.Views.ReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <!--<WindowsFormsHost Height="300" HorizontalAlignment="Left" x:Name="winFormsHost" VerticalAlignment="Top" Width="300">
+            <c:ReportViewer x:Name="ReportEmployee"/>
+        </WindowsFormsHost>-->
         <ContentControl Grid.Row="0" Content="{Binding ReportContent}" />
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Controls:XButton Command="{Binding ShowReportTypesCountCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Количество устройств по типам" FontSize="12" />
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Controls:XButton Command="{Binding ShowJournalReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+                <TextBlock Text="Журнал событий" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportDeviceParamsCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Параметры устройств" FontSize="12" />
+            <Controls:XButton Command="{Binding ShowDriverCountReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" >
+                <TextBlock Text="Количество устройств по типам" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportIndicationBlockCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Блоки индикации" FontSize="12" />
+            <Controls:XButton Command="{Binding ShowDeviceParamsReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+                <TextBlock Text="Параметры устройств" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportJournalCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Журнал событий" FontSize="12" />
-            </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportDeviceListCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Списки устройств" FontSize="12" />
-            </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportTestCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="Тестовый отчет" FontSize="12" />
-            </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowReportDataGridCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5">
-                <TextBlock Text="DataGridReport" FontSize="12" />
+            <Controls:XButton Command="{Binding ShowDeviceListReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+                <TextBlock Text="Список устройств" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
         </StackPanel>
+        
     </Grid>
 </UserControl>

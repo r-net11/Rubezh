@@ -9,17 +9,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ReportsModule.Views
 {
     /// <summary>
-    /// Логика взаимодействия для FlowDocumentDataGrid.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class FlowDocumentDataGrid : FlowDocument
+    public partial class Window1 : Window
     {
-        public FlowDocumentDataGrid()
+        public Window1()
         {
             InitializeComponent();
         }

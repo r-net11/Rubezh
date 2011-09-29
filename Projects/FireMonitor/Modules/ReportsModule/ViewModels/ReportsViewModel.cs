@@ -1,18 +1,10 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Xps;
-using System.Windows.Xps.Packaging;
-using System.Printing;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
+using Microsoft.Reporting.WinForms;
+using ReportsModule.Models;
 using ReportsModule.Reports;
-using System.Windows.Input;
-using System;
-using System.Windows.Threading;
-using System.Windows.Documents;
-using System.IO;
-using System.Windows.Markup;
-using System.Windows.Media;
 using ReportsModule.Views;
+using System.Collections.Generic;
+using Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -20,146 +12,41 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
-            ShowReportTypesCountCommand = new RelayCommand(OnShowReportTypesCountCommand);
-            ShowReportDeviceParamsCommand = new RelayCommand(OnShowReportDeviceParams);
-            ShowReportDeviceListCommand = new RelayCommand(OnShowReportDeviceListCommand);
-            ShowReportIndicationBlockCommand = new RelayCommand(OnShowReportIndicationBlockCommand);
-            ShowReportJournalCommand = new RelayCommand(OnShowReportJournalCommand);
-            ShowReportTestCommand = new RelayCommand(OnShowReportTestCommand);
-            ShowReportDataGridCommand = new RelayCommand(OnShowReportDataGridCommand);
-        }
-
-        public RelayCommand ShowReportDeviceParamsCommand { get; private set; }
-        void OnShowReportDeviceParams()
-        {
-            ReportDeviceParams  reportDeviceParams = new ReportDeviceParams();
-            xpsDocument = reportDeviceParams.CreateReport();
-            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            xpsDocument.Close();
-        }
-
-        public RelayCommand ShowReportTypesCountCommand { get; private set; }
-        void OnShowReportTypesCountCommand()
-        {
-            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
-            cc.Visibility = Visibility.Collapsed;
-            ReportTypesCount reportTypesCount = new ReportTypesCount();
-            xpsDocument = reportTypesCount.CreateReport();
-            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            xpsDocument.Close();
-        }
-
-        public RelayCommand ShowReportIndicationBlockCommand { get; private set; }
-        void OnShowReportIndicationBlockCommand()
-        {
-            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
-            cc.Visibility = Visibility.Collapsed;
-
-            var reportIndicationBlock = new ReportIndicationBlock();
-            xpsDocument = reportIndicationBlock.CreateReport();
-            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            xpsDocument.Close();
-        }
-
-        public RelayCommand ShowReportJournalCommand { get; private set; }
-        void OnShowReportJournalCommand()
-        {
-            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
-            cc.Visibility = Visibility.Collapsed;
-
-            var reportJournal = new ReportJournal();
-            xpsDocument = reportJournal.CreateReport();
-            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            xpsDocument.Close();
-        }
-
-        public RelayCommand ShowReportDeviceListCommand { get; private set; }
-        void OnShowReportDeviceListCommand()
-        {
-            ContentControl cc = _documentViewer.Template.FindName("PART_FindToolBarHost", _documentViewer) as ContentControl;
-            cc.Visibility = Visibility.Visible;
-            var a = _documentViewer.CommandBindings;
-            //CommandBinding commandBinding = new CommandBinding();
-            //commandBinding.Command = ApplicationCommands.Print;
-            //commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
-            //_documentViewer.CommandBindings.Add(commandBinding);
-            var reportDeviceList = new ReportDevicesList();
-            xpsDocument = reportDeviceList.CreateReport();
-            _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-            xpsDocument.Close();
-            
-        }
-
-        public RelayCommand ShowReportTestCommand { get; private set; }
-        void OnShowReportTestCommand()
-        {
-            //_documentViewer.Document = null;
-            //var dataTable = TestReport.CreateDataTable();
-            //PrintDialog printDialog = new PrintDialog();
-            //printDialog.UserPageRangeEnabled = true;
-            //if (printDialog.ShowDialog() == true)
-            //{
-            //    StoreDataSetPaginator paginator = new StoreDataSetPaginator(dataTable, new Typeface("Calibri"), 24, 96 * 0.75,
-            //        new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight));
-            //    printDialog.PrintDocument(paginator, "Custom-Printed Pages");
-            //}
-            //CommandBinding commandBinding = new CommandBinding();
-            //commandBinding.Command = ApplicationCommands.Print;
-            //commandBinding.Executed += new ExecutedRoutedEventHandler(OnPrint);
-
-            File.Delete("fileName.xps");
-            xpsDocument = new XpsDocument("fileName.xps", FileAccess.ReadWrite);
-            XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-            string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\TestFlowDocument.xaml";
-            using (FileStream fs = File.Open(path, FileMode.Open))
-            {
-                FlowDocument flowDocument = (FlowDocument)XamlReader.Load(fs);
-                //StoreDataSetPaginator storeDataSetPaginator = new StoreDataSetPaginator(flowDocument);
-                var visualDocumentPaginator = new VisualDocumentPaginator(((IDocumentPaginatorSource)flowDocument).DocumentPaginator,
-                    new Size(816, 1056), new Size(50, 50));
-                writer.Write(((IDocumentPaginatorSource)flowDocument).DocumentPaginator);
-                _documentViewer.Document = xpsDocument.GetFixedDocumentSequence();
-                xpsDocument.Close();
-            }
-        }
-
-        public RelayCommand ShowReportDataGridCommand { get; private set; }
-        void OnShowReportDataGridCommand()
-        {
-            FlowDocumentViewModel flowDocumentViewModel = new FlowDocumentViewModel();
-            FlowDocumentDataGrid flowDocumentView = new FlowDocumentDataGrid();
-            flowDocumentView.DataContext = flowDocumentViewModel;
-            _flowDocumentReader.Document = flowDocumentView;
-        }
-
-        public void OnPrint(object sender, ExecutedRoutedEventArgs e)
-        {
-            var printDialog = new PrintDialog();
-            printDialog.MaxPage = 18;
-            printDialog.MinPage = 1;
-            printDialog.UserPageRangeEnabled = true;
-            printDialog.PageRangeSelection = PageRangeSelection.UserPages;
-            printDialog.PageRangeSelection = PageRangeSelection.AllPages;
-            printDialog.PrintQueue = LocalPrintServer.GetDefaultPrintQueue();
-            DocumentPage page = _documentViewer.Document.DocumentPaginator.GetPage(11);
-            if (printDialog.ShowDialog() == true)
-            {
-                printDialog.PrintVisual(page.Visual, "PrintPAge");
-                //printDialog.PrintDocument(_documentViewer.Document.DocumentPaginator, "Print document");
-            }
+            ShowJournalReportCommand = new RelayCommand(OnShowJournalReportCommand);
+            ShowDeviceListReportCommand = new RelayCommand(OnShowDeviceListReportCommand);
+            ShowDeviceParamsReportCommand = new RelayCommand(OnShowDeviceParamsReportCommand);
+            ShowDriverCountReportCommand = new RelayCommand(OnShowDriverCountReportCommand);
         }
 
         public void Initialize()
         {
-            _documentViewer = new DocumentViewer();
-            _flowDocumentReader = new FlowDocumentReader();
-            ReportContent = _documentViewer;
-            //ReportContent = _flowDocumentReader;
+            _testReportViewer = new TestReportViewer();
+            reportJournalDataTable = new ReportJournalDataTable();
+            ReportContent = _testReportViewer;
+            _reportViewer = new ReportViewer();
         }
 
-        DocumentViewer _documentViewer;
-        FlowDocumentReader _flowDocumentReader;
-        XpsDocument xpsDocument;
+        TestReportViewer _testReportViewer;
+        ReportJournalDataTable reportJournalDataTable;
+        ReportViewer _reportViewer;
+
+        public ReportViewer CreateReportViewer<T>(List<T> dataList, string dataListName, string rdlcFileName)
+        {
+            if (dataList.IsNotNullOrEmpty() == false)
+            {
+                return null;
+            }
+            var reportViewer = new ReportViewer();
+            //var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
+            //var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            reportViewer.LocalReport.ReportPath = rdlcFileName;
+            //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { startDate2 });
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataListName, dataList));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("Start", "abc"));
+            reportViewer.RefreshReport();
+            return reportViewer;
+        }
 
         object _reportContent;
         public object ReportContent
@@ -170,6 +57,83 @@ namespace ReportsModule.ViewModels
                 _reportContent = value;
                 OnPropertyChanged("ReportContent");
             }
+        }
+
+        public RelayCommand ShowDriverCountReportCommand { get; private set; }
+        void OnShowDriverCountReportCommand()
+        {
+            var reportDriverCounterDataTable = new ReportDriverCounterDataTable();
+            reportDriverCounterDataTable.Initialize();
+            _reportViewer = Helper.CreateReportViewer<ReportDriverCounterModel>(reportDriverCounterDataTable.DriverCounterList,
+                reportDriverCounterDataTable.DataTableName, reportDriverCounterDataTable.RdlcFileName);
+            _reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
+            Window1 window = new Window1();
+            window.winFormsHost.Child = _reportViewer;
+            window.Show();
+        }
+
+        public RelayCommand ShowDeviceParamsReportCommand { get; private set; }
+        void OnShowDeviceParamsReportCommand()
+        {
+            var reportDeviceParamsDataTable = new ReportDeviceParamsDataTable();
+            reportDeviceParamsDataTable.Initialize();
+            _reportViewer = Helper.CreateReportViewer<ReportDeviceParamsModel>(reportDeviceParamsDataTable.DeviceParamsList,
+                reportDeviceParamsDataTable.DataTableName, reportDeviceParamsDataTable.RdlcFileName);
+            Window1 window = new Window1();
+            window.winFormsHost.Child = _reportViewer;
+            window.Show();
+        }
+
+        public RelayCommand ShowDeviceListReportCommand { get; private set; }
+        void OnShowDeviceListReportCommand()
+        {
+            var reportDevicesListDataTable = new ReportDevicesListDataTable();
+            reportDevicesListDataTable.Initialize();
+            _reportViewer = Helper.CreateReportViewer<ReportDeviceListModel>(reportDevicesListDataTable.DevicesList,
+                reportDevicesListDataTable.DataTableName, reportDevicesListDataTable.RdlcFileName);
+            Window1 window = new Window1();
+            window.winFormsHost.Child = _reportViewer;
+            window.Show();
+        }
+
+        public RelayCommand ShowJournalReportCommand { get; private set; }
+        void OnShowJournalReportCommand()
+        {
+            var reportJournalDataTable = new ReportJournalDataTable();
+            reportJournalDataTable.Initialize();
+            using (var _reportViewer2 = CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
+                reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName))
+            {
+                _reportViewer2.SetDisplayMode(DisplayMode.PrintLayout);
+                
+                Window1 window = new Window1();
+                window.winFormsHost.Child = _reportViewer2;
+                window.ShowDialog();
+                _reportViewer2.LocalReport.ReleaseSandboxAppDomain();
+            }
+            //_reportViewer.Dispose();
+            ////Form1 form = new Form1();
+            ////form.Initialize(Helper.CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
+            ////    reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName));
+            ////form.ShowDialog();
+            ////form.Dispose();
+
+            ////System.Windows.Forms.Button button = new System.Windows.Forms.Button();
+            ////button.Text = "OKEY";
+            ////button.Width = 200;
+            ////button.Height = 200;
+            ////System.Windows.Forms.UserControl userControl = new System.Windows.Forms.UserControl();
+            ////userControl.Controls.Add(button);
+            //reportViewer.Height = 400;
+            //reportViewer.Width = 400;
+            //_testReportViewer.winFormsHost.Child = reportViewer;
+            //_testReportViewer.winFormsHost.Visibility = Visibility.Visible;
+            //_testReportViewer.winFormsHost.Height = 400;
+            //_testReportViewer.winFormsHost.Width = 400;
+            //_testReportViewer.winFormsHost.Child.Refresh();
+            //ReportContent = _testReportViewer;
+            //ReportContent = _testReportViewer;
+            //OnPropertyChanged("ReportContent");
         }
     }
 }

@@ -1,58 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Xps.Packaging;
-using CodeReason.Reports;
-using Common;
-using FiresecClient;
-using Infrastructure.Common;
-using System.Windows.Documents;
-using System;
 using System.Text;
+using ReportsModule.Models;
+using FiresecClient;
+using Common;
 using FiresecAPI.Models;
-using ReportsModule.ViewModels;
 
 namespace ReportsModule.Reports
 {
-    public class ReportDevicesList
+    public class ReportDevicesListDataTable
     {
-        List<DeviceList> DevicesList;
+        public string RdlcFileName = "ReportDeviceListRDLC.rdlc";
+        public string DataTableName = "DataSetDataSetDeviceList";
 
-        public XpsDocument CreateReport()
+        public ReportDevicesListDataTable()
         {
-            
-            Initialize();
-            var reportDocument = new ReportDocument();
-            //string path = @"H:\Rubezh\Projects\FireMonitor\Modules\ReportsModule\ReportTemplates\DeviceListFlowDocument.xaml";
-            string path = @"ReportTemplates/DeviceListFlowDocument.xaml";
-            FileInfo fileInfo = new FileInfo(path);
-            using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                reportDocument.XamlData = new StreamReader(fileStream).ReadToEnd();
-            }
-
-            var data = new ReportData();
-            var dateTime = DateTime.Now;
-            data.ReportDocumentValues.Add("PrintDate", dateTime);
-
-            var dataTable = new DataTable("DevicesList");
-            dataTable.Columns.Add();
-            dataTable.Columns.Add();
-            dataTable.Columns.Add();
-            foreach (var device in DevicesList)
-            {
-                dataTable.Rows.Add(device.Type, device.Address, device.ZoneName);
-            }
-
-            data.DataTables.Add(dataTable);
-            
-            return reportDocument.CreateXpsDocument(data);
+            _devicesList = new List<ReportDeviceListModel>();
         }
 
-        void Initialize()
+        public void Initialize()
         {
-            DevicesList = new List<DeviceList>();
+            _devicesList = new List<ReportDeviceListModel>();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
             {
                 string type = "";
@@ -65,7 +34,7 @@ namespace ReportsModule.Reports
                     address = device.DottedAddress;
                     if (device.Driver.IsZoneDevice)
                     {
-                        
+
                         if (FiresecManager.DeviceConfiguration.Zones.IsNotNullOrEmpty())
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
@@ -102,7 +71,7 @@ namespace ReportsModule.Reports
                     {
 
                     }
-                    DevicesList.Add(new DeviceList()
+                    _devicesList.Add(new ReportDeviceListModel()
                         {
                             Type = type,
                             Address = address,
@@ -111,12 +80,13 @@ namespace ReportsModule.Reports
                 }
             }
         }
-    }
 
-    internal class DeviceList
-    {
-        public string Type { get; set; }
-        public string Address { get; set; }
-        public string ZoneName { get; set; }
+        List<ReportDeviceListModel> _devicesList;
+        public List<ReportDeviceListModel> DevicesList
+        {
+            get { return new List<ReportDeviceListModel>(_devicesList); }
+            protected set { _devicesList = value; }
+        }
+
     }
 }
