@@ -48,7 +48,6 @@ namespace FiresecService
             try
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-
                 using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
                 {
                     return (SystemConfiguration) dataContractSerializer.ReadObject(fileStream);

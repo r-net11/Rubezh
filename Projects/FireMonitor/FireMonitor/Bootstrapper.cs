@@ -35,6 +35,7 @@ namespace FireMonitor
                 }
                 else
                 {
+                    ClientSettings.LoadSettings();
                     InitializeKnownModules();
                     preLoadWindow.Close();
 

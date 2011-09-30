@@ -24,13 +24,13 @@ namespace FireMonitor
             return WindowButtonsPlaceholder;
         }
 
-        private void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
                 this.DragMove();
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             if (this.Width + e.HorizontalChange > 10)
                 this.Width += e.HorizontalChange;
@@ -63,9 +63,15 @@ namespace FireMonitor
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        private void EssentialWindow_Closing(object sender, CancelEventArgs e)
+        void EssentialWindow_Closing(object sender, CancelEventArgs e)
         {
             AlarmPlayerHelper.Dispose();
+            ClientSettings.SaveSettings();
+
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
+            {
+                return;
+            }
 
             if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
             {
@@ -74,20 +80,14 @@ namespace FireMonitor
                 return;
             }
 
-            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
-            {
-                return;
-            }
-
-            bool result = ServiceFactory.Get<ISecurityService>().Validate();
-            if (result == false)
+            if (ServiceFactory.Get<ISecurityService>().Validate() == false)
             {
                 e.Cancel = true;
                 return;
             }
         }
 
-        private void EssentialWindow_Closed(object sender, EventArgs e)
+        void EssentialWindow_Closed(object sender, EventArgs e)
         {
             FiresecManager.Disconnect();
         }

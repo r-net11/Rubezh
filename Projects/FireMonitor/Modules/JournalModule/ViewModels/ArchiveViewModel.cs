@@ -16,8 +16,7 @@ namespace JournalModule.ViewModels
 
         public ArchiveViewModel()
         {
-            _archiveDefaultState = new ArchiveDefaultState() { ArchiveDefaultStateType = ArchiveDefaultStateType.All };
-            _archiveFilter = null;
+            _archiveDefaultState = ClientSettings.ArchiveDefaultState;
             IsFilterOn = false;
 
             ShowFilterCommand = new RelayCommand(OnShowFilter);
@@ -95,7 +94,7 @@ namespace JournalModule.ViewModels
                     if (archiveDefaultState.StartDate.HasValue)
                         filter.StartDate = archiveDefaultState.StartDate.Value;
                     if (archiveDefaultState.EndDate.HasValue)
-                        filter.StartDate = archiveDefaultState.EndDate.Value;
+                        filter.EndDate = archiveDefaultState.EndDate.Value;
                     break;
 
                 case ArchiveDefaultStateType.All:
@@ -146,6 +145,9 @@ namespace JournalModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
             {
                 _archiveDefaultState = archiveSettingsViewModel.GetModel();
+                ClientSettings.ArchiveDefaultState = _archiveDefaultState;
+                if (IsFilterOn == false)
+                    IsFilterOn = false;
             }
         }
     }

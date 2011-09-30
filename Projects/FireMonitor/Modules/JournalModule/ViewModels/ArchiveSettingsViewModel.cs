@@ -36,7 +36,7 @@ namespace JournalModule.ViewModels
                     if (archiveDefaultState.StartDate.HasValue)
                         StartDate = archiveDefaultState.StartDate.Value;
                     if (archiveDefaultState.EndDate.HasValue)
-                        StartDate = archiveDefaultState.EndDate.Value;
+                        EndDate = archiveDefaultState.EndDate.Value;
                     break;
 
                 case ArchiveDefaultStateType.All:

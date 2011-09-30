@@ -37,8 +37,6 @@ namespace FiresecClient
             }
 
             _userLogin = login;
-            FiresecService.StartPing();
-
             return null;
         }
 
@@ -60,6 +58,7 @@ namespace FiresecClient
             UpdateStates();
 
             FiresecService.Subscribe();
+            FiresecService.StartPing();
 
             synchronizer.EndInvoke(result);
         }
