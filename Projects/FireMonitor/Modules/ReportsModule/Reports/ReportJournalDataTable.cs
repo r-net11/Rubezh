@@ -18,145 +18,57 @@ namespace ReportsModule.Reports
 
         public ReportJournalDataTable()
         {
-            _journalList = new List<ReportJournalModel>();
+            JournalList = new List<ReportJournalModel>();
         }
 
         public void Initialize()
         {
-            ReportArchiveFilter _reportArchiveFilter = new ReportArchiveFilter();
-            _reportArchiveFilter.ShowFilter();
-            foreach (var journalRecord in _reportArchiveFilter.JournalRecords)
+            var reportArchiveFilter = new ReportArchiveFilter();
+            if (reportArchiveFilter.ShowFilter())
             {
-                _journalList.Add(new ReportJournalModel()
+                foreach (var journalRecord in FiresecManager.GetFilteredArchive(reportArchiveFilter.ArchiveFilterViewModel.GetModel()))
                 {
-                    DeviceTime = journalRecord.DeviceTime,
-                    SystemTime = journalRecord.SystemTime,
-                    ZoneName = journalRecord.ZoneName,
-                    Description = journalRecord.Description,
-                    Device = journalRecord.Device,
-                    Panel = journalRecord.Panel,
-                    User = journalRecord.User
-                });
+                    JournalList.Add(new ReportJournalModel()
+                    {
+                        DeviceTime = journalRecord.DeviceTime.ToString(),
+                        SystemTime = journalRecord.SystemTime.ToString(),
+                        ZoneName = journalRecord.ZoneName,
+                        Description = journalRecord.Description,
+                        Device = journalRecord.DeviceName,
+                        Panel = journalRecord.PanelName,
+                        User = journalRecord.User
+                    });
+                }
+                StartDate = reportArchiveFilter.ArchiveFilterViewModel.StartDate;
+                EndDate = reportArchiveFilter.ArchiveFilterViewModel.EndDate;
             }
 
-            StartDate = _reportArchiveFilter.StartDate;
-            EndDate = _reportArchiveFilter.EndDate;
-        }
-
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        
-        List<ReportJournalModel> _journalList;
-        public List<ReportJournalModel> JournalList
-        {
-            get { return new List<ReportJournalModel>(_journalList); }
         }
 
         class ReportArchiveFilter
         {
+            public ArchiveFilterViewModel ArchiveFilterViewModel { get; set; }
             ArchiveFilter _archiveFilter;
-            readonly ArchiveDefaultState _archiveDefaultState;
 
             public ReportArchiveFilter()
             {
-                _archiveDefaultState = new ArchiveDefaultState()
+                _archiveFilter = new ArchiveFilter()
                 {
-                    ArchiveDefaultStateType = ArchiveDefaultStateType.LastDay,
-                    ArchiveFilter = new ArchiveFilter()
-                    {
                         EndDate = DateTime.Now,
                         StartDate = DateTime.Now.AddDays(-1),
                         UseSystemDate = false
-                    }
                 };
-                _archiveFilter = _archiveDefaultState.ArchiveFilter;
-                IsFilterOn = false;
             }
-
-            public DateTime StartDate
+            
+            public bool ShowFilter()
             {
-                get { return _archiveFilter.StartDate; }
-            }
-
-            public DateTime EndDate
-            {
-                get { return _archiveFilter.EndDate; }
-            }
-
-            bool _isFilterOn;
-            public bool IsFilterOn
-            {
-                get { return _isFilterOn; }
-                set
-                {
-                    if (value)
-                    {
-                        ApplyFilter();
-                    }
-                    else
-                    {
-                        SetDefaultArchiveContent();
-                    }
-
-                    _isFilterOn = value;
-                }
-            }
-
-            List<JournalRecordViewModel> _journalRecords;
-            public List<JournalRecordViewModel> JournalRecords
-            {
-                get { return _journalRecords; }
-                private set
-                {
-                    _journalRecords = value;
-                }
-            }
-
-            void SetDefaultArchiveContent()
-            {
-                switch (_archiveDefaultState.ArchiveDefaultStateType)
-                {
-                    case ArchiveDefaultStateType.LastHour:
-                        _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                        _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddHours(-1);
-                        break;
-                    case ArchiveDefaultStateType.LastDay:
-                        _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                        _archiveDefaultState.ArchiveFilter.StartDate = DateTime.Now.AddDays(-1);
-                        break;
-                    case ArchiveDefaultStateType.FromDate:
-                        _archiveDefaultState.ArchiveFilter.EndDate = _archiveFilter.EndDate;
-                        _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
-                        break;
-                    case ArchiveDefaultStateType.Range:
-                        _archiveDefaultState.ArchiveFilter.EndDate = DateTime.Now;
-                        _archiveDefaultState.ArchiveFilter.StartDate = _archiveFilter.StartDate;
-                        break;
-                }
-
-                JournalRecords = new List<JournalRecordViewModel>(
-                    FiresecManager.GetFilteredArchive(_archiveDefaultState.ArchiveFilter).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
-                );
-            }
-
-            void ApplyFilter()
-            {
-                JournalRecords = new List<JournalRecordViewModel>(
-                    FiresecManager.GetFilteredArchive(_archiveFilter).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
-                );
-            }
-
-            public void ShowFilter()
-            {
-                var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
-                {
-                    _archiveFilter = archiveFilterViewModel.GetModel();
-                    IsFilterOn = true;
-                }
+                ArchiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+                return ServiceFactory.UserDialogs.ShowModalWindow(ArchiveFilterViewModel);
             }
         }
+
+        public DateTime EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public List<ReportJournalModel> JournalList { get; set; }
     }
 }
