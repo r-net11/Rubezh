@@ -45,6 +45,10 @@ namespace ReportsModule.Reports
 
         }
 
+        public DateTime EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public List<ReportJournalModel> JournalList { get; set; }
+
         class ReportArchiveFilter
         {
             public ArchiveFilterViewModel ArchiveFilterViewModel { get; set; }
@@ -54,21 +58,17 @@ namespace ReportsModule.Reports
             {
                 _archiveFilter = new ArchiveFilter()
                 {
-                        EndDate = DateTime.Now,
-                        StartDate = DateTime.Now.AddDays(-1),
-                        UseSystemDate = false
+                    EndDate = DateTime.Now,
+                    StartDate = DateTime.Now.AddDays(-1),
+                    UseSystemDate = false
                 };
             }
-            
+
             public bool ShowFilter()
             {
                 ArchiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
                 return ServiceFactory.UserDialogs.ShowModalWindow(ArchiveFilterViewModel);
             }
         }
-
-        public DateTime EndDate { get; set; }
-        public DateTime StartDate { get; set; }
-        public List<ReportJournalModel> JournalList { get; set; }
     }
 }

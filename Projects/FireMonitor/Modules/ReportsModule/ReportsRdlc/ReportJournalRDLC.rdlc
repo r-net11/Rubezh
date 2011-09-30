@@ -677,6 +677,18 @@
     <Height>1in</Height>
     <Style />
   </Body>
+  <ReportParameters>
+    <ReportParameter Name="StartDate">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="EndDate">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+  </ReportParameters>
   <CustomProperties>
     <CustomProperty>
       <Name>StartDate</Name>
@@ -701,7 +713,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Журнал событий с " &amp; " по "</Value>
+                  <Value>="Журнал событий с " &amp; Parameters!StartDate.Value &amp; " по " &amp; Parameters!EndDate.Value</Value>
                   <Style />
                 </TextRun>
               </TextRuns>

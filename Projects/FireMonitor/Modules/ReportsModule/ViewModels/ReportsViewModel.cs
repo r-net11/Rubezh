@@ -5,6 +5,8 @@ using ReportsModule.Reports;
 using ReportsModule.Views;
 using System.Collections.Generic;
 using Common;
+using System.Security;
+using System.Security.Permissions;
 
 namespace ReportsModule.ViewModels
 {
@@ -37,14 +39,11 @@ namespace ReportsModule.ViewModels
                 return null;
             }
             var reportViewer = new ReportViewer();
-            //var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
-            //var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
+            
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.LocalReport.ReportPath = rdlcFileName;
             //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { startDate2 });
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataListName, dataList));
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("Start", "abc"));
-            reportViewer.RefreshReport();
             return reportViewer;
         }
 
@@ -99,18 +98,25 @@ namespace ReportsModule.ViewModels
         public RelayCommand ShowJournalReportCommand { get; private set; }
         void OnShowJournalReportCommand()
         {
+            PermissionSet permissions = new PermissionSet(PermissionState.None);
+            permissions.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
+            permissions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
+
             var reportJournalDataTable = new ReportJournalDataTable();
             reportJournalDataTable.Initialize();
-            using (var _reportViewer2 = CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
-                reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName))
-            {
-                _reportViewer2.SetDisplayMode(DisplayMode.PrintLayout);
-                
-                Window1 window = new Window1();
-                window.winFormsHost.Child = _reportViewer2;
-                window.ShowDialog();
-                _reportViewer2.LocalReport.ReleaseSandboxAppDomain();
-            }
+            var _reportViewer2 = CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
+                reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName);
+            var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
+            var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
+            _reportViewer2.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate });
+            _reportViewer2.SetDisplayMode(DisplayMode.PrintLayout);
+            Window1 window = new Window1();
+            window.winFormsHost.Child = _reportViewer2;
+            _reportViewer2.LocalReport.ReleaseSandboxAppDomain();
+            window.ShowDialog();
+            window.winFormsHost.Child = null;
+            _reportViewer2.LocalReport.DataSources.Clear();
+            
             //_reportViewer.Dispose();
             ////Form1 form = new Form1();
             ////form.Initialize(Helper.CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
