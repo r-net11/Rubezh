@@ -1,10 +1,10 @@
-﻿using Infrastructure.Common;
+﻿using System.Collections.Generic;
+using Common;
+using Infrastructure.Common;
 using Microsoft.Reporting.WinForms;
 using ReportsModule.Models;
 using ReportsModule.Reports;
 using ReportsModule.Views;
-using System.Collections.Generic;
-using Common;
 using System.Security;
 using System.Security.Permissions;
 

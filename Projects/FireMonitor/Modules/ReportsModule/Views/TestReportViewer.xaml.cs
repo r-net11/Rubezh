@@ -1,22 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace ReportsModule.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для TestReportViewer.xaml
-    /// </summary>
     public partial class TestReportViewer : UserControl
     {
         public TestReportViewer()
@@ -31,7 +16,5 @@ namespace ReportsModule.Views
         //    button.Height = 200;
         //    this.winFormsHost.Child = button;
         //}
-
-        
     }
 }

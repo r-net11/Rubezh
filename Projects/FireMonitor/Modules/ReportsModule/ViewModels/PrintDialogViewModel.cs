@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Printing;
+using System.Windows.Input;
 
 namespace ReportsModule.ViewModels
 {
@@ -48,7 +44,5 @@ namespace ReportsModule.ViewModels
                 }
             }
         }
-
-
     }
 }

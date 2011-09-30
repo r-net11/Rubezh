@@ -4,8 +4,6 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         Title="Window1" Height="300" Width="300">
     <Grid>
-        <WindowsFormsHost Background="Bisque" Name="winFormsHost" HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch">
-        </WindowsFormsHost>
+        <WindowsFormsHost Background="Bisque" Name="winFormsHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

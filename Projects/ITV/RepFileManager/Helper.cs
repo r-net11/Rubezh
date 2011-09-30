@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;
+using System.IO;
+using System.Windows.Media;
 
 namespace RepFileManager
 {
@@ -162,6 +164,32 @@ namespace RepFileManager
             allProperties.AddRange(stringEnumProperties);
 
             return allProperties;
+        }
+
+        public static void CreateImages(Driver driver, string driverName)
+        {
+            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driver.UID);
+            if (libraryDevice != null)
+            {
+                foreach (var stateType in Helper.AllStates)
+                {
+                    var state = libraryDevice.States.FirstOrDefault(x => x.StateType == stateType && x.Code == null);
+                    if (state == null)
+                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
+
+                    var name = Directory.GetCurrentDirectory() + "/BMP/" + driverName + "." + stateType.ToString() + ".bmp";
+                    var canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
+
+                    if (canvas.Children.Count == 0)
+                    {
+                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
+                        canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
+                    }
+
+                    canvas.Background = new SolidColorBrush(Color.FromRgb(0, 128, 128));
+                    ImageHelper.XAMLToBitmap(canvas, name);
+                }
+            }
         }
     }
 }

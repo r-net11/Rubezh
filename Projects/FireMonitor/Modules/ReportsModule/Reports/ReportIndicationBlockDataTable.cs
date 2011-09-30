@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using Common;
-using ReportsModule.Models;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
+using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {
@@ -33,7 +31,7 @@ namespace ReportsModule.Reports
             var listElement = new List<Element>();
             foreach (var block in IndicationBlockList)
             {
-                StringBuilder stringBuilder = new StringBuilder();
+                var stringBuilder = new StringBuilder();
                 foreach (var page in block.Pages)
                 {
                     stringBuilder.Clear();

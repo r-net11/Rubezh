@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging;
 using System.Reflection;
-using Microsoft.Reporting.WinForms;
 using Common;
+using Microsoft.Reporting.WinForms;
 
 namespace ReportsModule
 {

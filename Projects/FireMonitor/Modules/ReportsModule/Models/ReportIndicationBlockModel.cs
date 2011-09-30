@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecClient;
 using FiresecAPI.Models;
-using System.Data;
+using FiresecClient;
 
 namespace ReportsModule.Models
 {
-
     public class ReportIndicationBlockModel
     {
         public string HeaderTable { get; set; }

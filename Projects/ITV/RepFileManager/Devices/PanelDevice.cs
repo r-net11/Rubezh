@@ -20,6 +20,7 @@ namespace RepFileManager
 
             CreateChildren();
             CreateStates();
+            CreateImages();
             CreateEvents();
             CreateProperties();
         }
@@ -45,7 +46,7 @@ namespace RepFileManager
                 };
                 children.Add(childDevice);
             }
-            Device.childs = children.ToArray();
+            Device.children = children.ToArray();
         }
 
         void CreateStates()
@@ -56,11 +57,17 @@ namespace RepFileManager
                 var deviceState = new repositoryModuleDeviceState()
                 {
                     id = stateType.ToString(),
-                    image = null
+                    image = "PanelDevice" + "." + stateType.ToString() + ".bmp"
                 };
                 deviceStates.Add(deviceState);
             }
             Device.states = deviceStates.ToArray();
+        }
+
+        void CreateImages()
+        {
+            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
+            Helper.CreateImages(driver, "PanelDevice");
         }
 
         void CreateEvents()

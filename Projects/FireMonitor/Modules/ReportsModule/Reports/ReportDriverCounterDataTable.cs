@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ReportsModule.Models;
-using FiresecClient;
+﻿using System.Collections.Generic;
 using Common;
+using FiresecClient;
+using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {

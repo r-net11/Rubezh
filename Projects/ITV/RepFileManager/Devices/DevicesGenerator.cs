@@ -12,9 +12,6 @@ namespace RepFileManager
             var computerDevice = new ComputerDevice();
             devices.Add(computerDevice.Device);
 
-            var communicationDevice = new CommunicationDevice();
-            devices.Add(communicationDevice.Device);
-
             var panelDevice = new PanelDevice();
             devices.Add(panelDevice.Device);
 

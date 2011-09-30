@@ -22,11 +22,11 @@ namespace RepFileManager
             };
 
             CreateChildren();
-            CreateEvents();
             CreateStates();
-            CreateCommands();
-            CreateProperties();
             CreateImages();
+            CreateEvents();
+            CreateProperties();
+            CreateCommands();
         }
 
         void CreateChildren()
@@ -43,7 +43,27 @@ namespace RepFileManager
             }
 
             if (children.Count > 0)
-                Device.childs = children.ToArray();
+                Device.children = children.ToArray();
+        }
+
+        void CreateStates()
+        {
+            var deviceStates = new List<repositoryModuleDeviceState>();
+            foreach (var stateType in Helper.AllStates)
+            {
+                var deviceState = new repositoryModuleDeviceState()
+                {
+                    id = stateType.ToString(),
+                    image = _driver.DriverType.ToString() + "." + stateType.ToString() + ".bmp"
+                };
+                deviceStates.Add(deviceState);
+            }
+            Device.states = deviceStates.ToArray();
+        }
+
+        void CreateImages()
+        {
+            Helper.CreateImages(_driver, _driver.DriverType.ToString());
         }
 
         void CreateEvents()
@@ -66,17 +86,13 @@ namespace RepFileManager
                 Device.events = deviceEvents.ToArray();
         }
 
-        void CreateStates()
+        void CreateProperties()
         {
-            var deviceStates = new List<repositoryModuleDeviceState>();
-            foreach (var stateType in Helper.AllStates)
+            var allProperties = Helper.CreateProperties(_driver.Properties);
+            if (allProperties.Count > 0)
             {
-                var deviceState = new repositoryModuleDeviceState();
-                deviceState.id = stateType.ToString();
-                deviceState.image = _driver.DriverType.ToString() + "." + stateType.ToString() + ".bmp";
-                deviceStates.Add(deviceState);
+                Device.properties = allProperties.ToArray();
             }
-            Device.states = deviceStates.ToArray();
         }
 
         void CreateCommands()
@@ -97,41 +113,6 @@ namespace RepFileManager
                 commands.Add(new repositoryModuleDeviceCommand() { id = "BoltAutoOn" }); // Включить автоматику
                 commands.Add(new repositoryModuleDeviceCommand() { id = "BoltAutoOff" }); // Выключить автоматику
                 Device.commands = commands.ToArray();
-            }
-        }
-
-        void CreateProperties()
-        {
-            var allProperties = Helper.CreateProperties(_driver.Properties);
-            if (allProperties.Count > 0)
-            {
-                Device.properties = allProperties.ToArray();
-            }
-        }
-
-        void CreateImages()
-        {
-            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == _driver.UID);
-            if (libraryDevice != null)
-            {
-                foreach (var stateType in Helper.AllStates)
-                {
-                    var state = libraryDevice.States.FirstOrDefault(x => x.StateType == stateType && x.Code == null);
-                    if (state == null)
-                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
-
-                    var name = Directory.GetCurrentDirectory() + "/BMP/" + _driver.DriverType.ToString() + "." + stateType.ToString() + ".bmp";
-                    var canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
-
-                    if (canvas.Children.Count == 0)
-                    {
-                        state = libraryDevice.States.FirstOrDefault(x => x.StateType == StateType.No);
-                        canvas = ImageHelper.XmlToCanvas(state.Frames[0].Image);
-                    }
-
-                    canvas.Background = new SolidColorBrush(Color.FromRgb(0, 128, 128));
-                    ImageHelper.XAMLToBitmap(canvas, name);
-                }
             }
         }
     }

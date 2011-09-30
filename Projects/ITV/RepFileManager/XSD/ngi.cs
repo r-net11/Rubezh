@@ -74,8 +74,8 @@ namespace ItvIntergation.Ngi {
     public partial class repositoryModuleDevice {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("child", IsNullable=false)]
-        public repositoryModuleDeviceChild[] childs;
+        [System.Xml.Serialization.XmlArrayItemAttribute("children", IsNullable = false)]
+        public repositoryModuleDeviceChild[] children;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("event", IsNullable=false)]

@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Devices\CommunicationDevice.cs" />
     <Compile Include="Devices\ComputerDevice.cs" />
     <Compile Include="Devices\DevicesGenerator.cs" />
     <Compile Include="Helper.cs" />

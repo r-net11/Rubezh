@@ -66,8 +66,8 @@
 		</copy>
 	</target>	
 	
-	<target name="CopyBack" includeemptydirs="true" overwrite="true" verbose="true">
-		<copy todir="Projects\ITV">
+	<target name="CopyBack">
+		<copy todir="Projects\ITV" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="${intellectFolder}\Projects\ITV">
 				<include name="**\*" />
 			</fileset>

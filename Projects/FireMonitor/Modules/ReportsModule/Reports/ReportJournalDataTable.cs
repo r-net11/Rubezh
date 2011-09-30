@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ReportsModule.Models;
 using FiresecAPI.Models;
-using JournalModule.ViewModels;
 using FiresecClient;
 using Infrastructure;
-using System.Data;
+using JournalModule.ViewModels;
+using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {
@@ -42,7 +39,6 @@ namespace ReportsModule.Reports
                 StartDate = reportArchiveFilter.ArchiveFilterViewModel.StartDate;
                 EndDate = reportArchiveFilter.ArchiveFilterViewModel.EndDate;
             }
-
         }
 
         public DateTime EndDate { get; set; }

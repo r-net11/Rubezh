@@ -14,15 +14,17 @@ namespace RepFileManager
         {
             Device = new repositoryModuleDevice()
             {
-                id = "ComputerDevice",
+                id = "PanelDevice",
+                rootSpecified = true,
                 root = true
             };
 
             CreateChildren();
             CreateStates();
+            CreateImages();
             CreateEvents();
-            CreateButtons();
             CreateProperties();
+            CreateButtons();
         }
 
         void CreateChildren()
@@ -33,7 +35,7 @@ namespace RepFileManager
                 id = "CommunicationDevice"
             };
             children.Add(childDevice);
-            Device.childs = children.ToArray();
+            Device.children = children.ToArray();
         }
 
         void CreateStates()
@@ -44,11 +46,16 @@ namespace RepFileManager
                 var deviceState = new repositoryModuleDeviceState()
                 {
                     id = stateType.ToString(),
-                    image = null
+                    image = "NoImage"
                 };
                 deviceStates.Add(deviceState);
             }
             Device.states = deviceStates.ToArray();
+        }
+
+        void CreateImages()
+        {
+            // create image NoImage.bmp
         }
 
         void CreateEvents()
@@ -71,6 +78,17 @@ namespace RepFileManager
             Device.events = deviceEvents.ToArray();
         }
 
+        void CreateProperties()
+        {
+            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
+
+            var allProperties = Helper.CreateProperties(driver.Properties);
+            if (allProperties.Count > 0)
+            {
+                Device.properties = allProperties.ToArray();
+            }
+        }
+
         void CreateButtons()
         {
             var buttons = new List<repositoryModuleDeviceButton>();
@@ -81,17 +99,6 @@ namespace RepFileManager
             };
             buttons.Add(button);
             Device.buttons = buttons.ToArray();
-        }
-
-        void CreateProperties()
-        {
-            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
-
-            var allProperties = Helper.CreateProperties(driver.Properties);
-            if (allProperties.Count > 0)
-            {
-                Device.properties = allProperties.ToArray();
-            }
         }
     }
 }
