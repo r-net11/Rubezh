@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Common;
 using CustomWindow;
 using FiresecClient;
@@ -16,10 +17,6 @@ namespace FireAdministrator
             DataContext = this;
         }
 
-        private void EssentialWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
         protected override Decorator GetWindowButtonsPlaceholder()
         {
             return WindowButtonsPlaceholder;
@@ -29,6 +26,17 @@ namespace FireAdministrator
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
                 this.DragMove();
+        }
+
+        void Header_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                else
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+            }
         }
 
         void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)

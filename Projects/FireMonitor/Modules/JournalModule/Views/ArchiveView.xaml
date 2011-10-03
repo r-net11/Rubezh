@@ -6,7 +6,13 @@
              xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <DockPanel >
-        <Border DockPanel.Dock="Top" Background="#CCff9829">
+        <Border DockPanel.Dock="Top">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="0,1">
+                    <GradientStop Color="#DF8E2A" Offset="0" />
+                    <GradientStop Color="#F2B352" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
             <DockPanel Background="White" Margin="5">
                 <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
                     <Button Command="{Binding ShowFilterCommand}"

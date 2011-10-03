@@ -20,7 +20,9 @@
             <TextBlock Text="Права:" FontWeight="Bold" Margin="0,11,0,3" />
             <ListBox ItemsSource="{Binding Permissions,
                                            Converter={StaticResource CollectionViewFactoryConverter},
-                                           ConverterParameter=PermissionTypeName}" Padding="7">
+                                           ConverterParameter=PermissionTypeName}"
+                     Padding="7"
+                     Background="{x:Null}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox IsChecked="{Binding IsEnable}" Content="{Binding PermissionTypeName}" />

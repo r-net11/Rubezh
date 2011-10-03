@@ -4,16 +4,16 @@
         xmlns:CustomWindow="clr-namespace:CustomWindow;assembly=CustomWindow"
         xmlns:Views="clr-namespace:FireMonitor"
         WindowStartupLocation="CenterScreen"
-        Title="Станция пожарного мониторинга" Height="750" Width="1200"
-        MinWidth="750" MinHeight="480"
+        Title="Станция пожарного мониторинга"
+        Height="750" Width="1100"
+        MinWidth="800" MinHeight="600"
         AllowsTransparency="True" Background="Transparent"
         Closing="EssentialWindow_Closing"
         Closed="EssentialWindow_Closed">
-
-    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="#151515">
-        <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="10">
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
+        <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
-                <Border Height="115" MouseMove="Header_MouseMove" CornerRadius="10 10 0 0" DockPanel.Dock="Top">
+                <Border Height="110" MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="#ADADAD" Offset="0" />
@@ -38,11 +38,8 @@
                                 <RowDefinition />
                                 <RowDefinition Height="40" />
                             </Grid.RowDefinitions>
-
-                            <Image Margin="10 5 0 0" HorizontalAlignment="Left" Source="/Controls;component/Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-
-                            <Views:TimePresenterView Grid.Row="1" Margin="10 15 0 0"  />
-
+                            <Image Margin="11 5 0 0" HorizontalAlignment="Left" Source="/Controls;component/Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                            <Views:TimePresenterView Grid.Row="1" Margin="11 11 0 0"  />
                             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Views:SoundView x:Name="soundView"/>
                                 <Views:ConnectionIndicatorView />
@@ -59,26 +56,20 @@
                        Cursor="SizeNWSE" />
                 <Grid>
                     <DockPanel>
-
                         <StackPanel DockPanel.Dock="Bottom">
                             <ContentControl Name="_alarm" />
                         </StackPanel>
-
                         <Grid>
-
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
                             <Views:NavigationView Grid.Column="0" Margin="5 5 0 20" />
-
                             <Grid Grid.Column="1" Margin="5 5 5 20">
                                 <Border BorderBrush="#B5B6B5" BorderThickness="1" CornerRadius="3" Background="#E4E1E5">
                                     <ContentControl Name="_mainRegionHost" />
                                 </Border>
                             </Grid>
-
                         </Grid>
                     </DockPanel>
                 </Grid>

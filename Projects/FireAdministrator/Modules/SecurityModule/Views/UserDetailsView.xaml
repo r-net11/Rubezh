@@ -8,7 +8,12 @@
             <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
         </WrapPanel>
-        <TabControl Name="tabControl" BorderThickness="0" Padding="11" SelectedIndex="0">
+        <TabControl Name="tabControl" BorderThickness="0" Padding="11" SelectedIndex="0" Background="{x:Null}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Background" Value="{x:Null}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
             <TabItem>
                 <TabItem.Header>
                     <TextBlock Text="Общее" />
