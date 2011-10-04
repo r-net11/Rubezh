@@ -2,13 +2,22 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Data;
 
 namespace ReportsModule.Models
 {
+    public class ReportIndicationBlockTestModel
+    {
+        public string[] str { get; set; }
+        public string[] numb { get; set; }
+    }
+
     public class ReportIndicationBlockModel
     {
-        public string HeaderTable { get; set; }
-        public List<Element> IndicationBlockTable { get; set; }
+        public string Number { get; set; }
+        public string PresentationName { get; set; }
+        //public string HeaderTable { get; set; }
+        //public List<Element> IndicationBlockTable { get; set; }
     }
 
     public class Element

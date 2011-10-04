@@ -688,6 +688,17 @@
       <AllowBlank>true</AllowBlank>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="header">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>gdfg</Value>
+          <Value>trurtu</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportParameter1</Prompt>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
   </ReportParameters>
   <CustomProperties>
     <CustomProperty>
@@ -713,7 +724,8 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="Журнал событий с " &amp; Parameters!StartDate.Value &amp; " по " &amp; Parameters!EndDate.Value</Value>
+                  <Value>="Журнал событий с " &amp; Parameters!StartDate.Value &amp; " по " &amp; Parameters!EndDate.Value &amp;
+ " Test: " &amp; Parameters!header.Value(3)</Value>
                   <Style />
                 </TextRun>
               </TextRuns>

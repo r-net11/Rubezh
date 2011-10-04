@@ -18,6 +18,7 @@ namespace ReportsModule.ViewModels
             ShowDeviceListReportCommand = new RelayCommand(OnShowDeviceListReportCommand);
             ShowDeviceParamsReportCommand = new RelayCommand(OnShowDeviceParamsReportCommand);
             ShowDriverCountReportCommand = new RelayCommand(OnShowDriverCountReportCommand);
+            ShowIndicationBlockReportCommand = new RelayCommand(OnShowIndicationBlockReportCommand);
         }
 
         public void Initialize()
@@ -108,7 +109,8 @@ namespace ReportsModule.ViewModels
                 reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName);
             var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
             var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
-            _reportViewer2.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate });
+            var header = new ReportParameter("header", new string[] { "1", "2", "3", "4" });
+            _reportViewer2.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate, header });
             _reportViewer2.SetDisplayMode(DisplayMode.PrintLayout);
             Window1 window = new Window1();
             window.winFormsHost.Child = _reportViewer2;
@@ -140,6 +142,23 @@ namespace ReportsModule.ViewModels
             //ReportContent = _testReportViewer;
             //ReportContent = _testReportViewer;
             //OnPropertyChanged("ReportContent");
+        }
+
+        public RelayCommand ShowIndicationBlockReportCommand { get; private set; }
+        void OnShowIndicationBlockReportCommand()
+        {
+            var reportIndicationBlockDataTable = new ReportIndicationBlockDataTable();
+            reportIndicationBlockDataTable.Initialize();
+            _reportViewer = CreateReportViewer<ReportIndicationBlockModel>(reportIndicationBlockDataTable.IndicationBlockList,
+                reportIndicationBlockDataTable.DataTableName, reportIndicationBlockDataTable.RdlcFileName);
+            _reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
+            Window1 window = new Window1();
+            window.winFormsHost.Child = _reportViewer;
+            _reportViewer.LocalReport.ReleaseSandboxAppDomain();
+            window.ShowDialog();
+            window.winFormsHost.Child = null;
+            _reportViewer.LocalReport.DataSources.Clear();
+            
         }
     }
 }

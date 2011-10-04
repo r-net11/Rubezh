@@ -9,8 +9,8 @@ namespace ReportsModule.Reports
 {
     public class ReportIndicationBlockDataTable
     {
-        public const string RdlcFileName = "ReportDeviceParamsRDLC.rdlc";
-        public const string DataTableName = "DataSetDeviceParams";
+        public string RdlcFileName = "ReportIndicationBlockRDLC.rdlc";
+        public string DataTableName = "DataSetIndicationBlock";
 
         public ReportIndicationBlockDataTable()
         {
@@ -43,12 +43,17 @@ namespace ReportsModule.Reports
                     foreach (var element in page.ElementsPage)
                     {
                         listElement.Add(new Element() { Number = element.No.ToString(), PresentationName = element.PresentationName });
+                        _indicationBlockList.Add(new ReportIndicationBlockModel()
+                        {
+                            Number = element.No.ToString(),
+                            PresentationName = element.PresentationName
+                        });
                     }
-                    _indicationBlockList.Add(new ReportIndicationBlockModel()
-                    {
-                        HeaderTable = stringBuilder.ToString(),
-                        IndicationBlockTable = listElement
-                    });
+                    //_indicationBlockList.Add(new ReportIndicationBlockModel()
+                    //{
+                    //    HeaderTable = stringBuilder.ToString(),
+                    //    IndicationBlockTable = listElement
+                    //});
                 }
             }
         }

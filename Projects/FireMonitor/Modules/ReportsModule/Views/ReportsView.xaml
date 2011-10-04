@@ -13,16 +13,19 @@
         </WindowsFormsHost>-->
         <ContentControl Grid.Row="0" Content="{Binding ReportContent}" />
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Controls:XButton Command="{Binding ShowJournalReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+            <Controls:XButton Command="{Binding ShowIndicationBlockReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
+                <TextBlock Text="Блоки индикации" FontSize="12" HorizontalAlignment="Center"/>
+            </Controls:XButton>
+            <Controls:XButton Command="{Binding ShowJournalReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
                 <TextBlock Text="Журнал событий" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowDriverCountReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" >
+            <Controls:XButton Command="{Binding ShowDriverCountReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" >
                 <TextBlock Text="Количество устройств по типам" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowDeviceParamsReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+            <Controls:XButton Command="{Binding ShowDeviceParamsReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
                 <TextBlock Text="Параметры устройств" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowDeviceListReportCommand}" Height="30" Margin="2" Background="DarkRed" Padding="5" Width="150">
+            <Controls:XButton Command="{Binding ShowDeviceListReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
                 <TextBlock Text="Список устройств" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
         </StackPanel>

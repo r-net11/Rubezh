@@ -120,6 +120,7 @@
     <EmbeddedResource Include="ReportsRdlc\ReportDeviceParamsRDLC.rdlc" />
     <EmbeddedResource Include="ReportsRdlc\ReportDriverCounterRDLC.rdlc" />
     <EmbeddedResource Include="ReportsRdlc\ReportJournalRDLC.rdlc" />
+    <EmbeddedResource Include="ReportsRdlc\ReportIndicationBlockRDLC.rdlc" />
     <EmbeddedResource Include="Views\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,7 +169,9 @@
       <Name>JournalModule</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
