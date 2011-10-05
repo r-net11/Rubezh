@@ -3,6 +3,9 @@ using System.Data;
 using System.Reflection;
 using Common;
 using Microsoft.Reporting.WinForms;
+using System.IO;
+using System.Windows.Markup;
+using FiresecClient;
 
 namespace ReportsModule
 {
@@ -43,21 +46,20 @@ namespace ReportsModule
             return obj;
         }
 
-        public static ReportViewer CreateReportViewer<T>(List<T> dataList,string dataListName, string rdlcFileName)
+        public static ReportViewer CreateReportViewer<T>(List<T> dataList, string dataListName, string rdlcFileName)
         {
             if (dataList.IsNotNullOrEmpty() == false)
             {
                 return null;
             }
             var reportViewer = new ReportViewer();
-            //var startDate = new ReportParameter("StartDate",reportJournalDataTable.StartDate.ToString(),true);
-            //var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(),true);
             reportViewer.ProcessingMode = ProcessingMode.Local;
-            reportViewer.LocalReport.ReportPath = rdlcFileName;
-            //this.reportViewer1.LocalReport.SetParameters(new ReportParameter[] { startDate2 });
+            var filePath = FileHelper.GetReportFilePath(rdlcFileName);
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+                reportViewer.LocalReport.LoadReportDefinition(fs);
+            }
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataListName, dataList));
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("Start", "abc"));
-            reportViewer.RefreshReport();
             return reportViewer;
         }
     }

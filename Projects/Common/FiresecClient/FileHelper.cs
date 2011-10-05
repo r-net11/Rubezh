@@ -10,7 +10,7 @@ namespace FiresecClient
     {
         static FileHelper()
         {
-            _directoriesList = new List<string>() { "Sounds", "Icons" };
+            _directoriesList = new List<string>() { "Sounds", "Icons", "ReportTemplates" };
         }
 
         static List<string> _directoriesList;
@@ -70,14 +70,19 @@ namespace FiresecClient
             get { return GetFileNamesList(_directoriesList[0]); }
         }
 
+        public static string GetSoundFilePath(string fileName)
+        {
+            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[0]), fileName);
+        }
+
         public static string GetIconFilePath(string fileName)
         {
             return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[1]), fileName);
         }
 
-        public static string GetSoundFilePath(string fileName)
+        public static string GetReportFilePath(string fileName)
         {
-            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[0]), fileName);
+            return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[2]), fileName);
         }
     }
 }

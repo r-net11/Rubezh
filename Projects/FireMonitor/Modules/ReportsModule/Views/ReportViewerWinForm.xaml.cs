@@ -2,9 +2,9 @@
 
 namespace ReportsModule.Views
 {
-    public partial class Window1 : Window
+    public partial class ReportViewerWinForm : Window
     {
-        public Window1()
+        public ReportViewerWinForm()
         {
             InitializeComponent();
         }
