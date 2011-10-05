@@ -87,6 +87,7 @@
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\System\InstructionType.cs" />
+    <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />

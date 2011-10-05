@@ -29,5 +29,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<PermissionType> Permissions { get; set; }
+
+        [DataMember]
+        public RemoteAccess RemoreAccess { get; set; }
     }
 }

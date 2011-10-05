@@ -20,4 +20,7 @@
     <DataTemplate DataType="{x:Type ViewModels:RolesMenuViewModel}">
         <Views:RolesMenuView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:RemoteMachineViewModel}">
+        <Views:RemoteMachineView />
+    </DataTemplate>
 </ResourceDictionary>

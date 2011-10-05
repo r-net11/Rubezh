@@ -8,23 +8,28 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
-        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5">
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,11,11">
             <Button Content="Ok"
                     Command="{Binding OkCommand}"
                     Visibility="{Binding IsOkButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="2" Width="100" IsDefault="True" />
+                    Margin="11,0,0,0"
+                    Width="100"
+                    IsDefault="True" />
             <Button Content="Да"
                     Command="{Binding YesCommand}"
                     Visibility="{Binding IsYesButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="2" Width="100" IsDefault="True" />
+                    Margin="11,0,0,0"
+                    Width="100" IsDefault="True" />
             <Button Content="Нет"
                     Command="{Binding NoCommand}"
                     Visibility="{Binding IsNoButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="2" Width="100" />
+                    Margin="11,0,0,0"
+                    Width="100" />
             <Button Content="Отмена"
                     Command="{Binding CancelCommand}"
                     Visibility="{Binding IsCancelButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Margin="2" Width="100" />
+                    Margin="11,0,0,0"
+                    Width="100" />
         </WrapPanel>
         <Grid Margin="11">
             <Grid.ColumnDefinitions>

@@ -186,11 +186,16 @@ namespace SecurityModule.ViewModels
             }
         }
 
+        public RemoteAccessViewModel RemoteAccess { get; set; }
+
         void CopyProperties()
         {
             Login = User.Login;
             Name = User.Name;
             UserRole = IsNew ? Roles[0] : Roles.Where(role => role != null).First(role => role.Id == User.RoleId);
+            RemoteAccess = (IsNew || User.RemoreAccess == null) ?
+                new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
+                new RemoteAccessViewModel(User.RemoreAccess);
         }
 
         void SaveProperties()
@@ -210,6 +215,7 @@ namespace SecurityModule.ViewModels
                 Permissions.Where(x => x.IsEnable).
                 Select(x => x.PermissionType)
             );
+            User.RemoreAccess = RemoteAccess.GetModel();
         }
 
         protected override void Save(ref bool cancel)

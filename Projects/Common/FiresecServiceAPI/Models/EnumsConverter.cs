@@ -433,5 +433,23 @@
                     return "";
             }
         }
+
+        public static string RemoteAccessTypeToString(RemoteAccessType remoteAccessType)
+        {
+            switch (remoteAccessType)
+            {
+                case RemoteAccessType.RemoteAccessBanned:
+                    return "Подключение с удаленных компьютеров запрещено";
+
+                case RemoteAccessType.RemoteAccessAllowed:
+                    return "Подключение разрешено с любых компьютеров";
+
+                case RemoteAccessType.SelectivlyAllowed:
+                    return "Подключение разрешено, но только с указанных компьютеров";
+
+                default:
+                    return "";
+            }
+        }
     }
 }

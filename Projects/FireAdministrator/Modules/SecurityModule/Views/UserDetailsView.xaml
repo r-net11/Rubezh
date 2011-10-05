@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="SecurityModule.Views.UserDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:SecurityModule.Views"
              MinWidth="400" MinHeight="500">
-    <UserControl.Resources></UserControl.Resources>
-    <DockPanel Margin="10">
+    <DockPanel Margin="11">
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
@@ -126,6 +126,12 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Удаленный доступ" />
+                </TabItem.Header>
+                <Views:RemoteAccessView DataContext="{Binding RemoteAccess}" />
             </TabItem>
         </TabControl>
     </DockPanel>

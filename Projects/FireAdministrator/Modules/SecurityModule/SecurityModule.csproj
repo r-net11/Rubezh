@@ -57,7 +57,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\PermissionTypeToStringConverter.cs" />
+    <Compile Include="Converters\RemoteAccessTypeToStringConverter.cs" />
+    <Compile Include="Events\RemoteAccessTypeChecked.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -72,6 +73,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SecurityModule.cs" />
+    <Compile Include="ViewModels\RemoteAccessTypeViewModel.cs" />
+    <Compile Include="ViewModels\RemoteAccessViewModel.cs" />
+    <Compile Include="ViewModels\RemoteMachineViewModel.cs" />
     <Compile Include="ViewModels\RoleDetailsViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />
     <Compile Include="ViewModels\PermissionViewModel.cs" />
@@ -83,6 +87,12 @@
     <Compile Include="ViewModels\UsersMenuViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\RemoteAccessView.xaml.cs">
+      <DependentUpon>RemoteAccessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RemoteMachineView.xaml.cs">
+      <DependentUpon>RemoteMachineView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RolesView.xaml.cs">
       <DependentUpon>RolesView.xaml</DependentUpon>
     </Compile>
@@ -144,6 +154,14 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RemoteAccessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RemoteMachineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

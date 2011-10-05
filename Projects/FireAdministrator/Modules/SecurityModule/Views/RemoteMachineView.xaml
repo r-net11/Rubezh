@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="SecurityModule.Views.RemoteMachineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Views="clr-namespace:SecurityModule.Views"
+             MinWidth="350" MinHeight="150">
+    <DockPanel Margin="11">
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+            <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
+        </WrapPanel>
+        <TextBlock  DockPanel.Dock="Top"
+                    TextWrapping="Wrap"
+                    Text="Укажите способ идентификации удаленного компьютера: по сетевому имени или по IP адресу" />
+        <Grid DockPanel.Dock="Top" Margin="0,17,0,17">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="7" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <RadioButton Grid.Column="0" Grid.Row="0"
+                         IsChecked="{Binding IsDnsName}"
+                         Margin="0,0,7,0"
+                         Content="Имя" />
+            <TextBox Grid.Column="1" Grid.Row="0"
+                     MaxLength="100"
+                     VerticalAlignment="Center"
+                     Text="{Binding HostNameOrAddress}"
+                     IsEnabled="{Binding IsDnsName}" />
+            <RadioButton Grid.Column="0" Grid.Row="2"
+                         IsChecked="{Binding IsIpAddress}"
+                         Margin="0,0,7,0"
+                         Content="IP адрес" />
+            <TextBox Grid.Column="1" Grid.Row="2"
+                     Name="addressRedactor"
+                     PreviewKeyDown="OnPreviewKeyDown"
+                     TextChanged="OnTextChanged"
+                     SelectionChanged="OnSelectionChanged"
+                     LostFocus="OnLostFocus"
+                     IsEnabledChanged="addressRedactor_IsEnabledChanged"
+                     Text="{Binding HostNameOrAddress}"
+                     IsEnabled="{Binding IsIpAddress}">
+                <TextBox.ContextMenu>
+                    <ContextMenu Visibility="Hidden" />
+                </TextBox.ContextMenu>
+            </TextBox>
+        </Grid>
+    </DockPanel>
+</UserControl>
