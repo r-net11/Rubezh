@@ -10,7 +10,11 @@
 	    ShowInTaskbar="False"
         AllowsTransparency="False"
 	    KeyDown="OnKeyDown"
-	    WindowStyle="ToolWindow">
+	    WindowStyle="ToolWindow"
+        Background="Black">
     <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
     </Window.Resources>
 </Window>

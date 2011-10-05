@@ -10,5 +10,6 @@
         <ResourceDictionary Source="ToolBarButtonStyle.xaml" />
         <ResourceDictionary Source="HyperlinkStyle.xaml" />
         <ResourceDictionary Source="MenuStyle.xaml" />
+        <ResourceDictionary Source="TabControlStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,28 +1,46 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace FireMonitor
 {
-    public partial class AutoActivationControl : UserControl
+    public partial class AutoActivationControl : UserControl, INotifyPropertyChanged
     {
         public AutoActivationControl()
         {
             InitializeComponent();
+            DataContext = this;
+            ChangeAutoactivationCommand = new RelayCommand(OnChangeAutoactivation);
         }
 
-        void autoActivationButton_Checked(object sender, System.Windows.RoutedEventArgs e)
+        bool _isAutoactivation;
+        public bool IsAutoactivation
         {
-            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewEvent<JournalRecord>);
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnNewEvent<Guid>);
+            get { return _isAutoactivation; }
+            set
+            {
+                _isAutoactivation = value;
+                OnPropertyChanged("IsAutoactivation");
+            }
         }
 
-        void autoActivationButton_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        public RelayCommand ChangeAutoactivationCommand { get; private set; }
+        void OnChangeAutoactivation()
         {
-            FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewEvent<JournalRecord>);
-            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnNewEvent<Guid>);
+            if (IsAutoactivation)
+            {
+                FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewEvent<JournalRecord>);
+                IsAutoactivation = false;
+            }
+            else
+            {
+                FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewEvent<JournalRecord>);
+                IsAutoactivation = true;
+            }
         }
 
         void OnNewEvent<T>(T obj)
@@ -32,6 +50,13 @@ namespace FireMonitor
                 App.Current.MainWindow.WindowState = WindowState.Maximized;
                 App.Current.MainWindow.Activate();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

@@ -66,9 +66,7 @@
                             </Grid.ColumnDefinitions>
                             <Views:NavigationView Grid.Column="0" Margin="5 5 0 20" />
                             <Grid Grid.Column="1" Margin="5 5 5 20">
-                                <Border BorderBrush="#B5B6B5" BorderThickness="1" CornerRadius="3" Background="#E4E1E5">
-                                    <ContentControl Name="_mainRegionHost" />
-                                </Border>
+                                <ContentControl Name="_mainRegionHost" />
                             </Grid>
                         </Grid>
                     </DockPanel>

@@ -27,7 +27,7 @@
                 <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="100" />
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="100" />
                 <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="300" />
-                <DataGridTemplateColumn Header="Действия">
+                <DataGridTemplateColumn Header="Действия" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
