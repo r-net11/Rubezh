@@ -57,11 +57,13 @@
 
                                 </StackPanel>
 
-                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Content="X" Margin="2" ToolTip="Удалить"
+                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}"
                                         Command="{Binding
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 					                    Path=DataContext.RemoveCommand}"
-                                        CommandParameter="{Binding}" />
+                                        CommandParameter="{Binding}">
+                                    <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                                </Button>
                                 
                             </DockPanel>
                         </DataTemplate>

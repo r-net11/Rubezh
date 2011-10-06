@@ -81,7 +81,9 @@
                     </TextBlock>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Content="x" Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" HorizontalAlignment="Right" />
+                        <Button Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}" HorizontalAlignment="Right">
+                            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                        </Button>
                     </StackPanel>
                 </Grid>
 

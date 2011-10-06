@@ -8,7 +8,9 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Ошибки обнаруженные при проверке проекта" FontWeight="Bold" Foreground="White" Margin="2" />
-        <Button Content="X" HorizontalAlignment="Right" Click="Button_Click" Margin="2" />
+        <Button HorizontalAlignment="Right" Click="Button_Click" Margin="2" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+        </Button>
 
         <Grid Grid.Row="1">
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}"

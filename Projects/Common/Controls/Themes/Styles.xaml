@@ -11,5 +11,9 @@
         <ResourceDictionary Source="HyperlinkStyle.xaml" />
         <ResourceDictionary Source="MenuStyle.xaml" />
         <ResourceDictionary Source="TabControlStyle.xaml" />
+        <ResourceDictionary Source="ButtonStyle.xaml" />
+        <ResourceDictionary Source="TextBoxStyle.xaml" />
+        <ResourceDictionary Source="ListBoxStyle.xaml" />
+        <ResourceDictionary Source="TextBlockStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

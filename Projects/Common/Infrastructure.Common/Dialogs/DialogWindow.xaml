@@ -11,10 +11,12 @@
         AllowsTransparency="False"
 	    KeyDown="OnKeyDown"
 	    WindowStyle="ToolWindow"
-        Background="Black">
+        Background="#151515">
     <Window.Resources>
-        <Style TargetType="{x:Type TextBlock}">
+
+        <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White" />
         </Style>
+
     </Window.Resources>
 </Window>
