@@ -56,13 +56,13 @@
               <Width>1.41019in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.98311in</Width>
+              <Width>1.23311in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.28211in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.4632in</Width>
+              <Width>2.2132in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -411,7 +411,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.30219in</Height>
+              <Height>0.37511in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -621,7 +621,7 @@
         <DataSetName>DataSetDeviceParams</DataSetName>
         <Top>1.08398cm</Top>
         <Left>0.68cm</Left>
-        <Height>2.10867cm</Height>
+        <Height>2.29387cm</Height>
         <Width>19.50225cm</Width>
         <Style>
           <Border>
@@ -664,7 +664,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.375in</Height>
+    <Height>1.5in</Height>
     <Style />
   </Body>
   <Width>8.15099in</Width>
