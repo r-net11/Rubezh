@@ -39,5 +39,22 @@ namespace JournalModule.Views
                 archiveFilter.JournalTypes.Find(x => x.Id == classId).IsEnable = null;
             }
         }
+
+        void CheckBox_Indeterminate(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            var archiveFilter = DataContext as ArchiveFilterViewModel;
+            var classId = (checkBox.DataContext as ClassViewModel).Id;
+            if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => x.IsEnable))
+            {
+                checkBox.IsChecked = false;
+                e.Handled = true;
+            }
+            else if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => !x.IsEnable))
+            {
+                checkBox.IsChecked = true;
+                e.Handled = true;
+            }
+        }
     }
 }

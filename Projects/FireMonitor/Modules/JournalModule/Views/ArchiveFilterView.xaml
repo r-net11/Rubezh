@@ -99,6 +99,7 @@
                             <WrapPanel>
                                 <CheckBox Margin="2"
                                       Checked="CheckBox_Checked"
+                                      Indeterminate="CheckBox_Indeterminate"
                                       IsChecked="{Binding IsEnable}"
                                       IsThreeState="True"
                                       Content="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}"
