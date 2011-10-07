@@ -232,8 +232,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            bool result = ServiceFactory.Get<ISecurityService>().Validate();
-            if (result)
+            if (ServiceFactory.Get<ISecurityService>().Validate())
             {
                 _deviceState.ChangeDisabled();
             }

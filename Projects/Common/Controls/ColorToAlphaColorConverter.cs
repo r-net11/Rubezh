@@ -8,10 +8,9 @@ namespace Controls
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var brush = value as SolidColorBrush;
-            if (brush != null)
+            if (value is SolidColorBrush)
             {
-                Color color = brush.Color;
+                Color color = (value as SolidColorBrush).Color;
                 byte tmpColor;
                 if (byte.TryParse(parameter as string, out tmpColor))
                 {

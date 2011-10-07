@@ -87,8 +87,7 @@ namespace FireAdministrator
 
         void OnValidate(object sender, RoutedEventArgs e)
         {
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
+            ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
         }
     }
 }

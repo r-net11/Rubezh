@@ -8,22 +8,11 @@ namespace Controls
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool isRevert = false;
-            if (parameter != null)
+            if (parameter != null && System.Convert.ToBoolean(parameter))
             {
-                isRevert = System.Convert.ToBoolean(parameter);
+                return (bool) value ? Visibility.Collapsed : Visibility.Visible;
             }
-
-            bool boolValue = (bool) value;
-
-            if (isRevert)
-            {
-                return boolValue ? Visibility.Collapsed : Visibility.Visible;
-            }
-            else
-            {
-                return boolValue ? Visibility.Visible : Visibility.Collapsed;
-            }
+            return (bool) value ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

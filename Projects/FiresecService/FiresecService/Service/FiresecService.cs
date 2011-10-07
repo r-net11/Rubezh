@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
@@ -23,28 +24,77 @@ namespace FiresecService
         public IFiresecCallback Callback { get; private set; }
         string _userLogin;
         string _userName;
+        string _userIpAddress;
 
         public static readonly object Locker = new object();
 
-        public bool? Connect(string login, string password)
+        public string Connect(string login, string password)
         {
             lock (Locker)
             {
                 if (CheckLogin(login, password))
                 {
-                    MainWindow.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
-                    DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
+                    if (CheckRemoteAccessPermissions(login))
+                    {
+                        MainWindow.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
+                        DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
-                    Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-                    CallbackManager.Add(this);
+                        Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+                        CallbackManager.Add(this);
 
-                    return true;
+                        return null;
+                    }
+                    return "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
                 }
+                return "Неверный логин или пароль";
+            }
+        }
+
+        bool CheckRemoteAccessPermissions(string login)
+        {
+            var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+            _userIpAddress = endpoint.Address;
+
+            if (_userIpAddress == "127.0.0.1")
+                return true;
+
+            var remoteAccessPermissions = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
+            if (remoteAccessPermissions == null)
+                return false;
+
+            switch (remoteAccessPermissions.RemoteAccessType)
+            {
+                case RemoteAccessType.RemoteAccessBanned:
+                    return false;
+
+                case RemoteAccessType.RemoteAccessAllowed:
+                    return true;
+
+                case RemoteAccessType.SelectivelyAllowed:
+                    foreach (var hostNameOrIpAddress in remoteAccessPermissions.HostNameOrAddressList)
+                    {
+                        if (CheckHostIps(hostNameOrIpAddress))
+                            return true;
+                    }
+                    break;
+            }
+            return false;
+        }
+
+        bool CheckHostIps(string hostNameOrIpAddress)
+        {
+            try
+            {
+                var addressList = Dns.GetHostEntry(hostNameOrIpAddress).AddressList;
+                return addressList.Any(ip => ip.ToString() == _userIpAddress);
+            }
+            catch
+            {
                 return false;
             }
         }
 
-        public bool? Reconnect(string login, string password)
+        public string Reconnect(string login, string password)
         {
             var oldUserFileName = _userName;
             if (CheckLogin(login, password))
@@ -52,9 +102,9 @@ namespace FiresecService
                 DatabaseHelper.AddInfoMessage(oldUserFileName, "Дежурство сдал");
                 DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
 
-                return true;
+                return null;
             }
-            return false;
+            return "Неверный логин или пароль";
         }
 
         bool CheckLogin(string login, string password)
@@ -481,15 +531,13 @@ namespace FiresecService
 
         void SetUserFullName()
         {
-            OperationContext context = OperationContext.Current;
-            MessageProperties prop = context.IncomingMessageProperties;
-            RemoteEndpointMessageProperty endpoint = prop[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-            string ip = endpoint.Address;
-            if (ip == "127.0.0.1")
-                ip = "localhost";
+            var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+            string userIp = endpoint.Address;
+            if (userIp == "127.0.0.1")
+                userIp = "localhost";
 
             var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
-            _userName = user.Name + " (" + ip + ")";
+            _userName = user.Name + " (" + userIp + ")";
         }
     }
 }

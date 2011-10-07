@@ -144,6 +144,6 @@
                 </TabItem.Header>
             </TabItem>
         </TabControl>
-        <Image DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="15" Source="/Controls;component/Images/firesec.png" />
+        <Image DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5,0,5,0" Source="/Controls;component/Images/rubezh.png" />
     </DockPanel>
 </UserControl>

@@ -4,7 +4,6 @@ using System.Linq;
 using Common;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace FiresecService.Converters
 {
@@ -161,13 +160,12 @@ namespace FiresecService.Converters
             var drivers = new List<drvType>();
             foreach (var driver in FiresecManager.Drivers)
             {
-                var firesecDriver = new drvType()
+                drivers.Add(new drvType()
                 {
                     idx = FiresecManager.Drivers.IndexOf(driver).ToString(),
                     id = driver.UID.ToString().ToUpper(),
                     name = driver.Name
-                };
-                drivers.Add(firesecDriver);
+                });
             }
             ConfigurationConverter.FiresecConfiguration.drv = drivers.ToArray();
         }
@@ -175,7 +173,6 @@ namespace FiresecService.Converters
         static void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
         {
             var childInnerDevices = new List<devType>();
-
             foreach (var device in parentDevice.Children)
             {
                 var childInnerDevice = DeviceToInnerDevice(device);
@@ -288,7 +285,6 @@ namespace FiresecService.Converters
                 }
             }
 
-            
             if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic != null))
             {
                 var indicatorLogicProperty = propertyList.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");

@@ -7,10 +7,9 @@ namespace Infrastructure.Common
     {
         static string InitialiPath(string resourcePath, string callingAssemblyName)
         {
-            string urlString = string.Format("pack://application:,,,/{0};component{1}",
-                callingAssemblyName,
-                resourcePath.StartsWith("/") ? string.Empty : "/");
-            return urlString;
+            return string.Format("pack://application:,,,/{0};component{1}",
+                                 callingAssemblyName,
+                                 resourcePath.StartsWith("/") ? string.Empty : "/");
         }
 
         public static Uri ComposeResourceUri(Assembly callingAssembly, string resourcePath)

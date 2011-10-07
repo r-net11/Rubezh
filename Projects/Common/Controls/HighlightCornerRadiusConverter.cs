@@ -7,15 +7,14 @@ namespace Controls
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            CornerRadius corners = (CornerRadius) value;
-
+            var corners = (CornerRadius) value;
             if (corners != null)
             {
                 corners.BottomLeft = 0;
                 corners.BottomRight = 0;
+
                 return corners;
             }
-
             return null;
         }
 

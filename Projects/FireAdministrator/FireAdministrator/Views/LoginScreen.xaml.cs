@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using FiresecClient;
 
 namespace FireAdministrator
@@ -8,6 +9,7 @@ namespace FireAdministrator
         public LoginScreen()
         {
             InitializeComponent();
+            _userName.Text = "adm";
         }
 
         public bool IsLoggedIn { get; private set; }
@@ -26,6 +28,12 @@ namespace FireAdministrator
         void OnCancel(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        void LoginViewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && e.IsRepeat == false && e.IsToggled == false)
+                OnConnect(sender, new RoutedEventArgs());
         }
     }
 }

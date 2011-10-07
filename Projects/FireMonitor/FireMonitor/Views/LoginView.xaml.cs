@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using Common;
 using FiresecClient;
 
@@ -65,6 +66,7 @@ namespace FireMonitor
                     }
                     break;
             }
+
             if (message == null)
             {
                 IsLoggedIn = true;
@@ -76,6 +78,12 @@ namespace FireMonitor
         void OnCancel(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        void LoginViewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && e.IsRepeat == false && e.IsToggled == false)
+                OnConnect(sender, new RoutedEventArgs());
         }
     }
 }

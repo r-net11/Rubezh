@@ -7,7 +7,7 @@ namespace FiresecAPI.Models
     {
         RemoteAccessBanned,
         RemoteAccessAllowed,
-        SelectivlyAllowed
+        SelectivelyAllowed
     }
 
     [DataContract]

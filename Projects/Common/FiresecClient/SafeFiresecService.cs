@@ -67,7 +67,7 @@ namespace FiresecClient
             Ping();
         }
 
-        public bool? Connect(string userName, string password)
+        public string Connect(string userName, string password)
         {
             try
             {
@@ -77,10 +77,10 @@ namespace FiresecClient
             {
                 OnConnectionLost();
             }
-            return null;
+            return "Не удается соединиться с сервером";
         }
 
-        public bool? Reconnect(string userName, string password)
+        public string Reconnect(string userName, string password)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace FiresecClient
             {
                 OnConnectionLost();
             }
-            return null;
+            return "Не удается соединиться с сервером";
         }
 
         public void Disconnect()

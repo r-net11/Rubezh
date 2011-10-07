@@ -6,14 +6,13 @@ namespace FiresecService
 {
     public static class FiresecServiceManager
     {
-        static ServiceHost host;
+        static ServiceHost _serviceHost;
 
         public static void Open()
         {
-            if (host != null)
-                return;
+            CheckHost();
 
-            host = new ServiceHost(typeof(FiresecService));
+            _serviceHost = new ServiceHost(typeof(FiresecService));
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -32,24 +31,29 @@ namespace FiresecService
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-            host.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
+            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
 
-            ServiceMetadataBehavior behavior = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
+            ServiceMetadataBehavior behavior = _serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
             if (behavior == null)
             {
                 behavior = new ServiceMetadataBehavior();
                 behavior.HttpGetUrl = new Uri("http://localhost:8001/FiresecService");
                 behavior.HttpGetEnabled = true;
-                host.Description.Behaviors.Add(behavior);
+                _serviceHost.Description.Behaviors.Add(behavior);
             }
 
-            host.Open();
+            _serviceHost.Open();
         }
 
         public static void Close()
         {
-            if (host != null)
-                host.Close();
+            CheckHost();
+        }
+
+        static void CheckHost()
+        {
+            if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
+                _serviceHost.Close();
         }
     }
 }

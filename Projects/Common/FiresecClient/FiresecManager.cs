@@ -26,14 +26,10 @@ namespace FiresecClient
 
         public static string Connect(string login, string password)
         {
-            bool? result = FiresecService.Connect(login, password);
-            if (result == null)
+            string result = FiresecService.Connect(login, password);
+            if (result != null)
             {
-                return "Не удается соединиться с сервером";
-            }
-            else if (result == false)
-            {
-                return "Неверный логин или пароль";
+                return result;
             }
 
             _userLogin = login;
@@ -65,14 +61,10 @@ namespace FiresecClient
 
         public static string Reconnect(string login, string password)
         {
-            bool? result = FiresecService.Reconnect(login, password);
-            if (result == null)
+            string result = FiresecService.Reconnect(login, password);
+            if (result != null)
             {
-                return "Не удается соединиться с сервером";
-            }
-            else if (result == false)
-            {
-                return "Неверный логин или пароль";
+                return result;
             }
 
             _userLogin = login;

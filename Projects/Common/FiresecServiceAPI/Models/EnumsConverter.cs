@@ -444,7 +444,7 @@
                 case RemoteAccessType.RemoteAccessAllowed:
                     return "Подключение разрешено с любых компьютеров";
 
-                case RemoteAccessType.SelectivlyAllowed:
+                case RemoteAccessType.SelectivelyAllowed:
                     return "Подключение разрешено, но только с указанных компьютеров";
 
                 default:

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-namespace Firesec
+﻿namespace Firesec
 {
     public class NotificationCallBack : FS_Types.IFS_CallBack
     {
@@ -10,8 +9,7 @@ namespace Firesec
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            var result = FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
-            return result;
+            return FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
         }
     }
 }

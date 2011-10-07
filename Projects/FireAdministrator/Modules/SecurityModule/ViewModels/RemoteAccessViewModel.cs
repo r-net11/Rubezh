@@ -56,7 +56,7 @@ namespace SecurityModule.ViewModels
         {
             var remoteAccess = new RemoteAccess();
             remoteAccess.RemoteAccessType = RemoteAccessTypes.Find(x => x.IsActive).RemoteAccessType;
-            if (remoteAccess.RemoteAccessType == RemoteAccessType.SelectivlyAllowed)
+            if (remoteAccess.RemoteAccessType == RemoteAccessType.SelectivelyAllowed)
             {
                 remoteAccess.HostNameOrAddressList = new List<string>(HostNameOrAddressList.ToList());
             }

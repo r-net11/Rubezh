@@ -2,10 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-        Title="Авторизация" Height="170" Width="350"
+        Title="Авторизация"
+        Height="170" Width="350"
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -31,13 +33,25 @@
                        HorizontalAlignment="Right" VerticalAlignment="Center"
                        FontWeight="DemiBold"
                        Margin="23,3,11,3" />
-            <TextBox Grid.Row="0" Grid.Column="1" Name="_userName" Margin="3" VerticalContentAlignment="Center" />
-            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Name="_password" Margin="3" />
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Name="_userName"
+                     Margin="3"
+                     VerticalContentAlignment="Center"
+                     KeyDown="LoginViewKeyDown" />
+            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1"
+                                         Name="_password"
+                                         Margin="3"
+                                         KeyDown="LoginViewKeyDown" />
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,11,0" HorizontalAlignment="Right">
             <Button Content="Ok" Click="OnConnect" IsDefault="True" FontSize="12" Width="100" Height="30" Margin="2" Background="White" Foreground="Black" />
             <Button Content="Отмена" Click="OnCancel" FontSize="12" Width="100" Height="30" Margin="2" Background="Black" Foreground="White" />
         </StackPanel>
-        <TextBlock Grid.Row="2" Name="_info" Foreground="Black" FontWeight="Black" Margin="11,5,0,7" />
+        <TextBlock Grid.Row="2"
+                   Name="_info"
+                   Foreground="Black"
+                   FontWeight="Black"
+                   TextWrapping="Wrap"
+                   Margin="11,5,0,7" />
     </Grid>
 </Window>

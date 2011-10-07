@@ -18,9 +18,10 @@ namespace FiresecDirect
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            var reader = new StreamReader("SetNewConfig.xml");
-            string message = reader.ReadToEnd();
-            reader.Close();
+            using (var reader = new StreamReader("SetNewConfig.xml"))
+            {
+                textBox1.Text = reader.ReadToEnd();
+            }
 
             //byte[] bytes = Encoding.UTF8.GetBytes(message);
             //var memoryStream = new MemoryStream(bytes);
@@ -30,31 +31,28 @@ namespace FiresecDirect
 
             //Firesec.FiresecClient.SetNewConfig(config);
             //Firesec.FiresecClient.DeviceWriteConfig(config, "0");
-
-            textBox1.Text = message;
         }
 
         void OnGetCoreConfig(object sender, RoutedEventArgs e)
         {
-            string coreConfig = Firesec.NativeFiresecClient.GetCoreConfig();
-            textBox1.Text = coreConfig;
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig();
 
-            var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create);
-            var streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(coreConfig);
-            streamWriter.Close();
-            fileStream.Close();
+            using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                streamWriter.Write(textBox1.Text);
+            }
         }
 
         void OnGetPlans(object sender, RoutedEventArgs e)
         {
             string plans = Firesec.NativeFiresecClient.GetPlans();
 
-            var fileStream = new FileStream("D:/Plan.xml", FileMode.Create);
-            var streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(plans);
-            streamWriter.Close();
-            fileStream.Close();
+            using (var fileStream = new FileStream("D:/Plan.xml", FileMode.Create))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                streamWriter.Write(plans);
+            }
 
             //textBox1.Text = plans;
         }
@@ -66,14 +64,13 @@ namespace FiresecDirect
 
         void OnGetMetaData(object sender, RoutedEventArgs e)
         {
-            string metadata = Firesec.NativeFiresecClient.GetMetadata();
-            textBox1.Text = metadata;
+            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata();
 
-            var fileStream = new FileStream("D:/Metadata.xml", FileMode.Create);
-            var streamWriter = new StreamWriter(fileStream);
-            streamWriter.Write(metadata);
-            streamWriter.Close();
-            fileStream.Close();
+            using (var fileStream = new FileStream("D:/Metadata.xml", FileMode.Create))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                streamWriter.Write(textBox1.Text);
+            }
         }
 
         void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)

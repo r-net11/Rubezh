@@ -23,7 +23,7 @@ namespace Firesec
 
         public static bool Connect(string login, string password)
         {
-            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
+            return (bool) control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
         }
 
         public static void Disconnect()
@@ -38,17 +38,17 @@ namespace Firesec
 
         public static string GetPlans()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetPlans));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetPlans));
         }
 
         public static string GetMetaData()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetadata));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetadata));
         }
 
         public static string GetCoreState()
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
+            return (string) control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
         }
 
         public static string GetCoreDeviceParams()
@@ -113,59 +113,57 @@ namespace Firesec
 
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
         }
 
         public static string DeviceGetSerialList(string coreConfig, string devicePath)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetSerialList), coreConfig, devicePath);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetSerialList), coreConfig, devicePath);
         }
 
         public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, fileName);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, fileName);
         }
 
         public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, fileName);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, fileName);
         }
 
         public static string DeviceReadEventLog(string coreConfig, string devicePath)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadEventLog), coreConfig, devicePath);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadEventLog), coreConfig, devicePath);
         }
 
         public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
         }
 
         public static string DeviceCustomFunctionList(string driverUID)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateString(NativeFiresecClient.DeviceCustomFunctionList), driverUID);
+            return (string) control.Dispatcher.Invoke(new StringDelegateString(NativeFiresecClient.DeviceCustomFunctionList), driverUID);
         }
 
         public static string DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceCustomFunctionExecute), coreConfig, devicePath, functionName);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceCustomFunctionExecute), coreConfig, devicePath, functionName);
         }
 
         public static string DeviceReadConfig(string coreConfig, string devicePath)
         {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadConfig), coreConfig, devicePath);
+            return (string) control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadConfig), coreConfig, devicePath);
         }
 
         public static bool ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            return (bool)control.Dispatcher.Invoke(new FiresecEventAggregator.ProgressDelegate(OnProgress), Stage, Comment, PercentComplete, BytesRW);
+            return (bool) control.Dispatcher.Invoke(new FiresecEventAggregator.ProgressDelegate(OnProgress), Stage, Comment, PercentComplete, BytesRW);
         }
 
         static bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            if (Progress != null)
-                return Progress(Stage, Comment, PercentComplete, BytesRW);
-            return false;
+            return Progress != null ? Progress(Stage, Comment, PercentComplete, BytesRW) : false;
         }
 
         public static event FiresecEventAggregator.ProgressDelegate Progress;

@@ -7,13 +7,14 @@ namespace FiresecServiceRunner
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow Current { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
             Current = this;
         }
 
-        public static MainWindow Current { get; private set; }
         public static void AddMessage(string message)
         {
             Current._textBox.AppendText(message);
