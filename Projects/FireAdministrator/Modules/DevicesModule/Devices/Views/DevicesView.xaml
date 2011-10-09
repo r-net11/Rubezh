@@ -8,9 +8,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
-                      ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}"
-                      Style="{StaticResource DataGridStyle}">
+            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -22,8 +20,7 @@
                                     </Grid.ColumnDefinitions>
                                     <WrapPanel Grid.Column="0"
                                                Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren,
-                                                                         Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                         <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -126,41 +123,50 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1" Margin="2" Background="White">
-            <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                    <TextBlock Text="{Binding Driver.Name}" FontWeight="Bold" Foreground="DarkOrange" Margin="2" />
+        
+        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
+            <Border CornerRadius="5" BorderThickness="0" Margin="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0, 0" EndPoint="0,1">
+                        <GradientStop Color="#434247" Offset="0" />
+                        <GradientStop Color="#383438" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
+                        <TextBlock Text="{Binding Driver.Name}" FontWeight="Bold" Margin="2" Foreground="White" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Подключено к" FontWeight="Bold" Margin="2" Foreground="White" />
+                        <TextBlock Text="{Binding ConnectedTo}" Margin="2" Foreground="White" />
+                        <StackPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConnectedTo}" Value="{x:Null}" >
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                    <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
+                        <TextBlock Text="Зона" FontWeight="Bold" Margin="2" Foreground="White" />
+                        <TextBlock Text="{Binding PresentationName}" Margin="2" Foreground="White" />
+                        <StackPanel.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                    <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+                    <TextBox Text="{Binding Device.UID, Mode=OneWay}" Margin="2" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Подключено к" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
-                    <TextBlock Text="{Binding ConnectedTo}" Margin="2" />
-                    <StackPanel.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ConnectedTo}" Value="{x:Null}" >
-                                    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                </StackPanel>
-                <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
-                    <TextBlock Text="Зона" FontWeight="Bold" Foreground="YellowGreen" Margin="2" />
-                    <TextBlock Text="{Binding PresentationName}" Margin="2" />
-                    <StackPanel.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                </StackPanel>
-                <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                <TextBox Text="{Binding Device.UID, Mode=OneWay}" />
-            </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>

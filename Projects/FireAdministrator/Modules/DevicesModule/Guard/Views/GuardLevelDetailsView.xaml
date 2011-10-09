@@ -7,7 +7,7 @@
         <Converters:ZoneActionToStringConverter x:Key="ZoneActionToStringConverter" />
     </UserControl.Resources>
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -17,7 +17,7 @@
         <Grid Grid.Row="0">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Название" Width="100" Margin="2" />
+                    <TextBlock Text="Название" Width="100" Margin="2" Foreground="White" />
                     <TextBox Text="{Binding Name}" Width="200" Margin="2" />
                 </StackPanel>
 

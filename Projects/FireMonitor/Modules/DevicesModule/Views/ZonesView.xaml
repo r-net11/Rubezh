@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Name="_grid">
-            <ListBox ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0">
+            <ListBox ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" Style="{x:Null}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Padding" Value="0" />
@@ -58,8 +58,7 @@
         </StackPanel>
 
         <Grid Grid.Row="2">
-            <DataGrid ItemsSource="{Binding Devices}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid ItemsSource="{Binding Devices}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

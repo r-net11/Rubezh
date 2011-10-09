@@ -36,8 +36,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"></Border>
+                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}"></Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -82,22 +81,14 @@
                             SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
                             SeparatorBrush="{TemplateBinding SeparatorBrush}">
                             <Border BorderBrush="{StaticResource HeaderInnerBorderBrush}" BorderThickness="0">
-                                <TextBlock
-                                    FontSize="12"
-                                    FontWeight="Bold"
-                                    FontFamily="Arial"
-                                    Text="{Binding}" Margin="4,0,4,0"
+                                <TextBlock FontSize="12" FontWeight="Bold" FontFamily="Arial" Text="{Binding}" Margin="4,0,4,0"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                             </Border>
                         </dg:DataGridHeaderBorder>
-                        <Thumb x:Name="PART_LeftHeaderGripper"
-                               HorizontalAlignment="Left"
-                               Style="{StaticResource ColumnHeaderRightGripperStyle}"/>
-                        <Thumb x:Name="PART_RightHeaderGripper"
-                               HorizontalAlignment="Right"
-                               Style="{StaticResource ColumnHeaderLeftGripperStyle}"/>
+                        <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderRightGripperStyle}"/>
+                        <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderLeftGripperStyle}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -111,8 +102,10 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+
+    <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
+        <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle}" />
+        <Setter Property="CellStyle" Value="{DynamicResource DataGridCellStyle}" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="SelectionMode" Value="Single" />
@@ -214,12 +207,7 @@
     </Style>
     
     <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
-                <Setter Property="Foreground" Value="White" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="Foreground" Value="Black" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -229,5 +217,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                <Setter Property="Foreground" Value="White" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="False">
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

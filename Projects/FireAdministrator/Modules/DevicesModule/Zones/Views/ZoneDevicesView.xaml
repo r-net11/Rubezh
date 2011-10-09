@@ -10,8 +10,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="2">
-            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -81,8 +80,7 @@
         </Grid>
 
         <Grid Grid.Row="2" Margin="2">
-            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

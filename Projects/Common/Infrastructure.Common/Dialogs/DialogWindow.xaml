@@ -3,15 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         ResizeMode="CanResizeWithGrip"
 	    FontSize="12"
-	    Loaded="OnLoaded"
 	    FontFamily="Arial"
+        Loaded="OnLoaded"
 	    WindowStartupLocation="CenterOwner"
 	    SizeToContent="Manual"
 	    ShowInTaskbar="False"
-        AllowsTransparency="False"
 	    KeyDown="OnKeyDown"
-	    WindowStyle="ToolWindow"
-        Background="#151515">
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Window.Resources>
 
         <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
@@ -19,4 +17,35 @@
         </Style>
 
     </Window.Resources>
+
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
+        <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
+            <DockPanel>
+                <Border Height="30" MouseMove="Header_MouseMove" DockPanel.Dock="Top" CornerRadius="11 11 0 0" >
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#ADADAD" Offset="0" />
+                            <GradientStop Color="#676767" Offset="0.5" />
+                            <GradientStop Color="#303030"  Offset="0.99" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <TextBlock Name="_captionTextBlock" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" />
+                        <Button HorizontalAlignment="Right" Margin="0, 0, 10, 0" Click="OnCloseButton" Style="{StaticResource ToolarButtonStyle}">
+                            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                        </Button>
+                    </Grid>
+                </Border>
+                <ContentControl Name="_content" Margin="10">
+                    <ContentControl.Resources>
+                        <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                        </Style>
+                    </ContentControl.Resources>
+                </ContentControl>
+
+            </DockPanel>
+        </Border>
+    </Border>
+
 </Window>

@@ -8,10 +8,11 @@ namespace Infrastructure.Common
 {
     public partial class DialogWindow : Window
     {
-        FrameworkElement _title;
-
-        ICommand _helpContextCommand;
-        int _helpTopicId;
+        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                this.DragMove();
+        }
 
         public DialogWindow()
         {
@@ -19,7 +20,6 @@ namespace Infrastructure.Common
             SourceInitialized += OnSourceInitialized;
         }
 
-        // TODO: what we are doing here?
         void OnSourceInitialized(object sender, EventArgs e)
         {
             UserControl userControl = FindUserControl(this);
@@ -62,58 +62,17 @@ namespace Infrastructure.Common
         public void SetContent(IDialogContent content)
         {
             if (!string.IsNullOrEmpty(content.Title))
+            {
                 Title = content.Title;
+                _captionTextBlock.Text = content.Title;
+            }
 
-            Content = content.InternalViewModel;
+            _content.Content = content.InternalViewModel;
             content.Surface = this;
-        }
-
-        public string Caption
-        {
-            get { return Title; }
-            set { Title = value; }
-        }
-
-        public void SetContextHelpCommand(ICommand helpContextCommand, int helpTopicId)
-        {
-            _helpContextCommand = helpContextCommand;
-            _helpTopicId = helpTopicId;
         }
 
         void OnLoaded(object sender, RoutedEventArgs e)
         {
-            _title = (FrameworkElement) Template.FindName("PART_Title", this);
-            if (null != _title)
-            {
-                _title.MouseLeftButtonDown += OnMouseLeftButtonDown;
-            }
-
-            Button closeButton = Template.FindName("PART_Close", this) as Button;
-            if (closeButton != null)
-            {
-                closeButton.Click += OnCloseButtonClick;
-            }
-
-            if (_helpContextCommand != null)
-            {
-                Button helpButton = Template.FindName("PART_Help", this) as Button;
-                if (helpButton != null)
-                {
-                    helpButton.Command = _helpContextCommand;
-                    helpButton.CommandParameter = _helpTopicId;
-                    helpButton.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
-        void OnCloseButtonClick(object sender, RoutedEventArgs e)
-        {
-            CloseContent();
-        }
-
-        void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
         }
 
         void OnKeyDown(object sender, KeyEventArgs e)
@@ -122,6 +81,12 @@ namespace Infrastructure.Common
             {
                 CloseContent();
             }
+        }
+
+        private void OnCloseButton(object sender, RoutedEventArgs e)
+        {
+            Close();
+            CloseContent();
         }
 
         void CloseContent()

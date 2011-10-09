@@ -2,12 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+    
     <UserControl.Resources>
         <ContextMenu x:Key="tabItemContextMenu">
             <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр" />
             <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр" />
         </ContextMenu>
     </UserControl.Resources>
+    
     <TabControl ContextMenuOpening="TabControl_ContextMenuOpening"
                 ItemsSource="{Binding FrameViewModels}"
                 SelectedItem="{Binding SelectedFrameViewModel}"

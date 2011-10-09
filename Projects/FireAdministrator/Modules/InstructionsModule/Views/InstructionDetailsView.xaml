@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:InstructionsModule.Converters" 
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             MinWidth="400" MinHeight="200" >
-    <Grid Margin="00" Background="AliceBlue">
+             MinWidth="400" MinHeight="200">
+    
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -96,12 +97,8 @@
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Controls:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
-                              Width="100" Height="30" Margin="2" VerticalAlignment="Center" 
-                              Command="{Binding SaveCommand}" Content="OK"/>
-            <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
-                              Width="100" Height="30" Margin="2" VerticalAlignment="Center" 
-                              Command="{Binding CancelCommand}" Content="Отмена" />
+            <Button Grid.Column="1" Width="100" Height="30" Margin="2" VerticalAlignment="Center" Command="{Binding SaveCommand}" Content="OK"/>
+            <Button Grid.Column="1" Width="100" Height="30" Margin="2" VerticalAlignment="Center"  Command="{Binding CancelCommand}" Content="Отмена" />
         </StackPanel>
         
     </Grid>

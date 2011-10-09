@@ -12,9 +12,10 @@ namespace DevicesModule.Views
 
         private void _dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_dataGrid.SelectedItem != null)
+            var dataGrid = sender as DataGrid;
+            if (dataGrid.SelectedItem != null)
             {
-                _dataGrid.ScrollIntoView(_dataGrid.SelectedItem);
+                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
             }
         }
     }

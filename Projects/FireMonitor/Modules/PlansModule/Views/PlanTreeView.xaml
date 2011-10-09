@@ -6,8 +6,8 @@
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
-    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+    
+    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название">
                 <DataGridTemplateColumn.CellTemplate>

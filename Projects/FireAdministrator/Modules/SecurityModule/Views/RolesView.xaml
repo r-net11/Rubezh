@@ -5,10 +5,7 @@
         <DataGrid  ItemsSource="{Binding Roles,
                                          Converter={StaticResource CollectionViewFactoryConverter},
                                          ConverterParameter=Role.Name}"
-                   SelectedItem="{Binding SelectedRole}"
-                   ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                   CellStyle="{StaticResource DataGridCellStyle}"
-                   Style="{StaticResource DataGridStyle}">
+                   SelectedItem="{Binding SelectedRole}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Role.Name}" />
             </DataGrid.Columns>

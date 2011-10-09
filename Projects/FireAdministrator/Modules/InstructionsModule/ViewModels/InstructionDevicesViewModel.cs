@@ -18,10 +18,10 @@ namespace InstructionsModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             InstructionDevicesList = new List<Guid>();
 
-            AddDeviceCommand = new RelayCommand(OnAddDevice, CanAddAvailableDevice);
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
-            AddAllDeviceCommand = new RelayCommand(OnAddAllDevice, CanAddAllAvailableDevice);
-            RemoveAllDeviceCommand = new RelayCommand(OnRemoveAllDevice, CanRemoveAllDevice);
+            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
+            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
         }
 
         public void Inicialize(List<Guid> instructionDevicesList)
@@ -178,39 +178,39 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public bool CanAddAvailableDevice()
+        public bool CanAddOne()
         {
             return ((SelectedAvailableDevice != null) &&
                 (SelectedAvailableDevice.Driver.IsZoneDevice ||
                 SelectedAvailableDevice.Driver.IsZoneLogicDevice));
         }
 
-        public bool CanAddAllAvailableDevice()
+        public bool CanAddAll()
         {
             return (AvailableDevices.IsNotNullOrEmpty());
         }
 
-        public bool CanRemoveDevice()
+        public bool CanRemoveOne()
         {
             return ((SelectedInstructionDevice != null) &&
                 (SelectedInstructionDevice.Driver.IsZoneDevice ||
                 SelectedInstructionDevice.Driver.IsZoneLogicDevice));
         }
 
-        public bool CanRemoveAllDevice()
+        public bool CanRemoveAll()
         {
             return (InstructionDevices.IsNotNullOrEmpty());
         }
 
-        public RelayCommand AddDeviceCommand { get; private set; }
-        void OnAddDevice()
+        public RelayCommand AddOneCommand { get; private set; }
+        void OnAddOne()
         {
             InstructionDevicesList.Add(SelectedAvailableDevice.UID);
             UpdateDevices();
         }
 
-        public RelayCommand AddAllDeviceCommand { get; private set; }
-        void OnAddAllDevice()
+        public RelayCommand AddAllCommand { get; private set; }
+        void OnAddAll()
         {
             InstructionDevicesList.Clear();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty() == false)
@@ -227,15 +227,15 @@ namespace InstructionsModule.ViewModels
             UpdateDevices();
         }
 
-        public RelayCommand RemoveAllDeviceCommand { get; private set; }
-        void OnRemoveAllDevice()
+        public RelayCommand RemoveAllCommand { get; private set; }
+        void OnRemoveAll()
         {
             InstructionDevicesList.Clear();
             UpdateDevices();
         }
 
-        public RelayCommand RemoveDeviceCommand { get; private set; }
-        void OnRemoveDevice()
+        public RelayCommand RemoveOneCommand { get; private set; }
+        void OnRemoveOne()
         {
             InstructionDevicesList.Remove(SelectedInstructionDevice.UID);
             UpdateDevices();

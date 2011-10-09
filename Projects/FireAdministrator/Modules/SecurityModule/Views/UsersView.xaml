@@ -5,11 +5,7 @@
         <DataGrid ItemsSource="{Binding Users,
                                         Converter={StaticResource CollectionViewFactoryConverter},
                                         ConverterParameter=User.Login}"
-                  SelectedItem="{Binding SelectedUser}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                  CellStyle="{StaticResource DataGridCellStyle}"
-                  Style="{StaticResource DataGridStyle}"
-                  GridLinesVisibility="All">
+                  SelectedItem="{Binding SelectedUser}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Логин" Width="1*" Binding="{Binding User.Login}" />
                 <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding User.Name}" />

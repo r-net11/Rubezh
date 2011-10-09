@@ -20,57 +20,32 @@
             </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Список всех зон:" />
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Список зон для инструкции:" />
-            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" 
-                  CellStyle="{StaticResource DataGridCellStyle}" 
-                  Style="{StaticResource DataGridStyle}">
+            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                <Controls:XButton Grid.Column="1" Name="btnAddZone" FontWeight="Black" Background="Black"
-                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddZoneCommand}">
-                    <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/Right.png" />
-                    </Controls:XButton.Content>
-                    <Controls:XButton.ToolTip>
-                        <TextBlock Text="Добавить зону" />
-                    </Controls:XButton.ToolTip>
-                </Controls:XButton>
-                <Controls:XButton Grid.Column="1" Name="btnAddAllZone" FontWeight="Black" Background="Black"
-                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding AddAllZoneCommand}">
-                    <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/RightRight.png" />
-                    </Controls:XButton.Content>
-                    <Controls:XButton.ToolTip>
-                        <TextBlock Text="Добавить все зоны" />
-                    </Controls:XButton.ToolTip>
-                </Controls:XButton>
-                <Controls:XButton Grid.Column="1" Name="btnRemoveZone" FontWeight="Black" Background="Black"
-                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveZoneCommand}">
-                    <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/Left.png" />
-                    </Controls:XButton.Content>
-                    <Controls:XButton.ToolTip>
-                        <TextBlock Text="Удалить зону" />
-                    </Controls:XButton.ToolTip>
-                </Controls:XButton>
-                <Controls:XButton Grid.Column="1" Name="btnRemoveAllZone" FontWeight="Black" Background="Black"
-                              Width="50" Height="30" VerticalAlignment="Center" Command="{Binding RemoveAllZoneCommand}">
-                    <Controls:XButton.Content>
-                        <Image Source="/Controls;component/Images/LeftLeft.png" />
-                    </Controls:XButton.Content>
-                    <Controls:XButton.ToolTip>
-                        <TextBlock Text="Удалить все зоны" />
-                    </Controls:XButton.ToolTip>
-                </Controls:XButton>
+
+            <StackPanel Grid.Column="1">
+                <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Left.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding RemoveOneCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Right.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding AddAllCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
+                </Button>
             </StackPanel>
-            <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" IsReadOnly="False"
-                  CellStyle="{StaticResource DataGridCellStyle}" 
-                  Style="{StaticResource DataGridStyle}">
+            
+            <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
@@ -78,12 +53,8 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Controls:XButton Grid.Column="1" Name="btnOk" FontWeight="Black" Background="Black"
-                              Width="80" Height="30" VerticalAlignment="Center" 
-                              Command="{Binding SaveCommand}" Content="OK"/>
-            <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
-                              Width="80" Height="30" VerticalAlignment="Center" 
-                              Command="{Binding CancelCommand}" Content="Отмена"/>
+            <Button Grid.Column="1" Width="100" Command="{Binding SaveCommand}" Content="OK"/>
+            <Button Grid.Column="1" Width="100" Command="{Binding CancelCommand}" Content="Отмена"/>
         </StackPanel>
     </Grid>
 </UserControl>

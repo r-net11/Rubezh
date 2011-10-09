@@ -7,7 +7,7 @@
         <Converters:ColorIdToStringConverter x:Key="ColorIdToStringConverter" />
     </UserControl.Resources>
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -15,17 +15,17 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="5">
-            <GroupBox Header="Индикатор состояния" FontWeight="Bold" Margin="2">
+            <GroupBox Header="Индикатор состояния" FontWeight="Bold" Margin="2" Foreground="White">
                 <StackPanel Orientation="Horizontal" Margin="2">
-                    <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" />
-                    <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" />
+                    <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" Foreground="White" />
+                    <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" Foreground="White" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>
 
         <Grid Grid.Row="1" Visibility="{Binding IsZone, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
-                <TextBlock Text="Выбранные зоны" FontWeight="Bold" Margin="2" />
+                <TextBlock Text="Выбранные зоны" FontWeight="Bold" Margin="2" Foreground="White" />
                 <TextBlock>
                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                         <TextBlock Text="{Binding PresenrationZones}" />                
@@ -50,7 +50,7 @@
         <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
 
-                <TextBlock Text="Выбранное устройство" FontWeight="Bold" Margin="2" />
+                <TextBlock Text="Выбранное устройство" FontWeight="Bold" Margin="2" Foreground="White" />
                 
                 <Grid Grid.Row="1" Margin="5">
                     <Grid.ColumnDefinitions>
@@ -98,10 +98,10 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Включено" Margin="2" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Выключено" Margin="2" />
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Неисправность" Margin="2" />
-                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Потеря связи" Margin="2" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Включено" Margin="2" Foreground="White" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Выключено" Margin="2" Foreground="White" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Неисправность" Margin="2" Foreground="White" />
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Потеря связи" Margin="2" Foreground="White" />
                     <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

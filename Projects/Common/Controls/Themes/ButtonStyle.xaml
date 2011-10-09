@@ -27,7 +27,6 @@
                             <ContentPresenter x:Name="ContentSite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
                                 <ContentPresenter.Style>
                                     <Style>
-
                                         <Setter Property="TextElement.FontSize" Value="12"/>
                                         <Setter Property="TextElement.FontWeight" Value="Bold"/>
                                         <Setter Property="TextElement.FontFamily" Value="Arial"/>

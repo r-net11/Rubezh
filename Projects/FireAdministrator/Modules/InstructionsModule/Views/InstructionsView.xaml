@@ -6,15 +6,15 @@
         <Converters:InstructionTypeConverter  x:Key="InstructionTypeConverter" />
         <Converters:StateTypeConverter  x:Key="StateTypeConverter" />
     </UserControl.Resources>
+    
     <Grid>
-<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <DataGrid
-                  ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}" 
-                        ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                  ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер" Binding="{Binding InstructionNo}" Width="1*" />
                     <DataGridTextColumn Header="Тип инструкции"  Width="1*" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />

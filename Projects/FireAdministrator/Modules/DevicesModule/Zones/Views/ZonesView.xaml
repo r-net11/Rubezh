@@ -10,9 +10,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Margin="2, 2, 10, 2">
-            <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}"
-                      Name="_dataGrid" SelectionChanged="_dataGrid_SelectionChanged">
+            <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="_dataGrid_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />

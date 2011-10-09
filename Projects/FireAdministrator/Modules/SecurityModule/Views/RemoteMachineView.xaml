@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:SecurityModule.Views"
              MinWidth="350" MinHeight="150">
-    <DockPanel Margin="11">
+    
+    <DockPanel>
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />

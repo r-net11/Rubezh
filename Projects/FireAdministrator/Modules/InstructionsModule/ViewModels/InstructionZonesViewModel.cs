@@ -12,10 +12,10 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionZonesViewModel()
         {
-            AddZoneCommand = new RelayCommand(OnAddZone, CanAddAvailableZone);
-            RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
-            AddAllZoneCommand = new RelayCommand(OnAddAllZone, CanAddAllAvailableZone);
-            RemoveAllZoneCommand = new RelayCommand(OnRemoveAllZone, CanRemoveAllZone);
+            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
+            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
 
@@ -76,22 +76,22 @@ namespace InstructionsModule.ViewModels
         public ZoneViewModel SelectedAvailableZone { get; set; }
         public ZoneViewModel SelectedInstructionZone { get; set; }
 
-        public bool CanAddAvailableZone()
+        public bool CanAddOne()
         {
             return (SelectedAvailableZone != null);
         }
 
-        public bool CanAddAllAvailableZone()
+        public bool CanAddAll()
         {
             return (AvailableZones.IsNotNullOrEmpty());
         }
 
-        public bool CanRemoveZone()
+        public bool CanRemoveOne()
         {
             return (SelectedInstructionZone != null);
         }
 
-        public bool CanRemoveAllZone()
+        public bool CanRemoveAll()
         {
             return (InstructionZones.IsNotNullOrEmpty());
         }
@@ -101,8 +101,8 @@ namespace InstructionsModule.ViewModels
         //    return (InstructionZones.IsNotNullOrEmpty());
         //}
 
-        public RelayCommand AddZoneCommand { get; private set; }
-        void OnAddZone()
+        public RelayCommand AddOneCommand { get; private set; }
+        void OnAddOne()
         {
             InstructionZones.Add(SelectedAvailableZone);
             AvailableZones.Remove(SelectedAvailableZone);
@@ -116,8 +116,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand AddAllZoneCommand { get; private set; }
-        void OnAddAllZone()
+        public RelayCommand AddAllCommand { get; private set; }
+        void OnAddAll()
         {
             foreach (var availableZone in AvailableZones)
             {
@@ -131,8 +131,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand RemoveAllZoneCommand { get; private set; }
-        void OnRemoveAllZone()
+        public RelayCommand RemoveAllCommand { get; private set; }
+        void OnRemoveAll()
         {
             foreach (var instructionZone in InstructionZones)
             {
@@ -146,8 +146,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand RemoveZoneCommand { get; private set; }
-        void OnRemoveZone()
+        public RelayCommand RemoveOneCommand { get; private set; }
+        void OnRemoveOne()
         {
             AvailableZones.Add(SelectedInstructionZone);
             InstructionZones.Remove(SelectedInstructionZone);

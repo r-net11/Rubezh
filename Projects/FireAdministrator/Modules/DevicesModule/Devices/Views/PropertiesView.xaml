@@ -5,8 +5,8 @@
     <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="group1" Width="150" />
-                <ColumnDefinition SharedSizeGroup="group2" Width="150" />
+                <ColumnDefinition SharedSizeGroup="group1" Width="600" />
+                <ColumnDefinition SharedSizeGroup="group2" Width="400" />
             </Grid.ColumnDefinitions>
         </Grid>
 
@@ -18,7 +18,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" />
+                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" Foreground="White" />
                         <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" />
                     </Grid>
                 </DataTemplate>
@@ -33,7 +33,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" />
+                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" Foreground="White" />
                         <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Margin="2" />
                     </Grid>
                 </DataTemplate>
@@ -48,7 +48,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" />
+                        <TextBlock Grid.Column="0" Text="{Binding Caption}" Margin="2" Foreground="White" />
                         <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue}" Margin="2" />
                     </Grid>
                 </DataTemplate>

@@ -10,7 +10,7 @@
         <Converters:GuardZoneTypeToStringConverter x:Key="GuardZoneTypeToStringConverter" />
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -29,9 +29,9 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" Margin="2" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" Margin="2" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" Margin="2" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" Margin="2" Foreground="White" HorizontalAlignment="Right" />
 
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
@@ -40,57 +40,84 @@
                 </TabItem>
 
                 <TabItem Header="Настройки зоны">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0" Text="Назначение зоны" Margin="2" />
-                        <ComboBox Grid.Row="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource ZoneTypeToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-
-                        <Grid Grid.Row="2">
-
-                            <Grid Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <StackPanel>
-                                    <TextBlock Text="Число датчиков для формирования сигнала Пожар" Margin="2" />
-                                    <extToolkit:IntegerUpDown Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
-                                    <TextBlock Text="Время эвакуации, сек(если указано, то при получении события о" Margin="2" />
-                                    <TextBlock Text="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Margin="2" />
-                                    <extToolkit:IntegerUpDown Value="{Binding EvacuationTime}" Minimum="0" Margin="2" />
-                                </StackPanel>
-                            </Grid>
-
-                            <Grid Visibility="{Binding IsGuardZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <StackPanel>
-                                    <TextBlock Text="Вид зоны" Margin="2" />
-
-                                    <ComboBox ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ., Converter={StaticResource GuardZoneTypeToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-
-                                    <CheckBox Content="Тихая тревога" IsChecked="{Binding Skipped}" Margin="2" />
-                                    <TextBlock Text="Входная/выходная задержка, сек" Margin="2" />
-                                    <extToolkit:IntegerUpDown Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" Margin="2" />
-                                    <TextBlock Text="Автоперевзятие, сек" Margin="2" />
-                                    <extToolkit:IntegerUpDown Value="{Binding AutoSet}" Minimum="0" Margin="2" />
-                                </StackPanel>
-                            </Grid>
-
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="group1" Width="500" />
+                                <ColumnDefinition SharedSizeGroup="group2" Width="100" />
+                            </Grid.ColumnDefinitions>
                         </Grid>
 
-                    </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="group1" />
+                                <ColumnDefinition SharedSizeGroup="group2" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Назначение зоны" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ZoneTypeToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+
+                        <StackPanel Visibility="{Binding IsFireZone, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" />
+                                    <ColumnDefinition SharedSizeGroup="group2" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
+
+                                <StackPanel Grid.Row="1" Grid.Column="0">
+                                    <TextBlock Text="Время эвакуации, сек(если указано, то при получении события о" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                    <TextBlock Text="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                </StackPanel>
+                                <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Visibility="{Binding IsGuardZone, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" />
+                                    <ColumnDefinition SharedSizeGroup="group2" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                            
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Вид зоны" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}" Margin="2">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ., Converter={StaticResource GuardZoneTypeToStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Skipped}" Margin="2" VerticalAlignment="Center">
+                                    <TextBlock Text="Тихая тревога" VerticalAlignment="Center" Foreground="White" />
+                                </CheckBox>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Входная/выходная задержка, сек" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" Margin="2" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Автоперевзятие, сек" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" Minimum="0" Margin="2" />
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
 
             </TabControl>

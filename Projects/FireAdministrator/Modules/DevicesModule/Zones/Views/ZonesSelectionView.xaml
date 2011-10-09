@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         MinHeight="300" MinWidth="600" Background="DarkGray">
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -17,8 +17,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
@@ -46,8 +45,7 @@
             </StackPanel>
 
             <Grid Grid.Column="2">
-                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />

@@ -3,21 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:SecurityModule.Views"
              MinWidth="400" MinHeight="500">
-    <DockPanel Margin="11">
+    
+    <DockPanel>
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
         </WrapPanel>
-        <TabControl Name="tabControl" BorderThickness="0" Padding="11" SelectedIndex="0" Background="{x:Null}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Background" Value="{x:Null}" />
-                </Style>
-            </TabControl.ItemContainerStyle>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Общее" />
-                </TabItem.Header>
+        <TabControl Name="tabControl" BorderThickness="0" Padding="11" SelectedIndex="0">
+            <TabItem Header="Общее">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
@@ -34,7 +27,7 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0"
-                               Text="     Имя пользователя:"
+                               Text="    Имя пользователя:"
                                HorizontalAlignment="Right" VerticalAlignment="Center" />
                     <TextBox Grid.Column="1" Grid.Row="0"
                              Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
@@ -99,10 +92,7 @@
                              LostFocus="NewPasswordConfirmition_LostFocus" />
                 </Grid>
             </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Роль" />
-                </TabItem.Header>
+            <TabItem Header="Роль">
                 <StackPanel>
                     <ComboBox ItemsSource="{Binding Roles,
                                                     Converter={StaticResource CollectionViewFactoryConverter},
@@ -127,10 +117,7 @@
                     </ListBox>
                 </StackPanel>
             </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Удаленный доступ" />
-                </TabItem.Header>
+            <TabItem Header="Удаленный доступ">
                 <Views:RemoteAccessView DataContext="{Binding RemoteAccess}" />
             </TabItem>
         </TabControl>

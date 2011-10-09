@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="400" MinHeight="400">
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -17,8 +17,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
@@ -28,15 +27,25 @@
             </Grid>
 
             <StackPanel Grid.Column="1">
-                <Button Content="+" Command="{Binding AddOneCommand}" Width="40" Height="40" />
-                <Button Content="-" Command="{Binding RemoveOneCommand}" Width="40" Height="40" />
-                <Button Content="++" Command="{Binding AddAllCommand}" Width="40" Height="40" />
-                <Button Content="--" Command="{Binding RemoveAllCommand}" Width="40" Height="40" />
+                <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Left.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding RemoveOneCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Right.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding AddAllCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
+                </Button>
             </StackPanel>
 
             <Grid Grid.Column="2">
-                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}"
-                         ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                         <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />

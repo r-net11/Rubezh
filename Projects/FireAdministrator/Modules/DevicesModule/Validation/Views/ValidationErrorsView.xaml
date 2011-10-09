@@ -13,8 +13,7 @@
         </Button>
 
         <Grid Grid.Row="1">
-            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />

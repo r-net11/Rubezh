@@ -8,7 +8,7 @@
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -22,8 +22,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="5"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Тип" Binding="{Binding Device.Driver.ShortName}" />
                     <DataGridTextColumn Width="1*" Header="Адрес" Binding="{Binding Device.PresentationAddress}" />
@@ -42,8 +41,8 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Задержка на включение, сек" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Задержка на выключение, сек" />
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Задержка на включение, сек" Foreground="White" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Задержка на выключение, сек" Foreground="White" />
                     <CheckBox Grid.Column="0" Grid.Row="2" Content="Инверсия вкл./выкл." IsChecked="{Binding IsInversion}" />
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding OnDelay}" Minimum="0" />
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding OffDelay}" Minimum="0" />
@@ -56,9 +55,8 @@
             <Button Content="Удалить из группы" Command="{Binding RemoveCommand}" Margin="2" />
         </StackPanel>
 
-        <Grid Grid.Row="2">
-            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}"
-                            ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" CellStyle="{StaticResource DataGridCellStyle}" Style="{StaticResource DataGridStyle}">
+        <Grid>
+            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -79,7 +77,7 @@
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
+                                        <TextBlock Text="{Binding Driver.ShortName}" Foreground="White">
                                             <TextBlock.Style>
                                                 <Style>
                                                     <Style.Triggers>

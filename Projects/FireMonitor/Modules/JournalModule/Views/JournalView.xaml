@@ -68,10 +68,7 @@
             </Grid>
         </Border>
         <DataGrid Name="journalDataGrid"
-                  ItemsSource="{Binding JournalRecords}"
-                  SelectedItem="{Binding SelectedRecord}"
-                  ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                  Style="{StaticResource DataGridStyle}"
+                  ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}"
                   EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid.Columns>

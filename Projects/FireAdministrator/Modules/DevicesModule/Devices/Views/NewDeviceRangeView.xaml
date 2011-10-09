@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
     
-    <Grid Margin="10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
-                        <TextBlock Text="{Binding ShortName}" Margin="1" />
+                        <TextBlock Text="{Binding ShortName}" Margin="1" Foreground="White" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
