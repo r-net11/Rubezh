@@ -1,5 +1,5 @@
 Thumbs.db
-
+[Bb]in
 obj/
 *.suo
 *.lib
@@ -22,7 +22,7 @@ obj/
 *.ilk
 *.log
 *.resharper
-
+[Db]ebug*/
 [Rr]elease*/
 _ReSharper*/
 *.4.5.resharper.user
