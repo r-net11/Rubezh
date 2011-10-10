@@ -58,8 +58,8 @@ namespace FireMonitor
             var devicesModule = new DevicesModule.DevicesModule();
             devicesModule.Initialize();
 
-            //var journalModule = new JournalModule.JournalModule();
-            //journalModule.Initialize();
+            var journalModule = new JournalModule.JournalModule();
+            journalModule.Initialize();
 
             var alarmModule = new AlarmModule.AlarmModule();
             alarmModule.Initialize();

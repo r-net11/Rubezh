@@ -55,7 +55,7 @@ namespace FiresecService
             var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             _userIpAddress = endpoint.Address;
 
-            if (_userIpAddress == "127.0.0.1")
+            if (CheckHostIps("localhost"))
                 return true;
 
             var remoteAccessPermissions = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
@@ -533,7 +533,9 @@ namespace FiresecService
         {
             var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             string userIp = endpoint.Address;
-            if (userIp == "127.0.0.1")
+
+            var addressList = Dns.GetHostEntry("localhost").AddressList;
+            if (addressList.Any(ip => ip.ToString() == userIp))
                 userIp = "localhost";
 
             var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);

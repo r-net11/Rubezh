@@ -115,9 +115,12 @@ namespace SecurityModule.Views
         {
             if (addressRedactor.Text.Length != addressRedactor.MaxLength)
                 return;
-
-            for (int i = 0; i < IpAddressBytes.Count; ++i)
-                CheckIpAddressByte(i);
+            try
+            {
+                for (int i = 0; i < IpAddressBytes.Count; ++i)
+                    CheckIpAddressByte(i);
+            }
+            catch { }
         }
 
         void CheckIpAddressByte(int index)
@@ -207,7 +210,14 @@ namespace SecurityModule.Views
 
         void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            addressRedactor.Text = string.Format("{0}.{1}.{2}.{3}", GetIpAddressByte(0), GetIpAddressByte(1), GetIpAddressByte(2), GetIpAddressByte(3));
+            try
+            {
+                addressRedactor.Text = string.Format("{0}.{1}.{2}.{3}", GetIpAddressByte(0), GetIpAddressByte(1), GetIpAddressByte(2), GetIpAddressByte(3));
+            }
+            catch
+            {
+                addressRedactor.Text = "";
+            }
         }
     }
 

@@ -15,6 +15,7 @@ namespace FireMonitor
             InitializeComponent();
             DataContext = this;
             ChangeAutoactivationCommand = new RelayCommand(OnChangeAutoactivation);
+            IsAutoactivation = true;
         }
 
         bool _isAutoactivation;

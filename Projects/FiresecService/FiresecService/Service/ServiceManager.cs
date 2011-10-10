@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 
@@ -31,13 +32,13 @@ namespace FiresecService
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, "net.tcp://localhost:8000/FiresecService");
+            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(ConfigurationManager.AppSettings["TCPBaseAddress"] as string));
 
             ServiceMetadataBehavior behavior = _serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
             if (behavior == null)
             {
                 behavior = new ServiceMetadataBehavior();
-                behavior.HttpGetUrl = new Uri("http://localhost:8001/FiresecService");
+                behavior.HttpGetUrl = new Uri(ConfigurationManager.AppSettings["HTTPBaseAddress"] as string);
                 behavior.HttpGetEnabled = true;
                 _serviceHost.Description.Behaviors.Add(behavior);
             }

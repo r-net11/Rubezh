@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
@@ -29,7 +29,7 @@ namespace FiresecClient
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
-            var endpointAddress = new EndpointAddress("net.tcp://localhost:8000/FiresecService");
+            var endpointAddress = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["TCPBaseAddress"] as string));
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
