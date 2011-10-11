@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:DiagramDesigner">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChrome.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type s:MoveThumb}">
+        <Rectangle Fill="Transparent" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="MoveThumbPolygonTemplate" TargetType="{x:Type s:MoveThumb}">
+        <Polygon DataContext="{Binding Content}" Fill="Green" Points="{Binding Points}" />
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type s:DesignerItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type s:DesignerItem}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
+                        <s:MoveThumb x:Name="PART_MoveThumb" Cursor="SizeAll"
+                                     Template="{StaticResource MoveThumbTemplate}" />
+                        <s:MoveThumb x:Name="PART_MoveThumbPolygon" Cursor="SizeAll"
+                                     Template="{StaticResource MoveThumbPolygonTemplate}"/>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                     Content="{TemplateBinding ContentControl.Content}"
+                                     Margin="{TemplateBinding Padding}" />
+                        <s:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
+                        <s:PolygonResizeDecorator x:Name="PART_DesignerItemPolygonResizeDecorator" />
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                                <MenuItem Header="Свойства" Command="{Binding PropertiesCommand}" />
+                                <MenuItem Header="Command 3" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_DesignerItemDecorator" Property="ShowDecorator" Value="True" />
+                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="ShowDecorator" Value="True" />
+                        </Trigger>
+                        <Trigger Property="IsPolygon" Value="True">
+                            <Setter TargetName="PART_DesignerItemDecorator" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumb" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_MoveThumbPolygon" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsPolygon" Value="False">
+                            <Setter TargetName="PART_DesignerItemDecorator" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_MoveThumb" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumbPolygon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -57,6 +57,27 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Designer\DesignerItemData.cs" />
+    <Compile Include="Designer\Designer\DesignerCanvas.cs" />
+    <Compile Include="Designer\Designer\DesignerItem.cs" />
+    <Compile Include="Designer\Designer\MoveThumb.cs" />
+    <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
+    <Compile Include="Designer\Elements\EllipseProperties.xaml.cs">
+      <DependentUpon>EllipseProperties.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Designer\Elements\RectangleProperties.xaml.cs">
+      <DependentUpon>RectangleProperties.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Designer\PolygonToolbox.xaml.cs">
+      <DependentUpon>PolygonToolbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Designer\Polygon\PolygonResizeAdorner.cs" />
+    <Compile Include="Designer\Polygon\PolygonResizeChrome.cs" />
+    <Compile Include="Designer\Polygon\PolygonResizeDecorator.cs" />
+    <Compile Include="Designer\Rectangle\ResizeAdorner.cs" />
+    <Compile Include="Designer\Rectangle\ResizeChrome.cs" />
+    <Compile Include="Designer\Rectangle\ResizeDecorator.cs" />
+    <Compile Include="Designer\Rectangle\ResizeThumb.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -74,12 +95,13 @@
     <Compile Include="Operations\ResizePolygon.cs" />
     <Compile Include="ViewModels\ChildrensViewModel.cs" />
     <Compile Include="ViewModels\Adorners\PolygonAdorner.cs" />
+    <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\SubPlanViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\PlansContextMenuViewModel.cs" />
-    <Compile Include="ViewModels\PlansViewModel.cs" />
+    <Compile Include="ViewModels\OldPlansViewModel.cs" />
     <Compile Include="ViewModels\SubPlanDetailsViewModel.cs" />
     <Compile Include="ViewModels\MainCanvasViewModel.cs" />
     <Compile Include="ViewModels\Adorners\RectangleAdorner.cs" />
@@ -87,6 +109,9 @@
     <Compile Include="ViewModels\temp\ContextMenuCanvasViewModel.cs" />
     <Compile Include="ViewModels\temp\RectangleAdornerResize.cs" />
     <Compile Include="ViewModels\temp\ZoneViewModel.cs" />
+    <Compile Include="Views\PlansView.xaml.cs">
+      <DependentUpon>PlansView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>
     </Compile>
@@ -102,8 +127,8 @@
     <Compile Include="Views\PlansTree.xaml.cs">
       <DependentUpon>PlansTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlansView.xaml.cs">
-      <DependentUpon>PlansView.xaml</DependentUpon>
+    <Compile Include="Views\OldPlansView.xaml.cs">
+      <DependentUpon>OldPlansView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\temp\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
@@ -157,6 +182,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Designer\Designer\DesignerItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\Elements\EllipseProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\Elements\RectangleProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\PolygonToolbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\Rectangle\ResizeChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PlansView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SubPlanDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,7 +226,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlansView.xaml">
+    <Page Include="Views\OldPlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

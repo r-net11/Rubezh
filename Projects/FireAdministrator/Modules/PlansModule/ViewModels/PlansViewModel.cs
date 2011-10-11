@@ -1,13 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Common;
-using FiresecAPI.Models;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using DiagramDesigner;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Views;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -15,184 +15,152 @@ namespace PlansModule.ViewModels
     {
         public PlansViewModel()
         {
-            MainCanvas = new Canvas() { Background = new SolidColorBrush(Colors.Red) };
+            TestCommand = new RelayCommand(OnTest);
+
+            DesignerCanvas = new DesignerCanvas();
+            DesignerCanvas.AllowDrop = true;
+            DesignerCanvas.Background = new SolidColorBrush(Colors.DarkGray);
+
             Initialize();
         }
 
         void Initialize()
         {
-            if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
+            var plan = FiresecManager.PlansConfiguration.Plans[0];
+
+            DesignerCanvas.Width = plan.Width;
+            DesignerCanvas.Height = plan.Height;
+
+            foreach (var elementRectangle in plan.Rectangls)
             {
-                Plans = new ObservableCollection<PlanViewModel>(
-                    FiresecManager.PlansConfiguration.Plans.Select(plan => new PlanViewModel(plan))
-                );
+                var content = new Rectangle();
+                content.Fill = new SolidColorBrush(Colors.Red);
+                content.Stroke = new SolidColorBrush(Colors.Blue);
+                content.IsHitTestVisible = false;
 
-                SelectedPlan = Plans[0];
-            }
-            else
-            {
-                Plans = new ObservableCollection<PlanViewModel>();
-            }
-
-            AddCommand = new RelayCommand(OnAdd);
-            AddSubCommand = new RelayCommand(OnAddSub, CanAddSub);
-            RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
-            EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-        }
-
-        Canvas _mainCanvas;
-        public Canvas MainCanvas
-        {
-            get { return _mainCanvas; }
-            set
-            {
-                _mainCanvas = value;
-                OnPropertyChanged("MainCanvas");
-            }
-        }
-
-        public static void Update()
-        {
-            //OnPropertyChanged("Plans");
-        }
-
-        ObservableCollection<PlanViewModel> _plans;
-        public ObservableCollection<PlanViewModel> Plans
-        {
-            get { return _plans; }
-            set
-            {
-                _plans = value;
-                OnPropertyChanged("Plans");
-            }
-        }
-
-        PlanViewModel _selectedPlan;
-        public PlanViewModel SelectedPlan
-        {
-            get { return _selectedPlan; }
-            set
-            {
-                _selectedPlan = value;
-
-                OnPropertyChanged("SelectedPlan");
-                if (PlanCanvasView.Current != null)
-                    PlanCanvasView.Current.ChangeSelectedPlan(SelectedPlan.Plan);
-            }
-        }
-
-        bool RemovePlan(ObservableCollection<PlanViewModel> plans, PlanViewModel selectedPlan)
-        {
-            if (plans.Remove(SelectedPlan))
-            {
-                FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
-                return true;
-            }
-            else
-            {
-                foreach (var plan in plans)
+                if (elementRectangle.BackgroundPixels != null)
                 {
-                    if (plans.Remove(selectedPlan))
+                    BitmapImage image = null;
+                    using (var imageStream = new MemoryStream(elementRectangle.BackgroundPixels))
                     {
-                        FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
-                        return true;
+                        image = new BitmapImage();
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.StreamSource = imageStream;
+                        image.EndInit();
                     }
-                    else
-                    {
-                        RemovePlan(plan.Children, SelectedPlan);
-                    }
+                    content.Fill = new ImageBrush(image);
                 }
+
+                var designerItem = new DesignerItem();
+                designerItem.ItemType = "Rectangle";
+                designerItem.IsPolygon = false;
+                designerItem.MinWidth = 20;
+                designerItem.MinHeight = 20;
+                designerItem.Width = elementRectangle.Width;
+                designerItem.Height = elementRectangle.Height;
+                designerItem.Content = content;
+                DesignerCanvas.SetLeft(designerItem, elementRectangle.Left);
+                DesignerCanvas.SetTop(designerItem, elementRectangle.Top);
+                DesignerCanvas.Children.Add(designerItem);
             }
-            return false;
-        }
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var planDetailsViewModel = (SelectedPlan != null) ? new PlanDetailsViewModel(SelectedPlan.Plan) : new PlanDetailsViewModel();
-            planDetailsViewModel.Initialize();
-
-            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+            foreach (var elementTextBlock in plan.TextBoxes)
             {
-                if (SelectedPlan != null)
+                var content = new TextBlock();
+                content.Text = elementTextBlock.Text;
+                //elementTextBlock.BorderColor;
+                content.IsHitTestVisible = false;
+
+                var designerItem = new DesignerItem();
+                designerItem.ItemType = "TextBox";
+                designerItem.IsPolygon = false;
+                designerItem.MinWidth = 20;
+                designerItem.MinHeight = 20;
+                designerItem.Content = content;
+                DesignerCanvas.SetLeft(designerItem, elementTextBlock.Left);
+                DesignerCanvas.SetTop(designerItem, elementTextBlock.Top);
+                DesignerCanvas.Children.Add(designerItem);
+            }
+
+            foreach (var elementZonePolygon in plan.ElementZones)
+            {
+                double minLeft = double.MaxValue;
+                double minTop = double.MaxValue;
+                double maxLeft = 0;
+                double maxTop = 0;
+
+                foreach (var point in elementZonePolygon.PolygonPoints)
                 {
-                    SelectedPlan.Children.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                    minLeft = Math.Min(point.X, minLeft);
+                    minTop = Math.Min(point.Y, minTop);
+                    maxLeft = Math.Max(point.X, maxLeft);
+                    maxTop = Math.Max(point.Y, maxTop);
                 }
-                else
+
+                var pointCollection = new PointCollection();
+                foreach (var point in elementZonePolygon.PolygonPoints)
                 {
-                    Plans.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                    pointCollection.Add(new Point(point.X - minLeft, point.Y - minTop));
                 }
-            }
-        }
 
-        public RelayCommand AddSubCommand { get; private set; }
-        void OnAddSub()
-        {
-            var subPlanDetailsViewModel = new SubPlanDetailsViewModel(SelectedPlan.Plan);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel))
+                var content = new Polygon();
+                content.Points = new PointCollection(pointCollection);
+                content.Fill = new SolidColorBrush(Colors.Orange);
+                content.Stroke = new SolidColorBrush(Colors.Green);
+                content.IsHitTestVisible = false;
+
+                var designerItem = new DesignerItem();
+                designerItem.ItemType = "Polygon";
+                designerItem.IsPolygon = true;
+                designerItem.MinWidth = 20;
+                designerItem.MinHeight = 20;
+                designerItem.Width = maxLeft - minLeft;
+                designerItem.Height = maxTop - minTop;
+                designerItem.Content = content;
+                DesignerCanvas.SetLeft(designerItem, minLeft);
+                DesignerCanvas.SetTop(designerItem, minTop);
+                DesignerCanvas.Children.Add(designerItem);
+            }
+
+            foreach (var elementDevice in plan.ElementDevices)
             {
-                var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.ElementSubPlan);
-                SelectedPlan.ElementSubPlans.Add(elementSubPlanViewModel);
+                var content = new Rectangle();
+                content.Fill = new SolidColorBrush(Colors.Gold);
+                content.Stroke = new SolidColorBrush(Colors.Lime);
+                content.IsHitTestVisible = false;
+
+                var designerItem = new DesignerItem();
+                designerItem.ItemType = "Rectangle";
+                designerItem.IsPolygon = false;
+                designerItem.MinWidth = 5;
+                designerItem.MinHeight = 5;
+                designerItem.Width = elementDevice.Width;
+                designerItem.Height = elementDevice.Height;
+                designerItem.Content = content;
+                DesignerCanvas.SetLeft(designerItem, elementDevice.Left);
+                DesignerCanvas.SetTop(designerItem, elementDevice.Top);
+                DesignerCanvas.Children.Add(designerItem);
             }
+
+            DesignerCanvas.DeselectAll();
         }
 
-        bool CanAddSub()
+        DesignerCanvas _designerCanvas;
+        public DesignerCanvas DesignerCanvas
         {
-            return SelectedPlan != null;
-        }
-
-        bool CanEditRemove()
-        {
-            return SelectedPlan != null;
-        }
-
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            if (SelectedPlan.Plan.Parent != null)
+            get { return _designerCanvas; }
+            set
             {
-                Plan plan = SelectedPlan.Plan.Parent;
-                plan.Children.Remove(SelectedPlan.Plan);
-                while (plan.Parent != null) plan = plan.Parent;
-                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
-                FiresecManager.PlansConfiguration.Plans[index] = plan;
-            }
-            else
-            {
-                FiresecManager.PlansConfiguration.Plans.Remove(SelectedPlan.Plan);
-            }
-
-            RemovePlan(Plans, SelectedPlan);
-            SelectedPlan.Update();
-            SelectedPlan = null;
-        }
-
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            var planDetailsViewModel = new PlanDetailsViewModel();
-            planDetailsViewModel.Initialize(SelectedPlan.Plan);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
-            {
-                SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
-                var plan = SelectedPlan.Plan;
-                while (plan.Parent != null) plan = plan.Parent;
-                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
-                FiresecManager.PlansConfiguration.Plans[index] = plan;
-                SelectedPlan.Update();
+                _designerCanvas = value;
+                OnPropertyChanged("DesignerCanvas");
             }
         }
 
-        public override void OnShow()
+        public RelayCommand TestCommand { get; private set; }
+        void OnTest()
         {
-            var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, AddSubCommand, EditCommand, RemoveCommand);
-            var plansMenuViewModel = new PlansMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
-        }
-
-        public override void OnHide()
-        {
-            ServiceFactory.Layout.ShowMenu(null);
+            DesignerCanvas.Background = new SolidColorBrush(Colors.Blue);
         }
     }
 }

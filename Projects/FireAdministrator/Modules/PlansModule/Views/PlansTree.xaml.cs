@@ -17,11 +17,11 @@ namespace PlansModule.Views
             var treeView = sender as TreeView;
             if (!(element is TextBlock))
             {
-                (DataContext as PlansViewModel).SelectedPlan = null;
+                (DataContext as OldPlansViewModel).SelectedPlan = null;
             }
             else
             {
-                (DataContext as PlansViewModel).SelectedPlan =    treeView.SelectedItem as PlanViewModel;
+                (DataContext as OldPlansViewModel).SelectedPlan =    treeView.SelectedItem as PlanViewModel;
                 
                 
             }
@@ -32,7 +32,7 @@ namespace PlansModule.Views
             var treeView = sender as TreeView;
             if (treeView.SelectedItem is PlanViewModel)
             {
-                (DataContext as PlansViewModel).SelectedPlan = treeView.SelectedItem as PlanViewModel;
+                (DataContext as OldPlansViewModel).SelectedPlan = treeView.SelectedItem as PlanViewModel;
             }
 
         }
