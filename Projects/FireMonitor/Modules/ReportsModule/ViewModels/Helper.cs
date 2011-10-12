@@ -50,7 +50,7 @@ namespace ReportsModule
         {
             if (dataList.IsNotNullOrEmpty() == false)
             {
-                return null;
+                return new ReportViewer();
             }
             var reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
