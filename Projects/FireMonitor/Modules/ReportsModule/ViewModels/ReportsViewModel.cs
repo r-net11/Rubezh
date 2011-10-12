@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using Common;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Microsoft.Reporting.WinForms;
-using ReportsModule.Models;
 using ReportsModule.Reports;
 using ReportsModule.Views;
-using System.Security;
-using System.Security.Permissions;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
 
 namespace ReportsModule.ViewModels
 {
@@ -19,17 +16,18 @@ namespace ReportsModule.ViewModels
             ShowDeviceParamsReportCommand = new RelayCommand(OnShowDeviceParamsReportCommand);
             ShowDriverCountReportCommand = new RelayCommand(OnShowDriverCountReportCommand);
             ShowIndicationBlockReportCommand = new RelayCommand(OnShowIndicationBlockReportCommand);
+            ShowTestCrystalReportCommand = new RelayCommand(OnShowTestCrystalReport);
         }
 
         public void Initialize()
         {
-            //ReportContent = _testReportViewer;
             _reportViewer = new ReportViewer();
-            _reportViewerWinForm = new ReportViewerWinForm();
+            //_crystalReportsViewer = new CrystalReportsViewer();
+            //ReportContent = _crystalReportsViewer;
         }
 
         ReportViewer _reportViewer;
-        ReportViewerWinForm _reportViewerWinForm;
+        //CrystalReportsViewer _crystalReportsViewer;
 
         object _reportContent;
         public object ReportContent
@@ -42,75 +40,57 @@ namespace ReportsModule.ViewModels
             }
         }
 
-        void ShowReport()
+        void ShowReport(BaseReport report)
         {
-            PermissionSet _permissions = new PermissionSet(PermissionState.None);
-            _permissions.AddPermission(new FileIOPermission(PermissionState.Unrestricted));
-            _permissions.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
-
-            _reportViewer.LocalReport.SetBasePermissionsForSandboxAppDomain(_permissions);
+            report.LoadData();
+            _reportViewer = report.CreateReportViewer();
             _reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
 
-            ReportViewerWinForm _reportViewerWinForm = new ReportViewerWinForm();
+            var _reportViewerWinForm = new ReportViewerWinForm();
             _reportViewerWinForm.winFormsHost.Child = _reportViewer;
-            _reportViewer.LocalReport.ReleaseSandboxAppDomain();
-            _reportViewerWinForm.ShowDialog();
+            _reportViewerWinForm.Show();
         }
 
         public RelayCommand ShowDriverCountReportCommand { get; private set; }
         void OnShowDriverCountReportCommand()
         {
-            var reportDriverCounterDataTable = new ReportDriverCounterDataTable();
-            reportDriverCounterDataTable.Initialize();
-            _reportViewer = Helper.CreateReportViewer<ReportDriverCounterModel>(reportDriverCounterDataTable.DriverCounterList,
-                reportDriverCounterDataTable.DataTableName, reportDriverCounterDataTable.RdlcFileName);
-            ShowReport();
+            ShowReport(new ReportDriverCounter());
         }
 
         public RelayCommand ShowDeviceParamsReportCommand { get; private set; }
         void OnShowDeviceParamsReportCommand()
         {
-            var reportDeviceParamsDataTable = new ReportDeviceParamsDataTable();
-            reportDeviceParamsDataTable.Initialize();
-            using (_reportViewer = Helper.CreateReportViewer<ReportDeviceParamsModel>(reportDeviceParamsDataTable.DeviceParamsList,
-                reportDeviceParamsDataTable.DataTableName, reportDeviceParamsDataTable.RdlcFileName))
-            {
-                ShowReport();
-            }
+            ShowReport(new ReportDeviceParams());
         }
 
         public RelayCommand ShowDeviceListReportCommand { get; private set; }
         void OnShowDeviceListReportCommand()
         {
-            var reportDevicesListDataTable = new ReportDevicesListDataTable();
-            reportDevicesListDataTable.Initialize();
-            _reportViewer = Helper.CreateReportViewer<ReportDeviceListModel>(reportDevicesListDataTable.DevicesList,
-                reportDevicesListDataTable.DataTableName, reportDevicesListDataTable.RdlcFileName);
-            ShowReport();
+            ShowReport(new ReportDevicesList());
         }
 
         public RelayCommand ShowJournalReportCommand { get; private set; }
         void OnShowJournalReportCommand()
         {
-            var reportJournalDataTable = new ReportJournalDataTable();
-            reportJournalDataTable.Initialize();
-            _reportViewer = Helper.CreateReportViewer<ReportJournalModel>(reportJournalDataTable.JournalList,
-                reportJournalDataTable.DataTableName, reportJournalDataTable.RdlcFileName);
-            var startDate = new ReportParameter("StartDate", reportJournalDataTable.StartDate.ToString(), true);
-            var endDate = new ReportParameter("EndDate", reportJournalDataTable.EndDate.ToString(), true);
-            var header = new ReportParameter("header", new string[] { "1", "2", "3", "4" });
-            _reportViewer.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate, header });
-            ShowReport();
+            ShowReport(new ReportJournal());
         }
 
         public RelayCommand ShowIndicationBlockReportCommand { get; private set; }
         void OnShowIndicationBlockReportCommand()
         {
-            var reportIndicationBlockDataTable = new ReportIndicationBlockDataTable();
-            reportIndicationBlockDataTable.Initialize();
-            _reportViewer = Helper.CreateReportViewer<ReportIndicationBlockModel>(reportIndicationBlockDataTable.IndicationBlockList,
-                reportIndicationBlockDataTable.DataTableName, reportIndicationBlockDataTable.RdlcFileName);
-            ShowReport();
+            ShowReport(new ReportIndicationBlock());
+        }
+
+        public RelayCommand ShowTestCrystalReportCommand { get; private set; }
+        void OnShowTestCrystalReport()
+        {
+            //var crystalReportTest = new CrystalReport1();
+            ////var crystalReportTest = new CrystalReportTestIndicationBlock();
+            //var reportIndicationBlockDataTable = new ReportIndicationBlock();
+            //reportIndicationBlockDataTable.TestInitialize();
+            //crystalReportTest.SetDataSource(reportIndicationBlockDataTable.DataList);
+            //_crystalReportsViewer.ViewerCore.ReportSource = crystalReportTest;
+            //ReportContent = _crystalReportsViewer;
         }
     }
 }

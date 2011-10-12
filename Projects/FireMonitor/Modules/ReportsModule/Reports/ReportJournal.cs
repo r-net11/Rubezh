@@ -1,31 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
 using ReportsModule.Models;
+using Microsoft.Reporting.WinForms;
 
 namespace ReportsModule.Reports
 {
-    public class ReportJournalDataTable
+    public class ReportJournal : BaseReportGeneric<ReportJournalModel>
     {
-        public string RdlcFileName = "ReportJournalRDLC.rdlc";
-        public string DataTableName = "DataSetJournal";
-
-        public ReportJournalDataTable()
+        public ReportJournal()
         {
-            JournalList = new List<ReportJournalModel>();
+            base.RdlcFileName = "ReportJournalRDLC.rdlc";
+            base.DataTableName = "DataSetJournal";
         }
 
-        public void Initialize()
+        public override void LoadData()
         {
             var reportArchiveFilter = new ReportArchiveFilter();
             if (reportArchiveFilter.ShowFilter())
             {
                 foreach (var journalRecord in FiresecManager.GetFilteredArchive(reportArchiveFilter.ArchiveFilterViewModel.GetModel()))
                 {
-                    JournalList.Add(new ReportJournalModel()
+                    DataList.Add(new ReportJournalModel()
                     {
                         DeviceTime = journalRecord.DeviceTime.ToString(),
                         SystemTime = journalRecord.SystemTime.ToString(),
@@ -43,7 +41,17 @@ namespace ReportsModule.Reports
 
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
-        public List<ReportJournalModel> JournalList { get; set; }
+
+        public override ReportViewer CreateReportViewer()
+        {
+            var reportViewer = base.CreateReportViewer();
+            var startDate = new ReportParameter("StartDate", StartDate.ToString(), true);
+            var endDate = new ReportParameter("EndDate", EndDate.ToString(), true);
+            var header = new ReportParameter("header", new string[] { "1", "2", "3", "4" });
+            reportViewer.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate, header });
+
+            return reportViewer;
+        }
 
         class ReportArchiveFilter
         {

@@ -5,19 +5,17 @@ using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {
-    public class ReportDriverCounterDataTable
+    public class ReportDriverCounter : BaseReportGeneric<ReportDriverCounterModel>
     {
-        public string RdlcFileName = "ReportDriverCounterRDLC.rdlc";
-        public string DataTableName = "DataSetDriverCounter";
-
-        public ReportDriverCounterDataTable()
+        public ReportDriverCounter()
         {
-            _driverCounterList = new List<ReportDriverCounterModel>();
+            base.RdlcFileName = "ReportDriverCounterRDLC.rdlc";
+            base.DataTableName = "DataSetDriverCounter";
         }
 
-        public void Initialize()
+        public override void LoadData()
         {
-            _driverCounterList = new List<ReportDriverCounterModel>();
+            DataList = new List<ReportDriverCounterModel>();
 
             foreach (var driver in FiresecManager.Drivers)
             {
@@ -26,7 +24,7 @@ namespace ReportsModule.Reports
                     var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.UID == driver.UID);
                     if (devices.IsNotNullOrEmpty())
                     {
-                        _driverCounterList.Add(new ReportDriverCounterModel()
+                        DataList.Add(new ReportDriverCounterModel()
                         {
                             DriverName = driver.ShortName,
                             Count = devices.Count
@@ -35,7 +33,7 @@ namespace ReportsModule.Reports
                 }
             }
 
-            _driverCounterList.Add(new ReportDriverCounterModel()
+            DataList.Add(new ReportDriverCounterModel()
             {
                 DriverName = "Всего устройств",
                 Count = CountDrivers()
@@ -45,17 +43,13 @@ namespace ReportsModule.Reports
         int CountDrivers()
         {
             int count = 0;
-            foreach (var driverCounter in _driverCounterList)
+
+            foreach (var driverCounter in DataList)
             {
                 count += driverCounter.Count;
             }
-            return count;
-        }
 
-        List<ReportDriverCounterModel> _driverCounterList;
-        public List<ReportDriverCounterModel> DriverCounterList 
-        {
-            get { return new List<ReportDriverCounterModel>(_driverCounterList); }
+            return count;
         }
     }
 }

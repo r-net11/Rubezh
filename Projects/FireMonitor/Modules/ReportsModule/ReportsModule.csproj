@@ -36,6 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\CrystalReports\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\CrystalReports\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\CrystalReports\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -45,6 +54,12 @@
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
+    <Reference Include="SAPBusinessObjects.WPF.Viewer, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\CrystalReports\SAPBusinessObjects.WPF.Viewer.dll</HintPath>
+    </Reference>
+    <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\CrystalReports\SAPBusinessObjects.WPF.ViewerShared.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -64,6 +79,24 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CrystalReports\CrystalReport1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\CrystalReportTest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReportTest.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\CrystalReportTestIndicationBlock.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReportTestIndicationBlock.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\ReportDeviceListModel.cs" />
     <Compile Include="Models\ReportDeviceParamsModel.cs" />
     <Compile Include="Models\ReportDriverCounterModel.cs" />
@@ -83,35 +116,33 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ReportsModule.cs" />
-    <Compile Include="Reports\ReportDeviceParamsDataTable.cs" />
-    <Compile Include="Reports\ReportDevicesListDataTable.cs" />
-    <Compile Include="Reports\ReportJournalDataTable.cs" />
-    <Compile Include="Reports\ReportDriverCounterDataTable.cs" />
-    <Compile Include="Reports\ReportIndicationBlockDataTable.cs" />
+    <Compile Include="Reports\BaseReport.cs" />
+    <Compile Include="Reports\BaseReportGeneric.cs" />
+    <Compile Include="Reports\ReportDeviceParams.cs" />
+    <Compile Include="Reports\ReportDevicesList.cs" />
+    <Compile Include="Reports\ReportJournal.cs" />
+    <Compile Include="Reports\ReportDriverCounter.cs" />
+    <Compile Include="Reports\ReportIndicationBlock.cs" />
     <Compile Include="ViewModels\Helper.cs" />
-    <Compile Include="ViewModels\PrintDialogViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Views\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Form1.designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ReportViewerWinFormControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\ReportViewerWinFormControl.designer.cs">
-      <DependentUpon>ReportViewerWinFormControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TestReportViewer.xaml.cs">
-      <DependentUpon>TestReportViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportViewerWinForm.xaml.cs">
       <DependentUpon>ReportViewerWinForm.xaml</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CrystalReports\CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\CrystalReportTest.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReportTest.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\CrystalReportTestIndicationBlock.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReportTestIndicationBlock.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -121,12 +152,6 @@
     <EmbeddedResource Include="ReportsRdlc\ReportDriverCounterRDLC.rdlc" />
     <EmbeddedResource Include="ReportsRdlc\ReportJournalRDLC.rdlc" />
     <EmbeddedResource Include="ReportsRdlc\ReportIndicationBlockRDLC.rdlc" />
-    <EmbeddedResource Include="Views\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\ReportViewerWinFormControl.resx">
-      <DependentUpon>ReportViewerWinFormControl.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\DataSources\ReportsModule.Models.ReportIndicationBlockModel.datasource" />
     <None Include="Properties\DataSources\ReportsModule.Models.ReportJournalModel.datasource" />
     <None Include="Properties\Settings.settings">
@@ -181,14 +206,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TestReportViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\ReportViewerWinForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

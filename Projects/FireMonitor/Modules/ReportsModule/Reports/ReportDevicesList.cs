@@ -7,19 +7,18 @@ using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {
-    public class ReportDevicesListDataTable
+    public class ReportDevicesList : BaseReportGeneric<ReportDeviceListModel>
     {
-        public string RdlcFileName = "ReportDeviceListRDLC.rdlc";
-        public string DataTableName = "DataSetDataSetDeviceList";
-
-        public ReportDevicesListDataTable()
+        public ReportDevicesList()
+            : base()
         {
-            _devicesList = new List<ReportDeviceListModel>();
+            base.RdlcFileName = "ReportDeviceListRDLC.rdlc";
+            base.DataTableName = "DataSetDataSetDeviceList";
         }
 
-        public void Initialize()
+        public override void LoadData()
         {
-            _devicesList = new List<ReportDeviceListModel>();
+            DataList = new List<ReportDeviceListModel>();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
             {
                 string type = "";
@@ -69,7 +68,7 @@ namespace ReportsModule.Reports
                     {
 
                     }
-                    _devicesList.Add(new ReportDeviceListModel()
+                    DataList.Add(new ReportDeviceListModel()
                         {
                             Type = type,
                             Address = address,
@@ -78,13 +77,5 @@ namespace ReportsModule.Reports
                 }
             }
         }
-
-        List<ReportDeviceListModel> _devicesList;
-        public List<ReportDeviceListModel> DevicesList
-        {
-            get { return new List<ReportDeviceListModel>(_devicesList); }
-            protected set { _devicesList = value; }
-        }
-
     }
 }

@@ -4,8 +4,8 @@ using System.Reflection;
 using Common;
 using Microsoft.Reporting.WinForms;
 using System.IO;
-using System.Windows.Markup;
 using FiresecClient;
+using ReportsModule.Reports;
 
 namespace ReportsModule
 {
@@ -62,5 +62,23 @@ namespace ReportsModule
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource(dataListName, dataList));
             return reportViewer;
         }
+
+        public static ReportViewer CreateReportViewer<T>(BaseReportGeneric<T> reportDataTable)
+        {
+            if (reportDataTable.DataList.IsNotNullOrEmpty() == false)
+            {
+                return new ReportViewer();
+            }
+            var reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = ProcessingMode.Local;
+            var filePath = FileHelper.GetReportFilePath(reportDataTable.RdlcFileName);
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            {
+                reportViewer.LocalReport.LoadReportDefinition(fs);
+            }
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource(reportDataTable.DataTableName, reportDataTable.DataList));
+            return reportViewer;
+        }
+        
     }
 }

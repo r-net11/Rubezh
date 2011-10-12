@@ -7,17 +7,28 @@ using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {
-    public class ReportIndicationBlockDataTable
+    public class ReportIndicationBlock : BaseReportGeneric<ReportIndicationBlockModel>
     {
-        public string RdlcFileName = "ReportIndicationBlockRDLC.rdlc";
-        public string DataTableName = "DataSetIndicationBlock";
-
-        public ReportIndicationBlockDataTable()
+        public ReportIndicationBlock()
         {
-            _indicationBlockList = new List<ReportIndicationBlockModel>();
+            base.RdlcFileName = "ReportIndicationBlockRDLC.rdlc";
+            base.DataTableName = "DataSetIndicationBlock";
         }
 
-        public void Initialize()
+        public void TestInitialize()
+        {
+            DataList = new List<ReportIndicationBlockModel>();
+            for (int i = 0; i < 91; i++)
+            {
+                DataList.Add(new ReportIndicationBlockModel()
+                {
+                    Number = "50",
+                    PresentationName = "TestPresentationName"
+                });
+            }
+        }
+
+        public override void LoadData()
         {
             var IndicationBlockList = new List<ReportIndicationBlockModelTemp>();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
@@ -43,25 +54,14 @@ namespace ReportsModule.Reports
                     foreach (var element in page.ElementsPage)
                     {
                         listElement.Add(new Element() { Number = element.No.ToString(), PresentationName = element.PresentationName });
-                        _indicationBlockList.Add(new ReportIndicationBlockModel()
+                        DataList.Add(new ReportIndicationBlockModel()
                         {
                             Number = element.No.ToString(),
                             PresentationName = element.PresentationName
                         });
                     }
-                    //_indicationBlockList.Add(new ReportIndicationBlockModel()
-                    //{
-                    //    HeaderTable = stringBuilder.ToString(),
-                    //    IndicationBlockTable = listElement
-                    //});
                 }
             }
-        }
-
-        List<ReportIndicationBlockModel> _indicationBlockList;
-        public List<ReportIndicationBlockModel> IndicationBlockList
-        {
-            get { return new List<ReportIndicationBlockModel>(_indicationBlockList); }
         }
     }
 }
