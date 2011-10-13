@@ -26,6 +26,14 @@ namespace ReportsModule.Reports
                     PresentationName = "TestPresentationName"
                 });
             }
+            for (int i = 91; i < 100; i++)
+            {
+                DataList.Add(new ReportIndicationBlockModel()
+                {
+                    Number = "",
+                    PresentationName = ""
+                });
+            }
         }
 
         public override void LoadData()

@@ -12,7 +12,7 @@ namespace ReportsModule
         {
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
         }
-
+        
         public void Initialize()
         {
             RegisterResources();

@@ -1869,7 +1869,8 @@
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="MouseOver"/>
                                 <VisualState x:Name="Disabled">
-                                    <Storyboard>
+                                    <!--//TODO: Conflict with Crystal Reports. Not Found This Properties.-->
+                                    <!--<Storyboard>
                                         <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetProperty="Visibility" Storyboard.TargetName="HorizontalTrackRectangleDisabledOverlay">
                                             <DiscreteObjectKeyFrame KeyTime="0">
                                                 <DiscreteObjectKeyFrame.Value>
@@ -1912,7 +1913,7 @@
                                                 </DiscreteObjectKeyFrame.Value>
                                             </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
+                                    </Storyboard>-->
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="FocusStates">

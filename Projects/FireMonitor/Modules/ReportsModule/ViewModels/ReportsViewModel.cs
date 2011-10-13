@@ -18,7 +18,7 @@ namespace ReportsModule.ViewModels
             ShowIndicationBlockReportCommand = new RelayCommand(OnShowIndicationBlockReportCommand);
             ShowTestCrystalReportCommand = new RelayCommand(OnShowTestCrystalReport);
         }
-
+        
         public void Initialize()
         {
             _reportViewer = new ReportViewer();
@@ -84,7 +84,7 @@ namespace ReportsModule.ViewModels
         public RelayCommand ShowTestCrystalReportCommand { get; private set; }
         void OnShowTestCrystalReport()
         {
-            //var crystalReportTest = new CrystalReport1();
+            //var crystalReportTest = new CrystalReportIndicationBlock();
             ////var crystalReportTest = new CrystalReportTestIndicationBlock();
             //var reportIndicationBlockDataTable = new ReportIndicationBlock();
             //reportIndicationBlockDataTable.TestInitialize();

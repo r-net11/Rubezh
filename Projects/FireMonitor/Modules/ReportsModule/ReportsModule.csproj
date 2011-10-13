@@ -79,22 +79,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrystalReports\CrystalReport1.cs">
+    <Compile Include="CrystalReports\CrystalReportIndicationBlock.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReport1.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CrystalReports\CrystalReportTest.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReportTest.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CrystalReports\CrystalReportTestIndicationBlock.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReportTestIndicationBlock.rpt</DependentUpon>
+      <DependentUpon>CrystalReportIndicationBlock.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\ReportDeviceListModel.cs" />
@@ -131,17 +119,9 @@
     <Compile Include="Views\ReportViewerWinForm.xaml.cs">
       <DependentUpon>ReportViewerWinForm.xaml</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="CrystalReports\CrystalReport1.rpt">
+    <EmbeddedResource Include="CrystalReports\CrystalReportIndicationBlock.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CrystalReports\CrystalReportTest.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReportTest.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CrystalReports\CrystalReportTestIndicationBlock.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReportTestIndicationBlock.cs</LastGenOutput>
+      <LastGenOutput>CrystalReportIndicationBlock.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

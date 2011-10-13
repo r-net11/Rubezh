@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="8a6119ec-2543-4ca0-b0e0-84d08fb6e1e2" Name="Тестовое приложение" Language="1049"
+           Version="1.0.0.1" Manufacturer='Группа компаний "Рубеж"' UpgradeCode="16ea29b9-b745-4072-8aeb-6e6892f4dbc5" Codepage="1251">
+    <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="1251" Manufacturer='Группа компаний "Рубеж"'
+             Description="Пакет установки 1" Comments="Комментарий к программе установки"/>
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="CompanyNameFolder" Name="Rubezh" >
+          <Directory Id="INSTALLLOCATION" Name="Test Application">
+            <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+            <!-- <Component Id="ProductComponent" Guid="9d201666-9ea7-4a8b-b558-6004c46bddb4"> -->
+            <!-- TODO: Insert files, registry keys, and other resources here. -->
+            <!-- </Component> -->
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder" />
+    </Directory>
+
+    <Icon Id="ProgramIcon.exe" SourceFile="$(var.SimpleWPFApp.TargetPath)"/>
+
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="TestAppExeComponent" Guid="6D42C653-A47B-472A-A56B-A451107B8073">
+        <File Id="TestAppExe" Name="$(var.SimpleWPFApp.TargetFileName)"
+              Source="$(var.SimpleWPFApp.TargetPath)" DiskId="1" KeyPath="yes">
+          <Shortcut Id="DesktopShortcut" Name="Test Application" Description="Ярлык на рабочем столе"
+                    Directory="DesktopFolder" Advertise="yes" Icon="ProgramIcon.exe"></Shortcut>
+        </File>
+      </Component>
+      <Component Id="TestAppControlsComponent" Guid="EC2CB84A-E243-449B-B005-3AE444755555">
+        <File Id="TestAppControls" Name="$(var.Controls.TargetFileName)"
+              Source="$(var.Controls.TargetPath)" DiskId="1" KeyPath="yes">
+        </File>
+      </Component>
+      <Component Id="TestAppCommonComponent" Guid="B2E4555D-B273-420E-91E2-01E8C28B4B03">
+        <File Id="TestAppCommon" Name="$(var.Common.TargetFileName)" 
+              Source="$(var.Common.TargetPath)" DiskId="1" KeyPath="yes">          
+        </File>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Complete" Title="Test Application" Description="Полная установка" Level="1"
+             ConfigurableDirectory="INSTALLLOCATION">
+      <ComponentRef Id="TestAppExeComponent" />
+      <ComponentRef Id="TestAppControlsComponent" />
+      <ComponentRef Id="TestAppCommonComponent"/>
+      <ComponentGroupRef Id="Product.Generated" />
+    </Feature>
+
+    <UI Id="MyWixUI_Mondo">
+      <UIRef Id="WixUI_Mondo" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+    </UI>
+  </Product>
+</Wix>
