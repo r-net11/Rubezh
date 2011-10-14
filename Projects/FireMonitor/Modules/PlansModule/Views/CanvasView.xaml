@@ -14,9 +14,7 @@
             <Slider Grid.Row="1" Orientation="Vertical" Visibility="{Binding CanZoom, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                     HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
         </Grid>
-
         <ScrollViewer Name="scrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-
             <Grid Name="grid" RenderTransformOrigin="0.5,0.5">
                 <Grid.LayoutTransform>
                     <TransformGroup>
@@ -24,14 +22,11 @@
                     </TransformGroup>
                 </Grid.LayoutTransform>
                 <Viewbox>
-
                     <ContentControl Name="_contentControl"
                             Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, Path=DataContext.MainCanvas}"
                             Background="White" HorizontalAlignment="Left" />
-
                 </Viewbox>
             </Grid>
-
         </ScrollViewer>
     </Grid>
 </UserControl>

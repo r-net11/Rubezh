@@ -8,7 +8,7 @@ namespace AlarmModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            AlarmType alarmType = (AlarmType)value;
+            AlarmType alarmType = (AlarmType) value;
             switch (alarmType)
             {
                 case AlarmType.Fire:

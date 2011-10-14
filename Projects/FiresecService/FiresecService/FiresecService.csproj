@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Imitator\DeviceStateViewModel.cs" />
     <Compile Include="Imitator\LevelToMarginConverter.cs" />
+    <Compile Include="Processor\ArchiveFilterHelper.cs" />
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />

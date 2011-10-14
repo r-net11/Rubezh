@@ -12,7 +12,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Grid Grid.Row="0" Name="_grid">
             <ListBox ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" Style="{x:Null}">
                 <ListBox.ItemContainerStyle>
@@ -51,12 +50,10 @@
                 </ListBox.ItemsPanel>
             </ListBox>
         </Grid>
-
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
             <TextBlock Text="{Binding PresentationName}" />
             <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
         </StackPanel>
-
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding Devices}">
                 <DataGrid.Columns>
@@ -68,7 +65,6 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -78,7 +74,6 @@
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
-
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Driver.ShortName}">
                                             <TextBlock.Style>
@@ -96,21 +91,16 @@
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
+                                            </TextBlock.Style></TextBlock>
                                     </StackPanel>
-
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
                     <DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
-
                 </DataGrid.Columns>
-
             </DataGrid>
         </Grid>
     </Grid>

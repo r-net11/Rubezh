@@ -31,7 +31,6 @@
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Название" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Описание" Foreground="DarkRed" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" />
-
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Source={StaticResource AvailableAlarms}}" SelectedIndex="{Binding AlarmType}" Margin="2" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
         <Button Grid.Row="2" Grid.Column="1" Content="Ok" Command="{Binding CreateCommand}" />
@@ -43,7 +42,6 @@
             <Button Content="информация" Click="Button_Click_7" />
             <Button Content="информация" Click="Button_Click_8" />
             <Button Content="автоматика" Click="Button_Click_9" />
-
             <Button Content="отключено" Click="Button_Click_6" />
             <Button Content="неисправность" Click="Button_Click_4" />
             <Button Content="требуется обслуживание" Click="Button_Click_5" />

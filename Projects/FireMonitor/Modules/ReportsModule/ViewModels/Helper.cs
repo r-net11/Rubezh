@@ -29,7 +29,6 @@ namespace ReportsModule
             }
             foreach (var dataClass in dataList)
             {
-
                 dataTable.Rows.Add(CreateParamsString<T>(dataClass, propertyInfos));
             }
         }

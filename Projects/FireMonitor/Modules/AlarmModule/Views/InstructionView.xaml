@@ -23,11 +23,10 @@
             <TextBlock Text="" />
             <TextBlock Text="Дополнительные меры" />
             <TextBlock Text="{Binding Path=Instruction.Text}" />
-            
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
-                              Width="100" Height="30" VerticalAlignment="Center" 
+                              Width="100" Height="30" VerticalAlignment="Center"
                               Command="{Binding CloseCommand}" Content="Закрыть" />
         </StackPanel>
     </Grid>

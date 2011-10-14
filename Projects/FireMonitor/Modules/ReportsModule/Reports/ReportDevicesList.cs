@@ -31,7 +31,6 @@ namespace ReportsModule.Reports
                     address = device.DottedAddress;
                     if (device.Driver.IsZoneDevice)
                     {
-
                         if (FiresecManager.DeviceConfiguration.Zones.IsNotNullOrEmpty())
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
@@ -66,7 +65,6 @@ namespace ReportsModule.Reports
                     }
                     if (device.Driver.DriverType == DriverType.PumpStation)
                     {
-
                     }
                     DataList.Add(new ReportDeviceListModel()
                         {

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
-             MinWidth="500" MinHeight="350"
+             MinWidth="500" MinHeight="400"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
     <UserControl.Resources>
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />

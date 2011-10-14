@@ -9,7 +9,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType)value;
+            StateType stateType = (StateType) value;
             switch (stateType)
             {
                 case StateType.Fire:

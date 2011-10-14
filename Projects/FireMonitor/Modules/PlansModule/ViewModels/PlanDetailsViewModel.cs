@@ -295,7 +295,7 @@ namespace PlansModule.ViewModels
             imageBrush.ImageSource = new BitmapImage(uri);
             return imageBrush;
             */
-            
+
             var imageBrush = new ImageBrush();
             if (_plan.BackgroundPixels != null)
             {
@@ -312,7 +312,6 @@ namespace PlansModule.ViewModels
                 imageBrush.ImageSource = image;
             }
             return imageBrush;
-             
         }
     }
 }

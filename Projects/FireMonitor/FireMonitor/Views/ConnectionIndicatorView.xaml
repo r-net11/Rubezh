@@ -25,7 +25,6 @@
                     </Style>
                 </Image.Style>
             </Image>
-            
             <Image Name="_deviceConnectionIndicator" Margin="5" Source="Images/Ind_C-P.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
                 <Image.Style>
                     <Style>

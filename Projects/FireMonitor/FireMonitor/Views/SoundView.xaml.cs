@@ -28,7 +28,7 @@ namespace FireMonitor
         public bool IsSoundOn
         {
             get { return _isSoundOn; }
-            set 
+            set
             {
                 _isSoundOn = value;
                 OnPropertyChanged("IsSoundOn");

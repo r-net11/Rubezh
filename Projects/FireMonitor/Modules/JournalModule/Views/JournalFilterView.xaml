@@ -5,11 +5,9 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
         <SolidColorBrush x:Key="borderBrush">Silver</SolidColorBrush>
-
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
     </UserControl.Resources>
-
     <StackPanel Orientation="Horizontal">
         <StackPanel>
             <StackPanel.Resources>

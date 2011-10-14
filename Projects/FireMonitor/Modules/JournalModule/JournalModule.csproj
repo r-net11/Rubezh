@@ -114,6 +114,7 @@
     <Compile Include="ViewModels\ArchiveViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
     <Compile Include="ViewModels\ArchiveDefaultStateViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\EventViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilterViewModel.cs" />
     <Compile Include="ViewModels\JournalRecordViewModel.cs" />

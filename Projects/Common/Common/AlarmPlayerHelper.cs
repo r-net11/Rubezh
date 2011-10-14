@@ -42,7 +42,7 @@ namespace Common
             {
                 return;
             }
-            _frequency = (int)speaker;
+            _frequency = (int) speaker;
             _isContinious = isContinious;
 
             if (_thread != null)

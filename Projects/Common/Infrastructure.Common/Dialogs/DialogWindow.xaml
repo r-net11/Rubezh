@@ -11,13 +11,10 @@
 	    KeyDown="OnKeyDown"
         AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Window.Resources>
-
         <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White" />
         </Style>
-
     </Window.Resources>
-
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
@@ -43,9 +40,7 @@
                         </Style>
                     </ContentControl.Resources>
                 </ContentControl>
-
             </DockPanel>
         </Border>
     </Border>
-
 </Window>

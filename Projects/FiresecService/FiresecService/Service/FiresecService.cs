@@ -393,24 +393,14 @@ namespace FiresecService
 
         public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
-            if (archiveFilter.Descriptions.IsNotNullOrEmpty())
-            {
-                if (archiveFilter.Subsystems.IsNotNullOrEmpty())
-                {
-                    return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                        SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                        TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                        Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description)).
-                        Where(journal => archiveFilter.Subsystems.Any(subsystem => subsystem == journal.SubsystemType));
-                }
-                return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                    SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                    TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                    Where(journal => archiveFilter.Descriptions.Any(description => description == journal.Description));
-            }
+            var filterHelper = new ArchiveFilterHelper(archiveFilter);
+
             return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
                 SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate);
+                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
+                Where(journal => filterHelper.FilterByEvents(journal)).
+                Where(journal => filterHelper.FilterBySubsystems(journal)).
+                Where(journal => filterHelper.FilterByDevices(journal));
         }
 
         public IEnumerable<JournalRecord> GetDistinctRecords()

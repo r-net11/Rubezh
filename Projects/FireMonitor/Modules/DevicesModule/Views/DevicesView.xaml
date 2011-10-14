@@ -6,8 +6,7 @@
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
         <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
-    
-    <Grid VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -23,7 +22,6 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -33,7 +31,6 @@
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>
                                     </StackPanel>
-
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Driver.ShortName}">
                                             <TextBlock.ContextMenu>
@@ -43,15 +40,12 @@
                                                     <MenuItem Header="{Binding IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
                                                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                                 </ContextMenu>
-                                            </TextBlock.ContextMenu>
-                                        </TextBlock>
+                                            </TextBlock.ContextMenu></TextBlock>
                                     </StackPanel>
-
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="Адрес" MinWidth="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -66,16 +60,11 @@
                     <DataGridTextColumn Header="Дым, %" MinWidth="100" Binding="{Binding Smokiness}" />
                     <DataGridTextColumn Header="Пыль, %" MinWidth="100" Binding="{Binding Dustiness}" />
                     <DataGridTextColumn Header="Температура, °С" MinWidth="100" Binding="{Binding Temperature}" />
-
                 </DataGrid.Columns>
-
             </DataGrid>
         </Grid>
-
         <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}" >
-
             <StackPanel>
-
                 <StackPanel Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="{Binding Device.PresentationAddress}" />
@@ -83,12 +72,10 @@
                     </StackPanel>
                     <TextBlock Text="{Binding Driver.Name}" />
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
                     <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                 </StackPanel>
-
                 <ItemsControl ItemsSource="{Binding ParentStates}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -96,7 +83,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
                 <ItemsControl ItemsSource="{Binding SelfStates}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -104,7 +90,6 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
                 <StackPanel>
                     <ItemsControl ItemsSource="{Binding Parameters}">
                         <ItemsControl.ItemTemplate>
@@ -114,10 +99,8 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
-
                 <TextBox Text="{Binding Device.Id, Mode=OneWay}" Visibility="Visible" />
             </StackPanel>
-
         </Grid>
     </Grid>
 </UserControl>

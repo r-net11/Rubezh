@@ -12,7 +12,7 @@ namespace Controls
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxControl),
             new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnPasswordPropertyChanged)));
-       
+
         public PasswordBoxControl()
         {
             savedCallback = HandlePasswordChanged;

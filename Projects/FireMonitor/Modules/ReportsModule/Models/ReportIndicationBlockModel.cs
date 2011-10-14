@@ -29,6 +29,7 @@ namespace ReportsModule.Models
     public class ReportIndicationBlockModelTemp
     {
         protected ReportIndicationBlockModelTemp() { }
+
         public ReportIndicationBlockModelTemp(Device device)
         {
             if (device.Driver.DriverType != DriverType.IndicationBlock)
@@ -50,6 +51,7 @@ namespace ReportsModule.Models
     public class Page
     {
         private Page() { }
+
         public Page(Device device)
         {
             PageNumber = device.IntAddress;
@@ -62,6 +64,7 @@ namespace ReportsModule.Models
                     elementPage.IndicatorLogic.ToString()));
             }
         }
+
         public int PageNumber { get; set; }
         public List<ElementPage> ElementsPage { get; set; }
     }
@@ -69,12 +72,14 @@ namespace ReportsModule.Models
     public class ElementPage
     {
         private ElementPage() { }
+
         public ElementPage(int No, List<string> zonesNo, string presentationName)
         {
             this.No = No;
             ZonesNo = zonesNo;
             PresentationName = presentationName;
         }
+
         public int No { get; set; }
         public List<string> ZonesNo { get; set; }
 

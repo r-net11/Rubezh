@@ -60,9 +60,17 @@ namespace JournalModule.ViewModels
             bool result = true;
             if (JournalFilter.Categories.IsNotNullOrEmpty())
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                        x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
-                             x.DatabaseId == journalRecord.PanelDatabaseId);
+                Device device = null;
+                if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+                {
+                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                         x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+                }
+                else
+                {
+                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                           x => x.DatabaseId == journalRecord.PanelDatabaseId);
+                }
 
                 if ((result = (device != null)))
                 {

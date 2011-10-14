@@ -17,7 +17,7 @@ namespace Infrastructure.Common
         #region Ctors
 
         public RelayCommand(Action execute)
-            : this(execute, (Predicate<object>)null)
+            : this(execute, (Predicate<object>) null)
         {
         }
 

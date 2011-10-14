@@ -9,7 +9,7 @@ namespace FiresecClient.Validation
     public class InstructionError : BaseError
     {
         public InstructionError(Instruction instruction, string error, ErrorLevel level)
-            : base(error,level)
+            : base(error, level)
         {
             Instruction = instruction;
         }

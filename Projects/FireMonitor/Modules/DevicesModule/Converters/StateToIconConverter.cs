@@ -13,7 +13,7 @@ namespace DevicesModule.Converters
             string icon = EnumsConverter.StateToIcon(stateType);
             if (icon != null)
             {
-                return  FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
+                return FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
             }
             else
             {

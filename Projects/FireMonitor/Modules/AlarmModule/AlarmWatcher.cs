@@ -99,7 +99,6 @@ namespace AlarmModule
             }
         }
 
-
         void UpdateValveTimer()
         {
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)

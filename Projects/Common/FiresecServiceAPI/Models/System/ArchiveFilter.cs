@@ -18,13 +18,8 @@ namespace FiresecAPI.Models
         {
             Descriptions = new List<string>();
             Subsystems = new List<SubsystemType>();
+            DeviceDatabaseIds = new List<string>();
         }
-
-        [DataMember]
-        public List<string> Descriptions { get; set; }
-
-        [DataMember]
-        public List<SubsystemType> Subsystems { get; set; }
 
         [DataMember]
         public bool UseSystemDate { get; set; }
@@ -34,5 +29,17 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public DateTime EndDate { get; set; }
+
+        [DataMember]
+        public List<string> Descriptions { get; set; }
+
+        [DataMember]
+        public List<string> DeviceDatabaseIds { get; set; }
+
+        [DataMember]
+        public bool IsDeviceFilterOn { get; set; }
+
+        [DataMember]
+        public List<SubsystemType> Subsystems { get; set; }
     }
 }

@@ -13,7 +13,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
@@ -44,7 +43,6 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
-
         <StackPanel Grid.Row="1" HorizontalAlignment="Right">
             <Controls:XButton Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" Background="DarkRed">
                 <TextBlock Text="Сбросить все" FontSize="12" />

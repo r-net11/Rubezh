@@ -2,25 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:AlarmModule.Views"
                     xmlns:ViewModels="clr-namespace:AlarmModule.ViewModels">
-
     <DataTemplate DataType="{x:Type ViewModels:AlarmGroupListViewModel}">
         <Views:AlarmGroupListView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:AlarmListViewModel}">
         <Views:AlarmListView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:AlarmViewModel}">
         <Views:AlarmView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:InstructionViewModel}">
         <Views:InstructionView />
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:VideoViewModel}">
         <Views:VideoView />
     </DataTemplate>
-
 </ResourceDictionary>

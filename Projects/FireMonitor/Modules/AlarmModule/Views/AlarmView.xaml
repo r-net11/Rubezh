@@ -13,19 +13,16 @@
             <StackPanel>
                 <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="12" Margin="2" />
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <Controls:XButton Content="Сбросить" Command="{Binding ResetCommand}" Height="30" Width="150" Margin="2" Background="Green" />
                 <Controls:XButton Content="Закрыть" Command="{Binding CloseCommand}" Height="30" Width="150" Margin="2" Background="Green" />
                 <Controls:XButton Content="Отложить" Command="{Binding LeaveCommand}" Height="30" Width="150" Margin="2" Background="Green" />
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <Controls:XButton Content="Просмотр на плане" Command="{Binding ShowOnPlanCommand}" Height="30" Width="150" Margin="2" Background="Green" />
                 <Controls:XButton Content="Устройство в дереве" Command="{Binding ShowDeviceCommand}" Height="30" Width="150" Margin="2" Background="Green" />
                 <Controls:XButton Content="Зона в списке" Command="{Binding ShowZoneCommand}" Height="30" Width="150" Margin="2" Background="Green" />
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <Controls:XButton Content="Инструкции" Command="{Binding ShowInstructionCommand}" Height="30" Width="150" Margin="2" Background="Green" />
                 <Controls:XButton Content="Оповещение по телефону" Command="{Binding NotifyPhoneCommand}" Height="30" Width="150" Margin="2" Background="Green" />

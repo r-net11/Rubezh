@@ -16,9 +16,17 @@ namespace JournalModule.ViewModels
         public JournalRecordViewModel(JournalRecord journalRecord)
         {
             _journalRecord = journalRecord;
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                x => x.DatabaseId == journalRecord.DeviceDatabaseId ||
-                     x.DatabaseId == _journalRecord.PanelDatabaseId);
+
+            if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+            {
+                _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                     x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+            }
+            else
+            {
+                _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                       x => x.DatabaseId == journalRecord.PanelDatabaseId);
+            }
 
             ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
             ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);

@@ -6,11 +6,8 @@
     <UserControl.Resources>
         <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
-
     <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
-        <Grid.Resources>
-        </Grid.Resources>
-
+        <Grid.Resources></Grid.Resources>
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
@@ -18,10 +15,8 @@
                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
             </ContextMenu>
         </Grid.ContextMenu>
-
         <Rectangle Name="_mouseOverRectangle" Stroke="Red" StrokeThickness="0" Margin="-1" />
         <Rectangle Name="_selectationRectangle" Stroke="Orange" StrokeThickness="0" Margin="-1" />
-
         <Devices:DeviceControl Name="_deviceControl" />
     </Grid>
 </UserControl>

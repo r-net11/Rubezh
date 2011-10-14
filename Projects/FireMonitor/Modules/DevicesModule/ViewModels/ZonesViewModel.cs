@@ -23,11 +23,11 @@ namespace DevicesModule.ViewModels
         {
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
             Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                       orderby int.Parse(zone.No)
-                       select new ZoneViewModel(zone)).ToList();
+                     orderby int.Parse(zone.No)
+                     select new ZoneViewModel(zone)).ToList();
 
             if (Zones.Count > 0)
-            SelectedZone = Zones[0];
+                SelectedZone = Zones[0];
         }
 
         public List<ZoneViewModel> Zones { get; private set; }

@@ -6,7 +6,6 @@
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
-    
     <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название">

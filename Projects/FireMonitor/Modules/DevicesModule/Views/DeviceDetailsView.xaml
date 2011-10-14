@@ -22,35 +22,28 @@
                         </StackPanel>
                         <Label Content="{Binding Driver.Name}" Foreground="Black" VerticalAlignment="Center"/>
                     </StackPanel>
-
                     <StackPanel Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Black" />
                         <TextBlock Text="{Binding Driver.CategoryName}" />
                         <TextBlock Text=", " />
                         <TextBlock Text="{Binding Driver.DeviceTypeName}" />
                     </StackPanel>
-
                     <StackPanel Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Black" />
                         <TextBlock Text="{Binding ConnectedTo}" />
                     </StackPanel>
-
                     <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="3">
                         <TextBlock Text="Зона:" FontWeight="Bold" Foreground="Black" />
                         <TextBlock Text="{Binding PresentationZone}" />
                     </StackPanel>
-
                     <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
                         <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Black" />
                         <TextBlock Text="{Binding PresentationZone}" />
                     </StackPanel>
-
                 </StackPanel>
             </TabItem>
-
             <TabItem Header="Состояние">
                 <StackPanel>
-
                     <ItemsControl ItemsSource="{Binding ParentStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -58,7 +51,6 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-
                     <ItemsControl ItemsSource="{Binding SelfStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -66,7 +58,6 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding Parameters}">
                             <ItemsControl.ItemTemplate>
@@ -76,10 +67,8 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </StackPanel>
-
                 </StackPanel>
             </TabItem>
-
             <!--<TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
             </TabItem>-->

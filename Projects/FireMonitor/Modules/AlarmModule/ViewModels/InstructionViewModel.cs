@@ -11,6 +11,7 @@ namespace AlarmModule.ViewModels
     public class InstructionViewModel : DialogContent
     {
         private InstructionViewModel() { }
+
         public InstructionViewModel(Guid deviceUID, AlarmType alarmType)
         {
             Title = "Инструкции";
@@ -40,7 +41,7 @@ namespace AlarmModule.ViewModels
 
         public string ZoneNo
         {
-            get 
+            get
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
                 if (device != null)
@@ -68,7 +69,7 @@ namespace AlarmModule.ViewModels
                 }
             }
         }
-        
+
         Instruction InstructionGeneral
         {
             get
@@ -89,25 +90,25 @@ namespace AlarmModule.ViewModels
             switch (alarmType)
             {
                 case AlarmType.Fire:
-                    return (StateType)0;
+                    return (StateType) 0;
 
                 case AlarmType.Attention:
-                    return (StateType)1;
+                    return (StateType) 1;
 
                 case AlarmType.Failure:
-                    return (StateType)2;
+                    return (StateType) 2;
 
                 case AlarmType.Off:
-                    return (StateType)4;
+                    return (StateType) 4;
 
                 case AlarmType.Info:
-                    return (StateType)6;
+                    return (StateType) 6;
 
                 case AlarmType.Service:
-                    return (StateType)3;
+                    return (StateType) 3;
 
                 default:
-                    return (StateType)8;
+                    return (StateType) 8;
             }
         }
 

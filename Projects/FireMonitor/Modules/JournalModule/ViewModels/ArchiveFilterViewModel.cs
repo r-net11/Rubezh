@@ -25,6 +25,13 @@ namespace JournalModule.ViewModels
                              AsParallel().ForAll(x => x.IsEnable = true);
             }
 
+            if (archiveFilter.DeviceDatabaseIds.IsNotNullOrEmpty())
+            {
+                Devices.Where(x => archiveFilter.DeviceDatabaseIds.Any(id => id == x.DatabaseId) == false).
+                           AsParallel().ForAll(x => x.IsChecked = false);
+            }
+            IsDeviceFilterOn = archiveFilter.IsDeviceFilterOn;
+
             if (archiveFilter.Subsystems.IsNotNullOrEmpty())
             {
                 Subsystems.Where(x => archiveFilter.Subsystems.Any(subsystem => subsystem == x.Subsystem)).
@@ -46,6 +53,11 @@ namespace JournalModule.ViewModels
                 Select(x => new ClassViewModel((StateType) x))
             );
 
+            Devices = new List<DeviceViewModel>(
+                FiresecClient.FiresecManager.DeviceConfiguration.Devices.Where(
+                x => x.Driver.Category == DeviceCategoryType.Device).Select(x => new DeviceViewModel(x))
+            );
+
             Subsystems = new List<SubsystemViewModel>();
             foreach (SubsystemType item in Enum.GetValues(typeof(SubsystemType)))
             {
@@ -53,7 +65,7 @@ namespace JournalModule.ViewModels
             }
 
             ClearCommand = new RelayCommand(OnClear);
-            SaveCommand = new RelayCommand(OnSave, CanSave);
+            SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
         }
 
@@ -126,19 +138,36 @@ namespace JournalModule.ViewModels
             }
         }
 
+        public List<DeviceViewModel> Devices { get; private set; }
+
+        bool _isDeviceFilterOn;
+        public bool IsDeviceFilterOn
+        {
+            get { return _isDeviceFilterOn; }
+            set
+            {
+                _isDeviceFilterOn = value;
+                OnPropertyChanged("IsDeviceFilterOn");
+            }
+        }
+
         public ArchiveFilter GetModel()
         {
             return new ArchiveFilter()
             {
+                StartDate = StartDate,
+                EndDate = EndDate,
+                UseSystemDate = UseSystemDate,
                 Descriptions = new List<string>(
                     JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
                 ),
+                DeviceDatabaseIds = new List<string>(
+                    Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)
+                ),
+                IsDeviceFilterOn = IsDeviceFilterOn,
                 Subsystems = new List<SubsystemType>(
                     Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
                 ),
-                UseSystemDate = UseSystemDate,
-                StartDate = StartDate,
-                EndDate = EndDate,
             };
         }
 
@@ -150,6 +179,8 @@ namespace JournalModule.ViewModels
 
             JournalTypes.ForEach(x => x.IsEnable = false);
             JournalEvents.ForEach(x => x.IsEnable = false);
+            IsDeviceFilterOn = false;
+            Devices.ForEach(x => x.IsChecked = true);
             Subsystems.ForEach(x => x.IsEnable = false);
         }
 
@@ -157,11 +188,6 @@ namespace JournalModule.ViewModels
         void OnSave()
         {
             Close(true);
-        }
-
-        bool CanSave()
-        {
-            return JournalEvents.Any(x => x.IsEnable == true);
         }
 
         public RelayCommand CancelCommand { get; private set; }

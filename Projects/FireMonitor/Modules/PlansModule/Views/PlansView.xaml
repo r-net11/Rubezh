@@ -7,7 +7,6 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -16,7 +15,6 @@
             <Views:CanvasView Grid.Row="0" />
             <Views:PlanDetailsView Grid.Row="1" DataContext="{Binding SelectedPlan}" />
         </Grid>
-
         <StackPanel Grid.Column="1">
             <Views:PlanTreeView />
         </StackPanel>

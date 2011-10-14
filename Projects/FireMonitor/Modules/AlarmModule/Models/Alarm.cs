@@ -61,7 +61,7 @@ namespace AlarmModule
 
         public void RemoveFromIgnoreList()
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x=>x.UID == DeviceUID);
+            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
             if (deviceState.CanDisable())
             {
                 if (deviceState.IsDisabled)
@@ -114,11 +114,11 @@ namespace AlarmModule
 
         ResetItem GetZoneResetItem()
         {
-            foreach(var device in FiresecManager.DeviceConfiguration.Devices)
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 if (device.ZoneNo == ZoneNo)
                 {
-                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x=>x.UID == device.UID);
+                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
                     if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
                     {
                         DeviceUID = deviceState.UID;

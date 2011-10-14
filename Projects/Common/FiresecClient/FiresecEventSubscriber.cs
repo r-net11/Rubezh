@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FiresecClient
 {
-    [CallbackBehavior(ConcurrencyMode=ConcurrencyMode.Single)]
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
     public class FiresecEventSubscriber : IFiresecCallback
     {
         public void Progress(int stage, string comment, int percentComplete, int bytesRW)

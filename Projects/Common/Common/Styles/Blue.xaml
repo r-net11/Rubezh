@@ -3,9 +3,7 @@
     <!--ACCENT COLORS-->
     <Color x:Key="HighlightDarkColor">#FF086F9E</Color>
     <Color x:Key="HighlightLightColor">#FF086F9E</Color>
-    
     <Color x:Key="AccentDarkColor">#FF1c739d</Color>
-    
     <!--80%-->
     <Color x:Key="AccentColor">#CC119EDA</Color>
     <!--60%-->
@@ -14,7 +12,6 @@
     <Color x:Key="AccentColor3">#66119EDA</Color>
     <!--20%-->
     <Color x:Key="AccentColor4">#33119EDA</Color>
-
     <LinearGradientBrush x:Key="BrandingBrush"
                          EndPoint="0.001,0.5"
                          StartPoint="1.002,0.5">
@@ -23,11 +20,6 @@
         <GradientStop Color="#FF5FC316"
                       Offset="1" />
     </LinearGradientBrush>
-
     <SolidColorBrush x:Key="AccentColorBrush"
                      Color="{DynamicResource AccentColor}" />
-
-
-
-
 </ResourceDictionary>

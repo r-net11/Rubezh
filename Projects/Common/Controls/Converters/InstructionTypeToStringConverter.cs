@@ -4,16 +4,16 @@ using FiresecAPI.Models;
 
 namespace Controls
 {
-    class InstructionTypeToStringConverter : IValueConverter
+    internal class InstructionTypeToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return EnumsConverter.InstructionTypeToString((InstructionType)value);
+            return EnumsConverter.InstructionTypeToString((InstructionType) value);
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value;
         }
-
     }
 }

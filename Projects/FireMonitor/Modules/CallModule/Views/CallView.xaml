@@ -4,19 +4,15 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
         <StackPanel Margin="10">
-
             <Controls:XButton Width="150" Height="40" Margin="2" Background="YellowGreen">
                 <TextBlock Text="Отправить SMS" FontSize="16" />
             </Controls:XButton>
-
             <Controls:XButton Width="150" Height="40" Margin="2" Background="Green">
                 <TextBlock Text="Позвонить" FontSize="16" />
             </Controls:XButton>
-
             <Controls:XButton Width="150" Height="40" Margin="2" Background="DarkRed">
                 <TextBlock Text="Отправить email" FontSize="16" />
             </Controls:XButton>
-
         </StackPanel>
     </Grid>
 </UserControl>

@@ -3,11 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:ViewModels="clr-namespace:LibraryModule.ViewModels">
-    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
-    
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
         <TreeView Name="treeView"
                   ContextMenuOpening="ContextMenu_ContextMenuOpening"
