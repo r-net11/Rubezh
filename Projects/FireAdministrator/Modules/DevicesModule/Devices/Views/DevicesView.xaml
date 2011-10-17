@@ -125,21 +125,15 @@
         </Grid>
         
         <Grid Grid.Row="1" Margin="0, 10, 0, 0">
-            <Border CornerRadius="5" BorderThickness="0" Margin="1">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0, 0" EndPoint="0,1">
-                        <GradientStop Color="#434247" Offset="0" />
-                        <GradientStop Color="#383438" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border CornerRadius="5" BorderThickness="0" Margin="1" Background="{DynamicResource BackgroundBrush}">
                 <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                        <TextBlock Text="{Binding Driver.Name}" FontWeight="Bold" Margin="2" Foreground="White" />
+                        <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Подключено к" FontWeight="Bold" Margin="2" Foreground="White" />
-                        <TextBlock Text="{Binding ConnectedTo}" Margin="2" Foreground="White" />
+                        <Label Content="Подключено к" FontWeight="Bold" />
+                        <Label Content="{Binding ConnectedTo}" />
                         <StackPanel.Style>
                             <Style>
                                 <Style.Triggers>
@@ -151,8 +145,8 @@
                         </StackPanel.Style>
                     </StackPanel>
                     <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
-                        <TextBlock Text="Зона" FontWeight="Bold" Margin="2" Foreground="White" />
-                        <TextBlock Text="{Binding PresentationName}" Margin="2" Foreground="White" />
+                        <Label Content="Зона" FontWeight="Bold" />
+                        <Label Content="{Binding PresentationName}" />
                         <StackPanel.Style>
                             <Style>
                                 <Style.Triggers>

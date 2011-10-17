@@ -17,8 +17,8 @@
         <Grid Grid.Row="0">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Название" Width="100" Margin="2" Foreground="White" />
-                    <TextBox Text="{Binding Name}" Width="200" Margin="2" />
+                    <Label Content="Название" Width="100" />
+                    <Label Content="{Binding Name}" Width="200" />
                 </StackPanel>
 
                 <Button Content="Добавить зону" Command="{Binding AddCommand}" Width="100" Margin="2" HorizontalAlignment="Left" />

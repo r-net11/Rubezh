@@ -14,7 +14,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
-                        <TextBlock Text="{Binding ShortName}" Margin="1" Foreground="White" />
+                        <TextBlock Text="{Binding ShortName}" Margin="1" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -29,8 +29,8 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Начальный адрес" Foreground="White" Margin="2" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Конечный адрес" Foreground="White" Margin="2" />
+            <Label Content="Начальный адрес" Grid.Row="0" Grid.Column="0" />
+            <Label Content="Конечный адрес" Grid.Row="0" Grid.Column="1" />
             <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding StartAddress}" Margin="2" />
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EndAddress}" Margin="2" />
         </Grid>

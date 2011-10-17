@@ -18,8 +18,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Список всех зон:" />
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="Список зон для инструкции:" />
+            <Label Grid.Row="0" Grid.Column="0" Content="Список всех зон:" />
+            <Label Grid.Row="0" Grid.Column="2" Content="Список зон для инструкции:" />
             <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />

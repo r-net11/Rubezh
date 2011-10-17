@@ -29,9 +29,9 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Номер" Margin="2" Foreground="White" HorizontalAlignment="Right" />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Наименование" Margin="2" Foreground="White" HorizontalAlignment="Right" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Примечание" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                        <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+                        <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+                        <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
@@ -53,7 +53,7 @@
                                 <ColumnDefinition SharedSizeGroup="group1" />
                                 <ColumnDefinition SharedSizeGroup="group2" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Назначение зоны" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                            <Label Grid.Column="0" Content="Назначение зоны" HorizontalAlignment="Right" />
                             <ComboBox Grid.Column="1" ItemsSource="{Binding AvailableZoneTypes}" SelectedItem="{Binding ZoneType}" Margin="2">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -73,12 +73,12 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Число датчиков для формирования сигнала Пожар" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <Label Grid.Row="0" Grid.Column="0" Content="Число датчиков для формирования сигнала Пожар" HorizontalAlignment="Right" />
                                 <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
 
                                 <StackPanel Grid.Row="1" Grid.Column="0">
-                                    <TextBlock Text="Время эвакуации, сек(если указано, то при получении события о" Margin="2" Foreground="White" HorizontalAlignment="Right" />
-                                    <TextBlock Text="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                    <Label Content="Время эвакуации, сек(если указано, то при получении события о" HorizontalAlignment="Right" />
+                                    <Label Content="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" HorizontalAlignment="Right" />
                                 </StackPanel>
                                 <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
                             </Grid>
@@ -96,8 +96,8 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                            
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Вид зоны" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+
+                                <Label Grid.Row="0" Grid.Column="0" Content="Вид зоны" HorizontalAlignment="Right" />
                                 <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableGuardZoneTypes}" SelectedItem="{Binding GuardZoneType}" Margin="2">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -107,13 +107,13 @@
                                 </ComboBox>
 
                                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Skipped}" Margin="2" VerticalAlignment="Center">
-                                    <TextBlock Text="Тихая тревога" VerticalAlignment="Center" Foreground="White" />
+                                    <Label Content="Тихая тревога" VerticalAlignment="Center" />
                                 </CheckBox>
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Входная/выходная задержка, сек" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, сек" HorizontalAlignment="Right" />
                                 <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" Margin="2" />
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Автоперевзятие, сек" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+                                <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, сек" HorizontalAlignment="Right" />
                                 <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" Minimum="0" Margin="2" />
                             </Grid>
                         </StackPanel>

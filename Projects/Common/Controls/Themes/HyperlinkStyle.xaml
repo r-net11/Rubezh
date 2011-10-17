@@ -4,7 +4,10 @@
     <Style x:Key="HyperlinkStyle" TargetType="{x:Type Hyperlink}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="DarkSlateBlue" />
+                <Setter Property="Foreground" Value="{DynamicResource HighlightedBackgoundBrush}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Foreground" Value="White" />
             </Trigger>
         </Style.Triggers>
         <Setter Property="Foreground" Value="SteelBlue" />

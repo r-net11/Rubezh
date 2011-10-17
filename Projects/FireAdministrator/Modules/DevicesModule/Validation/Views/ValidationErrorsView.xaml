@@ -7,7 +7,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Ошибки обнаруженные при проверке проекта" FontWeight="Bold" Foreground="White" Margin="2" />
+        <Label Content="Ошибки обнаруженные при проверке проекта" FontWeight="Bold" />
         <Button HorizontalAlignment="Right" Click="Button_Click" Margin="2" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
         </Button>

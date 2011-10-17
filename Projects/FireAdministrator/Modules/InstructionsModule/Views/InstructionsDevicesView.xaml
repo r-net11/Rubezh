@@ -19,8 +19,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Список всех устройств:" />
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="Список устройств для инструкции:" />
+            <Label Grid.Row="0" Grid.Column="0" Content="Список всех устройств:" />
+            <Label Grid.Row="0" Grid.Column="2" Content="Список устройств для инструкции:" />
             <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">

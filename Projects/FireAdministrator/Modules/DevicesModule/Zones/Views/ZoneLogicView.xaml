@@ -67,8 +67,7 @@
                                 
                             </StackPanel>
                             
-                            <TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       VerticalAlignment="Center" Margin="2">
+                            <TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
                                 <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />

@@ -25,7 +25,7 @@
 
         <Grid Grid.Row="1" Visibility="{Binding IsZone, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
-                <TextBlock Text="Выбранные зоны" FontWeight="Bold" Margin="2" Foreground="White" />
+                <Label Content="Выбранные зоны" FontWeight="Bold" />
                 <TextBlock>
                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                         <TextBlock Text="{Binding PresenrationZones}" />                
@@ -50,7 +50,7 @@
         <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
 
-                <TextBlock Text="Выбранное устройство" FontWeight="Bold" Margin="2" Foreground="White" />
+                <Label Content="Выбранное устройство" FontWeight="Bold" />
                 
                 <Grid Grid.Row="1" Margin="5">
                     <Grid.ColumnDefinitions>
@@ -98,10 +98,10 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Включено" Margin="2" Foreground="White" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Выключено" Margin="2" Foreground="White" />
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Неисправность" Margin="2" Foreground="White" />
-                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Потеря связи" Margin="2" Foreground="White" />
+                    <Label Grid.Column="0" Grid.Row="0" Content="Включено" />
+                    <Label Grid.Column="0" Grid.Row="1" Content="Выключено" />
+                    <Label Grid.Column="0" Grid.Row="2" Content="Неисправность" />
+                    <Label Grid.Column="0" Grid.Row="3" Content="Потеря связи" />
                     <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>

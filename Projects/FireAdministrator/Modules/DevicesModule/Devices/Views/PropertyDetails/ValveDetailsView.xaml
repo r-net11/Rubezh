@@ -27,8 +27,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Действие при событии в зоне:" Margin="2" Foreground="White" />
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Задержка запуска, с:" Margin="2" Foreground="White" />
+            <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" />
+            <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" />
 
             <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Actions}" SelectedItem="{Binding SelectiedAction}" Margin="2">
                 <ComboBox.ItemTemplate>

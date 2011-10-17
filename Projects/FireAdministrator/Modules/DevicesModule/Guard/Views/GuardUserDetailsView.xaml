@@ -13,21 +13,21 @@
         
         <Grid Grid.Row="0">
             <StackPanel>
-                <TextBlock Text="Имя" Margin="2" Foreground="White" />
+                <Label Content="Имя" />
                 <TextBox Text="{Binding Name}" Margin="2" />
 
-                <TextBlock Text="Пароль" Margin="2" Foreground="White" />
+                <Label Content="Пароль" />
                 <Controls:PasswordBoxControl Password="{Binding Path=Password}" Margin="2" />
 
-                <TextBlock Text="ФИО" Margin="2" Foreground="White" />
+                <Label Content="ФИО" />
                 <TextBox Text="{Binding FIO}" Margin="2" />
 
-                <TextBlock Text="Должность" Margin="2" Foreground="White" />
+                <Label Content="Должность" />
                 <TextBox Text="{Binding Function}" Margin="2" />
-                
-                <TextBlock Text="Права" Margin="2" />
-                <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" />
-                <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" />
+
+                <Label Content="Права" />
+                <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
+                <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
                 <TextBlock Text="Уровни доступа" Margin="2" />
 
                 <TextBlock Margin="2">

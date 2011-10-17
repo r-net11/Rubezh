@@ -38,8 +38,7 @@
                         <Label Content=" Длительность: " VerticalAlignment="Center" />
                         <ExtToolkit:IntegerUpDown Increment="100"
                                                   IsEditable="False"
-                                                  Text="{Binding Duration,
-                                                                 Mode=TwoWay}"
+                                                  Text="{Binding Duration, Mode=TwoWay}"
                                                   Height="23" />
                         <Button Margin="10,5,0,0"
                                 Command="{Binding ImportSvgCommand}"

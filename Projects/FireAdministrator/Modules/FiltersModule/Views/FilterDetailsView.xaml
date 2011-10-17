@@ -32,7 +32,7 @@
                     Content="Отмена" />
         </WrapPanel>
         <StackPanel>
-            <TextBlock Margin="0,0,0,5" Text="Название представления:" />
+            <Label Margin="0,0,0,5" Content="Название представления:" />
             <TextBox Margin="0,0,0,15"
                      Style="{StaticResource textBoxInError}"
                      Text="{Binding FilterName,
@@ -46,9 +46,9 @@
                 <StackPanel Grid.Column="0">
                     <GroupBox Margin="0,0,5,0" Padding="5">
                         <GroupBox.Header>
-                            <TextBlock FontWeight="Heavy"
+                            <Label FontWeight="Heavy"
                                        Foreground="{StaticResource headerBrush}"
-                                       Text="Классы событий" />
+                                       Content="Классы событий" />
                         </GroupBox.Header>
                         <ItemsControl ItemsSource="{Binding EventViewModels}">
                             <ItemsControl.ItemTemplate>
@@ -66,16 +66,16 @@
                             <ExtToolkit:IntegerUpDown Maximum="{Binding RecordsMaxCount}"
                                                       Minimum="1"
                                                       Value="{Binding JournalFilter.LastRecordsCount}" />
-                            <TextBlock Margin="5,5,0,5" Text="последних дней" />
+                            <Label Margin="5,5,0,5" Content="последних дней" />
                         </WrapPanel>
                     </GroupBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <GroupBox Padding="5">
                         <GroupBox.Header>
-                            <TextBlock FontWeight="Heavy"
+                            <Label FontWeight="Heavy"
                                        Foreground="{StaticResource headerBrush}"
-                                       Text="Категории устройств" />
+                                       Content="Категории устройств" />
                         </GroupBox.Header>
                         <ItemsControl ItemsSource="{Binding CategoryViewModels}">
                             <ItemsControl.ItemTemplate>
@@ -90,11 +90,11 @@
                             <CheckBox Content="дополнительный фильтр" IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}" />
                         </GroupBox.Header>
                         <WrapPanel>
-                            <TextBlock Margin="5,0,5,5" Text="записи за последние" />
+                            <Label Margin="5,0,5,5" Content="записи за последние" />
                             <ExtToolkit:IntegerUpDown IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}"
                                                       Minimum="1"
                                                       Value="{Binding JournalFilter.LastDaysCount}" />
-                            <TextBlock Margin="5,5,0,5" Text="дн." />
+                            <Label Margin="5,5,0,5" Content="дн." />
                         </WrapPanel>
                     </GroupBox>
                 </StackPanel>

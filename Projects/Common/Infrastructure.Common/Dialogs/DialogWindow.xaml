@@ -11,9 +11,6 @@
 	    KeyDown="OnKeyDown"
         AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Window.Resources>
-        <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
-        </Style>
     </Window.Resources>
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
@@ -27,18 +24,13 @@
                         </LinearGradientBrush>
                     </Border.Background>
                     <Grid>
-                        <TextBlock Name="_captionTextBlock" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" />
+                        <TextBlock Name="_captionTextBlock" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" />
                         <Button HorizontalAlignment="Right" Margin="0, 0, 10, 0" Click="OnCloseButton" Style="{StaticResource ToolarButtonStyle}">
                             <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
                         </Button>
                     </Grid>
                 </Border>
                 <ContentControl Name="_content" Margin="10">
-                    <ContentControl.Resources>
-                        <Style x:Key="{x:Type TextBlock}" TargetType="TextBlock">
-                            <Setter Property="Foreground" Value="White" />
-                        </Style>
-                    </ContentControl.Resources>
                 </ContentControl>
             </DockPanel>
         </Border>

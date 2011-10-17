@@ -17,25 +17,25 @@
                     <Setter Property="FontWeight" Value="Black" />
                 </Style>
             </StackPanel.Resources>
-            <TextBlock Margin="2" Text="Наименование: " />
-            <TextBlock Margin="2" Text="Тип события: " />
-            <TextBlock Margin="2" Text="Тип устройства: " />
-            <TextBlock Margin="2" Text="Выбрать записи: " />
+            <Label Content="Наименование: " />
+            <Label Content="Тип события: " />
+            <Label Content="Тип устройства: " />
+            <Label Content="Выбрать записи: " />
         </StackPanel>
         <TextBlock>
             <StackPanel DataContext="{Binding JournalFilter}">
-                <TextBlock Margin="2" Text="{Binding Name}" />
-                <TextBlock Margin="2" Text="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
-                <TextBlock Margin="2" Text="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
+                <Label Content="{Binding Name}" />
+                <Label Content="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
+                <Label Content="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
                 <WrapPanel Margin="2">
                     <WrapPanel>
-                        <TextBlock Text="{Binding LastRecordsCount}" />
-                        <TextBlock Text=" последних" />
+                        <Label Content="{Binding LastRecordsCount}" />
+                        <Label Content=" последних" />
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text=" за " />
-                        <TextBlock Text="{Binding LastDaysCount}" />
-                        <TextBlock Text=" дней" />
+                        <Label Content=" за " />
+                        <Label Content="{Binding LastDaysCount}" />
+                        <Label Content=" дней" />
                     </WrapPanel>
                 </WrapPanel>
             </StackPanel>

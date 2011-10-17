@@ -14,11 +14,7 @@
                     <Border Background="Transparent" SnapsToDevicePixels="True">
                         <Rectangle Margin="0,2">
                             <Rectangle.Fill>
-                                <DrawingBrush Viewport="0,0,4,4"
-                            ViewportUnits="Absolute"
-                            Viewbox="0,0,8,8"
-                            ViewboxUnits="Absolute"
-                            TileMode="Tile">
+                                <DrawingBrush Viewport="0,0,4,4" ViewportUnits="Absolute" Viewbox="0,0,8,8" ViewboxUnits="Absolute" TileMode="Tile">
                                     <DrawingBrush.Drawing>
                                         <DrawingGroup>
                                             <GeometryDrawing Brush="#AAA" Geometry="M 4 4 L 4 8 L 8 8 L 8 4 z" />
@@ -38,10 +34,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="Border"
-                                CornerRadius="3,3,3,3"
-                                SnapsToDevicePixels="true"
-                                Background="Transparent">
+                    <Border x:Name="Border" CornerRadius="3,3,3,3" SnapsToDevicePixels="true" Background="Transparent">
                         <Grid>
                             <Path x:Name="Arrow" Fill="White" VerticalAlignment="Bottom" Margin="2,3" Data="M -0.5 3 L 5.5 3 L 2.5 6 Z" />
                             <ContentPresenter />
@@ -62,18 +55,10 @@
                 <ControlTemplate TargetType="{x:Type ToolBar}">
                     <Border x:Name="Border" CornerRadius="2" BorderThickness="1" Background="Transparent" BorderBrush="Transparent">
                         <DockPanel>
-                            <ToggleButton DockPanel.Dock="Right"
-                          IsEnabled="{TemplateBinding HasOverflowItems}"
-                          Style="{StaticResource ToolBarOverflowButtonStyle}"
-                          ClickMode="Press"
+                            <ToggleButton DockPanel.Dock="Right" IsEnabled="{TemplateBinding HasOverflowItems}" Style="{StaticResource ToolBarOverflowButtonStyle}" ClickMode="Press"
                           IsChecked="{Binding IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <Popup x:Name="OverflowPopup"
-                     AllowsTransparency="true"
-                     Placement="Bottom"
-                     StaysOpen="false"
-                     Focusable="false"
-                     PopupAnimation="Slide"
-                     IsOpen="{Binding IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Popup x:Name="OverflowPopup" AllowsTransparency="true" Placement="Bottom" StaysOpen="false" Focusable="false" PopupAnimation="Slide"
+                                     IsOpen="{Binding IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}">
                                     <Border x:Name="DropDownBorder" BorderThickness="1">
                                         <Border.BorderBrush>
                                             <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
@@ -84,13 +69,7 @@
                                                 <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1" />
                                             </LinearGradientBrush>
                                         </Border.Background>
-                                        <ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel"
-                                        Margin="2"
-                                        WrapWidth="200"
-                                        Focusable="true"
-                                        FocusVisualStyle="{x:Null}"
-                                        KeyboardNavigation.TabNavigation="Cycle"
-                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        <ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" Margin="2" WrapWidth="200" Focusable="true" FocusVisualStyle="{x:Null}" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                     </Border>
                                 </Popup>
                             </ToggleButton>

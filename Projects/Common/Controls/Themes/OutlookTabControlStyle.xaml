@@ -7,32 +7,12 @@
             <SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
             <SolidColorBrush x:Key="BorderBrush" Color="#343337" />
             
-            <LinearGradientBrush x:Key="ButtonNormalBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#434247" Offset="0" />
-                <GradientStop Color="#383438" Offset="1" />
-            </LinearGradientBrush>
-            
-            <LinearGradientBrush x:Key="ButtonSelectedBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#F2B352" Offset="0" />
-                <GradientStop Color="#DF8E2A" Offset="1" />
-            </LinearGradientBrush>
-            
-            <LinearGradientBrush x:Key="ButtonPressedBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#DEA34B" Offset="0" />
-                <GradientStop Color="#C98226" Offset="1" />
-            </LinearGradientBrush>
-            
-            <LinearGradientBrush x:Key="ButtonHoverBrush" StartPoint="0, 0" EndPoint="0,1">
-                <GradientStop Color="#F2B352" Offset="0" />
-                <GradientStop Color="#DF8E2A" Offset="1" />
-            </LinearGradientBrush>
-            
             <!-- This style sets the default template for a TabItem -->
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Padding" Value="12,2,12,2"/>
                 <Setter Property="Margin" Value="0 0 0 5"/>
                 <Setter Property="Foreground" Value="White"/>
-                <Setter Property="Background" Value="{StaticResource ButtonNormalBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="Template">
@@ -49,7 +29,7 @@
                                         <Condition Property="IsMouseOver" Value="False" />
                                     </MultiTrigger.Conditions>
                                     <MultiTrigger.Setters>
-                                        <Setter Property="Background" Value="{StaticResource ButtonNormalBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
                                 <MultiTrigger>
@@ -58,12 +38,12 @@
                                         <Condition Property="IsMouseOver" Value="True" />
                                     </MultiTrigger.Conditions>
                                     <MultiTrigger.Setters>
-                                        <Setter Property="Background" Value="{StaticResource ButtonHoverBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
                                 <Trigger Property="IsSelected" Value="True">
                                     <Setter Property="TextElement.Foreground" Value="White" />
-                                    <Setter Property="Background" Value="{StaticResource ButtonSelectedBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsSelected" Value="False">
                                     <Setter Property="TextElement.Foreground" Value="{StaticResource CaptionBrush}" />
@@ -74,7 +54,7 @@
                                         <Condition Property="IsMouseOver" Value="True" />
                                     </MultiTrigger.Conditions>
                                     <MultiTrigger.Setters>
-                                        <Setter Property="Background" Value="{StaticResource ButtonPressedBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
                             </ControlTemplate.Triggers>
@@ -93,7 +73,7 @@
             <!-- This is the host panel that contains the tab items -->
             <StackPanel DockPanel.Dock="Bottom" IsItemsHost="True" />
             <!-- This is the label that appears at the top of the TabControl -->
-            <Grid Visibility="Collapsed" DockPanel.Dock="Top" MinHeight="28" Background="{StaticResource ButtonNormalBrush}"  SnapsToDevicePixels="True">
+            <Grid Visibility="Collapsed" DockPanel.Dock="Top" MinHeight="28" Background="{DynamicResource BackgroundBrush}"  SnapsToDevicePixels="True">
                 <TextBlock FontFamily="Tahoma" Foreground="{StaticResource CaptionBrush}" VerticalAlignment="Center" Margin="5,0" FontSize="18" FontWeight="Bold" >Mail</TextBlock>
                 <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
             </Grid>

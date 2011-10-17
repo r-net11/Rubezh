@@ -11,9 +11,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Текущий серийный номер" Margin="2" Foreground="White" />
-            <TextBlock Text="{Binding CurrentSerial, Mode=OneWay}" Margin="2" Foreground="White" />
-            <TextBlock Text="Подключенные устройства" Margin="2" Foreground="White" />
+            <Label Content="Текущий серийный номер" />
+            <Label Content="{Binding CurrentSerial, Mode=OneWay}" />
+            <Label Content="Подключенные устройства" />
         </StackPanel>
 
             <Grid Grid.Row="1">

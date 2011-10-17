@@ -5,7 +5,7 @@
     
     <Grid>
         <StackPanel>
-            <TextBlock Text="{Binding Description}" Margin="2" Foreground="White" />
+            <Label Content="{Binding Description}" />
             <ProgressBar Background="Red" Foreground="Blue" Minimum="0" Maximum="100" Value="{Binding Percent}" Height="30" Margin="2" />
             <Button Command="{Binding StopCommand}" Width="100" Content="{Binding CancelText}" Margin="2" />
         </StackPanel>

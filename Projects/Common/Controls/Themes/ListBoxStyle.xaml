@@ -1,11 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <LinearGradientBrush x:Key="HeaderPressedBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#DEA34B" Offset="0" />
-        <GradientStop Color="#C98226" Offset="1" />
-    </LinearGradientBrush>
-
     <Style x:Key="ListboxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Margin" Value="1"/>
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -19,7 +14,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{StaticResource HeaderPressedBackgroundBrush}" />
+                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

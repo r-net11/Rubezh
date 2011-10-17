@@ -9,26 +9,6 @@
     <SolidColorBrush x:Key="HeaderBorderBrush" Color="Black"/>
     <SolidColorBrush x:Key="HeaderInnerBorderBrush" Color="Transparent" />
     
-    <LinearGradientBrush x:Key="RowSelectionBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#DEA34B" Offset="0" />
-        <GradientStop Color="#C98226" Offset="1" />
-    </LinearGradientBrush>
-    
-    <LinearGradientBrush x:Key="HeaderBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#434247" Offset="0" />
-        <GradientStop Color="#383438" Offset="1" />
-    </LinearGradientBrush>
-    
-    <LinearGradientBrush x:Key="HeaderHighlightedBackgoundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#F2B352" Offset="0" />
-        <GradientStop Color="#DF8E2A" Offset="1" />
-    </LinearGradientBrush>
-    
-    <LinearGradientBrush x:Key="HeaderPressedBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#DEA34B" Offset="0" />
-        <GradientStop Color="#C98226" Offset="1" />
-    </LinearGradientBrush>
-    
     <Style x:Key="ColumnHeaderRightGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -59,7 +39,7 @@
     
     <Style x:Key="ColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
@@ -92,10 +72,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="headerBorder" Property="Background" Value="{StaticResource HeaderHighlightedBackgoundBrush}" />
+                            <Setter TargetName="headerBorder" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="headerBorder" Property="Background" Value="{StaticResource HeaderPressedBackgroundBrush}" />
+                            <Setter TargetName="headerBorder" Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -164,7 +144,7 @@
                                             Grid.Column="1" Grid.ColumnSpan="2"
                                             Name="PART_ColumnHeadersPresenter"
                                             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
-                                                <Rectangle Grid.Column="2" Fill="{StaticResource HeaderBackgroundBrush}" />
+                                                <Rectangle Grid.Column="2" Fill="{DynamicResource BackgroundBrush}" />
                                                 <!--DataGrid content-->
                                                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
                                                 <ScrollBar
@@ -219,7 +199,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource RowSelectionBrush}" />
+                <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
