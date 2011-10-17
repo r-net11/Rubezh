@@ -110,7 +110,7 @@ namespace PlansModule.ViewModels
         void OnAdd()
         {
             var planDetailsViewModel = (SelectedPlan != null) ? new PlanDetailsViewModel(SelectedPlan.Plan) : new PlanDetailsViewModel();
-            planDetailsViewModel.Initialize();
+            //planDetailsViewModel.Initialize();
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
@@ -171,7 +171,7 @@ namespace PlansModule.ViewModels
         void OnEdit()
         {
             var planDetailsViewModel = new PlanDetailsViewModel();
-            planDetailsViewModel.Initialize(SelectedPlan.Plan);
+            //planDetailsViewModel.Initialize(SelectedPlan.Plan);
             if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
                 SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
@@ -186,8 +186,8 @@ namespace PlansModule.ViewModels
         public override void OnShow()
         {
             var plansContextMenuViewModel = new PlansContextMenuViewModel(AddCommand, AddSubCommand, EditCommand, RemoveCommand);
-            var plansMenuViewModel = new PlansMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
+            //var plansMenuViewModel = new PlansMenuViewModel(this);
+            //ServiceFactory.Layout.ShowMenu(plansMenuViewModel);
         }
 
         public override void OnHide()

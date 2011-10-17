@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="PlansModule.Views.PlanDesignerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Slider Grid.Row="1" Orientation="Vertical"
+                    HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
+        </Grid>
+
+        <ScrollViewer Name="scrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+
+            <Grid Name="grid" RenderTransformOrigin="0.5,0.5">
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                    </TransformGroup>
+                </Grid.LayoutTransform>
+                <Viewbox>
+
+                    <ContentControl Name="_contentControl"
+                            Content="{Binding DesignerCanvas}" 
+                            Background="White" HorizontalAlignment="Left" />
+
+                </Viewbox>
+            </Grid>
+
+        </ScrollViewer>
+    </Grid>
+
+</UserControl>

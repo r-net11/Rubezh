@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlansView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:s="clr-namespace:DiagramDesigner">
+             xmlns:s="clr-namespace:DiagramDesigner"
+             xmlns:Views="clr-namespace:PlansModule.Views">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,7 +24,12 @@
             <Button Content="Test" Command="{Binding TestCommand}" />
         </StackPanel>
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding DesignerCanvas}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Views:PlansTreeView Grid.Column="0" />
+            <Views:PlanDesignerView Grid.Column="1" />
         </Grid>
     </Grid>
 </UserControl>

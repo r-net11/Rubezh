@@ -2,15 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:PlansModule.Views"
                     xmlns:ViewModels="clr-namespace:PlansModule.ViewModels">
+    
     <DataTemplate DataType="{x:Type ViewModels:PlansViewModel}">
         <Views:PlansView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
         <Views:PlansMenuView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:PlanDetailsViewModel}">
         <Views:PlanDetailsView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:SubPlanDetailsViewModel}">
         <Views:SubPlanDetailsView />
     </DataTemplate>

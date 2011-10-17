@@ -1,53 +1,38 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDetailsViewModel : DialogContent
+    public class PlanDetailsViewModel : SaveCancelDialogContent
     {
-        public PlanDetailsViewModel()
+        public PlanDetailsViewModel(Plan plan = null)
         {
-            Title = "Новый план";
+            if (plan != null)
+            {
+                Title = "Редактировать план";
+                Plan = plan;
+                _isNew = false;
+            }
+            else
+            {
+                Title = "Создать план";
+                Plan = new Plan();
+                _isNew = true;
+            }
 
-            Plan = new Plan();
-
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            CancelCommand = new RelayCommand(OnCancel);
+            CopyProperties();
         }
 
-        public PlanDetailsViewModel(Plan parent)
+        void CopyProperties()
         {
-            Title = "Новый план";
-
-            Plan = new Plan();
-            if (parent.Children == null) parent.Children = new List<FiresecAPI.Models.Plan>();
-            parent.Children.Add(Plan);
-            Plan.Parent = parent;
-
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            CancelCommand = new RelayCommand(OnCancel);
-        }
-
-        public void Initialize()
-        {
-            _isNew = true;
-        }
-
-        public void Initialize(Plan plan)
-        {
-            Title = "Редактирование плана";
-
-            _isNew = false;
-            Name = plan.Name;
-            Width = plan.Width;
-            Height = plan.Height;
+            Name = Plan.Name;
+            Width = Plan.Width;
+            Height = Plan.Height;
         }
 
         bool _isNew;
         public Plan Plan { get; private set; }
-        public Plan Parent { get; private set; }
 
         string _name;
         public string Name
@@ -82,45 +67,21 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void Save()
+        protected override void Save(ref bool cancel)
         {
+            if (Name == null)
+            {
+                cancel = true;
+                return;
+            }
+
             Plan.Name = Name;
             Plan.Height = Height;
             Plan.Width = Width;
             if (_isNew)
             {
-                Plan plan = Plan;
-                while (plan.Parent != null) plan = plan.Parent;
-
-                if (FiresecManager.PlansConfiguration.Plans == null) FiresecManager.PlansConfiguration.Plans = new List<FiresecAPI.Models.Plan>();
-                int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
-                if (index == -1)
-                {
-                    FiresecManager.PlansConfiguration.Plans.Add(plan);
-                }
-                else
-                {
-                    FiresecManager.PlansConfiguration.Plans[index] = plan;
-                }
+                FiresecManager.PlansConfiguration.Plans.Add(Plan);
             }
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Save();
-            Close(true);
-        }
-
-        bool CanSave()
-        {
-            return Name != null;
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

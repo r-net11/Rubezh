@@ -4,11 +4,11 @@ namespace PlansModule.ViewModels
 {
     public class PlansMenuViewModel
     {
-        public PlansMenuViewModel(OldPlansViewModel context)
+        public PlansMenuViewModel(PlansViewModel context)
         {
             Context = context;
         }
 
-        public OldPlansViewModel Context { get; private set; }
+        public PlansViewModel Context { get; private set; }
     }
 }
