@@ -1,56 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="8a6119ec-2543-4ca0-b0e0-84d08fb6e1e2" Name="Тестовое приложение" Language="1049"
-           Version="1.0.0.1" Manufacturer='Группа компаний "Рубеж"' UpgradeCode="16ea29b9-b745-4072-8aeb-6e6892f4dbc5" Codepage="1251">
+           Version="1.0.10" Manufacturer='Группа компаний "Рубеж"' UpgradeCode="16ea29b9-b745-4072-8aeb-6e6892f4dbc5" Codepage="1251">
     <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="1251" Manufacturer='Группа компаний "Рубеж"'
-             Description="Пакет установки 1" Comments="Комментарий к программе установки"/>
+             Description="Программа установки Test Application" Comments="Пакет установки демонстрационного приложения"/>
 
-    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="TestApp.cab" EmbedCab="yes" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="CompanyNameFolder" Name="Rubezh" >
           <Directory Id="INSTALLLOCATION" Name="Test Application">
-            <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-            <!-- <Component Id="ProductComponent" Guid="9d201666-9ea7-4a8b-b558-6004c46bddb4"> -->
-            <!-- TODO: Insert files, registry keys, and other resources here. -->
-            <!-- </Component> -->
+            <Directory Id="HelpFilesFolder" Name="Pdf" />
           </Directory>
         </Directory>
       </Directory>
+      <!--Пуск\Программы\Test Application-->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuDir" Name="Test Application"/>
+      </Directory>
+      <!--Рабочий стол-->
       <Directory Id="DesktopFolder" />
     </Directory>
 
-    <Icon Id="ProgramIcon.exe" SourceFile="$(var.SimpleWPFApp.TargetPath)"/>
-
     <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="TestAppExeComponent" Guid="6D42C653-A47B-472A-A56B-A451107B8073">
+      <Component Id="MainExe" Guid="6D42C653-A47B-472A-A56B-A451107B8073">
         <File Id="TestAppExe" Name="$(var.SimpleWPFApp.TargetFileName)"
               Source="$(var.SimpleWPFApp.TargetPath)" DiskId="1" KeyPath="yes">
           <Shortcut Id="DesktopShortcut" Name="Test Application" Description="Ярлык на рабочем столе"
-                    Directory="DesktopFolder" Advertise="yes" Icon="ProgramIcon.exe"></Shortcut>
+                    Directory="DesktopFolder" Advertise="yes" Icon="Firesec.ico"></Shortcut>
+          <Shortcut Id="ProgramsMenuShortcut" Name="Запустить Test Application" Description="Запускает программу"
+                    WorkingDirectory="INSTALLLOCATION" Directory="ProgramMenuDir" Advertise="yes" Icon="Firesec.ico"/>
         </File>
       </Component>
-      <Component Id="TestAppControlsComponent" Guid="EC2CB84A-E243-449B-B005-3AE444755555">
-        <File Id="TestAppControls" Name="$(var.Controls.TargetFileName)"
+
+      <!--<Component Id="ProgramFilesShortcutUninstall" Guid="11039B7B-C768-45CE-BE14-02480F19812E">
+        <Shortcut Id="Uninstall" Name="Удалить Test Application" Target="[System64Folder]msiexec.exe"
+                  Arguments="/x [ProductCode]" Description="Удаляет Test Application с данного компьютера" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
+                       Value="1" KeyPath="yes" />
+      </Component>-->
+      
+      <Component Id="MainPdbComponent" Guid="63A91DD1-2146-4EDA-835F-D75640E38EB8">
+        <File Id="TestAppPdb" Name="SimpleWpfApp.pdb" Source="$(var.SimpleWPFApp.TargetDir)"
+              DiskId="1" KeyPath="yes"/>
+      </Component>
+
+      <Component Id="ControlsComponent" Guid="EC2CB84A-E243-449B-B005-3AE444755555">
+        <File Id="Controls" Name="$(var.Controls.TargetFileName)"
               Source="$(var.Controls.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      <Component Id="TestAppCommonComponent" Guid="B2E4555D-B273-420E-91E2-01E8C28B4B03">
-        <File Id="TestAppCommon" Name="$(var.Common.TargetFileName)" 
-              Source="$(var.Common.TargetPath)" DiskId="1" KeyPath="yes">          
+
+      <Component Id="CommonComponent" Guid="B2E4555D-B273-420E-91E2-01E8C28B4B03">
+        <File Id="Common" Name="$(var.Common.TargetFileName)"
+              Source="$(var.Common.TargetPath)" DiskId="1" KeyPath="yes">
+        </File>
+      </Component>
+
+    </DirectoryRef>
+
+    <!-- Каталог в меню "Пуск". Удаление при деинсталляции -->
+    <DirectoryRef Id="ProgramMenuDir">
+      <Component Id="ProgramMenuDir" Guid="74F77870-CEF6-409A-8590-B8698E615CC6">
+        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <!-- Элементы в главном меню -->
+    <DirectoryRef Id="ProgramMenuDir">
+      <!--Ярлык для удаления программы--> 
+      <Component Id="ProgramsMenuShortcutUninstall" Guid="DF337699-80F0-4347-AF89-C343E52106D4">
+        <Shortcut Id="UninstallProduct" Name="Удалить Test Application" Target="[System64Folder]msiexec.exe"
+                  Arguments="/x [ProductCode]" Description="Удаляет Test Application с данного компьютера" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
+                       Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="HelpFilesFolder">
+      <!--Файл руководства оператора-->
+      <Component Id="OperatorHelp" Guid="16C1C836-E591-4665-BE84-B17C7FCCF7CB" Location="either">
+        <File Id="OperatorHelpPdf" Name="FiresecOZHelp.pdf" DiskId="1" KeyPath="yes" Compressed="no">
+          <Shortcut Id="OperatorHelpShortCut" Name="Руковоство оператора" Advertise="yes" Icon="Help.ico"
+                    WorkingDirectory="HelpFilesFolder" Directory="ProgramMenuDir">
+          </Shortcut>
+        </File>
+      </Component>
+      <!--Файл руководства администратора-->
+      <Component Id="AdminHelp" Guid="E88D92E2-8846-46BF-8EEF-8A8F935A353E" Location="either">
+        <File Id="AdminHelpPdf" Name="FiresecAdminHelp.pdf" DiskId="1" KeyPath="yes">
+          <Shortcut Id="AdminHelpShortCut" Name="Руководство администратора" Advertise="yes" Icon="Help.ico"
+                    WorkingDirectory="HelpFilesFolder" Directory="ProgramMenuDir">
+          </Shortcut>
         </File>
       </Component>
     </DirectoryRef>
 
-    <Feature Id="Complete" Title="Test Application" Description="Полная установка" Level="1"
-             ConfigurableDirectory="INSTALLLOCATION">
-      <ComponentRef Id="TestAppExeComponent" />
-      <ComponentRef Id="TestAppControlsComponent" />
-      <ComponentRef Id="TestAppCommonComponent"/>
+    <Feature Id="Complete" Title="Test Application" Description="Полная установка" Level="1" Display="expand"
+             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+      <Feature Id="RequiredComponents" Title="Необходимые компоненты" Description="Важные компоненты"
+               Level="1" AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+        <ComponentRef Id="MainExe" />
+        <ComponentRef Id="ControlsComponent" />
+        <ComponentRef Id="CommonComponent" />
+        <ComponentRef Id="ProgramMenuDir" />
+        <!--<ComponentRef Id="ProgramFilesShortcutUninstall" />-->
+        <ComponentRef Id="ProgramsMenuShortcutUninstall" />
+      </Feature>
+      <Feature Id="ExeSymbols" Title="Отладочные символы" Description="дополнительные библиотеки для отладки"
+               Level="2" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+        <ComponentRef Id="MainPdbComponent" />
+      </Feature>
+      <Feature Id="HelpFiles" Title="Справочная информация" Description="Справочная информация о программе"
+               Level="2" AllowAdvertise="no" Absent="disallow" InstallDefault="source">
+        <Feature Id="OperatorHelpFile" Title="Руководство оператора" Description="Руководство оператора программы"
+                 Level="2" AllowAdvertise="no" Absent="disallow" InstallDefault="source">
+          <ComponentRef Id="OperatorHelp"/>
+        </Feature>
+        <Feature Id="AdminHelpFile" Title="Руководство администратора" Description="Руководство администратора программы"
+                 Level="2" AllowAdvertise="system" Absent="allow" InstallDefault="source">
+          <ComponentRef Id="AdminHelp"/>
+        </Feature>
+      </Feature>
       <ComponentGroupRef Id="Product.Generated" />
     </Feature>
 
+    <Icon Id="ProgramIcon.exe" SourceFile="$(var.SimpleWPFApp.TargetPath)"/>
+    <Icon Id="Help.ico" SourceFile="help_and_support.ico" />
+    <Icon Id="Firesec.ico" SourceFile="Firesec.ico"/>
+    
     <UI Id="MyWixUI_Mondo">
       <UIRef Id="WixUI_Mondo" />
       <UIRef Id="WixUI_ErrorProgressText" />

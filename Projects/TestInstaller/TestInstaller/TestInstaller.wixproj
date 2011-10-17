@@ -61,6 +61,14 @@
       <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Firesec.ico" />
+    <Content Include="FiresecAdminHelp.pdf" />
+    <Content Include="FireSecIcon.png" />
+    <Content Include="FiresecOZHelp.pdf" />
+    <Content Include="help.png" />
+    <Content Include="help_and_support.ico" />
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
