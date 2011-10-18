@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI.Models
 {
@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
         public ZoneLogicState State { get; set; }
 
         [DataMember]
-        public ZoneLogicOperation Operation { get; set; }
+        public ZoneLogicOperation? Operation { get; set; }
 
         [DataMember]
         public List<string> Zones { get; set; }

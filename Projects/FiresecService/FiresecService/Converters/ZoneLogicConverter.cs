@@ -24,6 +24,7 @@ namespace FiresecService.Converters
                     }
 
                     clause.State = (ZoneLogicState) int.Parse(innerClause.state);
+
                     switch (innerClause.operation)
                     {
                         case "and":
@@ -32,6 +33,10 @@ namespace FiresecService.Converters
 
                         case "or":
                             clause.Operation = ZoneLogicOperation.Any;
+                            break;
+
+                        default:
+                            clause.Operation = null;
                             break;
                     }
 
@@ -43,6 +48,10 @@ namespace FiresecService.Converters
 
                         case "or":
                             zoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
+                            break;
+
+                        default:
+                            zoneLogic.JoinOperator = null;
                             break;
                     }
 
@@ -78,6 +87,10 @@ namespace FiresecService.Converters
                     case ZoneLogicOperation.Any:
                         innerClause.operation = "or";
                         break;
+
+                    default:
+                        innerClause.operation = null;
+                        break;
                 }
 
                 switch (zoneLogic.JoinOperator)
@@ -88,6 +101,10 @@ namespace FiresecService.Converters
 
                     case ZoneLogicJoinOperator.Or:
                         innerClause.joinOperator = "or";
+                        break;
+
+                    default:
+                        innerClause.joinOperator = null;
                         break;
                 }
 

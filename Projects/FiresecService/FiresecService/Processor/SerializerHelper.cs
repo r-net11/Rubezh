@@ -78,8 +78,12 @@ namespace FiresecService
             {
                 var serializer = new XmlSerializer(typeof(T));
                 serializer.Serialize(memoryStream, input);
+
                 string output = Encoding.UTF8.GetString(memoryStream.ToArray());
-                return output.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+                output = output.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+                output = output.Replace("\r\n", "");
+
+                return output;
             }
         }
     }

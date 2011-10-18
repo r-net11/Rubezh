@@ -135,8 +135,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ZoneLogicOperation _selectedOperation;
-        public ZoneLogicOperation SelectedOperation
+        ZoneLogicOperation? _selectedOperation;
+        public ZoneLogicOperation? SelectedOperation
         {
             get { return _selectedOperation; }
             set

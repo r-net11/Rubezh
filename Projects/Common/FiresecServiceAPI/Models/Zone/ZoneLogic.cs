@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI.Models
 {
@@ -16,13 +16,13 @@ namespace FiresecAPI.Models
         public List<Clause> Clauses { get; set; }
 
         [DataMember]
-        public ZoneLogicJoinOperator JoinOperator { get; set; }
+        public ZoneLogicJoinOperator? JoinOperator { get; set; }
 
         public override string ToString()
         {
             string result = "";
 
-            for (int i = 0; i < Clauses.Count; i++)
+            for (int i = 0; i < Clauses.Count; ++i)
             {
                 var clause = Clauses[i];
 
@@ -35,6 +35,8 @@ namespace FiresecAPI.Models
                             break;
                         case ZoneLogicJoinOperator.Or:
                             result += " или ";
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -53,7 +55,7 @@ namespace FiresecAPI.Models
 
                 result += "состояние " + EnumsConverter.ZoneLogicStateToString(clause.State);
 
-                string stringOperation = "";
+                string stringOperation = null;
                 switch (clause.Operation)
                 {
                     case ZoneLogicOperation.All:
@@ -61,13 +63,16 @@ namespace FiresecAPI.Models
                         break;
 
                     case ZoneLogicOperation.Any:
-                        stringOperation = "в любой зонах из";
+                        stringOperation = "в любой зоне из";
+                        break;
+
+                    default:
                         break;
                 }
 
                 result += " " + stringOperation + " [";
 
-                for (int j = 0; j < clause.Zones.Count; j++)
+                for (int j = 0; j < clause.Zones.Count; ++j)
                 {
                     if (j > 0)
                         result += ", ";

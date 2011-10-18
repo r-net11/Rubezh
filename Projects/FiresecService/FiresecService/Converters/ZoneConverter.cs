@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
 using Firesec.CoreConfiguration;
+using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
@@ -62,7 +62,7 @@ namespace FiresecService.Converters
                         var guardZoneTypeParam = innerZone.param.FirstOrDefault(x => x.name == "GuardZoneType");
                         if (guardZoneTypeParam != null)
                         {
-                            zone.GuardZoneType = (GuardZoneType)int.Parse(guardZoneTypeParam.value);
+                            zone.GuardZoneType = (GuardZoneType) int.Parse(guardZoneTypeParam.value);
                         }
                     }
                     ConfigurationConverter.DeviceConfiguration.Zones.Add(zone);
@@ -79,21 +79,29 @@ namespace FiresecService.Converters
                 {
                     name = zone.Name,
                     idx = zone.No,
-                    no = zone.No
+                    no = zone.No,
+                    desc = zone.Description
                 };
 
-                if (string.IsNullOrEmpty(zone.Description) == false)
-                    innerZone.desc = zone.Description;
-
                 var zoneParams = new List<paramType>();
-
                 zoneParams.Add(new paramType()
                 {
                     name = "ZoneType",
                     type = "Int",
                     value = (zone.ZoneType == ZoneType.Fire) ? "0" : "1"
                 });
-
+                zoneParams.Add(new paramType()
+                {
+                    name = "Skipped",
+                    type = "Int",
+                    value = zone.Skipped ? "1" : "0"
+                });
+                zoneParams.Add(new paramType()
+                {
+                    name = "GuardZoneType",
+                    type = "Int",
+                    value = ((int) zone.GuardZoneType).ToString()
+                });
                 if (string.IsNullOrEmpty(zone.DetectorCount) == false)
                 {
                     zoneParams.Add(new paramType()
@@ -103,7 +111,6 @@ namespace FiresecService.Converters
                         value = zone.DetectorCount
                     });
                 }
-
                 if (string.IsNullOrEmpty(zone.EvacuationTime) == false)
                 {
                     zoneParams.Add(new paramType()
@@ -113,7 +120,6 @@ namespace FiresecService.Converters
                         value = zone.EvacuationTime
                     });
                 }
-
                 if (string.IsNullOrEmpty(zone.AutoSet) == false)
                 {
                     zoneParams.Add(new paramType()
@@ -133,25 +139,6 @@ namespace FiresecService.Converters
                         value = zone.Delay
                     });
                 }
-
-                if (true)
-                {
-                    zoneParams.Add(new paramType()
-                    {
-                        name = "Skipped",
-                        type = "Int",
-                        value = zone.Skipped ? "1" : "0"
-                    });
-                }
-
-                string GuardZoneTypeParamString = ((int)zone.GuardZoneType).ToString();
-
-                zoneParams.Add(new paramType()
-                {
-                    name = "GuardZoneType",
-                    type = "Int",
-                    value = GuardZoneTypeParamString
-                });
 
                 if (zoneParams.Count > 0)
                     innerZone.param = zoneParams.ToArray();

@@ -239,21 +239,18 @@ namespace FiresecService.Converters
         static List<propType> AddProperties(Device device)
         {
             var propertyList = new List<propType>();
-            if (device.Driver.DriverType != DriverType.Computer)
+            if (device.Driver.DriverType != DriverType.Computer && device.Properties.IsNotNullOrEmpty())
             {
-                if (device.Properties.IsNotNullOrEmpty())
+                foreach (var deviceProperty in device.Properties)
                 {
-                    foreach (var deviceProperty in device.Properties)
+                    if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
+                        string.IsNullOrEmpty(deviceProperty.Value) == false)
                     {
-                        if (string.IsNullOrEmpty(deviceProperty.Name) == false &&
-                            string.IsNullOrEmpty(deviceProperty.Value) == false)
+                        propertyList.Add(new propType()
                         {
-                            propertyList.Add(new propType()
-                            {
-                                name = deviceProperty.Name,
-                                value = deviceProperty.Value
-                            });
-                        }
+                            name = deviceProperty.Name,
+                            value = deviceProperty.Value
+                        });
                     }
                 }
             }
@@ -277,11 +274,9 @@ namespace FiresecService.Converters
                         propertyList.Add(new propType());
                     }
 
-                    var zoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
-                    var zoneLogicString = SerializerHelper.SetZoneLogic(zoneLogic);
-
                     zoneLogicProperty.name = "ExtendedZoneLogic";
-                    zoneLogicProperty.value = zoneLogicString;
+                    var zoneLogic = ZoneLogicConverter.ConvertBack(device.ZoneLogic);
+                    zoneLogicProperty.value = SerializerHelper.SetZoneLogic(zoneLogic);
                 }
             }
 
@@ -294,11 +289,9 @@ namespace FiresecService.Converters
                     propertyList.Add(indicatorLogicProperty);
                 }
 
-                var indicatorLogic = IndicatorLogicConverter.ConvertBack(device.IndicatorLogic);
-                var indicatorLogicString = SerializerHelper.SetIndicatorLogic(indicatorLogic);
-
                 indicatorLogicProperty.name = "C4D7C1BE-02A3-4849-9717-7A3C01C23A24";
-                indicatorLogicProperty.value = indicatorLogicString;
+                var indicatorLogic = IndicatorLogicConverter.ConvertBack(device.IndicatorLogic);
+                indicatorLogicProperty.value = SerializerHelper.SetIndicatorLogic(indicatorLogic);
             }
 
             if ((device.Driver.DriverType == DriverType.PDU) && (device.PDUGroupLogic != null))
@@ -310,11 +303,9 @@ namespace FiresecService.Converters
                     propertyList.Add(pDUGroupLogicProperty);
                 }
 
-                var pDUGroupLogic = PDUGroupLogicConverter.ConvertBack(device.PDUGroupLogic);
-                var pDUGroupLogicString = SerializerHelper.SeGroupProperty(pDUGroupLogic);
-
                 pDUGroupLogicProperty.name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5";
-                pDUGroupLogicProperty.value = pDUGroupLogicString;
+                var pDUGroupLogic = PDUGroupLogicConverter.ConvertBack(device.PDUGroupLogic);
+                pDUGroupLogicProperty.value = SerializerHelper.SeGroupProperty(pDUGroupLogic);
             }
 
             return propertyList;
