@@ -67,9 +67,9 @@ namespace PlansModule.Views
 
             var imageBrush = new ImageBrush();
             Rectangle rectangle = new Rectangle();
-            if (plan.Rectangls != null)
+            if (plan.ElementRectangles != null)
             {
-                foreach (var rect in plan.Rectangls)
+                foreach (var rect in plan.ElementRectangles)
                 {
                     rectangle = new Rectangle();
                     ContextMenuCanvasViewModel contextMenu = new ContextMenuCanvasViewModel(GetPropertiesRect);
@@ -134,9 +134,9 @@ namespace PlansModule.Views
                     idElement++;
                 }
             }
-            if (plan.TextBoxes != null)
+            if (plan.ElementTextBlocks != null)
             {
-                foreach (var text in plan.TextBoxes)
+                foreach (var text in plan.ElementTextBlocks)
                 {
                     text.idElementCanvas = idElement;
                     var textbox = new TextBox()
@@ -217,19 +217,19 @@ namespace PlansModule.Views
 
         void GetPropertiesRect(object sender, RoutedEventArgs e)
         {
-            RectangleBox rect = (sender as MenuItem).Tag as RectangleBox;
+            Rectangle rect = (sender as MenuItem).Tag as Rectangle;
             TabItem.Header = "Свойства прямоугольника";
             ClearPropertiesWindow();
 
-            PropertiesCaption.Items.Add("Оступ слева");
-            PropertiesValue.Items.Add(rect.Left);
-            PropertiesName.Items.Add("left");
-            PropertiesType.Items.Add("_number");
+            //PropertiesCaption.Items.Add("Оступ слева");
+            //PropertiesValue.Items.Add(rect.Left);
+            //PropertiesName.Items.Add("left");
+            //PropertiesType.Items.Add("_number");
 
-            PropertiesCaption.Items.Add("Оступ сверху");
-            PropertiesValue.Items.Add(rect.Top);
-            PropertiesName.Items.Add("top");
-            PropertiesType.Items.Add("_number");
+            //PropertiesCaption.Items.Add("Оступ сверху");
+            //PropertiesValue.Items.Add(rect.Top);
+            //PropertiesName.Items.Add("top");
+            //PropertiesType.Items.Add("_number");
 
             PropertiesCaption.Items.Add("Ширина");
             PropertiesValue.Items.Add(rect.Width);
@@ -242,15 +242,15 @@ namespace PlansModule.Views
             PropertiesType.Items.Add("_number");
 
             PropertiesCaption.Items.Add("Изображение");
-            PropertiesValue.Items.Add(rect.BackgroundPixels.Length.ToString());
+            //PropertiesValue.Items.Add(rect.BackgroundPixels.Length.ToString());
             PropertiesName.Items.Add("background");
             PropertiesType.Items.Add("picture");
-            PropertiesView.IndexElement = rect.idElementCanvas;
+            //PropertiesView.IndexElement = rect.idElementCanvas;
         }
 
         void GetPropertiesText(object sender, RoutedEventArgs e)
         {
-            CaptionBox text = (sender as MenuItem).Tag as CaptionBox;
+            ElementTextBlock text = (sender as MenuItem).Tag as ElementTextBlock;
             TabItem.Header = "Свойства текста";
             ClearPropertiesWindow();
 
@@ -560,7 +560,7 @@ namespace PlansModule.Views
                 if (updateElement != "textbox")
                 {
                     int index = int.Parse(updateElement.Substring(4));
-                    foreach (var rect in plan.Rectangls)
+                    foreach (var rect in plan.ElementRectangles)
                     {
                         if (rect.idElementCanvas == index)
                         {
@@ -576,7 +576,7 @@ namespace PlansModule.Views
                     var textBox = MainCanvasViewModel.OriginalElementToResizeTextBox as TextBox;
                     updateElement = textBox.Name;
                     int index = int.Parse(updateElement.Substring(4));
-                    foreach (var text in plan.TextBoxes)
+                    foreach (var text in plan.ElementTextBlocks)
                     {
                         if (text.idElementCanvas == index)
                         {
@@ -590,7 +590,7 @@ namespace PlansModule.Views
             else if (element is TextBox)
             {
                 int index = int.Parse((element as TextBox).Name.Substring(4));
-                foreach (var text in plan.TextBoxes)
+                foreach (var text in plan.ElementTextBlocks)
                 {
                     if (text.idElementCanvas == index)
                     {
@@ -612,7 +612,7 @@ namespace PlansModule.Views
             switch (typeElement)
             {
                 case "rect":
-                    foreach (var rect in Plan.Rectangls)
+                    foreach (var rect in Plan.ElementRectangles)
                     {
                         if (_overlayElementRectangle != null && rect.idElementCanvas == index)
                         {
@@ -634,7 +634,7 @@ namespace PlansModule.Views
                     break;
 
                 case "text":
-                    foreach (var text in Plan.TextBoxes)
+                    foreach (var text in Plan.ElementTextBlocks)
                     {
                         if (_originalElementTextBox != null && text.idElementCanvas == index)
                         {

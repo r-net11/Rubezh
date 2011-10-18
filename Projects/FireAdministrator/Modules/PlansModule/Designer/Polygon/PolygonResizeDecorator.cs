@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
     public class PolygonResizeDecorator : Control
     {

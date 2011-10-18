@@ -4,11 +4,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
-    public partial class PolygonToolbox : UserControl
+    public partial class Toolbox : UserControl
     {
-        public PolygonToolbox()
+        public Toolbox()
         {
             InitializeComponent();
         }

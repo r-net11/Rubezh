@@ -3,8 +3,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common;
+using PlansModule.ViewModels;
+using Infrastructure;
+using System.Windows.Shapes;
+using FiresecAPI.Models.Plans;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
     public class DesignerItem : ContentControl
     {
@@ -50,6 +54,8 @@ namespace DiagramDesigner
         }
         #endregion Properties
 
+        public object ConfigurationItem { get; set; }
+
         public DesignerItem()
         {
             DeleteCommand = new RelayCommand(OnDelete);
@@ -72,9 +78,13 @@ namespace DiagramDesigner
             switch (ItemType)
             {
                 case "Rectangle":
+                    var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(Content as Rectangle, ConfigurationItem as ElementRectangle);
+                    ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
                     break;
 
                 case "Ellipse":
+                    var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(Content as Ellipse, ConfigurationItem as ElementEllipse);
+                    ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
                     break;
             }
         }

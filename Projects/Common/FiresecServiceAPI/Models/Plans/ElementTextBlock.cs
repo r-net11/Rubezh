@@ -3,8 +3,9 @@
 namespace FiresecAPI.Models.Plans
 {
     [DataContract]
-    public class RectangleBox
+    public class ElementTextBlock
     {
+        [DataMember]
         public int idElementCanvas { get; set; }
 
         [DataMember]
@@ -14,12 +15,15 @@ namespace FiresecAPI.Models.Plans
         public double Top { get; set; }
 
         [DataMember]
-        public double Height { get; set; }
+        public string Text { get; set; }
 
         [DataMember]
-        public double Width { get; set; }
+        public double FontSize { get; set; }
 
         [DataMember]
-        public byte[] BackgroundPixels { get; set; }
+        public string Color { get; set; }
+
+        [DataMember]
+        public string BorderColor { get; set; }
     }
 }

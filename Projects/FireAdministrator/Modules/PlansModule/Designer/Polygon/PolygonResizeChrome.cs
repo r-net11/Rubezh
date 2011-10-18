@@ -9,7 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Diagnostics;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
     public class PolygonResizeChrome : Canvas
     {

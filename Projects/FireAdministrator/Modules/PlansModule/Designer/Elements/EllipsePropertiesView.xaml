@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="PlansModule.Views.EllipsePropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinHeight="400" MinWidth="400">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Цвет фона" HorizontalAlignment="Right" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Цвет границы" HorizontalAlignment="Right" />
+        <Label Grid.Column="0" Grid.Row="2" Content="Ширина границы" HorizontalAlignment="Right" />
+
+        <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" />
+        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" />
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" />
+        
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
+            <Button Content="Ок" Command="{Binding SaveCommand}" Width="100" Margin="2" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
+        </StackPanel>
+    </Grid>
+</UserControl>

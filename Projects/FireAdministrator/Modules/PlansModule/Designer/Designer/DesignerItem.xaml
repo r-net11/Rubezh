@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:DiagramDesigner">
+                    xmlns:s="clr-namespace:PlansModule.Designer">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChrome.xaml"/>
@@ -32,8 +32,7 @@
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
-                                <MenuItem Header="Свойства" Command="{Binding PropertiesCommand}" />
-                                <MenuItem Header="Command 3" />
+                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                             </ContextMenu>
                         </Grid.ContextMenu>
                     </Grid>

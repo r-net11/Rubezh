@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
     public class DesignerItemData
     {

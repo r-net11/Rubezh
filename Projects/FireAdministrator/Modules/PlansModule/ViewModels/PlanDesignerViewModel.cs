@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using DiagramDesigner;
-using FiresecAPI.Models;
-using Infrastructure.Common;
 using DeviceControls;
+using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
             DesignerCanvas.Width = plan.Width;
             DesignerCanvas.Height = plan.Height;
 
-            foreach (var elementRectangle in plan.Rectangls)
+            foreach (var elementRectangle in plan.ElementRectangles)
             {
                 var content = new Rectangle()
                 {
@@ -54,21 +54,21 @@ namespace PlansModule.ViewModels
                     MinHeight = 20,
                     Width = elementRectangle.Width,
                     Height = elementRectangle.Height,
-                    Content = content
+                    Content = content,
+                    ConfigurationItem = elementRectangle
                 };
                 DesignerCanvas.SetLeft(designerItem, elementRectangle.Left);
                 DesignerCanvas.SetTop(designerItem, elementRectangle.Top);
                 DesignerCanvas.Children.Add(designerItem);
             }
 
-            foreach (var elementTextBlock in plan.TextBoxes)
+            foreach (var elementTextBlock in plan.ElementTextBlocks)
             {
                 var content = new TextBlock()
                 {
                     Text = elementTextBlock.Text,
                     IsHitTestVisible = false
                 };
-                //elementTextBlock.BorderColor;
 
                 var designerItem = new DesignerItem()
                 {

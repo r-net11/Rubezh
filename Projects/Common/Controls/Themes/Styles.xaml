@@ -17,5 +17,6 @@
         <ResourceDictionary Source="ListBoxStyle.xaml" />
         <ResourceDictionary Source="TextBlockStyle.xaml" />
         <ResourceDictionary Source="TreeViewStyle.xaml" />
+        <ResourceDictionary Source="ColorPickerComboBoxStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

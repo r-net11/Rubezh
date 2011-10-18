@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace DiagramDesigner
+namespace PlansModule.Designer
 {
     public class ResizeDecorator : Control
     {

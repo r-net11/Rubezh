@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Media;
-using DiagramDesigner;
+using PlansModule.Designer;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

@@ -48,7 +48,7 @@ namespace FiresecService.Converters
                                                 continue;
                                             byte[] imageBytes = File.ReadAllBytes(uri.AbsolutePath);
 
-                                            var rectangleBox = new RectangleBox()
+                                            var elementRectangle = new ElementRectangle()
                                             {
                                                 Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
                                                 Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
@@ -57,12 +57,12 @@ namespace FiresecService.Converters
                                                 BackgroundPixels = imageBytes
                                             };
 
-                                            plan.Rectangls.Add(rectangleBox);
+                                            plan.ElementRectangles.Add(elementRectangle);
                                         }
                                         break;
 
                                     case "TSCDeLabel":
-                                        var captionBox = new CaptionBox()
+                                        var elementTextBlock = new ElementTextBlock()
                                         {
                                             Text = innerElementLayer.caption,
                                             Left = Parse(innerElementLayer.rect[0].left),
@@ -70,12 +70,12 @@ namespace FiresecService.Converters
                                         };
 
                                         if (innerElementLayer.brush != null)
-                                            captionBox.BorderColor = innerElementLayer.brush[0].color;
+                                            elementTextBlock.BorderColor = innerElementLayer.brush[0].color;
 
                                         if (innerElementLayer.pen != null)
-                                            captionBox.Color = innerElementLayer.pen[0].color;
+                                            elementTextBlock.Color = innerElementLayer.pen[0].color;
 
-                                        plan.TextBoxes.Add(captionBox);
+                                        plan.ElementTextBlocks.Add(elementTextBlock);
                                         break;
                                 }
                             }

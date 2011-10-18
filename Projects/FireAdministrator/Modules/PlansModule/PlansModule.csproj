@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,14 +63,16 @@
     <Compile Include="Designer\Designer\DesignerItem.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
-    <Compile Include="Designer\Elements\EllipseProperties.xaml.cs">
-      <DependentUpon>EllipseProperties.xaml</DependentUpon>
+    <Compile Include="Designer\Elements\EllipsePropertiesView.xaml.cs">
+      <DependentUpon>EllipsePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\Elements\RectangleProperties.xaml.cs">
-      <DependentUpon>RectangleProperties.xaml</DependentUpon>
+    <Compile Include="Designer\Elements\EllipsePropertiesViewModel.cs" />
+    <Compile Include="Designer\Elements\RectanglePropertiesView.xaml.cs">
+      <DependentUpon>RectanglePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\PolygonToolbox.xaml.cs">
-      <DependentUpon>PolygonToolbox.xaml</DependentUpon>
+    <Compile Include="Designer\Elements\RectanglePropertiesViewModel.cs" />
+    <Compile Include="Designer\Toolbox.xaml.cs">
+      <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Designer\Polygon\PolygonResizeAdorner.cs" />
     <Compile Include="Designer\Polygon\PolygonResizeChrome.cs" />
@@ -177,7 +180,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
-      <Name>FiresecClient %28FiresecClient\FiresecClient%29</Name>
+      <Name>FiresecClient %28Common\FiresecClient%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
@@ -202,15 +205,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\Elements\EllipseProperties.xaml">
+    <Page Include="Designer\Elements\EllipsePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\Elements\RectangleProperties.xaml">
+    <Page Include="Designer\Elements\RectanglePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\PolygonToolbox.xaml">
+    <Page Include="Designer\Toolbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
