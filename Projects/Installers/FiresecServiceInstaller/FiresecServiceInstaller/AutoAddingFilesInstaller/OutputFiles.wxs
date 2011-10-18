@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="Output.Content">
+            <Component Id="cmp2E1AC215DD757739F14A72ABC2275976" Guid="{461F1CE2-26F0-45DA-8486-8678C042FDAC}">
+                <File Id="fil80AE4FBBB2863DB28491B9547C245C1D" Source="..\..\source\FiresecService.exe.config" />
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="Output.Binaries">
+            <Component Id="cmpAAE8C85D3E56012DD5F6FF8D07A96132" Guid="{599437F4-8838-4CEB-B234-56CA095BECA1}">
+                <File Id="fil7EF788CC1981B1C7354DFCD4A328866A" Source="..\..\source\Common.dll" />
+            </Component>
+            <Component Id="cmpCF0FD727E0618CCF5DA6F169866F0335" Guid="{86ACEFFB-3518-45B8-A0FA-7B3E65F9A327}">
+                <File Id="filF6135C991B2183B45F14EA27004920C7" Source="..\..\source\Firesec.dll" />
+            </Component>
+            <Component Id="cmp209A7A93DDD4BC2CDBEB7311BC1E127D" Guid="{A9819FCB-13A4-4B49-BE91-B6B336B302CE}">
+                <File Id="fil2D052EE7EBA37DD35CDFACEAFF7ACA50" Source="..\..\source\FiresecAPI.dll" />
+            </Component>
+            <Component Id="cmp6EDBAC8F4CB4C2BD22419A4C18FD4AD3" Guid="{A5BA039E-4C3B-4623-B7B6-21D9A2F91D25}">
+                <File Id="fil425D91A770F498CCB28614A7F88DBBEC" Source="..\..\source\FiresecService.exe" />
+            </Component>
+            <Component Id="cmp698634C7B636CA20C9E408C1E7A38355" Guid="{EB276840-D33F-46CF-B10A-393EFDA4A2D4}">
+                <File Id="fil49718439600A8464200F4D57242B2408" Source="..\..\source\Interop.FS_Types.dll" />
+            </Component>
+            <Component Id="cmpC0CD738111903354F7863AE4D4E6D7C9" Guid="{91531054-41EC-4AA8-8DAA-C3C45341F47D}">
+                <File Id="filF8BA1AB1F129DA87063DDC529DC63B73" Source="..\..\source\Interop.mscoree.dll" />
+            </Component>
+        </DirectoryRef>
+        <DirectoryRef Id="Output.Icons" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="Output.Content">
+            <ComponentRef Id="cmp2E1AC215DD757739F14A72ABC2275976" />
+        </ComponentGroup>
+        <ComponentGroup Id="Output.Binaries">
+            <ComponentRef Id="cmpAAE8C85D3E56012DD5F6FF8D07A96132" />
+            <ComponentRef Id="cmpCF0FD727E0618CCF5DA6F169866F0335" />
+            <ComponentRef Id="cmp209A7A93DDD4BC2CDBEB7311BC1E127D" />
+            <ComponentRef Id="cmp6EDBAC8F4CB4C2BD22419A4C18FD4AD3" />
+            <ComponentRef Id="cmp698634C7B636CA20C9E408C1E7A38355" />
+            <ComponentRef Id="cmpC0CD738111903354F7863AE4D4E6D7C9" />
+        </ComponentGroup>
+        <ComponentGroup Id="Output.Icons" />
+    </Fragment>
+</Wix>

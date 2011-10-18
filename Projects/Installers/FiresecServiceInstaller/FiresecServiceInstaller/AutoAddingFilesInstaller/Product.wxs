@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="23b4b3a9-5bdb-435d-8886-93489d6b1e01" Name="AutoAddingFilesInstaller" Language="1033" Version="1.0.0.0" Manufacturer="AutoAddingFilesInstaller" UpgradeCode="ec605299-0856-4411-93a7-a4d3ccefe797">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="AutoAddingFilesInstaller">
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<Feature Id="ProductFeature" Title="AutoAddingFilesInstaller" Level="1">
+      <ComponentGroupRef Id="OutputGroup"/>
+			<ComponentGroupRef Id="Product.Generated" />
+		</Feature>
+	</Product>
+</Wix>

@@ -8,9 +8,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!--<WindowsFormsHost Height="300" HorizontalAlignment="Left" x:Name="winFormsHost" VerticalAlignment="Top" Width="300">
-            <c:ReportViewer x:Name="ReportEmployee"/>
-        </WindowsFormsHost>-->
         <ContentControl Grid.Row="0" Content="{Binding ReportContent}" />
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
             <Controls:XButton Command="{Binding ShowIndicationBlockReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">

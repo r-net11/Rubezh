@@ -34,13 +34,6 @@
         </File>
       </Component>
 
-      <!--<Component Id="ProgramFilesShortcutUninstall" Guid="11039B7B-C768-45CE-BE14-02480F19812E">
-        <Shortcut Id="Uninstall" Name="Удалить Test Application" Target="[System64Folder]msiexec.exe"
-                  Arguments="/x [ProductCode]" Description="Удаляет Test Application с данного компьютера" />
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
-                       Value="1" KeyPath="yes" />
-      </Component>-->
-      
       <Component Id="MainPdbComponent" Guid="63A91DD1-2146-4EDA-835F-D75640E38EB8">
         <File Id="TestAppPdb" Name="SimpleWpfApp.pdb" Source="$(var.SimpleWPFApp.TargetDir)"
               DiskId="1" KeyPath="yes"/>
