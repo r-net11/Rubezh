@@ -63,10 +63,6 @@
     <Compile Include="Events\AlarmAddedEvent.cs" />
     <Compile Include="Events\MoveAlarmToEndEvent.cs" />
     <Compile Include="Events\ShowAllAlarmsEvent.cs" />
-    <Compile Include="Imitator\AlarmImitatorView.xaml.cs">
-      <DependentUpon>AlarmImitatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Imitator\AlarmImitatorViewModel.cs" />
     <Compile Include="Events\ResetAlarmEvent.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />
@@ -147,10 +143,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Imitator\AlarmImitatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AlarmView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

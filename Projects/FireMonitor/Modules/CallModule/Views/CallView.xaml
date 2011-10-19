@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
-        <StackPanel Margin="10">
+        <StackPanel>
             <Controls:XButton Width="150" Height="40" Margin="2" Background="YellowGreen">
                 <TextBlock Text="Отправить SMS" FontSize="16" />
             </Controls:XButton>

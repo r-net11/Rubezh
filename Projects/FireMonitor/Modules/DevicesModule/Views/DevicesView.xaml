@@ -63,44 +63,46 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1"  DataContext="{Binding SelectedDevice}" >
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="{Binding Device.PresentationAddress}" />
-                        <TextBlock Text=" - " />
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" >
+            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}">
+                <StackPanel Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding Device.PresentationAddress}" Foreground="White" />
+                            <TextBlock Text=" - " Foreground="White" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding Driver.Name}" Foreground="White" />
                     </StackPanel>
-                    <TextBlock Text="{Binding Driver.Name}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Состояние" FontWeight="Bold" Foreground="YellowGreen" Margin="0,0,5,0" />
-                    <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
-                </StackPanel>
-                <ItemsControl ItemsSource="{Binding ParentStates}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <ItemsControl ItemsSource="{Binding SelfStates}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <StackPanel>
-                    <ItemsControl ItemsSource="{Binding Parameters}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Состояние" FontWeight="Bold" Foreground="White" />
+                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding ParentStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock Text="{Binding}" Foreground="White" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding SelfStates}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Foreground="White" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding Parameters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Foreground="White" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <TextBox Text="{Binding Device.Id, Mode=OneWay}" Visibility="Visible" />
                 </StackPanel>
-                <TextBox Text="{Binding Device.Id, Mode=OneWay}" Visibility="Visible" />
-            </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>

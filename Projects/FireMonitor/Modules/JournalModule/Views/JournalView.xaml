@@ -3,27 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converter="clr-namespace:JournalModule.Converters">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
-        <SolidColorBrush x:Key="borderBrush">LightGray</SolidColorBrush>
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
     </UserControl.Resources>
     <DockPanel>
-        <Border DockPanel.Dock="Bottom" BorderThickness="0"
+        <Border DockPanel.Dock="Bottom" CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid Margin="5" DataContext="{Binding SelectedRecord}">
-                <Grid.Resources>
-                    <Style x:Key="headerStyle" TargetType="TextBlock">
-                        <Setter Property="Foreground" Value="{StaticResource headerBrush}" />
-                    </Style>
-                    <Style TargetType="Border">
-                        <Setter Property="BorderThickness" Value="2" />
-                        <Setter Property="BorderBrush" Value="{StaticResource borderBrush}" />
-                        <Setter Property="Padding" Value="5" />
-                    </Style>
-                </Grid.Resources>
+            <Grid DataContext="{Binding SelectedRecord}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -33,35 +21,34 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Grid.ColumnSpan="2"
-                    Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
+                <Border Grid.Row="0" Grid.ColumnSpan="2" Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
                     <WrapPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Класс: " Style="{StaticResource headerStyle}" />
-                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                        <TextBlock Text="Класс: " Foreground="White" />
+                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" Foreground="White" />
                     </WrapPanel>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="0">
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Description}" FontWeight="Black" />
+                        <TextBlock Text="{Binding Description}" Foreground="White" />
                         <WrapPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}">
-                            <TextBlock Text="Пользователь: " Style="{StaticResource headerStyle}" />
-                            <TextBlock Text="{Binding User}" FontWeight="Black" />
+                            <TextBlock Text="Пользователь: " Foreground="White" />
+                            <TextBlock Text="{Binding User}" Foreground="White" />
                         </WrapPanel>
                     </StackPanel>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="1">
                     <StackPanel VerticalAlignment="Center">
                         <WrapPanel>
-                            <TextBlock Text="Время: " Style="{StaticResource headerStyle}" />
-                            <TextBlock Text="{Binding SystemTime}" />
+                            <TextBlock Text="Время: " Foreground="White" />
+                            <TextBlock Text="{Binding SystemTime}" Foreground="White" />
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}">
-                            <TextBlock Text="Устройство - Датчик: " Style="{StaticResource headerStyle}" />
-                            <TextBlock Text="{Binding Device}" />
+                            <Label Content="Устройство - Датчик: " Foreground="White" />
+                            <Label Content="{Binding Device}" Foreground="White" />
                         </WrapPanel>
                         <WrapPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}">
-                            <TextBlock Text="Устройство: " Style="{StaticResource headerStyle}" />
-                            <TextBlock Text="{Binding Panel}" />
+                            <TextBlock Text="Устройство: " Foreground="White" />
+                            <TextBlock Text="{Binding Panel}" Foreground="White" />
                         </WrapPanel>
                     </StackPanel>
                 </Border>

@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="320" MinHeight="350">
-    <Grid Loaded="UserControl_Loaded" Margin="10">
+    <Grid Loaded="UserControl_Loaded">
         <StackPanel>
             <MediaElement Name="_mediaElement" Source="D:/video1.mp4" Width="300" Volume="0" LoadedBehavior="Manual" />
-            <TextBlock />
+            <Label Content="" />
             <Button Content="Запись" Width="100" />
-            <TextBlock />
+            <Label Content="" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

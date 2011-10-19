@@ -58,7 +58,7 @@ namespace PlansModule.ViewModels
                 SubPlans.Add(subPlanViewModel);
             }
 
-            foreach (var rectangleBox in _plan.Rectangls)
+            foreach (var rectangleBox in _plan.ElementRectangles)
             {
                 var rectangle = new Rectangle();
                 rectangle.Width = rectangleBox.Width;

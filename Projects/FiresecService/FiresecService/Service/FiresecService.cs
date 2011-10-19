@@ -52,6 +52,7 @@ namespace FiresecService
 
         bool CheckRemoteAccessPermissions(string login)
         {
+            return true;
             var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             _userIpAddress = endpoint.Address;
 

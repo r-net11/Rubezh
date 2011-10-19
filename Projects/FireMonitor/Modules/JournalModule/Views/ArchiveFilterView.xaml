@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             MinWidth="700"
-             MinHeight="500">
+             MinWidth="700" MinHeight="500">
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
-    <DockPanel Margin="10">
+    <DockPanel>
         <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -21,18 +20,9 @@
                     HorizontalAlignment="Left"
                     Command="{Binding ClearCommand}"
                     Content="Сбросить все настройки" />
-            <StackPanel Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
-                <Button Width="100"
-                        Margin="2"
-                        Command="{Binding SaveCommand}"
-                        Content="Ok"
-                        IsDefault="True" />
-                <Button Width="100"
-                        Margin="2"
-                        Command="{Binding CancelCommand}"
-                        Content="Отмена" />
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
+                <Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
             </StackPanel>
         </Grid>
         <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
@@ -44,7 +34,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,23,0">
-                            <TextBlock Margin="5" Text="С" />
+                            <Label Content="С" />
                             <Calendar Name="_startDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
@@ -52,7 +42,7 @@
                             <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding StartTime}" VerticalAlignment="Top" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <TextBlock Margin="5" Text="До" />
+                            <Label Content="До" />
                             <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"

@@ -1,5 +1,4 @@
-﻿using AlarmModule.Imitator;
-using AlarmModule.ViewModels;
+﻿using AlarmModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.Modularity;
@@ -30,18 +29,7 @@ namespace AlarmModule
 
         static void CreateViewModels()
         {
-            //ShowImitatorView();
-
             AlarmWatcher = new AlarmWatcher();
-        }
-
-        static void ShowImitatorView()
-        {
-            var alarmImitatorView = new AlarmImitatorView()
-            {
-                DataContext = new AlarmImitatorViewModel()
-            };
-            alarmImitatorView.Show();
         }
     }
 }

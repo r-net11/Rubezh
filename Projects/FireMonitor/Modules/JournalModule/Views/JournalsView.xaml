@@ -4,41 +4,61 @@
              xmlns:Views="clr-namespace:JournalModule.Views"
              xmlns:Converter="clr-namespace:JournalModule.Converters">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="borderBrush" Color="Black" />
-        <SolidColorBrush x:Key="backgroundBrush" Color="White" />
         <Converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
     </UserControl.Resources>
-    <TabControl Name="tabControl"
-                ItemsSource="{Binding Journals,
-                                      Converter={StaticResource CollectionViewFactoryConverter},
-                                      ConverterParameter=Name}"
-                SelectedItem="{Binding SelectedJournal}"
-                BorderThickness="0">
+    
+    <TabControl Name="tabControl" BorderThickness="0"
+                ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Name}"
+                SelectedItem="{Binding SelectedJournal}">
+
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding Name}" />
             </DataTemplate>
         </TabControl.ItemTemplate>
-        <TabControl.ItemContainerStyle>
-            <Style TargetType="{x:Type TabItem}">
-                <Setter Property="Background" Value="{x:Null}" />
-                <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count,
-                                                              Converter={StaticResource CountToVisibilityConverter}}" />
-                <Setter Property="ToolTip">
-                    <Setter.Value>
-                        <ToolTip BorderThickness="3"
-                                 BorderBrush="{StaticResource borderBrush}"
-                                 Background="{StaticResource backgroundBrush}">
-                            <Views:JournalFilterView />
-                        </ToolTip>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </TabControl.ItemContainerStyle>
+
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <Views:JournalView />
             </DataTemplate>
         </TabControl.ContentTemplate>
+        
+        <TabControl.ItemContainerStyle>
+            <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Background" Value="{x:Null}" />
+                <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Grid>
+                                <Border x:Name="Border" BorderThickness="0" CornerRadius="6,6,0,0" Background="{DynamicResource BackgroundBrush}" Margin="3, 0, 0, 0">
+                                    <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True" Height="15" Margin="6">
+                                        <ContentPresenter.Style>
+                                            <Style>
+                                                <Setter Property="TextElement.Foreground" Value="White"/>
+                                                <Setter Property="TextElement.FontSize" Value="12"/>
+                                                <Setter Property="TextElement.FontWeight" Value="Bold"/>
+                                                <Setter Property="TextElement.FontFamily" Value="Arial"/>
+                                            </Style>
+                                        </ContentPresenter.Style>
+                                    </ContentPresenter>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                    <Setter Property="Panel.ZIndex" Value="100" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.ItemContainerStyle>
+        
     </TabControl>
 </UserControl>

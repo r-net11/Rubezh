@@ -23,13 +23,19 @@ namespace JournalModule.ViewModels
 
         void Initialize()
         {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredJournal(JournalFilter).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
+            try
+            {
+                JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                    FiresecManager.GetFilteredJournal(JournalFilter).
+                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
+                );
 
-            FiresecEventSubscriber.NewJournalRecordEvent +=
-                new Action<JournalRecord>(OnNewJournaRecordEvent);
+                FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordEvent);
+            }
+            catch(Exception)
+            {
+                return;
+            }
         }
 
         public string Name

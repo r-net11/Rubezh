@@ -3,26 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
-    <Grid Margin="5">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <TextBlock Text="Инструкции в случае пожара" FontSize="16" />
-            <TextBlock Text="" />
-            <TextBlock Text="Убедиться в том что, пожар действительно есть" />
+            <Label Content="Инструкции в случае пожара" FontSize="16" />
+            <Label Content="" />
+            <Label Content="Убедиться в том что, пожар действительно есть" />
             <Button Content="Видео" Width="100" />
-            <TextBlock Text="" />
-            <TextBlock Text="Позвонить в пожарную часть по телефону 02" />
+            <Label Content="" />
+            <Label Content="Позвонить в пожарную часть по телефону 02" />
             <Button Content="Звонок" Width="100" />
-            <TextBlock Text="" />
-            <TextBlock Text="Принять меры по эвакуации людей" />
-            <TextBlock Text="Принять меры по локализации очага" />
-            <TextBlock Text="Принять меры по тушению пожара" />
-            <TextBlock Text="" />
-            <TextBlock Text="Дополнительные меры" />
-            <TextBlock Text="{Binding Path=Instruction.Text}" />
+            <Label Content="" />
+            <Label Content="Принять меры по эвакуации людей" />
+            <Label Content="Принять меры по локализации очага" />
+            <Label Content="Принять меры по тушению пожара" />
+            <Label Content="" />
+            <Label Content="Дополнительные меры" />
+            <Label Content="{Binding Path=Instruction.Text}" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"

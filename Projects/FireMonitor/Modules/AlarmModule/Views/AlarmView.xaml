@@ -11,7 +11,7 @@
         </Border.Background>
         <StackPanel HorizontalAlignment="Left" Width="Auto">
             <StackPanel>
-                <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" FontSize="12" Margin="2" />
+                <Label Content="{Binding Name}" FontWeight="Bold" FontSize="12" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Controls:XButton Content="Сбросить" Command="{Binding ResetCommand}" Height="30" Width="150" Margin="2" Background="Green" />

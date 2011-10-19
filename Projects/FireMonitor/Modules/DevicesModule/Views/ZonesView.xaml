@@ -51,8 +51,8 @@
             </ListBox>
         </Grid>
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
-            <TextBlock Text="{Binding PresentationName}" />
-            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+            <TextBlock Text="{Binding PresentationName}" Foreground="White" />
+            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" />
         </StackPanel>
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding Devices}">

@@ -107,10 +107,17 @@ namespace JournalModule.ViewModels
 
         void SetDefaultArchiveContent()
         {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                FiresecManager.GetFilteredArchive(GerFilterFromDefaultState(_archiveDefaultState)).
-                Select(journalRecord => new JournalRecordViewModel(journalRecord))
-            );
+            try
+            {
+                JournalRecords = new ObservableCollection<JournalRecordViewModel>(
+                    FiresecManager.GetFilteredArchive(GerFilterFromDefaultState(_archiveDefaultState)).
+                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
+                );
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
 
         void ApplyFilter()
