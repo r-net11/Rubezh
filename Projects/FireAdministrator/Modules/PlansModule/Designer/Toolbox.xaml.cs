@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
+using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {
@@ -42,48 +41,31 @@ namespace PlansModule.Designer
 
         DesignerItemData CreateDesignerItemData(string itemType)
         {
-            var designerItemData = new DesignerItemData();
-            designerItemData.ItemType = itemType;
+            ElementBase plansElement = null;
 
             switch (itemType)
             {
-                case "Rectangle":
-                    System.Windows.Shapes.Rectangle rectangle = new System.Windows.Shapes.Rectangle();
-                    rectangle.Fill = new SolidColorBrush(Colors.LightGreen);
-                    designerItemData.FrameworkElement = rectangle;
+                case "ElementRectangle":
+                    plansElement = new ElementRectangle();
                     break;
 
-                case "Ellipse":
-                    System.Windows.Shapes.Ellipse ellipse = new Ellipse();
-                    ellipse.Fill = new SolidColorBrush(Colors.LightGreen);
-                    designerItemData.FrameworkElement = ellipse;
+                case "ElementEllipse":
+                    plansElement = new ElementEllipse();
                     break;
 
-                case "Polygon":
-                    Polygon polygon = new Polygon();
-                    polygon.Fill = new SolidColorBrush(Colors.Orange);
-                    polygon.Stretch = Stretch.Fill;
-                    polygon.Points = new PointCollection();
-                    polygon.Points.Add(new Point(0, 0));
-                    polygon.Points.Add(new Point(50, 0));
-                    polygon.Points.Add(new Point(50, 50));
-                    polygon.Points.Add(new Point(0, 50));
-                    designerItemData.FrameworkElement = polygon;
-                    designerItemData.IsPolygon = true;
+                case "ElementPolygon":
+                    plansElement = new ElementPolygon();
                     break;
 
-                case "TextBlock":
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = "Text";
-                    designerItemData.FrameworkElement = textBlock;
+                case "ElementTextBlock":
+                    plansElement = new ElementTextBlock();
                     break;
             }
 
-            designerItemData.Width = 50;
-            designerItemData.Height = 50;
-            designerItemData.MinWidth = 20;
-            designerItemData.MinHeight = 20;
-            designerItemData.FrameworkElement.IsHitTestVisible = false;
+            var designerItemData = new DesignerItemData()
+            {
+                PlansElement = plansElement
+            };
 
             return designerItemData;
         }

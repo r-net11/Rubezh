@@ -1,10 +1,17 @@
 ﻿using System.Runtime.Serialization;
+using System.Windows;
 
-namespace FiresecAPI.Models.Plans
+namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementBase
+    public abstract class ElementBase
     {
+        public ElementBase()
+        {
+            Width = 50;
+            Height = 50;
+        }
+
         [DataMember]
         public double Left { get; set; }
 
@@ -16,5 +23,7 @@ namespace FiresecAPI.Models.Plans
 
         [DataMember]
         public double Width { get; set; }
+
+        public abstract FrameworkElement Draw();
     }
 }

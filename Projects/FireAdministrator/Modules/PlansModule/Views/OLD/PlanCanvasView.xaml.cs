@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
-using FiresecAPI.Models.Plans;
 using PlansModule.Resize;
 using PlansModule.ViewModels;
 
@@ -105,7 +104,7 @@ namespace PlansModule.Views
                 foreach (var zona in plan.ElementZones)
                 {
                     var contextMenu = new ContextMenuCanvasViewModel(GetPropertiesZona);
-                    zona.idElementCanvas = idElement;
+                    //zona.idElementCanvas = idElement;
                     Polygon myPolygon = new Polygon();
                     myPolygon.Name = "zona" + idElement.ToString();
                     myPolygon.ToolTip = "Зона №" + zona.ZoneNo;
@@ -138,7 +137,7 @@ namespace PlansModule.Views
             {
                 foreach (var text in plan.ElementTextBlocks)
                 {
-                    text.idElementCanvas = idElement;
+                    //text.idElementCanvas = idElement;
                     var textbox = new TextBox()
                     {
                         Name = "text" + idElement.ToString(),
@@ -167,7 +166,7 @@ namespace PlansModule.Views
 
             foreach (var device in plan.ElementDevices)
             {
-                device.idElementCanvas = idElement;
+                //device.idElementCanvas = idElement;
                 rectangle = new Rectangle();
                 rectangle.Name = "devs" + idElement.ToString();
                 rectangle.ToolTip = "Устройство";
@@ -212,7 +211,7 @@ namespace PlansModule.Views
             PropertiesValue.Items.Add(zona.PolygonPoints);
             PropertiesName.Items.Add("polygonpoints");
             PropertiesType.Items.Add("Polygon");
-            PropertiesView.IndexElement = zona.idElementCanvas;
+            //PropertiesView.IndexElement = zona.idElementCanvas;
         }
 
         void GetPropertiesRect(object sender, RoutedEventArgs e)
@@ -283,7 +282,7 @@ namespace PlansModule.Views
             PropertiesValue.Items.Add(text.BorderColor);
             PropertiesName.Items.Add("bordercolor");
             PropertiesType.Items.Add("string");
-            PropertiesView.IndexElement = text.idElementCanvas;
+            //PropertiesView.IndexElement = text.idElementCanvas;
         }
 
         private void ClearAllSelected()
@@ -540,18 +539,18 @@ namespace PlansModule.Views
                 int index = int.Parse((element as Polygon).Name.Substring(4));
                 foreach (var zona in plan.ElementZones)
                 {
-                    if (zona.idElementCanvas == index)
-                    {
-                        zona.ZoneNo = (element as Polygon).ToolTip.ToString().Substring(6);
-                        zona.PolygonPoints.Clear();
-                        foreach (var _point in (element as Polygon).Points)
-                        {
-                            Point point = _point;
-                            point.X = point.X + Canvas.GetLeft(element as Polygon);
-                            point.Y = point.Y + Canvas.GetTop(element as Polygon);
-                            zona.PolygonPoints.Add(point);
-                        }
-                    }
+                    //if (zona.idElementCanvas == index)
+                    //{
+                    //    zona.ZoneNo = (element as Polygon).ToolTip.ToString().Substring(6);
+                    //    zona.PolygonPoints.Clear();
+                    //    foreach (var _point in (element as Polygon).Points)
+                    //    {
+                    //        Point point = _point;
+                    //        point.X = point.X + Canvas.GetLeft(element as Polygon);
+                    //        point.Y = point.Y + Canvas.GetTop(element as Polygon);
+                    //        zona.PolygonPoints.Add(point);
+                    //    }
+                    //}
                 }
             }
             else if (element is Rectangle)
@@ -578,12 +577,12 @@ namespace PlansModule.Views
                     int index = int.Parse(updateElement.Substring(4));
                     foreach (var text in plan.ElementTextBlocks)
                     {
-                        if (text.idElementCanvas == index)
-                        {
-                            text.Left = Canvas.GetLeft(textBox);
-                            text.Top = Canvas.GetTop(textBox);
-                            text.FontSize = textBox.FontSize;
-                        }
+                        //if (text.idElementCanvas == index)
+                        //{
+                        //    text.Left = Canvas.GetLeft(textBox);
+                        //    text.Top = Canvas.GetTop(textBox);
+                        //    text.FontSize = textBox.FontSize;
+                        //}
                     }
                 }
             }
@@ -592,13 +591,13 @@ namespace PlansModule.Views
                 int index = int.Parse((element as TextBox).Name.Substring(4));
                 foreach (var text in plan.ElementTextBlocks)
                 {
-                    if (text.idElementCanvas == index)
-                    {
-                        text.Left = Canvas.GetLeft(element as TextBox);
-                        text.Top = Canvas.GetTop(element as TextBox);
-                        text.FontSize = (element as TextBox).FontSize;
-                        text.Text = (element as TextBox).Text;
-                    }
+                    //if (text.idElementCanvas == index)
+                    //{
+                    //    text.Left = Canvas.GetLeft(element as TextBox);
+                    //    text.Top = Canvas.GetTop(element as TextBox);
+                    //    text.FontSize = (element as TextBox).FontSize;
+                    //    text.Text = (element as TextBox).Text;
+                    //}
                 }
             }
         }
@@ -625,40 +624,40 @@ namespace PlansModule.Views
                 case "devs":
                     foreach (var device in Plan.ElementDevices)
                     {
-                        if (_overlayElementRectangle != null && device.idElementCanvas == index)
-                        {
-                            device.Left += _overlayElementRectangle.LeftOffset;
-                            device.Top += _overlayElementRectangle.TopOffset + PlanCanvasView.dTop;
-                        }
+                        //if (_overlayElementRectangle != null && device.idElementCanvas == index)
+                        //{
+                        //    device.Left += _overlayElementRectangle.LeftOffset;
+                        //    device.Top += _overlayElementRectangle.TopOffset + PlanCanvasView.dTop;
+                        //}
                     }
                     break;
 
                 case "text":
                     foreach (var text in Plan.ElementTextBlocks)
                     {
-                        if (_originalElementTextBox != null && text.idElementCanvas == index)
-                        {
-                            text.Left = Canvas.GetLeft(_originalElementTextBox);
-                            text.Top = Canvas.GetTop(_originalElementTextBox);
-                        }
+                        //if (_originalElementTextBox != null && text.idElementCanvas == index)
+                        //{
+                        //    text.Left = Canvas.GetLeft(_originalElementTextBox);
+                        //    text.Top = Canvas.GetTop(_originalElementTextBox);
+                        //}
                     }
                     break;
 
                 case "zona":
                     foreach (var zona in Plan.ElementZones)
                     {
-                        if (zona.idElementCanvas == index && _overlayElementPolygon != null)
-                        {
-                            PointCollection PointCollection = new PointCollection();
-                            foreach (var point in zona.PolygonPoints)
-                            {
-                                Point Point = new Point();
-                                Point.X = point.X + _overlayElementPolygon.LeftOffset;
-                                Point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
-                                PointCollection.Add(Point);
-                            }
-                            zona.PolygonPoints = PointCollection;
-                        }
+                        //if (zona.idElementCanvas == index && _overlayElementPolygon != null)
+                        //{
+                        //    PointCollection PointCollection = new PointCollection();
+                        //    foreach (var point in zona.PolygonPoints)
+                        //    {
+                        //        Point Point = new Point();
+                        //        Point.X = point.X + _overlayElementPolygon.LeftOffset;
+                        //        Point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
+                        //        PointCollection.Add(Point);
+                        //    }
+                        //    zona.PolygonPoints = PointCollection;
+                        //}
                     }
                     break;
             }

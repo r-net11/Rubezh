@@ -99,7 +99,7 @@ namespace PlansModule.ViewModels
                     }
                     else
                     {
-                        RemovePlan(plan.Children, SelectedPlan);
+                        //RemovePlan(plan.Children, SelectedPlan);
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace PlansModule.ViewModels
             {
                 if (SelectedPlan != null)
                 {
-                    SelectedPlan.Children.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                    //SelectedPlan.Children.Add(new PlanViewModel(planDetailsViewModel.Plan));
                 }
                 else
                 {
@@ -132,7 +132,7 @@ namespace PlansModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(subPlanDetailsViewModel))
             {
                 var elementSubPlanViewModel = new SubPlanViewModel(subPlanDetailsViewModel.Parent, subPlanDetailsViewModel.ElementSubPlan);
-                SelectedPlan.ElementSubPlans.Add(elementSubPlanViewModel);
+                //SelectedPlan.ElementSubPlans.Add(elementSubPlanViewModel);
             }
         }
 
@@ -163,7 +163,7 @@ namespace PlansModule.ViewModels
             }
 
             RemovePlan(Plans, SelectedPlan);
-            SelectedPlan.Update();
+            //SelectedPlan.Update();
             SelectedPlan = null;
         }
 
@@ -179,7 +179,7 @@ namespace PlansModule.ViewModels
                 while (plan.Parent != null) plan = plan.Parent;
                 int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);
                 FiresecManager.PlansConfiguration.Plans[index] = plan;
-                SelectedPlan.Update();
+                //SelectedPlan.Update();
             }
         }
 

@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using Firesec.Plans;
 using FiresecAPI.Models;
-using FiresecAPI.Models.Plans;
 
 namespace FiresecService.Converters
 {
@@ -69,8 +68,8 @@ namespace FiresecService.Converters
                                             Top = Parse(innerElementLayer.rect[0].top),
                                         };
 
-                                        if (innerElementLayer.brush != null)
-                                            elementTextBlock.BorderColor = innerElementLayer.brush[0].color;
+                                        //if (innerElementLayer.brush != null)
+                                        //    elementTextBlock.BorderColor = innerElementLayer.brush[0].color;
 
                                         if (innerElementLayer.pen != null)
                                             elementTextBlock.Color = innerElementLayer.pen[0].color;
@@ -116,6 +115,7 @@ namespace FiresecService.Converters
 
                                                 elementZone.PolygonPoints.Add(point);
                                             }
+                                            elementZone.Normalize();
                                         };
                                         break;
 
@@ -145,6 +145,8 @@ namespace FiresecService.Converters
                                                 X = Parse(innerRect.left),
                                                 Y = Parse(innerRect.bottom)
                                             });
+
+                                            elementZone.Normalize();
                                         };
                                         break;
                                 }

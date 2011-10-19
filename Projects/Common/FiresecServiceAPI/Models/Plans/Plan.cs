@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Models.Plans;
 
 namespace FiresecAPI.Models
 {
@@ -16,6 +15,7 @@ namespace FiresecAPI.Models
             ElementRectangles = new List<ElementRectangle>();
             ElementEllipses = new List<ElementEllipse>();
             ElementTextBlocks = new List<ElementTextBlock>();
+            ElementPolygons = new List<ElementPolygon>();
         }
 
         public Plan Parent { get; set; }
@@ -64,5 +64,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<ElementTextBlock> ElementTextBlocks { get; set; }
+
+        [DataMember]
+        public List<ElementPolygon> ElementPolygons { get; set; }
     }
 }

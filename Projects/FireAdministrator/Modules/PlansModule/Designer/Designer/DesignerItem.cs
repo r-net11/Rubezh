@@ -3,15 +3,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using FiresecAPI.Models.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
+using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {
     public class DesignerItem : ContentControl
     {
+        public ElementBase ElementBase { get; set; }
+
         #region Properties
         public bool IsSelected
         {
@@ -54,16 +56,12 @@ namespace PlansModule.Designer
         }
         #endregion Properties
 
-        public object ConfigurationItem { get; set; }
-
         public DesignerItem()
         {
             DeleteCommand = new RelayCommand(OnDelete);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
         }
-
-        public string ItemType { get; set; }
 
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
@@ -75,18 +73,27 @@ namespace PlansModule.Designer
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            switch (ItemType)
+            if (ElementBase is ElementRectangle)
             {
-                case "Rectangle":
-                    var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(Content as Rectangle, ConfigurationItem as ElementRectangle);
-                    ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
-                    break;
-
-                case "Ellipse":
-                    var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(Content as Ellipse, ConfigurationItem as ElementEllipse);
-                    ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
-                    break;
+                var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(Content as Rectangle, ElementBase as ElementRectangle);
+                ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
             }
+            if (ElementBase is ElementEllipse)
+            {
+                var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(Content as Ellipse, ElementBase as ElementEllipse);
+                ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
+            }
+            if (ElementBase is ElementTextBlock)
+            {
+                var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(Content as TextBlock, ElementBase as ElementTextBlock);
+                ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel);
+            }
+            if (ElementBase is ElementPolygon)
+            {
+                var polygonPropertiesViewModel = new PolygonPropertiesViewModel(Content as Polygon, ElementBase as ElementPolygon);
+                ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel);
+            }
+
         }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)

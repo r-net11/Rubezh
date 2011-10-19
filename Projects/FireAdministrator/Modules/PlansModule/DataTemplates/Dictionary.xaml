@@ -27,4 +27,20 @@
         <Views:EllipsePropertiesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PolygonPropertiesViewModel}">
+        <Views:PolygonPropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:TextBlockPropertiesViewModel}">
+        <Views:TextBlockPropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonePropertiesViewModel}">
+        <Views:ZonePropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
+        <Views:DevicePropertiesView />
+    </DataTemplate>
+
 </ResourceDictionary>

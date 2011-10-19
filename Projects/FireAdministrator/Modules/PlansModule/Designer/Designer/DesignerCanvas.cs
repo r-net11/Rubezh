@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using FiresecAPI.Models.Plans;
+using FiresecAPI.Models;
 using FiresecClient;
 
 namespace PlansModule.Designer
@@ -75,34 +75,44 @@ namespace PlansModule.Designer
             base.OnDrop(e);
             DesignerItemData designerItemData = e.Data.GetData("DESIGNER_ITEM") as DesignerItemData;
 
+            var plan = FiresecManager.PlansConfiguration.Plans[0];
+            var elementBase = designerItemData.PlansElement as ElementBase;
             Point position = e.GetPosition(this);
+            elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
+            elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
+
+            if (designerItemData.PlansElement is ElementRectangle)
+            {
+                plan.ElementRectangles.Add(elementBase as ElementRectangle);
+            }
+            if (designerItemData.PlansElement is ElementEllipse)
+            {
+                plan.ElementEllipses.Add(elementBase as ElementEllipse);
+            }
+            if (designerItemData.PlansElement is ElementPolygon)
+            {
+                plan.ElementPolygons.Add(elementBase as ElementPolygon);
+            }
+            if (designerItemData.PlansElement is ElementTextBlock)
+            {
+                plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+            }
+
+            var frameworkElement = elementBase.Draw();
             var designerItem = new DesignerItem()
             {
-                ItemType = designerItemData.ItemType,
-                IsPolygon = designerItemData.IsPolygon,
-                MinWidth = designerItemData.MinWidth,
-                MinHeight = designerItemData.MinHeight,
-                Width = designerItemData.Width,
-                Height = designerItemData.Height,
-                Content = designerItemData.FrameworkElement,
-                ConfigurationItem = null
+                MinWidth = 10,
+                MinHeight = 10,
+                Width = elementBase.Width,
+                Height = elementBase.Height,
+                Content = frameworkElement,
+                ElementBase = elementBase,
+                IsPolygon = elementBase is ElementPolygon
             };
-            DesignerCanvas.SetLeft(designerItem, Math.Max(0, position.X - designerItemData.Width / 2));
-            DesignerCanvas.SetTop(designerItem, Math.Max(0, position.Y - designerItemData.Height / 2));
+            frameworkElement.IsHitTestVisible = false;
+            DesignerCanvas.SetLeft(designerItem, elementBase.Left);
+            DesignerCanvas.SetTop(designerItem, elementBase.Top);
             this.Children.Add(designerItem);
-
-            if (designerItemData.ItemType == "Ellipse")
-            {
-                ElementEllipse elementEllipse = new ElementEllipse();
-                elementEllipse.Left = DesignerCanvas.GetLeft(designerItem);
-                elementEllipse.Top = DesignerCanvas.GetTop(designerItem);
-                elementEllipse.Width = designerItemData.Width;
-                elementEllipse.Height = designerItemData.Height;
-
-                FiresecManager.PlansConfiguration.Plans[0].ElementEllipses.Add(elementEllipse);
-
-                designerItem.ConfigurationItem = elementEllipse;
-            }
 
             this.DeselectAll();
             designerItem.IsSelected = true;

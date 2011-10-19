@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="Rectangle" Text="Прямоугольник" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
-            <TextBlock Name="Ellipse" Text="Эллипс" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
-            <TextBlock Name="Polygon" Text="Многоугольник" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
-            <TextBlock Name="TextBlock" Text="Текст" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
+            <TextBlock Name="ElementRectangle" Text="Прямоугольник" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
+            <TextBlock Name="ElementEllipse" Text="Эллипс" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
+            <TextBlock Name="ElementPolygon" Text="Многоугольник" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
+            <TextBlock Name="ElementTextBlock" Text="Текст" Margin="10" PreviewMouseDown="Rectangle_PreviewMouseDown" MouseMove="Rectangle_MouseMove" />
         </StackPanel>
     </Grid>
 </UserControl>

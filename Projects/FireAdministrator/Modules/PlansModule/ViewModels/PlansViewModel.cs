@@ -53,8 +53,12 @@ namespace PlansModule.ViewModels
             {
                 _selectedPlan = value;
                 OnPropertyChanged("SelectedPlan");
+
                 if (value != null)
+                {
+                    PlanDesignerViewModel.Save();
                     PlanDesignerViewModel.Initialize(value.Plan);
+                }
             }
         }
 

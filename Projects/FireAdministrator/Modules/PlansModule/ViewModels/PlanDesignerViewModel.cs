@@ -1,159 +1,115 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
     public class PlanDesignerViewModel : BaseViewModel
     {
         public DesignerCanvas DesignerCanvas;
+        Plan Plan;
 
         public void Initialize(Plan plan)
         {
+            Plan = plan;
             DesignerCanvas.Width = plan.Width;
             DesignerCanvas.Height = plan.Height;
 
             foreach (var elementRectangle in plan.ElementRectangles)
             {
-                var content = new Rectangle()
-                {
-                    Fill = new SolidColorBrush(Colors.Red),
-                    Stroke = new SolidColorBrush(Colors.Blue),
-                    IsHitTestVisible = false
-                };
+                Create(elementRectangle);
+            }
 
-                if (elementRectangle.BackgroundPixels != null)
-                {
-                    BitmapImage image = null;
-                    using (var imageStream = new MemoryStream(elementRectangle.BackgroundPixels))
-                    {
-                        image = new BitmapImage();
-                        image.BeginInit();
-                        image.CacheOption = BitmapCacheOption.OnLoad;
-                        image.StreamSource = imageStream;
-                        image.EndInit();
-                    }
-                    content.Fill = new ImageBrush(image);
-                }
-
-                var designerItem = new DesignerItem()
-                {
-                    ItemType = "Rectangle",
-                    IsPolygon = false,
-                    MinWidth = 20,
-                    MinHeight = 20,
-                    Width = elementRectangle.Width,
-                    Height = elementRectangle.Height,
-                    Content = content,
-                    ConfigurationItem = elementRectangle
-                };
-                DesignerCanvas.SetLeft(designerItem, elementRectangle.Left);
-                DesignerCanvas.SetTop(designerItem, elementRectangle.Top);
-                DesignerCanvas.Children.Add(designerItem);
+            foreach (var elementEllipse in plan.ElementEllipses)
+            {
+                Create(elementEllipse);
             }
 
             foreach (var elementTextBlock in plan.ElementTextBlocks)
             {
-                var content = new TextBlock()
-                {
-                    Text = elementTextBlock.Text,
-                    IsHitTestVisible = false
-                };
+                Create(elementTextBlock);
+            }
 
-                var designerItem = new DesignerItem()
-                {
-                    ItemType = "TextBox",
-                    IsPolygon = false,
-                    MinWidth = 20,
-                    MinHeight = 20,
-                    Content = content
-                };
-                DesignerCanvas.SetLeft(designerItem, elementTextBlock.Left);
-                DesignerCanvas.SetTop(designerItem, elementTextBlock.Top);
-                DesignerCanvas.Children.Add(designerItem);
+            foreach (var elementPolygon in plan.ElementPolygons)
+            {
+                Create(elementPolygon);
             }
 
             foreach (var elementZonePolygon in plan.ElementZones)
             {
-                double minLeft = double.MaxValue;
-                double minTop = double.MaxValue;
-                double maxLeft = 0;
-                double maxTop = 0;
-
-                foreach (var point in elementZonePolygon.PolygonPoints)
-                {
-                    minLeft = Math.Min(point.X, minLeft);
-                    minTop = Math.Min(point.Y, minTop);
-                    maxLeft = Math.Max(point.X, maxLeft);
-                    maxTop = Math.Max(point.Y, maxTop);
-                }
-
-                var pointCollection = new PointCollection();
-                foreach (var point in elementZonePolygon.PolygonPoints)
-                {
-                    pointCollection.Add(new Point(point.X - minLeft, point.Y - minTop));
-                }
-
-                var content = new Polygon()
-                {
-                    Points = new PointCollection(pointCollection),
-                    Fill = new SolidColorBrush(Colors.Orange),
-                    Stroke = new SolidColorBrush(Colors.Green),
-                    IsHitTestVisible = false
-                };
-
-                var designerItem = new DesignerItem()
-                {
-                    ItemType = "Polygon",
-                    IsPolygon = true,
-                    MinWidth = 20,
-                    MinHeight = 20,
-                    Width = maxLeft - minLeft,
-                    Height = maxTop - minTop,
-                    Content = content,
-                    Opacity = 0.5
-                };
-                DesignerCanvas.SetLeft(designerItem, minLeft);
-                DesignerCanvas.SetTop(designerItem, minTop);
-                DesignerCanvas.Children.Add(designerItem);
+                //elementZonePolygon.Normalize();
+                Create(elementZonePolygon,isOpacity:true);
             }
 
             foreach (var elementDevice in plan.ElementDevices)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
-                var content = new DeviceControl()
+                var deviceControl = new DeviceControl()
                 {
                     DriverId = device.Driver.UID,
-                    StateType = StateType.Norm,
-                    IsHitTestVisible = false
+                    StateType = StateType.Norm
                 };
-
-                var designerItem = new DesignerItem()
-                {
-                    ItemType = "Rectangle",
-                    IsPolygon = false,
-                    MinWidth = 5,
-                    MinHeight = 5,
-                    Width = elementDevice.Width,
-                    Height = elementDevice.Height,
-                    Content = content
-                };
-                DesignerCanvas.SetLeft(designerItem, elementDevice.Left);
-                DesignerCanvas.SetTop(designerItem, elementDevice.Top);
-                DesignerCanvas.Children.Add(designerItem);
+                Create(elementDevice, frameworkElement: deviceControl);
             }
 
             DesignerCanvas.DeselectAll();
+        }
+
+        public void Save()
+        {
+            if (Plan == null)
+                return;
+
+            Plan.ElementRectangles = new List<ElementRectangle>();
+
+            var designerItems = from item in DesignerCanvas.Children.OfType<DesignerItem>()
+                select item;
+
+            foreach (var designerItem in designerItems)
+            {
+                if (designerItem.ElementBase is ElementRectangle)
+                {
+                    ElementRectangle elementRectangle = designerItem.ElementBase as ElementRectangle;
+                    elementRectangle.Left = Canvas.GetLeft(designerItem);
+                    elementRectangle.Top = Canvas.GetTop(designerItem);
+                    elementRectangle.Width = designerItem.Width;
+                    elementRectangle.Height = designerItem.Height;
+                    Plan.ElementRectangles.Add(elementRectangle);
+                }
+            }
+        }
+
+        void Create(ElementBase elementBase, bool isOpacity = false, FrameworkElement frameworkElement = null)
+        {
+            if (frameworkElement == null)
+            {
+                frameworkElement = elementBase.Draw();
+            }
+            frameworkElement.IsHitTestVisible = false;
+
+            var designerItem = new DesignerItem()
+            {
+                MinWidth = 10,
+                MinHeight = 10,
+                Width = elementBase.Width,
+                Height = elementBase.Height,
+                Content = frameworkElement,
+                ElementBase = elementBase,
+                IsPolygon = elementBase is ElementPolygon
+            };
+
+            if (isOpacity)
+                designerItem.Opacity = 0.5;
+
+            DesignerCanvas.SetLeft(designerItem, elementBase.Left);
+            DesignerCanvas.SetTop(designerItem, elementBase.Top);
+            DesignerCanvas.Children.Add(designerItem);
         }
     }
 }

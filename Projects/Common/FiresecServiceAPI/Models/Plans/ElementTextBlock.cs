@@ -1,18 +1,17 @@
 ﻿using System.Runtime.Serialization;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
-namespace FiresecAPI.Models.Plans
+namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementTextBlock
+    public class ElementTextBlock : ElementBase
     {
-        [DataMember]
-        public int idElementCanvas { get; set; }
-
-        [DataMember]
-        public double Left { get; set; }
-
-        [DataMember]
-        public double Top { get; set; }
+        public ElementTextBlock()
+        {
+            Text = "Text";
+        }
 
         [DataMember]
         public string Text { get; set; }
@@ -24,6 +23,21 @@ namespace FiresecAPI.Models.Plans
         public string Color { get; set; }
 
         [DataMember]
-        public string BorderColor { get; set; }
+        public Color BackgroundColor { get; set; }
+
+        [DataMember]
+        public Color BorderColor { get; set; }
+
+        [DataMember]
+        public double BorderThickness { get; set; }
+
+        public override FrameworkElement Draw()
+        {
+            var textBlock = new TextBlock()
+            {
+                Text = Text
+            };
+            return textBlock;
+        }
     }
 }
