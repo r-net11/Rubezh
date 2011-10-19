@@ -2,11 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common;
-using PlansModule.ViewModels;
-using Infrastructure;
 using System.Windows.Shapes;
 using FiresecAPI.Models.Plans;
+using Infrastructure;
+using Infrastructure.Common;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
 {

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using FiresecAPI.Models;
-using System.IO;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters

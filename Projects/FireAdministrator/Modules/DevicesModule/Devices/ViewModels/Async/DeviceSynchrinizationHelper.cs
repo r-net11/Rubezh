@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using DevicesModule.ViewModels;
 using FiresecClient;
 
 namespace DevicesModule.ViewModels

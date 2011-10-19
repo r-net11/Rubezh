@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Media;
-using PlansModule.Designer;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows;
+using PlansModule.Designer;
 using PlansModule.Views;
 
 namespace PlansModule.ViewModels

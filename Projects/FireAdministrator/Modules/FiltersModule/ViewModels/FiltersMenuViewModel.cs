@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common;
-
+﻿
 namespace FiltersModule.ViewModels
 {
     public class FiltersMenuViewModel

@@ -1,22 +1,10 @@
 ﻿using System;
-using Infrastructure;
-using Infrastructure.Common;
 using System.Windows;
-using System.IO;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Input;
-using System.Collections.Generic;
-using FiresecClient;
+using System.Windows.Shapes;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
-using System.Windows.Media.Imaging;
-using FiresecAPI.Models.Plans;
-using PlansModule.Resize;
-using System.Windows.Data;
 
 
 namespace PlansModule.Views

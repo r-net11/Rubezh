@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common;
-
+﻿
 namespace DevicesModule.ViewModels
 {
     public class DirectionsMenuViewModel
