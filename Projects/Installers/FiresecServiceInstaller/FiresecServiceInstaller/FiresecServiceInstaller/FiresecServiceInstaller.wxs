@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
   
   <?include Variables.wxi?>
   
@@ -9,6 +11,8 @@
 
     <Media Id="1" Cabinet="FiresecService.cab" EmbedCab="yes" />
 
+    <Binary Id="FiresecDataBaseStructureSql" SourceFile="FiresecDataBaseStructureSql.sql" />
+    
     <Icon Id="FiresecIcon" SourceFile="Firesec.ico"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -60,6 +64,15 @@
       <Component Id="FiresecAPIComponent" Guid="248BD6FE-8F57-42DF-BAE3-9EFCD5A1CC5A">
         <File Id="FiresecAPIDll" Name="$(var.FiresecAPI.TargetFileName)" Source="$(var.FiresecAPI.TargetPath)"
               DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="SqlComponent" Guid="6B99EACB-D49B-4F46-9072-9FB0B905A90E">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
+                         Server="localhost\sqlexpress" DropOnUninstall="no" >
+          <sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
+          <sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
+        </sql:SqlDatabase>
       </Component>
     </DirectoryRef>
 
@@ -120,7 +133,7 @@
     </DirectoryRef>
     
     <Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
       <ComponentRef Id="MainExe" />
       <ComponentRef Id="FiresecServiceConfig" />
       <ComponentRef Id="CommonComponent" />
@@ -132,6 +145,10 @@
       <ComponentRef Id="ProgramsMenuShortcutUninstall" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="DesktopShortcut" />
+    </Feature>
+    <Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
+             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+      <ComponentRef Id="SqlComponent"/>
     </Feature>
 
     <UI Id="MyWixUI_Mondo">
