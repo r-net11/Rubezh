@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace FireMonitor
 {

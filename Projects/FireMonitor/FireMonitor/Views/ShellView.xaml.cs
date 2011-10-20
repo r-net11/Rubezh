@@ -2,13 +2,13 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Common;
 using CustomWindow;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows.Input;
 
 namespace FireMonitor
 {

@@ -3,8 +3,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
-using ReportsModule.Models;
 using Microsoft.Reporting.WinForms;
+using ReportsModule.Models;
 
 namespace ReportsModule.Reports
 {

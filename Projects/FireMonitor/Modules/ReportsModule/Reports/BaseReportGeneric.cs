@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Common;
-using Microsoft.Reporting.WinForms;
-using FiresecClient;
 using System.IO;
+using Common;
+using FiresecClient;
+using Microsoft.Reporting.WinForms;
 
 namespace ReportsModule.Reports
 {

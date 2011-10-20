@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using Common;
-using Microsoft.Reporting.WinForms;
-using System.IO;
 using FiresecClient;
+using Microsoft.Reporting.WinForms;
 using ReportsModule.Reports;
 
 namespace ReportsModule

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using FiresecClient;
 using System.Windows;
+using FiresecClient;
 
 namespace ItvIntegration
 {

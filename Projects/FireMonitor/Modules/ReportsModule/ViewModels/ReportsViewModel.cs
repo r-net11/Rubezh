@@ -2,8 +2,6 @@
 using Microsoft.Reporting.WinForms;
 using ReportsModule.Reports;
 using ReportsModule.Views;
-using SAPBusinessObjects.WPF.Viewer;
-using ReportsModule.CrystalReports;
 
 namespace ReportsModule.ViewModels
 {

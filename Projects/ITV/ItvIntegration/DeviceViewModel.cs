@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using FiresecAPI.Models;
 using FiresecClient;
-using System.Collections.Generic;
 
 namespace ItvIntegration
 {
