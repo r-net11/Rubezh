@@ -6,8 +6,13 @@ using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
-    public class DevicesViewModel : BaseViewModel
+    public class DevicesViewModel : DialogContent
     {
+        public DevicesViewModel()
+        {
+            Title = "Устройства";
+        }
+
         public void Initialize()
         {
             Devices = new ObservableCollection<DeviceViewModel>();

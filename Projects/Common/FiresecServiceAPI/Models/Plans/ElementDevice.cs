@@ -7,6 +7,12 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ElementDevice : ElementBase
     {
+        public ElementDevice()
+        {
+            Width = 20;
+            Height = 20;
+        }
+
         [DataMember]
         public Guid Id { get; set; }
 

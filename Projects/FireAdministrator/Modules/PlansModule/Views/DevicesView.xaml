@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="PlansModule.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="400" MinHeight="700">
     
     <Grid>
         <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
@@ -19,7 +20,8 @@
                                         <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                     <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                               PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>
                                     </StackPanel>
                                 </StackPanel>
 

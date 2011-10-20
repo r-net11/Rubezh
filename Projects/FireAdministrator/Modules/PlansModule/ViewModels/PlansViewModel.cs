@@ -1,11 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Media;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -22,16 +20,18 @@ namespace PlansModule.ViewModels
             DesignerCanvas = new DesignerCanvas()
             {
                 AllowDrop = true,
-                Background = new SolidColorBrush(Colors.DarkGray)
+                Background = new SolidColorBrush(Colors.DarkGray),
+                Width = 100,
+                Height = 100
             };
 
             PlanDesignerViewModel = new PlanDesignerViewModel();
             PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 
-            InitializePlans();
+            Initialize();
         }
 
-        void InitializePlans()
+        public void Initialize()
         {
             Plans = new ObservableCollection<PlanViewModel>();
             foreach (var plan in FiresecManager.PlansConfiguration.Plans)
@@ -78,13 +78,9 @@ namespace PlansModule.ViewModels
         public RelayCommand TestCommand { get; private set; }
         void OnTest()
         {
-            DevicesViewModel devicesViewModel = new DevicesViewModel();
+            var devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initialize();
-            DevicesView devicesView = new DevicesView();
-            devicesView.DataContext = devicesViewModel;
-            Window window = new Window();
-            window.Content = devicesView;
-            window.Show();
+            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel);
         }
 
         bool CanAddEditRemove()

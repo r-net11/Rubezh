@@ -136,7 +136,7 @@ namespace FiresecClient
             FiresecService.SetSecurityConfiguration(SecurityConfiguration);
             FiresecService.SetLibraryConfiguration(LibraryConfiguration);
             FiresecService.SetDeviceConfiguration(DeviceConfiguration);
-            //FiresecService.SetPlansConfiguration(PlansConfiguration);
+            FiresecService.SetPlansConfiguration(PlansConfiguration);
         }
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)

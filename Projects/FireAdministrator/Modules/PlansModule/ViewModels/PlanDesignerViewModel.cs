@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {
@@ -18,33 +18,39 @@ namespace PlansModule.ViewModels
         public void Initialize(Plan plan)
         {
             Plan = plan;
+            DesignerCanvas.Plan = plan;
+            DesignerCanvas.Children.Clear();
             DesignerCanvas.Width = plan.Width;
             DesignerCanvas.Height = plan.Height;
 
             foreach (var elementRectangle in plan.ElementRectangles)
             {
-                Create(elementRectangle);
+               DesignerCanvas.Create(elementRectangle);
             }
 
             foreach (var elementEllipse in plan.ElementEllipses)
             {
-                Create(elementEllipse);
+                DesignerCanvas.Create(elementEllipse);
             }
 
             foreach (var elementTextBlock in plan.ElementTextBlocks)
             {
-                Create(elementTextBlock);
+                DesignerCanvas.Create(elementTextBlock);
             }
 
             foreach (var elementPolygon in plan.ElementPolygons)
             {
-                Create(elementPolygon);
+                DesignerCanvas.Create(elementPolygon);
             }
 
-            foreach (var elementZonePolygon in plan.ElementZones)
+            foreach (var elementRectangleZone in plan.ElementRectangleZones)
             {
-                //elementZonePolygon.Normalize();
-                Create(elementZonePolygon,isOpacity:true);
+                DesignerCanvas.Create(elementRectangleZone, isOpacity: true);
+            }
+
+            foreach (var ElementPolygonZone in plan.ElementPolygonZones)
+            {
+                DesignerCanvas.Create(ElementPolygonZone, isOpacity: true);
             }
 
             foreach (var elementDevice in plan.ElementDevices)
@@ -55,7 +61,7 @@ namespace PlansModule.ViewModels
                     DriverId = device.Driver.UID,
                     StateType = StateType.Norm
                 };
-                Create(elementDevice, frameworkElement: deviceControl);
+                DesignerCanvas.Create(elementDevice, frameworkElement: deviceControl);
             }
 
             DesignerCanvas.DeselectAll();
@@ -67,49 +73,48 @@ namespace PlansModule.ViewModels
                 return;
 
             Plan.ElementRectangles = new List<ElementRectangle>();
+            Plan.ElementEllipses = new List<ElementEllipse>();
+            Plan.ElementTextBlocks = new List<ElementTextBlock>();
+            Plan.ElementPolygons = new List<ElementPolygon>();
 
             var designerItems = from item in DesignerCanvas.Children.OfType<DesignerItem>()
                 select item;
 
             foreach (var designerItem in designerItems)
             {
-                if (designerItem.ElementBase is ElementRectangle)
+                ElementBase elementBase = designerItem.ElementBase;
+                elementBase.Left = Canvas.GetLeft(designerItem);
+                elementBase.Top = Canvas.GetTop(designerItem);
+                elementBase.Width = designerItem.Width;
+                elementBase.Height = designerItem.Height;
+
+                if (elementBase is ElementBasePolygon)
                 {
-                    ElementRectangle elementRectangle = designerItem.ElementBase as ElementRectangle;
-                    elementRectangle.Left = Canvas.GetLeft(designerItem);
-                    elementRectangle.Top = Canvas.GetTop(designerItem);
-                    elementRectangle.Width = designerItem.Width;
-                    elementRectangle.Height = designerItem.Height;
+                    ElementBasePolygon elementPolygon = elementBase as ElementBasePolygon;
+                    elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
+                }
+
+                if (elementBase is ElementRectangle)
+                {
+                    ElementRectangle elementRectangle = elementBase as ElementRectangle;
                     Plan.ElementRectangles.Add(elementRectangle);
                 }
+                if (elementBase is ElementEllipse)
+                {
+                    ElementEllipse elementEllipse = elementBase as ElementEllipse;
+                    Plan.ElementEllipses.Add(elementEllipse);
+                }
+                if (elementBase is ElementTextBlock)
+                {
+                    ElementTextBlock elementTextBlock = elementBase as ElementTextBlock;
+                    Plan.ElementTextBlocks.Add(elementTextBlock);
+                }
+                if (elementBase is ElementPolygon)
+                {
+                    ElementPolygon elementPolygon = elementBase as ElementPolygon;
+                    Plan.ElementPolygons.Add(elementPolygon);
+                }
             }
-        }
-
-        void Create(ElementBase elementBase, bool isOpacity = false, FrameworkElement frameworkElement = null)
-        {
-            if (frameworkElement == null)
-            {
-                frameworkElement = elementBase.Draw();
-            }
-            frameworkElement.IsHitTestVisible = false;
-
-            var designerItem = new DesignerItem()
-            {
-                MinWidth = 10,
-                MinHeight = 10,
-                Width = elementBase.Width,
-                Height = elementBase.Height,
-                Content = frameworkElement,
-                ElementBase = elementBase,
-                IsPolygon = elementBase is ElementPolygon
-            };
-
-            if (isOpacity)
-                designerItem.Opacity = 0.5;
-
-            DesignerCanvas.SetLeft(designerItem, elementBase.Left);
-            DesignerCanvas.SetTop(designerItem, elementBase.Top);
-            DesignerCanvas.Children.Add(designerItem);
         }
     }
 }

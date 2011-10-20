@@ -63,30 +63,30 @@
     <Compile Include="Designer\Designer\DesignerItem.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
-    <Compile Include="Designer\ElementProperties\Views\DevicePropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Designer\ElementProperties\Views\EllipsePropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\EllipsePropertiesView.xaml.cs">
       <DependentUpon>EllipsePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
-    <Compile Include="Designer\ElementProperties\Views\PolygonPropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\ViewModels\EllipsePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\PolygonPropertiesView.xaml.cs">
       <DependentUpon>PolygonPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\PolygonPropertiesViewModel.cs" />
-    <Compile Include="Designer\ElementProperties\Views\RectanglePropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\ViewModels\PolygonPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\RectanglePropertiesView.xaml.cs">
       <DependentUpon>RectanglePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\RectanglePropertiesViewModel.cs" />
-    <Compile Include="Designer\ElementProperties\Views\TextBlockPropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\ViewModels\RectanglePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\TextBlockPropertiesView.xaml.cs">
       <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\TextBlockPropertiesViewModel.cs" />
-    <Compile Include="Designer\ElementProperties\Views\ZonePropertiesView.xaml.cs">
+    <Compile Include="ElementProperties\ViewModels\TextBlockPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Designer\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -221,27 +221,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\DevicePropertiesView.xaml">
+    <Page Include="ElementProperties\Views\DevicePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\EllipsePropertiesView.xaml">
+    <Page Include="ElementProperties\Views\EllipsePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\PolygonPropertiesView.xaml">
+    <Page Include="ElementProperties\Views\PolygonPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\RectanglePropertiesView.xaml">
+    <Page Include="ElementProperties\Views\RectanglePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\TextBlockPropertiesView.xaml">
+    <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\ElementProperties\Views\ZonePropertiesView.xaml">
+    <Page Include="ElementProperties\Views\ZonePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

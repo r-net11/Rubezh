@@ -14,13 +14,13 @@ namespace PlansModule.Designer
 
         private Point? dragStartPoint = null;
 
-        private void Rectangle_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
             this.dragStartPoint = new Point?(e.GetPosition(this));
         }
 
-        private void Rectangle_MouseMove(object sender, MouseEventArgs e)
+        private void On_MouseMove(object sender, MouseEventArgs e)
         {
             base.OnMouseMove(e);
             if (e.LeftButton != MouseButtonState.Pressed)
@@ -54,7 +54,7 @@ namespace PlansModule.Designer
                     break;
 
                 case "ElementPolygon":
-                    plansElement = new ElementPolygon();
+                    plansElement = new ElementBasePolygon();
                     break;
 
                 case "ElementTextBlock":

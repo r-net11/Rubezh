@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {

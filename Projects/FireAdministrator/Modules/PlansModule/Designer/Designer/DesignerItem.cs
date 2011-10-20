@@ -3,10 +3,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
-using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {
@@ -76,24 +76,35 @@ namespace PlansModule.Designer
             if (ElementBase is ElementRectangle)
             {
                 var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(Content as Rectangle, ElementBase as ElementRectangle);
-                ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel))
+                {
+                    PlansModule.HasChanges = true;
+                }
             }
             if (ElementBase is ElementEllipse)
             {
                 var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(Content as Ellipse, ElementBase as ElementEllipse);
-                ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel))
+                {
+                    PlansModule.HasChanges = true;
+                }
             }
             if (ElementBase is ElementTextBlock)
             {
                 var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(Content as TextBlock, ElementBase as ElementTextBlock);
-                ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel))
+                {
+                    PlansModule.HasChanges = true;
+                }
             }
             if (ElementBase is ElementPolygon)
             {
                 var polygonPropertiesViewModel = new PolygonPropertiesViewModel(Content as Polygon, ElementBase as ElementPolygon);
-                ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel))
+                {
+                    PlansModule.HasChanges = true;
+                }
             }
-
         }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)

@@ -79,6 +79,7 @@ namespace PlansModule.Designer
                 }
 
                 e.Handled = true;
+                PlansModule.HasChanges = true;
             }
         }
     }

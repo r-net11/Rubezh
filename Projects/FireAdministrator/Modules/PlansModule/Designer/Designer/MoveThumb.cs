@@ -66,6 +66,8 @@ namespace PlansModule.Designer
 
                 this.designerCanvas.InvalidateMeasure();
                 e.Handled = true;
+
+                PlansModule.HasChanges = true;
             }
         }
     }

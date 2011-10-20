@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
 
@@ -12,6 +13,8 @@ namespace PlansModule.Designer
 {
     public class DesignerCanvas : Canvas
     {
+        public Plan Plan { get; set; }
+
         private Point? dragStartPoint = null;
 
         public IEnumerable<DesignerItem> SelectedItems
@@ -75,7 +78,6 @@ namespace PlansModule.Designer
             base.OnDrop(e);
             DesignerItemData designerItemData = e.Data.GetData("DESIGNER_ITEM") as DesignerItemData;
 
-            var plan = FiresecManager.PlansConfiguration.Plans[0];
             var elementBase = designerItemData.PlansElement as ElementBase;
             Point position = e.GetPosition(this);
             elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
@@ -83,22 +85,56 @@ namespace PlansModule.Designer
 
             if (designerItemData.PlansElement is ElementRectangle)
             {
-                plan.ElementRectangles.Add(elementBase as ElementRectangle);
+                Plan.ElementRectangles.Add(elementBase as ElementRectangle);
             }
             if (designerItemData.PlansElement is ElementEllipse)
             {
-                plan.ElementEllipses.Add(elementBase as ElementEllipse);
+                Plan.ElementEllipses.Add(elementBase as ElementEllipse);
             }
             if (designerItemData.PlansElement is ElementPolygon)
             {
-                plan.ElementPolygons.Add(elementBase as ElementPolygon);
+                Plan.ElementPolygons.Add(elementBase as ElementPolygon);
             }
             if (designerItemData.PlansElement is ElementTextBlock)
             {
-                plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+                Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+            }
+            if (designerItemData.PlansElement is ElementDevice)
+            {
+                Plan.ElementDevices.Add(elementBase as ElementDevice);
             }
 
-            var frameworkElement = elementBase.Draw();
+            DesignerItem designerItem = null;
+            if (designerItemData.PlansElement is ElementDevice)
+            {
+                var elementDevice = designerItemData.PlansElement as ElementDevice;
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
+                var deviceControl = new DeviceControl()
+                {
+                    DriverId = device.Driver.UID,
+                    StateType = StateType.Norm
+                };
+                designerItem = Create(elementDevice, frameworkElement: deviceControl);
+            }
+            else
+            {
+                designerItem = Create(elementBase);
+            }
+
+            this.DeselectAll();
+            designerItem.IsSelected = true;
+
+            e.Handled = true;
+        }
+
+        public DesignerItem Create(ElementBase elementBase, bool isOpacity = false, FrameworkElement frameworkElement = null)
+        {
+            if (frameworkElement == null)
+            {
+                frameworkElement = elementBase.Draw();
+            }
+            frameworkElement.IsHitTestVisible = false;
+
             var designerItem = new DesignerItem()
             {
                 MinWidth = 10,
@@ -107,17 +143,17 @@ namespace PlansModule.Designer
                 Height = elementBase.Height,
                 Content = frameworkElement,
                 ElementBase = elementBase,
-                IsPolygon = elementBase is ElementPolygon
+                IsPolygon = elementBase is ElementBasePolygon
             };
-            frameworkElement.IsHitTestVisible = false;
+
+            if (isOpacity)
+                designerItem.Opacity = 0.5;
+
             DesignerCanvas.SetLeft(designerItem, elementBase.Left);
             DesignerCanvas.SetTop(designerItem, elementBase.Top);
             this.Children.Add(designerItem);
 
-            this.DeselectAll();
-            designerItem.IsSelected = true;
-
-            e.Handled = true;
+            return designerItem;
         }
     }
 }

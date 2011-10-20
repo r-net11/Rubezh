@@ -99,40 +99,40 @@ namespace PlansModule.Views
                 }
             }
 
-            if (plan.ElementZones != null)
-            {
-                foreach (var zona in plan.ElementZones)
-                {
-                    var contextMenu = new ContextMenuCanvasViewModel(GetPropertiesZona);
-                    //zona.idElementCanvas = idElement;
-                    Polygon myPolygon = new Polygon();
-                    myPolygon.Name = "zona" + idElement.ToString();
-                    myPolygon.ToolTip = "Зона №" + zona.ZoneNo;
-                    myPolygon.Stroke = System.Windows.Media.Brushes.Black;
-                    myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
-                    myPolygon.StrokeThickness = 2;
-                    myPolygon.ContextMenu = contextMenu.GetElement(myPolygon, zona);
-                    PointCollection myPointCollection = new PointCollection();
-                    var point = new Point();
-                    double minX = -1;
-                    double minY = -1;
-                    foreach (var _point in zona.PolygonPoints)
-                    {
-                        if ((minX > _point.X) || (minX == -1)) minX = _point.X;
-                        if ((minY > _point.Y) || (minY == -1)) minY = _point.Y;
-                        point.X = _point.X;
-                        point.Y = _point.Y;
-                        myPointCollection.Add(point);
-                    }
-                    myPolygon.Points = myPointCollection;
-                    myPolygon.MinHeight = 5;
-                    myPolygon.MinWidth = 5;
-                    MainCanvas.Children.Add(myPolygon);
-                    Canvas.SetLeft(myPolygon, 0);
-                    Canvas.SetTop(myPolygon, 0);
-                    idElement++;
-                }
-            }
+            //if (plan.ElementZones != null)
+            //{
+            //    foreach (var zona in plan.ElementZones)
+            //    {
+            //        var contextMenu = new ContextMenuCanvasViewModel(GetPropertiesZona);
+            //        //zona.idElementCanvas = idElement;
+            //        Polygon myPolygon = new Polygon();
+            //        myPolygon.Name = "zona" + idElement.ToString();
+            //        myPolygon.ToolTip = "Зона №" + zona.ZoneNo;
+            //        myPolygon.Stroke = System.Windows.Media.Brushes.Black;
+            //        myPolygon.Fill = System.Windows.Media.Brushes.LightSeaGreen;
+            //        myPolygon.StrokeThickness = 2;
+            //        myPolygon.ContextMenu = contextMenu.GetElement(myPolygon, zona);
+            //        PointCollection myPointCollection = new PointCollection();
+            //        var point = new Point();
+            //        double minX = -1;
+            //        double minY = -1;
+            //        foreach (var _point in zona.PolygonPoints)
+            //        {
+            //            if ((minX > _point.X) || (minX == -1)) minX = _point.X;
+            //            if ((minY > _point.Y) || (minY == -1)) minY = _point.Y;
+            //            point.X = _point.X;
+            //            point.Y = _point.Y;
+            //            myPointCollection.Add(point);
+            //        }
+            //        myPolygon.Points = myPointCollection;
+            //        myPolygon.MinHeight = 5;
+            //        myPolygon.MinWidth = 5;
+            //        MainCanvas.Children.Add(myPolygon);
+            //        Canvas.SetLeft(myPolygon, 0);
+            //        Canvas.SetTop(myPolygon, 0);
+            //        idElement++;
+            //    }
+            //}
             if (plan.ElementTextBlocks != null)
             {
                 foreach (var text in plan.ElementTextBlocks)
@@ -191,27 +191,27 @@ namespace PlansModule.Views
 
         void GetPropertiesZona(object sender, RoutedEventArgs e)
         {
-            var Zona = sender as MenuItem;
-            var test = Zona.Tag;
-            ElementZone zona = Zona.Tag as ElementZone;
-            TabItem.Header = "Свойства зоны";
-            ClearPropertiesWindow();
+            //var Zona = sender as MenuItem;
+            //var test = Zona.Tag;
+            //ElementZone zona = Zona.Tag as ElementZone;
+            //TabItem.Header = "Свойства зоны";
+            //ClearPropertiesWindow();
 
-            PropertiesCaption.Items.Add("Номер зоны");
-            PropertiesValue.Items.Add(zona.ZoneNo);
-            PropertiesName.Items.Add("zoneno");
-            PropertiesType.Items.Add("string");
+            //PropertiesCaption.Items.Add("Номер зоны");
+            //PropertiesValue.Items.Add(zona.ZoneNo);
+            //PropertiesName.Items.Add("zoneno");
+            //PropertiesType.Items.Add("string");
 
-            PropertiesCaption.Items.Add("Полигон");
-            string str = "";
-            foreach (var point in zona.PolygonPoints)
-            {
-                str += "{" + point.X + "," + point.Y + "}";
-            }
-            PropertiesValue.Items.Add(zona.PolygonPoints);
-            PropertiesName.Items.Add("polygonpoints");
-            PropertiesType.Items.Add("Polygon");
-            //PropertiesView.IndexElement = zona.idElementCanvas;
+            //PropertiesCaption.Items.Add("Полигон");
+            //string str = "";
+            //foreach (var point in zona.PolygonPoints)
+            //{
+            //    str += "{" + point.X + "," + point.Y + "}";
+            //}
+            //PropertiesValue.Items.Add(zona.PolygonPoints);
+            //PropertiesName.Items.Add("polygonpoints");
+            //PropertiesType.Items.Add("Polygon");
+            ////PropertiesView.IndexElement = zona.idElementCanvas;
         }
 
         void GetPropertiesRect(object sender, RoutedEventArgs e)
@@ -537,21 +537,21 @@ namespace PlansModule.Views
             if (element is Polygon)
             {
                 int index = int.Parse((element as Polygon).Name.Substring(4));
-                foreach (var zona in plan.ElementZones)
-                {
-                    //if (zona.idElementCanvas == index)
-                    //{
-                    //    zona.ZoneNo = (element as Polygon).ToolTip.ToString().Substring(6);
-                    //    zona.PolygonPoints.Clear();
-                    //    foreach (var _point in (element as Polygon).Points)
-                    //    {
-                    //        Point point = _point;
-                    //        point.X = point.X + Canvas.GetLeft(element as Polygon);
-                    //        point.Y = point.Y + Canvas.GetTop(element as Polygon);
-                    //        zona.PolygonPoints.Add(point);
-                    //    }
-                    //}
-                }
+                //foreach (var zona in plan.ElementZones)
+                //{
+                //    //if (zona.idElementCanvas == index)
+                //    //{
+                //    //    zona.ZoneNo = (element as Polygon).ToolTip.ToString().Substring(6);
+                //    //    zona.PolygonPoints.Clear();
+                //    //    foreach (var _point in (element as Polygon).Points)
+                //    //    {
+                //    //        Point point = _point;
+                //    //        point.X = point.X + Canvas.GetLeft(element as Polygon);
+                //    //        point.Y = point.Y + Canvas.GetTop(element as Polygon);
+                //    //        zona.PolygonPoints.Add(point);
+                //    //    }
+                //    //}
+                //}
             }
             else if (element is Rectangle)
             {
@@ -644,21 +644,21 @@ namespace PlansModule.Views
                     break;
 
                 case "zona":
-                    foreach (var zona in Plan.ElementZones)
-                    {
-                        //if (zona.idElementCanvas == index && _overlayElementPolygon != null)
-                        //{
-                        //    PointCollection PointCollection = new PointCollection();
-                        //    foreach (var point in zona.PolygonPoints)
-                        //    {
-                        //        Point Point = new Point();
-                        //        Point.X = point.X + _overlayElementPolygon.LeftOffset;
-                        //        Point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
-                        //        PointCollection.Add(Point);
-                        //    }
-                        //    zona.PolygonPoints = PointCollection;
-                        //}
-                    }
+                    //foreach (var zona in Plan.ElementZones)
+                    //{
+                    //    //if (zona.idElementCanvas == index && _overlayElementPolygon != null)
+                    //    //{
+                    //    //    PointCollection PointCollection = new PointCollection();
+                    //    //    foreach (var point in zona.PolygonPoints)
+                    //    //    {
+                    //    //        Point Point = new Point();
+                    //    //        Point.X = point.X + _overlayElementPolygon.LeftOffset;
+                    //    //        Point.Y = point.Y + _overlayElementPolygon.TopOffset + PlanCanvasView.dTop;
+                    //    //        PointCollection.Add(Point);
+                    //    //    }
+                    //    //    zona.PolygonPoints = PointCollection;
+                    //    //}
+                    //}
                     break;
             }
             string type = typeElement;

@@ -10,8 +10,11 @@ namespace FiresecAPI.Models
         {
             Children = new List<Plan>();
             ElementSubPlans = new List<ElementSubPlan>();
-            ElementZones = new List<ElementZone>();
+            
+            ElementRectangleZones = new List<ElementRectangleZone>();
+            ElementPolygonZones = new List<ElementPolygonZone>();
             ElementDevices = new List<ElementDevice>();
+
             ElementRectangles = new List<ElementRectangle>();
             ElementEllipses = new List<ElementEllipse>();
             ElementTextBlocks = new List<ElementTextBlock>();
@@ -50,11 +53,16 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<ElementSubPlan> ElementSubPlans { get; set; }
 
+
         [DataMember]
-        public List<ElementZone> ElementZones { get; set; }
+        public List<ElementRectangleZone> ElementRectangleZones { get; set; }
+
+        [DataMember]
+        public List<ElementPolygonZone> ElementPolygonZones { get; set; }
 
         [DataMember]
         public List<ElementDevice> ElementDevices { get; set; }
+
 
         [DataMember]
         public List<ElementRectangle> ElementRectangles { get; set; }

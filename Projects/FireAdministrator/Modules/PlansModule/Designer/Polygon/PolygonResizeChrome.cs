@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -32,21 +31,22 @@ namespace PlansModule.Designer
         {
             ArrangeSize();
 
-            Canvas canvas = this;
-            canvas.Children.Clear();
+            this.Children.Clear();
             thumbs.Clear();
 
             foreach (var point in _polygon.Points)
             {
-                Thumb thumb = new Thumb();
-                thumb.Width = 10;
-                thumb.Height = 10;
-                thumb.Margin = new Thickness(-5, -5, 0, 0);
+                var thumb = new Thumb()
+                {
+                    Width = 10,
+                    Height = 10,
+                    Margin = new Thickness(-5, -5, 0, 0)
+                };
                 Canvas.SetLeft(thumb, point.X + Canvas.GetLeft(_designerItem));
                 Canvas.SetTop(thumb, point.Y + Canvas.GetTop(_designerItem));
                 Canvas.SetLeft(thumb, point.X);
                 Canvas.SetTop(thumb, point.Y);
-                canvas.Children.Add(thumb);
+                this.Children.Add(thumb);
                 thumb.DragDelta += new DragDeltaEventHandler(_thumb_DragDelta);
                 thumbs.Add(thumb);
             }
@@ -70,6 +70,8 @@ namespace PlansModule.Designer
             {
                 _polygon.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
             }
+
+            PlansModule.HasChanges = true;
         }
 
         public void ArrangeSize()
@@ -85,11 +87,6 @@ namespace PlansModule.Designer
                 maxLeft = Math.Max(point.X, maxLeft);
                 maxTop = Math.Max(point.Y, maxTop);
             }
-
-            Trace.WriteLine(minLeft);
-            Trace.WriteLine(minTop);
-            Trace.WriteLine(maxLeft);
-            Trace.WriteLine(maxTop);
 
             Canvas.SetLeft(_designerItem, Canvas.GetLeft(_designerItem) + minLeft);
             Canvas.SetTop(_designerItem, Canvas.GetTop(_designerItem) + minTop);

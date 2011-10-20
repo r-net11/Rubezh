@@ -1,20 +1,20 @@
-﻿using System.Runtime.Serialization;
-using System.Windows.Media;
+﻿//using System.Runtime.Serialization;
+//using System.Windows.Media;
 
-namespace FiresecAPI.Models
-{
-    [DataContract]
-    public class ElementZone : ElementPolygon
-    {
-        public ElementZone()
-        {
-            BackgroundColor = Colors.Green;
-            BorderColor = Colors.Blue;
-            BorderThickness = 1;
-            PolygonPoints = new PointCollection();
-        }
+//namespace FiresecAPI.Models
+//{
+//    [DataContract]
+//    public class ElementZone : ElementBasePolygon
+//    {
+//        public ElementZone()
+//        {
+//            BackgroundColor = Colors.Green;
+//            BorderColor = Colors.Blue;
+//            BorderThickness = 1;
+//            PolygonPoints = new PointCollection();
+//        }
 
-        [DataMember]
-        public ulong? ZoneNo { get; set; }
-    }
-}
+//        [DataMember]
+//        public string ZoneNo { get; set; }
+//    }
+//}

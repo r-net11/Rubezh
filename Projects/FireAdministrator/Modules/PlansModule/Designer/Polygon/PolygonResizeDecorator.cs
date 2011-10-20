@@ -40,7 +40,6 @@ namespace PlansModule.Designer
                 if (adornerLayer != null)
                 {
                     ContentControl designerItem = this.DataContext as ContentControl;
-                    //Canvas canvas = VisualTreeHelper.GetParent(designerItem) as Canvas;
                     this.adorner = new PolygonResizeAdorner(designerItem);
                     adornerLayer.Add(this.adorner);
 

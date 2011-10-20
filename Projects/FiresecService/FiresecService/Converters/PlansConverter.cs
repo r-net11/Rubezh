@@ -83,7 +83,7 @@ namespace FiresecService.Converters
                         {
                             foreach (var innerZone in innerLayer.elements)
                             {
-                                var elementZone = new ElementZone();
+                                string zoneNo = null;
 
                                 long idTempL = long.Parse(innerZone.id);
                                 int idTempI = (int)idTempL;
@@ -94,7 +94,7 @@ namespace FiresecService.Converters
                                         if ((zoneShapeId == idTempL.ToString()) ||
                                             (zoneShapeId == idTempI.ToString()))
                                         {
-                                            elementZone.ZoneNo = zone.No;
+                                            zoneNo = zone.No;
                                         }
                                     }
                                 }
@@ -104,6 +104,10 @@ namespace FiresecService.Converters
                                     case "TFS_PolyZoneShape":
                                         if (innerZone.points != null)
                                         {
+                                            var elementPolygonZone = new ElementPolygonZone()
+                                            {
+                                                ZoneNo = zoneNo
+                                            };
                                             foreach (var innerPoint in innerZone.points)
                                             {
                                                 var point = new Point()
@@ -113,44 +117,26 @@ namespace FiresecService.Converters
                                                 };
                                                 innerPoint.y = innerPoint.y.Replace(".", ",");
 
-                                                elementZone.PolygonPoints.Add(point);
+                                                elementPolygonZone.PolygonPoints.Add(point);
                                             }
-                                            elementZone.Normalize();
+                                            elementPolygonZone.Normalize();
+                                            plan.ElementPolygonZones.Add(elementPolygonZone);
                                         };
                                         break;
 
                                     case "TFS_ZoneShape":
-                                        foreach (var innerRect in innerZone.rect)
+                                        var elementRectangleZone = new ElementRectangleZone()
                                         {
-                                            elementZone.PolygonPoints.Add(new Point()
-                                            {
-                                                X = Parse(innerRect.left),
-                                                Y = Parse(innerRect.top)
-                                            });
-
-                                            elementZone.PolygonPoints.Add(new Point()
-                                            {
-                                                X = Parse(innerRect.right),
-                                                Y = Parse(innerRect.top)
-                                            });
-
-                                            elementZone.PolygonPoints.Add(new Point()
-                                            {
-                                                X = Parse(innerRect.right),
-                                                Y = Parse(innerRect.bottom)
-                                            });
-
-                                            elementZone.PolygonPoints.Add(new Point()
-                                            {
-                                                X = Parse(innerRect.left),
-                                                Y = Parse(innerRect.bottom)
-                                            });
-
-                                            elementZone.Normalize();
+                                            ZoneNo = zoneNo,
+                                            Left = Parse(innerZone.rect[0].left),
+                                            Top = Parse(innerZone.rect[0].top),
+                                            Width = Parse(innerZone.rect[0].right) - Parse(innerZone.rect[0].left),
+                                            Height = Parse(innerZone.rect[0].top) - Parse(innerZone.rect[0].bottom)
                                         };
+
+                                        plan.ElementRectangleZones.Add(elementRectangleZone);
                                         break;
                                 }
-                                plan.ElementZones.Add(elementZone);
                             }
                         };
 

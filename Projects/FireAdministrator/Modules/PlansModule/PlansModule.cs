@@ -8,7 +8,8 @@ namespace PlansModule
 {
     public class PlansModule : IModule
     {
-        static PlansViewModel PlansViewModel;
+        static PlansViewModel _plansViewModel;
+        public static bool HasChanges { get; set; }
 
         public PlansModule()
         {
@@ -29,12 +30,13 @@ namespace PlansModule
 
         static void CreateViewModels()
         {
-            PlansViewModel = new PlansViewModel();
+            _plansViewModel = new PlansViewModel();
         }
 
         static void OnShowPlans(string obj)
         {
-            ServiceFactory.Layout.Show(PlansViewModel);
+            _plansViewModel.Initialize();
+            ServiceFactory.Layout.Show(_plansViewModel);
         }
     }
 }

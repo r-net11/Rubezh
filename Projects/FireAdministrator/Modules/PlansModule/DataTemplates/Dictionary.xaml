@@ -14,7 +14,11 @@
     <DataTemplate DataType="{x:Type ViewModels:PlanDetailsViewModel}">
         <Views:PlanDetailsView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+        <Views:DevicesView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:SubPlanDetailsViewModel}">
         <Views:SubPlanDetailsView />
     </DataTemplate>
