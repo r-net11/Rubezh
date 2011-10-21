@@ -12,7 +12,7 @@
         AllowsTransparency="True" Background="Transparent" WindowStyle="None">
     <Window.Resources>
     </Window.Resources>
-    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
                 <Border Height="30" MouseMove="Header_MouseMove" DockPanel.Dock="Top" CornerRadius="11 11 0 0" >

@@ -19,7 +19,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-            <Button Content="Добавить" Command="{Binding AddCommand}" Width="100" />
+            <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Add.png" Height="24" />
+            </Button>
         </StackPanel>
         <Grid Grid.Row="1">
 
@@ -46,8 +48,7 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 
-                                <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}"
-                                           VerticalAlignment="Center" Margin="2">
+                                <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
                                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                                         <TextBlock Text="{Binding PresenrationZones}" />                
                                         <TextBlock Text="Нажмите для выбора зон" Margin="2">
@@ -105,7 +106,7 @@
         </Grid>
 
         <Grid Grid.Row="4">
-            <CheckBox Content="К РМ подключено светозвуковое оповещение(Таким РМ можно одновременно управлять с прибора)"
+            <CheckBox Content="К РМ подключено светозвуковое оповещение(Таким РМ можно одновременно управлять с прибора)" Foreground="White"
                       Visibility="{Binding IsRm, Converter={StaticResource BoolToVisibilityConverter}}"
                       IsChecked="{Binding IsRmWithTablo}" />
         </Grid>

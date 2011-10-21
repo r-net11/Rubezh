@@ -6,9 +6,6 @@
         <ResourceDictionary Source="ScrollBarStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
-    <SolidColorBrush x:Key="HeaderBorderBrush" Color="Black"/>
-    <SolidColorBrush x:Key="HeaderInnerBorderBrush" Color="Transparent" />
-    
     <Style x:Key="ColumnHeaderRightGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -41,7 +38,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
+        <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -60,7 +57,7 @@
                             Padding ="{TemplateBinding Padding}"
                             SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
                             SeparatorBrush="{TemplateBinding SeparatorBrush}">
-                            <Border BorderBrush="{StaticResource HeaderInnerBorderBrush}" BorderThickness="0">
+                            <Border BorderThickness="0">
                                 <TextBlock FontSize="12" FontWeight="Bold" FontFamily="Arial" Text="{Binding}" Margin="4,0,4,0"
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

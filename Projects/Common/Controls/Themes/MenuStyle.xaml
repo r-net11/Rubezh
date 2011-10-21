@@ -1,10 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
-    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="Red" />
     <SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
-    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
 
     <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
@@ -38,7 +35,7 @@
             <Grid>
                 <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
                 <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+                    <Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
                 </Popup>
@@ -57,7 +54,7 @@
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource EnabledForegroundBrush}"/>
@@ -78,7 +75,7 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -118,7 +115,7 @@
               Value="{DynamicResource HighlightedBackgoundBrush}"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -141,7 +138,7 @@
                 <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,2,2" DockPanel.Dock="Right"/>
                 <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
                 <Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+                    <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
                 </Popup>
@@ -159,7 +156,7 @@
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

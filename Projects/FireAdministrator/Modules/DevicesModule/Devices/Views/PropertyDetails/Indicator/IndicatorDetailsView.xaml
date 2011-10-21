@@ -14,124 +14,134 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="5">
-            <GroupBox Header="Индикатор состояния" FontWeight="Bold" Margin="2" Foreground="White">
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" Foreground="White" />
-                    <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" Foreground="White" />
+        <StackPanel Grid.Row="0">
+            <Border CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                <StackPanel>
+                    <Label Content="Индикатор состояния" Margin="2" FontWeight="Bold" />
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" Foreground="White" />
+                        <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" Foreground="White" />
+                    </StackPanel>
                 </StackPanel>
-            </GroupBox>
+            </Border>
         </StackPanel>
 
         <Grid Grid.Row="1" Visibility="{Binding IsZone, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
-                <Label Content="Выбранные зоны" FontWeight="Bold" />
-                <TextBlock>
-                    <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
-                        <TextBlock Text="{Binding PresenrationZones}" />                
-                        <TextBlock Text="Нажмите для выбора зон" Margin="2">
-                            <TextBlock.Style>
-                                <Style>
-                                    <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PresenrationZones}" Value="">
-                                        <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>         
-                    </Hyperlink>
-                </TextBlock>
-
+                <Border CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                    <StackPanel Margin="5">
+                        <Label Content="Выбранные зоны" FontWeight="Bold" />
+                        <TextBlock>
+                            <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <TextBlock Text="{Binding PresenrationZones}" />                
+                                <TextBlock Text="Нажмите для выбора зон" Margin="2">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PresenrationZones}" Value="">
+                                                <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>         
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
+                <Border CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                    <StackPanel Margin="5">
+                        <Label Content="Выбранное устройство" FontWeight="Bold" />
 
-                <Label Content="Выбранное устройство" FontWeight="Bold" />
-                
-                <Grid Grid.Row="1" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="1" Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0">
-                        <Hyperlink Command="{Binding ShowDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
-                                <TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />
-                            </StackPanel>
+                            <TextBlock Grid.Column="0">
+                                <Hyperlink Command="{Binding ShowDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
+                                        <TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />
+                                    </StackPanel>
                                         
-                            <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                                <TextBlock.Style>
-                                    <Style>
-                                        <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
-                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock> 
-                        </Hyperlink>
-                    </TextBlock>
+                                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                <DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
+                                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock> 
+                                </Hyperlink>
+                            </TextBlock>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}" HorizontalAlignment="Right">
-                            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
-                        </Button>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Command="{Binding ResetDeviceCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}" HorizontalAlignment="Right">
+                                    <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
-                </Grid>
+                </Border>
 
-                <Grid Grid.Row="2" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Content="Включено" />
-                    <Label Grid.Column="0" Grid.Row="1" Content="Выключено" />
-                    <Label Grid.Column="0" Grid.Row="2" Content="Неисправность" />
-                    <Label Grid.Column="0" Grid.Row="3" Content="Потеря связи" />
-                    <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Colors}" SelectedItem="{Binding OffColor}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Colors}" SelectedItem="{Binding FailureColor}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Colors}" SelectedItem="{Binding ConnectionColor}" Margin="2">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                </Grid>
+                <Border Grid.Row="2" CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Включено" HorizontalAlignment="Right" />
+                        <Label Grid.Column="0" Grid.Row="1" Content="Выключено" HorizontalAlignment="Right" />
+                        <Label Grid.Column="0" Grid.Row="2" Content="Неисправность" HorizontalAlignment="Right" />
+                        <Label Grid.Column="0" Grid.Row="3" Content="Потеря связи" HorizontalAlignment="Right" />
+                        <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Colors}" SelectedItem="{Binding OnColor}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Colors}" SelectedItem="{Binding OffColor}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Colors}" SelectedItem="{Binding FailureColor}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Colors}" SelectedItem="{Binding ConnectionColor}" Margin="2">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource ColorIdToStringConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </Border>
             </StackPanel>
         </Grid>
 

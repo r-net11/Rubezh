@@ -1,11 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <LinearGradientBrush x:Key="ToolarButtonClicked" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#DF8E2A" Offset="0" />
-        <GradientStop Color="#F2B352" Offset="1" />
-    </LinearGradientBrush>
-    
     <Style x:Key="ToolarButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
@@ -20,7 +15,7 @@
                             <Setter TargetName="border" Property="Border.BorderBrush" Value="Orange" />
                         </Trigger>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Border.Background" Value="{StaticResource ToolarButtonClicked}" />
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

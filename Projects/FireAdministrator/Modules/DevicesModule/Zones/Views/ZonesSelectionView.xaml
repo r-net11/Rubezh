@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ZonesSelectionView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        MinHeight="300" MinWidth="600" Background="DarkGray">
+        MinHeight="300" MinWidth="600">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -12,7 +12,7 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -26,16 +26,16 @@
                 </DataGrid>
             </Grid>
 
-            <StackPanel Grid.Column="1">
+            <StackPanel Grid.Column="1" Margin="2">
                 <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/Left.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding RemoveOneCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/Right.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding AddAllCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
                 </Button>
 

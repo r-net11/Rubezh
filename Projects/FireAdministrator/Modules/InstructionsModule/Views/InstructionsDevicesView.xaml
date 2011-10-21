@@ -78,11 +78,11 @@
                     <Image Source="/Controls;component/Images/Left.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding RemoveOneCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/Right.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding AddAllCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
                 </Button>
 

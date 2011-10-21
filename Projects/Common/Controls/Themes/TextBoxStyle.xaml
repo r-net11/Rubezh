@@ -17,9 +17,9 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="LightGray"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="DarkGray"/>
-                            <Setter Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource DisabledBackgroundBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

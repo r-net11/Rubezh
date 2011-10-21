@@ -4,7 +4,6 @@
                     xmlns:Helpers="clr-namespace:Controls">
 
     <Helpers:ColorsHelper x:Key="ColorsHelper"/>
-
     <Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
     <Style x:Key="ColorPickerComboBox" TargetType="ComboBox">

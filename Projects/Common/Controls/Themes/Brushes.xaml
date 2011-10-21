@@ -15,5 +15,13 @@
         <GradientStop Color="#DEA34B" Offset="0" />
         <GradientStop Color="#C98226" Offset="1" />
     </LinearGradientBrush>
-    
+
+
+    <SolidColorBrush x:Key="DisabledBorderBrush" Color="DarkGray" />
+    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="LightGray" />
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Gray" />
+
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
+    <SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
+
 </ResourceDictionary>

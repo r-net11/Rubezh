@@ -6,7 +6,6 @@
 
     <Style x:Key="{x:Type Label}" TargetType="Label">
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="Margin" Value="2" />
     </Style>
 
 </ResourceDictionary>

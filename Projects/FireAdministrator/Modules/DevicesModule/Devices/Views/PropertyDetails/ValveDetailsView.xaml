@@ -4,7 +4,7 @@
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             MinWidth="300" MinHeight="300">
+             MinWidth="400" MinHeight="150">
 
     <UserControl.Resources>
         <Converters:ValveActionConverter x:Key="ValveActionConverter" />
@@ -27,8 +27,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" />
-            <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" />
+            <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" HorizontalAlignment="Right" />
+            <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" HorizontalAlignment="Right" />
 
             <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Actions}" SelectedItem="{Binding SelectiedAction}" Margin="2">
                 <ComboBox.ItemTemplate>
