@@ -152,8 +152,8 @@ namespace FiresecAPI.Models
                     address.Append(PresentationAddress);
                     address.Append(".");
                 }
-                if (address[address.Length] == '.')
-                    address.Remove(address.Length, 1);
+                if (address[address.Length - 1] == '.')
+                    address.Remove(address.Length - 1, 1);
 
                 return address.ToString();
             }
