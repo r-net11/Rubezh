@@ -6,6 +6,9 @@ namespace PlansModule.ViewModels
 {
     public class PlanDetailsViewModel : SaveCancelDialogContent
     {
+        bool _isNew;
+        public Plan Plan { get; private set; }
+
         public PlanDetailsViewModel(Plan plan = null)
         {
             if (plan != null)
@@ -17,7 +20,12 @@ namespace PlansModule.ViewModels
             else
             {
                 Title = "Создать план";
-                Plan = new Plan();
+                Plan = new Plan()
+                {
+                    Name = "Новый план",
+                    Width = 400,
+                    Height = 400
+                };
                 _isNew = true;
             }
 
@@ -30,9 +38,6 @@ namespace PlansModule.ViewModels
             Width = Plan.Width;
             Height = Plan.Height;
         }
-
-        bool _isNew;
-        public Plan Plan { get; private set; }
 
         string _name;
         public string Name
@@ -67,14 +72,13 @@ namespace PlansModule.ViewModels
             }
         }
 
+        protected override bool CanSave()
+        {
+            return !string.IsNullOrEmpty(Name);
+        }
+
         protected override void Save(ref bool cancel)
         {
-            if (Name == null)
-            {
-                cancel = true;
-                return;
-            }
-
             Plan.Name = Name;
             Plan.Height = Height;
             Plan.Width = Width;

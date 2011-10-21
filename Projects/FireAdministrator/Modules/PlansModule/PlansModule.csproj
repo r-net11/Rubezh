@@ -87,7 +87,7 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
-    <Compile Include="Designer\Toolbox.xaml.cs">
+    <Compile Include="Views\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Designer\Polygon\PolygonResizeAdorner.cs" />
@@ -113,24 +113,24 @@
     </Compile>
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\OLD\Operations\ResizePolygon.cs" />
-    <Compile Include="ViewModels\OLD\ChildrensViewModel.cs" />
-    <Compile Include="ViewModels\OLD\Adorners\PolygonAdorner.cs" />
+    <Compile Include="OBSOLETE\Operations\ResizePolygon.cs" />
+    <Compile Include="OBSOLETE\ViewModels\ChildrensViewModel.cs" />
+    <Compile Include="OBSOLETE\Adorners\PolygonAdorner.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
-    <Compile Include="ViewModels\OLD\SubPlanViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\SubPlanViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
-    <Compile Include="ViewModels\OLD\PlansContextMenuViewModel.cs" />
-    <Compile Include="ViewModels\OLD\OldPlansViewModel.cs" />
-    <Compile Include="ViewModels\OLD\SubPlanDetailsViewModel.cs" />
-    <Compile Include="ViewModels\OLD\MainCanvasViewModel.cs" />
-    <Compile Include="ViewModels\OLD\Adorners\RectangleAdorner.cs" />
-    <Compile Include="ViewModels\OLD\Adorners\TextBoxAdorner.cs" />
-    <Compile Include="ViewModels\OLD\temp\ContextMenuCanvasViewModel.cs" />
-    <Compile Include="ViewModels\OLD\temp\RectangleAdornerResize.cs" />
-    <Compile Include="ViewModels\OLD\temp\ZoneViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\PlansContextMenuViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\OldPlansViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\SubPlanDetailsViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\MainCanvasViewModel.cs" />
+    <Compile Include="OBSOLETE\Adorners\RectangleAdorner.cs" />
+    <Compile Include="OBSOLETE\Adorners\TextBoxAdorner.cs" />
+    <Compile Include="OBSOLETE\ViewModels\temp\ContextMenuCanvasViewModel.cs" />
+    <Compile Include="OBSOLETE\ViewModels\temp\RectangleAdornerResize.cs" />
+    <Compile Include="OBSOLETE\ViewModels\temp\ZoneViewModel.cs" />
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
@@ -143,28 +143,28 @@
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\SubPlanDetailsView.xaml.cs">
+    <Compile Include="OBSOLETE\Views\SubPlanDetailsView.xaml.cs">
       <DependentUpon>SubPlanDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansMenuView.xaml.cs">
       <DependentUpon>PlansMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\PlanCanvasView.xaml.cs">
+    <Compile Include="OBSOLETE\Views\PlanCanvasView.xaml.cs">
       <DependentUpon>PlanCanvasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlanDetailsView.xaml.cs">
       <DependentUpon>PlanDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\PlansTree.xaml.cs">
+    <Compile Include="OBSOLETE\Views\PlansTree.xaml.cs">
       <DependentUpon>PlansTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\OldPlansView.xaml.cs">
+    <Compile Include="OBSOLETE\Views\OldPlansView.xaml.cs">
       <DependentUpon>OldPlansView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\temp\PropertiesView.xaml.cs">
+    <Compile Include="OBSOLETE\Views\temp\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OLD\temp\ToolBar.xaml.cs">
+    <Compile Include="OBSOLETE\Views\temp\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -245,7 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\Toolbox.xaml">
+    <Page Include="Views\Toolbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -269,7 +269,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OLD\SubPlanDetailsView.xaml">
+    <Page Include="OBSOLETE\Views\SubPlanDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -277,7 +277,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OLD\PlanCanvasView.xaml">
+    <Page Include="OBSOLETE\Views\PlanCanvasView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -285,19 +285,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OLD\PlansTree.xaml">
+    <Page Include="OBSOLETE\Views\PlansTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OLD\OldPlansView.xaml">
+    <Page Include="OBSOLETE\Views\OldPlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OLD\temp\PropertiesView.xaml">
+    <Page Include="OBSOLETE\Views\temp\PropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\OLD\temp\ToolBar.xaml">
+    <Page Include="OBSOLETE\Views\temp\ToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

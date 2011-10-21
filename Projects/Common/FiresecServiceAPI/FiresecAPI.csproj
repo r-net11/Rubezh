@@ -107,7 +107,6 @@
     <Compile Include="Models\Guard\ZoneLevel.cs" />
     <Compile Include="Models\Plans\ElementDevice.cs" />
     <Compile Include="Models\Plans\ElementSubPlan.cs" />
-    <Compile Include="Models\Plans\ElementZone.cs" />
     <Compile Include="Models\Plans\Plan.cs" />
     <Compile Include="Models\System\Instruction.cs" />
     <Compile Include="Models\System\JournalFilter.cs" />

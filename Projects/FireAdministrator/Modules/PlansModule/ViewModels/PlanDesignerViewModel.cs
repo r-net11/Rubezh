@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
-using DeviceControls;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 using PlansModule.Designer;
 
@@ -55,11 +54,15 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in plan.ElementDevices)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
-                var deviceControl = new DeviceControl()
+                //var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
+                //var deviceControl = new DeviceControl()
+                //{
+                //    DriverId = device.Driver.UID,
+                //    StateType = StateType.Norm
+                //};
+                var deviceControl = new Rectangle()
                 {
-                    DriverId = device.Driver.UID,
-                    StateType = StateType.Norm
+                    Fill = new SolidColorBrush(Colors.White)
                 };
                 DesignerCanvas.Create(elementDevice, frameworkElement: deviceControl);
             }

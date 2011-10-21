@@ -3,6 +3,9 @@ using System.IO;
 using System.Windows;
 using Firesec.Plans;
 using FiresecAPI.Models;
+using System.Windows.Media;
+using System.Drawing.Imaging;
+using System.Drawing;
 
 namespace FiresecService.Converters
 {
@@ -23,7 +26,7 @@ namespace FiresecService.Converters
                         Height = Double.Parse(innerPlan.height) * 10,
                         Width = Double.Parse(innerPlan.width) * 10
                     };
-                    int index = 0;
+
                     foreach (var innerLayer in innerPlan.layer)
                     {
                         if (innerLayer.elements == null)
@@ -45,14 +48,24 @@ namespace FiresecService.Converters
                                             Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
                                             if (File.Exists(uri.AbsolutePath) == false)
                                                 continue;
+
+                                            if (innerPicture.ext == "emf")
+                                            {
+                                                var img = new Metafile(uri.AbsolutePath);
+                                                innerPicture.ext = "bmp";
+                                                uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+                                                img.Save(uri.AbsolutePath, ImageFormat.Bmp);
+                                                img.Dispose();
+                                            }
+
                                             byte[] imageBytes = File.ReadAllBytes(uri.AbsolutePath);
 
                                             var elementRectangle = new ElementRectangle()
                                             {
-                                                Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
-                                                Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
                                                 Left = Parse(innerElementLayer.rect[0].left),
                                                 Top = Parse(innerElementLayer.rect[0].top),
+                                                Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
+                                                Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
                                                 BackgroundPixels = imageBytes
                                             };
 
@@ -83,7 +96,7 @@ namespace FiresecService.Converters
                         {
                             foreach (var innerZone in innerLayer.elements)
                             {
-                                string zoneNo = null;
+                                ulong? zoneNo = null;
 
                                 long idTempL = long.Parse(innerZone.id);
                                 int idTempI = (int)idTempL;
@@ -106,11 +119,12 @@ namespace FiresecService.Converters
                                         {
                                             var elementPolygonZone = new ElementPolygonZone()
                                             {
-                                                ZoneNo = zoneNo
+                                                ZoneNo = zoneNo,
+                                                PolygonPoints = new PointCollection()
                                             };
                                             foreach (var innerPoint in innerZone.points)
                                             {
-                                                var point = new Point()
+                                                var point = new System.Windows.Point()
                                                 {
                                                     X = Parse(innerPoint.x),
                                                     Y = Parse(innerPoint.y)
@@ -128,10 +142,10 @@ namespace FiresecService.Converters
                                         var elementRectangleZone = new ElementRectangleZone()
                                         {
                                             ZoneNo = zoneNo,
-                                            Left = Parse(innerZone.rect[0].left),
-                                            Top = Parse(innerZone.rect[0].top),
-                                            Width = Parse(innerZone.rect[0].right) - Parse(innerZone.rect[0].left),
-                                            Height = Parse(innerZone.rect[0].top) - Parse(innerZone.rect[0].bottom)
+                                            Left = Math.Min(Parse(innerZone.rect[0].left), Parse(innerZone.rect[0].right)),
+                                            Top = Math.Min(Parse(innerZone.rect[0].top), Parse(innerZone.rect[0].bottom)),
+                                            Width = Math.Abs(Parse(innerZone.rect[0].right) - Parse(innerZone.rect[0].left)),
+                                            Height = Math.Abs(Parse(innerZone.rect[0].bottom) - Parse(innerZone.rect[0].top))
                                         };
 
                                         plan.ElementRectangleZones.Add(elementRectangleZone);
@@ -144,7 +158,7 @@ namespace FiresecService.Converters
                         {
                             foreach (var innerDevice in innerLayer.elements)
                             {
-                                var elementDevice = new ElementDevice();
+                                Guid deviceUID = Guid.Empty;
                                 long idTempL = long.Parse(innerDevice.id);
                                 int idTempI = (int)idTempL;
 
@@ -155,26 +169,26 @@ namespace FiresecService.Converters
                                         if ((deviceShapeId == idTempL.ToString()) ||
                                             (deviceShapeId == idTempI.ToString()))
                                         {
-                                            elementDevice.Id = device.UID;
+                                            deviceUID = device.UID;
                                         }
                                     }
                                 }
 
                                 if (innerDevice.rect != null)
                                 {
-                                    foreach (var innerRect in innerDevice.rect)
+                                    var innerRect = innerDevice.rect[0];
+                                    var elementDevice = new ElementDevice()
                                     {
-                                        elementDevice.Left = Parse(innerRect.left);
-                                        elementDevice.Top = Parse(innerRect.top);
-                                        elementDevice.Width = Parse(innerRect.right) - elementDevice.Left;
-                                        elementDevice.Height = Parse(innerRect.bottom) - elementDevice.Top;
-                                    }
+                                        Id = deviceUID,
+                                        Left = Parse(innerRect.left),
+                                        Top = Parse(innerRect.top),
+                                        Width = Parse(innerRect.right) - Parse(innerRect.left),
+                                        Height = Parse(innerRect.bottom) - Parse(innerRect.top)
+                                    };
+                                    plan.ElementDevices.Add(elementDevice);
                                 }
-
-                                plan.ElementDevices.Add(elementDevice);
                             }
                         }
-                        index++;
                     }
                     plansConfiguration.Plans.Add(plan);
                 }

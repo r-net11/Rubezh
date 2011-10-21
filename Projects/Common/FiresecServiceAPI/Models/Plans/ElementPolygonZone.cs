@@ -16,7 +16,7 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
-        public string ZoneNo { get; set; }
+        public ulong? ZoneNo { get; set; }
 
         public override FrameworkElement Draw()
         {

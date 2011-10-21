@@ -29,7 +29,10 @@ namespace FiresecService.Converters
 
                         if (innerDirection.PinZ != null)
                         {
-                            direction.Zones.AddRange(innerDirection.PinZ.Select(x => x.pidz).Cast<ulong?>());
+                            foreach (var pinz in innerDirection.PinZ)
+                            {
+                                direction.Zones.Add(ulong.Parse(pinz.pidz));
+                            }
                         }
 
                         if (innerDirection.param != null)

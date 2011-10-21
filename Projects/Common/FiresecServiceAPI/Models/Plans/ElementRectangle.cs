@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -42,16 +43,20 @@ namespace FiresecAPI.Models
 
             if (BackgroundPixels != null)
             {
-                BitmapImage image = null;
-                using (var imageStream = new MemoryStream(BackgroundPixels))
+                try
                 {
-                    image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = imageStream;
-                    image.EndInit();
+                    BitmapImage image = null;
+                    using (var imageStream = new MemoryStream(BackgroundPixels))
+                    {
+                        image = new BitmapImage();
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.StreamSource = imageStream;
+                        image.EndInit();
+                    }
+                    rectangle.Fill = new ImageBrush(image);
                 }
-                rectangle.Fill = new ImageBrush(image);
+                catch (Exception) { ;}
             }
 
             return rectangle;

@@ -20,7 +20,11 @@ namespace FiresecService.Converters
                     var clause = new Clause();
                     if (innerClause.zone != null)
                     {
-                        clause.Zones = new List<ulong?>(innerClause.zone.Cast<ulong?>());
+                        clause.Zones = new List<ulong?>();
+                        foreach (var zoneNo in innerClause.zone)
+                        {
+                            clause.Zones.Add(ulong.Parse(zoneNo));
+                        }
                     }
 
                     clause.State = (ZoneLogicState) int.Parse(innerClause.state);
@@ -111,8 +115,10 @@ namespace FiresecService.Converters
                 if (clause.DeviceUID != Guid.Empty)
                 {
                     innerClause.device = new deviceType[0];
-                    innerClause.device[0] = new deviceType();
-                    innerClause.device[0].UID = clause.DeviceUID.ToString();
+                    innerClause.device[0] = new deviceType()
+                    {
+                        UID = clause.DeviceUID.ToString()
+                    };
                 }
 
                 innerClause.zone = clause.Zones.Cast<string>().ToArray();

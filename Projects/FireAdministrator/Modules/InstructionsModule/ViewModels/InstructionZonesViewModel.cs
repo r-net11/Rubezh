@@ -44,7 +44,7 @@ namespace InstructionsModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x.Value == zoneViewModel.No.Value);
                     if (instructionZone != null)
                     {
                         InstructionZones.Add(zoneViewModel);

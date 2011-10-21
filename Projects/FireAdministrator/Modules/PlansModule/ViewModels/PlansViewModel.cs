@@ -13,7 +13,7 @@ namespace PlansModule.ViewModels
         {
             TestCommand = new RelayCommand(OnTest);
             AddCommand = new RelayCommand(OnAdd);
-            AddSubCommand = new RelayCommand(OnAddSub, CanAddEditRemove);
+            AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 
@@ -95,12 +95,14 @@ namespace PlansModule.ViewModels
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
-                Plans.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                var planViewModel = new PlanViewModel(planDetailsViewModel.Plan);
+                Plans.Add(planViewModel);
+                SelectedPlan = planViewModel;
             }
         }
 
-        public RelayCommand AddSubCommand { get; private set; }
-        void OnAddSub()
+        public RelayCommand AddSubPlanCommand { get; private set; }
+        void OnAddSubPlan()
         {
         }
 

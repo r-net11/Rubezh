@@ -8,9 +8,14 @@ namespace PlansModule.Views
     public partial class PlanDesignerView : UserControl
     {
         public static PlanDesignerView Current { get; set; }
-
         Point? lastCenterPositionOnTarget;
         Point? lastMousePositionOnTarget;
+        double initialScale = 1;
+
+        public double Scale
+        {
+            get { return scaleTransform.ScaleX; }
+        }
 
         public void Reset()
         {
@@ -32,7 +37,7 @@ namespace PlansModule.Views
 
         void CanvasView_Loaded(object sender, RoutedEventArgs e)
         {
-            Reset();
+            //Reset();
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -108,8 +113,6 @@ namespace PlansModule.Views
                 scrollViewer.ScrollToVerticalOffset(newOffsetY);
             }
         }
-
-        double initialScale = 1;
 
         void FullSize()
         {

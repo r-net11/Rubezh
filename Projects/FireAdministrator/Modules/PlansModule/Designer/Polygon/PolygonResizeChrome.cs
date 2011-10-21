@@ -11,6 +11,9 @@ namespace PlansModule.Designer
     public class PolygonResizeChrome : Canvas
     {
         public static PolygonResizeChrome Current { get; private set; }
+        ContentControl _designerItem;
+        Polygon _polygon;
+        List<Thumb> thumbs = new List<Thumb>();
 
         static PolygonResizeChrome()
         {
@@ -40,21 +43,32 @@ namespace PlansModule.Designer
                 {
                     Width = 10,
                     Height = 10,
-                    Margin = new Thickness(-5, -5, 0, 0)
+                    Margin = new Thickness(0, 0, 0, 0),
+                    Focusable = true
+                    //Width = (double)10 / PlanDesignerView.Current.Scale,
+                    //Height = (double)10 / PlanDesignerView.Current.Scale,
+                    //Margin = new Thickness(-5, -5, 0, 0)
                 };
-                Canvas.SetLeft(thumb, point.X + Canvas.GetLeft(_designerItem));
-                Canvas.SetTop(thumb, point.Y + Canvas.GetTop(_designerItem));
                 Canvas.SetLeft(thumb, point.X);
                 Canvas.SetTop(thumb, point.Y);
                 this.Children.Add(thumb);
                 thumb.DragDelta += new DragDeltaEventHandler(_thumb_DragDelta);
+                thumb.PreviewKeyDown += new System.Windows.Input.KeyEventHandler(thumb_PreviewKeyDown);
                 thumbs.Add(thumb);
             }
         }
 
-        ContentControl _designerItem;
-        Polygon _polygon;
-        List<Thumb> thumbs = new List<Thumb>();
+        void thumb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            var thumb = sender as Thumb;
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                thumbs.Remove(thumb);
+                ResetPolygonPoints();
+                PlansModule.HasChanges = true;
+                Initialize();
+            }
+        }
 
         private void _thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -64,14 +78,17 @@ namespace PlansModule.Designer
             Canvas.SetTop(currentThumb, Canvas.GetTop(currentThumb) + e.VerticalChange);
 
             ArrangeSize();
+            ResetPolygonPoints();
+            PlansModule.HasChanges = true;
+        }
 
+        void ResetPolygonPoints()
+        {
             _polygon.Points.Clear();
             foreach (var thumb in thumbs)
             {
                 _polygon.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
             }
-
-            PlansModule.HasChanges = true;
         }
 
         public void ArrangeSize()

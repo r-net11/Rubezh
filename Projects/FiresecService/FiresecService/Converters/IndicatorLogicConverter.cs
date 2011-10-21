@@ -24,7 +24,10 @@ namespace FiresecService.Converters
 
             if (lEDProperties.zone != null)
             {
-                indicatorLogic.Zones.AddRange(lEDProperties.zone.Cast<ulong?>());
+                foreach (var zoneNo in lEDProperties.zone)
+                {
+                    indicatorLogic.Zones.Add(ulong.Parse(zoneNo));
+                }
             }
 
             if (lEDProperties.device != null && lEDProperties.device.Count() > 0)
@@ -56,13 +59,14 @@ namespace FiresecService.Converters
                     lEDProperties.type = "1";
                     lEDProperties.zone = null;
                     lEDProperties.device = new deviceType[1];
-                    lEDProperties.device[0] = new deviceType();
-
-                    lEDProperties.device[0].UID = GuidHelper.ToString(indicatorLogic.DeviceUID);
-                    lEDProperties.device[0].state1 = ((int) indicatorLogic.OnColor).ToString();
-                    lEDProperties.device[0].state2 = ((int) indicatorLogic.OffColor).ToString();
-                    lEDProperties.device[0].state3 = ((int) indicatorLogic.FailureColor).ToString();
-                    lEDProperties.device[0].state4 = ((int) indicatorLogic.ConnectionColor).ToString();
+                    lEDProperties.device[0] = new deviceType()
+                    {
+                        UID = GuidHelper.ToString(indicatorLogic.DeviceUID),
+                        state1 = ((int)indicatorLogic.OnColor).ToString(),
+                        state2 = ((int)indicatorLogic.OffColor).ToString(),
+                        state3 = ((int)indicatorLogic.FailureColor).ToString(),
+                        state4 = ((int)indicatorLogic.ConnectionColor).ToString()
+                    };
                     break;
             }
 
