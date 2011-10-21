@@ -78,7 +78,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 return from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                       orderby int.Parse(zone.No)
+                       orderby zone.No
                        select zone;
             }
         }

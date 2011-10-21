@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
     public class IndicatorDetailsViewModel : SaveCancelDialogContent
     {
         Device _indicatorDevice;
-        List<string> _zones;
+        List<ulong?> _zones;
 
         public IndicatorDetailsViewModel()
         {
@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 
         public void Initialize(Device device)
         {
-            _zones = new List<string>();
+            _zones = new List<ulong?>();
             _indicatorDevice = device;
 
             if (device.IndicatorLogic == null)

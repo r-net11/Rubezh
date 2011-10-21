@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
             SelectDeviceCommand = new RelayCommand(OnSelectDevice);
         }
 
-        public List<string> Zones { get; set; }
+        public List<ulong?> Zones { get; set; }
         Device _device;
 
         public void Initialize(Device device, Clause clause)
@@ -102,7 +102,7 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("CanSelectOperation");
             OnPropertyChanged("CanSelectZones");
             OnPropertyChanged("CanSelectDevice");
-            Zones = new List<string>();
+            Zones = new List<ulong?>();
             SelectedDevice = null;
 
             ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Publish(SelectedState);

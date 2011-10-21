@@ -83,7 +83,7 @@ namespace PlansModule
             plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 200, Y = 100 });
             plan.ElementZones = new List<ElementZone>();
             plan.ElementZones.Add(new ElementZone());
-            plan.ElementZones[0].ZoneNo = "0";
+            plan.ElementZones[0].ZoneNo = 0;
             //plan.ElementZones[0].PolygonPoints = new List<PolygonPoint>();
             plan.ElementZones[0].PolygonPoints = new PointCollection();
             plan.ElementZones[0].PolygonPoints.Add(new Point() { X = 300, Y = 300 });

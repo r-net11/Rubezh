@@ -76,9 +76,9 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(_devicesViewModel);
         }
 
-        static void OnShowZone(string zoneNo)
+        static void OnShowZone(ulong? zoneNo)
         {
-            if (string.IsNullOrEmpty(zoneNo) == false)
+            if (zoneNo != null)
             {
                 _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
             }

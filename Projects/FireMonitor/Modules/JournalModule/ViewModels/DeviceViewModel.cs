@@ -11,10 +11,6 @@ namespace JournalModule.ViewModels
         {
             _device = device;
             IsChecked = true;
-            DatabaseId = device.DatabaseId;
-            ImageSource = device.Driver.ImageSource;
-            Name = device.Driver.ShortName;
-            Address = device.DottedAddress;
         }
 
         bool _isChecked;
@@ -28,9 +24,9 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public string DatabaseId { get; private set; }
-        public string ImageSource { get; private set; }
-        public string Name { get; private set; }
-        public string Address { get; private set; }
+        public string DatabaseId { get { return _device.DatabaseId; } }
+        public string ImageSource { get { return _device.Driver.ImageSource; } }
+        public string Name { get { return _device.Driver.ShortName; } }
+        public string Address { get { return _device.DottedAddress; } }
     }
 }

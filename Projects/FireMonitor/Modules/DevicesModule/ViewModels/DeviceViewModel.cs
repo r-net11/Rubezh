@@ -11,20 +11,17 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public DeviceViewModel()
-        {
-            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
-            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
-            DisableCommand = new RelayCommand(OnDisable, CanDisable);
-            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-        }
-
-        public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
+        public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;
             Device = device;
             _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
             UpdateParameters();
+
+            ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
+            ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+            DisableCommand = new RelayCommand(OnDisable, CanDisable);
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
         public Device Device { get; private set; }
@@ -215,7 +212,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowZone()
         {
-            return ((Device.Driver.IsZoneDevice) && (string.IsNullOrEmpty(this.Device.ZoneNo) == false));
+            return ((Device.Driver.IsZoneDevice) && (Device.ZoneNo.HasValue));
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }

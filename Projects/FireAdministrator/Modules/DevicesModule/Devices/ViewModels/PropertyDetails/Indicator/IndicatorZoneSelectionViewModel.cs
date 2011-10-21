@@ -7,9 +7,9 @@ namespace DevicesModule.ViewModels
 {
     public class IndicatorZoneSelectionViewModel : SaveCancelDialogContent
     {
-        public List<string> Zones { get; private set; }
+        public List<ulong?> Zones { get; private set; }
 
-        public IndicatorZoneSelectionViewModel(List<string> zones)
+        public IndicatorZoneSelectionViewModel(List<ulong?> zones)
         {
             Title = "Свойства индикатора";
 
@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
             Initialize(zones);
         }
 
-        void Initialize(List<string> zones)
+        void Initialize(List<ulong?> zones)
         {
             Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
@@ -134,7 +134,7 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            Zones = new List<string>();
+            Zones = new List<ulong?>();
             foreach (var zone in TargetZones)
             {
                 Zones.Add(zone.No);

@@ -99,8 +99,8 @@ namespace FiresecClient
                 DeviceParametersChangedEvent(deviceUID);
         }
 
-        public static event Action<string> ZoneStateChangedEvent;
-        public static void OnZoneStateChanged(string zoneNo)
+        public static event Action<ulong?> ZoneStateChangedEvent;
+        public static void OnZoneStateChanged(ulong? zoneNo)
         {
             if (ZoneStateChangedEvent != null)
                 ZoneStateChangedEvent(zoneNo);

@@ -19,9 +19,9 @@ namespace DevicesModule.ViewModels
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
         }
 
-        public List<string> Zones { get; private set; }
+        public List<ulong?> Zones { get; private set; }
 
-        public void Initialize(Device device, List<string> zones, ZoneLogicState zoneLogicState)
+        public void Initialize(Device device, List<ulong?> zones, ZoneLogicState zoneLogicState)
         {
             Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
                     var mptDevices = device.Parent.Children.FindAll(x => x.Driver.DriverType == DriverType.MPT);
                     if (mptDevices != null)
                     {
-                        foreach(var mptDevice in mptDevices)
+                        foreach (var mptDevice in mptDevices)
                         {
                             if (mptDevice.ZoneNo == zone.No)
                                 canAdd = true;
@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<ZoneViewModel> TargetZones{ get; private set; }
+        public ObservableCollection<ZoneViewModel> TargetZones { get; private set; }
 
         ZoneViewModel _selectedTargetZone;
         public ZoneViewModel SelectedTargetZone
@@ -181,7 +181,7 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            Zones = new List<string>();
+            Zones = new List<ulong?>();
             foreach (var zoneViewModel in TargetZones)
             {
                 Zones.Add(zoneViewModel.No);

@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using InstructionsModule.ViewModels;
 using Microsoft.Practices.Prism.Modularity;
+using System.Linq;
 
 namespace InstructionsModule
 {
@@ -36,11 +36,11 @@ namespace InstructionsModule
             _instructionsViewModel.Initialize();
         }
 
-        static void OnShowInstructions(string instructionNo)
+        static void OnShowInstructions(ulong? instructionNo)
         {
-            if (string.IsNullOrEmpty(instructionNo) == false)
+            if (instructionNo != null)
             {
-                _instructionsViewModel.SelectedInstruction = _instructionsViewModel.Instructions.FirstOrDefault(x => x.InstructionNo == instructionNo);
+                _instructionsViewModel.SelectedInstruction = _instructionsViewModel.Instructions.FirstOrDefault(x => x.InstructionNo == instructionNo.Value);
             }
             ServiceFactory.Layout.Show(_instructionsViewModel);
         }

@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
             get { return Zone.Name; }
         }
 
-        public string No
+        public ulong? No
         {
             get { return Zone.No; }
         }

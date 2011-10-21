@@ -8,7 +8,7 @@ namespace FiresecAPI.Models
     public class Instruction
     {
         [DataMember]
-        public string No { get; set; }
+        public ulong No { get; set; }
 
         [DataMember]
         public StateType StateType { get; set; }
@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
         public string Text { get; set; }
 
         [DataMember]
-        public List<string> InstructionZonesList { get; set; }
+        public List<ulong?> InstructionZonesList { get; set; }
 
         [DataMember]
         public List<Guid> InstructionDevicesList { get; set; }

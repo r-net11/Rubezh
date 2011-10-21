@@ -24,20 +24,17 @@ namespace FiresecService.Converters
 
             if (lEDProperties.zone != null)
             {
-                foreach (string zone in lEDProperties.zone)
-                {
-                    indicatorLogic.Zones.Add(zone);
-                }
+                indicatorLogic.Zones.AddRange(lEDProperties.zone.Cast<ulong?>());
             }
 
             if (lEDProperties.device != null && lEDProperties.device.Count() > 0)
             {
                 var indicatorDevice = lEDProperties.device[0];
                 indicatorLogic.DeviceUID = GuidHelper.ToGuid(indicatorDevice.UID);
-                indicatorLogic.OnColor = (IndicatorColorType)int.Parse(indicatorDevice.state1);
-                indicatorLogic.OffColor = (IndicatorColorType)int.Parse(indicatorDevice.state2);
-                indicatorLogic.FailureColor = (IndicatorColorType)int.Parse(indicatorDevice.state3);
-                indicatorLogic.ConnectionColor = (IndicatorColorType)int.Parse(indicatorDevice.state4);
+                indicatorLogic.OnColor = (IndicatorColorType) int.Parse(indicatorDevice.state1);
+                indicatorLogic.OffColor = (IndicatorColorType) int.Parse(indicatorDevice.state2);
+                indicatorLogic.FailureColor = (IndicatorColorType) int.Parse(indicatorDevice.state3);
+                indicatorLogic.ConnectionColor = (IndicatorColorType) int.Parse(indicatorDevice.state4);
             }
 
             return indicatorLogic;
@@ -52,7 +49,7 @@ namespace FiresecService.Converters
                 case IndicatorLogicType.Zone:
                     lEDProperties.type = "0";
                     lEDProperties.device = null;
-                    lEDProperties.zone = indicatorLogic.Zones.ToArray();
+                    lEDProperties.zone = indicatorLogic.Zones.Cast<string>().ToArray();
                     break;
 
                 case IndicatorLogicType.Device:
@@ -62,10 +59,10 @@ namespace FiresecService.Converters
                     lEDProperties.device[0] = new deviceType();
 
                     lEDProperties.device[0].UID = GuidHelper.ToString(indicatorLogic.DeviceUID);
-                    lEDProperties.device[0].state1 = ((int)indicatorLogic.OnColor).ToString();
-                    lEDProperties.device[0].state2 = ((int)indicatorLogic.OffColor).ToString();
-                    lEDProperties.device[0].state3 = ((int)indicatorLogic.FailureColor).ToString();
-                    lEDProperties.device[0].state4 = ((int)indicatorLogic.ConnectionColor).ToString();
+                    lEDProperties.device[0].state1 = ((int) indicatorLogic.OnColor).ToString();
+                    lEDProperties.device[0].state2 = ((int) indicatorLogic.OffColor).ToString();
+                    lEDProperties.device[0].state3 = ((int) indicatorLogic.FailureColor).ToString();
+                    lEDProperties.device[0].state4 = ((int) indicatorLogic.ConnectionColor).ToString();
                     break;
             }
 

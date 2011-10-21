@@ -9,6 +9,6 @@ namespace FiresecAPI.Models
         public ZoneActionType ZoneActionType { get; set; }
 
         [DataMember]
-        public string ZoneNo { get; set; }
+        public ulong? ZoneNo { get; set; }
     }
 }

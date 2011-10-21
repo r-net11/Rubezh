@@ -21,9 +21,9 @@ namespace DevicesModule.ViewModels
 
         public void Initialize()
         {
-            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<string>(OnZoneStateChangedEvent);
+            FiresecEventSubscriber.ZoneStateChangedEvent += new Action<ulong?>(OnZoneStateChangedEvent);
             Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                     orderby int.Parse(zone.No)
+                     orderby zone.No
                      select new ZoneViewModel(zone)).ToList();
 
             if (Zones.Count > 0)
@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnZoneStateChanged(string zoneNo)
+        void OnZoneStateChanged(ulong? zoneNo)
         {
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             if (zoneState != null)
@@ -85,16 +85,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnZoneStateChangedEvent(string zoneNo)
+        void OnZoneStateChangedEvent(ulong? zoneNo)
         {
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
             var zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
             zoneViewModel.StateType = zoneState.StateType;
         }
 
-        public void Select(string zoneNo)
+        public void Select(ulong? zoneNo)
         {
-            if (string.IsNullOrEmpty(zoneNo) == false)
+            if (zoneNo.HasValue)
             {
                 SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
             }
@@ -109,27 +109,18 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.IsZoneDevice)
+                if (device.Driver.IsZoneDevice && device.ZoneNo == SelectedZone.Zone.No)
                 {
-                    if (device.ZoneNo == SelectedZone.Zone.No)
+                    device.AllParents.ForEach(x => { devices.Add(x); });
+                    devices.Add(device);
+                }
+
+                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
+                {
+                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.Zones.Contains(SelectedZone.Zone.No)))
                     {
                         device.AllParents.ForEach(x => { devices.Add(x); });
                         devices.Add(device);
-                    }
-                }
-
-                if (device.Driver.IsZoneLogicDevice)
-                {
-                    if (device.ZoneLogic != null)
-                    {
-                        foreach (var clause in device.ZoneLogic.Clauses)
-                        {
-                            if (clause.Zones.Contains(SelectedZone.Zone.No))
-                            {
-                                device.AllParents.ForEach(x => { devices.Add(x); });
-                                devices.Add(device);
-                            }
-                        }
                     }
                 }
             }
@@ -137,10 +128,10 @@ namespace DevicesModule.ViewModels
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, Devices);
-                deviceViewModel.IsExpanded = true;
-                Devices.Add(deviceViewModel);
+                Devices.Add(new DeviceViewModel(device, Devices)
+                {
+                    IsExpanded = true
+                });
             }
 
             foreach (var device in Devices)

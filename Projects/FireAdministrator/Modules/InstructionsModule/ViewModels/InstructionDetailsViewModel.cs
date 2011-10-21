@@ -13,36 +13,39 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionDetailsViewModel()
         {
+            InstructionZonesList = new List<ulong?>();
+            InstructionDevicesList = new List<Guid>();
+
             SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);
             SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
-            InstructionZonesList = new List<string>();
-            InstructionDevicesList = new List<Guid>();
         }
 
         bool _isNew;
         public Instruction Instruction { get; private set; }
-        public List<string> InstructionZonesList { get; set; }
+        public List<ulong?> InstructionZonesList { get; set; }
         public List<Guid> InstructionDevicesList { get; set; }
 
         public void Initialize()
         {
             _isNew = true;
             Title = "Новая инструкция";
-            var maxNo = 0;
+
+            InstructionNo = 0;
             if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
             {
-                maxNo = (from instruction in FiresecManager.SystemConfiguration.Instructions select int.Parse(instruction.No)).Max();
+                InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
             }
+
             Instruction = new Instruction();
-            InstructionNo = (maxNo + 1).ToString();
         }
 
         public void Initialize(Instruction instruction)
         {
             _isNew = false;
             Title = "Редактирование инструкции";
+
             Instruction = instruction;
             Text = instruction.Text;
             StateType = instruction.StateType;
@@ -50,17 +53,16 @@ namespace InstructionsModule.ViewModels
             InstructionType = instruction.InstructionType;
             switch (InstructionType)
             {
-                case InstructionType.General:
-                    break;
-                default:
+                case InstructionType.Details:
                     if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
-                    {
-                        InstructionZonesList = new List<string>(Instruction.InstructionZonesList);
-                    }
+                        InstructionZonesList = new List<ulong?>(Instruction.InstructionZonesList);
+
                     if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
-                    {
                         InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
-                    }
+
+                    break;
+
+                case InstructionType.General:
                     break;
             }
         }
@@ -108,8 +110,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        string _instructionNo;
-        public string InstructionNo
+        ulong _instructionNo;
+        public ulong InstructionNo
         {
             get { return _instructionNo; }
             set
@@ -126,7 +128,7 @@ namespace InstructionsModule.ViewModels
                 string selectZones = "";
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    selectZones = InstructionZonesList[0];
+                    selectZones = InstructionZonesList[0].ToString();
                 }
 
                 if (InstructionZonesList.Count > 1)
@@ -177,7 +179,7 @@ namespace InstructionsModule.ViewModels
                         }
                         if (device != null)
                         {
-                            selectDevices += ", " + device.Driver.ShortName + " (" + device.PresentationAddress+ ")";
+                            selectDevices += ", " + device.Driver.ShortName + " (" + device.PresentationAddress + ")";
                         }
                     }
                 }
@@ -213,7 +215,7 @@ namespace InstructionsModule.ViewModels
         void OnSelectZoneCommand()
         {
             var instructionZonesViewModel = new InstructionZonesViewModel();
-            instructionZonesViewModel.Inicialize(InstructionZonesList);
+            instructionZonesViewModel.Initialize(InstructionZonesList);
             bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
             if (result)
             {

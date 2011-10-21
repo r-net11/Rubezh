@@ -21,14 +21,14 @@ namespace InstructionsModule.ViewModels
 
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
-            InstructionZonesList = new List<string>();
+            InstructionZonesList = new List<ulong?>();
         }
 
-        public void Inicialize(List<string> instructionZonesList)
+        public void Initialize(List<ulong?> instructionZonesList)
         {
             if (instructionZonesList.IsNotNullOrEmpty())
             {
-                InstructionZonesList = new List<string>(instructionZonesList);
+                InstructionZonesList = new List<ulong?>(instructionZonesList);
             }
             InicializeZones();
             if (InstructionZones.IsNotNullOrEmpty())
@@ -70,7 +70,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public List<string> InstructionZonesList { get; set; }
+        public List<ulong?> InstructionZonesList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
         public ZoneViewModel SelectedAvailableZone { get; set; }
@@ -176,10 +176,9 @@ namespace InstructionsModule.ViewModels
 
         public void Save()
         {
-            var instructionZones = new List<string>(
+            InstructionZonesList = new List<ulong?>(
                 from zone in InstructionZones
                 select zone.No);
-            InstructionZonesList = instructionZones;
         }
     }
 }

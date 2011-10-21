@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecClient.Validation;
 using Infrastructure.Common;
 
@@ -18,26 +19,11 @@ namespace DevicesModule.ViewModels
                 var errors = new List<ValidationErrorViewModel>();
 
                 DevicesValidator.Validate();
-
-                foreach (var deviceValidationError in DevicesValidator.DeviceErrors)
-                {
-                    var validationErrorViewModel = new ValidationErrorViewModel(deviceValidationError);
-                    errors.Add(validationErrorViewModel);
-                }
-
-                foreach (var zoneValidationError in DevicesValidator.ZoneErrors)
-                {
-                    var validationErrorViewModel = new ValidationErrorViewModel(zoneValidationError);
-                    errors.Add(validationErrorViewModel);
-                }
+                errors.AddRange(DevicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
+                errors.AddRange(DevicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
 
                 InstructionValidator.Validate();
-
-                foreach (var instructionError in InstructionValidator.InstructionErrors)
-                {
-                    var validationErrorViewModel = new ValidationErrorViewModel(instructionError);
-                    errors.Add(validationErrorViewModel);
-                }
+                errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
 
                 return errors;
             }

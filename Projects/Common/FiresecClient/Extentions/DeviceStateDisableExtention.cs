@@ -12,13 +12,8 @@ namespace FiresecClient
             if (deviceState.Device.Driver.CanDisable)
             {
                 if (deviceState.IsDisabled)
-                {
                     return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList);
-                }
-                else
-                {
-                    return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList);
-                }
+                return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList);
             }
             return false;
         }
@@ -28,13 +23,9 @@ namespace FiresecClient
             if (deviceState.CanDisable())
             {
                 if (deviceState.IsDisabled)
-                {
                     FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
-                }
                 else
-                {
                     FiresecManager.AddToIgnoreList(new List<Guid>() { deviceState.Device.UID });
-                }
             }
         }
     }

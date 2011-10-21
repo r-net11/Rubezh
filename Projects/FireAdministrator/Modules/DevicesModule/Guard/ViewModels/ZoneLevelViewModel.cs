@@ -14,7 +14,9 @@ namespace DevicesModule.ViewModels
         {
             ChooseZonesCommand = new RelayCommand(OnChooseZones);
         }
-        public ZoneLevelViewModel(ZoneLevel zoneLevel) : this()
+
+        public ZoneLevelViewModel(ZoneLevel zoneLevel)
+            : this()
         {
             ZoneLevel = zoneLevel;
         }
@@ -30,7 +32,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (string.IsNullOrEmpty(ZoneLevel.ZoneNo) == false)
+                if (ZoneLevel.ZoneNo.HasValue)
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneLevel.ZoneNo);
                     if (zone != null)

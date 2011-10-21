@@ -102,7 +102,7 @@ namespace FiresecService.Converters
             {
                 string zoneIdx = innerDevice.inZ[0].idz;
                 string zoneNo = ConfigurationConverter.FiresecConfiguration.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
-                device.ZoneNo = zoneNo;
+                device.ZoneNo = ulong.Parse(zoneNo);
             }
             if (innerDevice.prop != null)
             {
@@ -200,7 +200,7 @@ namespace FiresecService.Converters
             if (device.ZoneNo != null)
             {
                 var zones = new List<inZType>();
-                zones.Add(new inZType() { idz = device.ZoneNo });
+                zones.Add(new inZType() { idz = device.ZoneNo.ToString() });
                 innerDevice.inZ = zones.ToArray();
             }
 

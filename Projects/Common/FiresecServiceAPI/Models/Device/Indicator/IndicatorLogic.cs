@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public IndicatorLogic()
         {
-            Zones = new List<string>();
+            Zones = new List<ulong?>();
         }
 
         public Device Device { get; set; }
@@ -18,7 +18,7 @@ namespace FiresecAPI.Models
         public IndicatorLogicType IndicatorLogicType { get; set; }
 
         [DataMember]
-        public List<string> Zones { get; set; }
+        public List<ulong?> Zones { get; set; }
 
         [DataMember]
         public Guid DeviceUID { get; set; }
@@ -56,7 +56,7 @@ namespace FiresecAPI.Models
                         {
                             var zonesString = "Зоны: ";
 
-                            for (int i = 0; i < Zones.Count; i++)
+                            for (int i = 0; i < Zones.Count; ++i)
                             {
                                 if (i > 0)
                                     zonesString += ",";

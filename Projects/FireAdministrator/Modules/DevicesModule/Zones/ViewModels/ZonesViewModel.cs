@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
         {
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in FiresecManager.DeviceConfiguration.Zones
-                orderby (int.Parse(zone.No))
+                orderby zone.No
                 select new ZoneViewModel(zone));
 
             if (Zones.Count > 0)
@@ -45,7 +45,7 @@ namespace DevicesModule.ViewModels
 
                 if (value != null)
                 {
-                    ZoneDevices.Initialize(value.No);
+                    ZoneDevices.Initialize(value.No.Value);
                 }
 
                 OnPropertyChanged("SelectedZone");

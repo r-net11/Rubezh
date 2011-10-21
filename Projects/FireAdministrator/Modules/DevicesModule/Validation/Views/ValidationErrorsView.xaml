@@ -1,17 +1,19 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ValidationErrorsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:DevicesModule.Validation.Converters">
+    <UserControl.Resources>
+        <Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
+    </UserControl.Resources>
     <Grid Height="200">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Label Content="Ошибки обнаруженные при проверке проекта" FontWeight="Bold" />
         <Button HorizontalAlignment="Right" Click="Button_Click" Margin="2" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
         </Button>
-
         <Grid Grid.Row="1">
             <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
                 <DataGrid.Columns>
@@ -19,10 +21,17 @@
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Ошибка" Binding="{Binding Error}" Width="*" />
                 </DataGrid.Columns>
-
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ClickCommand}" />
                 </DataGrid.InputBindings>
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Style.Setters>
+                            <Setter Property="Foreground"
+                            Value="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}" />
+                        </Style.Setters>
+                    </Style>
+                </DataGrid.CellStyle>
             </DataGrid>
         </Grid>
     </Grid>

@@ -12,7 +12,7 @@ namespace AlarmModule
         public StateType StateType { get; set; }
 
         public Guid DeviceUID { get; set; }
-        public string ZoneNo { get; set; }
+        public ulong? ZoneNo { get; set; }
 
         public DateTime? Time { get; set; }
         public string StateName { get; set; }
@@ -41,7 +41,7 @@ namespace AlarmModule
             {
                 SystemTime = DateTime.Now,
                 DeviceTime = DateTime.Now,
-                ZoneName = zone.No,
+                ZoneName = zone.No.ToString(),
                 Description = "Состояние \"" + StateName + "\" подтверждено оператором",
                 StateType = StateType.Info
             };

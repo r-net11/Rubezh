@@ -29,10 +29,7 @@ namespace FiresecService.Converters
 
                         if (innerDirection.PinZ != null)
                         {
-                            foreach (var partZone in innerDirection.PinZ)
-                            {
-                                direction.Zones.Add(partZone.pidz);
-                            }
+                            direction.Zones.AddRange(innerDirection.PinZ.Select(x => x.pidz).Cast<ulong?>());
                         }
 
                         if (innerDirection.param != null)
@@ -69,7 +66,7 @@ namespace FiresecService.Converters
                 var zones = new List<partTypePinZ>();
                 foreach (var zone in direction.Zones)
                 {
-                    zones.Add(new partTypePinZ() { pidz = zone });
+                    zones.Add(new partTypePinZ() { pidz = zone.ToString() });
                 }
                 innerDirection.PinZ = zones.ToArray();
 

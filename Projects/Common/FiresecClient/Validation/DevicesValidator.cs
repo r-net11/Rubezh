@@ -15,13 +15,10 @@ namespace FiresecClient.Validation
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.IsZoneDevice)
+                if (device.Driver.IsZoneDevice && device.ZoneNo == null)
                 {
-                    if (string.IsNullOrEmpty(device.ZoneNo))
-                    {
-                        var deviceError = new DeviceError(device, "Устройство должно относиться к зоне", ErrorLevel.Normal);
-                        DeviceErrors.Add(deviceError);
-                    }
+                    var deviceError = new DeviceError(device, "Устройство должно относиться к зоне", ErrorLevel.Critical);
+                    DeviceErrors.Add(deviceError);
                 }
             }
 

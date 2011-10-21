@@ -72,7 +72,7 @@ namespace ReportsModule.Models
     {
         private ElementPage() { }
 
-        public ElementPage(int No, List<string> zonesNo, string presentationName)
+        public ElementPage(int No, List<ulong?> zonesNo, string presentationName)
         {
             this.No = No;
             ZonesNo = zonesNo;
@@ -80,7 +80,7 @@ namespace ReportsModule.Models
         }
 
         public int No { get; set; }
-        public List<string> ZonesNo { get; set; }
+        public List<ulong?> ZonesNo { get; set; }
 
         string _presentationName;
         public string PresentationName

@@ -4,32 +4,30 @@ using FiresecAPI.Models;
 
 namespace InstructionsModule.Converters
 {
-    class InstructionTypeConverter : IValueConverter
+    public class InstructionTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string Value = (string)value;
-            if (Value == "All")
+            if (value.ToString() == "All")
             {
                 return "Показать все";
             }
             else
             {
-                InstructionType instructionType = new InstructionType();
-                foreach (InstructionType instrType in Enum.GetValues(typeof(InstructionType)))
+                foreach (InstructionType instructionType in Enum.GetValues(typeof(InstructionType)))
                 {
-                    if ((Enum.GetName(typeof(InstructionType), instrType) == Value))
+                    if ((Enum.GetName(typeof(InstructionType), instructionType) == value.ToString()))
                     {
-                        instructionType = instrType;
+                        return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(instructionType);
                     }
                 }
-                return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(instructionType);
+                return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(new InstructionType());
             }
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value;
         }
-
     }
 }

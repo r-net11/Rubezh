@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
-        public string No { get; set; }
+        public ulong? No { get; set; }
 
         [DataMember]
         public StateType StateType { get; set; }

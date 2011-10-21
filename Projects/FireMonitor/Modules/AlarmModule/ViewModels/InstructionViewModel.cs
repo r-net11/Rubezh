@@ -10,11 +10,10 @@ namespace AlarmModule.ViewModels
 {
     public class InstructionViewModel : DialogContent
     {
-        private InstructionViewModel() { }
-
         public InstructionViewModel(Guid deviceUID, AlarmType alarmType)
         {
             Title = "Инструкции";
+
             DeviceId = deviceUID;
             StateType = AlarmTypeToStateType(alarmType);
             InicializeInstruction();
@@ -24,34 +23,22 @@ namespace AlarmModule.ViewModels
 
         void InicializeInstruction()
         {
-            if (FindDeviceInstruction(DeviceId))
-            {
-                return;
-            }
-            if (FindZoneInstruction(ZoneNo))
-            {
-                return;
-            }
-            Instruction = InstructionGeneral;
+            if (!FindDeviceInstruction(DeviceId) && !FindZoneInstruction(ZoneNo))
+                Instruction = InstructionGeneral;
         }
 
         public Guid DeviceId { get; private set; }
         public StateType StateType { get; private set; }
         public Instruction Instruction { get; private set; }
 
-        public string ZoneNo
+        public ulong? ZoneNo
         {
             get
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
                 if (device != null)
-                {
                     return device.ZoneNo;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return null;
             }
         }
 
@@ -60,13 +47,8 @@ namespace AlarmModule.ViewModels
             get
             {
                 if (FiresecClient.FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-                {
                     return FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
-                }
-                else
-                {
-                    return new List<Instruction>();
-                }
+                return new List<Instruction>();
             }
         }
 
@@ -75,13 +57,8 @@ namespace AlarmModule.ViewModels
             get
             {
                 if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
-                {
                     return AvailableStateTypeInstructions.FirstOrDefault(x => x.InstructionType == InstructionType.General);
-                }
-                else
-                {
-                    return new Instruction();
-                }
+                return new Instruction();
             }
         }
 
@@ -129,7 +106,7 @@ namespace AlarmModule.ViewModels
             return false;
         }
 
-        bool FindZoneInstruction(string zoneNo)
+        bool FindZoneInstruction(ulong? zoneNo)
         {
             if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
             {

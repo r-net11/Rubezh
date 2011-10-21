@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace FiresecAPI.Models
 {
@@ -40,7 +41,7 @@ namespace FiresecAPI.Models
         public int IntAddress { get; set; }
 
         [DataMember]
-        public string ZoneNo { get; set; }
+        public ulong? ZoneNo { get; set; }
 
         [DataMember]
         public ZoneLogic ZoneLogic { get; set; }
@@ -74,7 +75,7 @@ namespace FiresecAPI.Models
                 if (Driver.IsChildAddressReservedRange)
                 {
                     int endAddress = IntAddress + Driver.ChildAddressReserveRangeCount;
-                    if (endAddress / 256 != IntAddress / 256)
+                    if (endAddress >> 8 != IntAddress >> 8) //endAddress / 256 == endAddress >> 8
                         endAddress = (IntAddress / 256) * 256 + 255;
                     address += " - " + AddressConverter.IntToStringAddress(Driver, endAddress);
                 }
@@ -87,10 +88,9 @@ namespace FiresecAPI.Models
         {
             get
             {
-                string result = "";
                 if (Driver.HasAddress)
-                    result = PresentationAddress + " - ";
-                return result + Driver.Name;
+                    return PresentationAddress + " - " + Driver.Name;
+                return Driver.Name;
             }
         }
 
@@ -141,22 +141,21 @@ namespace FiresecAPI.Models
         {
             get
             {
-                string address = "";
-                foreach (var parentDevice in AllParents)
+                var address = new StringBuilder();
+                foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
                 {
-                    if (parentDevice.Driver.HasAddress)
-                    {
-                        address += parentDevice.PresentationAddress + ".";
-                    }
+                    address.Append(parentDevice.PresentationAddress);
+                    address.Append(".");
                 }
                 if (Driver.HasAddress)
                 {
-                    address += PresentationAddress + ".";
+                    address.Append(PresentationAddress);
+                    address.Append(".");
                 }
-                if (address.EndsWith("."))
-                    address = address.Remove(address.Length - 1);
+                if (address[address.Length] == '.')
+                    address.Remove(address.Length, 1);
 
-                return address;
+                return address.ToString();
             }
         }
 
@@ -172,10 +171,7 @@ namespace FiresecAPI.Models
                 {
                     return localPlaceInTree;
                 }
-                else
-                {
-                    return Parent.PlaceInTree + @"\" + localPlaceInTree;
-                }
+                return Parent.PlaceInTree + @"\" + localPlaceInTree;
             }
         }
 
@@ -198,30 +194,27 @@ namespace FiresecAPI.Models
             {
                 if (Parent == null)
                     return null;
-                else
-                {
-                    string parentPart = Parent.Driver.ShortName;
-                    if (Parent.Driver.HasAddress)
-                        parentPart += " - " + Parent.PresentationAddress;
 
-                    if (Parent.ConnectedTo == null)
-                        return parentPart;
+                string parentPart = Parent.Driver.ShortName;
+                if (Parent.Driver.HasAddress)
+                    parentPart += " - " + Parent.PresentationAddress;
 
-                    if (Parent.Parent.ConnectedTo == null)
-                        return parentPart;
+                if (Parent.ConnectedTo == null || Parent.Parent.ConnectedTo == null)
+                    return parentPart;
 
-                    return parentPart + @"\" + Parent.ConnectedTo;
-                }
+                return parentPart + @"\" + Parent.ConnectedTo;
             }
         }
 
         public Device Copy(bool fullCopy)
         {
-            var newDevice = new Device();
-            newDevice.Driver = Driver;
-            newDevice.IntAddress = IntAddress;
-            newDevice.Description = Description;
-            newDevice.ZoneNo = ZoneNo;
+            var newDevice = new Device()
+            {
+                Driver = Driver,
+                IntAddress = IntAddress,
+                Description = Description,
+                ZoneNo = ZoneNo
+            };
 
             if (fullCopy)
             {
@@ -235,23 +228,24 @@ namespace FiresecAPI.Models
                 newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
                 foreach (var clause in ZoneLogic.Clauses)
                 {
-                    var newClause = new Clause();
-                    newClause.State = clause.State;
-                    newClause.Operation = clause.Operation;
-                    newClause.Zones = clause.Zones.ToList();
-                    newDevice.ZoneLogic.Clauses.Add(newClause);
+                    newDevice.ZoneLogic.Clauses.Add(new Clause()
+                    {
+                        State = clause.State,
+                        Operation = clause.Operation,
+                        Zones = clause.Zones.ToList()
+                    });
                 }
             }
 
-            var copyProperties = new List<Property>();
+            newDevice.Properties = new List<Property>();
             foreach (var property in Properties)
             {
-                var copyProperty = new Property();
-                copyProperty.Name = property.Name;
-                copyProperty.Value = property.Value;
-                copyProperties.Add(copyProperty);
+                newDevice.Properties.Add(new Property()
+                {
+                    Name = property.Name,
+                    Value = property.Value
+                });
             }
-            newDevice.Properties = copyProperties;
 
             newDevice.Children = new List<Device>();
             foreach (var childDevice in Children)

@@ -46,7 +46,7 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(DevicesViewModel);
         }
 
-        static void OnShowZone(string zoneNo)
+        static void OnShowZone(ulong? zoneNo)
         {
             ZonesViewModel.Select(zoneNo);
             ServiceFactory.Layout.Show(ZonesViewModel);

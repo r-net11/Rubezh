@@ -18,7 +18,7 @@ namespace FiresecService.Converters
                     var zone = new Zone()
                     {
                         Name = innerZone.name,
-                        No = innerZone.no,
+                        No = ulong.Parse(innerZone.no),
                         Description = innerZone.desc
                     };
 
@@ -78,8 +78,8 @@ namespace FiresecService.Converters
                 var innerZone = new zoneType()
                 {
                     name = zone.Name,
-                    idx = zone.No,
-                    no = zone.No,
+                    idx = zone.No.ToString(),
+                    no = zone.No.ToString(),
                     desc = zone.Description
                 };
 

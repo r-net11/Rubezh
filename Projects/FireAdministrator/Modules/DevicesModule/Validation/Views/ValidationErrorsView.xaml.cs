@@ -10,7 +10,7 @@ namespace DevicesModule.Views
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ServiceFactory.Layout.ShowValidationArea(null);
         }

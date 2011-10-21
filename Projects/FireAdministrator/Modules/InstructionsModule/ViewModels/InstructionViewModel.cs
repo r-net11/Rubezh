@@ -22,7 +22,7 @@ namespace InstructionsModule.ViewModels
             get { return Instruction.Text; }
         }
 
-        public string InstructionNo
+        public ulong InstructionNo
         {
             get { return Instruction.No; }
         }

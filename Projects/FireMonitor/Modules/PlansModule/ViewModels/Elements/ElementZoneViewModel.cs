@@ -21,7 +21,7 @@ namespace PlansModule.ViewModels
             FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
         }
 
-        public string ZoneNo { get; private set; }
+        public ulong? ZoneNo { get; private set; }
         Zone _zone;
         ElementZoneView _elementZoneView;
 
@@ -113,7 +113,7 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void OnZoneStateChanged(string zoneNo)
+        void OnZoneStateChanged(ulong? zoneNo)
         {
             if (ZoneNo == zoneNo)
             {

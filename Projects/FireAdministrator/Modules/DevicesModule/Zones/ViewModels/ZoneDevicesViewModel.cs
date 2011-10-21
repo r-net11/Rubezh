@@ -20,9 +20,9 @@ namespace DevicesModule.ViewModels
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
         }
 
-        string _zoneNo;
+        ulong? _zoneNo;
 
-        public void Initialize(string zoneNo)
+        public void Initialize(ulong? zoneNo)
         {
             _zoneNo = zoneNo;
 
@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
             {
                 if (device.Driver.IsZoneDevice)
                 {
-                    if (string.IsNullOrEmpty(device.ZoneNo))
+                    if (device.ZoneNo == null)
                     {
                         device.AllParents.ForEach(x => { availableDevices.Add(x); });
                         availableDevices.Add(device);

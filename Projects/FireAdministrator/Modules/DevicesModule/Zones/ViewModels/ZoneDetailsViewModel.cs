@@ -19,12 +19,11 @@ namespace DevicesModule.ViewModels
 
             var newZone = new Zone();
             newZone.Name = "Новая зона";
-            var maxNo = 0;
+            newZone.No = 0;
             if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
             {
-                maxNo = (from zone in FiresecManager.DeviceConfiguration.Zones select int.Parse(zone.No)).Max();
+                newZone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
             }
-            newZone.No = (maxNo + 1).ToString();
 
             CopyProperties(newZone);
         }
@@ -80,8 +79,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _no;
-        public string No
+        ulong? _no;
+        public ulong? No
         {
             get { return _no; }
             set
