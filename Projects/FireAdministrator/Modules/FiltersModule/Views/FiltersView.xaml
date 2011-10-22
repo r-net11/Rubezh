@@ -9,29 +9,14 @@
         <SolidColorBrush x:Key="borderBrush">Silver</SolidColorBrush>
     </UserControl.Resources>
     <DockPanel Margin="10, 20">
-        <TextBlock DockPanel.Dock="Top"
-                   FontFamily="Microsoft Sans Serif"
-                   FontSize="14"
-                   Foreground="White"
-                   Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи."
-                   TextWrapping="Wrap" />
+        <TextBlock DockPanel.Dock="Top" FontFamily="Microsoft Sans Serif" FontSize="14" Foreground="White" TextWrapping="Wrap"
+                   Text="Для удобства, в оперативной задаче предусмотрена возможность раздельного представления событий разного типа. Список, приведенный ниже, отображается в виде отдельных закладок в окне журнала оперативной задачи." />
         <TextBlock DockPanel.Dock="Top" Text="" />
-        <TextBlock Margin="0, 9"
-                   DockPanel.Dock="Top"
-                   FontSize="15"
-                   FontWeight="Black"
-                   Foreground="{StaticResource headerBrush}"
-                   Text="Представления фильтров журнала:" />
-        <ListBox HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding FilterViewModels,
-                                       Converter={StaticResource CollectionViewFactoryConverter},
-                                       ConverterParameter=JournalFilter.Name}"
-                 SelectedItem="{Binding SelectedFilter}">
+        <TextBlock Margin="0, 9" DockPanel.Dock="Top" FontSize="15" FontWeight="Black" Foreground="{StaticResource headerBrush}" Text="Представления фильтров журнала:" />
+        <ListBox HorizontalContentAlignment="Stretch" ItemsSource="{Binding FilterViewModels, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=JournalFilter.Name}" SelectedItem="{Binding SelectedFilter}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{StaticResource borderBrush}"
-                            BorderThickness="3"
-                            Padding="5">
+                    <Border BorderBrush="{StaticResource borderBrush}" BorderThickness="3" Padding="5">
                         <Views:FilterView />
                     </Border>
                 </DataTemplate>

@@ -11,39 +11,25 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" HorizontalAlignment="Right" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" HorizontalAlignment="Right" />
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" HorizontalAlignment="Right" />
-            <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" HorizontalAlignment="Right" />
-
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Actions}" SelectedItem="{Binding SelectiedAction}" Margin="2">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ., Converter={StaticResource ValveActionConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Timeout}" Minimum="0" Margin="2" />
-        </Grid>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Ок" Command="{Binding SaveCommand}" Width="100" Margin="2" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
-        </StackPanel>
-
+        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Actions}" SelectedItem="{Binding SelectiedAction}" Margin="2">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ., Converter={StaticResource ValveActionConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Timeout}" Minimum="0" Margin="2" />
     </Grid>
 </UserControl>

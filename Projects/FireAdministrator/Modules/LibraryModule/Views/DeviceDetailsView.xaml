@@ -11,32 +11,15 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <DockPanel>
-        <WrapPanel Margin="5"
-                   HorizontalAlignment="Right"
-                   DockPanel.Dock="Bottom">
-            <Button MinWidth="100"
-                    Margin="2"
-                    Command="{Binding OkCommand}"
-                    IsDefault="True">Ok</Button>
-            <Button MinWidth="100"
-                    Margin="2"
-                    Command="{Binding CancelCommand}">Отмена</Button>
-        </WrapPanel>
-        <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}"
-                 SelectedItem="{Binding SelectedItem}"
-                 Style="{StaticResource ListBoxStyle}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel Margin="5, 5, 0, 0">
-                        <Image Width="14"
-                               Margin="5,0"
-                               Source="{Binding ImageSource}" />
-                        <TextBlock Text="{Binding Name}" />
-                    </WrapPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </DockPanel>
+
+    <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <WrapPanel Margin="5, 5, 0, 0">
+                    <Image Width="14" Margin="5,0" Source="{Binding ImageSource}" />
+                    <TextBlock Text="{Binding Name}" />
+                </WrapPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </UserControl>

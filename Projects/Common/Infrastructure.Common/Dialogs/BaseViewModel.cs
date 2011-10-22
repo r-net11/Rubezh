@@ -3,9 +3,7 @@ using System.Windows;
 
 namespace Infrastructure.Common
 {
-    public abstract class BaseViewModel :
-        DependencyObject, // TODO: do we need all VM be inherited from DependencyObject ?
-        INotifyPropertyChanged
+    public abstract class BaseViewModel : DependencyObject, INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members and helper
 

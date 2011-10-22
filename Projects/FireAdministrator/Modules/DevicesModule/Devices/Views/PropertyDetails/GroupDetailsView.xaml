@@ -7,42 +7,36 @@
     <UserControl.Resources>
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Тип Устройства" Width="250">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                            <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </StackPanel>
-                                            <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            </StackPanel>
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
+                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        </StackPanel>
+                                    </StackPanel>
 
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock Text="{Binding Driver.ShortName}">
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Driver.ShortName}">
                                             <TextBlock.Style>
                                                 <Style>
                                                     <Style.Triggers>
@@ -54,70 +48,64 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
+                                        </TextBlock>
+                                    </StackPanel>
 
-                                    </Grid>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
-                        <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
 
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-
-            <StackPanel Grid.Column="1" Margin="2">
-                <Button Command="{Binding AddCommand}" ToolTip="Добавить в группу" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Right.png" Height="24" />
-                </Button>
-                <Button Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Left.png" Height="24" />
-                </Button>
-            </StackPanel>
-
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Width="1*" Header="Тип" Binding="{Binding Device.Driver.ShortName}" />
-                        <DataGridTextColumn Width="1*" Header="Адрес" Binding="{Binding Device.PresentationAddress}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
-                        Grid.Row="1" Visibility="{Binding SelectedDevice, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Grid Margin="2">
-                        <Grid DataContext="{Binding SelectedDevice}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
-                            <Label Grid.Column="0" Grid.Row="0" Content="Задержка на включение, сек" HorizontalAlignment="Right" />
-                            <Label Grid.Column="0" Grid.Row="1" Content="Задержка на выключение, сек" HorizontalAlignment="Right" />
-                            <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding OnDelay}" Minimum="0" Margin="2" />
-                            <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding OffDelay}" Minimum="0" Margin="2" />
-                            <CheckBox Grid.Column="1" Grid.Row="2" Content="Инверсия вкл./выкл." IsChecked="{Binding IsInversion}" HorizontalAlignment="Right" Margin="2" Foreground="White" />
-                        </Grid>
-                    </Grid>
-                </Border>
-            </Grid>
-
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 5, 0, 0">
-            <Button Content="Ок" Command="{Binding SaveCommand}" Margin="2" Width="100" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
+        <StackPanel Grid.Column="1" Margin="2">
+            <Button Command="{Binding AddCommand}" ToolTip="Добавить в группу" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Right.png" Height="24" />
+            </Button>
+            <Button Command="{Binding RemoveCommand}" ToolTip="Удалить из группы" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Left.png" Height="24" />
+            </Button>
         </StackPanel>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*" Header="Тип" Binding="{Binding Device.Driver.ShortName}" />
+                    <DataGridTextColumn Width="1*" Header="Адрес" Binding="{Binding Device.PresentationAddress}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
+                        Grid.Row="1" Visibility="{Binding SelectedDevice, Converter={StaticResource NullToVisibilityConverter}}">
+                <Grid Margin="2">
+                    <Grid DataContext="{Binding SelectedDevice}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Grid.Row="0" Content="Задержка на включение, сек" HorizontalAlignment="Right" />
+                        <Label Grid.Column="0" Grid.Row="1" Content="Задержка на выключение, сек" HorizontalAlignment="Right" />
+                        <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding OnDelay}" Minimum="0" Margin="2" />
+                        <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding OffDelay}" Minimum="0" Margin="2" />
+                        <CheckBox Grid.Column="1" Grid.Row="2" Content="Инверсия вкл./выкл." IsChecked="{Binding IsInversion}" HorizontalAlignment="Right" Margin="2" Foreground="White" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
     </Grid>
 </UserControl>

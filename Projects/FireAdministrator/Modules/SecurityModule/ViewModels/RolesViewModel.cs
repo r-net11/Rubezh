@@ -15,6 +15,10 @@ namespace SecurityModule.ViewModels
     {
         public RolesViewModel()
         {
+            DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+            AddCommand = new RelayCommand(OnAdd);
+
             Roles = new ObservableCollection<RoleViewModel>();
             if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
             {
@@ -22,9 +26,8 @@ namespace SecurityModule.ViewModels
                     Roles.Add(new RoleViewModel(role));
             }
 
-            DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-            EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-            AddCommand = new RelayCommand(OnAdd);
+            if (Roles.Count > 0)
+                SelectedRole = Roles[0];
         }
 
         public ObservableCollection<RoleViewModel> Roles { get; private set; }

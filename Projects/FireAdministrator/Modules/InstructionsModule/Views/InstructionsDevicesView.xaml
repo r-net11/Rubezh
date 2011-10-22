@@ -3,46 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="500">
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Список всех устройств:" />
-            <Label Grid.Row="0" Grid.Column="2" Content="Список устройств для инструкции:" />
-            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Тип Устройства" Width="250">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Список всех устройств:" />
+        <Label Grid.Row="0" Grid.Column="2" Content="Список устройств для инструкции:" />
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        </StackPanel>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
+                                    <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    </StackPanel>
+                                </StackPanel>
 
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Driver.ShortName}">
                                             <TextBlock.Style>
                                                 <Style>
                                                     <Style.Triggers>
@@ -59,93 +54,88 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
+                                    </TextBlock>
+                                </StackPanel>
 
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
-                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
 
-                </DataGrid.Columns>
-            </DataGrid>
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <StackPanel Grid.Column="1">
-                <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Left.png" Height="24" />
-                </Button>
+        <StackPanel Grid.Column="1">
+            <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Left.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Right.png" Height="24" />
-                </Button>
+            <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Right.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
-                </Button>
+            <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
-                </Button>
-            </StackPanel>
-            
-            <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Тип Устройства" Width="250">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                            <TextBlock.Style>
-                                                <Style>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneLogicDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
-                    <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Grid.Column="1" Width="100" Command="{Binding SaveCommand}" Content="OK"/>
-            <Button Grid.Column="1" Width="100" Command="{Binding CancelCommand}" Content="Отмена"/>
+            <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
+            </Button>
         </StackPanel>
+
+        <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Driver.ShortName}">
+                                            <TextBlock.Style>
+                                                <Style>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneDevice}" Value="True">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneLogicDevice}" Value="True">
+                                                            <DataTrigger.Setters>
+                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                            </DataTrigger.Setters>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

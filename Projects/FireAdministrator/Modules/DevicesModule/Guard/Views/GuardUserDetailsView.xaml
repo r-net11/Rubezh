@@ -3,34 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="400" MinHeight="400">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <StackPanel>
-                <Label Content="Имя" />
-                <TextBox Text="{Binding Name}" Margin="2" />
 
-                <Label Content="Пароль" />
-                <Controls:PasswordBoxControl Password="{Binding Path=Password}" Margin="2" />
+    <StackPanel>
+        <Label Content="Имя" />
+        <TextBox Text="{Binding Name}" Margin="2" />
 
-                <Label Content="ФИО" />
-                <TextBox Text="{Binding FIO}" Margin="2" />
+        <Label Content="Пароль" />
+        <Controls:PasswordBoxControl Password="{Binding Path=Password}" Margin="2" />
 
-                <Label Content="Должность" />
-                <TextBox Text="{Binding Function}" Margin="2" />
+        <Label Content="ФИО" />
+        <TextBox Text="{Binding FIO}" Margin="2" />
 
-                <Label Content="Права" />
-                <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
-                <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
-                <TextBlock Text="Уровни доступа" Margin="2" />
+        <Label Content="Должность" />
+        <TextBox Text="{Binding Function}" Margin="2" />
 
-                <TextBlock Margin="2">
+        <Label Content="Права" />
+        <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
+        <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
+        <TextBlock Text="Уровни доступа" Margin="2" />
+
+        <TextBlock Margin="2">
                     <Hyperlink Command="{Binding ChangeGuardLevelsCommand}" Style="{StaticResource HyperlinkStyle}">
                         <TextBlock Text="{Binding PresentationLevels}" />                
                         <TextBlock Text="Нажмите для выбора зон" Margin="2">
@@ -51,13 +43,5 @@
                     </Hyperlink>
                 </TextBlock>
 
-            </StackPanel>
-        </Grid>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
-        </StackPanel>
-        
-    </Grid>
+    </StackPanel>
 </UserControl>

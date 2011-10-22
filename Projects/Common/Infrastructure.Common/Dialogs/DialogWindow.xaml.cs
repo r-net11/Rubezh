@@ -31,7 +31,7 @@ namespace Infrastructure.Common
                 var newHeight = userControl.MinHeight + 30; // + dialog window title heigh
                 var newWidth = userControl.MinWidth;
 
-                MinHeight = Height = newHeight + 30;
+                MinHeight = Height = newHeight + 30 + 30;
                 MinWidth = Width = newWidth + 30;
 
                 Left += ((oldWidth - ActualWidth) / 2);
@@ -66,6 +66,12 @@ namespace Infrastructure.Common
                 Title = content.Title;
                 _captionTextBlock.Text = content.Title;
             }
+
+            if (content is SaveCancelDialogContent)
+                _okCancelStackPanel.Visibility = System.Windows.Visibility.Visible;
+            else
+                _okCancelStackPanel.Visibility = System.Windows.Visibility.Collapsed;
+            _okCancelStackPanel.DataContext = content;
 
             _content.Content = content.InternalViewModel;
             content.Surface = this;

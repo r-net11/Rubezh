@@ -11,14 +11,6 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <DockPanel>
-        <WrapPanel Margin="5"
-                   HorizontalAlignment="Right"
-                   DockPanel.Dock="Bottom">
-            <Button Width="100" Margin="2" Command="{Binding OkCommand}" IsDefault="True" Content="Ok" />
-            <Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
-        </WrapPanel>
-        <ListBox DisplayMemberPath="Name" ItemsSource="{Binding Source={StaticResource SortedItems}}" SelectedItem="{Binding SelectedItem}"/>
-    </DockPanel>
+
+    <ListBox DisplayMemberPath="Name" ItemsSource="{Binding Source={StaticResource SortedItems}}" SelectedItem="{Binding SelectedItem}"/>
 </UserControl>

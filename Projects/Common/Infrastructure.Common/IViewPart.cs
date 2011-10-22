@@ -2,11 +2,9 @@
 
 namespace Infrastructure.Common
 {
-    public interface IViewPart :
-        INotifyPropertyChanged
+    public interface IViewPart : INotifyPropertyChanged
     {
         void OnShow();
-
         void OnHide();
     }
 }

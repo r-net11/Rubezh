@@ -19,39 +19,21 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
-    <DockPanel>
-        <WrapPanel Margin="5"
-                   HorizontalAlignment="Right"
-                   DockPanel.Dock="Bottom">
-            <Button Width="100"
-                    Margin="2"
-                    Command="{Binding OkCommand}"
-                    IsDefault="True">Ok</Button>
-            <Button Width="100"
-                    Margin="2"
-                    Command="{Binding CancelCommand}">Отмена</Button>
-        </WrapPanel>
-        <ListView ItemsSource="{Binding Source={StaticResource ItemsGroups}}" SelectedItem="{Binding SelectedItem}">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Margin="1"
-                                       Background="{StaticResource headerBrush}"
-                                       FontWeight="Black"
-                                       Foreground="{StaticResource whiteBrush}"
-                                       Padding="4,2,0,2"
-                                       Text="{Binding Path=Name}" />
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding AdditionalName}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </DockPanel>
+
+    <ListView ItemsSource="{Binding Source={StaticResource ItemsGroups}}" SelectedItem="{Binding SelectedItem}">
+        <ListView.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="1" Background="{StaticResource headerBrush}" FontWeight="Black" Foreground="{StaticResource whiteBrush}" Padding="4,2,0,2" Text="{Binding Path=Name}" />
+                    </DataTemplate>
+                </GroupStyle.HeaderTemplate>
+            </GroupStyle>
+        </ListView.GroupStyle>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding AdditionalName}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </UserControl>

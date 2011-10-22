@@ -3,58 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="500">
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Список всех зон:" />
-            <Label Grid.Row="0" Grid.Column="2" Content="Список зон для инструкции:" />
-            <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
-                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                </DataGrid.Columns>
-            </DataGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Список всех зон:" />
+        <Label Grid.Row="0" Grid.Column="2" Content="Список зон для инструкции:" />
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
+                <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <StackPanel Grid.Column="1">
-                <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Left.png" Height="24" />
-                </Button>
+        <StackPanel Grid.Column="1">
+            <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Left.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Right.png" Height="24" />
-                </Button>
+            <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Right.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
-                </Button>
+            <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
+            </Button>
 
-                <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
-                </Button>
-            </StackPanel>
-            
-            <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
-                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Grid.Column="1" Width="100" Command="{Binding SaveCommand}" Content="OK"/>
-            <Button Grid.Column="1" Width="100" Command="{Binding CancelCommand}" Content="Отмена"/>
+            <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
+            </Button>
         </StackPanel>
+
+        <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
+                <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

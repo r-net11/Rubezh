@@ -4,12 +4,7 @@
              xmlns:Converters="clr-namespace:SecurityModule.Converters"
              MinWidth="400" MinHeight="500">
     
-    <DockPanel>
-        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" IsDefault="True" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
-        </WrapPanel>
-        <StackPanel>
+    <StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -19,16 +14,15 @@
                 <TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
             </Grid>
             <Label Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
-            <ListBox ItemsSource="{Binding Permissions,
-                                           Converter={StaticResource CollectionViewFactoryConverter},
-                                           ConverterParameter=PermissionTypeName}"
-                     Padding="7">
+            <ListBox ItemsSource="{Binding Permissions, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=PermissionTypeName}" Padding="7">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsEnable}" Content="{Binding PermissionTypeName}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsEnable}" />
+                            <TextBlock Text="{Binding PermissionTypeName}" Margin="4, 1, 1, 1" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </StackPanel>
-    </DockPanel>
+    </StackPanel>
 </UserControl>

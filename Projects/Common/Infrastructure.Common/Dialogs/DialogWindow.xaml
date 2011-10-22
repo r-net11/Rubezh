@@ -30,8 +30,17 @@
                         </Button>
                     </Grid>
                 </Border>
-                <ContentControl Name="_content" Margin="10">
-                </ContentControl>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ContentControl Grid.Row="0" Name="_content" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Name="_okCancelStackPanel" >
+                        <Button Content="OK" Command="{Binding SaveCommand}" Width="100" Margin="2" IsDefault="True" />
+                        <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
+                    </StackPanel>
+                </Grid>
             </DockPanel>
         </Border>
     </Border>

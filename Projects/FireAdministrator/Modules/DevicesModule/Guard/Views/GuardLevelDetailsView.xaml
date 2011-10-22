@@ -6,38 +6,30 @@
     <UserControl.Resources>
         <Converters:ZoneActionToStringConverter x:Key="ZoneActionToStringConverter" />
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Название" Width="100" />
-                    <Label Content="{Binding Name}" Width="200" />
-                </StackPanel>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Название" Width="100" />
+            <Label Content="{Binding Name}" Width="200" />
+        </StackPanel>
 
-                <Button Content="Добавить зону" Command="{Binding AddCommand}" Width="100" Margin="2" HorizontalAlignment="Left" />
+        <Button Content="Добавить зону" Command="{Binding AddCommand}" Width="100" Margin="2" HorizontalAlignment="Left" />
 
-                <ItemsControl ItemsSource="{Binding ZoneLevels}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+        <ItemsControl ItemsSource="{Binding ZoneLevels}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
 
-                                    <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" Width="150" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ., Converter={StaticResource ZoneActionToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                            <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" Width="150" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ., Converter={StaticResource ZoneActionToStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                                    <TextBlock VerticalAlignment="Center" Margin="2">
+                            <TextBlock VerticalAlignment="Center" Margin="2">
                                         <Hyperlink Command="{Binding ChooseZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                                             <TextBlock Text="{Binding PresenrationZone}" />                
                                             <TextBlock Text="Нажмите для выбора зон" Margin="2">
@@ -55,28 +47,20 @@
                                         </Hyperlink>
                                     </TextBlock>
 
-                                </StackPanel>
+                        </StackPanel>
 
-                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}"
+                        <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}"
                                         Command="{Binding
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 					                    Path=DataContext.RemoveCommand}"
                                         CommandParameter="{Binding}">
-                                    <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
-                                </Button>
-                                
-                            </DockPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                        </Button>
 
-            </StackPanel>
-        </Grid>
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Ok" Command="{Binding SaveCommand}" Margin="2" Width="100" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100" />
-        </StackPanel>
-
-    </Grid>
+    </StackPanel>
 </UserControl>

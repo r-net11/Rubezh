@@ -10,6 +10,10 @@ namespace SecurityModule.ViewModels
     {
         public UsersViewModel()
         {
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEdit);
+            AddCommand = new RelayCommand(OnAdd);
+
             Users = new ObservableCollection<UserViewModel>();
             if (FiresecManager.SecurityConfiguration.Users != null)
             {
@@ -17,9 +21,8 @@ namespace SecurityModule.ViewModels
                     Users.Add(new UserViewModel(user));
             }
 
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            EditCommand = new RelayCommand(OnEdit, CanEdit);
-            AddCommand = new RelayCommand(OnAdd);
+            if (Users.Count > 0)
+                SelectedUser = Users[0];
         }
 
         public ObservableCollection<UserViewModel> Users { get; private set; }

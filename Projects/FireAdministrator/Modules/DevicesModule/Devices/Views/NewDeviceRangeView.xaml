@@ -7,7 +7,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ListBox Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
             <ListBox.ItemTemplate>
@@ -34,10 +33,5 @@
             <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding StartAddress}" Margin="2" />
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding EndAddress}" Margin="2" />
         </Grid>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
-        </StackPanel>
     </Grid>
 </UserControl>

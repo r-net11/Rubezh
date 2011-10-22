@@ -9,7 +9,7 @@ using Infrastructure.Common;
 
 namespace FiltersModule.ViewModels
 {
-    public class FilterDetailsViewModel : DialogContent, IDataErrorInfo
+    public class FilterDetailsViewModel : SaveCancelDialogContent, IDataErrorInfo
     {
         public static readonly int DefaultDaysCount = 10;
 
@@ -65,9 +65,6 @@ namespace FiltersModule.ViewModels
             {
                 CategoryViewModels.Add(new CategoryViewModel(deviceCategoryType));
             }
-
-            OkCommand = new RelayCommand(OnOk, CanOk);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public JournalFilter JournalFilter { get; private set; }
@@ -102,22 +99,15 @@ namespace FiltersModule.ViewModels
             return JournalFilter;
         }
 
-        public RelayCommand OkCommand { get; private set; }
-        void OnOk()
+        protected override void Save(ref bool cancel)
         {
             JournalFilter.Name = JournalFilter.Name.Trim();
             Close(true);
         }
 
-        bool CanOk()
+        protected override bool CanSave()
         {
             return this["FilterName"] == null;
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
 
         public string Error { get { return null; } }

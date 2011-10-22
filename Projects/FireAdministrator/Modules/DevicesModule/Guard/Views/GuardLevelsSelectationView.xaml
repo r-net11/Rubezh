@@ -4,48 +4,33 @@
              MinWidth="400" MinHeight="400">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <DataGrid ItemsSource="{Binding TargetLevels}" SelectedItem="{Binding SelectedTargetLevel}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-
-            <StackPanel Grid.Column="1">
-                <Button Content="+" Command="{Binding AddOneCommand}" Width="40" Height="40" />
-                <Button Content="-" Command="{Binding RemoveOneCommand}" Width="40" Height="40" />
-                <Button Content="++" Command="{Binding AddAllCommand}" Width="40" Height="40" />
-                <Button Content="--" Command="{Binding RemoveAllCommand}" Width="40" Height="40" />
-            </StackPanel>
-
-            <Grid Grid.Column="2">
-                <DataGrid ItemsSource="{Binding SourceLevels}" SelectedItem="{Binding SelectedSourceLevel}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
+        <Grid Grid.Column="0">
+            <DataGrid ItemsSource="{Binding TargetLevels}" SelectedItem="{Binding SelectedTargetLevel}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Ok" Command="{Binding SaveCommand}" Width="100" Margin="2" />
-                <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" Margin="2" />
-            </StackPanel>
-        </Grid>
+        <StackPanel Grid.Column="1">
+            <Button Content="+" Command="{Binding AddOneCommand}" Width="40" Height="40" />
+            <Button Content="-" Command="{Binding RemoveOneCommand}" Width="40" Height="40" />
+            <Button Content="++" Command="{Binding AddAllCommand}" Width="40" Height="40" />
+            <Button Content="--" Command="{Binding RemoveAllCommand}" Width="40" Height="40" />
+        </StackPanel>
 
+        <Grid Grid.Column="2">
+            <DataGrid ItemsSource="{Binding SourceLevels}" SelectedItem="{Binding SelectedSourceLevel}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding GuardLevel.Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </UserControl>
