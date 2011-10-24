@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+	<Fragment>
+    <Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
+             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="MainExe" />
+      <ComponentRef Id="FiresecServiceConfig" />
+      <ComponentRef Id="CommonComponent" />
+      <ComponentRef Id="FiresecComponent" />
+      <ComponentRef Id="FiresecAPIComponent" />
+      <ComponentRef Id="Configuration" />
+      <ComponentRef Id="ProgramMenuDir" />
+      <ComponentRef Id="ProgramsMenuShortcut" />
+      <ComponentRef Id="ProgramsMenuShortcutUninstall" />
+      <ComponentRef Id="DesktopFolder" />
+      <ComponentRef Id="DesktopShortcut" />
+    </Feature>
+
+    <Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
+             AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+      <ComponentRef Id="SqlComponent"/>
+    </Feature>
+	</Fragment>
+</Wix>

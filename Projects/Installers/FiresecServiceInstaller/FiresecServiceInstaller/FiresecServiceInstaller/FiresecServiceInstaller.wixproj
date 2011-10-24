@@ -26,7 +26,13 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features.wxs" />
+    <Compile Include="Files.wxs" />
     <Compile Include="FiresecServiceInstaller.wxs" />
+    <Compile Include="UsersDirectory.wxs" />
+    <Compile Include="Shortcuts.wxs" />
+    <Compile Include="WixUI_Shortcut.wxs" />
+    <Compile Include="WixUI_Wizard.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
@@ -85,9 +91,12 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FiresecDataBaseStructureSql.sql" />
-    <Content Include="Firesec.ico" />
+    <Content Include="Data\Firesec.ico" />
+    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
     <Content Include="Variables.wxi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

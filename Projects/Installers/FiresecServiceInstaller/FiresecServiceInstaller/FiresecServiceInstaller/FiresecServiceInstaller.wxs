@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
-     xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
-  
+     >
   <?include Variables.wxi?>
-  
-  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" 
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
     <Package InstallerVersion="200" Compressed="yes" />
 
     <Media Id="1" Cabinet="FiresecService.cab" EmbedCab="yes" />
 
-    <Binary Id="FiresecDataBaseStructureSql" SourceFile="FiresecDataBaseStructureSql.sql" />
-    
-    <Icon Id="FiresecIcon" SourceFile="Firesec.ico"/>
+    <Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
+
+    <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
@@ -35,126 +34,15 @@
       <Directory Id="DesktopFolder" />
     </Directory>
 
-    <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
-        <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
-              Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
-        </File>
-      </Component>
+    <FeatureRef Id="Complete" />
 
-      <Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
-        <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-      
-      <Component Id="CommonComponent" Guid="5B64430A-2E29-4C73-9C40-4823A9DB5709">
-        <File Id="CommonDll" Name="$(var.Common.TargetFileName)" Source="$(var.Common.TargetPath)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-
-      <Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
-        <File Id="FiresecDll" Name="$(var.Firesec.TargetFileName)" Source="$(var.Firesec.TargetPath)"
-              DiskId="1" KeyPath="yes" />
-        <File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.Firesec.TargetDir)" 
-              DiskId="1"/>
-        <File Id="InteropMscoree" Name="Interop.mscoree.dll" Source="$(var.Firesec.TargetDir)"
-              DiskId="1"/>        
-      </Component>
-
-      <Component Id="FiresecAPIComponent" Guid="248BD6FE-8F57-42DF-BAE3-9EFCD5A1CC5A">
-        <File Id="FiresecAPIDll" Name="$(var.FiresecAPI.TargetFileName)" Source="$(var.FiresecAPI.TargetPath)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-
-      <Component Id="SqlComponent" Guid="6B99EACB-D49B-4F46-9072-9FB0B905A90E">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-                         Server="localhost\sqlexpress" DropOnUninstall="no" >
-          <sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
-          <sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
-        </sql:SqlDatabase>
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="ConfigurationFolder">
-      <Component Id="Configuration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
-        <File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>
-        <File Id="SystemConfiguration" Name="SystemConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>
-        <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>
-        <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>
-        <File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="ProgramMenuDir">
-      <!-- Каталог в меню "Пуск". Удаление при деинсталляции -->
-      <Component Id="ProgramMenuDir" Guid="451D5694-84E8-468F-B26C-C49744FBC136">
-        <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
-        <RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
-      </Component>
-      <!--Ярлык для запуска программы-->
-      <Component Id="ProgramsMenuShortcut" Guid="6DC3A33B-2C67-47E1-9356-436B5CCC3D9C">
-        <Shortcut Id="RunProduct" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FiresecService.TargetFileName)"
-                  WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FiresecIcon"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
-                       Value="1" KeyPath="yes" />
-      </Component>
-      <!--Ярлык для удаления программы-->
-      <Component Id="ProgramsMenuShortcutUninstall" Guid="9383748E-31D7-4AAD-ABB8-CFC4B8435E93">
-        <Shortcut Id="UninstallProduct" Name="Удалить $(var.ProductName)" Target="[System64Folder]msiexec.exe"
-                  Arguments="/x [ProductCode]" Description="Удаляет $(var.ProductName) с данного компьютера" />
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
-                       Value="1" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="DesktopFolder">
-      <Component Id="DesktopFolder" Guid="5E21B113-87C1-46E2-8683-41385FF84194">
-        <RemoveFolder Id="DesktopFolder" On="uninstall" />
-        <RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
-      </Component>
-      
-      <Component Id="DesktopShortcut" Guid="FC07AB61-7665-4B86-BB72-00D839984FB9">
-        <Shortcut Id="desktopShortcut" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FiresecService.TargetFileName)"
-                  WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FiresecIcon"/>
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="Shortcut" Type="integer"
-                       Value="1" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>
+    <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
+    <Property Id="SHORTCUT_DESKTOP">1</Property>
     
-    <Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-      <ComponentRef Id="MainExe" />
-      <ComponentRef Id="FiresecServiceConfig" />
-      <ComponentRef Id="CommonComponent" />
-      <ComponentRef Id="FiresecComponent" />
-      <ComponentRef Id="FiresecAPIComponent" />
-      <ComponentRef Id="Configuration" />
-      <ComponentRef Id="ProgramMenuDir" />
-      <ComponentRef Id="ProgramsMenuShortcut" />
-      <ComponentRef Id="ProgramsMenuShortcutUninstall" />
-      <ComponentRef Id="DesktopFolder" />
-      <ComponentRef Id="DesktopShortcut" />
-    </Feature>
-    <Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
-             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="disallow" InstallDefault="local">
-      <ComponentRef Id="SqlComponent"/>
-    </Feature>
-
-    <UI Id="MyWixUI_Mondo">
-      <UIRef Id="WixUI_Mondo" />
+    <UI Id="MyWixUI_Wizard">
+      <UIRef Id="WixUI_Wizard" />
       <UIRef Id="WixUI_ErrorProgressText" />
     </UI>
-    
+
   </Product>
 </Wix>

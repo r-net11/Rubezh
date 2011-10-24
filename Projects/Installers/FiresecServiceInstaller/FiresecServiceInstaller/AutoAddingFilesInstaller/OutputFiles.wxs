@@ -2,27 +2,27 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="Output.Content">
-            <Component Id="cmp2E1AC215DD757739F14A72ABC2275976" Guid="{76187ED6-F924-445E-B791-9C74F0280BA3}">
+            <Component Id="cmp2E1AC215DD757739F14A72ABC2275976" Guid="{CF64F12A-314B-408F-902B-ACFFC386A982}">
                 <File Id="fil80AE4FBBB2863DB28491B9547C245C1D" Source="..\..\source\FiresecService.exe.config" />
             </Component>
         </DirectoryRef>
         <DirectoryRef Id="Output.Binaries">
-            <Component Id="cmpAAE8C85D3E56012DD5F6FF8D07A96132" Guid="{54EE1709-25CC-4BA2-95F3-F70C51E9F281}">
+            <Component Id="cmpAAE8C85D3E56012DD5F6FF8D07A96132" Guid="{BB5A2BC6-07EC-48B2-BB58-1819F309D366}">
                 <File Id="fil7EF788CC1981B1C7354DFCD4A328866A" Source="..\..\source\Common.dll" />
             </Component>
-            <Component Id="cmpCF0FD727E0618CCF5DA6F169866F0335" Guid="{AC2BAB79-4521-43EA-BAFA-777E5CA7E8F9}">
+            <Component Id="cmpCF0FD727E0618CCF5DA6F169866F0335" Guid="{4A9BF74B-EF1A-439E-A5B2-47B67FB22DAE}">
                 <File Id="filF6135C991B2183B45F14EA27004920C7" Source="..\..\source\Firesec.dll" />
             </Component>
-            <Component Id="cmp209A7A93DDD4BC2CDBEB7311BC1E127D" Guid="{F9650E4E-0089-44E9-9F65-C236F591AB5C}">
+            <Component Id="cmp209A7A93DDD4BC2CDBEB7311BC1E127D" Guid="{122D8B33-ABDC-49C9-B4D2-FF12DD43B45C}">
                 <File Id="fil2D052EE7EBA37DD35CDFACEAFF7ACA50" Source="..\..\source\FiresecAPI.dll" />
             </Component>
-            <Component Id="cmp6EDBAC8F4CB4C2BD22419A4C18FD4AD3" Guid="{159B12DC-D0C3-4C00-BD5C-A249E113BB0B}">
+            <Component Id="cmp6EDBAC8F4CB4C2BD22419A4C18FD4AD3" Guid="{B798384F-A02D-49E9-ADD8-53BE4B7738EA}">
                 <File Id="fil425D91A770F498CCB28614A7F88DBBEC" Source="..\..\source\FiresecService.exe" />
             </Component>
-            <Component Id="cmp698634C7B636CA20C9E408C1E7A38355" Guid="{91A67502-36B8-4F69-B6B7-77FF1133A832}">
+            <Component Id="cmp698634C7B636CA20C9E408C1E7A38355" Guid="{15EEF8EC-F32F-490F-BFC3-EC3DFE6AF161}">
                 <File Id="fil49718439600A8464200F4D57242B2408" Source="..\..\source\Interop.FS_Types.dll" />
             </Component>
-            <Component Id="cmpC0CD738111903354F7863AE4D4E6D7C9" Guid="{D6063865-CA7C-4C58-8CCE-A916224DF476}">
+            <Component Id="cmpC0CD738111903354F7863AE4D4E6D7C9" Guid="{47FC7DE6-D979-45F3-B858-D39BCB6EE138}">
                 <File Id="filF8BA1AB1F129DA87063DDC529DC63B73" Source="..\..\source\Interop.mscoree.dll" />
             </Component>
         </DirectoryRef>
