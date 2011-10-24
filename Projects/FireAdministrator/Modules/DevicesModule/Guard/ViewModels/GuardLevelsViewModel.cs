@@ -22,6 +22,9 @@ namespace DevicesModule.ViewModels
                 var guardLevelViewModel = new GuardLevelViewModel(guardLevel);
                 GuardLevels.Add(guardLevelViewModel);
             }
+
+            if (GuardLevels.Count > 0)
+                SelectedGuardLevel = GuardLevels[0];
         }
 
         public ObservableCollection<GuardLevelViewModel> GuardLevels { get; private set; }

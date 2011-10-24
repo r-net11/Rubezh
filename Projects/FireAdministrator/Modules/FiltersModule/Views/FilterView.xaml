@@ -9,7 +9,7 @@
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" Background="Gray">
         <StackPanel>
             <StackPanel.Resources>
                 <Style TargetType="{x:Type TextBlock}">

@@ -9,15 +9,12 @@ using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionDetailsViewModel : DialogContent
+    public class InstructionDetailsViewModel : SaveCancelDialogContent
     {
         public InstructionDetailsViewModel()
         {
             InstructionZonesList = new List<ulong?>();
             InstructionDevicesList = new List<Guid>();
-
-            SaveCommand = new RelayCommand(OnSave, CanSave);
-            CancelCommand = new RelayCommand(OnCancel);
             SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
         }
@@ -192,25 +189,6 @@ namespace InstructionsModule.ViewModels
             return (InstructionType != InstructionType.General);
         }
 
-        bool CanSave()
-        {
-            if (string.IsNullOrWhiteSpace(Text))
-            {
-                return false;
-            }
-            else
-            {
-                if (InstructionType == InstructionType.General)
-                {
-                    return true;
-                }
-                else
-                {
-                    return ((InstructionDevicesList.IsNotNullOrEmpty()) || (InstructionZonesList.IsNotNullOrEmpty()));
-                }
-            }
-        }
-
         public RelayCommand SelectZoneCommand { get; private set; }
         void OnSelectZoneCommand()
         {
@@ -237,20 +215,26 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override bool CanSave()
         {
-            Save();
-            Close(true);
+            if (string.IsNullOrWhiteSpace(Text))
+            {
+                return false;
+            }
+            else
+            {
+                if (InstructionType == InstructionType.General)
+                {
+                    return true;
+                }
+                else
+                {
+                    return ((InstructionDevicesList.IsNotNullOrEmpty()) || (InstructionZonesList.IsNotNullOrEmpty()));
+                }
+            }
         }
 
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
-        }
-
-        void Save()
+        protected override void Save(ref bool cancel)
         {
             Instruction.Text = Text;
             Instruction.StateType = StateType;

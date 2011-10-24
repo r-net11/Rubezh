@@ -56,7 +56,7 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <StackPanel Visibility="{Binding Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Views:AddressRedactor DataContext="{Binding Address, Mode=TwoWay}" />
+                                        <Views:AddressRedactor DataContext="{Binding Address, Mode=TwoWay}" Foreground="Black" />
                                     </StackPanel>
                                     <TextBlock Text="{Binding Address}" />
                                 </StackPanel>
@@ -78,7 +78,7 @@
                                         <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Stretch" />
+                                                    <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Stretch" Foreground="Black" />
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
@@ -109,8 +109,8 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <StackPanel HorizontalAlignment="Stretch" Background="Red">
-                                    <TextBox Text="{Binding Description}" MaxLength="20"  BorderThickness="0" HorizontalAlignment="Stretch" Name="descriptionTextBox" />
+                                <StackPanel HorizontalAlignment="Stretch">
+                                    <TextBox Text="{Binding Description}" MaxLength="20" HorizontalAlignment="Stretch" Name="descriptionTextBox" Foreground="Black" />
                                 </StackPanel>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">

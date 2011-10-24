@@ -7,23 +7,26 @@
     </UserControl.Resources>
     
     <StackPanel>
-        <TextBlock TextWrapping="Wrap"
-                   Margin="0,7,0,0" Foreground="White"
+        <TextBlock TextWrapping="Wrap" Margin="0,7,0,0" Foreground="White"
                    Text="Можно разрешить или запретить пользователю подключаться к серверу с других компьютеров. Подключение с локального компьютера доступно всегда." />
-        <ListBox Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
-            <ListBox.ItemTemplate>
+        <ItemsControl Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <RadioButton IsChecked="{Binding IsActive}"
                               Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
                               Checked="RadioButton_Checked"
-                              Margin="1.5" />
+                              Margin="1.5" Foreground="White" />
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <DockPanel Name="_computersList" LastChildFill="True">
             <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Left">
-                <Button Content="Добавить" Command="{Binding AddCommand}" Margin="2" Width="100" />
-                <Button Content="Удалить" Command="{Binding RemoveCommand}" Margin="2" Width="100" />
+                <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Add.png" Height="24" />
+                </Button>
+                <Button Command="{Binding RemoveCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/Delete.png" Height="24" />
+                </Button>
             </WrapPanel>
             <StackPanel>
                 <Label Content="Список компьютеров" />

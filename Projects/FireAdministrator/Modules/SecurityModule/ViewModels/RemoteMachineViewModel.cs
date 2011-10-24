@@ -2,15 +2,12 @@
 
 namespace SecurityModule.ViewModels
 {
-    public class RemoteMachineViewModel : DialogContent
+    public class RemoteMachineViewModel : SaveCancelDialogContent
     {
         public RemoteMachineViewModel()
         {
             Title = "Удаленный компьютер";
             IsDnsName = true;
-
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         string _hostNameOrAddress;
@@ -56,18 +53,6 @@ namespace SecurityModule.ViewModels
 
                 OnPropertyChanged("IsDnsName");
             }
-        }
-
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
         }
     }
 }

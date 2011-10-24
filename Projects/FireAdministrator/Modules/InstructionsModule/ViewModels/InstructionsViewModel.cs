@@ -27,6 +27,9 @@ namespace InstructionsModule.ViewModels
                     Instructions.Add(new InstructionViewModel(instruction));
                 }
             }
+
+            if (Instructions.Count > 0)
+                SelectedInstruction = Instructions[0];
         }
 
         public ObservableCollection<InstructionViewModel> Instructions { get; set; }

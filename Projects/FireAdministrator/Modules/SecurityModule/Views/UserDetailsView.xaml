@@ -8,7 +8,7 @@
         <TabItem Header="Общее">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -35,11 +35,11 @@
                              Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
                              VerticalAlignment="Center"
                              MaxLength="100" Margin="5" />
-                <CheckBox Grid.ColumnSpan="2" Grid.Row="2"
+                <CheckBox Grid.Column="1" Grid.Row="2"
                               Visibility="{Binding IsNotNew, Converter={StaticResource BoolToVisibilityConverter}}"
                               IsChecked="{Binding IsChangePassword, UpdateSourceTrigger=PropertyChanged}"
                               Content="Сменить пароль"
-                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                              Foreground="White" />
                 <Label Grid.Column="0" Grid.Row="3"
                                Visibility="{Binding IsChangePassword, Converter={StaticResource BoolToVisibilityConverter}}"
                                Content="Действующий пароль:"

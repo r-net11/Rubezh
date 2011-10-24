@@ -6,7 +6,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -18,11 +18,22 @@
             </DataGrid>
         </Grid>
 
-        <StackPanel Grid.Column="1">
-            <Button Content="+" Command="{Binding AddOneCommand}" Width="40" Height="40" />
-            <Button Content="-" Command="{Binding RemoveOneCommand}" Width="40" Height="40" />
-            <Button Content="++" Command="{Binding AddAllCommand}" Width="40" Height="40" />
-            <Button Content="--" Command="{Binding RemoveAllCommand}" Width="40" Height="40" />
+        <StackPanel Grid.Column="1" Margin="2">
+            <Button Command="{Binding AddOneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Left.png" Height="24" />
+            </Button>
+
+            <Button Command="{Binding RemoveOneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/Right.png" Height="24" />
+            </Button>
+
+            <Button Command="{Binding AddAllCommand}" ToolTip="Добавить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/LeftLeft.png" Height="24" />
+            </Button>
+
+            <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/RightRight.png" Height="24" />
+            </Button>
         </StackPanel>
 
         <Grid Grid.Column="2">

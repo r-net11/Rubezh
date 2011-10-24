@@ -10,7 +10,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -33,11 +33,10 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}"
-                                          SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, 
-                                    UpdateSourceTrigger=PropertyChanged}">
+                                          SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" />
+                                            <TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="Black" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
@@ -52,13 +51,11 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto"
-                                          ItemsSource="{Binding AvailableSpeakers}"
-                                          SelectedItem="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                          >
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSpeakers}"
+                                          SelectedItem="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource BeeperTypeToStringConverter}}" />
+                                            <TextBlock Text="{Binding ., Converter={StaticResource BeeperTypeToStringConverter}}" Foreground="Black" />
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
@@ -68,7 +65,7 @@
                     <DataGridTemplateColumn Header="Непрерывно" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                <CheckBox IsChecked="{Binding IsContinious, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -77,22 +74,18 @@
         </Grid>
 
         <Grid Grid.Row="1" Margin="2">
-            <Controls:XButton Name="SoundButton" Margin="2" Padding="2"
-                              HorizontalAlignment="Left" Height="30" Width="100" 
-                              FontWeight="Black" Background="Black" Command="{Binding PlaySoundCommand}">
+            <Controls:XButton Name="SoundButton" Margin="2" Padding="2" HorizontalAlignment="Left" Height="30" Width="100" FontWeight="Black" Background="Black" Command="{Binding PlaySoundCommand}">
                 <Controls:XButton.Style>
                     <Style>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Controls:XButton.Content"
-                                            Value="Остановить" />
+                                    <Setter Property="Controls:XButton.Content" Value="Остановить" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
                                 <DataTrigger.Setters>
-                                    <Setter Property="Controls:XButton.Content"
-                                            Value="Проверка" />
+                                    <Setter Property="Controls:XButton.Content" Value="Проверка" />
                                 </DataTrigger.Setters>
                             </DataTrigger>
                         </Style.Triggers>

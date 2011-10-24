@@ -22,6 +22,9 @@ namespace DevicesModule.ViewModels
                 var guardUserViewModel = new GuardUserViewModel(guardUser);
                 GuardUsers.Add(guardUserViewModel);
             }
+
+            if (GuardUsers.Count > 0)
+                SelectedGuardUser = GuardUsers[0];
         }
 
         public ObservableCollection<GuardUserViewModel> GuardUsers { get; private set; }

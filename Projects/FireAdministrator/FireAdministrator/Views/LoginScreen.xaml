@@ -32,6 +32,6 @@
             <Button Content="Ok" Click="OnConnect" IsDefault="True" FontSize="12" Width="100" Height="30" Margin="2" />
             <Button Content="Отмена" Click="OnCancel" FontSize="12" Width="100" Height="30" Margin="2" />
         </StackPanel>
-        <TextBlock Grid.Row="2" Name="_info" Foreground="Black" FontWeight="Black" TextWrapping="Wrap" Margin="11,5,0,7" />
+        <TextBlock Grid.Row="2" Name="_info" Foreground="White" FontWeight="Black" TextWrapping="Wrap" Margin="11,5,0,7" />
     </Grid>
 </Window>

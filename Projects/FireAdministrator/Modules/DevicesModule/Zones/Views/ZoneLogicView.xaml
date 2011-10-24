@@ -46,17 +46,16 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                
+
                                 <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
                                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
-                                        <TextBlock Text="{Binding PresenrationZones}" />                
-                                        <TextBlock Text="Нажмите для выбора зон" Margin="2">
+                                        <TextBlock Margin="2">
                                             <TextBlock.Style>
                                                 <Style>
-                                                    <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                                    <Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
                                                     <Style.Triggers>
                                                     <DataTrigger Binding="{Binding PresenrationZones}" Value="">
-                                                        <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
                                                     </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>

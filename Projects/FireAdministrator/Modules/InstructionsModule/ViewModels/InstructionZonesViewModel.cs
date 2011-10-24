@@ -8,16 +8,15 @@ using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionZonesViewModel : DialogContent
+    public class InstructionZonesViewModel : SaveCancelDialogContent
     {
         public InstructionZonesViewModel()
         {
+            Title = "Выбор зоны";
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
 
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
@@ -161,20 +160,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            Save();
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
-        }
-
-        public void Save()
+        protected override void Save(ref bool cancel)
         {
             InstructionZonesList = new List<ulong?>(
                 from zone in InstructionZones

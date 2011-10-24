@@ -36,7 +36,7 @@
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="group1" Width="500" />
+                        <ColumnDefinition SharedSizeGroup="group1" Width="300" />
                         <ColumnDefinition SharedSizeGroup="group2" Width="100" />
                     </Grid.ColumnDefinitions>
                 </Grid>
@@ -70,8 +70,7 @@
                         <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding DetectorCount}" Minimum="1" Margin="2" />
 
                         <StackPanel Grid.Row="1" Grid.Column="0">
-                            <Label Content="Время эвакуации, сек(если указано, то при получении события о" HorizontalAlignment="Right" />
-                            <Label Content="включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" HorizontalAlignment="Right" />
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Foreground="White" Text="Время эвакуации, сек(если указано, то при получении события о включении МПТ или ППУ в зоне, ОЗ перейдет в режим эвакуации)" />
                         </StackPanel>
                         <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding EvacuationTime}" Minimum="0" Margin="2" Height="25" />
                     </Grid>

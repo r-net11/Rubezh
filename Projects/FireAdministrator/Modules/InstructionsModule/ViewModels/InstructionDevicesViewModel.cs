@@ -14,6 +14,7 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionDevicesViewModel()
         {
+            Title = "Выбор устройства";
             InstructionDevices = new ObservableCollection<DeviceViewModel>();
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             InstructionDevicesList = new List<Guid>();

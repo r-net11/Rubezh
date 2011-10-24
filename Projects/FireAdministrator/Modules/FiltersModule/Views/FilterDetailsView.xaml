@@ -18,48 +18,70 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Margin="0,0,0,5" Content="Название представления:" />
-            <TextBox Margin="0,0,0,15" Style="{StaticResource textBoxInError}" Text="{Binding FilterName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label FontWeight="Heavy" Content="Классы событий" />
-                <ItemsControl ItemsSource="{Binding EventViewModels}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox Content="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+        <Border CornerRadius="5" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Название представления:" Margin="2" />
+                <TextBox Grid.Column="1" Margin="2" Style="{StaticResource textBoxInError}" Text="{Binding FilterName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </Border>
 
-                <Label Content="количество записей" />
-                <StackPanel Orientation="Horizontal">
-                    <ExtToolkit:IntegerUpDown Maximum="{Binding RecordsMaxCount}" Minimum="1" Value="{Binding JournalFilter.LastRecordsCount}" Height="25" />
-                    <Label Margin="5,5,0,5" Content="последних дней" />
+        <Border CornerRadius="5" BorderThickness="0" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label FontWeight="Heavy" Content="Классы событий" />
+                    <ItemsControl ItemsSource="{Binding EventViewModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Column="1">
-                <Label FontWeight="Heavy" Content="Категории устройств" />
-                <ItemsControl ItemsSource="{Binding CategoryViewModels}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox Content="{Binding Id, Converter={StaticResource CategoryTypeToCategoryNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <StackPanel Grid.Column="1">
+                    <Label FontWeight="Heavy" Content="Категории устройств" />
+                    <ItemsControl ItemsSource="{Binding CategoryViewModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Id, Converter={StaticResource CategoryTypeToCategoryNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-                <CheckBox Content="дополнительный фильтр" IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
-                <StackPanel Orientation="Horizontal">
-                    <Label Margin="5,0,5,5" Content="записи за последние" />
-                    <ExtToolkit:IntegerUpDown IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}" Minimum="1" Value="{Binding JournalFilter.LastDaysCount}" Height="25" />
-                    <Label Margin="5,5,0,5" Content="дн." />
+        <Border CornerRadius="5" BorderThickness="0" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label Content="количество записей" />
+                    <StackPanel Orientation="Horizontal">
+                        <ExtToolkit:IntegerUpDown Maximum="{Binding RecordsMaxCount}" Minimum="1" Value="{Binding JournalFilter.LastRecordsCount}" Height="25" />
+                        <Label Margin="5,5,0,5" Content="последних дней" />
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
+
+                <StackPanel Grid.Column="1">
+                    <CheckBox Content="дополнительный фильтр" IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
+                    <StackPanel Orientation="Horizontal">
+                        <Label Margin="5,0,5,5" Content="записи за последние" VerticalAlignment="Center" />
+                        <ExtToolkit:IntegerUpDown IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}" Minimum="1" Value="{Binding JournalFilter.LastDaysCount}" Height="25" />
+                        <Label Margin="5,5,0,5" Content="дн." VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
     </StackPanel>
 </UserControl>

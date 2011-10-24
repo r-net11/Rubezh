@@ -9,7 +9,7 @@ using Infrastructure.Common;
 
 namespace FiltersModule.ViewModels
 {
-    public class FilterDetailsViewModel : SaveCancelDialogContent, IDataErrorInfo
+    public class FilterDetailsViewModel : SaveCancelDialogContent//, IDataErrorInfo
     {
         public static readonly int DefaultDaysCount = 10;
 
@@ -101,8 +101,7 @@ namespace FiltersModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            JournalFilter.Name = JournalFilter.Name.Trim();
-            Close(true);
+            JournalFilter.Name = JournalFilter.Name.Trim(); 
         }
 
         protected override bool CanSave()
