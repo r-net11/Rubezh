@@ -7,13 +7,11 @@ namespace PlansModule.ViewModels
 {
     public class PolygonPropertiesViewModel : SaveCancelDialogContent
     {
-        Polygon _polygon;
         ElementPolygon _elementPolygon;
 
-        public PolygonPropertiesViewModel(Polygon polygon, ElementPolygon elementPolygon)
+        public PolygonPropertiesViewModel(ElementPolygon elementPolygon)
         {
-            Title = "Свойства элемента Полигон";
-            _polygon = polygon;
+            Title = "Свойства фигуры: Полигон";
             _elementPolygon = elementPolygon;
             CopyProperties();
         }
@@ -63,10 +61,6 @@ namespace PlansModule.ViewModels
             _elementPolygon.BackgroundColor = BackgroundColor;
             _elementPolygon.BorderColor = BorderColor;
             _elementPolygon.BorderThickness = StrokeThickness;
-
-            _polygon.Fill = new SolidColorBrush(BackgroundColor);
-            _polygon.Stroke = new SolidColorBrush(BorderColor);
-            _polygon.StrokeThickness = StrokeThickness;
         }
     }
 }

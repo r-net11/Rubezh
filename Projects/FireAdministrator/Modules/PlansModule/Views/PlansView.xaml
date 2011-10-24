@@ -19,7 +19,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Add Point" Click="OnAddPolygonPoint" />
             <s:Toolbox />
             <Button Content="Test" Command="{Binding TestCommand}" />
         </StackPanel>

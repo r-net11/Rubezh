@@ -3,23 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Label Grid.Column="0" Grid.Row="0" Content="Цвет фона" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="1" Content="Цвет границы" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="2" Content="Ширина границы" HorizontalAlignment="Right" />
-
-        <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" Margin="2" />
-        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" Margin="2" />
-    </Grid>
+    <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+            <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

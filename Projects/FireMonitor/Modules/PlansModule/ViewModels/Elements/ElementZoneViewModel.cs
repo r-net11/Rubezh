@@ -25,15 +25,15 @@ namespace PlansModule.ViewModels
         Zone _zone;
         ElementZoneView _elementZoneView;
 
-        public void Initialize(ElementZone elementZone, Canvas canvas)
+        public void Initialize(ElementPolygonZone elementPolygonZone, Canvas canvas)
         {
-            ZoneNo = elementZone.ZoneNo;
+            ZoneNo = elementPolygonZone.ZoneNo;
             _zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
             _elementZoneView = new ElementZoneView();
             _elementZoneView.DataContext = this;
             _elementZoneView._polygon.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(zonePolygon_PreviewMouseLeftButtonDown);
-            foreach (var polygonPoint in elementZone.PolygonPoints)
+            foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
             {
                 _elementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }

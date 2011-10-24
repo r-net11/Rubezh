@@ -58,9 +58,17 @@ namespace PlansModule.Designer
 
         public DesignerItem()
         {
+            AddPointCommand = new RelayCommand(OnAddPoint);
             DeleteCommand = new RelayCommand(OnDelete);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
+        }
+
+        public RelayCommand AddPointCommand { get; private set; }
+        void OnAddPoint()
+        {
+            DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
+            designerCanvas.IsPointAdding = true;
         }
 
         public RelayCommand DeleteCommand { get; private set; }
@@ -75,36 +83,75 @@ namespace PlansModule.Designer
         {
             if (ElementBase is ElementRectangle)
             {
-                var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(Content as Rectangle, ElementBase as ElementRectangle);
+                var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(ElementBase as ElementRectangle);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel))
                 {
+                    Redraw();
                     PlansModule.HasChanges = true;
                 }
             }
             if (ElementBase is ElementEllipse)
             {
-                var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(Content as Ellipse, ElementBase as ElementEllipse);
+                var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(ElementBase as ElementEllipse);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel))
                 {
+                    Redraw();
                     PlansModule.HasChanges = true;
                 }
             }
             if (ElementBase is ElementTextBlock)
             {
-                var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(Content as TextBlock, ElementBase as ElementTextBlock);
+                var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(ElementBase as ElementTextBlock);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel))
                 {
+                    Redraw();
                     PlansModule.HasChanges = true;
                 }
             }
             if (ElementBase is ElementPolygon)
             {
-                var polygonPropertiesViewModel = new PolygonPropertiesViewModel(Content as Polygon, ElementBase as ElementPolygon);
+                var polygonPropertiesViewModel = new PolygonPropertiesViewModel(ElementBase as ElementPolygon);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel))
+                {
+                    Redraw();
+                    PlansModule.HasChanges = true;
+                }
+            }
+            if (ElementBase is ElementPolygonZone)
+            {
+                ElementPolygonZone elementPolygonZone = ElementBase as ElementPolygonZone;
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone.ZoneNo.Value);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
+                {
+                    elementPolygonZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
+                    PlansModule.HasChanges = true;
+                }
+            }
+            if (ElementBase is ElementRectangleZone)
+            {
+                ElementRectangleZone elementRectangleZone = ElementBase as ElementRectangleZone;
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone.ZoneNo.Value);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
+                {
+                    elementRectangleZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
+                    PlansModule.HasChanges = true;
+                }
+            }
+            if (ElementBase is ElementDevice)
+            {
+                var devicePropertiesViewModel = new DevicePropertiesViewModel(ElementBase as ElementDevice);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel))
                 {
                     PlansModule.HasChanges = true;
                 }
             }
+        }
+
+        void Redraw()
+        {
+            var framaworkElement = ElementBase.Draw();
+            framaworkElement.IsHitTestVisible = false;
+            Content = framaworkElement;
         }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)

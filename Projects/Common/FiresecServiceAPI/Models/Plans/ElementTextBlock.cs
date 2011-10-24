@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
         public double FontSize { get; set; }
 
         [DataMember]
-        public string Color { get; set; }
+        public string ForegroundColor { get; set; }
 
         [DataMember]
         public Color BackgroundColor { get; set; }
@@ -33,9 +33,13 @@ namespace FiresecAPI.Models
 
         public override FrameworkElement Draw()
         {
-            var textBlock = new TextBlock()
+            var textBlock = new Label()
             {
-                Text = Text
+                Background = new SolidColorBrush(BackgroundColor),
+                //Foreground = new SolidColorBrush(ForegroundColor),
+                BorderBrush = new SolidColorBrush(BorderColor),
+                BorderThickness = new Thickness(BorderThickness),
+                Content = Text
             };
             return textBlock;
         }

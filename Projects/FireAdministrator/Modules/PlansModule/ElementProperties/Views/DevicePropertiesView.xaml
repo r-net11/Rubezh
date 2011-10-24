@@ -3,23 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Цвет фона" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="1" Content="Цвет границы" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="2" Content="Ширина границы" HorizontalAlignment="Right" />
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                </StackPanel>
+                            </StackPanel>
 
-        <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" Margin="2" />
-        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" Margin="2" />
-    </Grid>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="{Binding Device.Driver.ShortName}">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Device.Driver.IsPlaceable}" Value="True">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
+            <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
+
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

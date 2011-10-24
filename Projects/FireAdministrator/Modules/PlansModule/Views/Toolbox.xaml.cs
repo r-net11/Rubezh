@@ -54,7 +54,7 @@ namespace PlansModule.Designer
                     break;
 
                 case "ElementPolygon":
-                    plansElement = new ElementBasePolygon();
+                    plansElement = new ElementPolygon();
                     break;
 
                 case "ElementTextBlock":

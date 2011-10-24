@@ -274,7 +274,7 @@ namespace PlansModule.Views
             PropertiesType.Items.Add("_number");
 
             PropertiesCaption.Items.Add("Цвет фона");
-            PropertiesValue.Items.Add(text.Color);
+            PropertiesValue.Items.Add(text.ForegroundColor);
             PropertiesName.Items.Add("color");
             PropertiesType.Items.Add("string");
 

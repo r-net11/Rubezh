@@ -31,6 +31,7 @@
                         <s:PolygonResizeDecorator x:Name="PART_DesignerItemPolygonResizeDecorator" />
                         <Grid.ContextMenu>
                             <ContextMenu>
+                                <MenuItem Header="Добавить точку" Command="{Binding AddPointCommand}" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                             </ContextMenu>

@@ -7,13 +7,11 @@ namespace PlansModule.ViewModels
 {
     public class EllipsePropertiesViewModel : SaveCancelDialogContent
     {
-        Ellipse _ellipse;
         ElementEllipse _elementEllipse;
 
-        public EllipsePropertiesViewModel(Ellipse ellipse, ElementEllipse elementEllipse)
+        public EllipsePropertiesViewModel(ElementEllipse elementEllipse)
         {
-            Title = "Свойства элемента Эллипс";
-            _ellipse = ellipse;
+            Title = "Свойства фигуры: Эллипс";
             _elementEllipse = elementEllipse;
             CopyProperties();
         }
@@ -63,10 +61,6 @@ namespace PlansModule.ViewModels
             _elementEllipse.BackgroundColor = BackgroundColor;
             _elementEllipse.BorderColor = BorderColor;
             _elementEllipse.BorderThickness = StrokeThickness;
-
-            _ellipse.Fill = new SolidColorBrush(BackgroundColor);
-            _ellipse.Stroke = new SolidColorBrush(BorderColor);
-            _ellipse.StrokeThickness = StrokeThickness;
         }
     }
 }

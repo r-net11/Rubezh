@@ -3,23 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Цвет фона" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="1" Content="Цвет границы" HorizontalAlignment="Right" />
-        <Label Grid.Column="0" Grid.Row="2" Content="Ширина границы" HorizontalAlignment="Right" />
+                <Label Grid.Column="0" Grid.Row="0" Content="Цвет фона" HorizontalAlignment="Right" />
+                <Label Grid.Column="0" Grid.Row="1" Content="Цвет границы" HorizontalAlignment="Right" />
+                <Label Grid.Column="0" Grid.Row="2" Content="Ширина границы" HorizontalAlignment="Right" />
 
-        <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" Margin="2" />
-        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" Margin="2" />
-    </Grid>
+                <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" Margin="2" />
+                <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Изображение">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ContentControl Grid.Column="0" Content="{Binding Image}" />
+                <StackPanel Grid.Column="1">
+                    <Button Content="Выбрать картинку" Command="{Binding SelectPictureCommand}" Margin="2" />
+                    <Button Content="Очистить картинку" Command="{Binding RemovePictureCommand}" Margin="2" />
+                </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
+    
 </UserControl>

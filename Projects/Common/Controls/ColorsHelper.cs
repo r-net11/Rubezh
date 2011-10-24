@@ -11,14 +11,15 @@ namespace Controls
         {
             get
             {
-                List<Color> availableColors = new List<Color>();
-
+                var availableColors = new List<Color>();
                 var colorProperties = typeof(Colors).GetProperties(BindingFlags.Static | BindingFlags.Public);
                 var colors = colorProperties.Select(prop => (Color)prop.GetValue(null, null));
                 foreach (Color myColor in colors)
                 {
                     availableColors.Add(myColor);
                 }
+                availableColors.Remove(Colors.Transparent);
+                availableColors.Insert(0, Colors.Transparent);
 
                 return availableColors;
             }

@@ -83,10 +83,10 @@ namespace PlansModule.ViewModels
                 _canvas.Children.Add(rectangle);
             }
 
-            foreach (var elementZone in _plan.ElementZones)
+            foreach (var elementPolygonZone in _plan.ElementPolygonZones)
             {
                 var zonePlanViewModel = new ElementZoneViewModel();
-                zonePlanViewModel.Initialize(elementZone, _canvas);
+                zonePlanViewModel.Initialize(elementPolygonZone, _canvas);
                 zonePlanViewModel.Selected += () => { SelectedZone = zonePlanViewModel; };
                 Zones.Add(zonePlanViewModel);
             }

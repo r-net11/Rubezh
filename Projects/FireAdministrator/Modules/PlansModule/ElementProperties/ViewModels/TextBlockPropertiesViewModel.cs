@@ -7,13 +7,11 @@ namespace PlansModule.ViewModels
 {
     public class TextBlockPropertiesViewModel : SaveCancelDialogContent
     {
-        TextBlock _textBlock;
         ElementTextBlock _elementTextBlock;
 
-        public TextBlockPropertiesViewModel(TextBlock textBlock, ElementTextBlock elementTextBlock)
+        public TextBlockPropertiesViewModel(ElementTextBlock elementTextBlock)
         {
-            Title = "Свойства элемента Надпись";
-            _textBlock = textBlock;
+            Title = "Свойства фигуры: Надпись";
             _elementTextBlock = elementTextBlock;
             CopyProperties();
         }
@@ -23,6 +21,7 @@ namespace PlansModule.ViewModels
             BackgroundColor = _elementTextBlock.BackgroundColor;
             BorderColor = _elementTextBlock.BorderColor;
             StrokeThickness = _elementTextBlock.BorderThickness;
+            Text = _elementTextBlock.Text;
         }
 
         Color _backgroundColor;
@@ -58,15 +57,23 @@ namespace PlansModule.ViewModels
             }
         }
 
+        string _text;
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged("Text");
+            }
+        }
+
         protected override void Save(ref bool cancel)
         {
             _elementTextBlock.BackgroundColor = BackgroundColor;
             _elementTextBlock.BorderColor = BorderColor;
             _elementTextBlock.BorderThickness = StrokeThickness;
-
-            //_textBlock.Fill = new SolidColorBrush(BackgroundColor);
-            //_textBlock.Stroke = new SolidColorBrush(BorderColor);
-            //_textBlock.StrokeThickness = StrokeThickness;
+            _elementTextBlock.Text = Text;
         }
     }
 }

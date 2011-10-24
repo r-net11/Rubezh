@@ -45,16 +45,16 @@ namespace FiresecAPI.Models
             {
                 try
                 {
-                    BitmapImage image = null;
+                    BitmapImage bitmapImage = null;
                     using (var imageStream = new MemoryStream(BackgroundPixels))
                     {
-                        image = new BitmapImage();
-                        image.BeginInit();
-                        image.CacheOption = BitmapCacheOption.OnLoad;
-                        image.StreamSource = imageStream;
-                        image.EndInit();
+                        bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.StreamSource = imageStream;
+                        bitmapImage.EndInit();
                     }
-                    rectangle.Fill = new ImageBrush(image);
+                    rectangle.Fill = new ImageBrush(bitmapImage);
                 }
                 catch (Exception) { ;}
             }

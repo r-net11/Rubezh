@@ -8,24 +8,27 @@ using System.Windows.Input;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Windows.Shapes;
 
 namespace PlansModule.Designer
 {
     public class DesignerCanvas : Canvas
     {
         public Plan Plan { get; set; }
-
         private Point? dragStartPoint = null;
+
+        public DesignerCanvas()
+        {
+            PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
+        }
 
         public IEnumerable<DesignerItem> SelectedItems
         {
             get
             {
-                var selectedItems = from item in this.Children.OfType<DesignerItem>()
-                                    where item.IsSelected == true
-                                    select item;
-
-                return selectedItems;
+                return from item in this.Children.OfType<DesignerItem>()
+                    where item.IsSelected == true
+                    select item;
             }
         }
 
@@ -154,6 +157,50 @@ namespace PlansModule.Designer
             this.Children.Add(designerItem);
 
             return designerItem;
+        }
+
+        public bool IsPointAdding = false;
+
+        void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (IsPointAdding)
+            {
+                if (SelectedItems == null)
+                    return;
+                var selectedItem = SelectedItems.FirstOrDefault();
+                if (selectedItem == null)
+                    return;
+                if (selectedItem.IsPolygon == false)
+                    return;
+
+                IsPointAdding = false;
+
+                var item = selectedItem;
+                var polygon = item.Content as Polygon;
+
+
+                Point currentPoint = e.GetPosition(selectedItem);
+                var minDistance = double.MaxValue;
+                int minIndex = 0;
+                for (int i = 0; i < polygon.Points.Count; i++)
+                {
+                    var polygonPoint = polygon.Points[i];
+                    var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
+                    if (distance < minDistance)
+                    {
+                        minIndex = i;
+                        minDistance = distance;
+                    }
+                }
+                minIndex = minIndex + 1;
+                Point point = e.GetPosition(selectedItem);
+                polygon.Points.Insert(minIndex, point);
+
+
+                PolygonResizeChrome.Current.Initialize();
+
+                e.Handled = true;
+            }
         }
     }
 }
