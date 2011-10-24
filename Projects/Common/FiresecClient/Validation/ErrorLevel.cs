@@ -2,7 +2,8 @@
 {
     public enum ErrorLevel
     {
-        Critical,
-        Normal
+        CannotSave,
+        CannotWrite,
+        Warning
     }
 }

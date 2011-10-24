@@ -15,6 +15,7 @@ namespace DevicesModule.ViewModels
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
+
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             AddManyCommand = new RelayCommand(OnAddMany, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -56,9 +57,17 @@ namespace DevicesModule.ViewModels
             get { return Device.Driver.HasAddress ? Device.PresentationAddress : ""; }
             set
             {
-                Device.SetAddress(value);
-                OnPropertyChanged("Address");
-                DevicesModule.HasChanges = true;
+                if (Device.Parent.Children.Where(x => x != Device).Any(x => x.PresentationAddress == value))
+                {
+                    DialogBox.DialogBox.Show("Устройство с таким адресом уже существует");
+                    OnPropertyChanged("Address");
+                }
+                else
+                {
+                    Device.SetAddress(value);
+                    OnPropertyChanged("Address");
+                    DevicesModule.HasChanges = true;
+                }
             }
         }
 
@@ -85,10 +94,7 @@ namespace DevicesModule.ViewModels
 
         public Zone Zone
         {
-            get
-            {
-                return FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-            }
+            get { return FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo); }
             set
             {
                 Device.ZoneNo = value.No;
@@ -105,26 +111,14 @@ namespace DevicesModule.ViewModels
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
                     if (zone != null)
-                    {
                         return zone.PresentationName;
-                    }
                 }
 
-                if (Device.Driver.IsZoneLogicDevice)
-                {
-                    if (Device.ZoneLogic != null)
-                    {
-                        return Device.ZoneLogic.ToString();
-                    }
-                }
+                if (Device.Driver.IsZoneLogicDevice && Device.ZoneLogic != null)
+                    return Device.ZoneLogic.ToString();
 
-                if (Device.Driver.IsIndicatorDevice)
-                {
-                    if (Device.IndicatorLogic != null)
-                    {
-                        return Device.IndicatorLogic.ToString();
-                    }
-                }
+                if (Device.Driver.IsIndicatorDevice && Device.IndicatorLogic != null)
+                    return Device.IndicatorLogic.ToString();
 
                 return "";
             }
@@ -140,11 +134,8 @@ namespace DevicesModule.ViewModels
         {
             var zoneLogicViewModel = new ZoneLogicViewModel();
             zoneLogicViewModel.Initialize(Device);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
-            if (result)
-            {
-                DevicesModule.HasChanges = true;
-            }
+
+            DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
         }
 
         public RelayCommand ShowIndicatorLogicCommand { get; private set; }
@@ -152,11 +143,8 @@ namespace DevicesModule.ViewModels
         {
             var indicatorDetailsViewModel = new IndicatorDetailsViewModel();
             indicatorDetailsViewModel.Initialize(Device);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
-            if (result)
-            {
-                DevicesModule.HasChanges = true;
-            }
+
+            DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
         }
 
         public bool CanAdd()
@@ -167,33 +155,21 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            var newDeviceViewModel = new NewDeviceViewModel(this);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceViewModel);
-            if (result)
-            {
+            if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceViewModel(this)))
                 DevicesModule.HasChanges = true;
-            }
         }
 
         public RelayCommand AddManyCommand { get; private set; }
         void OnAddMany()
         {
-            var newDeviceRangeViewModel = new NewDeviceRangeViewModel(this);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(newDeviceRangeViewModel);
-            if (result)
-            {
+            if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceRangeViewModel(this)))
                 DevicesModule.HasChanges = true;
-            }
         }
 
         bool CanRemove()
         {
-            if (Parent == null)
+            if (Parent == null || Driver.IsAutoCreate)
                 return false;
-
-            if (Driver.IsAutoCreate)
-                return false;
-
             return true;
         }
 
@@ -229,8 +205,6 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            bool result = false;
-
             switch (Device.Driver.DriverType)
             {
                 case DriverType.Indicator:
@@ -238,27 +212,19 @@ namespace DevicesModule.ViewModels
                     break;
 
                 case DriverType.Valve:
-                    var valveDetailsViewModel = new ValveDetailsViewModel(Device);
-                    result = ServiceFactory.UserDialogs.ShowModalWindow(valveDetailsViewModel);
+                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new ValveDetailsViewModel(Device));
                     break;
 
                 case DriverType.Pump:
                 case DriverType.JokeyPump:
                 case DriverType.Compressor:
                 case DriverType.CompensationPump:
-                    var pumpDetailsViewModel = new PumpDetailsViewModel(Device);
-                    result = ServiceFactory.UserDialogs.ShowModalWindow(pumpDetailsViewModel);
+                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new PumpDetailsViewModel(Device));
                     break;
 
                 case DriverType.Group:
-                    var groupDetailsViewModel = new GroupDetailsViewModel(Device);
-                    result = ServiceFactory.UserDialogs.ShowModalWindow(groupDetailsViewModel);
+                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device));
                     break;
-            }
-
-            if (result)
-            {
-                DevicesModule.HasChanges = true;
             }
         }
     }

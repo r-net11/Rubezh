@@ -24,9 +24,12 @@ namespace FiresecService.Converters
 
             if (lEDProperties.zone != null)
             {
-                foreach (var zoneNo in lEDProperties.zone)
+                foreach (var item in lEDProperties.zone)
                 {
-                    indicatorLogic.Zones.Add(ulong.Parse(zoneNo));
+                    if (string.IsNullOrWhiteSpace(item))
+                        indicatorLogic.Zones.Add(null);
+                    else
+                        indicatorLogic.Zones.Add(ulong.Parse(item));
                 }
             }
 

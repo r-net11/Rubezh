@@ -29,9 +29,12 @@ namespace FiresecService.Converters
 
                         if (innerDirection.PinZ != null)
                         {
-                            foreach (var pinz in innerDirection.PinZ)
+                            foreach (var item in innerDirection.PinZ)
                             {
-                                direction.Zones.Add(ulong.Parse(pinz.pidz));
+                                if (string.IsNullOrWhiteSpace(item.pidz))
+                                    direction.Zones.Add(null);
+                                else
+                                    direction.Zones.Add(ulong.Parse(item.pidz));
                             }
                         }
 

@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
             get { return Zone.Description; }
         }
 
-        public string DetectorCount
+        public int DetectorCount
         {
             get { return Zone.DetectorCount; }
         }

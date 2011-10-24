@@ -10,8 +10,8 @@ namespace DevicesModule.ViewModels
     {
         public DirectionsViewModel()
         {
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-            EditCommand = new RelayCommand(OnEdit, CanEdit);
+            DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
+            EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
             AddCommand = new RelayCommand(OnAdd);
         }
 
@@ -38,11 +38,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        bool CanDelete()
-        {
-            return (SelectedDirection != null);
-        }
-
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
@@ -51,22 +46,21 @@ namespace DevicesModule.ViewModels
             DevicesModule.HasChanges = true;
         }
 
-        bool CanEdit()
-        {
-            return (SelectedDirection != null);
-        }
-
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
             var directionDetailsViewModel = new DirectionDetailsViewModel();
             directionDetailsViewModel.Initialize(SelectedDirection.Direction);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
             {
                 SelectedDirection.Update();
                 DevicesModule.HasChanges = true;
             }
+        }
+
+        bool CanEditOrDelete()
+        {
+            return SelectedDirection != null;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -74,20 +68,17 @@ namespace DevicesModule.ViewModels
         {
             var directionDetailsViewModel = new DirectionDetailsViewModel();
             directionDetailsViewModel.Initialize();
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);
-                var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
-                Directions.Add(directionViewModel);
+                Directions.Add(new DirectionViewModel(directionDetailsViewModel.Direction));
                 DevicesModule.HasChanges = true;
             }
         }
 
         public override void OnShow()
         {
-            var directionsMenuViewModel = new DirectionsMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(directionsMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new DirectionsMenuViewModel(this));
         }
 
         public override void OnHide()

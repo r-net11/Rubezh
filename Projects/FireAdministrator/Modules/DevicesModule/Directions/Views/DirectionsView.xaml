@@ -6,15 +6,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-
             <Grid Grid.Column="0">
-                <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+                <DataGrid Grid.Column="0" Name="_directionDataGrid" Margin="5" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Direction.Id}" />
                         <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
@@ -36,14 +34,12 @@
                     </DataGrid.RowStyle>
                 </DataGrid>
             </Grid>
-
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
-
                 <Grid Grid.Row="0">
                     <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
                         <DataGrid.Columns>
@@ -53,17 +49,14 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <Button Command="{Binding AddZoneCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
                         <Image Source="/Controls;component/Images/ArrowUp.png" Height="24" />
                     </Button>
-
                     <Button Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
                         <Image Source="/Controls;component/Images/ArrowDown.png" Height="24" />
                     </Button>
                 </StackPanel>
-
                 <Grid Grid.Row="2">
                     <DataGrid Margin="5" Grid.Column="0" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                         <DataGrid.Columns>
@@ -73,9 +66,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-
             </Grid>
-
         </Grid>
     </Grid>
 </UserControl>

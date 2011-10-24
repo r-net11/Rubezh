@@ -4,6 +4,7 @@
     {
         Device,
         Zone,
+        Direction,
         Instruction
     }
 }

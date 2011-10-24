@@ -20,10 +20,12 @@ namespace FiresecService.Converters
                     var clause = new Clause();
                     if (innerClause.zone != null)
                     {
-                        clause.Zones = new List<ulong?>();
-                        foreach (var zoneNo in innerClause.zone)
+                        foreach (var item in innerClause.zone)
                         {
-                            clause.Zones.Add(ulong.Parse(zoneNo));
+                            if (string.IsNullOrWhiteSpace(item))
+                                clause.Zones.Add(null);
+                            else
+                                clause.Zones.Add(ulong.Parse(item));
                         }
                     }
 
@@ -60,9 +62,7 @@ namespace FiresecService.Converters
                     }
 
                     if (innerClause.device != null)
-                    {
                         clause.DeviceUID = GuidHelper.ToGuid(innerClause.device[0].UID);
-                    }
 
                     zoneLogic.Clauses.Add(clause);
                 }

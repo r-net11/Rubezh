@@ -70,23 +70,21 @@ namespace DevicesModule
         static void OnShowDevice(Guid deviceUID)
         {
             if (deviceUID != Guid.Empty)
-            {
                 _devicesViewModel.Select(deviceUID);
-            }
             ServiceFactory.Layout.Show(_devicesViewModel);
         }
 
         static void OnShowZone(ulong? zoneNo)
         {
             if (zoneNo != null)
-            {
                 _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
-            }
             ServiceFactory.Layout.Show(_zonesViewModel);
         }
 
-        static void OnShowDirections(string obj)
+        static void OnShowDirections(int? directionId)
         {
+            if (directionId.HasValue)
+                _directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.Id == directionId);
             ServiceFactory.Layout.Show(_directionsViewModel);
         }
 

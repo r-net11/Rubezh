@@ -21,6 +21,7 @@ namespace DevicesModule.ViewModels
                 DevicesValidator.Validate();
                 errors.AddRange(DevicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
                 errors.AddRange(DevicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
+                errors.AddRange(DevicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
 
                 InstructionValidator.Validate();
                 errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
@@ -43,10 +44,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ClickCommand { get; private set; }
         void OnClick()
         {
-            if (SelectedError != null)
-            {
-                SelectedError.Select();
-            }
+            if (SelectedError != null) SelectedError.Select();
         }
     }
 }

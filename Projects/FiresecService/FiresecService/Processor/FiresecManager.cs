@@ -45,6 +45,7 @@ namespace FiresecService
                 Select(firesecDriver => DriverConverter.Convert(firesecDriver)).
                 Where(driver => driver.IsIgnore == false)
             );
+            DeviceConfiguration.ValidChars = DriverConverter.Metadata.drv.Last().validChars;
         }
 
         public static void Update()

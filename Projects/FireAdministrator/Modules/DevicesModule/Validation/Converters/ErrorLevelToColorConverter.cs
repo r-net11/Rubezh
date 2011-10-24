@@ -11,11 +11,14 @@ namespace DevicesModule.Validation.Converters
         {
             switch ((ErrorLevel) value)
             {
-                case ErrorLevel.Normal:
-                    return Brushes.Orange;
-
-                case ErrorLevel.Critical:
+                case ErrorLevel.CannotSave:
                     return Brushes.DarkRed;
+
+                case ErrorLevel.CannotWrite:
+                    return Brushes.OrangeRed;
+
+                case ErrorLevel.Warning:
+                    return Brushes.Orange;
 
                 default:
                     return Brushes.Orange;

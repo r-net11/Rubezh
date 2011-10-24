@@ -41,9 +41,7 @@ namespace FireAdministrator
             {
                 _isDevicesSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-                }
                 OnPropertyChanged("IsDevicesSelected");
             }
         }
@@ -56,9 +54,7 @@ namespace FireAdministrator
             {
                 _isZonesSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsZonesSelected");
             }
         }
@@ -71,9 +67,7 @@ namespace FireAdministrator
             {
                 _isDerectonsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsDerectonsSelected");
             }
         }
@@ -100,13 +94,9 @@ namespace FireAdministrator
             {
                 _isGuardUsersSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Publish(null);
-                }
                 else
-                {
                     IsGuardSelected = false;
-                }
                 OnPropertyChanged("IsGuardUsersSelected");
             }
         }
@@ -119,13 +109,9 @@ namespace FireAdministrator
             {
                 _isGuardLevelsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Publish(null);
-                }
                 else
-                {
                     IsGuardSelected = false;
-                }
                 OnPropertyChanged("IsGuardLevelsSelected");
             }
         }
@@ -138,13 +124,9 @@ namespace FireAdministrator
             {
                 _isGuardDevicesSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Publish(null);
-                }
                 else
-                {
                     IsGuardSelected = false;
-                }
                 OnPropertyChanged("IsGuardLevelsSelected");
             }
         }
@@ -157,9 +139,7 @@ namespace FireAdministrator
             {
                 _isLibrarySelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsLibrarySelected");
             }
         }
@@ -172,9 +152,7 @@ namespace FireAdministrator
             {
                 _isPlanSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsPlanSelected");
             }
         }
@@ -201,13 +179,9 @@ namespace FireAdministrator
             {
                 _isUsersSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowUsersEvent>().Publish(null);
-                }
                 else
-                {
                     IsSecuritySelected = false;
-                }
                 OnPropertyChanged("IsUsersSelected");
             }
         }
@@ -220,13 +194,9 @@ namespace FireAdministrator
             {
                 _isUserGroupsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Publish(null);
-                }
                 else
-                {
                     IsSecuritySelected = false;
-                }
                 OnPropertyChanged("IsUserGroupsSelected");
             }
         }
@@ -239,9 +209,7 @@ namespace FireAdministrator
             {
                 _isJournalSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsJournalSelected");
             }
         }
@@ -254,9 +222,7 @@ namespace FireAdministrator
             {
                 _isSoundsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsSoundsSelected");
             }
         }
@@ -269,9 +235,7 @@ namespace FireAdministrator
             {
                 _isInstructionsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsInstructionsSelected");
             }
         }
@@ -284,9 +248,7 @@ namespace FireAdministrator
             {
                 _isSettingsSelected = value;
                 if (value)
-                {
                     ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Publish(null);
-                }
                 OnPropertyChanged("IsSettingsSelected");
             }
         }

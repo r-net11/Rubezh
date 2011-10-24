@@ -42,7 +42,6 @@ namespace DevicesModule.ViewModels
             set
             {
                 _selectedZone = value;
-
                 if (value != null)
                 {
                     ZoneDevices.Initialize(value.No.Value);
@@ -97,8 +96,7 @@ namespace DevicesModule.ViewModels
         {
             var zoneDetailsViewModel = new ZoneDetailsViewModel();
             zoneDetailsViewModel.Initialize(SelectedZone.Zone);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
                 SelectedZone.Zone = zoneDetailsViewModel._zone;
                 SelectedZone.Update();

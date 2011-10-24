@@ -19,13 +19,10 @@ namespace FiresecClient
 
         static public SafeFiresecService FiresecService { get; private set; }
 
-        static FiresecManager()
-        {
-            FiresecService = new SafeFiresecService(FiresecServiceFactory.Create());
-        }
-
         public static string Connect(string login, string password)
         {
+            FiresecService = new SafeFiresecService(FiresecServiceFactory.Create());
+
             string result = FiresecService.Connect(login, password);
             if (result != null)
             {

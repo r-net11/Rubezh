@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
         {
             ZoneType = ZoneType.Fire;
             GuardZoneType = GuardZoneType.Ordinary;
-            DetectorCount = "2";
+            DetectorCount = 2;
             EvacuationTime = "0";
             AutoSet = "0";
             Delay = "0";
@@ -32,7 +32,7 @@ namespace FiresecAPI.Models
         public ZoneType ZoneType { get; set; }
 
         [DataMember]
-        public string DetectorCount { get; set; }
+        public int DetectorCount { get; set; }
 
         [DataMember]
         public string EvacuationTime { get; set; }

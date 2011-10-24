@@ -57,7 +57,7 @@
                             <DataTemplate>
                                 <StackPanel>
                                     <StackPanel Visibility="{Binding Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Views:AddressRedactor DataContext="{Binding Address, Mode=TwoWay}" Foreground="Black" />
+                                        <Views:AddressRedactor />
                                     </StackPanel>
                                     <TextBlock Text="{Binding Address}" />
                                 </StackPanel>
@@ -111,7 +111,7 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBox Text="{Binding Description}" MaxLength="20" HorizontalAlignment="Stretch" Name="descriptionTextBox" Foreground="Black" />
+                                    <TextBox Text="{Binding Description}" BorderThickness="0" HorizontalAlignment="Stretch" Name="descriptionTextBox" />
                                 </StackPanel>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">

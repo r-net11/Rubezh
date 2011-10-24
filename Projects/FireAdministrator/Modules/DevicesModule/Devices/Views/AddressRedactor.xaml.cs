@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.Views
 {
@@ -55,7 +56,7 @@ namespace DevicesModule.Views
                 if (_isHaveDelimiter)
                     addressRedactor.Text = value.ToString(LeftPartFormat) + addressRedactor.Text.Substring(LeftPartLen);
                 else
-                    addressRedactor.Text = value.ToString();
+                    addressRedactor.Text = value.ToString(LeftPartFormat);
             }
         }
 
@@ -79,25 +80,39 @@ namespace DevicesModule.Views
 
         void OnDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            string text = DataContext.ToString();
-            if (string.IsNullOrWhiteSpace(text) == false && text != addressRedactor.Text)
-            {
-                if (_isHaveDelimiter = text.Contains(DOT.ToString()))
-                {
-                    addressRedactor.MaxLength = LeftPartLen + 1 + RightPartLen;
-                    addressRedactor.Text = text;
-                    LeftPart = LeftPart;
-                    RightPart = RightPart;
-                }
-                else
-                {
-                    addressRedactor.MaxLength = LeftPartLen;
-                    addressRedactor.Text = text;
-                    LeftPart = LeftPart;
-                }
+            var deviceViewModel = DataContext as DeviceViewModel;
+            SetBounds();
 
-                addressRedactor.Focus();
-                addressRedactor.CaretIndex = 0;
+            string text = deviceViewModel.Address;
+            if (_isHaveDelimiter = text.Contains(DOT.ToString()))
+            {
+                addressRedactor.MaxLength = LeftPartLen + 1 + RightPartLen;
+                addressRedactor.Text = text;
+                LeftPart = LeftPart;
+                RightPart = RightPart;
+            }
+            else
+            {
+                addressRedactor.MaxLength = LeftPartLen;
+                addressRedactor.Text = text;
+                LeftPart = LeftPart;
+            }
+
+            addressRedactor.Focus();
+            addressRedactor.CaretIndex = 0;
+        }
+
+        void SetBounds()
+        {
+            var deviceViewModel = DataContext as DeviceViewModel;
+            if (deviceViewModel.Driver.IsRangeEnabled)
+            {
+                LeftPartMin = deviceViewModel.Driver.MinAddress;
+                LeftPartMax = deviceViewModel.Driver.MaxAddress;
+            }
+            else
+            {
+                LeftPartMax = deviceViewModel.Device.Parent.Driver.ShleifCount;
             }
         }
 
@@ -247,7 +262,10 @@ namespace DevicesModule.Views
 
         void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            DataContext = addressRedactor.Text;
+            if (_isHaveDelimiter)
+                (DataContext as DeviceViewModel).Address = LeftPart.ToString() + '.' + RightPart.ToString();
+            else
+                (DataContext as DeviceViewModel).Address = LeftPart.ToString();
         }
     }
 }

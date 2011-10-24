@@ -38,6 +38,7 @@ namespace FiresecService.Converters
                 driver.IsPlaceable = innerDriver.options.Contains("Placeable");
                 driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
                 driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
+                driver.IsNotValidateZoneAndChildren = innerDriver.options.Contains("NotValidateZoneAndChildren");
 
                 driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
                 driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
@@ -88,7 +89,6 @@ namespace FiresecService.Converters
 
             driver.IsChildAddressReservedRange = innerDriver.res_addr != null;
             driver.ChildAddressReserveRangeCount = driver.IsChildAddressReservedRange ? int.Parse(innerDriver.res_addr) : 0;
-            
 
             if (innerDriver.addrMask == "[0(1)-8(8)]")
                 driver.IsRangeEnabled = true;
@@ -133,26 +133,20 @@ namespace FiresecService.Converters
                     break;
             }
 
-            driver.Category = (DeviceCategoryType)int.Parse(innerDriver.cat);
+            driver.Category = (DeviceCategoryType) int.Parse(innerDriver.cat);
             driver.CategoryName = EnumsConverter.CategoryTypeToCategoryName(driver.Category);
 
             driver.DeviceType = DeviceType.FireSecurity;
             if (innerDriver.options != null)
             {
                 if (innerDriver.options.Contains("FireOnly"))
-                {
                     driver.DeviceType = DeviceType.Fire;
-                }
 
                 if (innerDriver.options.Contains("SecOnly"))
-                {
                     driver.DeviceType = DeviceType.Sequrity;
-                }
 
                 if (innerDriver.options.Contains("TechOnly"))
-                {
                     driver.DeviceType = DeviceType.Technoligical;
-                }
             }
             driver.DeviceTypeName = EnumsConverter.DeviceTypeToString(driver.DeviceType);
 
@@ -160,9 +154,7 @@ namespace FiresecService.Converters
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);
             var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
             if (driverData != null)
-            {
                 driver.DriverType = driverData.DriverType;
-            }
 
             var AllChildren = new List<drvType>();
             foreach (var childDriver in Metadata.drv)
@@ -188,7 +180,9 @@ namespace FiresecService.Converters
                 select new Guid(childInnerDriver.id));
 
             if (driver.DisableAutoCreateChildren)
+            {
                 driver.AutoCreateChildren = new List<Guid>();
+            }
             else
             {
                 driver.AutoCreateChildren = new List<Guid>(

@@ -117,7 +117,6 @@ namespace DevicesModule.ViewModels
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
-
             foreach (var deviceViewModel in parentDeviceViewModel.Children)
             {
                 CollapseChild(deviceViewModel);
@@ -141,15 +140,8 @@ namespace DevicesModule.ViewModels
 
         bool CanCutCopy()
         {
-            if (SelectedDevice == null)
+            if (SelectedDevice == null || SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Driver.DriverType == DriverType.Computer)
                 return false;
-
-            if (SelectedDevice.Driver.IsAutoCreate)
-                return false;
-
-            if (SelectedDevice.Driver.DriverType == DriverType.Computer)
-                return false;
-
             return true;
         }
 
@@ -170,17 +162,8 @@ namespace DevicesModule.ViewModels
 
         bool CanPaste()
         {
-            if (SelectedDevice == null)
-                return false;
-
-            if (_deviceToCopy != null)
-            {
-                if (SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID))
-                {
-                    return true;
-                }
-            }
-
+            if (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID))
+                return true;
             return false;
         }
 
@@ -190,6 +173,7 @@ namespace DevicesModule.ViewModels
             var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
             SelectedDevice.Device.Children.Add(pasteDevice);
             pasteDevice.Parent = SelectedDevice.Device;
+
             var newDevice = AddDevice(pasteDevice, SelectedDevice);
             CollapseChild(newDevice);
 

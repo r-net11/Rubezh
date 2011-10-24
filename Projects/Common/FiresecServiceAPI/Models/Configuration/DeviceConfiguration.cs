@@ -34,6 +34,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<GuardLevel> GuardLevels { get; set; }
 
+        [DataMember]
+        public string ValidChars { get; set; }
+
         public void Update()
         {
             Devices = new List<Device>();
@@ -74,6 +77,7 @@ namespace FiresecAPI.Models
                     ZoneNo = currentDevice.ZoneNo,
                     Properties = currentDevice.Properties
                 };
+
                 if (copyChildDevice != null)
                     copyDevice.Children.Add(copyChildDevice);
 

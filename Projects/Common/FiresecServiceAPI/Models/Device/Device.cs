@@ -66,9 +66,7 @@ namespace FiresecAPI.Models
             get
             {
                 if (Driver.HasAddress == false)
-                {
                     return "";
-                }
 
                 string address = AddressConverter.IntToStringAddress(Driver, IntAddress);
 
@@ -130,9 +128,7 @@ namespace FiresecAPI.Models
             {
                 string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
                 if (Parent != null)
-                {
                     return Parent.Id + @"/" + currentId;
-                }
                 return currentId;
             }
         }
@@ -153,7 +149,9 @@ namespace FiresecAPI.Models
                     address.Append(".");
                 }
                 if (address[address.Length - 1] == '.')
+                {
                     address.Remove(address.Length - 1, 1);
+                }
 
                 return address.ToString();
             }

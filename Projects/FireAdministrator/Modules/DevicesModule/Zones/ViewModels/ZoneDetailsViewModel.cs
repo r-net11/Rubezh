@@ -101,8 +101,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        string _detectorCount;
-        public string DetectorCount
+        int _detectorCount;
+        public int DetectorCount
         {
             get { return _detectorCount; }
             set

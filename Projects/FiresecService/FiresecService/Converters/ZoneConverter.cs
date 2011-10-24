@@ -45,7 +45,7 @@ namespace FiresecService.Converters
 
                         var fireDeviceCountParam = innerZone.param.FirstOrDefault(x => x.name == "FireDeviceCount");
                         if (fireDeviceCountParam != null)
-                            zone.DetectorCount = fireDeviceCountParam.value;
+                            zone.DetectorCount = int.Parse(fireDeviceCountParam.value);
 
                         var autoSetParam = innerZone.param.FirstOrDefault(x => x.name == "AutoSet");
                         if (autoSetParam != null)
@@ -102,13 +102,13 @@ namespace FiresecService.Converters
                     type = "Int",
                     value = ((int) zone.GuardZoneType).ToString()
                 });
-                if (string.IsNullOrEmpty(zone.DetectorCount) == false)
+                if (zone.DetectorCount > 0)
                 {
                     zoneParams.Add(new paramType()
                     {
                         name = "FireDeviceCount",
                         type = "Int",
-                        value = zone.DetectorCount
+                        value = zone.DetectorCount.ToString()
                     });
                 }
                 if (string.IsNullOrEmpty(zone.EvacuationTime) == false)

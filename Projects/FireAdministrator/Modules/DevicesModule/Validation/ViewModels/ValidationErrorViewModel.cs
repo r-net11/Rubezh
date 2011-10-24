@@ -8,8 +8,10 @@ namespace DevicesModule.ViewModels
     public class ValidationErrorViewModel : BaseViewModel
     {
         ErrorEntityType _errorEntityType;
-        ZoneError _zoneError;
+
         DeviceError _deviceError;
+        ZoneError _zoneError;
+        DirectionError _directionError;
         InstructionError _instructionError;
 
         public ValidationErrorViewModel(DeviceError deviceError)
@@ -18,7 +20,7 @@ namespace DevicesModule.ViewModels
             _deviceError = deviceError;
 
             Source = deviceError.Device.Driver.ShortName;
-            Address = deviceError.Device.PresentationAddress;
+            Address = deviceError.Device.DottedAddress;
             Error = deviceError.Error;
             ErrorLevel = deviceError.Level;
         }
@@ -32,6 +34,17 @@ namespace DevicesModule.ViewModels
             Address = zoneError.Zone.No.ToString();
             Error = zoneError.Error;
             ErrorLevel = zoneError.Level;
+        }
+
+        public ValidationErrorViewModel(DirectionError directionError)
+        {
+            _errorEntityType = ErrorEntityType.Direction;
+            _directionError = directionError;
+
+            Source = directionError.Direction.Name;
+            Address = directionError.Direction.Id.ToString();
+            Error = directionError.Error;
+            ErrorLevel = directionError.Level;
         }
 
         public ValidationErrorViewModel(InstructionError instructionError)
@@ -60,6 +73,10 @@ namespace DevicesModule.ViewModels
 
                 case ErrorEntityType.Zone:
                     ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(_zoneError.Zone.No);
+                    break;
+
+                case ErrorEntityType.Direction:
+                    ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Publish(_directionError.Direction.Id);
                     break;
 
                 case ErrorEntityType.Instruction:
