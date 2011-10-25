@@ -13,13 +13,12 @@ namespace PlansModule.ViewModels
     public class RectanglePropertiesViewModel : SaveCancelDialogContent
     {
         ElementRectangle _elementRectangle;
+        public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
 
         public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
         {
-            SelectPictureCommand = new RelayCommand(OnSelectPicture);
-            RemovePictureCommand = new RelayCommand(OnRemovePicture);
-
             Title = "Свойства фигуры: Прямоугольник";
+            ImagePropertiesViewModel = new ImagePropertiesViewModel();
             _elementRectangle = elementRectangle;
             CopyProperties();
         }
@@ -29,8 +28,8 @@ namespace PlansModule.ViewModels
             BackgroundColor = _elementRectangle.BackgroundColor;
             BorderColor = _elementRectangle.BorderColor;
             StrokeThickness = _elementRectangle.BorderThickness;
-            BackgroundPixels = _elementRectangle.BackgroundPixels;
-            UpdateImage();
+            ImagePropertiesViewModel.BackgroundPixels = _elementRectangle.BackgroundPixels;
+            ImagePropertiesViewModel.UpdateImage();
         }
 
         Color _backgroundColor;
@@ -66,56 +65,12 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public byte[] BackgroundPixels { get; set; }
-
-        public Image Image { get; private set; }
-
-        public RelayCommand SelectPictureCommand { get; set; }
-        void OnSelectPicture()
-        {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Все файлы изображений|*.bmp; *.png; *.jpeg; *.jpg|BMP Файлы|*.bmp|PNG Файлы|*.png|JPEG Файлы|*.jpeg|JPG Файлы|*.jpg";
-            if (openFileDialog.ShowDialog().Value)
-            {
-                Uri uri = new Uri(openFileDialog.FileName);
-                BackgroundPixels = File.ReadAllBytes(openFileDialog.FileName);
-                UpdateImage();
-            }
-        }
-
-        void UpdateImage()
-        {
-            BitmapImage bitmapImage = null;
-            if (BackgroundPixels != null)
-            using (var imageStream = new MemoryStream(BackgroundPixels))
-            {
-                bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.StreamSource = imageStream;
-                bitmapImage.EndInit();
-            }
-            Image = new Image()
-            {
-                Source = bitmapImage,
-                Stretch = Stretch.Uniform
-            };
-            OnPropertyChanged("Image");
-        }
-
-        public RelayCommand RemovePictureCommand { get; private set; }
-        void OnRemovePicture()
-        {
-            BackgroundPixels = null;
-            UpdateImage();
-        }
-
         protected override void Save(ref bool cancel)
         {
             _elementRectangle.BackgroundColor = BackgroundColor;
             _elementRectangle.BorderColor = BorderColor;
             _elementRectangle.BorderThickness = StrokeThickness;
-            _elementRectangle.BackgroundPixels = BackgroundPixels;
+            _elementRectangle.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
         }
     }
 }

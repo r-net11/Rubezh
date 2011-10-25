@@ -110,10 +110,16 @@ namespace PlansModule.Designer
             }
             if (ElementBase is ElementPolygon)
             {
+                ElementPolygon elementPolygon = ElementBase as ElementPolygon;
+                elementPolygon.PolygonPoints = new PointCollection((Content as Polygon).Points);
+
                 var polygonPropertiesViewModel = new PolygonPropertiesViewModel(ElementBase as ElementPolygon);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel))
                 {
-                    Redraw();
+                    DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
+                    designerCanvas.Children.Remove(this);
+                    designerCanvas.Create(ElementBase);
+                    //Redraw();
                     PlansModule.HasChanges = true;
                 }
             }

@@ -11,9 +11,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/BaseLight.xaml"/>-->
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/ScrollBarStyle.xaml" />
-
-                <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChrome.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Designer/DesignerItem.xaml"/>
                 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

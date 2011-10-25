@@ -63,6 +63,11 @@
     <Compile Include="Designer\Designer\DesignerItem.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
+    <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\DesignerPropertiesView.xaml.cs">
+      <DependentUpon>DesignerPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ElementProperties\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -217,9 +222,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Designer\Designer\DesignerCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Designer\Designer\DesignerItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\DesignerPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\DevicePropertiesView.xaml">
       <SubType>Designer</SubType>

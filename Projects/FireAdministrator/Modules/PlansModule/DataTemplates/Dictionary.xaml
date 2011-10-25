@@ -47,4 +47,8 @@
         <Views:DevicePropertiesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DesignerPropertiesViewModel}">
+        <Views:DesignerPropertiesView />
+    </DataTemplate>
+
 </ResourceDictionary>

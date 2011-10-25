@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
         public double FontSize { get; set; }
 
         [DataMember]
-        public string ForegroundColor { get; set; }
+        public Color ForegroundColor { get; set; }
 
         [DataMember]
         public Color BackgroundColor { get; set; }

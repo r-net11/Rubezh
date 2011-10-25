@@ -1,12 +1,29 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlansTreeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Plan.Name}" Header="Название" />
-                <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Название" Width="250">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Plan.Name}">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Добавить подплан"
+                                                  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=2}, Path=DataContext.AddSubPlanCommand}" />
+                                        <MenuItem Header="Добавить подплан 2"
+                                        Command="{Binding
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
+					                    Path=DataContext.AddSubPlanCommand}" />
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <DataGridTextColumn Binding="{Binding Plan.Name}" Header="Название" />
+            <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

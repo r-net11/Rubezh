@@ -18,6 +18,7 @@ namespace PlansModule.ViewModels
         {
             Plan = plan;
             DesignerCanvas.Plan = plan;
+            DesignerCanvas.Update();
             DesignerCanvas.Children.Clear();
             DesignerCanvas.Width = plan.Width;
             DesignerCanvas.Height = plan.Height;

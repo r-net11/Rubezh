@@ -51,11 +51,11 @@ namespace PlansModule
         {
             foreach (var plan in Plans)
             {
-                if (plan.BackgroundSource != null)
-                {
-                    Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
-                    plan.BackgroundPixels = File.ReadAllBytes(uri.AbsolutePath);
-                }
+                //if (plan.BackgroundSource != null)
+                //{
+                //    Uri uri = new Uri(PathHelper.Data + plan.BackgroundSource);
+                //    plan.BackgroundPixels = File.ReadAllBytes(uri.AbsolutePath);
+                //}
                 if (plan.Children != null)
                 {
                     ConvertPathToArray(plan.Children);
@@ -67,7 +67,7 @@ namespace PlansModule
         {
             var plan = new Plan();
             plan.Name = "rootPlan";
-            plan.BackgroundSource = "D:/picture6.jpg";
+            //plan.BackgroundSource = "D:/picture6.jpg";
             plan.Caption = "cap";
             plan.Height = 500;
             plan.Width = 500;

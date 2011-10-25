@@ -9,6 +9,13 @@ using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
 using System.Windows.Shapes;
+using Infrastructure.Common;
+using PlansModule.ViewModels;
+using Infrastructure;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.IO;
+using FiresecAPI;
 
 namespace PlansModule.Designer
 {
@@ -19,7 +26,9 @@ namespace PlansModule.Designer
 
         public DesignerCanvas()
         {
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
+            DataContext = this;
         }
 
         public IEnumerable<DesignerItem> SelectedItems
@@ -196,10 +205,30 @@ namespace PlansModule.Designer
                 Point point = e.GetPosition(selectedItem);
                 polygon.Points.Insert(minIndex, point);
 
-
                 PolygonResizeChrome.Current.Initialize();
 
                 e.Handled = true;
+            }
+        }
+
+        public RelayCommand ShowPropertiesCommand { get; private set; }
+        void OnShowProperties()
+        {
+            var designerPropertiesViewModel = new DesignerPropertiesViewModel(Plan);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(designerPropertiesViewModel))
+                {
+                    Update();
+                    PlansModule.HasChanges = true;
+                }
+        }
+
+        public void Update()
+        {
+            Background = new SolidColorBrush(Plan.BackgroundColor);
+
+            if (Plan.BackgroundPixels != null)
+            {
+                Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels);
             }
         }
     }

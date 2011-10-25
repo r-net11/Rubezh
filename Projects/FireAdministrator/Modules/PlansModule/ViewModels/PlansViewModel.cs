@@ -11,11 +11,12 @@ namespace PlansModule.ViewModels
     {
         public PlansViewModel()
         {
-            TestCommand = new RelayCommand(OnTest);
+            ShowDevicesCommand = new RelayCommand(OnShowDevices);
             AddCommand = new RelayCommand(OnAdd);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
+            AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
             DesignerCanvas = new DesignerCanvas()
             {
@@ -75,8 +76,8 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public RelayCommand TestCommand { get; private set; }
-        void OnTest()
+        public RelayCommand ShowDevicesCommand { get; private set; }
+        void OnShowDevices()
         {
             var devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initialize();
@@ -104,6 +105,7 @@ namespace PlansModule.ViewModels
         public RelayCommand AddSubPlanCommand { get; private set; }
         void OnAddSubPlan()
         {
+            ;
         }
 
         public RelayCommand RemoveCommand { get; private set; }

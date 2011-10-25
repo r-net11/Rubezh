@@ -29,16 +29,17 @@
                                     </WrapPanel>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Driver.ShortName}">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-                                                <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
-                                                <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
-                                                <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
-                                                          Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu></TextBlock>
+                                            <TextBlock.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
+                                                    <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
+                                                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
+                                                    <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
+                                                              Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                                </ContextMenu>
+                                            </TextBlock.ContextMenu>
+                                        </TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

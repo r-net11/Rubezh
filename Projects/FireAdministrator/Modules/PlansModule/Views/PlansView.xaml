@@ -3,15 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:s="clr-namespace:PlansModule.Designer"
              xmlns:Views="clr-namespace:PlansModule.Views">
-    
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChrome.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Designer/DesignerItem.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -20,7 +11,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <s:Toolbox />
-            <Button Content="Test" Command="{Binding TestCommand}" />
+            <Button Content="Устройства" Width="100" Command="{Binding ShowDevicesCommand}" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

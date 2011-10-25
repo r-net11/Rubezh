@@ -48,8 +48,8 @@ namespace PlansModule.ViewModels
 
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-            string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
-            _canvas.Background = CreateBrush(backgroundPath);
+            //string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
+            //_canvas.Background = CreateBrush(backgroundPath);
 
             foreach (var elementSubPlan in _plan.ElementSubPlans)
             {

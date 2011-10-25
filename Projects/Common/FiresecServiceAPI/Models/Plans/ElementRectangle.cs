@@ -43,20 +43,7 @@ namespace FiresecAPI.Models
 
             if (BackgroundPixels != null)
             {
-                try
-                {
-                    BitmapImage bitmapImage = null;
-                    using (var imageStream = new MemoryStream(BackgroundPixels))
-                    {
-                        bitmapImage = new BitmapImage();
-                        bitmapImage.BeginInit();
-                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmapImage.StreamSource = imageStream;
-                        bitmapImage.EndInit();
-                    }
-                    rectangle.Fill = new ImageBrush(bitmapImage);
-                }
-                catch (Exception) { ;}
+                rectangle.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels); ;
             }
 
             return rectangle;

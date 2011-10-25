@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {
@@ -36,23 +37,20 @@ namespace FiresecAPI.Models
         public string Description { get; set; }
 
         [DataMember]
-        public string BackgroundSource { get; set; }
-
-        [DataMember]
-        public bool ShowBackgroundImage { get; set; }
-
-        [DataMember]
-        public byte[] BackgroundPixels { get; set; }
-
-        [DataMember]
         public double Width { get; set; }
 
         [DataMember]
         public double Height { get; set; }
 
         [DataMember]
-        public List<ElementSubPlan> ElementSubPlans { get; set; }
+        public Color BackgroundColor { get; set; }
 
+        [DataMember]
+        public byte[] BackgroundPixels { get; set; }
+
+
+        [DataMember]
+        public List<ElementSubPlan> ElementSubPlans { get; set; }
 
         [DataMember]
         public List<ElementRectangleZone> ElementRectangleZones { get; set; }

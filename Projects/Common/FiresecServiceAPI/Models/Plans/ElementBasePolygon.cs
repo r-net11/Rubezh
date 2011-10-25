@@ -59,8 +59,6 @@ namespace FiresecAPI.Models
             }
 
             PolygonPoints = new PointCollection(pointCollection);
-            //Left = Math.Min(Left, minLeft);
-            //Top = Math.Min(Top, minTop);
             Left = minLeft;
             Top = minTop;
             Width = maxLeft - minLeft;
@@ -76,6 +74,12 @@ namespace FiresecAPI.Models
                 Stroke = new SolidColorBrush(BorderColor),
                 StrokeThickness = BorderThickness
             };
+
+            if (BackgroundPixels != null)
+            {
+                polygon.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
+            }
+
             return polygon;
         }
     }

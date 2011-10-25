@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace FiresecAPI.Models
 {
@@ -35,6 +37,12 @@ namespace FiresecAPI.Models
                 Stroke = new SolidColorBrush(BorderColor),
                 StrokeThickness = BorderThickness
             };
+
+            if (BackgroundPixels != null)
+            {
+                ellipse.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
+            }
+
             return ellipse;
         }
     }

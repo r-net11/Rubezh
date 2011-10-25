@@ -5,7 +5,6 @@ using Firesec.Plans;
 using FiresecAPI.Models;
 using System.Windows.Media;
 using System.Drawing.Imaging;
-using System.Drawing;
 
 namespace FiresecService.Converters
 {
@@ -51,14 +50,14 @@ namespace FiresecService.Converters
 
                                             if (innerPicture.ext == "emf")
                                             {
-                                                var img = new Metafile(uri.AbsolutePath);
+                                                var metafile = new Metafile(uri.AbsolutePath);
                                                 innerPicture.ext = "bmp";
                                                 uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-                                                img.Save(uri.AbsolutePath, ImageFormat.Bmp);
-                                                img.Dispose();
+                                                metafile.Save(uri.AbsolutePath, ImageFormat.Bmp);
+                                                metafile.Dispose();
                                             }
 
-                                            byte[] imageBytes = File.ReadAllBytes(uri.AbsolutePath);
+                                            byte[] backgroundPixels = File.ReadAllBytes(uri.AbsolutePath);
 
                                             var elementRectangle = new ElementRectangle()
                                             {
@@ -66,10 +65,17 @@ namespace FiresecService.Converters
                                                 Top = Parse(innerElementLayer.rect[0].top),
                                                 Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
                                                 Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
-                                                BackgroundPixels = imageBytes
+                                                BackgroundPixels = backgroundPixels
                                             };
 
-                                            plan.ElementRectangles.Add(elementRectangle);
+                                            if ((elementRectangle.Left == 0) && (elementRectangle.Top == 0) && (elementRectangle.Width == plan.Width) && (elementRectangle.Height == plan.Height))
+                                            {
+                                                plan.BackgroundPixels = elementRectangle.BackgroundPixels;
+                                            }
+                                            else
+                                            {
+                                                plan.ElementRectangles.Add(elementRectangle);
+                                            }
                                         }
                                         break;
 
@@ -81,11 +87,11 @@ namespace FiresecService.Converters
                                             Top = Parse(innerElementLayer.rect[0].top),
                                         };
 
-                                        //if (innerElementLayer.brush != null)
-                                        //    elementTextBlock.BorderColor = innerElementLayer.brush[0].color;
+                                        if (innerElementLayer.brush != null)
+                                            elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.brush[0].color);
 
                                         if (innerElementLayer.pen != null)
-                                            elementTextBlock.Color = innerElementLayer.pen[0].color;
+                                            elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.pen[0].color);
 
                                         plan.ElementTextBlocks.Add(elementTextBlock);
                                         break;
