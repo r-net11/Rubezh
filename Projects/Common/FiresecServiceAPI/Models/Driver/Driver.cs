@@ -123,6 +123,12 @@ namespace FiresecAPI.Models
         public bool IsPlaceable { get; set; }
 
         [DataMember]
+        public bool IsSingleInParent { get; set; }
+
+        [DataMember]
+        public bool IsSingleInZone { get; set; }
+
+        [DataMember]
         public bool IsIndicatorDevice { get; set; }
 
         [DataMember]

@@ -19,8 +19,11 @@ namespace DevicesModule.ViewModels
             _errorEntityType = ErrorEntityType.Device;
             _deviceError = deviceError;
 
-            Source = deviceError.Device.Driver.ShortName;
-            Address = deviceError.Device.DottedAddress;
+            if (deviceError.Device != null)
+            {
+                Source = deviceError.Device.Driver.ShortName;
+                Address = deviceError.Device.DottedAddress;
+            }
             Error = deviceError.Error;
             ErrorLevel = deviceError.Level;
         }
@@ -68,7 +71,8 @@ namespace DevicesModule.ViewModels
             switch (_errorEntityType)
             {
                 case ErrorEntityType.Device:
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_deviceError.Device.UID);
+                    if (_deviceError.Device != null)
+                        ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_deviceError.Device.UID);
                     break;
 
                 case ErrorEntityType.Zone:

@@ -55,7 +55,7 @@ namespace FiresecService.Converters
                 case IndicatorLogicType.Zone:
                     lEDProperties.type = "0";
                     lEDProperties.device = null;
-                    lEDProperties.zone = indicatorLogic.Zones.Cast<string>().ToArray();
+                    lEDProperties.zone = indicatorLogic.Zones.Select(x => x.ToString()).ToArray();
                     break;
 
                 case IndicatorLogicType.Device:
@@ -65,10 +65,10 @@ namespace FiresecService.Converters
                     lEDProperties.device[0] = new deviceType()
                     {
                         UID = GuidHelper.ToString(indicatorLogic.DeviceUID),
-                        state1 = ((int)indicatorLogic.OnColor).ToString(),
-                        state2 = ((int)indicatorLogic.OffColor).ToString(),
-                        state3 = ((int)indicatorLogic.FailureColor).ToString(),
-                        state4 = ((int)indicatorLogic.ConnectionColor).ToString()
+                        state1 = ((int) indicatorLogic.OnColor).ToString(),
+                        state2 = ((int) indicatorLogic.OffColor).ToString(),
+                        state3 = ((int) indicatorLogic.FailureColor).ToString(),
+                        state4 = ((int) indicatorLogic.ConnectionColor).ToString()
                     };
                     break;
             }

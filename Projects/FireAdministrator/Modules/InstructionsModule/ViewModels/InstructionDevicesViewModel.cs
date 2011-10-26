@@ -62,7 +62,7 @@ namespace InstructionsModule.ViewModels
 
                 if (device.Driver.IsZoneLogicDevice)
                 {
-                    if (device.ZoneLogic != null)
+                    if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
                     {
                         foreach (var clause in device.ZoneLogic.Clauses)
                         {

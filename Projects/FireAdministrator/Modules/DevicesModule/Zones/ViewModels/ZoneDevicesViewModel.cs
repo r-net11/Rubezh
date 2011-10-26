@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -46,7 +47,7 @@ namespace DevicesModule.ViewModels
                     }
                 }
 
-                if (device.Driver.IsZoneLogicDevice)
+                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
                 {
                     if (device.ZoneLogic != null)
                     {

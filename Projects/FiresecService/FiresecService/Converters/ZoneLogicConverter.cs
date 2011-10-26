@@ -121,7 +121,7 @@ namespace FiresecService.Converters
                     };
                 }
 
-                innerClause.zone = clause.Zones.Cast<string>().ToArray();
+                innerClause.zone = clause.Zones.Select(x => x.ToString()).ToArray();
                 innerClauses.Add(innerClause);
             }
 

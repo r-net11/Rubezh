@@ -14,7 +14,6 @@ namespace FiresecAPI.Models
             Children = new List<Device>();
             Properties = new List<Property>();
             Properties = new List<Property>();
-            ZoneLogic = new ZoneLogic();
             IndicatorLogic = new IndicatorLogic();
             PDUGroupLogic = new PDUGroupLogic();
             ShapeIds = new List<string>();
@@ -114,10 +113,7 @@ namespace FiresecAPI.Models
                 }
 
                 if (Driver.IsDeviceOnShleif)
-                {
                     address = AddressConverter.IntToStringAddress(Driver, IntAddress);
-                }
-
                 return address;
             }
         }
@@ -148,7 +144,7 @@ namespace FiresecAPI.Models
                     address.Append(PresentationAddress);
                     address.Append(".");
                 }
-                if (address[address.Length - 1] == '.')
+                if (address.Length > 0 && address[address.Length - 1] == '.')
                 {
                     address.Remove(address.Length - 1, 1);
                 }
@@ -166,9 +162,7 @@ namespace FiresecAPI.Models
 
                 string localPlaceInTree = Parent.Children.IndexOf(this).ToString();
                 if (Parent.PlaceInTree == "")
-                {
                     return localPlaceInTree;
-                }
                 return Parent.PlaceInTree + @"\" + localPlaceInTree;
             }
         }

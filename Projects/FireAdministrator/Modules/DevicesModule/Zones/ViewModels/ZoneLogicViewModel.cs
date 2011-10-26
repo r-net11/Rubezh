@@ -4,6 +4,7 @@ using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -24,12 +25,20 @@ namespace DevicesModule.ViewModels
         {
             _device = device;
             Clauses = new ObservableCollection<ClauseViewModel>();
-            foreach (var clause in device.ZoneLogic.Clauses)
+            if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
             {
-                var clauseViewModel = new ClauseViewModel();
-                clauseViewModel.Initialize(_device, clause);
-                Clauses.Add(clauseViewModel);
+                foreach (var clause in device.ZoneLogic.Clauses)
+                {
+                    var clauseViewModel = new ClauseViewModel();
+                    clauseViewModel.Initialize(_device, clause);
+                    Clauses.Add(clauseViewModel);
+                }
             }
+            else
+            {
+                device.ZoneLogic = new ZoneLogic();
+            }
+
             if (device.ZoneLogic.Clauses.Count == 0)
             {
                 var clauseViewModel = new ClauseViewModel();

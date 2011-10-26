@@ -16,7 +16,7 @@ namespace FiresecClient
                 }
                 return "";
             }
-            if (device.Driver.IsZoneLogicDevice)
+            if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
             {
                 return device.ZoneLogic.ToString();
             }

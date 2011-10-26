@@ -39,6 +39,8 @@ namespace FiresecService.Converters
                 driver.IsOutDevice = innerDriver.options.Contains("OutDevice");
                 driver.IgnoreInZoneState = innerDriver.options.Contains("IgnoreInZoneState");
                 driver.IsNotValidateZoneAndChildren = innerDriver.options.Contains("NotValidateZoneAndChildren");
+                driver.IsSingleInParent = innerDriver.options.Contains("Single");
+                driver.IsSingleInZone = innerDriver.options.Contains("SingleInZone");
 
                 driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
                 driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");

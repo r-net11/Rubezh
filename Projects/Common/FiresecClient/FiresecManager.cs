@@ -81,11 +81,9 @@ namespace FiresecClient
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
-                {
                     device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-                }
 
-                if (device.Driver.IsZoneLogicDevice)
+                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
                 {
                     foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
                     {

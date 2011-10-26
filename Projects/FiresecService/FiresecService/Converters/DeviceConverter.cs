@@ -53,18 +53,13 @@ namespace FiresecService.Converters
             {
                 var DatabaseIdParam = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices");
                 if (DatabaseIdParam != null)
-                {
                     device.DatabaseId = DatabaseIdParam.value;
-                }
+
                 var UIDParam = innerDevice.param.FirstOrDefault(x => x.name == "INT$DEV_GUID");
                 if (UIDParam != null)
-                {
                     device.UID = GuidHelper.ToGuid(UIDParam.value);
-                }
                 else
-                {
                     device.UID = Guid.NewGuid();
-                }
             }
 
             device.Properties = new List<Property>();
@@ -111,10 +106,7 @@ namespace FiresecService.Converters
                 {
                     string zoneLogicstring = zoneLogicProperty.value;
                     if (string.IsNullOrEmpty(zoneLogicstring) == false)
-                    {
-                        var zoneLogic = SerializerHelper.GetZoneLogic(zoneLogicstring);
-                        device.ZoneLogic = ZoneLogicConverter.Convert(zoneLogic);
-                    }
+                        device.ZoneLogic = ZoneLogicConverter.Convert(SerializerHelper.GetZoneLogic(zoneLogicstring));
                 }
 
                 var indicatorLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
@@ -125,9 +117,7 @@ namespace FiresecService.Converters
                     {
                         var indicatorLogic = SerializerHelper.GetIndicatorLogic(indicatorLogicString);
                         if (indicatorLogic != null)
-                        {
                             device.IndicatorLogic = IndicatorLogicConverter.Convert(indicatorLogic);
-                        }
                     }
                 }
 
@@ -136,10 +126,7 @@ namespace FiresecService.Converters
                 {
                     string pDUGroupLogicPropertyString = pDUGroupLogicProperty.value;
                     if (string.IsNullOrEmpty(pDUGroupLogicPropertyString) == false)
-                    {
-                        var pDUGroupLogic = SerializerHelper.GetGroupProperties(pDUGroupLogicPropertyString);
-                        device.PDUGroupLogic = PDUGroupLogicConverter.Convert(pDUGroupLogic);
-                    }
+                        device.PDUGroupLogic = PDUGroupLogicConverter.Convert(SerializerHelper.GetGroupProperties(pDUGroupLogicPropertyString));
                 }
             }
         }
@@ -189,13 +176,9 @@ namespace FiresecService.Converters
             innerDevice.drv = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;
 
             if (device.Driver.HasAddress)
-            {
                 innerDevice.addr = device.IntAddress.ToString();
-            }
             else
-            {
                 innerDevice.addr = "0";
-            }
 
             if (device.ZoneNo != null)
             {
