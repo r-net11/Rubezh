@@ -270,6 +270,13 @@
   <ItemGroup>
     <Resource Include="Images\rubezh.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddChild.png" />
+    <Resource Include="Images\MoveBack.png" />
+    <Resource Include="Images\MoveBackward.png" />
+    <Resource Include="Images\MoveForward.png" />
+    <Resource Include="Images\MoveFront.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

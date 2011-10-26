@@ -15,8 +15,8 @@
             <Image Source="/Controls;component/Images/Delete.png" Height="24" />
         </Button>
 
-        <Button Command="{Binding AddSubPlanCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-            <TextBlock Text="add" />
+        <Button Command="{Binding AddSubPlanCommand}" ToolTip="Добавить дочерний план" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/AddChild.png" Height="24" />
         </Button>
 
     </StackPanel>
