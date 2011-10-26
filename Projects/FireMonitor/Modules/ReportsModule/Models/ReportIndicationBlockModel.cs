@@ -5,31 +5,19 @@ using FiresecClient;
 
 namespace ReportsModule.Models
 {
-    public class ReportIndicationBlockTestModel
-    {
-        public string[] str { get; set; }
-        public string[] numb { get; set; }
-    }
-
     public class ReportIndicationBlockModel
     {
         public string Number { get; set; }
         public string PresentationName { get; set; }
-        //public string HeaderTable { get; set; }
-        //public List<Element> IndicationBlockTable { get; set; }
+        public string BlockIndicationNumber { get; set; }
+        public string PageNumber { get; set; }
     }
 
-    public class Element
+    public class IndicationBlocksList
     {
-        public string Number { get; set; }
-        public string PresentationName { get; set; }
-    }
+        protected IndicationBlocksList() { }
 
-    public class ReportIndicationBlockModelTemp
-    {
-        protected ReportIndicationBlockModelTemp() { }
-
-        public ReportIndicationBlockModelTemp(Device device)
+        public IndicationBlocksList(Device device)
         {
             if (device.Driver.DriverType != DriverType.IndicationBlock)
             {

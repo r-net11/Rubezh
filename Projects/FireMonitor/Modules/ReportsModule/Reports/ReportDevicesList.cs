@@ -4,6 +4,9 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
+using System.IO;
 
 namespace ReportsModule.Reports
 {
@@ -12,8 +15,7 @@ namespace ReportsModule.Reports
         public ReportDevicesList()
             : base()
         {
-            base.RdlcFileName = "ReportDeviceListRDLC.rdlc";
-            base.DataTableName = "DataSetDataSetDeviceList";
+            base.ReportFileName = "DeviceListCrystalReport.rpt";
         }
 
         public override void LoadData()
@@ -66,12 +68,13 @@ namespace ReportsModule.Reports
                     if (device.Driver.DriverType == DriverType.PumpStation)
                     {
                     }
-                    DataList.Add(new ReportDeviceListModel()
-                        {
-                            Type = type,
-                            Address = address,
-                            ZoneName = zonePresentationName
-                        });
+                    for (int i = 0; i < 5; i++)
+                        DataList.Add(new ReportDeviceListModel()
+                            {
+                                Type = type,
+                                Address = address,
+                                ZoneName = zonePresentationName
+                            });
                 }
             }
         }

@@ -79,11 +79,35 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrystalReports\CrystalReportIndicationBlock.cs">
+    <Compile Include="CrystalReports\IndicationBlockCrystalReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReportIndicationBlock.rpt</DependentUpon>
+      <DependentUpon>IndicationBlockCrystalReport.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReports\DeviceListCrystalReport.cs">
+      <DependentUpon>DeviceListCrystalReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalReports\DeviceParamsCrystalReport.cs">
+      <DependentUpon>DeviceParamsCrystalReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalReports\DriverCounterCrystalReport.cs">
+      <DependentUpon>DriverCounterCrystalReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalReports\JournalCrystalReport.cs">
+      <DependentUpon>JournalCrystalReport.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Models\ReportDeviceListModel.cs" />
     <Compile Include="Models\ReportDeviceParamsModel.cs" />
@@ -111,27 +135,34 @@
     <Compile Include="Reports\ReportJournal.cs" />
     <Compile Include="Reports\ReportDriverCounter.cs" />
     <Compile Include="Reports\ReportIndicationBlock.cs" />
-    <Compile Include="ViewModels\Helper.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReportViewerWinForm.xaml.cs">
-      <DependentUpon>ReportViewerWinForm.xaml</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="CrystalReports\CrystalReportIndicationBlock.rpt">
+    <EmbeddedResource Include="CrystalReports\IndicationBlockCrystalReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReportIndicationBlock.cs</LastGenOutput>
+      <LastGenOutput>IndicationBlockCrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\DeviceListCrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeviceListCrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\DeviceParamsCrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeviceParamsCrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\DriverCounterCrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DriverCounterCrystalReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReports\JournalCrystalReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JournalCrystalReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReportsRdlc\ReportDeviceListRDLC.rdlc" />
-    <EmbeddedResource Include="ReportsRdlc\ReportDeviceParamsRDLC.rdlc" />
-    <EmbeddedResource Include="ReportsRdlc\ReportDriverCounterRDLC.rdlc" />
-    <EmbeddedResource Include="ReportsRdlc\ReportJournalRDLC.rdlc" />
-    <EmbeddedResource Include="ReportsRdlc\ReportIndicationBlockRDLC.rdlc" />
     <None Include="Properties\DataSources\ReportsModule.Models.ReportIndicationBlockModel.datasource" />
     <None Include="Properties\DataSources\ReportsModule.Models.ReportJournalModel.datasource" />
     <None Include="Properties\Settings.settings">
@@ -179,16 +210,12 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ReportsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ReportViewerWinForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

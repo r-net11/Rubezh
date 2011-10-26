@@ -1,17 +1,15 @@
 ﻿using Microsoft.Reporting.WinForms;
+using SAPBusinessObjects.WPF.Viewer;
 
 namespace ReportsModule.Reports
 {
     public class BaseReport
     {
-        public virtual void LoadData()
-        {
+        public virtual void LoadData(){ }
 
-        }
-
-        public virtual ReportViewer CreateReportViewer()
+        public virtual CrystalReportsViewer CreateCrystalReportViewer()
         {
-            return new ReportViewer();
+            return new CrystalReportsViewer();
         }
     }
 }

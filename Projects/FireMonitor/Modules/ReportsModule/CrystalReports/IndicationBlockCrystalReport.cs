@@ -11,19 +11,19 @@
 namespace ReportsModule.CrystalReports {
     using System;
     using System.ComponentModel;
-    using CrystalDecisions.CrystalReports.Engine;
-    using CrystalDecisions.ReportSource;
     using CrystalDecisions.Shared;
+    using CrystalDecisions.ReportSource;
+    using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class CrystalReportIndicationBlock : ReportClass {
+    public class IndicationBlockCrystalReport : ReportClass {
         
-        public CrystalReportIndicationBlock() {
+        public IndicationBlockCrystalReport() {
         }
         
         public override string ResourceName {
             get {
-                return "CrystalReportIndicationBlock.rpt";
+                return "IndicationBlockCrystalReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ReportsModule.CrystalReports {
         
         public override string FullResourceName {
             get {
-                return "ReportsModule.CrystalReports.CrystalReportIndicationBlock.rpt";
+                return "ReportsModule.CrystalReports.IndicationBlockCrystalReport.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace ReportsModule.CrystalReports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedCrystalReportIndicationBlock : Component, ICachedReport {
+    public class CachedIndicationBlockCrystalReport : Component, ICachedReport {
         
-        public CachedCrystalReportIndicationBlock() {
+        public CachedIndicationBlockCrystalReport() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace ReportsModule.CrystalReports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            CrystalReportIndicationBlock rpt = new CrystalReportIndicationBlock();
+            IndicationBlockCrystalReport rpt = new IndicationBlockCrystalReport();
             rpt.Site = this.Site;
             return rpt;
         }

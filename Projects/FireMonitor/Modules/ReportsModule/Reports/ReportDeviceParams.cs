@@ -4,6 +4,8 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
 
 namespace ReportsModule.Reports
 {
@@ -12,8 +14,7 @@ namespace ReportsModule.Reports
         public ReportDeviceParams()
             : base()
         {
-            base.RdlcFileName = "ReportDeviceParamsRDLC.rdlc";
-            base.DataTableName = "DataSetDeviceParams";
+            base.ReportFileName = "DeviceParamsCrystalReport.rpt";
         }
 
         public override void LoadData()

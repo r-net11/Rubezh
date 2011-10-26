@@ -5,8 +5,6 @@ namespace Infrastructure.Common
     public class PathHelper
     {
         public static string Plans = Data + "Plans.xml";
-        public static string Report = Data + "ReportTemplates/TypesCountReport.xaml";
-        public static string ReportDeviceParams = Data + "ReportTemplates/DeviceParamsFlowDocument.xaml";
 
         public static string DeviceLibraryFileName = Data + "DeviceLibrary.xml";
         public static string TransormFileName = Data + "svg2xaml.xsl";

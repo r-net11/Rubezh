@@ -11,6 +11,7 @@
     <Media Id="1" Cabinet="FiresecService.cab" EmbedCab="yes" />
 
     <Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
+    <Binary Id="FiresecCustomActions.dll" SourceFile="$(var.FiresecCustomActions.TargetDir)$(var.FiresecCustomActions.TargetName).CA.dll" />
 
     <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
 
@@ -38,7 +39,11 @@
 
     <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
     <Property Id="SHORTCUT_DESKTOP">1</Property>
-    
+
+    <InstallExecuteSequence>
+      <Custom Action="ConvertJournalCA" After="InstallFinalize" />
+    </InstallExecuteSequence>
+
     <UI Id="MyWixUI_Wizard">
       <UIRef Id="WixUI_Wizard" />
       <UIRef Id="WixUI_ErrorProgressText" />

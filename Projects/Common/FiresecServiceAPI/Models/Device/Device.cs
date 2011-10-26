@@ -144,7 +144,7 @@ namespace FiresecAPI.Models
                     address.Append(PresentationAddress);
                     address.Append(".");
                 }
-                if (address.Length > 0 && address[address.Length - 1] == '.')
+                if ((address.Length > 0)&&(address[address.Length - 1] == '.'))
                 {
                     address.Remove(address.Length - 1, 1);
                 }

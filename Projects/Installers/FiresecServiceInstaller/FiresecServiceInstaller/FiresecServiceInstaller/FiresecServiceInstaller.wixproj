@@ -26,6 +26,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
     <Compile Include="Files.wxs" />
     <Compile Include="FiresecServiceInstaller.wxs" />
@@ -62,6 +63,14 @@
     <ProjectReference Include="..\..\..\..\FiresecService\Firesec\Firesec.csproj">
       <Name>Firesec</Name>
       <Project>{d8d5bb16-daa5-4755-a924-34ac8dce19e8}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecCustomActions\FiresecCustomActions.csproj">
+      <Name>FiresecCustomActions</Name>
+      <Project>{cc11719d-b6b8-4c8f-960d-a58e3019094f}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

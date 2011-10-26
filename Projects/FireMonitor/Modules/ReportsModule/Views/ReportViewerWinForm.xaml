@@ -1,9 +1,0 @@
-﻿<Window x:Class="ReportsModule.Views.ReportViewerWinForm"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-        Title="Предварительный просмотр" Height="500" Width="800">
-    <Grid>
-        <WindowsFormsHost Background="Gray" Name="winFormsHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-    </Grid>
-</Window>

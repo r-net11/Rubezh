@@ -25,9 +25,6 @@
             <Controls:XButton Command="{Binding ShowDeviceListReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
                 <TextBlock Text="Список устройств" FontSize="12" HorizontalAlignment="Center"/>
             </Controls:XButton>
-            <Controls:XButton Command="{Binding ShowTestCrystalReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
-                <TextBlock Text="Test Crystal Reports" FontSize="12" HorizontalAlignment="Center"/>
-            </Controls:XButton>
         </StackPanel>
     </Grid>
 </UserControl>

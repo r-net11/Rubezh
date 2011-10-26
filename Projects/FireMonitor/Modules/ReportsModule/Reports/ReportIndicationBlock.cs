@@ -4,6 +4,8 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
 
 namespace ReportsModule.Reports
 {
@@ -11,19 +13,20 @@ namespace ReportsModule.Reports
     {
         public ReportIndicationBlock()
         {
-            base.RdlcFileName = "ReportIndicationBlockRDLC.rdlc";
-            base.DataTableName = "DataSetIndicationBlock";
+            base.ReportFileName = "IndicationBlockCrystalReport.rpt";
         }
 
-        public void TestInitialize()
+        void TestInitialize()
         {
             DataList = new List<ReportIndicationBlockModel>();
             for (int i = 0; i < 91; i++)
             {
                 DataList.Add(new ReportIndicationBlockModel()
                 {
-                    Number = "50",
-                    PresentationName = "TestPresentationName"
+                    Number = i.ToString(),
+                    PresentationName = "TestPresentationName",
+                    BlockIndicationNumber = i.ToString(),
+                    PageNumber = i.ToString()
                 });
             }
             for (int i = 91; i < 100; i++)
@@ -31,45 +34,42 @@ namespace ReportsModule.Reports
                 DataList.Add(new ReportIndicationBlockModel()
                 {
                     Number = "",
-                    PresentationName = ""
+                    PresentationName = "",
+                    BlockIndicationNumber = i.ToString(),
+                    PageNumber = i.ToString()
                 });
             }
         }
 
         public override void LoadData()
         {
-            var IndicationBlockList = new List<ReportIndicationBlockModelTemp>();
-            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-            {
-                var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == DriverType.IndicationBlock));
-                foreach (var device in devices)
-                {
-                    IndicationBlockList.Add(new ReportIndicationBlockModelTemp(device));
-                }
-            }
-            var listElement = new List<Element>();
-            foreach (var block in IndicationBlockList)
-            {
-                var stringBuilder = new StringBuilder();
-                foreach (var page in block.Pages)
-                {
-                    stringBuilder.Clear();
-                    stringBuilder.Append("Блок индикации: ");
-                    stringBuilder.Append(block.IndicationBlockNumber);
-                    stringBuilder.Append("Страница БИ:");
-                    stringBuilder.Append(page.PageNumber);
-                    listElement.Clear();
-                    foreach (var element in page.ElementsPage)
-                    {
-                        listElement.Add(new Element() { Number = element.No.ToString(), PresentationName = element.PresentationName });
-                        DataList.Add(new ReportIndicationBlockModel()
-                        {
-                            Number = element.No.ToString(),
-                            PresentationName = element.PresentationName
-                        });
-                    }
-                }
-            }
+            TestInitialize();
+            //var IndicationBlockList = new List<IndicationBlocksList>();
+            //if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+            //{
+            //    var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == DriverType.IndicationBlock));
+            //    foreach (var device in devices)
+            //    {
+            //        IndicationBlockList.Add(new IndicationBlocksList(device));
+            //    }
+            //}
+            //foreach (var block in IndicationBlockList)
+            //{
+            //    var stringBuilder = new StringBuilder();
+            //    foreach (var page in block.Pages)
+            //    {
+            //        foreach (var element in page.ElementsPage)
+            //        {
+            //            DataList.Add(new ReportIndicationBlockModel()
+            //            {
+            //                Number = element.No.ToString(),
+            //                PresentationName = element.PresentationName,
+            //                BlockIndicationNumber = block.IndicationBlockNumber,
+            //                PageNumber = page.PageNumber.ToString()
+            //            });
+            //        }
+            //    }
+            //}
         }
     }
 }

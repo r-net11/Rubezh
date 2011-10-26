@@ -3,45 +3,39 @@ using System.IO;
 using Common;
 using FiresecClient;
 using Microsoft.Reporting.WinForms;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
     public class BaseReportGeneric<T> : BaseReport
     {
-        public string RdlcFileName;
-        public string DataTableName;
+        protected string ReportFileName;
+        protected ReportDocument reportDocument;
 
         public BaseReportGeneric()
         {
             DataList = new List<T>();
+            reportDocument = new ReportDocument();
         }
 
         protected List<T> _dataList;
         public List<T> DataList { get; protected set; }
 
-        public override void LoadData()
-        {
-
-        }
-
-        public override ReportViewer CreateReportViewer()
+        public override CrystalReportsViewer CreateCrystalReportViewer()
         {
             if (DataList.IsNotNullOrEmpty() == false)
             {
-                return new ReportViewer();
+                return new CrystalReportsViewer();
             }
 
-            var reportViewer = new ReportViewer();
-            reportViewer.ProcessingMode = ProcessingMode.Local;
-            var filePath = FileHelper.GetReportFilePath(RdlcFileName);
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
-            {
-                reportViewer.LocalReport.LoadReportDefinition(fs);
-            }
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource(DataTableName, DataList));
-
-            return reportViewer;
+            var filePath = FileHelper.GetReportFilePath(ReportFileName);
+            reportDocument.Load(filePath);
+            reportDocument.SetDataSource(DataList);
+            var crystalReportsViewer = new CrystalReportsViewer();
+            crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            return crystalReportsViewer;
         }
-        
     }
 }

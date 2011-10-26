@@ -35,25 +35,26 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="SqlComponent" Guid="6B99EACB-D49B-4F46-9072-9FB0B905A90E">
+      <Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
         <CreateFolder Directory="INSTALLLOCATION" />
         <sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-                         Server="127.0.0.1\SQLEXPRESS" DropOnUninstall="no" ContinueOnError="no">
-          <sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
-          <sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />
+                         Server="(local)\SQLExpress" DropOnUninstall="yes" ContinueOnError="no">
+          <!--<sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
+          <sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />-->
           <sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
         </sql:SqlDatabase>
       </Component>
+      
     </DirectoryRef>
-
+    
     <DirectoryRef Id="ConfigurationFolder">
       <Component Id="Configuration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
         <File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
               DiskId="1">
         </File>
-        <File Id="SystemConfiguration" Name="SystemConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+        <!--<File Id="SystemConfiguration" Name="SystemConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
               DiskId="1">
-        </File>
+        </File>-->
         <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
               DiskId="1">
         </File>

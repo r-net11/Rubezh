@@ -2,6 +2,8 @@
 using Common;
 using FiresecClient;
 using ReportsModule.Models;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
 
 namespace ReportsModule.Reports
 {
@@ -9,8 +11,7 @@ namespace ReportsModule.Reports
     {
         public ReportDriverCounter()
         {
-            base.RdlcFileName = "ReportDriverCounterRDLC.rdlc";
-            base.DataTableName = "DataSetDriverCounter";
+            base.ReportFileName = "DriverCounterCrystalReport.rpt";
         }
 
         public override void LoadData()

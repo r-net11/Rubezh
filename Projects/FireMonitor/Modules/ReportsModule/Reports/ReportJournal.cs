@@ -1,10 +1,13 @@
 ﻿using System;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
 using Microsoft.Reporting.WinForms;
 using ReportsModule.Models;
+using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule.CrystalReports;
 
 namespace ReportsModule.Reports
 {
@@ -12,8 +15,7 @@ namespace ReportsModule.Reports
     {
         public ReportJournal()
         {
-            base.RdlcFileName = "ReportJournalRDLC.rdlc";
-            base.DataTableName = "DataSetJournal";
+            base.ReportFileName = "JournalCrystalReport.rpt";
         }
 
         public override void LoadData()
@@ -42,15 +44,21 @@ namespace ReportsModule.Reports
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
 
-        public override ReportViewer CreateReportViewer()
+        public override CrystalReportsViewer CreateCrystalReportViewer()
         {
-            var reportViewer = base.CreateReportViewer();
-            var startDate = new ReportParameter("StartDate", StartDate.ToString(), true);
-            var endDate = new ReportParameter("EndDate", EndDate.ToString(), true);
-            var header = new ReportParameter("header", new string[] { "1", "2", "3", "4" });
-            reportViewer.LocalReport.SetParameters(new ReportParameter[] { startDate, endDate, header });
+            if (DataList.IsNotNullOrEmpty() == false)
+            {
+                return new CrystalReportsViewer();
+            }
 
-            return reportViewer;
+            var filePath = FileHelper.GetReportFilePath(ReportFileName);
+            reportDocument.Load(filePath);
+            reportDocument.SetDataSource(DataList);
+            reportDocument.SetParameterValue("StartDate", StartDate.ToString());
+            reportDocument.SetParameterValue("EndDate", EndDate.ToString());
+            var crystalReportsViewer = new CrystalReportsViewer();
+            crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            return crystalReportsViewer;
         }
 
         class ReportArchiveFilter
