@@ -76,7 +76,7 @@ namespace PlansModule
             plan.ElementSubPlans[0].Name = "subPlan1";
             //plan.ElementSubPlans[0].PolygonPoints = new List<PolygonPoint>();
             plan.ElementSubPlans[0].PolygonPoints = new PointCollection();
-            plan.ElementSubPlans[0].BackgroundSource = "D:/picture1.jpg";
+            //plan.ElementSubPlans[0].BackgroundSource = "D:/picture1.jpg";
             plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 100, Y = 100 });
             plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 100, Y = 200 });
             plan.ElementSubPlans[0].PolygonPoints.Add(new Point() { X = 200, Y = 200 });
@@ -98,25 +98,23 @@ namespace PlansModule
             plan.Children.Add(new Plan());
             plan.Children[0].Name = "subPlan1";
             plan.Children[0].Caption = "Plan 2";
-            /*
-                             XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
-                            StreamReader reader = new StreamReader(PathHelper.Plans);
-                            Plan plan = (Plan)deserializer.Deserialize(reader);
-                            reader.Close();
 
-                            DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                            FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
-                            XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
-                            dcs.WriteObject(xdw, plan);
-                            xdw.Close();
+            //XmlSerializer deserializer = new XmlSerializer(typeof(Plan));
+            //StreamReader reader = new StreamReader(PathHelper.Plans);
+            //Plan plan = (Plan)deserializer.Deserialize(reader);
+            //reader.Close();
 
-                            DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
-                            FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
-                            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
-                            Plan plan = (Plan)dcs.ReadObject(reader);
-                            reader.Close();
+            //DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+            //FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Create);
+            //XmlDictionaryWriter xdw = XmlDictionaryWriter.CreateTextWriter(fs);
+            //dcs.WriteObject(xdw, plan);
+            //xdw.Close();
 
-             * */
+            //DataContractSerializer dcs = new DataContractSerializer(typeof(Plan));
+            //FileStream fs = new FileStream(@"D:/del/Plans_new.xml", FileMode.Open);
+            //XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fs, new XmlDictionaryReaderQuotas());
+            //Plan plan = (Plan)dcs.ReadObject(reader);
+            //reader.Close();
         }
     }
 }

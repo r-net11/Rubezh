@@ -18,10 +18,7 @@ namespace PlansModule.Designer
 
         protected override int VisualChildrenCount
         {
-            get
-            {
-                return this.visuals.Count;
-            }
+            get { return this.visuals.Count; }
         }
 
         public RubberbandAdorner(DesignerCanvas designerCanvas, Point? dragStartPoint)

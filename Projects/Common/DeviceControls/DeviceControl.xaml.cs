@@ -97,5 +97,18 @@ namespace DeviceControls
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public static Viewbox GetDefaultPicture(Guid DriverId)
+        {
+            var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+            var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.Norm);
+            var canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
+            //canvas.LayoutTransform = new ScaleTransform(0.05, 0.05);
+
+            Viewbox viewbox = new Viewbox();
+            viewbox.Child = canvas;
+
+            return viewbox;
+        }
     }
 }

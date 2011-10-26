@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementTextBlock : ElementBase
+    public class ElementTextBlock : ElementBase, IZIndexedElement
     {
         public ElementTextBlock()
         {
@@ -30,6 +30,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public double BorderThickness { get; set; }
+
+        [DataMember]
+        public int ZIndex { get; set; }
 
         public override FrameworkElement Draw()
         {

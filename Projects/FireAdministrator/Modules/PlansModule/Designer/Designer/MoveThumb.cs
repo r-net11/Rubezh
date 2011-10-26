@@ -2,6 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Diagnostics;
+using Infrastructure;
+using PlansModule.Events;
 
 namespace PlansModule.Designer
 {
@@ -14,6 +17,12 @@ namespace PlansModule.Designer
         {
             DragStarted += new DragStartedEventHandler(this.MoveThumb_DragStarted);
             DragDelta += new DragDeltaEventHandler(this.MoveThumb_DragDelta);
+            DragCompleted += new DragCompletedEventHandler(MoveThumb_DragCompleted);
+        }
+
+        void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
         }
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)

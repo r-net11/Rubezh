@@ -97,7 +97,7 @@ namespace JournalModule.ViewModels
             {
                 if (plan != null && plan.ElementDevices.IsNotNullOrEmpty())
                 {
-                    var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.Id == _device.UID);
+                    var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.DeviceUID == _device.UID);
                     if (elementDevice != null)
                     {
                         return true;

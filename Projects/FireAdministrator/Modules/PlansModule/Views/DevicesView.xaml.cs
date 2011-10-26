@@ -38,7 +38,7 @@ namespace PlansModule.Views
 
                 ElementBase plansElement = new ElementDevice()
                 {
-                    Id = device.UID
+                    DeviceUID = device.UID
                 };
 
                 var designerItemData = new DesignerItemData()

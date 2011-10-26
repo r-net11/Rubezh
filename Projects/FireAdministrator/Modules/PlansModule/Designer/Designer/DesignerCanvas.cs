@@ -16,12 +16,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
 using FiresecAPI;
+using PlansModule.Events;
 
 namespace PlansModule.Designer
 {
     public class DesignerCanvas : Canvas
     {
         public Plan Plan { get; set; }
+        public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
         private Point? dragStartPoint = null;
 
         public DesignerCanvas()
@@ -29,6 +31,15 @@ namespace PlansModule.Designer
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
             DataContext = this;
+        }
+
+        public IEnumerable<DesignerItem> Items
+        {
+            get
+            {
+                return from item in this.Children.OfType<DesignerItem>()
+                       select item;
+            }
         }
 
         public IEnumerable<DesignerItem> SelectedItems
@@ -120,13 +131,9 @@ namespace PlansModule.Designer
             if (designerItemData.PlansElement is ElementDevice)
             {
                 var elementDevice = designerItemData.PlansElement as ElementDevice;
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
-                var deviceControl = new DeviceControl()
-                {
-                    DriverId = device.Driver.UID,
-                    StateType = StateType.Norm
-                };
-                designerItem = Create(elementDevice, frameworkElement: deviceControl);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                designerItem = Create(elementDevice, frameworkElement: devicePicture);
             }
             else
             {
@@ -135,11 +142,13 @@ namespace PlansModule.Designer
 
             this.DeselectAll();
             designerItem.IsSelected = true;
-
+            PlanDesignerViewModel.MoveToFront();
             e.Handled = true;
+
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
         }
 
-        public DesignerItem Create(ElementBase elementBase, bool isOpacity = false, FrameworkElement frameworkElement = null)
+        public DesignerItem Create(ElementBase elementBase, FrameworkElement frameworkElement = null)
         {
             if (frameworkElement == null)
             {
@@ -158,12 +167,23 @@ namespace PlansModule.Designer
                 IsPolygon = elementBase is ElementBasePolygon
             };
 
-            if (isOpacity)
+            if (elementBase is ElementPolygonZone)
+                designerItem.Opacity = 0.5;
+            if (elementBase is ElementRectangleZone)
                 designerItem.Opacity = 0.5;
 
             DesignerCanvas.SetLeft(designerItem, elementBase.Left);
             DesignerCanvas.SetTop(designerItem, elementBase.Top);
             this.Children.Add(designerItem);
+
+            if (elementBase is IZIndexedElement)
+                Panel.SetZIndex(designerItem, (elementBase as IZIndexedElement).ZIndex);
+            if (elementBase is ElementDevice)
+                Panel.SetZIndex(designerItem, 200000);
+            if (elementBase is ElementPolygonZone)
+                Panel.SetZIndex(designerItem, 100000);
+            if (elementBase is ElementRectangleZone)
+                Panel.SetZIndex(designerItem, 100000);
 
             return designerItem;
         }

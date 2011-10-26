@@ -43,7 +43,8 @@ namespace PlansModule.Designer
                 {
                     Width = 10,
                     Height = 10,
-                    Margin = new Thickness(0, 0, 0, 0),
+                    Margin = new Thickness(-5, -5, 0, 0),
+                    //Margin = new Thickness(0, 0, 0, 0),
                     Focusable = true
                     //Width = (double)10 / PlanDesignerView.Current.Scale,
                     //Height = (double)10 / PlanDesignerView.Current.Scale,

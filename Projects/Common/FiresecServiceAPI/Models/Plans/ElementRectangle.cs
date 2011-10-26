@@ -9,7 +9,7 @@ using System;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementRectangle : ElementBase
+    public class ElementRectangle : ElementBase, IZIndexedElement
     {
         public ElementRectangle()
         {
@@ -31,6 +31,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public double BorderThickness { get; set; }
+
+        [DataMember]
+        public int ZIndex { get; set; }
 
         public override FrameworkElement Draw()
         {

@@ -7,6 +7,9 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
+using FiresecClient;
+using System.Linq;
+using DeviceControls;
 
 namespace PlansModule.Designer
 {
@@ -148,6 +151,11 @@ namespace PlansModule.Designer
                 var devicePropertiesViewModel = new DevicePropertiesViewModel(ElementBase as ElementDevice);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel))
                 {
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == (ElementBase as ElementDevice).DeviceUID);
+                    var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                    devicePicture.IsHitTestVisible = false;
+                    Content = devicePicture;
+
                     PlansModule.HasChanges = true;
                 }
             }

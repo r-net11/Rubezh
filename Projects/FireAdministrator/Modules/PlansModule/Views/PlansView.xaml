@@ -9,9 +9,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Устройства" Width="100" Command="{Binding ShowDevicesCommand}" />
+                <Button Content="Вверх" Width="100" Command="{Binding MoveToFrontCommand}" />
+                <Button Content="Вниз" Width="100" Command="{Binding SendToBackCommand}" />
+                <Button Content="Выше" Width="100" Command="{Binding MoveForwardCommand}" />
+                <Button Content="Ниже" Width="100" Command="{Binding MoveBackwardCommand}" />
+            </StackPanel>
             <s:Toolbox />
-            <Button Content="Устройства" Width="100" Command="{Binding ShowDevicesCommand}" />
         </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

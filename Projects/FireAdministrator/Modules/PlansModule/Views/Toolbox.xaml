@@ -7,6 +7,9 @@
             <TextBlock Name="ElementEllipse" Text="Эллипс" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
             <TextBlock Name="ElementPolygon" Text="Многоугольник" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
             <TextBlock Name="ElementTextBlock" Text="Текст" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+            <TextBlock Name="ElementRectangleZone" Text="Зона" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+            <TextBlock Name="ElementPolygonZone" Text="Зона" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+            <TextBlock Name="ElementSubPlan" Text="Подплан" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -60,6 +60,18 @@ namespace PlansModule.Designer
                 case "ElementTextBlock":
                     plansElement = new ElementTextBlock();
                     break;
+
+                case "ElementRectangleZone":
+                    plansElement = new ElementRectangleZone();
+                    break;
+
+                case "ElementPolygonZone":
+                    plansElement = new ElementPolygonZone();
+                    break;
+
+                case "ElementSubPlan":
+                    plansElement = new ElementSubPlan();
+                    break;
             }
 
             var designerItemData = new DesignerItemData()

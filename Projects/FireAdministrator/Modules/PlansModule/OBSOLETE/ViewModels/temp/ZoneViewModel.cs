@@ -11,14 +11,14 @@ namespace PlansModule.ViewModels
             Parent = plan;
         }
 
-        public void Initialize(List<PolygonPoint> polygonPoints)
-        {
-            if (PolygonPoints == null) PolygonPoints = new List<PolygonPoint>();
-            PolygonPoints = polygonPoints;
-        }
+        //public void Initialize(List<PolygonPoint> polygonPoints)
+        //{
+        //    if (PolygonPoints == null) PolygonPoints = new List<PolygonPoint>();
+        //    PolygonPoints = polygonPoints;
+        //}
 
         public Plan Parent { get; private set; }
-        public List<PolygonPoint> PolygonPoints { get; set; }
+        //public List<PolygonPoint> PolygonPoints { get; set; }
         public string ZoneNo { get; set; }
 
         public void Update()

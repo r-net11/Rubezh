@@ -6,18 +6,30 @@ using System.Windows.Shapes;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using FiresecClient;
+using DeviceControls;
+using Infrastructure;
+using PlansModule.Events;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
     public class PlanDesignerViewModel : BaseViewModel
     {
+        public PlanDesignerViewModel()
+        {
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
+        }
+
         public DesignerCanvas DesignerCanvas;
-        Plan Plan;
+        public Plan Plan;
 
         public void Initialize(Plan plan)
         {
             Plan = plan;
             DesignerCanvas.Plan = plan;
+            DesignerCanvas.PlanDesignerViewModel = this;
             DesignerCanvas.Update();
             DesignerCanvas.Children.Clear();
             DesignerCanvas.Width = plan.Width;
@@ -25,7 +37,7 @@ namespace PlansModule.ViewModels
 
             foreach (var elementRectangle in plan.ElementRectangles)
             {
-               DesignerCanvas.Create(elementRectangle);
+                DesignerCanvas.Create(elementRectangle);
             }
 
             foreach (var elementEllipse in plan.ElementEllipses)
@@ -45,27 +57,19 @@ namespace PlansModule.ViewModels
 
             foreach (var elementRectangleZone in plan.ElementRectangleZones)
             {
-                DesignerCanvas.Create(elementRectangleZone, isOpacity: true);
+                DesignerCanvas.Create(elementRectangleZone);
             }
 
             foreach (var ElementPolygonZone in plan.ElementPolygonZones)
             {
-                DesignerCanvas.Create(ElementPolygonZone, isOpacity: true);
+                DesignerCanvas.Create(ElementPolygonZone);
             }
 
             foreach (var elementDevice in plan.ElementDevices)
             {
-                //var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.Id);
-                //var deviceControl = new DeviceControl()
-                //{
-                //    DriverId = device.Driver.UID,
-                //    StateType = StateType.Norm
-                //};
-                var deviceControl = new Rectangle()
-                {
-                    Fill = new SolidColorBrush(Colors.White)
-                };
-                DesignerCanvas.Create(elementDevice, frameworkElement: deviceControl);
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
             }
 
             DesignerCanvas.DeselectAll();
@@ -76,13 +80,15 @@ namespace PlansModule.ViewModels
             if (Plan == null)
                 return;
 
+            NormalizeZIndex();
+
             Plan.ElementRectangles = new List<ElementRectangle>();
             Plan.ElementEllipses = new List<ElementEllipse>();
             Plan.ElementTextBlocks = new List<ElementTextBlock>();
             Plan.ElementPolygons = new List<ElementPolygon>();
 
             var designerItems = from item in DesignerCanvas.Children.OfType<DesignerItem>()
-                select item;
+                                select item;
 
             foreach (var designerItem in designerItems)
             {
@@ -119,6 +125,196 @@ namespace PlansModule.ViewModels
                     Plan.ElementPolygons.Add(elementPolygon);
                 }
             }
+        }
+
+        public void MoveToFront()
+        {
+            int maxZIndex = 0;
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    maxZIndex = System.Math.Max(iZIndexedElement.ZIndex, maxZIndex);
+                }
+            }
+
+            foreach (var designerItem in DesignerCanvas.SelectedItems)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    iZIndexedElement.ZIndex = maxZIndex + 1;
+                    Panel.SetZIndex(designerItem, maxZIndex + 1);
+                }
+            }
+        }
+
+        public void SendToBack()
+        {
+            int minZIndex = 0;
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
+                }
+            }
+
+            foreach (var designerItem in DesignerCanvas.SelectedItems)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    iZIndexedElement.ZIndex = minZIndex - 1;
+                    Panel.SetZIndex(designerItem, minZIndex - 1);
+                }
+            }
+        }
+
+        public void MoveForward()
+        {
+            foreach (var designerItem in DesignerCanvas.SelectedItems)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    iZIndexedElement.ZIndex++;
+                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
+                }
+            }
+        }
+
+        public void MoveBackward()
+        {
+            foreach (var designerItem in DesignerCanvas.SelectedItems)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    iZIndexedElement.ZIndex--;
+                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
+                }
+            }
+        }
+
+        void NormalizeZIndex()
+        {
+            int tempZIndex = 300000;
+            while (true)
+            {
+                int minZIndex = 300000;
+                foreach (var designerItem in DesignerCanvas.Items)
+                {
+                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                    if (iZIndexedElement != null)
+                    {
+                        minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
+                    }
+                }
+
+                if (minZIndex >= 300000)
+                    break;
+
+                foreach (var designerItem in DesignerCanvas.Items)
+                {
+                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                    if (iZIndexedElement != null)
+                    {
+                        if (iZIndexedElement.ZIndex == minZIndex)
+                        {
+                            iZIndexedElement.ZIndex = tempZIndex;
+                            tempZIndex++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+                if (iZIndexedElement != null)
+                {
+                    iZIndexedElement.ZIndex -= 3000000;
+                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
+                }
+            }
+        }
+
+        void UpdateDeviceInZones()
+        {
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
+                if (elementDevice != null)
+                {
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+
+                    var zones = new List<ulong>();
+
+                    foreach (var elementPolygonZoneItem in DesignerCanvas.Items)
+                    {
+                        ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
+                        if (elementPolygonZone != null)
+                        {
+                            var point = new Point((int)Canvas.GetLeft(designerItem), (int)Canvas.GetTop(designerItem));
+                            bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
+                            if (isInPolygon)
+                                zones.Add(elementPolygonZone.ZoneNo.Value);
+                        }
+                    }
+
+                    if (device.ZoneNo.HasValue)
+                    {
+                        var isInZone = zones.Any(x => x == device.ZoneNo.Value);
+                        if (isInZone == false)
+                        {
+                            if (zones.Count > 0)
+                            {
+                                Trace.WriteLine("Устройство привязано к новой зоне");
+                                device.ZoneNo = zones[0];
+                            }
+                            else
+                            {
+                                Trace.WriteLine("Устройство отвязано от зоны");
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (zones.Count > 0)
+                        {
+                            Trace.WriteLine("Устройство привязано к зоне");
+                            device.ZoneNo = zones[0];
+                        }
+                    }
+                }
+            }
+        }
+
+        bool IsPointInPolygon(Point point, Polygon polygon)
+        {
+            var j = polygon.Points.Count - 1;
+            var oddNodes = false;
+
+            for (var i = 0; i < polygon.Points.Count; i++)
+            {
+                if (polygon.Points[i].Y < point.Y && polygon.Points[j].Y >= point.Y ||
+                    polygon.Points[j].Y < point.Y && polygon.Points[i].Y >= point.Y)
+                {
+                    if (polygon.Points[i].X +
+                        (point.Y - polygon.Points[i].Y) / (polygon.Points[j].Y - polygon.Points[i].Y) * (polygon.Points[j].X - polygon.Points[i].X) < point.X)
+                    {
+                        oddNodes = !oddNodes;
+                    }
+                }
+                j = i;
+            }
+
+            return oddNodes;
         }
     }
 }

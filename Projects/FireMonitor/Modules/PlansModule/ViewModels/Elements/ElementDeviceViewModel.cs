@@ -24,27 +24,29 @@ namespace PlansModule.ViewModels
         Device _device;
         DeviceState _deviceState;
         ElementDeviceView _elementDeviceView;
-        public Guid DeviceId { get; private set; }
+        public Guid DeviceUID { get; private set; }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {
-            _elementDeviceView = new ElementDeviceView();
-            _elementDeviceView.DataContext = this;
-            _elementDeviceView._deviceControl.Width = elementDevice.Width;
-            _elementDeviceView._deviceControl.Height = elementDevice.Height;
+            _elementDeviceView = new ElementDeviceView()
+            {
+                DataContext = this,
+                Width = elementDevice.Width,
+                Height = elementDevice.Height
+            };
             //_elementDeviceView._deviceControl
             _elementDeviceView._deviceControl.PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseButtonDown);
             Canvas.SetLeft(_elementDeviceView, elementDevice.Left);
             Canvas.SetTop(_elementDeviceView, elementDevice.Top);
             canvas.Children.Add(_elementDeviceView);
 
-            DeviceId = elementDevice.Id;
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
-            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceId);
+            DeviceUID = elementDevice.DeviceUID;
+            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
+            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
             if (_device != null)
             {
                 _elementDeviceView._deviceControl.DriverId = _device.Driver.UID;
-                OnDeviceStateChanged(DeviceId);
+                OnDeviceStateChanged(DeviceUID);
             }
         }
 
@@ -100,7 +102,7 @@ namespace PlansModule.ViewModels
 
         void OnDeviceStateChanged(Guid deviceUID)
         {
-            if (deviceUID == DeviceId)
+            if (deviceUID == DeviceUID)
             {
                 _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
                 _elementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(

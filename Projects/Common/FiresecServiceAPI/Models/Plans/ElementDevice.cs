@@ -14,7 +14,7 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
-        public Guid Id { get; set; }
+        public Guid DeviceUID { get; set; }
 
         public override FrameworkElement Draw()
         {

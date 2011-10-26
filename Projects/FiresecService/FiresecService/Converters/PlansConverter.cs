@@ -185,7 +185,7 @@ namespace FiresecService.Converters
                                     var innerRect = innerDevice.rect[0];
                                     var elementDevice = new ElementDevice()
                                     {
-                                        Id = deviceUID,
+                                        DeviceUID = deviceUID,
                                         Left = Parse(innerRect.left),
                                         Top = Parse(innerRect.top),
                                         Width = Parse(innerRect.right) - Parse(innerRect.left),

@@ -86,8 +86,8 @@
     <Compile Include="Models\Plans\ElementTextBlock.cs" />
     <Compile Include="Models\Plans\ElementBase.cs" />
     <Compile Include="Models\Plans\ElementEllipse.cs" />
+    <Compile Include="Models\Plans\IZIndexedElement.cs" />
     <Compile Include="Models\Plans\PlanElementsHelper.cs" />
-    <Compile Include="Models\Plans\PolygonPoint.cs" />
     <Compile Include="Models\Plans\ElementRectangle.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />

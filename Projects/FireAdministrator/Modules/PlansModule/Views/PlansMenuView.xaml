@@ -14,5 +14,10 @@
         <Button Command="{Binding RemoveCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Delete.png" Height="24" />
         </Button>
+
+        <Button Command="{Binding AddSubPlanCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+            <TextBlock Text="add" />
+        </Button>
+
     </StackPanel>
 </UserControl>

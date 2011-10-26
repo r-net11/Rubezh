@@ -34,12 +34,12 @@ namespace PlansModule.ViewModels
             {
                 _elementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-            if (elementSubPlan.ShowBackgroundImage)
-            {
-                ImageBrush polygonImageBrush = new ImageBrush();
-                polygonImageBrush.ImageSource = new BitmapImage(new Uri(elementSubPlan.BackgroundSource, UriKind.Absolute));
-                _elementSubPlanView._polygon.Fill = polygonImageBrush;
-            }
+            //if (elementSubPlan.ShowBackgroundImage)
+            //{
+            //    ImageBrush polygonImageBrush = new ImageBrush();
+            //    polygonImageBrush.ImageSource = new BitmapImage(new Uri(elementSubPlan.BackgroundSource, UriKind.Absolute));
+            //    _elementSubPlanView._polygon.Fill = polygonImageBrush;
+            //}
 
             canvas.Children.Add(_elementSubPlanView);
         }

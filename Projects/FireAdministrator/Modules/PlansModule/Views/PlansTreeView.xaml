@@ -6,18 +6,7 @@
             <DataGridTemplateColumn Header="Название" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Plan.Name}">
-                                <TextBlock.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Добавить подплан"
-                                                  Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=2}, Path=DataContext.AddSubPlanCommand}" />
-                                        <MenuItem Header="Добавить подплан 2"
-                                        Command="{Binding
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}},
-					                    Path=DataContext.AddSubPlanCommand}" />
-                                    </ContextMenu>
-                                </TextBlock.ContextMenu>
-                        </TextBlock>
+                        <TextBlock Text="{Binding Plan.Name}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

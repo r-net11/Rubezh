@@ -8,7 +8,7 @@ using System.IO;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementEllipse : ElementBase
+    public class ElementEllipse : ElementBase, IZIndexedElement
     {
         public ElementEllipse()
         {
@@ -28,6 +28,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public double BorderThickness { get; set; }
+
+        [DataMember]
+        public int ZIndex { get; set; }
 
         public override FrameworkElement Draw()
         {

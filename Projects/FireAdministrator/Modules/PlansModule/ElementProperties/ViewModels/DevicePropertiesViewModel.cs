@@ -10,9 +10,12 @@ namespace PlansModule.ViewModels
 {
     public class DevicePropertiesViewModel : SaveCancelDialogContent
     {
+        ElementDevice _elementDevice;
+
         public DevicePropertiesViewModel(ElementDevice elementDevice)
         {
             Title = "Свойства фигуры: Устройство";
+            _elementDevice = elementDevice;
 
             Devices = new ObservableCollection<DeviceViewModel>();
 
@@ -40,7 +43,7 @@ namespace PlansModule.ViewModels
                 ExpandChild(Devices[0]);
             }
 
-            Select(elementDevice.Id);
+            Select(elementDevice.DeviceUID);
         }
 
         #region DeviceSelection
@@ -109,6 +112,11 @@ namespace PlansModule.ViewModels
                     ExpandChild(deviceViewModel);
                 }
             }
+        }
+
+        protected override void Save(ref bool cancel)
+        {
+            _elementDevice.DeviceUID = SelectedDevice.Device.UID;
         }
     }
 }

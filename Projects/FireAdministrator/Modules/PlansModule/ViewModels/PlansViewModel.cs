@@ -4,6 +4,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using System.Windows.Controls;
+using FiresecAPI.Models;
 
 namespace PlansModule.ViewModels
 {
@@ -17,6 +19,11 @@ namespace PlansModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+
+            MoveToFrontCommand = new RelayCommand(OnMoveToFront);
+            SendToBackCommand = new RelayCommand(OnSendToBack);
+            MoveForwardCommand = new RelayCommand(OnMoveForward);
+            MoveBackwardCommand = new RelayCommand(OnMoveBackward);
 
             DesignerCanvas = new DesignerCanvas()
             {
@@ -123,6 +130,30 @@ namespace PlansModule.ViewModels
             {
                 SelectedPlan.Update();
             }
+        }
+
+        public RelayCommand MoveToFrontCommand { get;private set; }
+        void OnMoveToFront()
+        {
+            PlanDesignerViewModel.MoveToFront();
+        }
+
+        public RelayCommand SendToBackCommand { get; private set; }
+        void OnSendToBack()
+        {
+            PlanDesignerViewModel.SendToBack();
+        }
+
+        public RelayCommand MoveForwardCommand { get;private set; }
+        void OnMoveForward()
+        {
+            PlanDesignerViewModel.MoveForward();
+        }
+
+        public RelayCommand MoveBackwardCommand { get; private set; }
+        void OnMoveBackward()
+        {
+            PlanDesignerViewModel.MoveBackward();
         }
 
         public override void OnShow()
