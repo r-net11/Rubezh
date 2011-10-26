@@ -98,6 +98,7 @@ namespace FiresecClient
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
+                if (deviceState.Device == null) continue;
 
                 foreach (var state in deviceState.States)
                 {
@@ -107,7 +108,8 @@ namespace FiresecClient
                 foreach (var parentState in deviceState.ParentStates)
                 {
                     parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
-                    parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
+                    if (parentState.ParentDevice != null)
+                        parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
                 }
             }
         }

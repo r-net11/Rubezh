@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -41,7 +42,7 @@ namespace DevicesModule.ViewModels
         {
             Update();
 
-            if (_deviceState.Parameters != null)
+            if (_deviceState != null && _deviceState.Parameters.IsNotNullOrEmpty())
             {
                 foreach (var parameter in _deviceState.Parameters)
                 {
@@ -96,7 +97,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var parentStates = new List<string>();
-                if (_deviceState.ParentStringStates != null)
+                if (_deviceState != null && _deviceState.ParentStringStates != null)
                     foreach (var parentState in _deviceState.ParentStringStates)
                     {
                         parentStates.Add(parentState);
@@ -110,7 +111,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var parameters = new List<string>();
-                if (_deviceState.Parameters != null)
+                if (_deviceState != null && _deviceState.Parameters.IsNotNullOrEmpty())
                     foreach (var parameter in _deviceState.Parameters)
                     {
                         if (parameter.Visible)

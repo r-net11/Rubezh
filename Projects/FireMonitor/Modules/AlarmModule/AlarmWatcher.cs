@@ -43,6 +43,8 @@ namespace AlarmModule
             {
                 foreach (var state in deviceState.States)
                 {
+                    if (deviceState.Device == null) continue;
+
                     AlarmType? alarmType = StateToAlarmType(state, deviceState.Device.Driver);
                     if (alarmType.HasValue == false)
                         continue;
