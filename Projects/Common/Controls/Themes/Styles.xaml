@@ -21,5 +21,6 @@
         <ResourceDictionary Source="ComboBoxStyle.xaml" />
         <ResourceDictionary Source="CheckBoxStyle.xaml" />
         <ResourceDictionary Source="RadioButtonStyle.xaml" />
+        <ResourceDictionary Source="SliderStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
