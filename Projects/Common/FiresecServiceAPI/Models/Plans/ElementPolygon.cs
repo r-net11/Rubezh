@@ -12,5 +12,12 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public int ZIndex { get; set; }
+
+        public override ElementBase Clone()
+        {
+            ElementBase elementBase = new ElementPolygon();
+            Copy(elementBase);
+            return elementBase;
+        }
     }
 }

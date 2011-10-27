@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -9,6 +10,7 @@ namespace FiresecAPI.Models
     {
         public Plan()
         {
+            UID = Guid.NewGuid();
             Children = new List<Plan>();
             ElementSubPlans = new List<ElementSubPlan>();
             
@@ -23,6 +25,9 @@ namespace FiresecAPI.Models
         }
 
         public Plan Parent { get; set; }
+
+        [DataMember]
+        public Guid UID { get; set; }
 
         [DataMember]
         public List<Plan> Children { get; set; }

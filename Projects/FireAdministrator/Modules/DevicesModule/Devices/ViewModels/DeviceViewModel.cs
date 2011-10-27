@@ -12,6 +12,9 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
+        public Device Device { get; private set; }
+        public PropertiesViewModel PropertiesViewModel { get; private set; }
+
         public DeviceViewModel()
         {
             Children = new ObservableCollection<DeviceViewModel>();
@@ -30,10 +33,6 @@ namespace DevicesModule.ViewModels
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
         }
-
-        public Device Device { get; private set; }
-
-        public PropertiesViewModel PropertiesViewModel { get; private set; }
 
         public void Update()
         {

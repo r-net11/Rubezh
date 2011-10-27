@@ -65,6 +65,7 @@
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\SubPlanPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\Views\DesignerPropertiesView.xaml.cs">
       <DependentUpon>DesignerPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -84,6 +85,9 @@
       <DependentUpon>RectanglePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\RectanglePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\SubPlanPropertiesView.xaml.cs">
+      <DependentUpon>SubPlanPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ElementProperties\Views\TextBlockPropertiesView.xaml.cs">
       <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +97,7 @@
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Events\ElementPositionChangedEvent.cs" />
+    <Compile Include="ViewModels\ObjectCopier.cs" />
     <Compile Include="Views\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>
@@ -250,6 +255,10 @@
     <Page Include="ElementProperties\Views\RectanglePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ElementProperties\Views\SubPlanPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
       <SubType>Designer</SubType>

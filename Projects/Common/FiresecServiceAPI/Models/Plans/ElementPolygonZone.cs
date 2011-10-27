@@ -10,7 +10,6 @@ namespace FiresecAPI.Models
     {
         public ElementPolygonZone()
         {
-            BackgroundColor = Colors.Green;
             BorderColor = Colors.Blue;
             BorderThickness = 1;
         }
@@ -28,6 +27,16 @@ namespace FiresecAPI.Models
                 StrokeThickness = BorderThickness
             };
             return polygon;
+        }
+
+        public override ElementBase Clone()
+        {
+            ElementBase elementBase = new ElementPolygonZone()
+            {
+                ZoneNo = ZoneNo
+            };
+            Copy(elementBase);
+            return elementBase;
         }
     }
 }

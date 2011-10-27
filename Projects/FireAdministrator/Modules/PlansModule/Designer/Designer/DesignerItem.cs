@@ -129,7 +129,7 @@ namespace PlansModule.Designer
             if (ElementBase is ElementPolygonZone)
             {
                 ElementPolygonZone elementPolygonZone = ElementBase as ElementPolygonZone;
-                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone.ZoneNo.Value);
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone.ZoneNo);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
                 {
                     elementPolygonZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
@@ -139,7 +139,7 @@ namespace PlansModule.Designer
             if (ElementBase is ElementRectangleZone)
             {
                 ElementRectangleZone elementRectangleZone = ElementBase as ElementRectangleZone;
-                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone.ZoneNo.Value);
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone.ZoneNo);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
                 {
                     elementRectangleZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
@@ -156,6 +156,14 @@ namespace PlansModule.Designer
                     devicePicture.IsHitTestVisible = false;
                     Content = devicePicture;
 
+                    PlansModule.HasChanges = true;
+                }
+            }
+            if (ElementBase is ElementSubPlan)
+            {
+                var subPlanPropertiesViewModel = new SubPlanPropertiesViewModel(ElementBase as ElementSubPlan);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(subPlanPropertiesViewModel))
+                {
                     PlansModule.HasChanges = true;
                 }
             }

@@ -118,6 +118,11 @@ namespace FiresecService.Converters
                                     }
                                 }
 
+                                if (zoneNo == null)
+                                {
+                                    ;
+                                }
+
                                 switch (innerZone.@class)
                                 {
                                     case "TFS_PolyZoneShape":

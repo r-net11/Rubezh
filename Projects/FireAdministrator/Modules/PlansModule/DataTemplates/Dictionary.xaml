@@ -47,6 +47,10 @@
         <Views:DevicePropertiesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SubPlanPropertiesViewModel}">
+        <Views:SubPlanPropertiesView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DesignerPropertiesViewModel}">
         <Views:DesignerPropertiesView />
     </DataTemplate>

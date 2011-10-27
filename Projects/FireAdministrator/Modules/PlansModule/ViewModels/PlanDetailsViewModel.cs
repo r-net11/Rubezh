@@ -82,10 +82,6 @@ namespace PlansModule.ViewModels
             Plan.Name = Name;
             Plan.Height = Height;
             Plan.Width = Width;
-            if (_isNew)
-            {
-                FiresecManager.PlansConfiguration.Plans.Add(Plan);
-            }
         }
     }
 }

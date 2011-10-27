@@ -41,42 +41,42 @@ namespace PlansModule.Designer
 
         DesignerItemData CreateDesignerItemData(string itemType)
         {
-            ElementBase plansElement = null;
+            ElementBase elementBase = null;
 
             switch (itemType)
             {
                 case "ElementRectangle":
-                    plansElement = new ElementRectangle();
+                    elementBase = new ElementRectangle();
                     break;
 
                 case "ElementEllipse":
-                    plansElement = new ElementEllipse();
+                    elementBase = new ElementEllipse();
                     break;
 
                 case "ElementPolygon":
-                    plansElement = new ElementPolygon();
+                    elementBase = new ElementPolygon();
                     break;
 
                 case "ElementTextBlock":
-                    plansElement = new ElementTextBlock();
+                    elementBase = new ElementTextBlock();
                     break;
 
                 case "ElementRectangleZone":
-                    plansElement = new ElementRectangleZone();
+                    elementBase = new ElementRectangleZone();
                     break;
 
                 case "ElementPolygonZone":
-                    plansElement = new ElementPolygonZone();
+                    elementBase = new ElementPolygonZone();
                     break;
 
                 case "ElementSubPlan":
-                    plansElement = new ElementSubPlan();
+                    elementBase = new ElementSubPlan();
                     break;
             }
 
             var designerItemData = new DesignerItemData()
             {
-                PlansElement = plansElement
+                ElementBase = elementBase
             };
 
             return designerItemData;

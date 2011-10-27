@@ -20,5 +20,15 @@ namespace FiresecAPI.Models
         {
             return null;
         }
+
+        public override ElementBase Clone()
+        {
+            ElementBase elementBase = new ElementDevice()
+            {
+                DeviceUID = DeviceUID
+            };
+            Copy(elementBase);
+            return elementBase;
+        }
     }
 }

@@ -25,5 +25,15 @@ namespace FiresecAPI.Models
         public double Width { get; set; }
 
         public abstract FrameworkElement Draw();
+
+        public abstract ElementBase Clone();
+
+        protected virtual void Copy(ElementBase elementBase)
+        {
+            elementBase.Left = Left;
+            elementBase.Top = Top;
+            elementBase.Height = Height;
+            elementBase.Width = Width;
+        }
     }
 }

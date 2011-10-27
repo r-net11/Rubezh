@@ -31,6 +31,8 @@ namespace PlansModule.ViewModels
             _zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
             _elementZoneView = new ElementZoneView();
+            Canvas.SetLeft(_elementZoneView, elementPolygonZone.Left);
+            Canvas.SetTop(_elementZoneView, elementPolygonZone.Top);
             _elementZoneView.DataContext = this;
             _elementZoneView._polygon.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(zonePolygon_PreviewMouseLeftButtonDown);
             foreach (var polygonPoint in elementPolygonZone.PolygonPoints)

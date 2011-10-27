@@ -28,6 +28,11 @@ namespace PlansModule.Designer
 
         public DesignerCanvas()
         {
+            AllowDrop = true;
+            Background = new SolidColorBrush(Colors.DarkGray);
+            Width = 100;
+            Height = 100;
+
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
             DataContext = this;
@@ -37,8 +42,7 @@ namespace PlansModule.Designer
         {
             get
             {
-                return from item in this.Children.OfType<DesignerItem>()
-                       select item;
+                return from item in this.Children.OfType<DesignerItem>() select item;
             }
         }
 
@@ -100,45 +104,13 @@ namespace PlansModule.Designer
         {
             base.OnDrop(e);
             DesignerItemData designerItemData = e.Data.GetData("DESIGNER_ITEM") as DesignerItemData;
+            var elementBase = designerItemData.ElementBase as ElementBase;
 
-            var elementBase = designerItemData.PlansElement as ElementBase;
             Point position = e.GetPosition(this);
             elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
             elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
-            if (designerItemData.PlansElement is ElementRectangle)
-            {
-                Plan.ElementRectangles.Add(elementBase as ElementRectangle);
-            }
-            if (designerItemData.PlansElement is ElementEllipse)
-            {
-                Plan.ElementEllipses.Add(elementBase as ElementEllipse);
-            }
-            if (designerItemData.PlansElement is ElementPolygon)
-            {
-                Plan.ElementPolygons.Add(elementBase as ElementPolygon);
-            }
-            if (designerItemData.PlansElement is ElementTextBlock)
-            {
-                Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-            }
-            if (designerItemData.PlansElement is ElementDevice)
-            {
-                Plan.ElementDevices.Add(elementBase as ElementDevice);
-            }
-
-            DesignerItem designerItem = null;
-            if (designerItemData.PlansElement is ElementDevice)
-            {
-                var elementDevice = designerItemData.PlansElement as ElementDevice;
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
-                designerItem = Create(elementDevice, frameworkElement: devicePicture);
-            }
-            else
-            {
-                designerItem = Create(elementBase);
-            }
+            var designerItem = AddElementBase(elementBase);
 
             this.DeselectAll();
             designerItem.IsSelected = true;
@@ -148,8 +120,57 @@ namespace PlansModule.Designer
             ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
         }
 
+        public DesignerItem AddElementBase(ElementBase elementBase)
+        {
+            if (elementBase is ElementRectangle)
+            {
+                Plan.ElementRectangles.Add(elementBase as ElementRectangle);
+            }
+            if (elementBase is ElementEllipse)
+            {
+                Plan.ElementEllipses.Add(elementBase as ElementEllipse);
+            }
+            if (elementBase is ElementPolygon)
+            {
+                Plan.ElementPolygons.Add(elementBase as ElementPolygon);
+            }
+            if (elementBase is ElementTextBlock)
+            {
+                Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+            }
+            if (elementBase is ElementDevice)
+            {
+                Plan.ElementDevices.Add(elementBase as ElementDevice);
+            }
+
+            DesignerItem designerItem = null;
+            if (elementBase is ElementDevice)
+            {
+                var elementDevice = elementBase as ElementDevice;
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                designerItem = Create(elementDevice, frameworkElement: devicePicture);
+            }
+            else
+            {
+                designerItem = Create(elementBase);
+            }
+            return designerItem;
+        }
+
         public DesignerItem Create(ElementBase elementBase, FrameworkElement frameworkElement = null)
         {
+            if (elementBase is ElementPolygonZone)
+            {
+                ElementPolygonZone elementPolygonZone = elementBase as ElementPolygonZone;
+                elementPolygonZone.BackgroundColor = GetZoneColor(elementPolygonZone.ZoneNo);
+            }
+            if (elementBase is ElementRectangleZone)
+            {
+                ElementRectangleZone elementRectangleZone = elementBase as ElementRectangleZone;
+                elementRectangleZone.BackgroundColor = GetZoneColor(elementRectangleZone.ZoneNo);
+            }
+
             if (frameworkElement == null)
             {
                 frameworkElement = elementBase.Draw();
@@ -186,6 +207,24 @@ namespace PlansModule.Designer
                 Panel.SetZIndex(designerItem, 100000);
 
             return designerItem;
+        }
+
+        Color GetZoneColor(ulong? zoneNo)
+        {
+            Color color = Colors.Gray;
+            if (zoneNo.HasValue)
+            {
+                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo.Value);
+                if (zone != null)
+                {
+                    if (zone.ZoneType == ZoneType.Fire)
+                        color = Colors.Green;
+
+                    if (zone.ZoneType == ZoneType.Guard)
+                        color = Colors.Brown;
+                }
+            }
+            return color;
         }
 
         public bool IsPointAdding = false;

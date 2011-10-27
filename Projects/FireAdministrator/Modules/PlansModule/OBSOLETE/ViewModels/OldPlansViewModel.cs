@@ -23,9 +23,9 @@ namespace PlansModule.ViewModels
         {
             if (FiresecManager.PlansConfiguration.Plans.IsNotNullOrEmpty())
             {
-                Plans = new ObservableCollection<PlanViewModel>(
-                    FiresecManager.PlansConfiguration.Plans.Select(plan => new PlanViewModel(plan))
-                );
+                //Plans = new ObservableCollection<PlanViewModel>(
+                //    FiresecManager.PlansConfiguration.Plans.Select(plan => new PlanViewModel(plan))
+                //);
 
                 SelectedPlan = Plans[0];
             }
@@ -120,7 +120,7 @@ namespace PlansModule.ViewModels
                 }
                 else
                 {
-                    Plans.Add(new PlanViewModel(planDetailsViewModel.Plan));
+                    //Plans.Add(new PlanViewModel(planDetailsViewModel.Plan));
                 }
             }
         }

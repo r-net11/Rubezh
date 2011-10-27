@@ -87,10 +87,7 @@ namespace PlansModule.ViewModels
             Plan.ElementTextBlocks = new List<ElementTextBlock>();
             Plan.ElementPolygons = new List<ElementPolygon>();
 
-            var designerItems = from item in DesignerCanvas.Children.OfType<DesignerItem>()
-                                select item;
-
-            foreach (var designerItem in designerItems)
+            foreach (var designerItem in DesignerCanvas.Items)
             {
                 ElementBase elementBase = designerItem.ElementBase;
                 elementBase.Left = Canvas.GetLeft(designerItem);

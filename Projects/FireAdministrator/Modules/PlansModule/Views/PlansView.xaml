@@ -30,6 +30,11 @@
                 <Button Command="{Binding MoveBackwardCommand}" ToolTip="Ниже" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveBack.png" Height="24" />
                 </Button>
+
+                <Button Content="Копировать" Width="100" Command="{Binding CopyCommand}" />
+                <Button Content="Вырезать" Width="100" Command="{Binding CutCommand}" />
+                <Button Content="Вставить" Width="100" Command="{Binding PasteCommand}" />
+                
             </StackPanel>
             <s:Toolbox />
         </StackPanel>

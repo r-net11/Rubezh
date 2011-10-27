@@ -46,5 +46,20 @@ namespace FiresecAPI.Models
             };
             return textBlock;
         }
+
+        public override ElementBase Clone()
+        {
+            ElementBase elementBase = new ElementTextBlock()
+            {
+                BackgroundColor = BackgroundColor,
+                BorderColor = BorderColor,
+                BorderThickness = BorderThickness,
+                Text = Text,
+                FontSize = FontSize,
+                ForegroundColor = ForegroundColor
+            };
+            Copy(elementBase);
+            return elementBase;
+        }
     }
 }

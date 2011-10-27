@@ -39,7 +39,7 @@ namespace PlansModule.ViewModels
 
         void Save()
         {
-            ElementSubPlan.Name = Name;
+            //ElementSubPlan.Name = Name;
             if (_isNew)
             {
                 Plan plan = Parent;

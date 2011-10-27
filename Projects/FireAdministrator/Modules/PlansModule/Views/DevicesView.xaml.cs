@@ -43,7 +43,7 @@ namespace PlansModule.Views
 
                 var designerItemData = new DesignerItemData()
                 {
-                    PlansElement = plansElement
+                    ElementBase = plansElement
                 };
 
                 DataObject dataObject = new DataObject("DESIGNER_ITEM", designerItemData);

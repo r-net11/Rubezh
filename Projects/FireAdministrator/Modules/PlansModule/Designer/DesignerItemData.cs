@@ -4,6 +4,6 @@ namespace PlansModule.Designer
 {
     public class DesignerItemData
     {
-        public ElementBase PlansElement { get; set; }
+        public ElementBase ElementBase { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementBasePolygon : ElementBase
+    public abstract class ElementBasePolygon : ElementBase
     {
         public ElementBasePolygon()
         {
@@ -81,6 +81,16 @@ namespace FiresecAPI.Models
             }
 
             return polygon;
+        }
+
+        protected override void Copy(ElementBase elementBase)
+        {
+            ElementBasePolygon elementBasePolygon = elementBase as ElementBasePolygon;
+            elementBasePolygon.BackgroundColor = BackgroundColor;
+            elementBasePolygon.BorderColor = BorderColor;
+            elementBasePolygon.BorderThickness = BorderThickness;
+            elementBasePolygon.PolygonPoints = PolygonPoints.Clone();
+            base.Copy(elementBasePolygon);
         }
     }
 }

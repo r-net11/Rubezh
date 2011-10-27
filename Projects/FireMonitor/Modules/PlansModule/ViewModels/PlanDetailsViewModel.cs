@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -48,8 +49,7 @@ namespace PlansModule.ViewModels
 
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-            //string backgroundPath = PathHelper.Data + _plan.BackgroundSource;
-            //_canvas.Background = CreateBrush(backgroundPath);
+            _canvas.Background = CreateBrush();
 
             foreach (var elementSubPlan in _plan.ElementSubPlans)
             {
@@ -60,9 +60,11 @@ namespace PlansModule.ViewModels
 
             foreach (var rectangleBox in _plan.ElementRectangles)
             {
-                var rectangle = new Rectangle();
-                rectangle.Width = rectangleBox.Width;
-                rectangle.Height = rectangleBox.Height;
+                var rectangle = new Rectangle()
+                {
+                    Width = rectangleBox.Width,
+                    Height = rectangleBox.Height
+                };
                 Canvas.SetLeft(rectangle, rectangleBox.Left);
                 Canvas.SetTop(rectangle, rectangleBox.Top);
 
@@ -76,8 +78,10 @@ namespace PlansModule.ViewModels
                     image.EndInit();
                 }
 
-                var imageBrushRect = new ImageBrush();
-                imageBrushRect.ImageSource = image;
+                var imageBrushRect = new ImageBrush()
+                {
+                    ImageSource = image
+                };
                 rectangle.Fill = imageBrushRect;
 
                 _canvas.Children.Add(rectangle);
@@ -85,10 +89,13 @@ namespace PlansModule.ViewModels
 
             foreach (var elementPolygonZone in _plan.ElementPolygonZones)
             {
-                var zonePlanViewModel = new ElementZoneViewModel();
-                zonePlanViewModel.Initialize(elementPolygonZone, _canvas);
-                zonePlanViewModel.Selected += () => { SelectedZone = zonePlanViewModel; };
-                Zones.Add(zonePlanViewModel);
+                if (elementPolygonZone.ZoneNo != null)
+                {
+                    var zonePlanViewModel = new ElementZoneViewModel();
+                    zonePlanViewModel.Initialize(elementPolygonZone, _canvas);
+                    zonePlanViewModel.Selected += () => { SelectedZone = zonePlanViewModel; };
+                    Zones.Add(zonePlanViewModel);
+                }
             }
 
             foreach (var elementDevice in _plan.ElementDevices)
@@ -287,15 +294,8 @@ namespace PlansModule.ViewModels
             }
         }
 
-        ImageBrush CreateBrush(string source)
+        ImageBrush CreateBrush()
         {
-            /*
-            var imageBrush = new ImageBrush();
-            Uri uri = new Uri(source);
-            imageBrush.ImageSource = new BitmapImage(uri);
-            return imageBrush;
-            */
-
             var imageBrush = new ImageBrush();
             if (_plan.BackgroundPixels != null)
             {

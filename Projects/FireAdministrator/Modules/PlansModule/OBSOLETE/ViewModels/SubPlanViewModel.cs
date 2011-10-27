@@ -13,7 +13,7 @@ namespace PlansModule.ViewModels
         public SubPlanViewModel(Plan plan, ElementSubPlan subplan)
         {
             Parent = plan;
-            Name = subplan.Name;
+            //Name = subplan.Name;
             ElementSubPlan = subplan;
         }
 

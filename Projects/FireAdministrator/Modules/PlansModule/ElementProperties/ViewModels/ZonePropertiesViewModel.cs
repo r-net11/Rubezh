@@ -8,11 +8,12 @@ namespace PlansModule.ViewModels
 {
     public class ZonePropertiesViewModel : SaveCancelDialogContent
     {
-        public ZonePropertiesViewModel(ulong zoneNo)
+        public ZonePropertiesViewModel(ulong? zoneNo)
         {
             Title = "Свойства фигуры: Зона";
             Zones = new List<Zone>(FiresecManager.DeviceConfiguration.Zones);
-            SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo);
+            if (zoneNo.HasValue)
+                SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo.Value);
         }
 
         public List<Zone> Zones { get; private set; }
