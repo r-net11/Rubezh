@@ -1,5 +1,4 @@
-﻿using Microsoft.Reporting.WinForms;
-using SAPBusinessObjects.WPF.Viewer;
+﻿using SAPBusinessObjects.WPF.Viewer;
 
 namespace ReportsModule.Reports
 {

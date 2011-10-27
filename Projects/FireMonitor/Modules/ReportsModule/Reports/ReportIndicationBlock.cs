@@ -1,11 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using Common;
-using FiresecAPI.Models;
-using FiresecClient;
 using ReportsModule.Models;
-using SAPBusinessObjects.WPF.Viewer;
-using ReportsModule.CrystalReports;
 
 namespace ReportsModule.Reports
 {

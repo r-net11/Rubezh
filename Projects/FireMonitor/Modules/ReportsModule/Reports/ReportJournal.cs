@@ -4,10 +4,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using JournalModule.ViewModels;
-using Microsoft.Reporting.WinForms;
 using ReportsModule.Models;
 using SAPBusinessObjects.WPF.Viewer;
-using ReportsModule.CrystalReports;
+using System.Windows.Controls.Primitives;
 
 namespace ReportsModule.Reports
 {
@@ -58,6 +57,9 @@ namespace ReportsModule.Reports
             reportDocument.SetParameterValue("EndDate", EndDate.ToString());
             var crystalReportsViewer = new CrystalReportsViewer();
             crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            crystalReportsViewer.ShowLogo = false;
+            crystalReportsViewer.ShowToggleSidePanelButton = false;
+            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.None;
             return crystalReportsViewer;
         }
 

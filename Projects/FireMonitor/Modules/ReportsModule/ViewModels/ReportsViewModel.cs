@@ -1,7 +1,5 @@
 ﻿using Infrastructure.Common;
-using Microsoft.Reporting.WinForms;
 using ReportsModule.Reports;
-using ReportsModule.Views;
 using SAPBusinessObjects.WPF.Viewer;
 
 namespace ReportsModule.ViewModels
@@ -21,6 +19,8 @@ namespace ReportsModule.ViewModels
         {
         }
 
+        public CrystalReportsViewer CrystalReportsViewer { get; set; }
+
         object _reportContent;
         public object ReportContent
         {
@@ -32,10 +32,44 @@ namespace ReportsModule.ViewModels
             }
         }
 
+        public object IndicationBlockReport
+        {
+            get { return ShowReport(new ReportIndicationBlock()); }
+        }
+
+        public object DriverCountReport
+        {
+            get { return ShowReport(new ReportDriverCounter()); }
+        }
+
+        public object DeviceParamsReport
+        {
+            get 
+            {
+                return ShowReport(new ReportDeviceParams());
+            }
+        }
+
+        public object DeviceListReport
+        {
+            get { return ShowReport(new ReportDevicesList()); }
+        }
+
+        public object JournalReport
+        {
+            get { return ShowReport(new ReportJournal()); }
+        }
+
         void ShowCrystalReport(BaseReport report)
         {
             report.LoadData();
             ReportContent = report.CreateCrystalReportViewer();
+        }
+
+        object ShowReport(BaseReport report)
+        {
+            report.LoadData();
+            return report.CreateCrystalReportViewer();
         }
 
         public RelayCommand ShowDriverCountReportCommand { get; private set; }

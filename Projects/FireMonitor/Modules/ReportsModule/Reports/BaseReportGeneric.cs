@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Common;
 using FiresecClient;
-using Microsoft.Reporting.WinForms;
 using SAPBusinessObjects.WPF.Viewer;
-using ReportsModule.CrystalReports;
 using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
@@ -35,6 +32,9 @@ namespace ReportsModule.Reports
             reportDocument.SetDataSource(DataList);
             var crystalReportsViewer = new CrystalReportsViewer();
             crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            crystalReportsViewer.ShowLogo = false;
+            crystalReportsViewer.ShowToggleSidePanelButton = false;
+            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.None;
             return crystalReportsViewer;
         }
     }

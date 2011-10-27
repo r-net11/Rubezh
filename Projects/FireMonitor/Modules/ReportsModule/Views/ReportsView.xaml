@@ -1,8 +1,32 @@
 ﻿<UserControl x:Class="ReportsModule.Views.ReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:c="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:ReportView="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer">
+    <!--<Grid>
+        <TabControl >
+            <TabItem Header="Блоки индикации" IsSelected="False">
+                <ReportView:CrystalReportsViewer Content="{Binding CrystalReportsViewer}"/>
+                <Grid>
+                    <ContentControl Content="{Binding IndicationBlockReport}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Журнал событий" IsSelected="False">
+                <ContentControl Content="{Binding JournalReport}" />
+            </TabItem>
+            <TabItem Header="Количество устройств по типам" IsSelected="False">
+                <ContentControl Content="{Binding DriverCountReport}" />
+            </TabItem>
+            <TabItem Header="Параметры устройств" IsSelected="False">
+                <Grid>
+                    <ContentControl Content="{Binding DeviceParamsReport}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Список устройств" IsSelected="False">
+                <ContentControl Content="{Binding DeviceListReport}" />
+            </TabItem>
+        </TabControl>
+    </Grid>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
