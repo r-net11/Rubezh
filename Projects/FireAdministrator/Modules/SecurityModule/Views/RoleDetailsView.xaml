@@ -3,16 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SecurityModule.Converters"
              MinWidth="400" MinHeight="500">
-    
-    <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
-                <TextBox Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
-            </Grid>
+
+    <Border CornerRadius="5" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+        <StackPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
+            </DockPanel>
             <Label Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
             <ListBox ItemsSource="{Binding Permissions, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=PermissionTypeName}" Padding="7">
                 <ListBox.ItemTemplate>
@@ -24,5 +21,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-    </StackPanel>
+        </StackPanel>
+    </Border>
 </UserControl>

@@ -40,13 +40,17 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem Name="_guardTab" IsSelected="{Binding IsGuardSelected}">
+            <TabItem IsSelected="{Binding IsGuardSelected}">
                 <TabItem.Header>
-                    <TextBlock Text="Охрана" FontWeight="Bold" />
+                    <Expander Name="_groupExpander" VerticalAlignment="Center">
+                        <Expander.Header>
+                            <TextBlock Text="Охрана" />
+                        </Expander.Header>
+                    </Expander>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsGuardUsersSelected}" Margin="15, -2, 0, 3"
-                     Visibility="{Binding  IsSelected, ElementName=_guardTab, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem IsSelected="{Binding IsGuardUsersSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/user.png" />
@@ -54,8 +58,8 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsGuardLevelsSelected}" Margin="15, 0, 0, 3"
-                     Visibility="{Binding  IsSelected, ElementName=_guardTab, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem IsSelected="{Binding IsGuardLevelsSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/levels.png" />
@@ -63,8 +67,8 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="15, 0, 0, 11"
-                     Visibility="{Binding  IsSelected, ElementName=_guardTab, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding  ElementName=_groupExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/tree.png" />
@@ -88,13 +92,17 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem Name="_securityTab" IsSelected="{Binding IsSecuritySelected}">
+            <TabItem IsSelected="{Binding IsSecuritySelected}">
                 <TabItem.Header>
-                    <TextBlock Text="Права" FontWeight="Bold" />
+                    <Expander Name="_securityExpander" VerticalAlignment="Center">
+                        <Expander.Header>
+                            <TextBlock Text="Права" />
+                        </Expander.Header>
+                    </Expander>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsUsersSelected}" Margin="15, -2, 0, 3"
-                     Visibility="{Binding IsSelected, ElementName=_securityTab, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem IsSelected="{Binding IsUsersSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/user.png" />
@@ -102,8 +110,8 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="15, 0, 0, 11"
-                     Visibility="{Binding IsSelected, ElementName=_securityTab, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/users.png" />
@@ -144,6 +152,5 @@
                 </TabItem.Header>
             </TabItem>
         </TabControl>
-        <Image DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5,0,5,0" Source="/Controls;component/Images/rubezh.png" />
     </DockPanel>
 </UserControl>

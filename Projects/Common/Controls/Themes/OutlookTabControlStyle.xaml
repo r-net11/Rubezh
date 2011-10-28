@@ -7,7 +7,6 @@
             <SolidColorBrush x:Key="CaptionBrush" Color= "#fff" />
             <SolidColorBrush x:Key="BorderBrush" Color="#343337" />
             
-            <!-- This style sets the default template for a TabItem -->
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Padding" Value="12,2,12,2"/>
                 <Setter Property="Margin" Value="0 0 0 5"/>
@@ -21,7 +20,6 @@
                             <Border SnapsToDevicePixels="true" CornerRadius="3" MinHeight="32" x:Name="Bd" Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
                                 <ContentPresenter TextBlock.FontSize="8pt" TextBlock.FontFamily="Arial" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource CaptionBrush}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" ContentSource="Header" RecognizesAccessKey="True" HorizontalAlignment="Left"/>
                             </Border>
-                            <!-- These triggers control the background and text colour of the Outlook bar buttons when the are selected and/or hovered over -->
                             <ControlTemplate.Triggers>
                                 <MultiTrigger>
                                     <MultiTrigger.Conditions>

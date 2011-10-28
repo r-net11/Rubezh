@@ -12,7 +12,7 @@
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}" SelectedItem="{Binding SelectedItem}" Style="{StaticResource ListBoxStyle}">
+    <ListBox ItemsSource="{Binding Source={StaticResource SortedItems}}" SelectedItem="{Binding SelectedItem}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <WrapPanel Margin="5, 5, 0, 0">
