@@ -13,14 +13,14 @@ namespace PlansModule.ViewModels
 {
     public class PlansViewModel : RegionViewModel
     {
-        public PlanDetailsViewModel PlanDetails { get; set; }
+        public PlanCanvasViewModel PlanCanvasViewModel { get; set; }
         public static PlansViewModel Current;
 
         public PlansViewModel()
         {
             Current = this;
             MainCanvas = new Canvas();
-            PlanDetails = new PlanDetailsViewModel(MainCanvas);
+            PlanCanvasViewModel = new PlanCanvasViewModel(MainCanvas);
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
         }
 
@@ -38,10 +38,11 @@ namespace PlansModule.ViewModels
             {
                 foreach (var plan in FiresecManager.PlansConfiguration.Plans)
                 {
-                    var planTreeItemViewModel = new ViewModels.PlanViewModel();
-                    planTreeItemViewModel.Parent = null;
-                    planTreeItemViewModel.Initialize(plan, Plans);
-                    planTreeItemViewModel.IsExpanded = true;
+                    var planTreeItemViewModel = new PlanViewModel(plan, Plans)
+                    {
+                        Parent = null,
+                        IsExpanded = true
+                    };
                     Plans.Add(planTreeItemViewModel);
                     AddPlan(plan, planTreeItemViewModel);
                 }
@@ -53,11 +54,12 @@ namespace PlansModule.ViewModels
             if (parentPlan.Children != null)
                 foreach (var plan in parentPlan.Children)
                 {
-                    var planTreeItemViewModel = new ViewModels.PlanViewModel();
-                    planTreeItemViewModel.Parent = parentPlanTreeItem;
+                    var planTreeItemViewModel = new PlanViewModel(plan, Plans)
+                    {
+                        Parent = parentPlanTreeItem,
+                        IsExpanded = true
+                    };
                     parentPlanTreeItem.Children.Add(planTreeItemViewModel);
-                    planTreeItemViewModel.Initialize(plan, Plans);
-                    planTreeItemViewModel.IsExpanded = true;
                     Plans.Add(planTreeItemViewModel);
                     AddPlan(plan, planTreeItemViewModel);
                 }
@@ -83,14 +85,14 @@ namespace PlansModule.ViewModels
             set
             {
                 _selectedPlan = value;
-                PlanDetails.Initialize(value._plan);
+                PlanCanvasViewModel.Initialize(value._plan);
                 OnPropertyChanged("SelectedPlan");
             }
         }
 
-        public void OnSelectPlan(string name)
+        public void OnSelectPlan(Guid PlanUID)
         {
-            SelectedPlan = Plans.FirstOrDefault(x => x._plan.Name == name);
+            SelectedPlan = Plans.FirstOrDefault(x => x._plan.UID == PlanUID);
         }
 
         public void ShowDevice(Guid deviceUID)
@@ -100,7 +102,7 @@ namespace PlansModule.ViewModels
                 if (planViewModel._deviceStates.Any(x => x.UID == deviceUID))
                 {
                     SelectedPlan = planViewModel;
-                    PlanDetails.SelectDevice(deviceUID);
+                    PlanCanvasViewModel.SelectDevice(deviceUID);
                     break;
                 }
             }

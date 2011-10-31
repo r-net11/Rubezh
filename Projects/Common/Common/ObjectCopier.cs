@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Reflection;
 
-namespace PlansModule.ViewModels
+namespace Common
 {
     public static class ObjectCopier
     {

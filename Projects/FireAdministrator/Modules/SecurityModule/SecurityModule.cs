@@ -8,8 +8,8 @@ namespace SecurityModule
 {
     public class SecurityModule : IModule
     {
-        static UsersViewModel UsersViewModel;
-        static RolesViewModel GroupsViewModel;
+        static UsersViewModel _usersViewModel;
+        static RolesViewModel _groupsViewModel;
 
         public SecurityModule()
         {
@@ -35,14 +35,14 @@ namespace SecurityModule
 
         static void OnShowUsers(string obj)
         {
-            UsersViewModel = new UsersViewModel();
-            ServiceFactory.Layout.Show(UsersViewModel);
+            _usersViewModel = new UsersViewModel();
+            ServiceFactory.Layout.Show(_usersViewModel);
         }
 
         static void OnShowUserGroups(string obj)
         {
-            GroupsViewModel = new RolesViewModel();
-            ServiceFactory.Layout.Show(GroupsViewModel);
+            _groupsViewModel = new RolesViewModel();
+            ServiceFactory.Layout.Show(_groupsViewModel);
         }
 
         public static bool HasChanges { get; set; }

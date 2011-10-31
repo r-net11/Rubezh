@@ -58,12 +58,14 @@ namespace SettingsModule.ViewModels
 
         FullConfiguration CopyFrom()
         {
-            var fullConfiguration = new FullConfiguration();
-            fullConfiguration.DeviceConfiguration = FiresecManager.DeviceConfiguration;
-            fullConfiguration.LibraryConfiguration = FiresecManager.LibraryConfiguration;
-            fullConfiguration.PlansConfiguration = FiresecManager.PlansConfiguration;
-            fullConfiguration.SecurityConfiguration = FiresecManager.SecurityConfiguration;
-            fullConfiguration.SystemConfiguration = FiresecManager.SystemConfiguration;
+            var fullConfiguration = new FullConfiguration()
+            {
+                DeviceConfiguration = FiresecManager.DeviceConfiguration,
+                LibraryConfiguration = FiresecManager.LibraryConfiguration,
+                PlansConfiguration = FiresecManager.PlansConfiguration,
+                SecurityConfiguration = FiresecManager.SecurityConfiguration,
+                SystemConfiguration = FiresecManager.SystemConfiguration
+            };
             return fullConfiguration;
         }
 

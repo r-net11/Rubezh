@@ -11,11 +11,11 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
-using System.Diagnostics;
+using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDetailsViewModel : RegionViewModel
+    public class PlanCanvasViewModel : RegionViewModel
     {
         Plan _plan;
         Canvas _canvas;
@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
         public List<ElementZoneViewModel> Zones { get; set; }
         public List<ElementDeviceViewModel> Devices { get; set; }
 
-        public PlanDetailsViewModel(Canvas canvas)
+        public PlanCanvasViewModel(Canvas canvas)
         {
             _canvas = canvas;
             _canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
@@ -46,10 +46,13 @@ namespace PlansModule.ViewModels
             Devices = new List<ElementDeviceViewModel>();
 
             _canvas.Children.Clear();
-
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-            _canvas.Background = CreateBrush();
+            _canvas.Background = new SolidColorBrush(_plan.BackgroundColor);
+            if (_plan.BackgroundPixels != null)
+            {
+                _canvas.Background = PlanElementsHelper.CreateBrush(_plan.BackgroundPixels);
+            }
 
             foreach (var elementSubPlan in _plan.ElementSubPlans)
             {
@@ -68,21 +71,10 @@ namespace PlansModule.ViewModels
                 Canvas.SetLeft(rectangle, rectangleBox.Left);
                 Canvas.SetTop(rectangle, rectangleBox.Top);
 
-                BitmapImage image = null;
-                using (MemoryStream imageStream = new MemoryStream(rectangleBox.BackgroundPixels))
+                if (rectangleBox.BackgroundPixels != null)
                 {
-                    image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = imageStream;
-                    image.EndInit();
+                    rectangle.Fill = PlanElementsHelper.CreateBrush(rectangleBox.BackgroundPixels);
                 }
-
-                var imageBrushRect = new ImageBrush()
-                {
-                    ImageSource = image
-                };
-                rectangle.Fill = imageBrushRect;
 
                 _canvas.Children.Add(rectangle);
             }
@@ -266,9 +258,9 @@ namespace PlansModule.ViewModels
             SelectedZone = Zones.FirstOrDefault(x => x.ZoneNo == zoneNo);
         }
 
-        void OnPlanStateChanged(string planName)
+        void OnPlanStateChanged(Guid planUID)
         {
-            if ((_plan != null) && (_plan.Name == planName))
+            if ((_plan != null) && (_plan.UID == planUID))
             {
                 UpdateSubPlans();
             }
@@ -278,7 +270,7 @@ namespace PlansModule.ViewModels
         {
             foreach (var subPlan in SubPlans)
             {
-                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.Name == subPlan.Name);
+                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.UID == subPlan.PlanUID);
                 if (planViewModel != null)
                 {
                     subPlan.StateType = planViewModel.StateType;
@@ -292,26 +284,6 @@ namespace PlansModule.ViewModels
             {
                 CanvasView.Current.Reset();
             }
-        }
-
-        ImageBrush CreateBrush()
-        {
-            var imageBrush = new ImageBrush();
-            if (_plan.BackgroundPixels != null)
-            {
-                BitmapImage image;
-                using (MemoryStream imageStream = new MemoryStream(_plan.BackgroundPixels))
-                {
-                    image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = imageStream;
-                    image.EndInit();
-                }
-
-                imageBrush.ImageSource = image;
-            }
-            return imageBrush;
         }
     }
 }

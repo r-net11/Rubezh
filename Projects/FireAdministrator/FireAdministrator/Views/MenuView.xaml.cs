@@ -29,6 +29,7 @@ namespace FireAdministrator
             LibraryModule.LibraryModule.HasChanges = false;
             InstructionsModule.InstructionsModule.HasChanges = false;
             SecurityModule.SecurityModule.HasChanges = false;
+            PlansModule.PlansModule.HasChanges = false;
         }
 
         void OnCreateNew(object sender, RoutedEventArgs e)

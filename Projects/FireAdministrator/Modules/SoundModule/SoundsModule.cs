@@ -8,6 +8,10 @@ namespace SoundsModule
 {
     public class SoundsModule : IModule
     {
+
+        static SoundsViewModel _soundsViewModel;
+        public static bool HasChanges { get; set; }
+
         public SoundsModule()
         {
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
@@ -30,9 +34,6 @@ namespace SoundsModule
             _soundsViewModel = new SoundsViewModel();
             _soundsViewModel.Inicialize();
         }
-
-        static SoundsViewModel _soundsViewModel;
-        public static bool HasChanges { get; set; }
 
         static void OnShowSounds(string obj)
         {

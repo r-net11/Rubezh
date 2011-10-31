@@ -97,7 +97,7 @@
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Events\ElementPositionChangedEvent.cs" />
-    <Compile Include="ViewModels\ObjectCopier.cs" />
+    <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
     <Compile Include="Views\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>

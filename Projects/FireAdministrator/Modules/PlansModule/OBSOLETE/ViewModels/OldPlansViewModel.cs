@@ -174,7 +174,7 @@ namespace PlansModule.ViewModels
             //planDetailsViewModel.Initialize(SelectedPlan.Plan);
             if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
-                SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
+                //SelectedPlan.Plan.Name = planDetailsViewModel.Plan.Name;
                 var plan = SelectedPlan.Plan;
                 while (plan.Parent != null) plan = plan.Parent;
                 int index = FiresecManager.PlansConfiguration.Plans.IndexOf(plan);

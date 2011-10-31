@@ -8,10 +8,12 @@ using System.Windows.Controls;
 using FiresecAPI.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
-    public class PlansViewModel : RegionViewModel
+    public partial class PlansViewModel : RegionViewModel
     {
         public PlansViewModel()
         {
@@ -238,37 +240,6 @@ namespace PlansModule.ViewModels
         void OnMoveBackward()
         {
             PlanDesignerViewModel.MoveBackward();
-            PlansModule.HasChanges = true;
-        }
-
-        List<ElementBase> Buffer;
-
-        public RelayCommand CopyCommand { get; private set; }
-        void OnCopy()
-        {
-            PlanDesignerViewModel.Save();
-            Buffer = new List<ElementBase>();
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                Buffer.Add(designerItem.ElementBase.Clone());
-            }
-        }
-
-        public RelayCommand CutCommand { get; private set; }
-        void OnCut()
-        {
-            PlansModule.HasChanges = true;
-        }
-
-        public RelayCommand PasteCommand { get; private set; }
-        void OnPaste()
-        {
-            DesignerCanvas.DeselectAll();
-            foreach (var elementBase in Buffer)
-            {
-                var designerItem = DesignerCanvas.AddElementBase(elementBase);
-                designerItem.IsSelected = true;
-            }
             PlansModule.HasChanges = true;
         }
 

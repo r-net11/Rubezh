@@ -66,14 +66,14 @@ namespace PlansModule
         static void CreateDemoData()
         {
             var plan = new Plan();
-            plan.Name = "rootPlan";
+            //plan.Name = "rootPlan";
             //plan.BackgroundSource = "D:/picture6.jpg";
             plan.Caption = "cap";
             plan.Height = 500;
             plan.Width = 500;
             plan.ElementSubPlans = new List<ElementSubPlan>();
             plan.ElementSubPlans.Add(new ElementSubPlan());
-            plan.ElementSubPlans[0].Name = "subPlan1";
+            //plan.ElementSubPlans[0].Name = "subPlan1";
             //plan.ElementSubPlans[0].PolygonPoints = new List<PolygonPoint>();
             plan.ElementSubPlans[0].PolygonPoints = new PointCollection();
             //plan.ElementSubPlans[0].BackgroundSource = "D:/picture1.jpg";
@@ -96,7 +96,7 @@ namespace PlansModule
             plan.ElementDevices[0].Top = 200;
             plan.Children = new List<Plan>();
             plan.Children.Add(new Plan());
-            plan.Children[0].Name = "subPlan1";
+            //plan.Children[0].Name = "subPlan1";
             plan.Children[0].Caption = "Plan 2";
 
             //XmlSerializer deserializer = new XmlSerializer(typeof(Plan));

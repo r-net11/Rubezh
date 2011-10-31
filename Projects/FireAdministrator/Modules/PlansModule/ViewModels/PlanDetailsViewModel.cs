@@ -20,12 +20,7 @@ namespace PlansModule.ViewModels
             else
             {
                 Title = "Создать план";
-                Plan = new Plan()
-                {
-                    Name = "Новый план",
-                    Width = 400,
-                    Height = 400
-                };
+                Plan = new Plan();
                 _isNew = true;
             }
 
@@ -34,19 +29,31 @@ namespace PlansModule.ViewModels
 
         void CopyProperties()
         {
-            Name = Plan.Name;
+            Caption = Plan.Caption;
+            Description = Plan.Description;
             Width = Plan.Width;
             Height = Plan.Height;
         }
 
-        string _name;
-        public string Name
+        string _caption;
+        public string Caption
         {
-            get { return _name; }
+            get { return _caption; }
             set
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                _caption = value;
+                OnPropertyChanged("Caption");
+            }
+        }
+
+        string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
             }
         }
 
@@ -74,12 +81,13 @@ namespace PlansModule.ViewModels
 
         protected override bool CanSave()
         {
-            return !string.IsNullOrEmpty(Name);
+            return !string.IsNullOrEmpty(Caption);
         }
 
         protected override void Save(ref bool cancel)
         {
-            Plan.Name = Name;
+            Plan.Caption = Caption;
+            Plan.Description = Description;
             Plan.Height = Height;
             Plan.Width = Width;
         }

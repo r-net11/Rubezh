@@ -16,7 +16,7 @@ namespace PlansModule.ViewModels
         public List<DeviceState> _deviceStates;
         StateType _selfState;
 
-        public void Initialize(Plan plan, ObservableCollection<PlanViewModel> source)
+        public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
         {
             _plan = plan;
             Source = source;
@@ -51,7 +51,7 @@ namespace PlansModule.ViewModels
             set
             {
                 _stateType = value;
-                ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(_plan.Name);
+                ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(_plan.UID);
                 OnPropertyChanged("StateType");
             }
         }

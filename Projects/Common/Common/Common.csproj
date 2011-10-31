@@ -53,6 +53,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
+    <Compile Include="ObjectCopier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

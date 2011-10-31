@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
-
             <DataGridTemplateColumn Header="Название" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -20,13 +19,12 @@
                                 </StackPanel>
                             </WrapPanel>
                             <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding Plan.Name}" />
+                                <TextBlock Text="{Binding Plan.Caption}" />
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-
             <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
         </DataGrid.Columns>
     </DataGrid>

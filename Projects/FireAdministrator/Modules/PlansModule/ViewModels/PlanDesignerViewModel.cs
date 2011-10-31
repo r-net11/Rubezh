@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
+using DeviceControls;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using FiresecClient;
-using DeviceControls;
-using Infrastructure;
 using PlansModule.Events;
-using System.Drawing;
-using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -81,11 +80,7 @@ namespace PlansModule.ViewModels
                 return;
 
             NormalizeZIndex();
-
-            Plan.ElementRectangles = new List<ElementRectangle>();
-            Plan.ElementEllipses = new List<ElementEllipse>();
-            Plan.ElementTextBlocks = new List<ElementTextBlock>();
-            Plan.ElementPolygons = new List<ElementPolygon>();
+            Plan.ClearElements();
 
             foreach (var designerItem in DesignerCanvas.Items)
             {
@@ -120,6 +115,21 @@ namespace PlansModule.ViewModels
                 {
                     ElementPolygon elementPolygon = elementBase as ElementPolygon;
                     Plan.ElementPolygons.Add(elementPolygon);
+                }
+                if (elementBase is ElementPolygonZone)
+                {
+                    ElementPolygonZone elementPolygonZone = elementBase as ElementPolygonZone;
+                    Plan.ElementPolygonZones.Add(elementPolygonZone);
+                }
+                if (elementBase is ElementRectangleZone)
+                {
+                    ElementRectangleZone elementRectangleZone = elementBase as ElementRectangleZone;
+                    Plan.ElementRectangleZones.Add(elementRectangleZone);
+                }
+                if (elementBase is ElementDevice)
+                {
+                    ElementDevice elementDevice = elementBase as ElementDevice;
+                    Plan.ElementDevices.Add(elementDevice);
                 }
             }
         }

@@ -7,7 +7,7 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ElementSubPlan : ElementBasePolygon
     {
-        public Plan Parent { get; set; }
+        public Plan Plan { get; set; }
 
         [DataMember]
         public Guid UID { get; set; }
@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
         {
             ElementBase elementBase = new ElementSubPlan()
             {
-                Parent = Parent,
+                Plan = Plan,
                 UID = UID,
                 Caption = Caption
             };

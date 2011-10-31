@@ -12,12 +12,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Название" />
-        <Label Grid.Column="0" Grid.Row="1" Content="Ширина" />
-        <Label Grid.Column="0" Grid.Row="2" Content="Высота" />
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" />
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Width}" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Height}" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Описание" />
+        <Label Grid.Column="0" Grid.Row="2" Content="Ширина" />
+        <Label Grid.Column="0" Grid.Row="3" Content="Высота" />
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Caption}" />
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Description}" />
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Width}" />
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Height}" />
     </Grid>
 </UserControl>

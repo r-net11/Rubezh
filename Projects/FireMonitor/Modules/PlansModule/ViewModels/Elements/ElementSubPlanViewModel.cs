@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -17,29 +15,25 @@ namespace PlansModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
-        public string Name { get; private set; }
+        public Guid PlanUID { get; private set; }
         public string PresentationName { get; private set; }
         ElementSubPlanView _elementSubPlanView;
 
         public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
         {
-            Name = elementSubPlan.Name;
+            PlanUID = elementSubPlan.UID;
             PresentationName = elementSubPlan.Caption;
 
-            _elementSubPlanView = new ElementSubPlanView();
-            _elementSubPlanView.DataContext = this;
+            _elementSubPlanView = new ElementSubPlanView()
+            {
+                DataContext = this
+            };
             _elementSubPlanView._polygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
 
             foreach (var polygonPoint in elementSubPlan.PolygonPoints)
             {
                 _elementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-            //if (elementSubPlan.ShowBackgroundImage)
-            //{
-            //    ImageBrush polygonImageBrush = new ImageBrush();
-            //    polygonImageBrush.ImageSource = new BitmapImage(new Uri(elementSubPlan.BackgroundSource, UriKind.Absolute));
-            //    _elementSubPlanView._polygon.Fill = polygonImageBrush;
-            //}
 
             canvas.Children.Add(_elementSubPlanView);
         }
@@ -59,7 +53,7 @@ namespace PlansModule.ViewModels
         {
             if (e.ClickCount == 2)
             {
-                ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(Name);
+                ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(PlanUID);
             }
         }
 

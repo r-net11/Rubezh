@@ -16,7 +16,7 @@ namespace PlansModule.ViewModels
             if (parent.ElementSubPlans == null) parent.ElementSubPlans = new List<ElementSubPlan>();
             parent.ElementSubPlans.Add(ElementSubPlan);
             Parent = parent;
-            Name = Parent.Name;
+            //Name = Parent.Name;
 
             SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);

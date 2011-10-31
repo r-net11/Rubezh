@@ -21,7 +21,6 @@ namespace FiresecService.Converters
                     var plan = new Plan()
                     {
                         Caption = innerPlan.caption,
-                        Name = innerPlan.caption,
                         Height = Double.Parse(innerPlan.height) * 10,
                         Width = Double.Parse(innerPlan.width) * 10
                     };

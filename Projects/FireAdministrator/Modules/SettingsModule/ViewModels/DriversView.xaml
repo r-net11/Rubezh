@@ -4,6 +4,6 @@
         WindowState="Maximized" Height="800" Width="1100"
         Title="Список драйверов устройств">
     <Grid>
-        <DataGrid ItemsSource="{Binding Drivers}" />
+        <DataGrid ItemsSource="{Binding Drivers}" AutoGenerateColumns="true" />
     </Grid>
 </Window>

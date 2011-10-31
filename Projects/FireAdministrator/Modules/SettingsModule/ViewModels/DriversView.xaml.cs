@@ -18,28 +18,8 @@ namespace SettingsModule.ViewModels
                        select driver).ToList();
 
             DataContext = this;
-
-            Test();
         }
 
         public List<Driver> Drivers { get; private set; }
-
-        void Test()
-        {
-            var nullStates = new List<string>();
-
-            foreach (var driver in Drivers)
-            {
-                foreach (var state in driver.States)
-                {
-                    if (string.IsNullOrEmpty(state.Code))
-                    {
-                        nullStates.Add(String.Format("{0} - {1}", driver.ShortName, state.Name));
-                    }
-                }
-            }
-
-            var groupDevice = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Group);
-        }
     }
 }

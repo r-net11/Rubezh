@@ -13,7 +13,14 @@ namespace FiresecAPI.Models
             UID = Guid.NewGuid();
             Children = new List<Plan>();
             ElementSubPlans = new List<ElementSubPlan>();
-            
+            Caption = "Новый план";
+            Width = 400;
+            Height = 400;
+            ClearElements();
+        }
+
+        public void ClearElements()
+        {
             ElementRectangleZones = new List<ElementRectangleZone>();
             ElementPolygonZones = new List<ElementPolygonZone>();
             ElementDevices = new List<ElementDevice>();
@@ -31,9 +38,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<Plan> Children { get; set; }
-
-        [DataMember]
-        public string Name { get; set; }
 
         [DataMember]
         public string Caption { get; set; }

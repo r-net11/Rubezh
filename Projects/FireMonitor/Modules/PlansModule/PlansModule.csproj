@@ -88,7 +88,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\FakePresentation\PhoneViewModel.cs" />
-    <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PlanCanvasViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementZoneViewModel.cs" />
