@@ -9,22 +9,17 @@ using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireAdministrator
 {
-    public class Bootsrapper : UnityBootstrapper
+    public class Bootsrapper
     {
-        protected override System.Windows.DependencyObject CreateShell()
+        public void Initialize()
         {
-            var shellView = new ShellView();
-            ServiceFactory.RegisterInstance(shellView);
-            return shellView;
-        }
+            RegisterServices();
 
-        protected override void InitializeShell()
-        {
+            var preLoadWindow = new PreLoadWindow();
             var loginScreen = new LoginScreen();
             loginScreen.ShowDialog();
             if (loginScreen.IsLoggedIn)
             {
-                var preLoadWindow = new PreLoadWindow();
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();
 
@@ -32,25 +27,23 @@ namespace FireAdministrator
                 {
                     DialogBox.DialogBox.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
-                    preLoadWindow.Close();
                 }
                 else
                 {
-                    RegisterServices();
                     InitializeKnownModules();
-                    preLoadWindow.Close();
 
-                    App.Current.MainWindow = (Window) this.Shell;
+                    var ShellView = new ShellView();
+                    ServiceFactory.ShellView = ShellView;
+                    App.Current.MainWindow = ShellView;
                     App.Current.MainWindow.Show();
                 }
+                preLoadWindow.Close();
             }
         }
 
         static void RegisterServices()
         {
-            ServiceFactory.RegisterType<IResourceService, ResourceService>();
-            ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
-            ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
+            ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ResourceService());
             ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
         }
 

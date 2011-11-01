@@ -47,6 +47,7 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
+                <DataGridTextColumn Header="Зона" Width="50" Binding="{Binding PresentationZone}" />
                 <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
             </DataGrid.Columns>

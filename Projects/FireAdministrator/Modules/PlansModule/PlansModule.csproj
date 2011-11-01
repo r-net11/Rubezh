@@ -96,6 +96,7 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
+    <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="Events\ElementPositionChangedEvent.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
     <Compile Include="Views\Toolbox.xaml.cs">

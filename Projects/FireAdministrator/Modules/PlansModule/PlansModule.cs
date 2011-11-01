@@ -24,11 +24,10 @@ namespace PlansModule
 
         void RegisterResources()
         {
-            var resourceService = ServiceFactory.Get<IResourceService>();
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerCanvas.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerItem.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChrome.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerCanvas.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerItem.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChrome.xaml"));
         }
 
         static void CreateViewModels()
@@ -40,6 +39,11 @@ namespace PlansModule
         {
             _plansViewModel.Initialize();
             ServiceFactory.Layout.Show(_plansViewModel);
+        }
+
+        public static void Save()
+        {
+            _plansViewModel.PlanDesignerViewModel.Save();
         }
     }
 }

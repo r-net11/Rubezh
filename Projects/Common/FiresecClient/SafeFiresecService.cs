@@ -47,6 +47,7 @@ namespace FiresecClient
 
         public void StartPing()
         {
+            return;
             _pingTimer = new System.Timers.Timer();
             _pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
             _pingTimer.Interval = 1000;

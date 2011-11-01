@@ -15,7 +15,7 @@ namespace FireAdministrator
 #endif
 
             var bootstrapper = new Bootsrapper();
-            bootstrapper.Run();
+            bootstrapper.Initialize();
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

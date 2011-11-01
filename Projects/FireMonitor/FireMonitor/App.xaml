@@ -4,11 +4,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Colours.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Fonts.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Controls.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Gray.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/BaseLight.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

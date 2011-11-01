@@ -71,6 +71,11 @@ namespace PlansModule.ViewModels
                 DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
             }
 
+            foreach (var ElementSubPlan in plan.ElementSubPlans)
+            {
+                DesignerCanvas.Create(ElementSubPlan);
+            }
+
             DesignerCanvas.DeselectAll();
         }
 
@@ -130,6 +135,11 @@ namespace PlansModule.ViewModels
                 {
                     ElementDevice elementDevice = elementBase as ElementDevice;
                     Plan.ElementDevices.Add(elementDevice);
+                }
+                if (elementBase is ElementSubPlan)
+                {
+                    ElementSubPlan elementSubPlan = elementBase as ElementSubPlan;
+                    Plan.ElementSubPlans.Add(elementSubPlan);
                 }
             }
         }
@@ -266,10 +276,25 @@ namespace PlansModule.ViewModels
                         ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
                         if (elementPolygonZone != null)
                         {
-                            var point = new Point((int)Canvas.GetLeft(designerItem), (int)Canvas.GetTop(designerItem));
+                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
+                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
                             bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
                             if (isInPolygon)
-                                zones.Add(elementPolygonZone.ZoneNo.Value);
+                                if (elementPolygonZone.ZoneNo.HasValue)
+                                    zones.Add(elementPolygonZone.ZoneNo.Value);
+                        }
+
+                        ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.ElementBase as ElementRectangleZone;
+                        if (elementRectangleZone != null)
+                        {
+                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
+                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
+
+                            bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
+
+                            if (isInRectangle)
+                                if (elementRectangleZone.ZoneNo.HasValue)
+                                    zones.Add(elementRectangleZone.ZoneNo.Value);
                         }
                     }
 
@@ -280,12 +305,15 @@ namespace PlansModule.ViewModels
                         {
                             if (zones.Count > 0)
                             {
-                                Trace.WriteLine("Устройство привязано к новой зоне");
                                 device.ZoneNo = zones[0];
+                                Trace.WriteLine("Устройство привязано к новой зоне");
+                                ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                             }
                             else
                             {
+                                device.ZoneNo = null;
                                 Trace.WriteLine("Устройство отвязано от зоны");
+                                ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                             }
 
                         }
@@ -294,8 +322,9 @@ namespace PlansModule.ViewModels
                     {
                         if (zones.Count > 0)
                         {
-                            Trace.WriteLine("Устройство привязано к зоне");
                             device.ZoneNo = zones[0];
+                            Trace.WriteLine("Устройство привязано к зоне");
+                            ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                         }
                     }
                 }

@@ -4,7 +4,7 @@ namespace Infrastructure.Common
 {
     public interface IUserDialogService
     {
-        bool ShowWindow(IDialogContent model);
+        void ShowWindow(IDialogContent model, bool isTopMost = false);
         bool ShowModalWindow(IDialogContent model);
         bool ShowModalWindow(IDialogContent model, Window parentWindow);
     }

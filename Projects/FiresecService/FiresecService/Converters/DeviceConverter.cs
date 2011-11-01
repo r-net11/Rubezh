@@ -14,8 +14,10 @@ namespace FiresecService.Converters
             ConfigurationConverter.DeviceConfiguration.Devices = new List<Device>();
 
             var rootInnerDevice = ConfigurationConverter.FiresecConfiguration.dev[0];
-            var rootDevice = new Device();
-            rootDevice.Parent = null;
+            var rootDevice = new Device()
+            {
+                Parent = null
+            };
             SetInnerDevice(rootDevice, rootInnerDevice);
             ConfigurationConverter.DeviceConfiguration.Devices.Add(rootDevice);
             AddDevice(rootInnerDevice, rootDevice);
@@ -76,9 +78,7 @@ namespace FiresecService.Converters
             }
 
             device.IsRmAlarmDevice = device.Properties.Any(x => x.Name == "IsAlarmDevice");
-
             device.Description = innerDevice.name;
-
             SetZone(device, innerDevice);
 
             if (innerDevice.shape != null)

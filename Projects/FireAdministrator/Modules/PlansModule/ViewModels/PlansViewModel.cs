@@ -132,7 +132,7 @@ namespace PlansModule.ViewModels
         {
             var devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initialize();
-            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel);
+            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost:true);
         }
 
         bool CanAddEditRemove()

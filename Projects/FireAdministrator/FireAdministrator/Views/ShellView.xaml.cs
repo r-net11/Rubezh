@@ -76,7 +76,8 @@ namespace FireAdministrator
         {
             AlarmPlayerHelper.Dispose();
 
-            if (DevicesModule.DevicesModule.HasChanges || SoundsModule.SoundsModule.HasChanges ||
+            if (DevicesModule.DevicesModule.HasChanges || PlansModule.PlansModule.HasChanges ||
+                SoundsModule.SoundsModule.HasChanges ||
                 FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges ||
                 InstructionsModule.InstructionsModule.HasChanges || SecurityModule.SecurityModule.HasChanges)
             {

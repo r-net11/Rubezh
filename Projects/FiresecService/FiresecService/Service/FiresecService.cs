@@ -164,7 +164,7 @@ namespace FiresecService
             FiresecManager.DeviceConfiguration = deviceConfiguration;
 
             ConfigurationConverter.ConvertBack(deviceConfiguration, true);
-            FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
+            //FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
         }
 
         public void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)

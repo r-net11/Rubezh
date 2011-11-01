@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using PlansModule.Events;
+using Infrastructure;
 
 namespace PlansModule.Designer
 {
@@ -54,6 +56,7 @@ namespace PlansModule.Designer
                 Canvas.SetTop(thumb, point.Y);
                 this.Children.Add(thumb);
                 thumb.DragDelta += new DragDeltaEventHandler(_thumb_DragDelta);
+                thumb.DragCompleted += new DragCompletedEventHandler(thumb_DragCompleted);
                 thumb.PreviewKeyDown += new System.Windows.Input.KeyEventHandler(thumb_PreviewKeyDown);
                 thumbs.Add(thumb);
             }
@@ -124,6 +127,11 @@ namespace PlansModule.Designer
 
             _designerItem.Width = maxLeft - minLeft;
             _designerItem.Height = maxTop - minTop;
+        }
+
+        void thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
         }
     }
 }

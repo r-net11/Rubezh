@@ -32,7 +32,6 @@ namespace FiresecService
             ZoneConverter.Convert();
             DirectionConverter.Convert();
             GuardUserConverter.Convert();
-            SecurityConverter.Convert();
             DeviceConverter.Convert();
         }
 

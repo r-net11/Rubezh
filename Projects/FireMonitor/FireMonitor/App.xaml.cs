@@ -15,7 +15,7 @@ namespace FireMonitor
 #endif
 
             var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
+            bootstrapper.Initialize();
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

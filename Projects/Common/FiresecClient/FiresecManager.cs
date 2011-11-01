@@ -38,13 +38,13 @@ namespace FiresecClient
             Action synchronizer = new Action(FileHelper.Synchronize);
             IAsyncResult result = synchronizer.BeginInvoke(null, null);
 
-            SystemConfiguration = FiresecManager.FiresecService.GetSystemConfiguration();
-            LibraryConfiguration = FiresecManager.FiresecService.GetLibraryConfiguration();
-            PlansConfiguration = FiresecManager.FiresecService.GetPlansConfiguration();
-            SecurityConfiguration = FiresecManager.FiresecService.GetSecurityConfiguration();
-            Drivers = FiresecManager.FiresecService.GetDrivers();
-            DeviceConfiguration = FiresecManager.FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecManager.FiresecService.GetStates();
+            SystemConfiguration = FiresecService.GetSystemConfiguration();
+            LibraryConfiguration = FiresecService.GetLibraryConfiguration();
+            PlansConfiguration = FiresecService.GetPlansConfiguration();
+            SecurityConfiguration = FiresecService.GetSecurityConfiguration();
+            Drivers = FiresecService.GetDrivers();
+            DeviceConfiguration = FiresecService.GetDeviceConfiguration();
+            DeviceStates = FiresecService.GetStates();
 
             UpdateDrivers();
             UpdateConfiguration();
@@ -75,6 +75,7 @@ namespace FiresecClient
 
         public static void UpdateConfiguration()
         {
+            PlansConfiguration.Update();
             DeviceConfiguration.Update();
 
             foreach (var device in DeviceConfiguration.Devices)

@@ -27,8 +27,7 @@ namespace JournalModule
 
         void RegisterResources()
         {
-            var resourceService = ServiceFactory.Get<IResourceService>();
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
         static void OnShowJournal(object obj)

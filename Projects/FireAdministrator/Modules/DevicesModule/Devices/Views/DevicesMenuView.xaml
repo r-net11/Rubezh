@@ -9,7 +9,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+        <Button ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
 

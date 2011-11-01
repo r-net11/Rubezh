@@ -92,7 +92,7 @@ namespace FireMonitor
                 return;
             }
 
-            if (ServiceFactory.Get<ISecurityService>().Validate() == false)
+            if (ServiceFactory.SecurityService.Validate() == false)
             {
                 e.Cancel = true;
                 return;

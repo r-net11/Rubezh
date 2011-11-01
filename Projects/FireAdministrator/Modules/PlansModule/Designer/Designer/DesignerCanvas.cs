@@ -192,6 +192,8 @@ namespace PlansModule.Designer
                 designerItem.Opacity = 0.5;
             if (elementBase is ElementRectangleZone)
                 designerItem.Opacity = 0.5;
+            if (elementBase is ElementSubPlan)
+                designerItem.Opacity = 0.5;
 
             DesignerCanvas.SetLeft(designerItem, elementBase.Left);
             DesignerCanvas.SetTop(designerItem, elementBase.Top);
@@ -204,6 +206,8 @@ namespace PlansModule.Designer
             if (elementBase is ElementPolygonZone)
                 Panel.SetZIndex(designerItem, 100000);
             if (elementBase is ElementRectangleZone)
+                Panel.SetZIndex(designerItem, 100000);
+            if (elementBase is ElementSubPlan)
                 Panel.SetZIndex(designerItem, 100000);
 
             return designerItem;

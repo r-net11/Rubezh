@@ -21,6 +21,8 @@ namespace FireAdministrator
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
+            PlansModule.PlansModule.Save();
+
             FiresecManager.SetConfiguration();
 
             SoundsModule.SoundsModule.HasChanges = false;
@@ -52,6 +54,7 @@ namespace FireAdministrator
                 ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
                 DevicesModule.DevicesModule.HasChanges = true;
+                PlansModule.PlansModule.HasChanges = true;
             }
         }
 

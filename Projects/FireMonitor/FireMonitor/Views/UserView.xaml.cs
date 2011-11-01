@@ -18,7 +18,7 @@ namespace FireMonitor
         {
             //FiresecManager.Test();
 
-            ServiceFactory.Get<ISecurityService>().ReConnect();
+            ServiceFactory.SecurityService.ReConnect();
         }
     }
 }

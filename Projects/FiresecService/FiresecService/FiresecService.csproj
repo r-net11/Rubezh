@@ -132,7 +132,6 @@
     <Compile Include="Converters\DirectionConverter.cs" />
     <Compile Include="Converters\DriverConverter.cs" />
     <Compile Include="Converters\JournalConverter.cs" />
-    <Compile Include="Converters\SecurityConverter.cs" />
     <Compile Include="Converters\ZoneConverter.cs" />
     <Compile Include="Converters\ZoneLogicConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -102,7 +102,7 @@ namespace PlansModule.ViewModels
         public RelayCommand DisableCommand { get; private set; }
         void OnDisable()
         {
-            if (ServiceFactory.Get<ISecurityService>().Validate())
+            if (ServiceFactory.SecurityService.Validate())
             {
                 FiresecManager.AddToIgnoreList(DevicesToIgnore);
             }
@@ -111,7 +111,7 @@ namespace PlansModule.ViewModels
         public RelayCommand EnableCommand { get; private set; }
         void OnEnable()
         {
-            if (ServiceFactory.Get<ISecurityService>().Validate())
+            if (ServiceFactory.SecurityService.Validate())
             {
                 FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
             }

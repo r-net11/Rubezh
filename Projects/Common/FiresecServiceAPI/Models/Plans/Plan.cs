@@ -21,6 +21,7 @@ namespace FiresecAPI.Models
 
         public void ClearElements()
         {
+            ElementSubPlans = new List<ElementSubPlan>();
             ElementRectangleZones = new List<ElementRectangleZone>();
             ElementPolygonZones = new List<ElementPolygonZone>();
             ElementDevices = new List<ElementDevice>();

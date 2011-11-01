@@ -8,22 +8,16 @@ using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireMonitor
 {
-    public class Bootstrapper : UnityBootstrapper
+    public class Bootstrapper
     {
-        protected override System.Windows.DependencyObject CreateShell()
-        {
-            var shellView = new ShellView();
-            ServiceFactory.RegisterInstance(shellView);
-
-            return shellView;
-        }
-
-        protected override void InitializeShell()
+        public void Initialize()
         {
             RegisterServices();
-            if (ServiceFactory.Get<ISecurityService>().Connect())
+
+            var preLoadWindow = new PreLoadWindow();
+
+            if (ServiceFactory.SecurityService.Connect())
             {
-                var preLoadWindow = new PreLoadWindow();
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();
 
@@ -31,26 +25,25 @@ namespace FireMonitor
                 {
                     DialogBox.DialogBox.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
-                    preLoadWindow.Close();
                 }
                 else
                 {
                     ClientSettings.LoadSettings();
                     InitializeKnownModules();
-                    preLoadWindow.Close();
 
-                    App.Current.MainWindow = (Window) this.Shell;
+                    App.Current.MainWindow = ServiceFactory.ShellView;
                     App.Current.MainWindow.Show();
                 }
+                preLoadWindow.Close();
             }
         }
 
         static void RegisterServices()
         {
-            ServiceFactory.RegisterType<IResourceService, ResourceService>();
-            ServiceFactory.RegisterInstance<ILayoutService>(new LayoutService());
-            ServiceFactory.RegisterType<IUserDialogService, UserDialogService>();
-            ServiceFactory.RegisterType<ISecurityService, SecurityService>();
+            ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ResourceService(), new SecurityService());
+
+            var ShellView = new ShellView();
+            ServiceFactory.ShellView = ShellView;
         }
 
         void InitializeKnownModules()

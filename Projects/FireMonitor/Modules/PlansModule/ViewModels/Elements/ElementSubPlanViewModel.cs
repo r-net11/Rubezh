@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
@@ -22,18 +24,23 @@ namespace PlansModule.ViewModels
         public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
         {
             PlanUID = elementSubPlan.UID;
-            PresentationName = elementSubPlan.Caption;
+            var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == PlanUID);
+            PresentationName = plan.Caption;//elementSubPlan.Caption;
 
             _elementSubPlanView = new ElementSubPlanView()
             {
                 DataContext = this
             };
-            _elementSubPlanView._polygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
+
+            Canvas.SetLeft(_elementSubPlanView, elementSubPlan.Left);
+            Canvas.SetTop(_elementSubPlanView, elementSubPlan.Top);
 
             foreach (var polygonPoint in elementSubPlan.PolygonPoints)
             {
                 _elementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
+
+            _elementSubPlanView._polygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
 
             canvas.Children.Add(_elementSubPlanView);
         }

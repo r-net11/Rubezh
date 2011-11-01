@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
 using FiresecAPI;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -79,23 +80,49 @@ namespace PlansModule.ViewModels
                 _canvas.Children.Add(rectangle);
             }
 
+            foreach (var elementRectangleZone in _plan.ElementRectangleZones)
+            {
+                if (elementRectangleZone.ZoneNo != null)
+                {
+                    var elementPolygonZone = new ElementPolygonZone()
+                    {
+                        Left = elementRectangleZone.Left,
+                        Top = elementRectangleZone.Top,
+                        Width = elementRectangleZone.Width,
+                        Height = elementRectangleZone.Height,
+                        ZoneNo = elementRectangleZone.ZoneNo
+                    };
+
+                    elementPolygonZone.PolygonPoints = new PointCollection();
+                    elementPolygonZone.PolygonPoints.Add(new Point(0, 0));
+                    elementPolygonZone.PolygonPoints.Add(new Point(elementRectangleZone.Width, 0));
+                    elementPolygonZone.PolygonPoints.Add(new Point(elementRectangleZone.Width, elementRectangleZone.Height));
+                    elementPolygonZone.PolygonPoints.Add(new Point(0, elementRectangleZone.Height));
+
+                    var elementZoneViewModel = new ElementZoneViewModel();
+                    elementZoneViewModel.Initialize(elementPolygonZone, _canvas);
+                    elementZoneViewModel.Selected += () => { SelectedZone = elementZoneViewModel; };
+                    Zones.Add(elementZoneViewModel);
+                }
+            }
+
             foreach (var elementPolygonZone in _plan.ElementPolygonZones)
             {
                 if (elementPolygonZone.ZoneNo != null)
                 {
-                    var zonePlanViewModel = new ElementZoneViewModel();
-                    zonePlanViewModel.Initialize(elementPolygonZone, _canvas);
-                    zonePlanViewModel.Selected += () => { SelectedZone = zonePlanViewModel; };
-                    Zones.Add(zonePlanViewModel);
+                    var elementZoneViewModel = new ElementZoneViewModel();
+                    elementZoneViewModel.Initialize(elementPolygonZone, _canvas);
+                    elementZoneViewModel.Selected += () => { SelectedZone = elementZoneViewModel; };
+                    Zones.Add(elementZoneViewModel);
                 }
             }
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
-                var planDeviceViewModel = new ElementDeviceViewModel();
-                planDeviceViewModel.Initialize(elementDevice, _canvas);
-                planDeviceViewModel.Selected += () => { SelectedDevice = planDeviceViewModel; };
-                Devices.Add(planDeviceViewModel);
+                var elementDeviceViewModel = new ElementDeviceViewModel();
+                elementDeviceViewModel.Initialize(elementDevice, _canvas);
+                elementDeviceViewModel.Selected += () => { SelectedDevice = elementDeviceViewModel; };
+                Devices.Add(elementDeviceViewModel);
             }
 
             //if (_plan.Caption == "Строение 2 - Этаж 2")

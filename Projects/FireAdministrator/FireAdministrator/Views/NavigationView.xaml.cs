@@ -33,6 +33,11 @@ namespace FireAdministrator
             ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Subscribe(x => { _isSettingsSelected = true; OnPropertyChanged("IsSettingsSelected"); });
         }
 
+        private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            IsDevicesSelected = true;
+        }
+
         bool _isDevicesSelected;
         public bool IsDevicesSelected
         {
