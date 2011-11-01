@@ -9,7 +9,7 @@ namespace SoundsModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null && FiresecClient.FileHelper.SoundsList.Any(x => x == value.ToString()))
+            if (value != null && FiresecClient.FileHelper.SoundsList.Any(x => x == value.ToString()))
                 return value.ToString();
             return SoundViewModel.DefaultName;
         }
