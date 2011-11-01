@@ -15,6 +15,7 @@ namespace DevicesModule.ViewModels
         public IndicatorDetailsViewModel()
         {
             Title = "Свойства индикатора";
+
             ShowZonesCommand = new RelayCommand(OnShowZones);
             ShowDevicesCommand = new RelayCommand(OnShowDevices);
             ResetDeviceCommand = new RelayCommand(OnResetDevice);
@@ -74,7 +75,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 string presenrationZones = "";
-                for (int i = 0; i < _zones.Count; i++)
+                for (int i = 0; i < _zones.Count; ++i)
                 {
                     if (i > 0)
                         presenrationZones += ",";
@@ -148,8 +149,7 @@ namespace DevicesModule.ViewModels
         void OnShowZones()
         {
             var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(_zones);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorZoneSelectionViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(indicatorZoneSelectionViewModel))
             {
                 _zones = indicatorZoneSelectionViewModel.Zones;
                 OnPropertyChanged("PresenrationZones");
@@ -160,11 +160,8 @@ namespace DevicesModule.ViewModels
         void OnShowDevices()
         {
             var indicatorDeviceSelectionViewModel = new IndicatorDeviceSelectionViewModel();
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDeviceSelectionViewModel);
-            if (result)
-            {
+            if (ServiceFactory.UserDialogs.ShowModalWindow(indicatorDeviceSelectionViewModel))
                 SelectedDevice = indicatorDeviceSelectionViewModel.SelectedDevice.Device;
-            }
         }
 
         public RelayCommand ResetDeviceCommand { get; private set; }
@@ -182,8 +179,7 @@ namespace DevicesModule.ViewModels
                 _indicatorDevice.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
                 _indicatorDevice.IndicatorLogic.Zones = _zones;
             }
-
-            if (IsDevice)
+            else if (IsDevice)
             {
                 _indicatorDevice.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
                 _indicatorDevice.IndicatorLogic.Device = SelectedDevice;

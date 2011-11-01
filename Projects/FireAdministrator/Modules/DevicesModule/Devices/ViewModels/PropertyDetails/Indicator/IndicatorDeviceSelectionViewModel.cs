@@ -24,14 +24,15 @@ namespace DevicesModule.ViewModels
                 if (device.Driver.DriverType == DriverType.Exit)
                     continue;
 
-                if ((device.Driver.IsOutDevice) || (device.Driver.IsZoneLogicDevice)
-                    || (device.Driver.DriverType == DriverType.AM1_T)
-                    || (device.Driver.DriverType == DriverType.Pump)
-                    || (device.Driver.DriverType == DriverType.JokeyPump)
-                    || (device.Driver.DriverType == DriverType.Compressor)
-                    || (device.Driver.DriverType == DriverType.DrenazhPump)
-                    || (device.Driver.DriverType == DriverType.CompensationPump)
-                    )
+                if ((device.Driver.IsOutDevice) ||
+                    (device.Driver.IsZoneLogicDevice) ||
+                    (device.Driver.DriverType == DriverType.AM1_T) ||
+                    (device.Driver.DriverType == DriverType.Pump) ||
+                    (device.Driver.DriverType == DriverType.JokeyPump) ||
+                    (device.Driver.DriverType == DriverType.Compressor) ||
+                    (device.Driver.DriverType == DriverType.DrenazhPump) ||
+                    (device.Driver.DriverType == DriverType.CompensationPump)
+                )
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);

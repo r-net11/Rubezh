@@ -47,11 +47,9 @@ namespace DevicesModule.ViewModels
             var autodetectionViewModel = new AutoSearchViewModel();
             autodetectionViewModel.DeviceViewModels = _deviceViewModel.Source;
             autodetectionViewModel.Initialize(_autodetectedDeviceConfiguration);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel);
-            if (result)
-            {
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel))
                 RunAutodetection(false);
-            }
         }
     }
 }

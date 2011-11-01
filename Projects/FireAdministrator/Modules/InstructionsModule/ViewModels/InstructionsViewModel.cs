@@ -50,11 +50,9 @@ namespace InstructionsModule.ViewModels
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();
             instructionDetailsViewModel.Initialize();
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
             {
-                var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
-                Instructions.Add(instructionViewModel);
+                Instructions.Add(new InstructionViewModel(instructionDetailsViewModel.Instruction));
                 InstructionsModule.HasChanges = true;
             }
         }
@@ -75,9 +73,7 @@ namespace InstructionsModule.ViewModels
             FiresecManager.SystemConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
             Instructions.Remove(SelectedInstruction);
             if (Instructions.IsNotNullOrEmpty())
-            {
                 SelectedInstruction = Instructions[0];
-            }
             InstructionsModule.HasChanges = true;
         }
 
@@ -95,8 +91,7 @@ namespace InstructionsModule.ViewModels
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();
             instructionDetailsViewModel.Initialize(SelectedInstruction.Instruction);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
             {
                 SelectedInstruction.Update();
                 InstructionsModule.HasChanges = true;

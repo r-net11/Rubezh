@@ -24,7 +24,6 @@ namespace FiresecClient
         {
             var remoteFileNamesList = FiresecManager.GetFileNamesList(directory);
             var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
-
             foreach (var localFileName in GetFileNamesList(directory).Where(x => remoteFileNamesList.Contains(x) == false))
                 File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
 
@@ -33,9 +32,7 @@ namespace FiresecClient
             {
                 var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
                 if (File.Exists(fileName))
-                {
                     File.Delete(fileName);
-                }
                 DownloadFile(Path.Combine(filesDirectory.Name, remoteFileHash.Value), fileName);
             }
         }
@@ -52,11 +49,7 @@ namespace FiresecClient
         static List<string> GetFileNamesList(string directory)
         {
             if (Directory.Exists(CurrentDirectory(directory)))
-            {
-                return new List<string>(
-                    Directory.EnumerateFiles(CurrentDirectory(directory)).Select(x => Path.GetFileName(x))
-                );
-            }
+                return new List<string>(Directory.EnumerateFiles(CurrentDirectory(directory)).Select(x => Path.GetFileName(x)));
             return new List<string>();
         }
 

@@ -18,9 +18,7 @@ namespace InstructionsModule.Converters
                 foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
                 {
                     if ((Enum.GetName(typeof(StateType), stateType) == value.ToString()))
-                    {
                         return FiresecAPI.Models.EnumsConverter.StateTypeToClassName(stateType);
-                    }
                 }
                 return FiresecAPI.Models.EnumsConverter.StateTypeToClassName(new StateType());
             }

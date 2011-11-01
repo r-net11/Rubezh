@@ -22,8 +22,7 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
-            var deviceDescriptionViewModel = new DeviceDescriptionViewModel(_device.UID, _description);
-            ServiceFactory.UserDialogs.ShowModalWindow(deviceDescriptionViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _description));
         }
     }
 }

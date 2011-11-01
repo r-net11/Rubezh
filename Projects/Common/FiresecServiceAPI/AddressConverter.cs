@@ -7,9 +7,7 @@ namespace FiresecAPI
         public static string IntToStringAddress(Driver driver, int intAddress)
         {
             if (driver.IsDeviceOnShleif == false)
-            {
                 return intAddress.ToString();
-            }
 
             int shleifPart = intAddress >> 8; //intAddress / 256;
             int addressPart = intAddress & 0xff; //intAddress % 256;
@@ -20,13 +18,10 @@ namespace FiresecAPI
         public static int StringToIntAddress(Driver driver, string stringAddress)
         {
             if (driver.HasAddress == false)
-            {
                 return 0;
-            }
+
             if (driver.IsDeviceOnShleif == false)
-            {
                 return int.Parse(stringAddress);
-            }
 
             var addresses = stringAddress.Split('.');
 

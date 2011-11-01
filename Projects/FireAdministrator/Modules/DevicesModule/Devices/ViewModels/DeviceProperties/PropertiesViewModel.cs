@@ -23,11 +23,13 @@ namespace DevicesModule.DeviceProperties
                     case DriverPropertyTypeEnum.EnumType:
                         EnumProperties.Add(new EnumPropertyViewModel(driverProperty, device));
                         break;
+
                     case DriverPropertyTypeEnum.StringType:
                     case DriverPropertyTypeEnum.IntType:
                     case DriverPropertyTypeEnum.ByteType:
                         StringProperties.Add(new StringPropertyViewModel(driverProperty, device));
                         break;
+
                     case DriverPropertyTypeEnum.BoolType:
                         BoolProperties.Add(new BoolPropertyViewModel(driverProperty, device));
                         break;

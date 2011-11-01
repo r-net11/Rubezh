@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
@@ -101,7 +100,7 @@ namespace FiltersModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            JournalFilter.Name = JournalFilter.Name.Trim(); 
+            JournalFilter.Name = JournalFilter.Name.Trim();
         }
 
         protected override bool CanSave()
@@ -119,17 +118,11 @@ namespace FiltersModule.ViewModels
                     throw new ArgumentException();
 
                 if (string.IsNullOrWhiteSpace(FilterName))
-                {
                     return "Нужно задать имя";
-                }
 
                 var name = FilterName.Trim();
-                if (_existingNames.IsNotNullOrEmpty() &&
-                    _existingNames.Any(x => x == name))
-                {
+                if (_existingNames.IsNotNullOrEmpty() && _existingNames.Any(x => x == name))
                     return "Фильтр с таким именем уже существует";
-                }
-
                 return null;
             }
         }

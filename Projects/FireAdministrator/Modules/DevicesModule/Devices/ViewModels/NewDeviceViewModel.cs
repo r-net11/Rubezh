@@ -98,9 +98,7 @@ namespace DevicesModule.ViewModels
 
             int address = avaliableAddresses[maxIndex];
             if (avaliableAddresses.Count() > maxIndex + 1)
-            {
                 address = avaliableAddresses[maxIndex + 1];
-            }
 
             return address;
         }

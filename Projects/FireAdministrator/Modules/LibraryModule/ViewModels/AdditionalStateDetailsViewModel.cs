@@ -13,12 +13,8 @@ namespace LibraryModule.ViewModels
             var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == device.DriverId);
             foreach (var state in driver.States)
             {
-                if (state.Name != null &&
-                    !device.States.Any(x => x.Code == state.Code))
-                {
-                    Items.Add(
-                        new StateViewModel(StateViewModel.GetDefaultStateWith(state.StateType, state.Code), driver));
-                }
+                if (state.Name != null && !device.States.Any(x => x.Code == state.Code))
+                    Items.Add(new StateViewModel(StateViewModel.GetDefaultStateWith(state.StateType, state.Code), driver));
             }
         }
     }

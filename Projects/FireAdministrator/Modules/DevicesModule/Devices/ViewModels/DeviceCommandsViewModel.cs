@@ -131,8 +131,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SetPasswordCommand { get; private set; }
         void OnSetPassword(bool isUsb)
         {
-            var setPasswordViewModel = new SetPasswordViewModel(SelectedDevice.Device.UID);
-            ServiceFactory.UserDialogs.ShowModalWindow(setPasswordViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID));
         }
 
         bool CanSetPassword(bool isUsb)
@@ -155,8 +154,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
         void OnExecuteCustomAdminFunctions(bool isUsb)
         {
-            var customAdminFunctionsCommandViewModel = new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device);
-            ServiceFactory.UserDialogs.ShowModalWindow(customAdminFunctionsCommandViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
         }
 
         bool CanExecuteCustomAdminFunctions(bool isUsb)

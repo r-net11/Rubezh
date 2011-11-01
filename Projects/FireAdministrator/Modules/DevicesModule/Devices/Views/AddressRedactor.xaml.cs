@@ -66,7 +66,6 @@ namespace DevicesModule.Views
             {
                 if (_isHaveDelimiter)
                     return int.Parse(addressRedactor.Text.Substring(LeftPartLen + 1));
-
                 return -1;
             }
             set

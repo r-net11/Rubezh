@@ -41,11 +41,9 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                var name = "";
                 if (Device.Driver.HasAddress)
-                    name = Device.PresentationAddress + " - ";
-                name += Device.Driver.Name;
-                return name;
+                    return Device.PresentationAddress + "-" + Device.Driver.Name;
+                return Device.Driver.Name;
             }
         }
 

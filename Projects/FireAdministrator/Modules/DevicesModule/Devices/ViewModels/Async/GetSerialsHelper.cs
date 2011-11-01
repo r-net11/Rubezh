@@ -23,8 +23,7 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
-            var bindMsViewModel = new BindMsViewModel(_device, _serials);
-            ServiceFactory.UserDialogs.ShowModalWindow(bindMsViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new BindMsViewModel(_device, _serials));
         }
     }
 }

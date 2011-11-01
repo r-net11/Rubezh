@@ -144,10 +144,9 @@ namespace FiresecAPI.Models
                     address.Append(PresentationAddress);
                     address.Append(".");
                 }
-                if ((address.Length > 0)&&(address[address.Length - 1] == '.'))
-                {
+
+                if (address.Length > 0 && address[address.Length - 1] == '.')
                     address.Remove(address.Length - 1, 1);
-                }
 
                 return address.ToString();
             }
@@ -159,11 +158,9 @@ namespace FiresecAPI.Models
             {
                 if (Parent == null)
                     return "";
-
-                string localPlaceInTree = Parent.Children.IndexOf(this).ToString();
                 if (Parent.PlaceInTree == "")
-                    return localPlaceInTree;
-                return Parent.PlaceInTree + @"\" + localPlaceInTree;
+                    return Parent.Children.IndexOf(this).ToString();
+                return Parent.PlaceInTree + @"\" + Parent.Children.IndexOf(this).ToString();
             }
         }
 

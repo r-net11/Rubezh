@@ -8,8 +8,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            GuardZoneType guardZoneType = (GuardZoneType)value;
-            switch (guardZoneType)
+            switch ((GuardZoneType) value)
             {
                 case GuardZoneType.Ordinary:
                     return "Обычная";
@@ -19,8 +18,10 @@ namespace DevicesModule.Converters
 
                 case GuardZoneType.Delay:
                     return "С задержкой входа/выхода";
+
+                default:
+                    return "";
             }
-            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

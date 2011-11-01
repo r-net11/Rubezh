@@ -19,9 +19,7 @@ namespace LibraryModule.ViewModels
             Device = device;
             _driver = FiresecManager.Drivers.First(x => x.UID == Device.DriverId);
             if (Device.States == null)
-            {
                 SetDefaultStateTo(Device);
-            }
 
             StateViewModels = new ObservableCollection<StateViewModel>();
             Device.States.ForEach(state => StateViewModels.Add(new StateViewModel(state, _driver)));
@@ -86,10 +84,8 @@ namespace LibraryModule.ViewModels
                 {
                     if (stateViewModel.IsAdditional &&
                         stateViewModel.IsChecked &&
-                        stateViewModel.State.StateType == SelectedStateViewModel.State.StateType)
-                    {
-                        additionalStateCodes.Add(stateViewModel.State.Code);
-                    }
+                        stateViewModel.State.StateType == SelectedStateViewModel.State.StateType
+                    ) additionalStateCodes.Add(stateViewModel.State.Code);
                 }
                 deviceControl.AdditionalStateCodes = additionalStateCodes;
 
@@ -153,8 +149,7 @@ namespace LibraryModule.ViewModels
 
         bool CanRemoveState()
         {
-            return SelectedStateViewModel != null &&
-                   SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType;
+            return SelectedStateViewModel != null && SelectedStateViewModel.State.StateType != StateViewModel.DefaultStateType;
         }
     }
 }

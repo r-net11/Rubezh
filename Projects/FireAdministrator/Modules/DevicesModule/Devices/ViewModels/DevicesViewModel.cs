@@ -55,9 +55,7 @@ namespace DevicesModule.ViewModels
 
             var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
-            {
                 deviceViewModel.ExpantToThis();
-            }
             SelectedDevice = deviceViewModel;
         }
 
@@ -82,9 +80,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 if (value != null)
-                {
                     value.ExpantToThis();
-                }
                 OnPropertyChanged("SelectedDevice");
             }
         }
@@ -92,8 +88,7 @@ namespace DevicesModule.ViewModels
         void BuildTree()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
-            var device = FiresecManager.DeviceConfiguration.RootDevice;
-            AddDevice(device, null);
+            AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
         }
 
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
@@ -157,6 +152,7 @@ namespace DevicesModule.ViewModels
             _deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
             SelectedDevice.RemoveCommand.Execute();
             FiresecManager.DeviceConfiguration.Update();
+
             DevicesModule.HasChanges = true;
         }
 

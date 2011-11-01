@@ -12,31 +12,20 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionDevicesViewModel : SaveCancelDialogContent
     {
-        public InstructionDevicesViewModel()
+        public InstructionDevicesViewModel(List<Guid> instructionDevicesList)
         {
             Title = "Выбор устройства";
+
+            InstructionDevicesList = new List<Guid>(instructionDevicesList);
             InstructionDevices = new ObservableCollection<DeviceViewModel>();
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
-            InstructionDevicesList = new List<Guid>();
+
+            UpdateDevices();
 
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
-        }
-
-        public void Inicialize(List<Guid> instructionDevicesList)
-        {
-            if (instructionDevicesList.IsNotNullOrEmpty())
-            {
-                InstructionDevicesList = new List<Guid>(instructionDevicesList);
-            }
-            else
-            {
-                InstructionDevicesList = new List<Guid>();
-            }
-
-            UpdateDevices();
         }
 
         void UpdateDevices()
@@ -59,8 +48,7 @@ namespace InstructionsModule.ViewModels
                         availableDevices.Add(device);
                     }
                 }
-
-                if (device.Driver.IsZoneLogicDevice)
+                else if (device.Driver.IsZoneLogicDevice)
                 {
                     if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
                     {
@@ -182,8 +170,8 @@ namespace InstructionsModule.ViewModels
         public bool CanAddOne()
         {
             return ((SelectedAvailableDevice != null) &&
-                (SelectedAvailableDevice.Driver.IsZoneDevice ||
-                SelectedAvailableDevice.Driver.IsZoneLogicDevice));
+                    (SelectedAvailableDevice.Driver.IsZoneDevice ||
+                    SelectedAvailableDevice.Driver.IsZoneLogicDevice));
         }
 
         public bool CanAddAll()
@@ -194,8 +182,8 @@ namespace InstructionsModule.ViewModels
         public bool CanRemoveOne()
         {
             return ((SelectedInstructionDevice != null) &&
-                (SelectedInstructionDevice.Driver.IsZoneDevice ||
-                SelectedInstructionDevice.Driver.IsZoneLogicDevice));
+                    (SelectedInstructionDevice.Driver.IsZoneDevice ||
+                    SelectedInstructionDevice.Driver.IsZoneLogicDevice));
         }
 
         public bool CanRemoveAll()
@@ -215,15 +203,12 @@ namespace InstructionsModule.ViewModels
         {
             InstructionDevicesList.Clear();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty() == false)
-            {
                 return;
-            }
+
             foreach (var availableDevice in FiresecManager.DeviceConfiguration.Devices)
             {
-                if ((availableDevice.Driver.IsZoneDevice) || (availableDevice.Driver.IsZoneLogicDevice))
-                {
+                if (availableDevice.Driver.IsZoneDevice || availableDevice.Driver.IsZoneLogicDevice)
                     InstructionDevicesList.Add(availableDevice.UID);
-                }
             }
             UpdateDevices();
         }

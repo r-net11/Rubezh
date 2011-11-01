@@ -1,41 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Data;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule.Converters
 {
-    class SoundToStringConverter : IValueConverter
+    public class SoundToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string Value = (string)value;
-            switch (Value)
-            {
-                case null:
-                    return SoundViewModel.DefaultName;
-                default:
-                    if (AvailableSounds.Any(x => x == Value))
-                    {
-                        return Value;
-                    }
-                    else
-                    {
-                        return SoundViewModel.DefaultName;
-                    }
-            }
-                    
+            if (value == null && FiresecClient.FileHelper.SoundsList.Any(x => x == value.ToString()))
+                return value.ToString();
+            return SoundViewModel.DefaultName;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value;
-        }
-
-        List<string> AvailableSounds
-        {
-            get { return FiresecClient.FileHelper.SoundsList; }
         }
     }
 }

@@ -18,9 +18,7 @@ namespace FiltersModule.ViewModels
         {
             FilterViewModels = new ObservableCollection<FilterViewModel>();
             if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpty())
-            {
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
-            }
         }
 
         public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }
@@ -35,6 +33,7 @@ namespace FiltersModule.ViewModels
                 var filter = filterDetailsViewModel.GetModel();
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
                 FilterViewModels.Add(new FilterViewModel(filter));
+
                 FilterModule.HasChanges = true;
             }
         }
@@ -48,6 +47,7 @@ namespace FiltersModule.ViewModels
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
                 SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
+
                 FilterModule.HasChanges = true;
             }
         }
@@ -62,6 +62,7 @@ namespace FiltersModule.ViewModels
         {
             FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
             FilterViewModels.Remove(SelectedFilter);
+
             FilterModule.HasChanges = true;
         }
 

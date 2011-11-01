@@ -7,16 +7,17 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string action = (string) value;
-            switch (action)
+            switch ((string) value)
             {
                 case "0":
                     return "Закрытие";
 
                 case "1":
                     return "Открытие";
+
+                default:
+                    return "Закрытие";
             }
-            return "Закрытие";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

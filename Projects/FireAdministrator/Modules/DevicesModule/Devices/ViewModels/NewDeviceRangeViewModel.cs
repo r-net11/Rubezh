@@ -131,13 +131,10 @@ namespace DevicesModule.ViewModels
                 startAddress = endAddress = avaliableAddresses[maxIndex];
 
                 if (avaliableAddresses.Count() > maxIndex + 1)
-                {
                     startAddress = endAddress = avaliableAddresses[maxIndex + 1];
-                }
+
                 if (avaliableAddresses.Count() > maxIndex + 2)
-                {
                     endAddress = avaliableAddresses[maxIndex + 2];
-                }
             }
 
             StartAddress = AddressConverter.IntToStringAddress(SelectedDriver, startAddress);

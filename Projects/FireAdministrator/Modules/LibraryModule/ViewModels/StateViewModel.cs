@@ -16,9 +16,8 @@ namespace LibraryModule.ViewModels
         {
             State = state;
             if (state.Frames == null)
-            {
                 SetDefaultFrameTo(State);
-            }
+
             ParentDriver = parentDriver;
 
             FrameViewModels = new ObservableCollection<FrameViewModel>();
@@ -48,12 +47,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (IsAdditional)
-                {
-                    return String.Format("{0}. {1}", ClassName, AdditionalName);
-                }
-
-                return ClassName;
+                return IsAdditional ? String.Format("{0}. {1}", ClassName, AdditionalName) : ClassName;
             }
         }
 
@@ -61,12 +55,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                if (IsAdditional)
-                {
-                    return ParentDriver.States.First(x => x.Code == State.Code).Name;
-                }
-
-                return null;
+                return IsAdditional ? ParentDriver.States.First(x => x.Code == State.Code).Name : null;
             }
         }
 
@@ -105,6 +94,7 @@ namespace LibraryModule.ViewModels
             var defaultFrame = FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count);
             State.Frames.Add(defaultFrame);
             FrameViewModels.Add(new FrameViewModel(defaultFrame));
+
             LibraryModule.HasChanges = true;
         }
 
@@ -119,6 +109,7 @@ namespace LibraryModule.ViewModels
             {
                 State.Frames.Remove(SelectedFrameViewModel.Frame);
                 FrameViewModels.Remove(SelectedFrameViewModel);
+
                 LibraryModule.HasChanges = true;
             }
         }

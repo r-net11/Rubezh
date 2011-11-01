@@ -22,8 +22,7 @@ namespace DevicesModule.ViewModels
 
         static void OnCompleted()
         {
-            var deviceJournalViewModel = new DeviceJournalViewModel(_journal);
-            ServiceFactory.UserDialogs.ShowModalWindow(deviceJournalViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceJournalViewModel(_journal));
         }
     }
 }

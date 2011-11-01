@@ -31,9 +31,7 @@ namespace InstructionsModule.ViewModels
 
             InstructionNo = 0;
             if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-            {
                 InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
-            }
 
             Instruction = new Instruction();
         }
@@ -53,10 +51,8 @@ namespace InstructionsModule.ViewModels
                 case InstructionType.Details:
                     if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
                         InstructionZonesList = new List<ulong?>(Instruction.InstructionZonesList);
-
                     if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
                         InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
-
                     break;
 
                 case InstructionType.General:
@@ -124,16 +120,12 @@ namespace InstructionsModule.ViewModels
             {
                 string selectZones = "";
                 if (InstructionZonesList.IsNotNullOrEmpty())
-                {
                     selectZones = InstructionZonesList[0].ToString();
-                }
 
                 if (InstructionZonesList.Count > 1)
                 {
-                    for (int i = 1; i < InstructionZonesList.Count; i++)
-                    {
+                    for (int i = 1; i < InstructionZonesList.Count; ++i)
                         selectZones += ", " + InstructionZonesList[i];
-                    }
                 }
                 return selectZones;
             }
@@ -148,36 +140,26 @@ namespace InstructionsModule.ViewModels
                 {
                     Device device;
                     if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-                    {
                         device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[0]);
-                    }
                     else
-                    {
                         device = null;
-                    }
+
                     if (device != null)
-                    {
                         selectDevices = device.Driver.ShortName + " (" + device.PresentationAddress + ")";
-                    }
                 }
 
                 if (InstructionDevicesList.Count > 1)
                 {
                     Device device;
-                    for (int i = 1; i < InstructionDevicesList.Count; i++)
+                    for (int i = 1; i < InstructionDevicesList.Count; ++i)
                     {
                         if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-                        {
                             device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[i]);
-                        }
                         else
-                        {
                             device = null;
-                        }
+
                         if (device != null)
-                        {
                             selectDevices += ", " + device.Driver.ShortName + " (" + device.PresentationAddress + ")";
-                        }
                     }
                 }
                 return selectDevices;
@@ -192,10 +174,8 @@ namespace InstructionsModule.ViewModels
         public RelayCommand SelectZoneCommand { get; private set; }
         void OnSelectZoneCommand()
         {
-            var instructionZonesViewModel = new InstructionZonesViewModel();
-            instructionZonesViewModel.Initialize(InstructionZonesList);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel);
-            if (result)
+            var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZonesList);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel))
             {
                 InstructionZonesList = instructionZonesViewModel.InstructionZonesList;
                 OnPropertyChanged("SelectZones");
@@ -205,10 +185,8 @@ namespace InstructionsModule.ViewModels
         public RelayCommand SelectDeviceCommand { get; private set; }
         void OnSelectDeviceCommand()
         {
-            var instructionDevicesViewModel = new InstructionDevicesViewModel();
-            instructionDevicesViewModel.Inicialize(InstructionDevicesList);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel);
-            if (result)
+            var instructionDevicesViewModel = new InstructionDevicesViewModel(InstructionDevicesList);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel))
             {
                 InstructionDevicesList = instructionDevicesViewModel.InstructionDevicesList;
                 OnPropertyChanged("SelectDevices");
@@ -218,20 +196,9 @@ namespace InstructionsModule.ViewModels
         protected override bool CanSave()
         {
             if (string.IsNullOrWhiteSpace(Text))
-            {
                 return false;
-            }
             else
-            {
-                if (InstructionType == InstructionType.General)
-                {
-                    return true;
-                }
-                else
-                {
-                    return ((InstructionDevicesList.IsNotNullOrEmpty()) || (InstructionZonesList.IsNotNullOrEmpty()));
-                }
-            }
+                return InstructionType == InstructionType.General ? true : (InstructionDevicesList.IsNotNullOrEmpty() || InstructionZonesList.IsNotNullOrEmpty());
         }
 
         protected override void Save(ref bool cancel)

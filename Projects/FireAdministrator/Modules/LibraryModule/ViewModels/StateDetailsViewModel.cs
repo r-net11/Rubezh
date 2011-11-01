@@ -15,9 +15,7 @@ namespace LibraryModule.ViewModels
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
                 if (!device.States.Any(x => x.StateType == stateType && x.Code == null))
-                {
                     Items.Add(new StateViewModel(StateViewModel.GetDefaultStateWith(stateType), driver));
-                }
             }
         }
     }

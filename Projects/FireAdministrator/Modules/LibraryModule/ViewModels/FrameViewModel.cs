@@ -76,6 +76,7 @@ namespace LibraryModule.ViewModels
             {
                 Frame.Image = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
                 OnPropertyChanged("XamlOfImage");
+
                 LibraryModule.HasChanges = true;
             }
         }

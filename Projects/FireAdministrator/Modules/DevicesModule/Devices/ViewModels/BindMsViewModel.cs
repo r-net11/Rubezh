@@ -47,10 +47,7 @@ namespace DevicesModule.ViewModels
             var serialNoProperty = _device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
             if (serialNoProperty == null)
             {
-                serialNoProperty = new Property()
-                {
-                    Name = "SerialNo"
-                };
+                serialNoProperty = new Property() { Name = "SerialNo" };
                 _device.Properties.Add(serialNoProperty);
             }
             serialNoProperty.Value = serialNo;
@@ -59,9 +56,7 @@ namespace DevicesModule.ViewModels
         protected override void Save(ref bool cancel)
         {
             if (SelectedSerial != null)
-            {
                 SetSerialNo(SelectedSerial);
-            }
         }
     }
 }

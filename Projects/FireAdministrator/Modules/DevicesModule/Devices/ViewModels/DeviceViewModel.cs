@@ -65,6 +65,7 @@ namespace DevicesModule.ViewModels
                 {
                     Device.SetAddress(value);
                     OnPropertyChanged("Address");
+
                     DevicesModule.HasChanges = true;
                 }
             }
@@ -77,6 +78,7 @@ namespace DevicesModule.ViewModels
             {
                 Device.Description = value;
                 OnPropertyChanged("Description");
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -98,6 +100,7 @@ namespace DevicesModule.ViewModels
             {
                 Device.ZoneNo = value.No;
                 OnPropertyChanged("Zone");
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -115,10 +118,8 @@ namespace DevicesModule.ViewModels
 
                 if (Device.Driver.IsZoneLogicDevice && Device.ZoneLogic != null)
                     return Device.ZoneLogic.ToString();
-
                 if (Device.Driver.IsIndicatorDevice && Device.IndicatorLogic != null)
                     return Device.IndicatorLogic.ToString();
-
                 return "";
             }
         }
@@ -182,6 +183,7 @@ namespace DevicesModule.ViewModels
             Parent.IsExpanded = true;
 
             FiresecManager.DeviceConfiguration.Update();
+
             DevicesModule.HasChanges = true;
         }
 

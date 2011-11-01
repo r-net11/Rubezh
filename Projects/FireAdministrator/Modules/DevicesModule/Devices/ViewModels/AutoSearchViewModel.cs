@@ -14,18 +14,18 @@ namespace DevicesModule.ViewModels
 
         public AutoSearchViewModel()
         {
+            Title = "Добавление устройств";
+
             ContinueCommand = new RelayCommand(OnContinue);
             SaveCommand = new RelayCommand(OnSave);
             CancelCommand = new RelayCommand(OnCancel);
-            Title = "Добавление устройств";
         }
 
         public void Initialize(DeviceConfiguration autodetectedDeviceConfiguration)
         {
             allDevices = new List<AutoSearchDeviceViewModel>();
             Devices = new List<AutoSearchDeviceViewModel>();
-            var root = AddDevice(autodetectedDeviceConfiguration.RootDevice, null);
-            Devices.Add(root);
+            Devices.Add(AddDevice(autodetectedDeviceConfiguration.RootDevice, null));
         }
 
         AutoSearchDeviceViewModel AddDevice(Device device, AutoSearchDeviceViewModel parentDeviceViewModel)
@@ -36,9 +36,8 @@ namespace DevicesModule.ViewModels
             {
                 // устаревшие устройства
                 if (childDevice.Driver == null)
-                {
                     continue;
-                }
+
                 var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
                 deviceViewModel.Children.Add(childDeviceViewModel);
             }

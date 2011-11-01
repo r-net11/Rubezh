@@ -32,13 +32,9 @@ namespace DevicesModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
 
                 if (Zones.Contains(zone.No))
-                {
                     TargetZones.Add(zoneViewModel);
-                }
                 else
-                {
                     SourceZones.Add(zoneViewModel);
-                }
             }
 
             if (TargetZones.Count > 0)

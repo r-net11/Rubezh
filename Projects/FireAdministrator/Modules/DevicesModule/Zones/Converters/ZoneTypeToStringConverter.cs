@@ -8,16 +8,17 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            ZoneType zoneType = (ZoneType)value;
-            switch (zoneType)
+            switch ((ZoneType) value)
             {
                 case ZoneType.Fire:
                     return "Пожарная";
 
                 case ZoneType.Guard:
                     return "Охранная";
+
+                default:
+                    return "";
             }
-            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

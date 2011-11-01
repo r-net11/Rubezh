@@ -50,12 +50,12 @@ namespace DevicesModule.ViewModels
                     continue;
 
                 if (
-                    (device.Driver.DriverType == DriverType.RM_1)
-                    || (device.Driver.DriverType == DriverType.MDU)
-                    || (device.Driver.DriverType == DriverType.MRO)
-                    //|| (device.Driver.DriverType == "Модуль пожаротушения")
-                    || (device.Driver.DriverType == DriverType.AM1_T)
-                    )
+                    (device.Driver.DriverType == DriverType.RM_1) ||
+                    (device.Driver.DriverType == DriverType.MDU) ||
+                    (device.Driver.DriverType == DriverType.MRO) ||
+                    //(device.Driver.DriverType == "Модуль пожаротушения") ||
+                    (device.Driver.DriverType == DriverType.AM1_T)
+                )
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);
@@ -130,16 +130,12 @@ namespace DevicesModule.ViewModels
 
         bool CanAdd()
         {
-            if (SelectedAvailableDevice != null)
+            if (SelectedAvailableDevice != null && SelectedAvailableDevice.HasChildren == false)
             {
-                if (SelectedAvailableDevice.HasChildren == false)
-                {
-                    if ((SelectedAvailableDevice.Device.Driver.DriverType == DriverType.AM1_T) &&
-                        (Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T)))
-                        return false;
-
-                    return true;
-                }
+                if ((SelectedAvailableDevice.Device.Driver.DriverType == DriverType.AM1_T) &&
+                                        (Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T)))
+                    return false;
+                return true;
             }
             return false;
         }
@@ -156,9 +152,7 @@ namespace DevicesModule.ViewModels
         bool CanRemove()
         {
             if (SelectedDevice != null)
-            {
                 return true;
-            }
             return false;
         }
 

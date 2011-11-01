@@ -18,9 +18,7 @@ namespace DevicesModule.DeviceProperties
             {
                 var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
                 if (enumdriverProperty != null)
-                {
                     _selectedValue = enumdriverProperty.Name;
-                }
             }
         }
 

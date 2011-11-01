@@ -10,8 +10,7 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneActionType)
             {
-                var zoneActionType = (ZoneActionType)value;
-                switch (zoneActionType)
+                switch ((ZoneActionType) value)
                 {
                     case ZoneActionType.Set:
                         return "Поставить на охрану";

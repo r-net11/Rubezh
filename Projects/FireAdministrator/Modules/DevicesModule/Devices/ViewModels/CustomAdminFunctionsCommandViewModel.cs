@@ -33,8 +33,7 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedFunction != null)
             {
-                var code = SelectedFunction.Code;
-                CustomAdminFunctionsHelper.Run(_device, code);
+                CustomAdminFunctionsHelper.Run(_device, SelectedFunction.Code);
             }
         }
     }

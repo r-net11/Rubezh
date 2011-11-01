@@ -10,30 +10,22 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionZonesViewModel : SaveCancelDialogContent
     {
-        public InstructionZonesViewModel()
+        public InstructionZonesViewModel(List<ulong?> instructionZonesList)
         {
             Title = "Выбор зоны";
+
+            InstructionZonesList = new List<ulong?>(instructionZonesList);
+            InstructionZones = new ObservableCollection<ZoneViewModel>();
+            AvailableZones = new ObservableCollection<ZoneViewModel>();
+
+            InicializeZones();
+            if (InstructionZones.IsNotNullOrEmpty())
+                SelectedInstructionZone = InstructionZones[0];
+
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
-
-            InstructionZones = new ObservableCollection<ZoneViewModel>();
-            AvailableZones = new ObservableCollection<ZoneViewModel>();
-            InstructionZonesList = new List<ulong?>();
-        }
-
-        public void Initialize(List<ulong?> instructionZonesList)
-        {
-            if (instructionZonesList.IsNotNullOrEmpty())
-            {
-                InstructionZonesList = new List<ulong?>(instructionZonesList);
-            }
-            InicializeZones();
-            if (InstructionZones.IsNotNullOrEmpty())
-            {
-                SelectedInstructionZone = InstructionZones[0];
-            }
         }
 
         void InicializeZones()
@@ -45,13 +37,9 @@ namespace InstructionsModule.ViewModels
                 {
                     var instructionZone = InstructionZonesList.FirstOrDefault(x => x.Value == zoneViewModel.No.Value);
                     if (instructionZone != null)
-                    {
                         InstructionZones.Add(zoneViewModel);
-                    }
                     else
-                    {
                         AvailableZones.Add(zoneViewModel);
-                    }
                 }
                 else
                 {
@@ -60,13 +48,9 @@ namespace InstructionsModule.ViewModels
             }
 
             if (InstructionZones.IsNotNullOrEmpty())
-            {
                 SelectedInstructionZone = InstructionZones[0];
-            }
             if (AvailableZones.IsNotNullOrEmpty())
-            {
                 SelectedAvailableZone = AvailableZones[0];
-            }
         }
 
         public List<ulong?> InstructionZonesList { get; set; }
@@ -77,22 +61,22 @@ namespace InstructionsModule.ViewModels
 
         public bool CanAddOne()
         {
-            return (SelectedAvailableZone != null);
+            return SelectedAvailableZone != null;
         }
 
         public bool CanAddAll()
         {
-            return (AvailableZones.IsNotNullOrEmpty());
+            return AvailableZones.IsNotNullOrEmpty();
         }
 
         public bool CanRemoveOne()
         {
-            return (SelectedInstructionZone != null);
+            return SelectedInstructionZone != null;
         }
 
         public bool CanRemoveAll()
         {
-            return (InstructionZones.IsNotNullOrEmpty());
+            return InstructionZones.IsNotNullOrEmpty();
         }
 
         //public bool CanSaveInstruction()
@@ -106,13 +90,9 @@ namespace InstructionsModule.ViewModels
             InstructionZones.Add(SelectedAvailableZone);
             AvailableZones.Remove(SelectedAvailableZone);
             if (AvailableZones.IsNotNullOrEmpty())
-            {
                 SelectedAvailableZone = AvailableZones[0];
-            }
             if (InstructionZones.IsNotNullOrEmpty())
-            {
                 SelectedInstructionZone = InstructionZones[0];
-            }
         }
 
         public RelayCommand AddAllCommand { get; private set; }
@@ -122,12 +102,11 @@ namespace InstructionsModule.ViewModels
             {
                 InstructionZones.Add(availableZone);
             }
+
             AvailableZones.Clear();
             SelectedAvailableZone = null;
             if (InstructionZones.IsNotNullOrEmpty())
-            {
                 SelectedInstructionZone = InstructionZones[0];
-            }
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
@@ -137,12 +116,11 @@ namespace InstructionsModule.ViewModels
             {
                 AvailableZones.Add(instructionZone);
             }
+
             InstructionZones.Clear();
             SelectedInstructionZone = null;
             if (AvailableZones.IsNotNullOrEmpty())
-            {
                 SelectedAvailableZone = AvailableZones[0];
-            }
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
@@ -151,20 +129,14 @@ namespace InstructionsModule.ViewModels
             AvailableZones.Add(SelectedInstructionZone);
             InstructionZones.Remove(SelectedInstructionZone);
             if (AvailableZones.IsNotNullOrEmpty())
-            {
                 SelectedAvailableZone = AvailableZones[0];
-            }
             if (InstructionZones.IsNotNullOrEmpty())
-            {
                 SelectedInstructionZone = InstructionZones[0];
-            }
         }
 
         protected override void Save(ref bool cancel)
         {
-            InstructionZonesList = new List<ulong?>(
-                from zone in InstructionZones
-                select zone.No);
+            InstructionZonesList = new List<ulong?>(from zone in InstructionZones select zone.No);
         }
     }
 }

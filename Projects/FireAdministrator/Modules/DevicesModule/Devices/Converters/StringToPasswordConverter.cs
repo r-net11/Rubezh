@@ -7,11 +7,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string password = (string)value;
-            if (password == null)
-                return null;
-
-            return new String('*', password.Length);
+            return (string) value == null ? null : new String('*', ((string) value).Length);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

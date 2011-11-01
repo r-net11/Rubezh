@@ -8,8 +8,7 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            IndicatorColorType indicatorColorType = (IndicatorColorType) value;
-            switch (indicatorColorType)
+            switch ((IndicatorColorType) value)
             {
                 case IndicatorColorType.None:
                     return "Нет";

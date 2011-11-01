@@ -17,9 +17,7 @@ namespace InstructionsModule.Converters
                 foreach (InstructionType instructionType in Enum.GetValues(typeof(InstructionType)))
                 {
                     if ((Enum.GetName(typeof(InstructionType), instructionType) == value.ToString()))
-                    {
                         return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(instructionType);
-                    }
                 }
                 return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(new InstructionType());
             }

@@ -10,8 +10,7 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneLogicOperation)
             {
-                ZoneLogicOperation operation = (ZoneLogicOperation)value;
-                switch (operation)
+                switch ((ZoneLogicOperation) value)
                 {
                     case ZoneLogicOperation.All:
                         return "во всех зонах из";

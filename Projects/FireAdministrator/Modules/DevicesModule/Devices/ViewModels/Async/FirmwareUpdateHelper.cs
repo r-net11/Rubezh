@@ -46,8 +46,7 @@ namespace DevicesModule.ViewModels
 
         static void OnVerifyCompleted()
         {
-            var result = DialogBox.DialogBox.Show(_question, MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
+            if (DialogBox.DialogBox.Show(_question, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 var asyncInstanceOperationHelper = new AsyncInstanceOperationHelper();
                 asyncInstanceOperationHelper.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");

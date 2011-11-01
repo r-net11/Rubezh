@@ -3,18 +3,11 @@ using System.Windows.Data;
 
 namespace SoundsModule.Converters
 {
-    class BoolToStringConverter : IValueConverter
+    internal class BoolToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if ((bool)value)
-            {
-                return "Остановить";
-            }
-            else
-            {
-                return "Проверка";
-            }
+            return (bool) value ? "Остановить" : "Проверка";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

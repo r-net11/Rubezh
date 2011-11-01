@@ -13,6 +13,7 @@ namespace SoundsModule.ViewModels
         {
             PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
         }
+
         public void Inicialize()
         {
             IsNowPlaying = false;
@@ -20,19 +21,14 @@ namespace SoundsModule.ViewModels
             Sounds = new ObservableCollection<SoundViewModel>();
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
-                var newSound = new Sound();
-                newSound.StateType = stateType;
+                var newSound = new Sound() { StateType = stateType };
                 if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
                 {
                     var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateType == stateType);
                     if (sound == null)
-                    {
                         FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
-                    }
                     else
-                    {
                         newSound = sound;
-                    }
                 }
                 else
                 {
@@ -70,9 +66,9 @@ namespace SoundsModule.ViewModels
 
         bool CanPlaySound()
         {
-            return ((IsNowPlaying)||(SelectedSound != null && 
-                ((string.IsNullOrEmpty(SelectedSound.SoundName) == false) || 
-                SelectedSound.BeeperType != BeeperType.None)));
+            return ((IsNowPlaying) || (SelectedSound != null &&
+                    ((string.IsNullOrEmpty(SelectedSound.SoundName) == false) ||
+                    SelectedSound.BeeperType != BeeperType.None)));
         }
 
         public RelayCommand PlaySoundCommand { get; private set; }
@@ -80,8 +76,7 @@ namespace SoundsModule.ViewModels
         {
             if (IsNowPlaying == false)
             {
-                string soundPath = FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName);
-                AlarmPlayerHelper.Play(soundPath, SelectedSound.BeeperType, SelectedSound.IsContinious);
+                AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.SoundName), SelectedSound.BeeperType, SelectedSound.IsContinious);
                 IsNowPlaying = SelectedSound.IsContinious;
             }
             else

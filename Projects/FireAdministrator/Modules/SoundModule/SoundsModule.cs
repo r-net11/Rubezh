@@ -10,7 +10,6 @@ namespace SoundsModule
     {
         public SoundsModule()
         {
-            HasChanges = false;
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
         }
 

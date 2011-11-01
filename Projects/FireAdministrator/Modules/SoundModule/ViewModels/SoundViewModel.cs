@@ -8,6 +8,8 @@ namespace SoundsModule.ViewModels
 {
     public class SoundViewModel : BaseViewModel
     {
+        public const string DefaultName = "<нет>";
+
         public SoundViewModel(Sound sound)
         {
             Sound = sound;
@@ -71,7 +73,5 @@ namespace SoundsModule.ViewModels
                 return new List<BeeperType>(Enum.GetValues(typeof(BeeperType)).OfType<BeeperType>());
             }
         }
-
-        public const string DefaultName = "<нет>";
     }
 }
