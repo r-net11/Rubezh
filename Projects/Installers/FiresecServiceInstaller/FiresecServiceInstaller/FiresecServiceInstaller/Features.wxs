@@ -19,6 +19,7 @@
 
     <Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
              AllowAdvertise="no" Absent="disallow" InstallDefault="local">
+      <Condition Level="0">CHECKSQLSERVER = "1"</Condition>
       <ComponentRef Id="SqlComponent"/>
     </Feature>
 	</Fragment>

@@ -14,7 +14,6 @@
 
 		<Feature Id="ProductFeature" Title="AutoAddingFilesInstaller" Level="1">
       <ComponentGroupRef Id="OutputGroup"/>
-			<ComponentGroupRef Id="Product.Generated" />
 		</Feature>
 	</Product>
 </Wix>

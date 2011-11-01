@@ -28,6 +28,7 @@ namespace ReportsModule.Reports
             }
 
             var filePath = FileHelper.GetReportFilePath(ReportFileName);
+            reportDocument = new ReportDocument();
             reportDocument.Load(filePath);
             reportDocument.SetDataSource(DataList);
             var crystalReportsViewer = new CrystalReportsViewer();

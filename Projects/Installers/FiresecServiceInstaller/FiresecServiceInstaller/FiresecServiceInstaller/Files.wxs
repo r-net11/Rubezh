@@ -36,6 +36,7 @@
       </Component>
 
       <Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+        <Condition> CHECKSQLSERVER = "1" </Condition>
         <CreateFolder Directory="INSTALLLOCATION" />
         <sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
                          Server="(local)\SQLExpress" DropOnUninstall="yes" ContinueOnError="no">

@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using ReportsModule.Models;
+using FiresecClient;
+using System.Text;
+using Common;
+using FiresecAPI.Models;
 
 namespace ReportsModule.Reports
 {

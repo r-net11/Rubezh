@@ -4,12 +4,9 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:ReportView="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer">
     <!--<Grid>
-        <TabControl >
+        <TabControl SelectionChanged="TabControl_SelectionChanged" PreviewMouseDown="TabControl_PreviewMouseDown">
             <TabItem Header="Блоки индикации" IsSelected="False">
-                <ReportView:CrystalReportsViewer Content="{Binding CrystalReportsViewer}"/>
-                <Grid>
-                    <ContentControl Content="{Binding IndicationBlockReport}" />
-                </Grid>
+                <ContentControl Content="{Binding ReportContent}" />
             </TabItem>
             <TabItem Header="Журнал событий" IsSelected="False">
                 <ContentControl Content="{Binding JournalReport}" />
@@ -32,7 +29,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding ReportContent}" />
+        <ContentControl Grid.Row="0" Content="{Binding ReportContent}" MouseDown="ContentControl_MouseDown" />
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
             <Controls:XButton Command="{Binding ShowIndicationBlockReportCommand}" Height="30" Margin="2" Background="Black" Padding="5" Width="150">
                 <TextBlock Text="Блоки индикации" FontSize="12" HorizontalAlignment="Center"/>

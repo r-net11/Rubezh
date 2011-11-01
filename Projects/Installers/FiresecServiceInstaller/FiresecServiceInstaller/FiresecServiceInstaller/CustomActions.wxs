@@ -3,5 +3,7 @@
 	<Fragment>
     <CustomAction Id="ConvertJournalCA" BinaryKey="FiresecCustomActions.dll" DllEntry="JournalDataConvert"
                   Execute="immediate" />
+    <CustomAction Id="CheckSqlServerCA" BinaryKey="FiresecCustomActions.dll" DllEntry="SQLServerCheking"
+                  Execute="immediate" />
 	</Fragment>
 </Wix>

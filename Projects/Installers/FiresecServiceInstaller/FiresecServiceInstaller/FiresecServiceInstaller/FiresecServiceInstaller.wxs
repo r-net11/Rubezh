@@ -3,7 +3,7 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      >
   <?include Variables.wxi?>
-
+  
   <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
     <Package InstallerVersion="200" Compressed="yes" />
@@ -39,9 +39,10 @@
 
     <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
     <Property Id="SHORTCUT_DESKTOP">1</Property>
+    <Property Id="CHECKSQLSERVER" Value="0"></Property>
 
     <InstallExecuteSequence>
-      <Custom Action="ConvertJournalCA" After="InstallFinalize" />
+      <Custom Action="CheckSqlServerCA" After="InstallFinalize"/>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

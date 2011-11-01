@@ -17,5 +17,22 @@ namespace FiresecCustomActions
 
             return ActionResult.Success;
         }
+
+        [CustomAction]
+        public static ActionResult SQLServerCheking(Session session)
+        {
+            session.Log("Begin Check SQL Server");
+            Debugger.Break();
+            var a = CheckSQLServer.CheckSQLExpress();
+            if (a)
+            {
+                session["CHECKSQLSERVER"] = "1";
+            }
+            else
+            {
+                session["CHECKSQLSERVER"] = "0";
+            }
+            return ActionResult.Success;
+        }
     }
 }

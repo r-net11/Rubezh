@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
+using System.Windows.Controls;
 
 namespace ReportsModule.ViewModels
 {
@@ -19,7 +20,7 @@ namespace ReportsModule.ViewModels
         {
         }
 
-        public CrystalReportsViewer CrystalReportsViewer { get; set; }
+        //public CrystalReportsViewer CrystalReportsViewer { get; set; }
 
         object _reportContent;
         public object ReportContent
