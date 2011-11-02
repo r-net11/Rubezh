@@ -35,7 +35,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{x:Null}"
                                 Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
                                 ToolTip="{Binding Zone.Name}"
                                 Command="{Binding SelectCommand}">

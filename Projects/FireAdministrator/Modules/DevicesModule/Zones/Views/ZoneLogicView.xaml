@@ -27,27 +27,28 @@
             <ItemsControl ItemsSource="{Binding Clauses}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <DockPanel Margin="2">
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <StackPanel>
+                            <DockPanel Margin="2">
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
 
-                                <ComboBox ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Width="150" Margin="2">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseStateToStringConverter}}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                    <ComboBox ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" Width="150" Margin="2">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource ClauseStateToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
 
-                                <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}" Width="150" Margin="2"
+                                    <ComboBox ItemsSource="{Binding Operations}" SelectedItem="{Binding SelectedOperation}" Width="150" Margin="2"
                                           Visibility="{Binding CanSelectOperation, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationToStringConverter}}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationToStringConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
 
-                                <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+                                    <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
                                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                                         <TextBlock Margin="2">
                                             <TextBlock.Style>
@@ -63,10 +64,10 @@
                                         </TextBlock>         
                                     </Hyperlink>
                                 </TextBlock>
-                                
-                            </StackPanel>
-                            
-                            <TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+
+                                </StackPanel>
+
+                                <TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
                                 <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
@@ -88,15 +89,19 @@
                                 </Hyperlink>
                             </TextBlock>
 
-                            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}"
+                                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}"
                                         Command="{Binding
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 					                    Path=DataContext.RemoveCommand}"
                                         CommandParameter="{Binding}">
-                                <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
-                            </Button>
+                                    <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
+                                </Button>
 
-                        </DockPanel>
+                            </DockPanel>
+                            <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
+                                    Visibility="{Binding ShowZoneLogicJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Content="{Binding JoinOperator}" Command="{Binding ChangeJoinOperatorCommand}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

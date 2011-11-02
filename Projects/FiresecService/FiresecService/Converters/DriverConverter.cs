@@ -53,6 +53,10 @@ namespace FiresecService.Converters
                 driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
             }
 
+            var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
+            if (driverData != null)
+                driver.DriverType = driverData.DriverType;
+
             driver.CanEditAddress = true;
             if (innerDriver.ar_no_addr != null)
             {
@@ -154,9 +158,6 @@ namespace FiresecService.Converters
 
             driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);
-            var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
-            if (driverData != null)
-                driver.DriverType = driverData.DriverType;
 
             var AllChildren = new List<drvType>();
             foreach (var childDriver in Metadata.drv)

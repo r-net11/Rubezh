@@ -150,9 +150,11 @@ namespace FiresecService
                         {
                             if (state == null)
                             {
-                                state = new DeviceDriverState();
-                                state.Code = driverState.Code;
-                                state.DriverState = driverState.Copy();
+                                state = new DeviceDriverState()
+                                {
+                                    Code = driverState.Code,
+                                    DriverState = driverState.Copy()
+                                };
                                 deviceState.States.Add(state);
                             }
 
@@ -229,9 +231,11 @@ namespace FiresecService
                     Any(x => x.Device.ZoneNo == zoneState.No) == false)
                     minZoneStateType = StateType.Unknown;
 
-                zoneState.StateType = minZoneStateType;
                 if (zoneState.StateType != minZoneStateType)
+                {
+                    zoneState.StateType = minZoneStateType;
                     CallbackManager.OnZoneStateChanged(zoneState);
+                }
             }
         }
 

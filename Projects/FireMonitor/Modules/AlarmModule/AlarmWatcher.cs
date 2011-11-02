@@ -109,33 +109,33 @@ namespace AlarmModule
                     continue;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-
-                foreach (var state in deviceState.States)
-                {
-                    if (state.Code == "Bolt_On")
+                if (deviceState != null)
+                    foreach (var state in deviceState.States)
                     {
-                        if (state.Time.HasValue == false)
-                            continue;
-
-                        var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-
-                        if (timeoutProperty == null)
-                            continue;
-
-                        int delta = 0;
-                        try
+                        if (state.Code == "Bolt_On")
                         {
-                            var timeSpan = DateTime.Now - state.Time.Value;
-                            delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
-                        }
-                        catch { continue; }
+                            if (state.Time.HasValue == false)
+                                continue;
 
-                        if (delta > 0)
-                        {
-                            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
+                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+
+                            if (timeoutProperty == null)
+                                continue;
+
+                            int delta = 0;
+                            try
+                            {
+                                var timeSpan = DateTime.Now - state.Time.Value;
+                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
+                            }
+                            catch { continue; }
+
+                            if (delta > 0)
+                            {
+                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
+                            }
                         }
                     }
-                }
             }
         }
 

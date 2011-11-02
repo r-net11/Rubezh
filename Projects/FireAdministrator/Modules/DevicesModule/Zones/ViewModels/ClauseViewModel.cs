@@ -11,14 +11,14 @@ namespace DevicesModule.ViewModels
 {
     public class ClauseViewModel : BaseViewModel
     {
+        public List<ulong?> Zones { get; set; }
+        Device _device;
+
         public ClauseViewModel()
         {
             ShowZonesCommand = new RelayCommand(OnShowZones);
             SelectDeviceCommand = new RelayCommand(OnSelectDevice);
         }
-
-        public List<ulong?> Zones { get; set; }
-        Device _device;
 
         public void Initialize(Device device, Clause clause)
         {

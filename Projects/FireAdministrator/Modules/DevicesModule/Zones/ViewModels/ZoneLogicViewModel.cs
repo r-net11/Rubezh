@@ -10,16 +10,17 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneLogicViewModel : SaveCancelDialogContent
     {
+        Device _device;
+
         public ZoneLogicViewModel()
         {
             Title = "Настройка логики зон";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
+            ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
             ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Subscribe(OnCurrentClauseStateChanged);
         }
-
-        Device _device;
 
         public void Initialize(Device device)
         {
@@ -46,6 +47,33 @@ namespace DevicesModule.ViewModels
                 clauseViewModel.Initialize(_device, clause);
                 Clauses.Add(clauseViewModel);
             }
+
+            JoinOperator = device.ZoneLogic.JoinOperator;
+        }
+
+        ZoneLogicJoinOperator _joinOperator;
+        public ZoneLogicJoinOperator JoinOperator
+        {
+            get { return _joinOperator; }
+            set
+            {
+                _joinOperator = value;
+                OnPropertyChanged("JoinOperator");
+            }
+        }
+
+        public RelayCommand ChangeJoinOperatorCommand { get; private set; }
+        void OnChangeJoinOperator()
+        {
+            if (JoinOperator == ZoneLogicJoinOperator.And)
+                JoinOperator = ZoneLogicJoinOperator.Or;
+            else
+                JoinOperator = ZoneLogicJoinOperator.And;
+        }
+
+        public bool ShowZoneLogicJoinOperator
+        {
+            get { return Clauses.Count > 1; }
         }
 
         public bool IsRm
@@ -82,17 +110,21 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             var clauseViewModel = new ClauseViewModel();
-            var clause = new Clause();
-            clause.Operation = ZoneLogicOperation.All;
-            clause.State = ZoneLogicState.Fire;
+            var clause = new Clause()
+            {
+                Operation = ZoneLogicOperation.All,
+                State = ZoneLogicState.Fire
+            };
             clauseViewModel.Initialize(_device, clause);
             Clauses.Add(clauseViewModel);
+            OnPropertyChanged("ShowZoneLogicJoinOperator");
         }
 
         public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
         void OnRemove(ClauseViewModel clauseViewModel)
         {
             Clauses.Remove(clauseViewModel);
+            OnPropertyChanged("ShowZoneLogicJoinOperator");
         }
 
         protected override void Save(ref bool cancel)
@@ -102,10 +134,12 @@ namespace DevicesModule.ViewModels
             {
                 if (clauseViewModel.Zones.Count > 0)
                 {
-                    var clause = new Clause();
-                    clause.State = clauseViewModel.SelectedState;
-                    clause.Operation = clauseViewModel.SelectedOperation;
-                    clause.Zones = clauseViewModel.Zones;
+                    var clause = new Clause()
+                    {
+                        State = clauseViewModel.SelectedState,
+                        Operation = clauseViewModel.SelectedOperation,
+                        Zones = clauseViewModel.Zones
+                    };
                     if (clauseViewModel.SelectedDevice != null)
                     {
                         clause.DeviceUID = clauseViewModel.SelectedDevice.UID;

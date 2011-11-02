@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
             <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <Label Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" />
+            <Label Content="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" />
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
@@ -44,17 +44,17 @@
             </TabItem>
             <TabItem Header="Состояние">
                 <StackPanel>
-                    <ItemsControl ItemsSource="{Binding ParentStates}">
+                    <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock Text="{Binding .}" Foreground="White" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding SelfStates}">
+                    <ItemsControl ItemsSource="{Binding DeviceState.States}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" />
+                                <TextBlock Text="{Binding DriverState.Name}" Foreground="White" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -69,9 +69,9 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            <!--<TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Управление" Visibility="{Binding Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
-            </TabItem>-->
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

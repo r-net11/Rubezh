@@ -12,14 +12,16 @@ namespace DevicesModule.ViewModels
         public DeviceDetailsViewModel(Guid deviceUID)
         {
             _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-            deviceState.StateChanged += new Action(deviceState_StateChanged);
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
+            if (DeviceState != null)
+                DeviceState.StateChanged += new Action(deviceState_StateChanged);
             DeviceControlViewModel = new DeviceControlViewModel(_device);
 
             Title = _device.Driver.ShortName + " " + _device.DottedAddress;
         }
 
         Device _device;
+        public DeviceState DeviceState { get; private set; }
         DeviceControls.DeviceControl _deviceControl;
         public DeviceControlViewModel DeviceControlViewModel { get; private set; }
 
@@ -30,11 +32,9 @@ namespace DevicesModule.ViewModels
 
         void deviceState_StateChanged()
         {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-
-            if (_deviceControl != null)
+            if ((DeviceState != null) && (_deviceControl != null))
             {
-                _deviceControl.StateType = deviceState.StateType;
+                _deviceControl.StateType = DeviceState.StateType;
             }
 
             OnPropertyChanged("DeviceControlContent");
@@ -44,14 +44,14 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                _deviceControl = new DeviceControls.DeviceControl();
-                _deviceControl.DriverId = _device.Driver.UID;
-
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-                _deviceControl.StateType = deviceState.StateType;
-
-                _deviceControl.Width = 50;
-                _deviceControl.Height = 50;
+                if (DeviceState != null)
+                    _deviceControl = new DeviceControls.DeviceControl()
+                    {
+                        DriverId = _device.Driver.UID,
+                        Width = 50,
+                        Height = 50,
+                        StateType = DeviceState.StateType
+                    };
 
                 return _deviceControl;
             }
@@ -74,43 +74,13 @@ namespace DevicesModule.ViewModels
             get { return _device.GetPersentationZone(); }
         }
 
-        public List<string> SelfStates
-        {
-            get
-            {
-                var selfStates = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-                foreach (var state in deviceState.States)
-                {
-                    selfStates.Add(state.DriverState.Name);
-                }
-                return selfStates;
-            }
-        }
-
-        public List<string> ParentStates
-        {
-            get
-            {
-                var parentStates = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-                if (deviceState.ParentStringStates != null)
-                    foreach (var parentState in deviceState.ParentStringStates)
-                    {
-                        parentStates.Add(parentState);
-                    }
-                return parentStates;
-            }
-        }
-
         public List<string> Parameters
         {
             get
             {
                 var parameters = new List<string>();
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-                if (deviceState.Parameters != null)
-                    foreach (var parameter in deviceState.Parameters)
+                if ((DeviceState != null) && (DeviceState.Parameters != null))
+                    foreach (var parameter in DeviceState.Parameters)
                     {
                         if (parameter.Visible)
                         {
@@ -121,15 +91,6 @@ namespace DevicesModule.ViewModels
                         }
                     }
                 return parameters;
-            }
-        }
-
-        public StateType StateType
-        {
-            get
-            {
-                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
-                return deviceState.StateType;
             }
         }
     }

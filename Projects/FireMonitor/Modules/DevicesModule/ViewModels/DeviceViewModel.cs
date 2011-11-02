@@ -16,17 +16,18 @@ namespace DevicesModule.ViewModels
         {
             Source = sourceDevices;
             Device = device;
-            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
             UpdateParameters();
 
             ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
             DisableCommand = new RelayCommand(OnDisable, CanDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+            ResetCommand = new RelayCommand<string>(OnReset, CanReset);
         }
 
         public Device Device { get; private set; }
-        DeviceState _deviceState;
+        public DeviceState DeviceState { get; private set; }
 
         public Driver Driver
         {
@@ -42,9 +43,9 @@ namespace DevicesModule.ViewModels
         {
             Update();
 
-            if (_deviceState != null && _deviceState.Parameters.IsNotNullOrEmpty())
+            if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
             {
-                foreach (var parameter in _deviceState.Parameters)
+                foreach (var parameter in DeviceState.Parameters)
                 {
                     string parameterValue = parameter.Value;
                     if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
@@ -79,40 +80,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public List<string> SelfStates
-        {
-            get
-            {
-                var selfStates = new List<string>();
-                foreach (var state in _deviceState.States)
-                {
-                    selfStates.Add(state.DriverState.Name);
-                }
-                return selfStates;
-            }
-        }
-
-        public List<string> ParentStates
-        {
-            get
-            {
-                var parentStates = new List<string>();
-                if (_deviceState != null && _deviceState.ParentStringStates != null)
-                    foreach (var parentState in _deviceState.ParentStringStates)
-                    {
-                        parentStates.Add(parentState);
-                    }
-                return parentStates;
-            }
-        }
-
         public List<string> Parameters
         {
             get
             {
                 var parameters = new List<string>();
-                if (_deviceState != null && _deviceState.Parameters.IsNotNullOrEmpty())
-                    foreach (var parameter in _deviceState.Parameters)
+                if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
+                    foreach (var parameter in DeviceState.Parameters)
                     {
                         if (parameter.Visible)
                         {
@@ -125,11 +99,6 @@ namespace DevicesModule.ViewModels
                     }
                 return parameters;
             }
-        }
-
-        public StateType StateType
-        {
-            get { return _deviceState.StateType; }
         }
 
         string _failureType;
@@ -187,17 +156,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool IsDisabled
-        {
-            get
-            {
-                return _deviceState.IsDisabled;
-            }
-        }
-
         public void Update()
         {
             OnPropertyChanged("StateType");
+            OnPropertyChanged("DeviceState");
         }
 
         public bool CanShowOnPlan()
@@ -224,7 +186,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanDisable()
         {
-            return _deviceState.CanDisable();
+            return DeviceState.CanDisable();
         }
 
         public RelayCommand DisableCommand { get; private set; }
@@ -232,7 +194,7 @@ namespace DevicesModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                _deviceState.ChangeDisabled();
+                DeviceState.ChangeDisabled();
             }
         }
 
@@ -240,6 +202,24 @@ namespace DevicesModule.ViewModels
         void OnShowProperties()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+        }
+
+        bool CanReset(string stateName)
+        {
+            return DeviceState.States.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
+        }
+
+        public RelayCommand<string> ResetCommand { get; private set; }
+        void OnReset(string stateName)
+        {
+            var resetItems = new List<ResetItem>();
+            var resetItem = new ResetItem()
+            {
+                DeviceUID = Device.UID
+            };
+            resetItem.StateNames.Add(stateName);
+            resetItems.Add(resetItem);
+            FiresecManager.ResetStates(resetItems);
         }
     }
 }

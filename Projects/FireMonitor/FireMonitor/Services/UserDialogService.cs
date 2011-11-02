@@ -5,13 +5,15 @@ namespace FireMonitor
 {
     public class UserDialogService : IUserDialogService
     {
-        public bool ShowWindow(IDialogContent model)
+        public void ShowWindow(IDialogContent model, bool isTopMost = false)
         {
-            var dialog = new DialogWindow();
+            var dialog = new DialogWindow()
+            {
+                Topmost = isTopMost
+            };
             dialog.SetContent(model);
 
             dialog.Show();
-            return true;
         }
 
         public bool ShowModalWindow(IDialogContent model)

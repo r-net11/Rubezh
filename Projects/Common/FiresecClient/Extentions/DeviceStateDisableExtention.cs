@@ -9,7 +9,7 @@ namespace FiresecClient
     {
         public static bool CanDisable(this DeviceState deviceState)
         {
-            if (deviceState.Device.Driver.CanDisable)
+            if ((deviceState != null) && (deviceState.Device.Driver.CanDisable))
             {
                 if (deviceState.IsDisabled)
                     return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList);
@@ -20,7 +20,7 @@ namespace FiresecClient
 
         public static void ChangeDisabled(this DeviceState deviceState)
         {
-            if (deviceState.CanDisable())
+            if ((deviceState != null) && (deviceState.CanDisable()))
             {
                 if (deviceState.IsDisabled)
                     FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
