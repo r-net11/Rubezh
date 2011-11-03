@@ -18,7 +18,7 @@
             <ListBox ItemsSource="{Binding Functions}" SelectedItem="{Binding SelectedFunction}" Margin="2">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Label Content="{Binding Name}" />
+                        <TextBlock Text="{Binding Name}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -7,9 +7,11 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceCommandsViewModel : BaseViewModel
     {
-        public DeviceCommandsViewModel(DeviceViewModel selectedDevice)
+        DevicesViewModel _devicesViewModel;
+
+        public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
-            SelectedDevice = selectedDevice;
+            _devicesViewModel = devicesViewModel;
 
             AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
             ReadDeviceCommand = new RelayCommand<bool>(OnReadDevice, CanReadDevice);
@@ -25,7 +27,10 @@ namespace DevicesModule.ViewModels
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
         }
 
-        public DeviceViewModel SelectedDevice { get; private set; }
+        public DeviceViewModel SelectedDevice
+        {
+            get { return _devicesViewModel.SelectedDevice; }
+        }
 
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
@@ -167,6 +172,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
+                return true;
                 return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
             }
         }

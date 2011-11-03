@@ -7,7 +7,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoSearchViewModel : DialogContent
+    public class AutoSearchViewModel : SaveCancelDialogContent
     {
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; set; }
         List<AutoSearchDeviceViewModel> allDevices;
@@ -15,10 +15,7 @@ namespace DevicesModule.ViewModels
         public AutoSearchViewModel()
         {
             Title = "Добавление устройств";
-
             ContinueCommand = new RelayCommand(OnContinue);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public void Initialize(DeviceConfiguration autodetectedDeviceConfiguration)
@@ -54,13 +51,6 @@ namespace DevicesModule.ViewModels
             Close(true);
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
-        {
-            AddFromTree(Devices[0]);
-            Close(false);
-        }
-
         void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)
         {
             foreach (var autodetectedDevice in parentAutoDetectedDevice.Children)
@@ -91,9 +81,10 @@ namespace DevicesModule.ViewModels
             FiresecManager.DeviceConfiguration.Update();
         }
 
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
+        protected override void Save(ref bool cancel)
         {
+            AddFromTree(Devices[0]);
+            cancel = true;
             Close(false);
         }
     }

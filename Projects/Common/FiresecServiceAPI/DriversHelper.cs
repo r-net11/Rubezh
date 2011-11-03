@@ -51,6 +51,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2", 0, "Группа", DriverType.Group));
             DriverDataList.Add(new DriverData("B476541B-5298-4B3E-A9BA-605B839B1011", 0, "Прибор Рубеж-2AM", DriverType.Rubezh_2AM));
             DriverDataList.Add(new DriverData("02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C", 0, "БУНС", DriverType.BUNS));
+            DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", 0, "БУНС-2", DriverType.BUNS_2));
             DriverDataList.Add(new DriverData("F966D47B-468D-40A5-ACA7-9BE30D0A3847", 0, "Модуль сопряжения МС-3", DriverType.MS_3));
             DriverDataList.Add(new DriverData("{868ED643-0ED6-48CD-A0E0-4AD46104C419}", 0, "Модуль сопряжения МС-4", DriverType.MS_4));
             DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Модуль доставки сообщений", DriverType.MessagePostModule));
@@ -60,6 +61,10 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("96CDBD7E-29F6-45D4-9028-CF10332FAB1A", 0, "Прибор Рубеж-2ОП", DriverType.Rubezh_2OP));
             DriverDataList.Add(new DriverData("B1DF571E-8786-4987-94B2-EC91F7578D20", 0, "Пульт дистанционного управления", DriverType.PDU));
             DriverDataList.Add(new DriverData("4A60242A-572E-41A8-8B87-2FE6B6DC4ACE", 0, "Релейный исполнительный модуль РМ-1", DriverType.RM_1));
+            DriverDataList.Add(new DriverData("EA5F5372-C76C-4E92-B879-0AFA0EE979C7", 0, "Релейный исполнительный модуль РМ-2", DriverType.RM_2));
+            DriverDataList.Add(new DriverData("15E38FA6-DC41-454B-83E5-D7789064B2E1", 0, "Релейный исполнительный модуль РМ-3", DriverType.RM_3));
+            DriverDataList.Add(new DriverData("3CB0E7FB-670F-4F32-8123-4B310AEE1DB8", 0, "Релейный исполнительный модуль РМ-4", DriverType.RM_4));
+            DriverDataList.Add(new DriverData("A7C09BA8-DD00-484C-8BEA-245F2920DFBB", 0, "Релейный исполнительный модуль РМ-5", DriverType.RM_5));
             DriverDataList.Add(new DriverData("33A85F87-E34C-45D6-B4CE-A4FB71A36C28", 0, "Модуль пожаротушения", DriverType.MPT));
             DriverDataList.Add(new DriverData("1E045AD6-66F9-4F0B-901C-68C46C89E8DA", 0, "Пожарный дымовой извещатель ИП 212-64", DriverType.SmokeDetector));
             DriverDataList.Add(new DriverData("799686B6-9CFA-4848-A0E7-B33149AB940C", 0, "Пожарный тепловой извещатель ИП 101-29-A3R1", DriverType.HeatDetector));
@@ -73,6 +78,10 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("935B0020-889B-4A94-9563-EC0E4127E8E3", 1, "Кнопка разблокировки автоматики ШУЗ в направлении", DriverType.ShuzUnblockButton));
             DriverDataList.Add(new DriverData("641FA899-FAA0-455B-B626-646E5FBE785A", 0, "Ручной извещатель ИПР513-11", DriverType.HandDetector));
             DriverDataList.Add(new DriverData("EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2", 0, "Охранная адресная метка АМ1-О", DriverType.AM1_O));
+            DriverDataList.Add(new DriverData("E495C37A-A414-4B47-AF24-FEC1F9E43D86", 0, "Адресная метка  АМ4", DriverType.AM4));
+            DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
+            DriverDataList.Add(new DriverData("A15D9258-D5B5-4A81-A60A-3C9A308FB528", 0, "Пожарная адресная метка АМ4-П", DriverType.AM4_P));
+            DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
             DriverDataList.Add(new DriverData("44EEDF03-0F4C-4EBA-BD36-28F96BC6B16E", 0, "Модуль Управления Клапанами Дымоудаления", DriverType.MUKD));
             DriverDataList.Add(new DriverData("B603CEBA-A3BF-48A0-BFC8-94BF652FB72A", 0, "Модуль Управления Клапанами Огнезащиты", DriverType.MUKO));
             DriverDataList.Add(new DriverData("AF05094E-4556-4CEE-A3F3-981149264E89", 0, "Насосная Станция", DriverType.PumpStation));
@@ -102,6 +111,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("7CED3D07-C8AF-4141-8D3D-528050EEA72D", 1, "USB Рубеж-4A", DriverType.USB_Rubezh_4A));
             DriverDataList.Add(new DriverData("39DBC715-C4B5-4AE6-A809-4F214BBBD6C1", 1, "USB Рубеж-2ОП", DriverType.USB_Rubezh_2OP));
             DriverDataList.Add(new DriverData("4A3D1FA3-4F13-44D8-B9AD-825B53416A71", 1, "USB БУНС", DriverType.USB_BUNS));
+            DriverDataList.Add(new DriverData("64CB0AB4-D9BE-4C71-94A1-CF24406DAF92", 1, "USB БУНС-2", DriverType.USB_BUNS_2));
             //DriverDataList.Add(new DriverData("zone", 0, "zone"));
             //DriverDataList.Add(new DriverData("monitor", 0, "monitor"));
         }

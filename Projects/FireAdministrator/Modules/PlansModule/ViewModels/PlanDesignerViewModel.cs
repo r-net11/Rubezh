@@ -67,8 +67,11 @@ namespace PlansModule.ViewModels
             foreach (var elementDevice in plan.ElementDevices)
             {
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
-                DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
+                if (device != null)
+                {
+                    var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                    DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
+                }
             }
 
             foreach (var ElementSubPlan in plan.ElementSubPlans)

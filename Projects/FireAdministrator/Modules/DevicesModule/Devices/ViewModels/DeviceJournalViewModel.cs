@@ -11,6 +11,7 @@ namespace DevicesModule.ViewModels
             Title = "Журнал событий устройства";
             string content = "<head>\n<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>\n</head>" + htmlJournal;
             HtmlString = content;
+            OnPropertyChanged("HtmlString");
         }
 
         public string HtmlString { get; set; }

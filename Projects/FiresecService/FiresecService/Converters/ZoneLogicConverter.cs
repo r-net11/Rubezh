@@ -55,10 +55,6 @@ namespace FiresecService.Converters
                         case "or":
                             zoneLogic.JoinOperator = ZoneLogicJoinOperator.Or;
                             break;
-
-                        default:
-                            zoneLogic.JoinOperator = null;
-                            break;
                     }
 
                     if (innerClause.device != null)

@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
-            DeviceCommandsViewModel = new DeviceCommandsViewModel(SelectedDevice);
+            DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
         }
 
         public void Initialize()

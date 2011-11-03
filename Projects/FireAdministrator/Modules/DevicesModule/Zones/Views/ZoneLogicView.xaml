@@ -7,6 +7,7 @@
     <UserControl.Resources>
         <Converters:ClauseOperationToStringConverter x:Key="ClauseOperationToStringConverter" />
         <Converters:ClauseStateToStringConverter x:Key="ClauseStateToStringConverter" />
+        <Converters:ZoneLogicJoinOperatorConverter x:Key="ZoneLogicJoinOperatorConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -100,7 +101,9 @@
                             </DockPanel>
                             <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
                                     Visibility="{Binding ShowZoneLogicJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    Content="{Binding JoinOperator}" Command="{Binding ChangeJoinOperatorCommand}" />
+                                    Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"
+                                    Command="{Binding ChangeJoinOperatorCommand}"
+                                    Width="100" HorizontalAlignment="Left" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

@@ -6,7 +6,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoSearchDeviceViewModel : BaseViewModel
+    public class AutoSearchDeviceViewModel : SaveCancelDialogContent
     {
         public Device Device { get; private set; }
 
