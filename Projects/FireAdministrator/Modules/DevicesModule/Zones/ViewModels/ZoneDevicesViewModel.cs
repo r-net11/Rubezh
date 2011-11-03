@@ -49,16 +49,10 @@ namespace DevicesModule.ViewModels
 
                 if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
                 {
-                    if (device.ZoneLogic != null)
+                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.Zones.Contains(zoneNo)))
                     {
-                        foreach (var clause in device.ZoneLogic.Clauses)
-                        {
-                            if (clause.Zones.Contains(zoneNo))
-                            {
-                                device.AllParents.ForEach(x => { devices.Add(x); });
-                                devices.Add(device);
-                            }
-                        }
+                        device.AllParents.ForEach(x => { devices.Add(x); });
+                        devices.Add(device);
                     }
                 }
             }
@@ -72,14 +66,11 @@ namespace DevicesModule.ViewModels
                 Devices.Add(deviceViewModel);
             }
 
-            foreach (var device in Devices)
+            foreach (var device in Devices.Where(x => x.Device.Parent != null))
             {
-                if (device.Device.Parent != null)
-                {
-                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
-                    parent.Children.Add(device);
-                }
+                var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+                device.Parent = parent;
+                parent.Children.Add(device);
             }
 
             AvailableDevices.Clear();
@@ -91,14 +82,11 @@ namespace DevicesModule.ViewModels
                 AvailableDevices.Add(deviceViewModel);
             }
 
-            foreach (var device in AvailableDevices)
+            foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
             {
-                if (device.Device.Parent != null)
-                {
-                    var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
-                    parent.Children.Add(device);
-                }
+                var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+                device.Parent = parent;
+                parent.Children.Add(device);
             }
 
             if (Devices.Count > 0)
@@ -173,6 +161,7 @@ namespace DevicesModule.ViewModels
         {
             SelectedDevice.Device.ZoneNo = null;
             Initialize(_zoneNo);
+
             DevicesModule.HasChanges = true;
         }
 
@@ -186,11 +175,9 @@ namespace DevicesModule.ViewModels
         {
             var zoneLogicViewModel = new ZoneLogicViewModel();
             zoneLogicViewModel.Initialize(SelectedDevice.Device);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
-            if (result)
-            {
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
                 DevicesModule.HasChanges = true;
-            }
         }
     }
 }

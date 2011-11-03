@@ -51,17 +51,7 @@ namespace DevicesModule.ViewModels
 
                 if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
                 {
-                    var canAdd = false;
-                    var mptDevices = device.Parent.Children.FindAll(x => x.Driver.DriverType == DriverType.MPT);
-                    if (mptDevices != null)
-                    {
-                        foreach (var mptDevice in mptDevices)
-                        {
-                            if (mptDevice.ZoneNo == zone.No)
-                                canAdd = true;
-                        }
-                    }
-                    if (canAdd == false)
+                    if (device.Parent.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
                     {
                         SourceZones.Add(zoneViewModel);
                         continue;
@@ -70,8 +60,7 @@ namespace DevicesModule.ViewModels
 
                 if ((device.Parent.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                 {
-                    var canAdd = device.Parent.Children.Any(x => x.ZoneNo == zone.No);
-                    if (canAdd == false)
+                    if (device.Parent.Children.Any(x => x.ZoneNo == zone.No) == false)
                     {
                         SourceZones.Add(zoneViewModel);
                         continue;
@@ -79,13 +68,9 @@ namespace DevicesModule.ViewModels
                 }
 
                 if (Zones.Contains(zone.No))
-                {
                     TargetZones.Add(zoneViewModel);
-                }
                 else
-                {
                     SourceZones.Add(zoneViewModel);
-                }
             }
 
             if (TargetZones.Count > 0)
@@ -181,11 +166,7 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            Zones = new List<ulong?>();
-            foreach (var zoneViewModel in TargetZones)
-            {
-                Zones.Add(zoneViewModel.No);
-            }
+            Zones = new List<ulong?>(TargetZones.Select(x => x.No));
         }
     }
 }

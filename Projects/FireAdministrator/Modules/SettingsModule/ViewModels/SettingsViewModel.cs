@@ -35,10 +35,7 @@ namespace SettingsModule.ViewModels
             var saveDialog = new SaveFileDialog();
             saveDialog.Filter = "firesec2 files|*.fsc2";
             if (saveDialog.ShowDialog().Value)
-            {
-                var fullConfiguration = CopyFrom();
-                SaveToFile(fullConfiguration, saveDialog.FileName);
-            }
+                SaveToFile(CopyFrom(), saveDialog.FileName);
         }
 
         public RelayCommand LoadConfigurationCommand { get; private set; }
@@ -48,8 +45,7 @@ namespace SettingsModule.ViewModels
             openDialog.Filter = "firesec2 files|*.fsc2";
             if (openDialog.ShowDialog().Value)
             {
-                var fullConfiguration = LoadFromFile(openDialog.FileName);
-                CopyTo(fullConfiguration);
+                CopyTo(LoadFromFile(openDialog.FileName));
 
                 FiresecManager.UpdateConfiguration();
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -58,7 +54,7 @@ namespace SettingsModule.ViewModels
 
         FullConfiguration CopyFrom()
         {
-            var fullConfiguration = new FullConfiguration()
+            return new FullConfiguration()
             {
                 DeviceConfiguration = FiresecManager.DeviceConfiguration,
                 LibraryConfiguration = FiresecManager.LibraryConfiguration,
@@ -66,7 +62,6 @@ namespace SettingsModule.ViewModels
                 SecurityConfiguration = FiresecManager.SecurityConfiguration,
                 SystemConfiguration = FiresecManager.SystemConfiguration
             };
-            return fullConfiguration;
         }
 
         void CopyTo(FullConfiguration fullConfiguration)

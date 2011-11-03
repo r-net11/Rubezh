@@ -42,19 +42,16 @@ namespace FireMonitor
 
         public void OnDeviceStateChanged(Guid deviceUID)
         {
-            var deviceStates = FiresecManager.DeviceStates.DeviceStates;
             var minState = StateType.No;
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
             {
                 if (deviceState.StateType < minState)
-                {
                     minState = deviceState.StateType;
-                }
             }
+
             if (CurrentStateType != minState)
-            {
                 CurrentStateType = minState;
-            }
+
             IsSoundOn = true;
             StopPlayAlarm();
             PlayAlarm();
@@ -62,7 +59,7 @@ namespace FireMonitor
 
         public void PlayAlarm()
         {
-            if (Sounds == null)
+            if (Sounds.IsNotNullOrEmpty() == false)
             {
                 IsSoundOn = false;
                 return;
@@ -71,8 +68,7 @@ namespace FireMonitor
             {
                 if (sound.StateType == CurrentStateType)
                 {
-                    string soundPath = FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName);
-                    AlarmPlayerHelper.Play(soundPath, sound.BeeperType, sound.IsContinious);
+                    AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName), sound.BeeperType, sound.IsContinious);
                     return;
                 }
             }

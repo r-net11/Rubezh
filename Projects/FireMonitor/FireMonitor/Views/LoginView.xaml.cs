@@ -61,9 +61,7 @@ namespace FireMonitor
                 case PasswordViewType.Validate:
                     message = "Валидация не пройдена";
                     if (HashHelper.CheckPass(_password.Password, FiresecManager.CurrentUser.PasswordHash))
-                    {
                         message = null;
-                    }
                     break;
             }
 

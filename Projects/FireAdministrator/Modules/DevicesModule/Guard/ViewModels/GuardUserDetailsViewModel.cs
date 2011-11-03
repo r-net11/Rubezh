@@ -127,8 +127,7 @@ namespace DevicesModule.ViewModels
         {
             var guardLevelsSelectationViewModel = new GuardLevelsSelectationViewModel();
             guardLevelsSelectationViewModel.Initialize(GuardUser);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardLevelsSelectationViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardLevelsSelectationViewModel))
             {
                 GuardUser.GuardLevelNames = guardLevelsSelectationViewModel.GuardLevels;
                 OnPropertyChanged("PresentationLevels");

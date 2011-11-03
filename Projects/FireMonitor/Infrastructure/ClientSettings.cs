@@ -16,9 +16,7 @@ namespace Infrastructure
             get
             {
                 if (_archiveDefaultState == null)
-                {
                     _archiveDefaultState = new ArchiveDefaultState() { ArchiveDefaultStateType = ArchiveDefaultStateType.All };
-                }
 
                 return _archiveDefaultState;
             }

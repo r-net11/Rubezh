@@ -12,7 +12,6 @@ namespace DevicesModule.ViewModels
         public void Initialize()
         {
             var devices = new HashSet<Device>();
-
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 if ((device.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Driver.DriverType == DriverType.USB_Rubezh_2OP))

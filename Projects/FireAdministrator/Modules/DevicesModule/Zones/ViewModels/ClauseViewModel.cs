@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -26,10 +27,9 @@ namespace DevicesModule.ViewModels
             Zones = clause.Zones.ToList();
             _selectedState = clause.State;
             SelectedOperation = clause.Operation;
+
             if (clause.DeviceUID != Guid.Empty)
-            {
                 SelectedDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-            }
         }
 
         public List<ZoneLogicState> States
@@ -62,6 +62,7 @@ namespace DevicesModule.ViewModels
                 var operations = new List<ZoneLogicOperation>();
                 operations.Add(ZoneLogicOperation.All);
                 operations.Add(ZoneLogicOperation.Any);
+
                 return operations;
             }
         }
@@ -112,14 +113,15 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                string presenrationZones = "";
-                for (int i = 0; i < Zones.Count; i++)
+                var presenrationZones = new StringBuilder();
+                for (int i = 0; i < Zones.Count; ++i)
                 {
                     if (i > 0)
-                        presenrationZones += ",";
-                    presenrationZones += Zones[i];
+                        presenrationZones.Append(",");
+                    presenrationZones.Append(Zones[i]);
                 }
-                return presenrationZones;
+
+                return presenrationZones.ToString();
             }
         }
 
@@ -162,8 +164,7 @@ namespace DevicesModule.ViewModels
         {
             var zonesSelectionViewModel = new ZonesSelectionViewModel();
             zonesSelectionViewModel.Initialize(_device, Zones, SelectedState);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel))
             {
                 Zones = zonesSelectionViewModel.Zones;
                 OnPropertyChanged("PresenrationZones");
@@ -174,11 +175,8 @@ namespace DevicesModule.ViewModels
         void OnSelectDevice()
         {
             var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(_device.Parent);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicDeviceSelectionViewModel);
-            if (result)
-            {
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
                 SelectedDevice = zoneLogicDeviceSelectionViewModel.SelectedDevice;
-            }
         }
     }
 }

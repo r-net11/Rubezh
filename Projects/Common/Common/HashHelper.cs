@@ -23,9 +23,7 @@ namespace Common
                     {
                         hash += fileInfo.Name;
                         if (hashTable.ContainsKey(hash) == false)
-                        {
                             hashTable.Add(hash, fileInfo.Name);
-                        }
                     }
                 }
             }

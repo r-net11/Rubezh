@@ -38,9 +38,7 @@ namespace FiresecClient
             {
                 DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
                 if (dataContractSerializerOperationBehavior != null)
-                {
                     dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = 2147483647;
-                }
             }
 
             _duplexChannelFactory.Open();
@@ -55,9 +53,7 @@ namespace FiresecClient
         public static void Dispose()
         {
             if (_duplexChannelFactory.State == CommunicationState.Created)
-            {
                 _duplexChannelFactory.Close();
-            }
         }
     }
 }

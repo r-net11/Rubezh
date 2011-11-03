@@ -7,8 +7,7 @@ namespace FireMonitor
     {
         public void AddResource(ResourceDescription description)
         {
-            var resourceDescription = new ResourceDictionary() { Source = description.Source };
-            Application.Current.Resources.MergedDictionaries.Add(resourceDescription);
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = description.Source });
         }
     }
 }

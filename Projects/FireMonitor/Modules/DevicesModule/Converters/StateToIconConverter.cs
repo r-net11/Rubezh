@@ -8,16 +8,10 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            StateType stateType = (StateType) value;
-            string icon = EnumsConverter.StateToIcon(stateType);
+            string icon = EnumsConverter.StateToIcon((StateType) value);
             if (icon != null)
-            {
                 return FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

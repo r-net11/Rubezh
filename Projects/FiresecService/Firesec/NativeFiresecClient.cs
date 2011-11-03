@@ -13,23 +13,15 @@ namespace Firesec
             get
             {
                 if (_connectoin == null)
-                {
                     _connectoin = GetConnection("adm", "");
-                }
                 return _connectoin;
             }
         }
 
         public static bool Connect(string login, string password)
         {
-            try
-            {
-                _connectoin = GetConnection(login, password);
-            }
-            catch
-            {
-                return false;
-            }
+            try { _connectoin = GetConnection(login, password); }
+            catch { return false; }
             return true;
         }
 
@@ -240,9 +232,7 @@ namespace Firesec
                     }
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch { }
 
             return stringBuilder.ToString();
         }

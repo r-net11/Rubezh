@@ -22,15 +22,12 @@ namespace DevicesModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
+                if (device.Driver.DriverType == driverType)
                 {
-                    if (device.Driver.DriverType == driverType)
+                    if (device.Parent.Children.Any(x => x.Driver.IsZoneDevice && direction.Zones.Contains(x.ZoneNo)))
                     {
-                        bool canAdd = device.Parent.Children.Any(x => (x.Driver.IsZoneDevice) && (direction.Zones.Contains(x.ZoneNo)));
-                        if (canAdd)
-                        {
-                            device.AllParents.ForEach(x => { devices.Add(x); });
-                            devices.Add(device);
-                        }
+                        device.AllParents.ForEach(x => { devices.Add(x); });
+                        devices.Add(device);
                     }
                 }
             }
@@ -44,14 +41,11 @@ namespace DevicesModule.ViewModels
                 Devices.Add(deviceViewModel);
             }
 
-            foreach (var device in Devices)
+            foreach (var device in Devices.Where(x => x.Device.Parent != null))
             {
-                if (device.Device.Parent != null)
-                {
-                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
-                    parent.Children.Add(device);
-                }
+                var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+                device.Parent = parent;
+                parent.Children.Add(device);
             }
 
             SelectedDevice = Devices.FirstOrDefault(x => x.HasChildren == false);
@@ -73,9 +67,7 @@ namespace DevicesModule.ViewModels
         protected override bool CanSave()
         {
             if (SelectedDevice != null)
-            {
-                return (SelectedDevice.HasChildren == false);
-            }
+                return SelectedDevice.HasChildren == false;
             return false;
         }
     }

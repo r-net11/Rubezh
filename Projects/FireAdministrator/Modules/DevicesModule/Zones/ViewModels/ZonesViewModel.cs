@@ -43,9 +43,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedZone = value;
                 if (value != null)
-                {
                     ZoneDevices.Initialize(value.No.Value);
-                }
 
                 OnPropertyChanged("SelectedZone");
             }
@@ -69,8 +67,8 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel._zone);
-                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel._zone);
-                Zones.Add(zoneViewModel);
+                Zones.Add(new ZoneViewModel(zoneDetailsViewModel._zone));
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -87,6 +85,7 @@ namespace DevicesModule.ViewModels
                 ZoneDevices.Clear();
                 if (Zones.Count > 0)
                     SelectedZone = Zones[0];
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -100,6 +99,7 @@ namespace DevicesModule.ViewModels
             {
                 SelectedZone.Zone = zoneDetailsViewModel._zone;
                 SelectedZone.Update();
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -112,11 +112,9 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.Zones.Clear();
                 Zones.Clear();
-                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-                {
-                    device.ZoneNo = null;
-                }
+                FiresecManager.DeviceConfiguration.Devices.ForEach(x => x.ZoneNo = null);
                 ZoneDevices.Clear();
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -128,15 +126,9 @@ namespace DevicesModule.ViewModels
             if (dialogResult == MessageBoxResult.Yes)
             {
                 var devices = FiresecManager.DeviceConfiguration.Devices;
-                var emptyZones = new List<ZoneViewModel>();
-                foreach (var zone in Zones)
-                {
-                    var findDevice = devices.FirstOrDefault(x => ((x.Driver.IsZoneDevice) && (x.ZoneNo == zone.No)));
-                    if (findDevice == null)
-                    {
-                        emptyZones.Add(zone);
-                    }
-                }
+                var emptyZones = new List<ZoneViewModel>(
+                    Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.No))
+                );
 
                 foreach (var emptyZone in emptyZones)
                 {
@@ -146,6 +138,7 @@ namespace DevicesModule.ViewModels
 
                 if (Zones.Count > 0)
                     SelectedZone = Zones[0];
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -153,8 +146,7 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             SelectedZone = SelectedZone;
-            var zonesMenuViewModel = new ZonesMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(zonesMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new ZonesMenuViewModel(this));
         }
 
         public override void OnHide()

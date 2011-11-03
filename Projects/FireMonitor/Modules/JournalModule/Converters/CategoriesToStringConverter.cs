@@ -12,7 +12,6 @@ namespace JournalModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var categories = value as List<DeviceCategoryType>;
-
             if (categories.IsNotNullOrEmpty())
             {
                 var delimString = " или ";

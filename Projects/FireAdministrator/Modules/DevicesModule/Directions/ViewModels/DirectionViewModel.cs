@@ -27,13 +27,9 @@ namespace DevicesModule.ViewModels
             {
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (Direction.Zones.Contains(zone.No))
-                {
                     Zones.Add(zoneViewModel);
-                }
                 else
-                {
                     SourceZones.Add(zoneViewModel);
-                }
             }
 
             if (Zones.Count > 0)
@@ -89,10 +85,7 @@ namespace DevicesModule.ViewModels
             SourceZones.Remove(SelectedSourceZone);
 
             if (SourceZones.Count > 0)
-            {
-                int newIndex = System.Math.Min(oldIndex, SourceZones.Count - 1);
-                SelectedSourceZone = SourceZones[newIndex];
-            }
+                SelectedSourceZone = SourceZones[System.Math.Min(oldIndex, SourceZones.Count - 1)];
         }
 
         bool CanRemove()
@@ -110,10 +103,7 @@ namespace DevicesModule.ViewModels
             Zones.Remove(SelectedZone);
 
             if (Zones.Count > 0)
-            {
-                int newIndex = System.Math.Min(oldIndex, Zones.Count - 1);
-                SelectedZone = Zones[newIndex];
-            }
+                SelectedZone = Zones[System.Math.Min(oldIndex, Zones.Count - 1)];
         }
     }
 }

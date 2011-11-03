@@ -23,13 +23,9 @@ namespace Infrastructure.Common
                 _isExpanded = value;
 
                 if (_isExpanded)
-                {
                     ExpandChildren(this as T);
-                }
                 else
-                {
                     HideChildren(this as T);
-                }
 
                 OnPropertyChanged("IsExpanded");
             }
@@ -53,9 +49,7 @@ namespace Infrastructure.Common
                 for (int i = 0; i < parent.Children.Count; ++i)
                 {
                     if (Source.Contains(parent.Children[i]) == false)
-                    {
                         Source.Insert(indexOf + 1 + i, parent.Children[i]);
-                    }
                 }
 
                 foreach (T t in parent.Children)

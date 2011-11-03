@@ -13,7 +13,6 @@ namespace FiresecAPI.Models
         {
             Children = new List<Device>();
             Properties = new List<Property>();
-            Properties = new List<Property>();
             IndicatorLogic = new IndicatorLogic();
             PDUGroupLogic = new PDUGroupLogic();
             ShapeIds = new List<string>();

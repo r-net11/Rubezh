@@ -26,12 +26,14 @@ namespace FiresecClient
 
                 for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
                 {
-                    var childDevice = new Device();
-                    childDevice.DriverUID = autoCreateDriver.UID;
-                    childDevice.Driver = autoCreateDriver;
-                    childDevice.IntAddress = i;
-                    device.Children.Add(childDevice);
+                    var childDevice = new Device()
+                    {
+                        DriverUID = autoCreateDriver.UID,
+                        Driver = autoCreateDriver,
+                        IntAddress = i
+                    };
 
+                    device.Children.Add(childDevice);
                     AddAutoCreateChildren(childDevice);
                 }
             }

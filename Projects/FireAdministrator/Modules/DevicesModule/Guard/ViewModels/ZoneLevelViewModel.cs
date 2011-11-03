@@ -36,9 +36,7 @@ namespace DevicesModule.ViewModels
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneLevel.ZoneNo);
                     if (zone != null)
-                    {
                         return zone.PresentationName;
-                    }
                 }
                 return null;
             }
@@ -48,8 +46,7 @@ namespace DevicesModule.ViewModels
         void OnChooseZones()
         {
             var guardZoneSelectationViewModel = new GuardZoneSelectationViewModel();
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardZoneSelectationViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardZoneSelectationViewModel))
             {
                 ZoneLevel.ZoneNo = guardZoneSelectationViewModel.SelectedZone.No;
                 OnPropertyChanged("PresentationZone");

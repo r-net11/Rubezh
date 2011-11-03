@@ -37,8 +37,7 @@ namespace DevicesModule.ViewModels
             {
                 foreach (var zoneLevel in guardLevel.ZoneLevels)
                 {
-                    var ZoneLevelViewModel = new ZoneLevelViewModel(zoneLevel);
-                    ZoneLevels.Add(ZoneLevelViewModel);
+                    ZoneLevels.Add(new ZoneLevelViewModel(zoneLevel));
                 }
             }
         }

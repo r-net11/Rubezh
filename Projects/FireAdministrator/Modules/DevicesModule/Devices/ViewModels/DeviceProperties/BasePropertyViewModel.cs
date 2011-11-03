@@ -11,21 +11,20 @@ namespace DevicesModule.DeviceProperties
         {
             _driverProperty = driverProperty;
             _device = device;
-            Caption = driverProperty.Caption;
         }
 
         protected Device _device;
         protected DriverProperty _driverProperty;
 
-        public string Caption { get; private set; }
+        public string Caption { get { return _driverProperty.Caption; } }
 
-        protected void Save(string Value)
+        protected void Save(string value)
         {
             if (_device.Properties == null)
                 _device.Properties = new List<Property>();
             var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);
 
-            if (Value == _driverProperty.Default)
+            if (value == _driverProperty.Default)
             {
                 if (property != null)
                 {
@@ -37,13 +36,13 @@ namespace DevicesModule.DeviceProperties
             if (property != null)
             {
                 property.Name = _driverProperty.Name;
-                property.Value = Value;
+                property.Value = value;
             }
             else
             {
                 var newProperty = new Property();
                 newProperty.Name = _driverProperty.Name;
-                newProperty.Value = Value;
+                newProperty.Value = value;
                 _device.Properties.Add(newProperty);
             }
         }

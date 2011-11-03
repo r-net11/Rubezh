@@ -31,24 +31,20 @@ namespace Common
         static void StopPlayPCSpeaker()
         {
             if (_thread != null)
-            {
                 _thread.Abort();
-            }
         }
 
         static void PlayPCSpeaker(BeeperType speaker, bool isContinious)
         {
             if (speaker == BeeperType.None)
-            {
                 return;
-            }
+
             _frequency = (int) speaker;
             _isContinious = isContinious;
 
             if (_thread != null)
-            {
                 _thread.Abort();
-            }
+
             _thread = new Thread(PlayBeep);
             _thread.Start();
         }
@@ -62,13 +58,9 @@ namespace Common
                 if (_soundPlayer.IsLoadCompleted)
                 {
                     if (isContinious)
-                    {
                         _soundPlayer.PlayLooping();
-                    }
                     else
-                    {
                         _soundPlayer.Play();
-                    }
                 }
             }
         }

@@ -28,16 +28,10 @@ namespace DevicesModule.ViewModels
 
             foreach (var guardLevel in FiresecManager.DeviceConfiguration.GuardLevels)
             {
-                var guardLevelViewModel = new GuardLevelViewModel(guardLevel);
-
                 if (GuardLevels.Contains(guardLevel.Name))
-                {
-                    TargetLevels.Add(guardLevelViewModel);
-                }
+                    TargetLevels.Add(new GuardLevelViewModel(guardLevel));
                 else
-                {
-                    SourceLevels.Add(guardLevelViewModel);
-                }
+                    SourceLevels.Add(new GuardLevelViewModel(guardLevel));
             }
 
             if (TargetLevels.Count > 0)

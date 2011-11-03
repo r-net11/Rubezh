@@ -39,10 +39,7 @@ namespace FireMonitor
         IViewPart ActiveViewModel
         {
             get { return Shell.MainContent; }
-            set
-            {
-                Shell.MainContent = value;
-            }
+            set { Shell.MainContent = value; }
         }
 
         public void AddAlarmGroups(IViewPart model)

@@ -25,10 +25,7 @@ namespace FireMonitor
         {
             try
             {
-                var dialog = new DialogWindow
-                {
-                    Owner = parentWindow,
-                };
+                var dialog = new DialogWindow { Owner = parentWindow };
                 dialog.SetContent(model);
 
                 bool? result = dialog.ShowDialog();

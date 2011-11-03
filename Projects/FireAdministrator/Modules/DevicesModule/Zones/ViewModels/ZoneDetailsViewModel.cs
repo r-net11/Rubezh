@@ -21,9 +21,7 @@ namespace DevicesModule.ViewModels
             newZone.Name = "Новая зона";
             newZone.No = 0;
             if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
-            {
                 newZone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
-            }
 
             CopyProperties(newZone);
         }

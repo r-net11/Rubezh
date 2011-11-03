@@ -50,7 +50,8 @@ namespace DevicesModule.ViewModels
         {
             FiresecManager.DeviceConfiguration.GuardUsers.Remove(SelectedGuardUser.GuardUser);
             GuardUsers.Remove(SelectedGuardUser);
-                DevicesModule.HasChanges = true;
+
+            DevicesModule.HasChanges = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -58,10 +59,10 @@ namespace DevicesModule.ViewModels
         {
             var guardUserDetailsViewModel = new GuardUserDetailsViewModel();
             guardUserDetailsViewModel.Initialize(SelectedGuardUser.GuardUser);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel))
             {
                 SelectedGuardUser.GuardUser = guardUserDetailsViewModel.GuardUser;
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -71,20 +72,18 @@ namespace DevicesModule.ViewModels
         {
             var guardUserDetailsViewModel = new GuardUserDetailsViewModel();
             guardUserDetailsViewModel.Initialize();
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.GuardUsers.Add(guardUserDetailsViewModel.GuardUser);
-                var guardUserViewModel = new GuardUserViewModel(guardUserDetailsViewModel.GuardUser);
-                GuardUsers.Add(guardUserViewModel);
+                GuardUsers.Add(new GuardUserViewModel(guardUserDetailsViewModel.GuardUser));
+
                 DevicesModule.HasChanges = true;
             }
         }
 
         public override void OnShow()
         {
-            var guardUsersMenuViewModel = new GuardUsersMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(guardUsersMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new GuardUsersMenuViewModel(this));
         }
 
         public override void OnHide()

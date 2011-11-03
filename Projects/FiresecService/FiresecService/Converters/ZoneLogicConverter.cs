@@ -115,10 +115,7 @@ namespace FiresecService.Converters
                 if (clause.DeviceUID != Guid.Empty)
                 {
                     innerClause.device = new deviceType[0];
-                    innerClause.device[0] = new deviceType()
-                    {
-                        UID = clause.DeviceUID.ToString()
-                    };
+                    innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
                 }
 
                 innerClause.zone = clause.Zones.Select(x => x.ToString()).ToArray();

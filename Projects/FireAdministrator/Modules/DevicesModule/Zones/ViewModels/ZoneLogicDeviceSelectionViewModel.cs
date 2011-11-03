@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
@@ -10,12 +11,9 @@ namespace DevicesModule.ViewModels
         {
             Title = "Выбор устройства";
 
-            Devices = new List<Device>();
-            foreach (var device in parentDevice.Children)
-            {
-                if (device.Driver.DriverType == DriverType.AM1_T)
-                    Devices.Add(device);
-            }
+            Devices = new List<Device>(
+                parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T)
+            );
         }
 
         public List<Device> Devices { get; private set; }

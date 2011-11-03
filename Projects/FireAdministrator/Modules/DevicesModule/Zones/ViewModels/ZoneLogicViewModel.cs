@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -43,8 +43,7 @@ namespace DevicesModule.ViewModels
             if (device.ZoneLogic.Clauses.Count == 0)
             {
                 var clauseViewModel = new ClauseViewModel();
-                var clause = new Clause();
-                clauseViewModel.Initialize(_device, clause);
+                clauseViewModel.Initialize(_device, new Clause());
                 Clauses.Add(clauseViewModel);
             }
 

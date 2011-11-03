@@ -43,6 +43,7 @@ namespace DevicesModule.ViewModels
         {
             FiresecManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
             Directions.Remove(SelectedDirection);
+
             DevicesModule.HasChanges = true;
         }
 
@@ -54,6 +55,7 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
             {
                 SelectedDirection.Update();
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -72,6 +74,7 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);
                 Directions.Add(new DirectionViewModel(directionDetailsViewModel.Direction));
+
                 DevicesModule.HasChanges = true;
             }
         }

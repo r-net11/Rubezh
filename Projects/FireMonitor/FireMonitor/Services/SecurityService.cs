@@ -24,6 +24,7 @@ namespace FireMonitor
             var loginView = new LoginView();
             loginView.Initialize(passwordViewType);
             loginView.ShowDialog();
+
             return loginView.IsLoggedIn;
         }
     }

@@ -58,10 +58,10 @@ namespace DevicesModule.ViewModels
         {
             var guardLevelDetailsViewModel = new GuardLevelDetailsViewModel();
             guardLevelDetailsViewModel.Initialize(SelectedGuardLevel.GuardLevel);
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardLevelDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardLevelDetailsViewModel))
             {
                 SelectedGuardLevel.GuardLevel = guardLevelDetailsViewModel.GuardLevel;
+
                 DevicesModule.HasChanges = true;
             }
         }
@@ -71,20 +71,18 @@ namespace DevicesModule.ViewModels
         {
             var guardLevelDetailsViewModel = new GuardLevelDetailsViewModel();
             guardLevelDetailsViewModel.Initialize();
-            var result = ServiceFactory.UserDialogs.ShowModalWindow(guardLevelDetailsViewModel);
-            if (result)
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardLevelDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.GuardLevels.Add(guardLevelDetailsViewModel.GuardLevel);
-                var guardLevelViewModel = new GuardLevelViewModel(guardLevelDetailsViewModel.GuardLevel);
-                GuardLevels.Add(guardLevelViewModel);
+                GuardLevels.Add(new GuardLevelViewModel(guardLevelDetailsViewModel.GuardLevel));
+
                 DevicesModule.HasChanges = true;
             }
         }
 
         public override void OnShow()
         {
-            var guardLevelsMenuViewModel = new GuardLevelsMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(guardLevelsMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new GuardLevelsMenuViewModel(this));
         }
 
         public override void OnHide()

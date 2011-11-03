@@ -25,13 +25,9 @@ namespace DevicesModule.ViewModels
             _isNew = direction == null;
             Title = direction == null ? "Создать направление" : "Редактировать направление";
             if (direction == null)
-            {
                 CreateNew();
-            }
             else
-            {
                 Direction = direction;
-            }
 
             CopyProperties();
         }
@@ -39,12 +35,8 @@ namespace DevicesModule.ViewModels
         void CreateNew()
         {
             Direction = new Direction();
-
             if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
-            {
-                int maxId = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id);
-                Direction.Id = maxId + 1;
-            }
+                Direction.Id = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id) + 1;
             else
                 Direction.Id = 0;
 
@@ -58,13 +50,9 @@ namespace DevicesModule.ViewModels
             Description = Direction.Description;
 
             if (Direction.DeviceRm != null)
-            {
                 DeviceRm = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceRm);
-            }
             if (Direction.DeviceButton != null)
-            {
                 DeviceButton = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Direction.DeviceButton);
-            }
         }
 
         int _id;
@@ -130,14 +118,11 @@ namespace DevicesModule.ViewModels
 
             Direction.DeviceRm = Guid.Empty;
             Direction.DeviceButton = Guid.Empty;
+
             if (DeviceRm != null)
-            {
                 Direction.DeviceRm = DeviceRm.UID;
-            }
             if (DeviceButton != null)
-            {
                 Direction.DeviceButton = DeviceButton.UID;
-            }
         }
 
         public RelayCommand ResetRmCommand { get; private set; }
@@ -157,11 +142,9 @@ namespace DevicesModule.ViewModels
         {
             var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
             directionDeviceSelectorViewModel.Initialize(Direction, true);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
-            if (result)
-            {
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceRm = directionDeviceSelectorViewModel.SelectedDevice.Device;
-            }
         }
 
         public RelayCommand ChooseButtonCommand { get; private set; }
@@ -169,11 +152,9 @@ namespace DevicesModule.ViewModels
         {
             var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
             directionDeviceSelectorViewModel.Initialize(Direction, false);
-            bool result = ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel);
-            if (result)
-            {
+
+            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceButton = directionDeviceSelectorViewModel.SelectedDevice.Device;
-            }
         }
 
         protected override void Save(ref bool cancel)

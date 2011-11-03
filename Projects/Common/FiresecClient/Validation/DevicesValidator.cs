@@ -17,6 +17,8 @@ namespace FiresecClient.Validation
         static readonly Guid IndicatorGuid = new Guid("E486745F-6130-4027-9C01-465DE5415BBF");
         static readonly Guid ZadvizhkaGuid = new Guid("4935848F-0084-4151-A0C8-3A900E3CB5C5");
 
+        static List<Guid> _validateDevicesWithSerialNumber;
+
         public static void Validate()
         {
             ValidateDevices();
@@ -27,15 +29,16 @@ namespace FiresecClient.Validation
         static void ValidateDevices()
         {
             DeviceErrors = new List<DeviceError>();
-
+            _validateDevicesWithSerialNumber = new List<Guid>();
             int pduCount = 0;
-            //foreach (var device in FiresecManager.DeviceConfiguration.Devices.Where(x => x.Driver.DeviceType == DeviceType.Sequrity))
-            //{
-            //    ++pduCount;
-            //    --pduCount;
-            //}
+
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
+                //if (device.DriverUID == new Guid("F3485243-2F60-493B-8A4E-338C61EF6581"))
+                //{
+                //    ++pduCount;
+                //    --pduCount;
+                //}
                 if (device.DriverUID == PduGuid)
                 {
                     ++pduCount;
@@ -53,7 +56,7 @@ namespace FiresecClient.Validation
                     ValidateDeviceComment(device);
                     ValidateDeviceOnInvalidChars(device);
                 }
-                ValidateDeviceMaximumDeviceOnLine(device);
+                ValidateDeviceMaxDeviceOnLine(device);
                 ValidateDeviceOwnerZone(device);
                 ValidateDeviceAddress(device);
                 ValidateDeviceAddressRange(device);
@@ -63,6 +66,8 @@ namespace FiresecClient.Validation
                 ValidateDeviceConflictAddressWithMSChannel(device);
                 ValidateDeviceDuplicateSerial(device);
                 ValidateDeviceSecAddress(device);
+                ValidateDeviceEvents(device);
+                ValidateDeviceLoopLines(device);
             }
 
             if (pduCount > 10)
@@ -83,7 +88,7 @@ namespace FiresecClient.Validation
                 DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
         }
 
-        static void ValidateDeviceMaximumDeviceOnLine(Device device)
+        static void ValidateDeviceMaxDeviceOnLine(Device device)
         {
             if (device.Driver.HasShleif)
             {
@@ -148,10 +153,13 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceConflictAddressWithMSChannel(Device device)
         {
-            var addressProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Address");
-            if (addressProperty != null)
+            var driverAddressProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Address");
+            if (driverAddressProperty != null)
             {
-                var children = device.Children.FirstOrDefault(x => x.AddressFullPath == addressProperty.Default);
+                var deviceAddressProperty = device.Properties.FirstOrDefault(x => x.Name == driverAddressProperty.Name);
+                var address = deviceAddressProperty == null ? driverAddressProperty.Default : deviceAddressProperty.Value;
+
+                var children = device.Children.FirstOrDefault(x => x.AddressFullPath == address);
                 if (children != null)
                     DeviceErrors.Add(new DeviceError(children, "Конфликт адреса с адресом канала МС", ErrorLevel.CannotWrite));
             }
@@ -159,15 +167,65 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceDuplicateSerial(Device device)
         {
-            var serialNumberProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "SerialNo");
-            if (serialNumberProperty != null && device.Parent.Children.Where(x => x != device).Any(x => x.DriverUID == device.DriverUID))
-                DeviceErrors.Add(new DeviceError(device, "При наличии в конфигурации одинаковых USB устройств, их серийные номера должны быть указаны и отличны", ErrorLevel.CannotWrite));
+            var driverSerialNumberProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+            if (driverSerialNumberProperty == null || _validateDevicesWithSerialNumber.Contains(device.DriverUID))
+                return;
+
+            var similarDevices = device.Parent.Children.Where(x => x.DriverUID == device.DriverUID).ToList();
+            if (similarDevices.Count > 1)
+            {
+                _validateDevicesWithSerialNumber.Add(device.DriverUID);
+                var serialNumbers = similarDevices.Select(x => GetSerialNumber(x)).ToList();
+                for (int i = 0; i < serialNumbers.Count; ++i)
+                {
+                    if (string.IsNullOrWhiteSpace(serialNumbers[i]) || serialNumbers.Count(x => x == serialNumbers[i]) > 1)
+                        DeviceErrors.Add(new DeviceError(similarDevices[i], "При наличии в конфигурации одинаковых USB устройств, их серийные номера должны быть указаны и отличны", ErrorLevel.CannotWrite));
+                }
+            }
+        }
+
+        static string GetSerialNumber(Device device)
+        {
+            var deviceSerialNumberProperty = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+            return deviceSerialNumberProperty == null ? device.Driver.Properties.First(x => x.Name == "SerialNo").Default : deviceSerialNumberProperty.Value;
         }
 
         static void ValidateDeviceSecAddress(Device device)
         {
             if (device.Driver.DeviceType == DeviceType.Sequrity && (device.IntAddress & 0xff) > 250)
                 DeviceErrors.Add(new DeviceError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ErrorLevel.CannotWrite));
+        }
+
+        static void ValidateDeviceEvents(Device device)
+        {
+            var eventProperty = device.Properties.FirstOrDefault(x => x.Name == "Event1");
+            if (eventProperty != null && eventProperty.Value.Length > 20)
+            {
+                DeviceErrors.Add(new DeviceError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ErrorLevel.Warning));
+            }
+            else
+            {
+                eventProperty = device.Properties.FirstOrDefault(x => x.Name == "Event2");
+                if (eventProperty != null && eventProperty.Value.Length > 20)
+                    DeviceErrors.Add(new DeviceError(device, "Длинное описание события - в прибор будет записано первые 20 символов", ErrorLevel.Warning));
+            }
+        }
+
+        static void ValidateDeviceLoopLines(Device device)
+        {
+            var loopLineProperty = device.Properties.FirstOrDefault(x => x.Name == "LoopLine1");
+            if (loopLineProperty != null)
+            {
+                var badChildren = device.Children.Where(x => x.IntAddress >> 8 == 2).ToList();
+                badChildren.ForEach(x => DeviceErrors.Add(new DeviceError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ErrorLevel.CannotWrite)));
+            }
+
+            loopLineProperty = device.Properties.FirstOrDefault(x => x.Name == "LoopLine2");
+            if (loopLineProperty != null)
+            {
+                var badChildren = device.Children.Where(x => x.IntAddress >> 8 == 4).ToList();
+                badChildren.ForEach(x => DeviceErrors.Add(new DeviceError(x, "Данное устройство находится на четном номере АЛС, что недопустимо для кольцевых АЛС", ErrorLevel.CannotWrite)));
+            }
         }
 
         static void ValidateZones()
@@ -295,8 +353,7 @@ namespace FiresecClient.Validation
             foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
             {
                 if (ValidateDirectionZonesContent(direction))
-                {
-                }
+                { }
             }
         }
 
