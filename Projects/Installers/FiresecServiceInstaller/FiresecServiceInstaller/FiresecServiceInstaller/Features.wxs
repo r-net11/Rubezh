@@ -22,5 +22,9 @@
       <Condition Level="0">CHECKSQLSERVER = "1"</Condition>
       <ComponentRef Id="SqlComponent"/>
     </Feature>
+
+    <Feature Id="Configuration" Title="Configuration Files" Level="1">
+      <ComponentGroupRef Id="ConfigurationGroup"/>
+    </Feature>
 	</Fragment>
 </Wix>

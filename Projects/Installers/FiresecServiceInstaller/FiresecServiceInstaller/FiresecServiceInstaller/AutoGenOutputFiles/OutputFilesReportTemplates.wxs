@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="ReportTemplates">
+            <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="{07FD3370-2021-4BE5-A1A5-4909E7FEA5C9}">
+                <File Id="fil7C96A2D9019129A688A92EB7E0C1941B" Source="..\..\Configuration\ReportTemplates\DeviceListCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp184646B4208A7EF081D2E715F0D1EC7D" Guid="{1EC5CFEF-8B46-46E6-9917-38498FD8314C}">
+                <File Id="fil00318FA41C92751A3B6CB618E2BB2813" Source="..\..\Configuration\ReportTemplates\DeviceParamsCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" Guid="{F7FBC6CD-9263-429D-A6FD-07AD5EFAAEA4}">
+                <File Id="fil27D90654A9BF67C2B3B5C419311D6ACB" Source="..\..\Configuration\ReportTemplates\DriverCounterCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" Guid="{599F092B-5B3E-44ED-A1BF-008BBF69F544}">
+                <File Id="fil546B9C94BEAA0D614F307AA8CFFDF82B" Source="..\..\Configuration\ReportTemplates\IndicationBlockCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp56F243B1A7F81AEF57746A22AEF32E73" Guid="{ACBE2632-1083-49AA-B213-8C4A154B1EAB}">
+                <File Id="fil56751F9FBD7862A5160EB89EBF094B48" Source="..\..\Configuration\ReportTemplates\JournalCrystalReport.rpt" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ReportTemplates">
+            <ComponentRef Id="cmp028F14C862340E9295401F5DA8F0FA8C" />
+            <ComponentRef Id="cmp184646B4208A7EF081D2E715F0D1EC7D" />
+            <ComponentRef Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" />
+            <ComponentRef Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" />
+            <ComponentRef Id="cmp56F243B1A7F81AEF57746A22AEF32E73" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

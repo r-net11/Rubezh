@@ -53,9 +53,6 @@
         <File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
               DiskId="1">
         </File>
-        <!--<File Id="SystemConfiguration" Name="SystemConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-              DiskId="1">
-        </File>-->
         <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
               DiskId="1">
         </File>

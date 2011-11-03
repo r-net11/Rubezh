@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using FiresecService;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -8,7 +10,7 @@ namespace FiresecServiceRunner
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            
 #if ! DEBUG
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif

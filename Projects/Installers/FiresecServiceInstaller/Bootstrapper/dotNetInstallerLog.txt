@@ -1,0 +1,21 @@
+2011-11-03 13:35:19	-------------------------------------------------------------------
+2011-11-03 13:35:19	dotNetInstaller (DNI), version 1.10.1525.0
+2011-11-03 13:35:19	Copyright (c) DevAge, Vestris Inc. & Contributors
+2011-11-03 13:35:19	Operating system: Windows XP Sp3
+2011-11-03 13:35:19	-------------------------------------------------------------------
+2011-11-03 13:35:19	Sequence: install
+2011-11-03 13:35:19	UI level: full
+2011-11-03 13:35:19	-- Loading supported components (lcid=1049)
+2011-11-03 13:35:19	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2011-11-03 13:35:19	-- .NET Framework 4.0 (display_name='.NET Framework 4.0', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2011-11-03 13:35:19	-- FiresecServiceInstaller.msi (display_name='FiresecService', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2011-11-03 13:35:19	--- Loaded 3 supported component(s)
+2011-11-03 13:35:19	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2011-11-03 13:35:19	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2011-11-03 13:35:19	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2011-11-03 13:35:19	Checking whether registry value 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Install' exists
+2011-11-03 13:35:19	Registry value: 1
+2011-11-03 13:35:19	Check value: 1
+2011-11-03 13:35:19	-- .NET Framework 4.0 (.NET Framework 4.0): INSTALLED
+2011-11-03 13:35:19	-- FiresecServiceInstaller.msi (FiresecService): NOT INSTALLED
+2011-11-03 13:35:52	dotNetInstaller finished, return code=-2

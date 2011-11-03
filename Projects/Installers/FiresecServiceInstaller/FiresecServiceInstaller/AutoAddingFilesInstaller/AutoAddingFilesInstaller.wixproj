@@ -15,6 +15,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -22,7 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Output.wxs" />
-    <Compile Include="OutputFiles.wxs" />
+    <Compile Include="OutputFilesIcons.wxs" />
+    <Compile Include="OutputFilesReportTemplates.wxs" />
+    <Compile Include="OutputFilesSounds.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -36,11 +39,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WixReportTemplates.xslt" />
+    <Content Include="WixSounds.xslt" />
+    <Content Include="WixIcons.xslt" />
     <Content Include="Wix.xslt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
-    <PreBuildEvent>"%WIX%\bin\heat.exe" dir "$(ProjectDir)source" -t "$(ProjectDir)Wix.xslt" -o "$(ProjectDir)OutputFiles.wxs" -gg –sfrag</PreBuildEvent>
+    <PreBuildEvent>"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)source\Configuration\Icons" -t "$(ProjectDir)WixIcons.xslt" -o "$(ProjectDir)OutputFilesIcons.wxs" -gg –sfrag</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

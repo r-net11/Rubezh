@@ -20,7 +20,7 @@ namespace ReportsModule.ViewModels
         {
         }
 
-        //public CrystalReportsViewer CrystalReportsViewer { get; set; }
+        public CrystalReportsViewer CrystalReportsViewer { get; set; }
 
         object _reportContent;
         public object ReportContent

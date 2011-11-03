@@ -2,6 +2,7 @@
 using System.Windows;
 using FiresecService;
 using FiresecService.Imitator;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -13,6 +14,7 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
             Current = this;
+            AnalizeCommandLine();
         }
 
         public static void AddMessage(string message)
@@ -41,6 +43,36 @@ namespace FiresecServiceRunner
         {
             var imitatorView = new ImitatorView();
             imitatorView.Show();
+        }
+
+        void AnalizeCommandLine()
+        {
+            var commandLineArgs = Environment.GetCommandLineArgs();
+            bool start = false;
+            bool convertConfiguration = false;
+            for (int i = 0; i != commandLineArgs.Length; ++i)
+            {
+                switch (commandLineArgs[i])
+                {
+                    case "/Start":
+                        start = true;
+                        break;
+                    case "/Convert":
+                        convertConfiguration = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (start)
+            {
+                FiresecManager.ConnectFiresecCOMServer("adm", "");
+                FiresecServiceManager.Open();
+            }
+            if (convertConfiguration)
+            {
+                ConfigurationConverter.Convert();
+            }
         }
     }
 }
