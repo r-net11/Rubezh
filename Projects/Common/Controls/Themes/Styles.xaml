@@ -22,5 +22,6 @@
         <ResourceDictionary Source="CheckBoxStyle.xaml" />
         <ResourceDictionary Source="RadioButtonStyle.xaml" />
         <ResourceDictionary Source="SliderStyle.xaml" />
+        <ResourceDictionary Source="ProgressBarStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

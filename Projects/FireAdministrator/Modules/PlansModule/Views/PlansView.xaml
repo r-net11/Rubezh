@@ -30,6 +30,19 @@
                 <Button Command="{Binding MoveBackwardCommand}" ToolTip="Ниже" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveBack.png" Height="24" />
                 </Button>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/shapes-align-hori-center.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-align-hori-left.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-align-hori-right.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-align-verti-bottom.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-align-verti-middle.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-align-verti-top.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-flip-horizontal.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-flip-vertical.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-rotate-anticlockwise.png" Height="24" />
+                    <Image Source="/Controls;component/Images/shapes-rotate-clockwise.png" Height="24" />
+                </StackPanel>
 
                 <Button Content="Копировать" Width="100" Command="{Binding CopyCommand}" />
                 <Button Content="Вырезать" Width="100" Command="{Binding CutCommand}" />

@@ -126,6 +126,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ProgressBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\RadioButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,6 +284,29 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ellipse.png" />
+    <Resource Include="Images\Polygon.png" />
+    <Resource Include="Images\Rectangle.png" />
+    <Resource Include="Images\ZonePolygon.png" />
+    <Resource Include="Images\ZoneRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\shapes-align-hori-center.png" />
+    <Resource Include="Images\shapes-align-hori-left.png" />
+    <Resource Include="Images\shapes-align-hori-right.png" />
+    <Resource Include="Images\shapes-align-verti-bottom.png" />
+    <Resource Include="Images\shapes-align-verti-middle.png" />
+    <Resource Include="Images\shapes-align-verti-top.png" />
+    <Resource Include="Images\shapes-flip-horizontal.png" />
+    <Resource Include="Images\shapes-flip-vertical.png" />
+    <Resource Include="Images\shapes-rotate-anticlockwise.png" />
+    <Resource Include="Images\shapes-rotate-clockwise.png" />
+    <Resource Include="Images\SubPlanPolygon.png" />
+    <Resource Include="Images\Text.png" />
+    <Resource Include="Images\ZoomIn.png" />
+    <Resource Include="Images\ZoomOut.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -18,9 +18,9 @@
         <Label Grid.Column="0" Grid.Row="1" Content="Описание" />
         <Label Grid.Column="0" Grid.Row="2" Content="Ширина" />
         <Label Grid.Column="0" Grid.Row="3" Content="Высота" />
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Caption}" />
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Description}" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Width}" />
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Height}" />
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Caption}" Margin="2" />
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Description}" Margin="2" />
+        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Width}" Margin="2" />
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Height}" Margin="2" />
     </Grid>
 </UserControl>
