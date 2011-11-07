@@ -19,10 +19,6 @@
         <Views:DevicesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SubPlanDetailsViewModel}">
-        <Views:SubPlanDetailsView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:RectanglePropertiesViewModel}">
         <Views:RectanglePropertiesView />
     </DataTemplate>

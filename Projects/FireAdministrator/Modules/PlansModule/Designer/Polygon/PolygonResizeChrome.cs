@@ -13,6 +13,19 @@ namespace PlansModule.Designer
     public class PolygonResizeChrome : Canvas
     {
         public static PolygonResizeChrome Current { get; private set; }
+        static List<PolygonResizeChrome> Polygons = new List<PolygonResizeChrome>();
+        public static void ClearActivePolygons()
+        {
+            Polygons.Clear();
+        }
+        public static void ResetActivePolygons()
+        {
+            foreach (var polygonResizeChrome in Polygons)
+            {
+                polygonResizeChrome.Initialize();
+            }
+        }
+
         ContentControl _designerItem;
         Polygon _polygon;
         List<Thumb> thumbs = new List<Thumb>();
@@ -25,6 +38,7 @@ namespace PlansModule.Designer
         public PolygonResizeChrome(ContentControl designerItem)
         {
             Current = this;
+            Polygons.Add(this);
 
             _designerItem = designerItem;
             _polygon = designerItem.Content as Polygon;
@@ -46,11 +60,7 @@ namespace PlansModule.Designer
                     Width = 10,
                     Height = 10,
                     Margin = new Thickness(-5, -5, 0, 0),
-                    //Margin = new Thickness(0, 0, 0, 0),
                     Focusable = true
-                    //Width = (double)10 / PlanDesignerView.Current.Scale,
-                    //Height = (double)10 / PlanDesignerView.Current.Scale,
-                    //Margin = new Thickness(-5, -5, 0, 0)
                 };
                 Canvas.SetLeft(thumb, point.X);
                 Canvas.SetTop(thumb, point.Y);

@@ -28,7 +28,7 @@ namespace FireAdministrator
             {
                 var dialog = new DialogWindow
                 {
-                    Owner = parentWindow
+                    //Owner = parentWindow
                 };
                 dialog.SetContent(model);
 

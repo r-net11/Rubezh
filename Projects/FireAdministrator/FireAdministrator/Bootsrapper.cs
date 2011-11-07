@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.UnityExtensions;
+using FireAdministrator.ViewModels;
 
 namespace FireAdministrator
 {
@@ -14,11 +15,12 @@ namespace FireAdministrator
         public void Initialize()
         {
             RegisterServices();
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
-            var loginScreen = new LoginScreen();
-            loginScreen.ShowDialog();
-            if (loginScreen.IsLoggedIn)
+
+            var loginViewModel = new LoginViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
             {
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();

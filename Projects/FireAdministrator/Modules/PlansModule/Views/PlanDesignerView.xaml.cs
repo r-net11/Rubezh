@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using PlansModule.ViewModels;
+using System.Diagnostics;
 
 namespace PlansModule.Views
 {
@@ -10,17 +12,11 @@ namespace PlansModule.Views
         public static PlanDesignerView Current { get; set; }
         Point? lastCenterPositionOnTarget;
         Point? lastMousePositionOnTarget;
-        double initialScale = 1;
 
-        public double Scale
+        public static void Update()
         {
-            get { return scaleTransform.ScaleX; }
-        }
-
-        public void Reset()
-        {
-            FullSize();
-            slider.Value = 1;
+            if (Current != null)
+                Current.slider.Value = 1;
         }
 
         public PlanDesignerView()
@@ -37,7 +33,6 @@ namespace PlansModule.Views
 
         void CanvasView_Loaded(object sender, RoutedEventArgs e)
         {
-            //Reset();
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -58,14 +53,11 @@ namespace PlansModule.Views
 
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (e.NewValue == 0)
-                return;
-
-            scaleTransform.ScaleX = e.NewValue * initialScale;
-            scaleTransform.ScaleY = e.NewValue * initialScale;
+            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(e.NewValue);
+            Trace.WriteLine("Zooming: " + e.NewValue);
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
+            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, _contentControl);
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -112,27 +104,6 @@ namespace PlansModule.Views
                 scrollViewer.ScrollToHorizontalOffset(newOffsetX);
                 scrollViewer.ScrollToVerticalOffset(newOffsetY);
             }
-        }
-
-        void FullSize()
-        {
-            var canvas = _contentControl.Content as Canvas;
-            if (canvas == null)
-                return;
-
-            var contentWidth = canvas.Width;
-            var contentHeight = canvas.Height;
-
-            //var contentWidth = scrollViewer.ActualWidth;
-            //var contentHeight = scrollViewer.ActualHeight;
-
-            double scaleX = (scrollViewer.ActualWidth - 30) / contentWidth;
-            double scaleY = (scrollViewer.ActualHeight - 30) / contentHeight;
-            double scale = Math.Min(scaleX, scaleY);
-            initialScale = scale;
-
-            scaleTransform.ScaleX = scale;
-            scaleTransform.ScaleY = scale;
         }
     }
 }

@@ -11,6 +11,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
+using System.Windows.Media;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
@@ -18,6 +20,8 @@ namespace PlansModule.ViewModels
     {
         public PlanDesignerViewModel()
         {
+            ZoomInCommand = new RelayCommand(OnZoomIn);
+            ZoomOutCommand = new RelayCommand(OnZoomOut);
             ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
         }
 
@@ -80,12 +84,16 @@ namespace PlansModule.ViewModels
             }
 
             DesignerCanvas.DeselectAll();
+            PolygonResizeChrome.ClearActivePolygons();
+            PlanDesignerView.Update();
         }
 
         public void Save()
         {
             if (Plan == null)
                 return;
+
+            ChangeZoom(1);
 
             NormalizeZIndex();
             Plan.ClearElements();
@@ -354,6 +362,72 @@ namespace PlansModule.ViewModels
             }
 
             return oddNodes;
+        }
+
+        public RelayCommand ZoomInCommand { get; private set; }
+        void OnZoomIn()
+        {
+            Zoom(2);
+        }
+
+        public RelayCommand ZoomOutCommand { get; private set; }
+        void OnZoomOut()
+        {
+            Zoom(0.5);
+        }
+
+        double currentZoomFactor = 1;
+        public void ChangeZoom(double zoomFactor)
+        {
+            Zoom(zoomFactor / currentZoomFactor);
+            currentZoomFactor = zoomFactor;
+        }
+
+        void Zoom(double zoomFactor)
+        {
+            DesignerCanvas.Width *= zoomFactor;
+            DesignerCanvas.Height *= zoomFactor;
+            foreach (var item in DesignerCanvas.Children)
+            {
+                DesignerItem designerItem = item as DesignerItem;
+                Canvas.SetLeft(designerItem, Canvas.GetLeft(designerItem) * zoomFactor);
+                Canvas.SetTop(designerItem, Canvas.GetTop(designerItem) * zoomFactor);
+                designerItem.Width *= zoomFactor;
+                designerItem.Height *= zoomFactor;
+
+                PointCollection pointCollection = new PointCollection();
+
+                if (designerItem.Content is Polygon)
+                {
+                    Polygon polygon = designerItem.Content as Polygon;
+                    pointCollection = new PointCollection();
+                    foreach (var point in polygon.Points)
+                    {
+                        pointCollection.Add(new System.Windows.Point(point.X * zoomFactor, point.Y * zoomFactor));
+                    }
+                    polygon.Points = pointCollection;
+                }
+
+                if (designerItem.ElementBase is ElementPolygon)
+                {
+                    ElementPolygon elementPolygon = designerItem.ElementBase as ElementPolygon;
+                    elementPolygon.PolygonPoints = pointCollection.Clone();
+                }
+
+                if (designerItem.ElementBase is ElementPolygonZone)
+                {
+                    ElementPolygonZone elementPolygonZone = designerItem.ElementBase as ElementPolygonZone;
+                    elementPolygonZone.PolygonPoints = pointCollection.Clone();
+                }
+
+                if (designerItem.ElementBase is ElementSubPlan)
+                {
+                    ElementSubPlan elementSubPlan = designerItem.ElementBase as ElementSubPlan;
+                    elementSubPlan.PolygonPoints = pointCollection.Clone();
+                }
+            }
+
+            PolygonResizeChrome.ResetActivePolygons();
         }
     }
 }

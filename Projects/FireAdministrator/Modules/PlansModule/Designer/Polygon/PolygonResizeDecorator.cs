@@ -73,9 +73,9 @@ namespace PlansModule.Designer
             }
         }
 
-        private static void ShowDecoratorProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void ShowDecoratorProperty_Changed(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            PolygonResizeDecorator decorator = (PolygonResizeDecorator)d;
+            PolygonResizeDecorator decorator = (PolygonResizeDecorator)dependencyObject;
 
             if (decorator.Visibility == Visibility.Collapsed)
                 return;

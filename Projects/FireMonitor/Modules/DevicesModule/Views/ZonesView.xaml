@@ -6,54 +6,78 @@
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Name="_grid">
-            <ListBox ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" Style="{x:Null}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Margin" Value="0"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}"/>
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="BorderBrush" Value="Red" />
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Trigger.Setters>
-                                    <Setter Property="BorderBrush" Value="White" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                </Trigger.Setters>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{x:Null}"
+            <ScrollViewer>
+                <ListBox ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" Style="{x:Null}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}"/>
+                            <Setter Property="BorderThickness" Value="1" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="Foreground" Value="Blue" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Trigger.Setters>
+                                        <Setter Property="BorderBrush" Value="Orange" />
+                                    </Trigger.Setters>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
                                 Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
                                 ToolTip="{Binding Zone.Name}"
                                 Command="{Binding SelectCommand}">
-                            <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Button>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding ActualWidth, ElementName=_grid}" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
+                                <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="Border" CornerRadius="2"
+                                                            Background="{TemplateBinding Background}">
+                                                        <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsFocused" Value="true">
+                                                            <Setter TargetName="Border" Property="Background" Value="Orange" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Width="{Binding ActualWidth, ElementName=_grid}" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </ScrollViewer>
         </Grid>
+        
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
             <TextBlock Text="{Binding PresentationName}" Foreground="White" />
             <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" />
         </StackPanel>
+        
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding Devices}">
                 <DataGrid.Columns>
@@ -69,7 +93,7 @@
                                         <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
-                                        <Image Source="{Binding StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
+                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
                                         <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                         </StackPanel>

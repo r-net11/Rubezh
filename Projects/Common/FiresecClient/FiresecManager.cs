@@ -212,7 +212,7 @@ namespace FiresecClient
             return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, fastSearch);
         }
 
-        public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID)
+        public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID, bool isUsb)
         {
             return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
         }

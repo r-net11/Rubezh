@@ -11,28 +11,17 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Slider Grid.Row="1" Orientation="Vertical"
-                    HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
+            <StackPanel Grid.Row="0">
+                <Button Content="ZoomIn" Command="{Binding PlanDesignerViewModel.ZoomInCommand}" Width="75" />
+                <Button Content="ZoomOut" Command="{Binding PlanDesignerViewModel.ZoomOutCommand}" Width="75" />
+            </StackPanel>
+            <Slider Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
         </Grid>
 
         <ScrollViewer Name="scrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-
             <Grid Name="grid" RenderTransformOrigin="0.5,0.5">
-                <Grid.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform x:Name="scaleTransform"/>
-                    </TransformGroup>
-                </Grid.LayoutTransform>
-                <Viewbox>
-
-                    <ContentControl Name="_contentControl"
-                            Content="{Binding DesignerCanvas}" 
-                            Background="White" HorizontalAlignment="Left" />
-
-                </Viewbox>
+                <ContentControl Name="_contentControl" Background="White" HorizontalAlignment="Left" Content="{Binding DesignerCanvas}" />
             </Grid>
-
         </ScrollViewer>
     </Grid>
-
 </UserControl>

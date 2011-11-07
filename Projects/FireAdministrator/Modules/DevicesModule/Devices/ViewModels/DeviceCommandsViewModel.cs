@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ReadDeviceCommand { get; private set; }
         void OnReadDevice(bool isUsb)
         {
-            FiresecManager.DeviceReadConfiguration(SelectedDevice.Device.UID);
+            FiresecManager.DeviceReadConfiguration(SelectedDevice.Device.UID, isUsb);
         }
 
         bool CanReadDevice(bool isUsb)
