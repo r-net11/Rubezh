@@ -198,42 +198,42 @@
     <Resource Include="Images\Alarm_main_5_Info.png" />
     <Resource Include="Images\Alarm_main_6_Service.png" />
     <Resource Include="Images\Alarm_main_7_Auto.png" />
-    <Resource Include="Images\arrow-left-right.png" />
-    <Resource Include="Images\book.png" />
-    <Resource Include="Images\check.png" />
+    <Resource Include="Images\Arrow-left-right.png" />
+    <Resource Include="Images\Book.png" />
+    <Resource Include="Images\Check.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\DeleteAll.png" />
     <Resource Include="Images\download.png" />
     <Resource Include="Images\edit.png" />
-    <Resource Include="Images\filter.png" />
-    <Resource Include="Images\information.png" />
-    <Resource Include="Images\levels.png" />
-    <Resource Include="Images\load.png" />
-    <Resource Include="Images\logo.png" />
-    <Resource Include="Images\map.png" />
-    <Resource Include="Images\music.png" />
+    <Resource Include="Images\Filter.png" />
+    <Resource Include="Images\Information.png" />
+    <Resource Include="Images\Levels.png" />
+    <Resource Include="Images\Load.png" />
+    <Resource Include="Images\Logo.png" />
+    <Resource Include="Images\Map.png" />
+    <Resource Include="Images\Music.png" />
     <Resource Include="Images\New.png" />
     <Resource Include="Images\paste.png" />
     <Resource Include="Images\save.png" />
-    <Resource Include="Images\settings.png" />
-    <Resource Include="Images\tree.png" />
-    <Resource Include="Images\user.png" />
-    <Resource Include="Images\users.png" />
-    <Resource Include="Images\zones.png" />
+    <Resource Include="Images\Settings.png" />
+    <Resource Include="Images\Tree.png" />
+    <Resource Include="Images\User.png" />
+    <Resource Include="Images\Users.png" />
+    <Resource Include="Images\Zones.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\add.png" />
     <Resource Include="Images\delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\mute.png" />
-    <Resource Include="Images\sound.png" />
-    <Resource Include="Images\windowCross.png" />
-    <Resource Include="Images\windowNormal.png" />
+    <Resource Include="Images\Mute.png" />
+    <Resource Include="Images\Sound.png" />
+    <Resource Include="Images\WindowCross.png" />
+    <Resource Include="Images\WindowNormal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\archive.png" />
-    <Resource Include="Images\phone.png" />
+    <Resource Include="Images\Archive.png" />
+    <Resource Include="Images\Phone.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Copy.png" />
@@ -241,15 +241,15 @@
   <ItemGroup>
     <Resource Include="Images\left.png" />
     <Resource Include="Images\leftLeft.png" />
-    <Resource Include="Images\right.png" />
-    <Resource Include="Images\rightRight.png" />
+    <Resource Include="Images\Right.png" />
+    <Resource Include="Images\RightRight.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\arrowDown.png" />
-    <Resource Include="Images\arrowUp.png" />
+    <Resource Include="Images\ArrowDown.png" />
+    <Resource Include="Images\ArrowUp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\logic.png" />
+    <Resource Include="Images\Logic.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Alarm.png" />
@@ -269,17 +269,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\firesec.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\rubezh.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\AddChild.png" />
     <Resource Include="Images\MoveBack.png" />
     <Resource Include="Images\MoveBackward.png" />
     <Resource Include="Images\MoveForward.png" />
     <Resource Include="Images\MoveFront.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Stop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

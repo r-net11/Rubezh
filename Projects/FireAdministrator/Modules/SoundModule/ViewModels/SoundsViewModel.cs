@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace SoundsModule.ViewModels
 {
@@ -86,8 +87,15 @@ namespace SoundsModule.ViewModels
             }
         }
 
+        public override void OnShow()
+        {
+            var soundsMenuViewModel = new SoundsMenuViewModel(this);
+            ServiceFactory.Layout.ShowMenu(soundsMenuViewModel);
+        }
+
         public override void OnHide()
         {
+            ServiceFactory.Layout.ShowMenu(null);
             IsNowPlaying = false;
             AlarmPlayerHelper.Stop();
         }

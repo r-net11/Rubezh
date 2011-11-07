@@ -78,8 +78,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SoundsModule.cs" />
+    <Compile Include="ViewModels\SoundsMenuViewModel.cs" />
     <Compile Include="ViewModels\SoundsViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
+    <Compile Include="Views\SoundsMenuView.xaml.cs">
+      <DependentUpon>SoundsMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SoundsView.xaml.cs">
       <DependentUpon>SoundsView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SoundsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
