@@ -17,7 +17,7 @@ namespace AlarmModule.ViewModels
                 AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
             }
 
-            ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Subscribe(OnShowAllAlarms);
+            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAllAlarms);
         }
 
         public List<AlarmGroupViewModel> AlarmGroups { get; set; }

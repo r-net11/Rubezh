@@ -1,50 +1,49 @@
 ﻿<UserControl x:Class="FireMonitor.ConnectionIndicatorView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Loaded="UserControl_Loaded">
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <Image Name="_serviceConnectionIndicator" Margin="5" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4">
-                <Image.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsServiceConnected}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
-                                    <Setter Property="Image.ToolTip" Value="Связь с сервером в норме" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsServiceConnected}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
-                                    <Setter Property="Image.ToolTip" Value="Связь с сервером в потеряна" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Image Name="_deviceConnectionIndicator" Margin="5" Source="Images/Ind_C-P.png" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
-                <Image.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
-                                    <Setter Property="Image.ToolTip" Value="Связь с устройствами в норме" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
-                                    <Setter Property="Image.ToolTip" Value="Связь с устройствами в потеряна" />
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-        </StackPanel>
-    </Grid>
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Loaded="UserControl_Loaded">
+
+    <StackPanel Orientation="Horizontal">
+        <Image Name="_serviceConnectionIndicator" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor"  Opacity="0.4">
+            <Image.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsServiceConnected}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
+                                <Setter Property="Image.ToolTip" Value="Связь с сервером в норме" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsServiceConnected}" Value="False">
+                            <DataTrigger.Setters>
+                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
+                                <Setter Property="Image.ToolTip" Value="Связь с сервером в потеряна" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <Image Name="_deviceConnectionIndicator" Margin="2, 0, 0, 0" Height="13" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0.4">
+            <Image.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDeviceConnected}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-P.png" />
+                                <Setter Property="Image.ToolTip" Value="Связь с устройствами в норме" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsDeviceConnected}" Value="False">
+                            <DataTrigger.Setters>
+                                <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxP.png" />
+                                <Setter Property="Image.ToolTip" Value="Связь с устройствами в потеряна" />
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+    </StackPanel>
 </UserControl>

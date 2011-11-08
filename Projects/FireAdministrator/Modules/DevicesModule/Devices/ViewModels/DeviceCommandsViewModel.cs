@@ -18,7 +18,6 @@ namespace DevicesModule.ViewModels
             WriteDeviceCommand = new RelayCommand<bool>(OnWriteDevice, CanWriteDevice);
             WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
             SynchronizeDeviceCommand = new RelayCommand<bool>(OnSynchronizeDevice, CanSynchronizeDevice);
-            RebootDeviceCommand = new RelayCommand(OnRebootDevice, CanRebootDevice);
             UpdateSoftCommand = new RelayCommand<bool>(OnUpdateSoft, CanUpdateSoft);
             GetDescriptionCommand = new RelayCommand<bool>(OnGetDescription, CanGetDescription);
             GetDeveceJournalCommand = new RelayCommand<bool>(OnGetDeveceJournal, CanGetDeveceJournal);
@@ -35,7 +34,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AutoDetectCommand { get; private set; }
         void OnAutoDetect()
         {
-            AutoSearchHelper.Run(SelectedDevice);
+            AutoDetectDeviceHelper.Run(SelectedDevice);
         }
 
         bool CanAutoDetect()
@@ -47,7 +46,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> ReadDeviceCommand { get; private set; }
         void OnReadDevice(bool isUsb)
         {
-            FiresecManager.DeviceReadConfiguration(SelectedDevice.Device.UID, isUsb);
+            DeviceReadConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanReadDevice(bool isUsb)
@@ -59,7 +58,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> WriteDeviceCommand { get; private set; }
         void OnWriteDevice(bool isUsb)
         {
-            FiresecManager.DeviceWriteConfiguration(SelectedDevice.Device.UID);
+            DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanWriteDevice(bool isUsb)
@@ -70,7 +69,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
-            FiresecManager.WriteAllDeviceConfiguration();
+            WriteAllDeviceConfigurationHelper.Run();
         }
 
         bool CanWriteAllDevice()
@@ -81,18 +80,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
         void OnSynchronizeDevice(bool isUsb)
         {
-            DeviceSynchrinizationHelper.Run(SelectedDevice.Device.UID);
+            SynchronizeDeviceHelper.Run(SelectedDevice.Device.UID, isUsb);
         }
 
         bool CanSynchronizeDevice(bool isUsb)
         {
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSynchonize));
-        }
-
-        public RelayCommand RebootDeviceCommand { get; private set; }
-        void OnRebootDevice()
-        {
-            FiresecManager.DeviceRestart(SelectedDevice.Device.UID);
         }
 
         bool CanRebootDevice()
@@ -103,7 +96,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> UpdateSoftCommand { get; private set; }
         void OnUpdateSoft(bool isUsb)
         {
-            FirmwareUpdateHelper.Run(SelectedDevice.Device);
+            FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanUpdateSoft(bool isUsb)
@@ -114,7 +107,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDescriptionCommand { get; private set; }
         void OnGetDescription(bool isUsb)
         {
-            GetInformationHelper.Run(SelectedDevice.Device);
+            DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanGetDescription(bool isUsb)
@@ -125,7 +118,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> GetDeveceJournalCommand { get; private set; }
         void OnGetDeveceJournal(bool isUsb)
         {
-            DeviceJournalHelper.Run(SelectedDevice.Device);
+            ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanGetDeveceJournal(bool isUsb)
@@ -136,7 +129,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand<bool> SetPasswordCommand { get; private set; }
         void OnSetPassword(bool isUsb)
         {
-            ServiceFactory.UserDialogs.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID));
+            ServiceFactory.UserDialogs.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID, isUsb));
         }
 
         bool CanSetPassword(bool isUsb)
@@ -147,7 +140,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand BindMsCommand { get; private set; }
         void OnBindMs()
         {
-            GetSerialsHelper.Run(SelectedDevice.Device);
+            DeviceGetSerialListHelper.Run(SelectedDevice.Device);
         }
 
         bool CanBindMs()

@@ -5,7 +5,7 @@ using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
-    public static class GetSerialsHelper
+    public static class DeviceGetSerialListHelper
     {
         static Device _device;
         static List<string> _serials;

@@ -20,10 +20,11 @@ namespace AlarmModule.ViewModels
 
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
-            CloseCommand = new RelayCommand(OnClose);
-            LeaveCommand = new RelayCommand(OnLeave);
+            ShowZoneCommand = new RelayCommand(OnShowZone);
             ShowInstructionCommand = new RelayCommand(OnShowInstruction);
             ShowVideoCommand = new RelayCommand(OnShowVideo);
+
+            LeaveCommand = new RelayCommand(OnLeave);
         }
 
         public Alarm Alarm { get; set; }
@@ -92,7 +93,6 @@ namespace AlarmModule.ViewModels
         void OnReset()
         {
             Alarm.Reset();
-            Close();
         }
 
         public bool CanRemoveFromIgnoreList
@@ -104,7 +104,6 @@ namespace AlarmModule.ViewModels
         void OnRemoveFromIgnoreList()
         {
             Alarm.RemoveFromIgnoreList();
-            Close();
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -119,17 +118,10 @@ namespace AlarmModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Alarm.DeviceUID);
         }
 
-        public RelayCommand CloseCommand { get; private set; }
-        void OnClose()
-        {
-            Close();
-        }
-
         public RelayCommand LeaveCommand { get; private set; }
         void OnLeave()
         {
             ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Publish(this);
-            Close();
         }
 
         public RelayCommand ShowInstructionCommand { get; private set; }
@@ -157,11 +149,6 @@ namespace AlarmModule.ViewModels
         void OnShowVideo()
         {
             ServiceFactory.UserDialogs.ShowModalWindow(new VideoViewModel());
-        }
-
-        void Close()
-        {
-            ServiceFactory.Layout.ShowAlarm(null);
         }
     }
 }

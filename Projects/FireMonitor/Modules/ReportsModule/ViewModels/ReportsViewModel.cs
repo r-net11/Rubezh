@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Common;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
-using System.Windows.Controls;
 
 namespace ReportsModule.ViewModels
 {

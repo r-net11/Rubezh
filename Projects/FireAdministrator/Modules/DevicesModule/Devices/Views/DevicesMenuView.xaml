@@ -41,7 +41,6 @@
                 <MenuItem Command="{Binding WriteAllDeviceCommand}" Header="Записать конфигурацию во все устройства" />
                 <Separator />
                 <MenuItem Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="Синзронизировать часы устройства с системными" />
-                <MenuItem Command="{Binding RebootDeviceCommand}" Header="Перезагрузить устройство" />
                 <MenuItem Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource False}" Header="Обновление ПО" />
                 <MenuItem Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="Задать пароль" />
                 <MenuItem Command="{Binding BindMsCommand}" Header="Привязать" />

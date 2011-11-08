@@ -4,13 +4,15 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public static class DeviceSynchrinizationHelper
+    public static class SynchronizeDeviceHelper
     {
         static Guid _deviceUID;
+        static bool _isUsb;
 
-        public static void Run(Guid deviceUID)
+        public static void Run(Guid deviceUID, bool isUsb)
         {
             _deviceUID = deviceUID;
+            _isUsb = isUsb;
 
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
             AsyncOperationHelper.Run(OnPropgress, null, device.PresentationAddressDriver + ". Установка времени");
@@ -18,7 +20,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            FiresecManager.SynchronizeDevice(_deviceUID);
+            FiresecManager.SynchronizeDevice(_deviceUID, _isUsb);
         }
     }
 }

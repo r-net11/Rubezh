@@ -29,9 +29,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <Button Content="Сбросить" Command="{Binding ResetCommand}"  Visibility="{Binding CanReset, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <Button Content="Убрать из обхода" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -40,6 +37,26 @@
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <MenuItem Header="Сбросить" Command="{Binding ResetCommand}"  Visibility="{Binding CanReset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <MenuItem Header="Убрать из обхода" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <Separator />
+                                <MenuItem Header="Просмотр на плане" Command="{Binding ShowOnPlanCommand}" Margin="2" />
+                                <MenuItem Header="Устройство в дереве" Command="{Binding ShowDeviceCommand}" Margin="2" />
+                                <MenuItem Header="Зона в списке" Command="{Binding ShowZoneCommand}" Margin="2" />
+                                <Separator />
+                                <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" Margin="2" />
+                                <MenuItem Header="Оповещение по телефону" Command="{Binding NotifyPhoneCommand}" Margin="2" />
+                                <MenuItem Header="СМС сообщение" Command="{Binding NotifySmsCommand}" Margin="2" />
+                                <MenuItem Header="Включить видео" Command="{Binding ShowVideoCommand}" Margin="2" />
+                                <Separator />
+                                <MenuItem Header="Отложить" Command="{Binding LeaveCommand}" Margin="2" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>

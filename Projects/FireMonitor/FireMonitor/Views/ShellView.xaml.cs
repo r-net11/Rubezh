@@ -62,12 +62,6 @@ namespace FireMonitor
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
         }
 
-        public IViewPart Alarm
-        {
-            get { return _alarm.Content as IViewPart; }
-            set { _alarm.DataContext = _alarm.Content = value; }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)
         {

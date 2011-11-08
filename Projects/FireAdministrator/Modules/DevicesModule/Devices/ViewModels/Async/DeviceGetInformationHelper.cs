@@ -4,20 +4,22 @@ using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
-    public static class GetInformationHelper
+    public static class DeviceGetInformationHelper
     {
         static Device _device;
+        static bool _isUsb;
         static string _description;
 
-        public static void Run(Device device)
+        public static void Run(Device device, bool isUsb)
         {
             _device = device;
+            _isUsb = isUsb;
             AsyncOperationHelper.Run(OnPropgress, OnlCompleted, _device.PresentationAddressDriver + ". Чтение информации об устройстве");
         }
 
         static void OnPropgress()
         {
-            _description = FiresecManager.DeviceGetInformation(_device.UID);
+            _description = FiresecManager.DeviceGetInformation(_device.UID, _isUsb);
         }
 
         static void OnlCompleted()

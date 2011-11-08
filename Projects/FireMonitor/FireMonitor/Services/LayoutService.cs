@@ -46,10 +46,5 @@ namespace FireMonitor
         {
             Shell.AlarmGroups = model;
         }
-
-        public void ShowAlarm(IViewPart model)
-        {
-            Shell.Alarm = model;
-        }
     }
 }

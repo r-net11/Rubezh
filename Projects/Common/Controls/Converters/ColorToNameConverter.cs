@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Data;
 using System.Reflection;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Controls.Converters

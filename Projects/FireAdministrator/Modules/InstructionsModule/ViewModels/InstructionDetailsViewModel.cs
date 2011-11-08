@@ -217,7 +217,6 @@ namespace InstructionsModule.ViewModels
             if (_isNew)
             {
                 FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
-                //InstructionsModule.HasChanges = true;
             }
         }
     }

@@ -9,14 +9,16 @@ namespace DevicesModule.ViewModels
     public static class FirmwareUpdateHelper
     {
         static Device _device;
+        static bool _isUsb;
         static string _fileName;
         static string _question;
         static string _result;
         static byte[] bytes;
 
-        public static void Run(Device device)
+        public static void Run(Device device, bool isUsb)
         {
             _device = device;
+            _isUsb = isUsb;
 
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Пакет обновления (*.HXC)|*.HXC|Открытый пакет обновления (*.HXP)|*.HXP|All files (*.*)|*.*";
@@ -30,8 +32,8 @@ namespace DevicesModule.ViewModels
                     fileStream.Read(bytes, 0, bytes.Length);
                 }
 
-                _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, bytes, new FileInfo(_fileName).Name);
-                FiresecManager.DeviceUpdateFirmware(_device.UID, bytes, new FileInfo(_fileName).Name);
+                _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
+                FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
                 return;
 
                 var asyncInstanceOperationHelper = new AsyncInstanceOperationHelper();
@@ -41,7 +43,7 @@ namespace DevicesModule.ViewModels
 
         static void OnVarifyPropgress()
         {
-            _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, bytes, new FileInfo(_fileName).Name);
+            _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
         }
 
         static void OnVerifyCompleted()
@@ -55,7 +57,7 @@ namespace DevicesModule.ViewModels
 
         static void OnUpdatePropgress()
         {
-            _result = FiresecManager.DeviceUpdateFirmware(_device.UID, bytes, new FileInfo(_fileName).Name);
+            _result = FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
         }
 
         static void OnUpdateCompleted()

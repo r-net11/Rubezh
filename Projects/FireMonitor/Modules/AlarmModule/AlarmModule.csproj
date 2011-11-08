@@ -62,7 +62,6 @@
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Events\AlarmAddedEvent.cs" />
     <Compile Include="Events\MoveAlarmToEndEvent.cs" />
-    <Compile Include="Events\ShowAllAlarmsEvent.cs" />
     <Compile Include="Events\ResetAlarmEvent.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />
@@ -72,9 +71,6 @@
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\VideoViewModel.cs" />
-    <Compile Include="Views\AlarmView.xaml.cs">
-      <DependentUpon>AlarmView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AlarmViewModel.cs" />
     <Compile Include="AlarmModule.cs" />
     <Compile Include="Views\AlarmListView.xaml.cs">
@@ -143,10 +139,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AlarmView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AlarmListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

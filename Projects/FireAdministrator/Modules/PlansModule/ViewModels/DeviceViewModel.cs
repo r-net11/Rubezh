@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using Infrastructure.Common;
-using FiresecClient;
 using System.Linq;
-using PlansModule.Events;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

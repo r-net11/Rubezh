@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace SoundsModule.ViewModels
 {

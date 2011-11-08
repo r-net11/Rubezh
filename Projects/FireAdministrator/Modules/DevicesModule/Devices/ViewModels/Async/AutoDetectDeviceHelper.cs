@@ -5,7 +5,7 @@ using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
-    public static class AutoSearchHelper
+    public static class AutoDetectDeviceHelper
     {
         static DeviceViewModel _deviceViewModel;
         static DeviceConfiguration _autodetectedDeviceConfiguration;

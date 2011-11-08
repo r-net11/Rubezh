@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
-using System;
+﻿using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace PlansModule.Events
 {

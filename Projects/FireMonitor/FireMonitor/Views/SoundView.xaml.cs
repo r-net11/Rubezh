@@ -14,12 +14,12 @@ namespace FireMonitor
         public SoundView()
         {
             InitializeComponent();
+            DataContext = this;
+
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
+            PlaySoundCommand = new RelayCommand(OnPlaySound);
             CurrentStateType = StateType.No;
             IsSoundOn = true;
-            DataContext = this;
-            //OnDeviceStateChanged(null);
-            PlaySoundCommand = new RelayCommand(OnPlaySound);
         }
 
         public StateType CurrentStateType { get; private set; }

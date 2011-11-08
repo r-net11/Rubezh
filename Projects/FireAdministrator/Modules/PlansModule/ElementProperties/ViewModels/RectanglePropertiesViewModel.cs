@@ -1,12 +1,6 @@
 ﻿using System.Windows.Media;
-using System.Windows.Shapes;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Microsoft.Win32;
-using System;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace PlansModule.ViewModels
 {

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using DeviceControls;
 using FiresecAPI.Models;
@@ -11,7 +12,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
-using System.Windows.Media;
 using PlansModule.Views;
 
 namespace PlansModule.ViewModels

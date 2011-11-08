@@ -158,7 +158,6 @@
                         </StackPanel.Style>
                     </StackPanel>
                     <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                    <TextBox Text="{Binding Device.UID, Mode=OneWay}" Margin="2" />
                 </StackPanel>
             </Border>
         </Grid>

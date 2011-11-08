@@ -41,10 +41,10 @@
                             <Image Margin="11 5 0 0" HorizontalAlignment="Left" Source="/Controls;component/Images/logo.png" Opacity="0.5" Width="32" Height="26" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                             <Views:TimePresenterView Grid.Row="1" Margin="11 11 0 0"  />
                             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Views:SoundView x:Name="soundView"/>
-                                <Views:ConnectionIndicatorView />
-                                <Views:UserView />
-                                <Views:AutoActivationControl />
+                                <Views:SoundView x:Name="soundView" Margin="2" />
+                                <Views:ConnectionIndicatorView Margin="2" />
+                                <Views:UserView Margin="2" />
+                                <Views:AutoActivationView Margin="2" />
                             </StackPanel>
                         </Grid>
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15,30,10,5">
@@ -57,7 +57,6 @@
                 <Grid>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Bottom">
-                            <ContentControl Name="_alarm" />
                         </StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>

@@ -1,8 +1,6 @@
-﻿using Infrastructure.Common;
+﻿using System.Windows;
+using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
-using System.Windows;
 
 namespace Infrastructure
 {

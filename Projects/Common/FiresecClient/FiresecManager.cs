@@ -209,17 +209,17 @@ namespace FiresecClient
 
         public static DeviceConfiguration AutoDetectDevice(Guid deviceUID, bool fastSearch)
         {
-            return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, fastSearch);
+            return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, fastSearch);
         }
 
         public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID, bool isUsb)
         {
-            return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
-        public static void DeviceWriteConfiguration(Guid deviceUID)
+        public static void DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
         {
-            FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
         public static void WriteAllDeviceConfiguration()
@@ -227,44 +227,39 @@ namespace FiresecClient
             FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
         }
 
-        public static string ReadDeviceJournal(Guid deviceUID)
+        public static string ReadDeviceJournal(Guid deviceUID, bool isUsb)
         {
-            return FiresecService.DeviceReadEventLog(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceReadEventLog(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
-        public static void SynchronizeDevice(Guid deviceUID)
+        public static void SynchronizeDevice(Guid deviceUID, bool isUsb)
         {
-            FiresecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            FiresecService.DeviceDatetimeSync(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
-        public static void DeviceRestart(Guid deviceUID)
+        public static string DeviceUpdateFirmware(Guid deviceUID, bool isUsb, byte[] bytes, string fileName)
         {
-            FiresecService.DeviceRestart(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, bytes, fileName);
         }
 
-        public static string DeviceUpdateFirmware(Guid deviceUID, byte[] bytes, string fileName)
+        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUsb, byte[] bytes, string fileName)
         {
-            return FiresecService.DeviceUpdateFirmware(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
+            return FiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, bytes, fileName);
         }
 
-        public static string DeviceVerifyFirmwareVersion(Guid deviceUID, byte[] bytes, string fileName)
+        public static string DeviceGetInformation(Guid deviceUID, bool isUsb)
         {
-            return FiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, bytes, fileName);
-        }
-
-        public static string DeviceGetInformation(Guid deviceUID)
-        {
-            return FiresecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceGetInformation(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
         public static List<string> DeviceGetSerialList(Guid deviceUID)
         {
-            return FiresecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID);
+            return FiresecService.DeviceGetSerialList(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
         }
 
-        public static void SetPassword(Guid deviceUID, DevicePasswordType devicePasswordType, string password)
+        public static void SetPassword(Guid deviceUID, bool isUsb, DevicePasswordType devicePasswordType, string password)
         {
-            FiresecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, devicePasswordType, password);
+            FiresecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, devicePasswordType, password);
         }
 
         public static List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
@@ -274,7 +269,7 @@ namespace FiresecClient
 
         public static string DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
         {
-            return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID), deviceUID, functionName);
+            return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, functionName);
         }
 
         public static void LoadFromFile(string fileName)

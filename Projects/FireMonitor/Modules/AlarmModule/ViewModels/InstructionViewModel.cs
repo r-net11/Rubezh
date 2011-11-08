@@ -17,8 +17,6 @@ namespace AlarmModule.ViewModels
             DeviceId = deviceUID;
             StateType = AlarmTypeToStateType(alarmType);
             InicializeInstruction();
-
-            CloseCommand = new RelayCommand(OnCloseInstruction);
         }
 
         void InicializeInstruction()
@@ -121,12 +119,6 @@ namespace AlarmModule.ViewModels
             }
 
             return false;
-        }
-
-        public RelayCommand CloseCommand { get; private set; }
-        void OnCloseInstruction()
-        {
-            Close(true);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using System.Linq;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using InstructionsModule.ViewModels;
 using Microsoft.Practices.Prism.Modularity;
-using System.Linq;
 
 namespace InstructionsModule
 {

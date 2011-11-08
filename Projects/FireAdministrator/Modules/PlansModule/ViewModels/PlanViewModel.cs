@@ -1,6 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.ObjectModel;
+using FiresecAPI.Models;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {

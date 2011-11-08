@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using System.Windows;
 using FiresecClient;
-using System.Windows;
+using Infrastructure.Common;
 
 namespace FireAdministrator.ViewModels
 {

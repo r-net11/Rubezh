@@ -1,5 +1,4 @@
-﻿
-namespace AlarmModule
+﻿namespace AlarmModule
 {
     public enum AlarmEntityType
     {

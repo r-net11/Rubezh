@@ -4,30 +4,6 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Label Content="Инструкции в случае пожара" FontSize="16" />
-            <Label Content="" />
-            <Label Content="Убедиться в том что, пожар действительно есть" />
-            <Button Content="Видео" Width="100" />
-            <Label Content="" />
-            <Label Content="Позвонить в пожарную часть по телефону 02" />
-            <Button Content="Звонок" Width="100" />
-            <Label Content="" />
-            <Label Content="Принять меры по эвакуации людей" />
-            <Label Content="Принять меры по локализации очага" />
-            <Label Content="Принять меры по тушению пожара" />
-            <Label Content="" />
-            <Label Content="Дополнительные меры" />
-            <Label Content="{Binding Path=Instruction.Text}" />
-        </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Controls:XButton Grid.Column="1" Name="btnCancel" FontWeight="Black" Background="Black"
-                              Width="100" Height="30" VerticalAlignment="Center"
-                              Command="{Binding CloseCommand}" Content="Закрыть" />
-        </StackPanel>
+        <Label Content="{Binding Path=Instruction.Text}" />
     </Grid>
 </UserControl>

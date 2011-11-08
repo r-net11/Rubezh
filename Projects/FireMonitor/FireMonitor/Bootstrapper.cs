@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using System.Windows;
+using AlarmModule.Events;
+using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Microsoft.Practices.Prism.UnityExtensions;
 
 namespace FireMonitor
 {
@@ -13,10 +13,12 @@ namespace FireMonitor
         public void Initialize()
         {
             RegisterServices();
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
 
-            if (ServiceFactory.SecurityService.Connect())
+            var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
             {
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();
@@ -29,10 +31,16 @@ namespace FireMonitor
                 else
                 {
                     ClientSettings.LoadSettings();
+
+                    var ShellView = new ShellView();
+                    ServiceFactory.ShellView = ShellView;
+
                     InitializeKnownModules();
 
-                    App.Current.MainWindow = ServiceFactory.ShellView;
+                    App.Current.MainWindow = ShellView;
                     App.Current.MainWindow.Show();
+
+                    ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
                 }
                 preLoadWindow.Close();
             }
@@ -41,9 +49,6 @@ namespace FireMonitor
         static void RegisterServices()
         {
             ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ResourceService(), new SecurityService());
-
-            var ShellView = new ShellView();
-            ServiceFactory.ShellView = ShellView;
         }
 
         void InitializeKnownModules()

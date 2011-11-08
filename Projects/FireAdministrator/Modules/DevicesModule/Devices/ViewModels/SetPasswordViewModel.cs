@@ -7,10 +7,12 @@ namespace DevicesModule.ViewModels
     public class SetPasswordViewModel : SaveCancelDialogContent
     {
         Guid _deviceUID;
+        static bool _isUsb;
 
-        public SetPasswordViewModel(Guid deviceUID)
+        public SetPasswordViewModel(Guid deviceUID, bool isUsb)
         {
             _deviceUID = deviceUID;
+            _isUsb = isUsb;
             Title = "Смена пароля";
             DevicePasswordType = DevicePasswordType.Administrator;
         }
@@ -56,7 +58,7 @@ namespace DevicesModule.ViewModels
                 return;
             }
 
-            SetPasswordHelper.Run(_deviceUID, _devicePasswordType, _password);
+            SetPasswordHelper.Run(_deviceUID, _isUsb, _devicePasswordType, _password);
         }
     }
 }

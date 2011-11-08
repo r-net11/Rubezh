@@ -13,7 +13,7 @@ namespace PlansModule
 
         public PlansModule()
         {
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(OnShowPlan);
+            ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlan);
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
         }
 

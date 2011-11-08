@@ -236,8 +236,6 @@ namespace FiresecService
                     stream.Write(bytes, 0, bytes.Length);
                 }
 
-                fileName = "D://XHC//sborka2_23rc35.HXC";
-
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
                 return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);

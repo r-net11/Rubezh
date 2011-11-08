@@ -2,7 +2,7 @@
 
 namespace AlarmModule.Events
 {
-    public class ShowAllAlarmsEvent : CompositePresentationEvent<object>
+    public class ShowAlarmsEvent : CompositePresentationEvent<object>
     {
     }
 }

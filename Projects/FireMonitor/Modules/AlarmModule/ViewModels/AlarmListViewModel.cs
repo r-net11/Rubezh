@@ -35,7 +35,6 @@ namespace AlarmModule.ViewModels
             set
             {
                 _selectedAlarm = value;
-                ServiceFactory.Layout.ShowAlarm(value);
                 OnPropertyChanged("SelectedAlarm");
             }
         }

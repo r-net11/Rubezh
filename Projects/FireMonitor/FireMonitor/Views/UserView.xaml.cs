@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using FireMonitor.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 
@@ -16,9 +17,10 @@ namespace FireMonitor
         public RelayCommand ChangeUserCommand { get; private set; }
         void OnChangeUser()
         {
-            //FiresecManager.Test();
-
-            ServiceFactory.SecurityService.ReConnect();
+            var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Reconnect);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
+            {
+            }
         }
     }
 }

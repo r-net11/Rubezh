@@ -92,11 +92,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PreLoadWindow.xaml.cs">
       <DependentUpon>PreLoadWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AutoActivationControl.xaml.cs">
-      <DependentUpon>AutoActivationControl.xaml</DependentUpon>
+    <Compile Include="Views\AutoActivationView.xaml.cs">
+      <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
     <Compile Include="Views\UserView.xaml.cs">
@@ -111,9 +115,6 @@
     </Compile>
     <Compile Include="Services\ResourceService.cs" />
     <Compile Include="Services\SecurityService.cs" />
-    <Compile Include="Views\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -154,11 +155,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PreLoadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AutoActivationControl.xaml">
+    <Page Include="Views\AutoActivationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,10 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavigationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -271,6 +276,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

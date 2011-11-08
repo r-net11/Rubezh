@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using System.Windows.Media.Imaging;
 using System.IO;
-using Microsoft.Win32;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Infrastructure.Common;
+using Microsoft.Win32;
 
 namespace PlansModule.ViewModels
 {

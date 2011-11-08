@@ -1,15 +1,15 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using DeviceControls;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
-using FiresecClient;
-using System.Linq;
-using DeviceControls;
 
 namespace PlansModule.Designer
 {

@@ -2,8 +2,6 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Media.Imaging;
-using System.IO;
 
 namespace FiresecAPI.Models
 {

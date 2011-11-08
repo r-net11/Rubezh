@@ -19,7 +19,8 @@ namespace FireMonitor
             DataContext = this;
 
             ServiceFactory.Events.GetEvent<ShowNothingEvent>().Subscribe(x => { DeselectAll(); });
-            ServiceFactory.Events.GetEvent<ShowPlanEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
+            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(x => { _isAlarmSelected = true; OnPropertyChanged("IsAlarmSelected"); });
+            ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(x => { _isDevicesSelected = true; OnPropertyChanged("IsDevicesSelected"); });
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { _isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
@@ -32,6 +33,7 @@ namespace FireMonitor
         void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
+            //IsAlarmSelected = true;
         }
 
         void DeselectAll()
@@ -79,7 +81,7 @@ namespace FireMonitor
                 _isAlarmSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowAllAlarmsEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsAlarmSelected");
             }
@@ -94,7 +96,7 @@ namespace FireMonitor
                 _isPlanSelected = value;
                 if (value)
                 {
-                    ServiceFactory.Events.GetEvent<ShowPlanEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
                 }
                 OnPropertyChanged("IsPlanSelected");
             }

@@ -4,7 +4,7 @@ using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
-    public static class CustomAdminFunctionsHelper
+    public static class DeviceCustomFunctionExecuteHelper
     {
         static Device _device;
         static string _functionCode;

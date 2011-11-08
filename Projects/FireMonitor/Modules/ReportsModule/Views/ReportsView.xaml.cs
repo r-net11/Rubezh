@@ -1,6 +1,4 @@
 ﻿using System.Windows.Controls;
-using ReportsModule.Reports;
-using SAPBusinessObjects.WPF.Viewer;
 
 namespace ReportsModule.Views
 {
