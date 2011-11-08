@@ -23,9 +23,7 @@ namespace JournalModule.ViewModels
                 _isActive = value;
 
                 if (_isActive)
-                {
                     ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Publish(this);
-                }
 
                 OnPropertyChanged("IsActive");
             }

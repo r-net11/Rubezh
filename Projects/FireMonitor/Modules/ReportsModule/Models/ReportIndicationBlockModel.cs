@@ -20,15 +20,12 @@ namespace ReportsModule.Models
         public IndicationBlocksList(Device device)
         {
             if (device.Driver.DriverType != DriverType.IndicationBlock)
-            {
                 return;
-            }
-            Pages = new List<Page>();
+
             IndicationBlockNumber = device.DottedAddress;
-            foreach (var pageDevice in device.Children)
-            {
-                Pages.Add(new Page(pageDevice));
-            }
+            Pages = new List<Page>(
+                device.Children.Select(x => new Page(x))
+            );
         }
 
         public string IndicationBlockNumber { get; set; }
@@ -37,8 +34,6 @@ namespace ReportsModule.Models
 
     public class Page
     {
-        private Page() { }
-
         public Page(Device device)
         {
             PageNumber = device.IntAddress;
@@ -60,9 +55,9 @@ namespace ReportsModule.Models
     {
         private ElementPage() { }
 
-        public ElementPage(int No, List<ulong?> zonesNo, string presentationName)
+        public ElementPage(int number, List<ulong?> zonesNo, string presentationName)
         {
-            this.No = No;
+            No = number;
             ZonesNo = zonesNo;
             PresentationName = presentationName;
         }
@@ -80,9 +75,7 @@ namespace ReportsModule.Models
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZonesNo[0]);
                     string presentationName = "";
                     if (zone != null)
-                    {
                         presentationName = zone.PresentationName;
-                    }
                     return ("Зоны: " + presentationName);
                 }
                 else
@@ -90,10 +83,7 @@ namespace ReportsModule.Models
                     return _presentationName;
                 }
             }
-            set
-            {
-                _presentationName = value;
-            }
+            set { _presentationName = value; }
         }
     }
 }

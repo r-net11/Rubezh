@@ -6,7 +6,6 @@ using Infrastructure;
 using JournalModule.ViewModels;
 using ReportsModule.Models;
 using SAPBusinessObjects.WPF.Viewer;
-using System.Windows.Controls.Primitives;
 
 namespace ReportsModule.Reports
 {
@@ -46,15 +45,13 @@ namespace ReportsModule.Reports
         public override CrystalReportsViewer CreateCrystalReportViewer()
         {
             if (DataList.IsNotNullOrEmpty() == false)
-            {
                 return new CrystalReportsViewer();
-            }
 
-            var filePath = FileHelper.GetReportFilePath(ReportFileName);
-            reportDocument.Load(filePath);
+            reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
             reportDocument.SetParameterValue("StartDate", StartDate.ToString());
             reportDocument.SetParameterValue("EndDate", EndDate.ToString());
+
             var crystalReportsViewer = new CrystalReportsViewer();
             crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
             crystalReportsViewer.ShowLogo = false;
@@ -63,7 +60,7 @@ namespace ReportsModule.Reports
             return crystalReportsViewer;
         }
 
-        class ReportArchiveFilter
+        private class ReportArchiveFilter
         {
             public ArchiveFilterViewModel ArchiveFilterViewModel { get; set; }
             ArchiveFilter _archiveFilter;

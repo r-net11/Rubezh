@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using AlarmModule.Events;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -12,9 +11,8 @@ namespace AlarmModule.ViewModels
     {
         public AlarmGroupListViewModel()
         {
-            var alarmTypes = Enum.GetValues(typeof(AlarmType)).Cast<AlarmType>().ToList();
             AlarmGroups = new List<AlarmGroupViewModel>();
-            foreach (var alarmType in alarmTypes)
+            foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
             {
                 AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
             }
@@ -27,14 +25,9 @@ namespace AlarmModule.ViewModels
         void OnShowAllAlarms(object obj)
         {
             var alarms = new List<Alarm>();
-            foreach (var alarmGroupViewModel in AlarmGroups)
-            {
-                alarms.AddRange(alarmGroupViewModel.Alarms);
-            }
+            AlarmGroups.ForEach(x => alarms.AddRange(x.Alarms));
 
-            var alarmListViewModel = new AlarmListViewModel();
-            alarmListViewModel.Initialize(alarms, null);
-            ServiceFactory.Layout.Show(alarmListViewModel);
+            ServiceFactory.Layout.Show(new AlarmListViewModel(alarms, null));
         }
     }
 }

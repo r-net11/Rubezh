@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 using ReportsModule.Models;
-using FiresecClient;
-using System.Text;
-using Common;
-using FiresecAPI.Models;
 
 namespace ReportsModule.Reports
 {
@@ -17,7 +13,7 @@ namespace ReportsModule.Reports
         void TestInitialize()
         {
             DataList = new List<ReportIndicationBlockModel>();
-            for (int i = 0; i < 91; i++)
+            for (int i = 0; i < 91; ++i)
             {
                 DataList.Add(new ReportIndicationBlockModel()
                 {
@@ -27,7 +23,7 @@ namespace ReportsModule.Reports
                     PageNumber = i.ToString()
                 });
             }
-            for (int i = 91; i < 100; i++)
+            for (int i = 91; i < 100; ++i)
             {
                 DataList.Add(new ReportIndicationBlockModel()
                 {
@@ -60,7 +56,7 @@ namespace ReportsModule.Reports
             //        {
             //            DataList.Add(new ReportIndicationBlockModel()
             //            {
-            //                Number = element.No.ToString(),
+            //                Number = element.number.ToString(),
             //                PresentationName = element.PresentationName,
             //                BlockIndicationNumber = block.IndicationBlockNumber,
             //                PageNumber = page.PageNumber.ToString()

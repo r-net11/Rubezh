@@ -37,15 +37,14 @@ namespace AlarmModule
 
             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-            var journalRecord = new JournalRecord()
+            FiresecManager.AddJournalRecord(new JournalRecord()
             {
                 SystemTime = DateTime.Now,
                 DeviceTime = DateTime.Now,
                 ZoneName = zone.No.ToString(),
                 Description = "Состояние \"" + StateName + "\" подтверждено оператором",
                 StateType = StateType.Info
-            };
-            FiresecManager.AddJournalRecord(journalRecord);
+            });
         }
 
         public bool CanRemoveFromIgnoreList()
@@ -61,13 +60,8 @@ namespace AlarmModule
         public void RemoveFromIgnoreList()
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
-            if (deviceState.CanDisable())
-            {
-                if (deviceState.IsDisabled)
-                {
-                    FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
-                }
-            }
+            if (deviceState.CanDisable() && deviceState.IsDisabled)
+                FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
         }
 
         void OldConfirm()
@@ -82,7 +76,7 @@ namespace AlarmModule
 
                 case AlarmEntityType.Device:
                     var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
-                    confirmationText = "Подтверждение состояния " + this.StateName +
+                    confirmationText = "Подтверждение состояния " + StateName +
                         " устройство " + device.Driver.ShortName + " " + device.DottedAddress;
 
                     break;
@@ -106,9 +100,10 @@ namespace AlarmModule
 
                 case AlarmEntityType.Zone:
                     return GetZoneResetItem();
-            }
 
-            return null;
+                default:
+                    return null;
+            }
         }
 
         ResetItem GetZoneResetItem()
@@ -133,43 +128,34 @@ namespace AlarmModule
         {
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
             var parentDevice = device.Parent;
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
             var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
 
             var resetItem = new ResetItem();
-
             if (AlarmType == AlarmType.Fire || AlarmType == AlarmType.Attention || AlarmType == AlarmType.Info)
             {
                 resetItem.DeviceUID = parentDeviceState.UID;
-
                 foreach (var state in parentDeviceState.States)
                 {
-                    if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) &&
-                        state.DriverState.IsManualReset)
-                    {
+                    if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) && state.DriverState.IsManualReset)
                         resetItem.StateNames.Add(state.DriverState.Name);
-                    }
                 }
             }
-            if (AlarmType == AlarmType.Auto)
+            else if (AlarmType == AlarmType.Auto)
             {
                 resetItem.DeviceUID = device.UID;
-
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
                 foreach (var state in deviceState.States)
                 {
                     if (state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
-                    {
                         resetItem.StateNames.Add(state.DriverState.Name);
-                    }
                 }
             }
-            if (AlarmType == AlarmType.Off)
+            else if (AlarmType == AlarmType.Off)
             {
             }
 
             if (resetItem.StateNames.Count > 0)
                 return resetItem;
-
             return null;
         }
     }

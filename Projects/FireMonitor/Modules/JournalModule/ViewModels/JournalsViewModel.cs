@@ -16,8 +16,7 @@ namespace JournalModule.ViewModels
         {
             Journals = new List<FilteredJournalViewModel>();
 
-            var defaulstFilter = new JournalFilter() { Name = " Все события" };
-            Journals.Add(new FilteredJournalViewModel(defaulstFilter));
+            Journals.Add(new FilteredJournalViewModel(new JournalFilter() { Name = " Все события" }));
             SelectedJournal = Journals[0];
 
             FiresecManager.SystemConfiguration.JournalFilters.ForEach(

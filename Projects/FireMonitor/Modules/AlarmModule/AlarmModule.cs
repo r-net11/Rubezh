@@ -11,8 +11,7 @@ namespace AlarmModule
 
         public AlarmModule()
         {
-            var alarmGroupListViewModel = new AlarmGroupListViewModel();
-            ServiceFactory.Layout.AddAlarmGroups(alarmGroupListViewModel);
+            ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
         }
 
         public void Initialize()

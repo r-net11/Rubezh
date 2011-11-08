@@ -56,8 +56,10 @@ namespace AlarmModule.ViewModels
                     case AlarmEntityType.Zone:
                         var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
                         return "Зона " + zone.PresentationName;
+
+                    default:
+                        return "";
                 }
-                return "";
             }
         }
 
@@ -133,8 +135,7 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowInstructionCommand { get; private set; }
         void OnShowInstruction()
         {
-            var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType);
-            ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType));
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }
@@ -155,8 +156,7 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowVideoCommand { get; private set; }
         void OnShowVideo()
         {
-            var videoViewModel = new VideoViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(videoViewModel);
+            ServiceFactory.UserDialogs.ShowModalWindow(new VideoViewModel());
         }
 
         void Close()

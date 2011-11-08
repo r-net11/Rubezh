@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Common;
+using CrystalDecisions.CrystalReports.Engine;
 using FiresecClient;
 using SAPBusinessObjects.WPF.Viewer;
-using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
@@ -23,14 +23,12 @@ namespace ReportsModule.Reports
         public override CrystalReportsViewer CreateCrystalReportViewer()
         {
             if (DataList.IsNotNullOrEmpty() == false)
-            {
                 return new CrystalReportsViewer();
-            }
 
-            var filePath = FileHelper.GetReportFilePath(ReportFileName);
             reportDocument = new ReportDocument();
-            reportDocument.Load(filePath);
+            reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
+
             var crystalReportsViewer = new CrystalReportsViewer();
             crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
             crystalReportsViewer.ShowLogo = false;

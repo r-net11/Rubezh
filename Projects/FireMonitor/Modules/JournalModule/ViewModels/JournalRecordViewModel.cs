@@ -99,9 +99,7 @@ namespace JournalModule.ViewModels
                 {
                     var elementDevice = plan.ElementDevices.FirstOrDefault(x => x.DeviceUID == _device.UID);
                     if (elementDevice != null)
-                    {
                         return true;
-                    }
                 }
             }
             return false;

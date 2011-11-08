@@ -42,11 +42,7 @@ namespace ReportsModule.Reports
         int CountDrivers()
         {
             int count = 0;
-
-            foreach (var driverCounter in DataList)
-            {
-                count += driverCounter.Count;
-            }
+            DataList.ForEach(x => count += x.Count);
 
             return count;
         }

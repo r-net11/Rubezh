@@ -24,28 +24,21 @@ namespace AlarmModule.ViewModels
         void OnAlarmAdded(Alarm alarm)
         {
             if (alarm.AlarmType == AlarmType)
-            {
                 Alarms.Add(alarm);
-            }
             Update();
         }
 
         void OnResetAlarm(Alarm alarm)
         {
             if (alarm.AlarmType == this.AlarmType)
-            {
-                var removingAlarm = Alarms.FirstOrDefault(x => x.DeviceUID == alarm.DeviceUID);
-                Alarms.Remove(removingAlarm);
-            }
+                Alarms.Remove(Alarms.FirstOrDefault(x => x.DeviceUID == alarm.DeviceUID));
             Update();
         }
 
         public RelayCommand ShowCommand { get; private set; }
         void OnShowCommand()
         {
-            var alarmListViewModel = new AlarmListViewModel();
-            alarmListViewModel.Initialize(Alarms, AlarmType);
-            ServiceFactory.Layout.Show(alarmListViewModel);
+            ServiceFactory.Layout.Show(new AlarmListViewModel(Alarms, AlarmType));
             ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
         }
 

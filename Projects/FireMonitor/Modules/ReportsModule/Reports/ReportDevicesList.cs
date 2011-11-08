@@ -34,9 +34,7 @@ namespace ReportsModule.Reports
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                             if (zone != null)
-                            {
                                 zonePresentationName = zone.PresentationName;
-                            }
                         }
                     }
 
@@ -45,12 +43,7 @@ namespace ReportsModule.Reports
                         if (device.IndicatorLogic.Zones.Count == 1)
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
-                            string presentationName = "";
-                            if (zone != null)
-                            {
-                                presentationName = zone.PresentationName;
-                            }
-                            zonePresentationName = "Зоны: " + presentationName;
+                            zonePresentationName = "Зоны: " + zone != null ? zone.PresentationName : "";
                         }
                         else
                         {
@@ -59,19 +52,19 @@ namespace ReportsModule.Reports
                     }
 
                     if (device.Driver.DriverType == DriverType.Page)
-                    {
                         address = device.IntAddress.ToString();
-                    }
                     if (device.Driver.DriverType == DriverType.PumpStation)
                     {
                     }
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 5; ++i)
+                    {
                         DataList.Add(new ReportDeviceListModel()
-                            {
-                                Type = type,
-                                Address = address,
-                                ZoneName = zonePresentationName
-                            });
+                        {
+                            Type = type,
+                            Address = address,
+                            ZoneName = zonePresentationName
+                        });
+                    }
                 }
             }
         }

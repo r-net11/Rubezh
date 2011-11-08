@@ -31,13 +31,9 @@ namespace JournalModule.Views
             var classId = (checkBox.DataContext as EventViewModel).ClassId;
 
             if (archiveFilter.JournalEvents.Where(x => x.ClassId == classId).All(x => x.IsEnable == checkBox.IsChecked))
-            {
                 archiveFilter.JournalTypes.Find(x => x.Id == classId).IsEnable = checkBox.IsChecked;
-            }
             else
-            {
                 archiveFilter.JournalTypes.Find(x => x.Id == classId).IsEnable = null;
-            }
         }
 
         void CheckBox_Indeterminate(object sender, RoutedEventArgs e)

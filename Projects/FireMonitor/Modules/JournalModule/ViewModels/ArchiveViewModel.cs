@@ -30,13 +30,9 @@ namespace JournalModule.ViewModels
             set
             {
                 if (value)
-                {
                     ApplyFilter();
-                }
                 else
-                {
                     SetDefaultArchiveContent();
-                }
 
                 _isFilterOn = value;
                 OnPropertyChanged("IsFilterOn");
@@ -114,10 +110,7 @@ namespace JournalModule.ViewModels
                     Select(journalRecord => new JournalRecordViewModel(journalRecord))
                 );
             }
-            catch (Exception)
-            {
-                return;
-            }
+            catch { }
         }
 
         void ApplyFilter()

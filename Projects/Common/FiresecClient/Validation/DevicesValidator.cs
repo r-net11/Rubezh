@@ -21,9 +21,16 @@ namespace FiresecClient.Validation
 
         public static void Validate()
         {
-            ValidateDevices();
-            ValidateZones();
+            Action deviceValidator = new Action(ValidateDevices);
+            IAsyncResult deviceValidationResult = deviceValidator.BeginInvoke(null, null);
+
+            Action zoneValidator = new Action(ValidateZones);
+            IAsyncResult zoneValidationResult = zoneValidator.BeginInvoke(null, null);
+
             ValidateDirections();
+
+            zoneValidator.EndInvoke(zoneValidationResult);
+            deviceValidator.EndInvoke(deviceValidationResult);
         }
 
         static void ValidateDevices()
@@ -34,7 +41,7 @@ namespace FiresecClient.Validation
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                //if (device.DriverUID == new Guid("F3485243-2F60-493B-8A4E-338C61EF6581"))
+                //if (device.DriverUID == new Guid("96CDBD7E-29F6-45D4-9028-CF10332FAB1A"))
                 //{
                 //    ++pduCount;
                 //    --pduCount;
@@ -65,9 +72,11 @@ namespace FiresecClient.Validation
                 ValidateDeviceSingleInParent(device);
                 ValidateDeviceConflictAddressWithMSChannel(device);
                 ValidateDeviceDuplicateSerial(device);
-                ValidateDeviceSecAddress(device);
+                ValidateDeviceSecurity(device);
                 ValidateDeviceEvents(device);
                 ValidateDeviceLoopLines(device);
+                ValidateDeviceMaxExtCount(device);
+                ValidateDeviceSecurityPanel(device);
             }
 
             if (pduCount > 10)
@@ -190,10 +199,15 @@ namespace FiresecClient.Validation
             return deviceSerialNumberProperty == null ? device.Driver.Properties.First(x => x.Name == "SerialNo").Default : deviceSerialNumberProperty.Value;
         }
 
-        static void ValidateDeviceSecAddress(Device device)
+        static void ValidateDeviceSecurity(Device device)
         {
-            if (device.Driver.DeviceType == DeviceType.Sequrity && (device.IntAddress & 0xff) > 250)
-                DeviceErrors.Add(new DeviceError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ErrorLevel.CannotWrite));
+            if (device.Driver.DeviceType == DeviceType.Sequrity)
+            {
+                if ((device.IntAddress & 0xff) > 250)
+                    DeviceErrors.Add(new DeviceError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ErrorLevel.CannotWrite));
+                if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
+                    DeviceErrors.Add(new DeviceError(device, "Устройство подключено к недопустимому устройству", ErrorLevel.CannotWrite));
+            }
         }
 
         static void ValidateDeviceEvents(Device device)
@@ -228,6 +242,94 @@ namespace FiresecClient.Validation
             }
         }
 
+        static void ValidateDeviceMaxExtCount(Device device)
+        {
+            if (device.Driver.HasShleif && device.Children.IsNotNullOrEmpty())
+            {
+                var childrenZones = device.Children.Where(x => x.Driver.IsZoneDevice && x.ZoneNo != null).Select(x => x.ZoneNo).Distinct().ToList();
+                if (childrenZones.IsNotNullOrEmpty() == false)
+                    return;
+
+                var childrenZonesDevices = new List<Device>();
+                childrenZones.ForEach(x => childrenZonesDevices.AddRange(GetZoneDevices(x)));
+
+                int extendedDevicesCount = childrenZonesDevices.Where(x => x.Driver.IsZoneLogicDevice && x.Parent != device).Distinct().Count();
+                if (extendedDevicesCount > 250)
+                    DeviceErrors.Add(new DeviceError(device, string.Format("В приборе не может быть более 250 внешних устройств. Сейчас : {0}", extendedDevicesCount), ErrorLevel.CannotWrite));
+            }
+        }
+
+        static void ValidateDeviceSecurityPanel(Device device)
+        {
+            var driverSecurityDeviceCountProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
+            if (driverSecurityDeviceCountProperty != null)
+            {
+                var securityDeviceCountPropertyValue = driverSecurityDeviceCountProperty.Parameters.First(x => x.Value == driverSecurityDeviceCountProperty.Default).Name;
+                var deviceSecurityDeviceCountProperty = device.Properties.FirstOrDefault(x => x.Name == "DeviceCountSecDev");
+                if (deviceSecurityDeviceCountProperty != null)
+                    securityDeviceCountPropertyValue = deviceSecurityDeviceCountProperty.Value;
+
+                if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[0].Name)
+                    ValidateDeviceCountAndOrderOnShlief(device, 64, 0);
+                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[1].Name)
+                    ValidateDeviceCountAndOrderOnShlief(device, 48, 16);
+                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[2].Name)
+                    ValidateDeviceCountAndOrderOnShlief(device, 32, 32);
+                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[3].Name)
+                    ValidateDeviceCountAndOrderOnShlief(device, 16, 48);
+                else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[4].Name)
+                    ValidateDeviceCountAndOrderOnShlief(device, 0, 64);
+            }
+        }
+
+        static void ValidateDeviceCountAndOrderOnShlief(Device device, int firstShliefMaxCount, int secondShliefMaxCount)
+        {
+            int deviceOnFirstShliefCount = 0;
+            int deviceOnSecondShliefCount = 0;
+            int shliefNumber = 0;
+            int firstShliefDeviceNumber = 0;
+            int firstShliefDevicePrevNumber = 0;
+            int secondShliefDeviceNumber = 0;
+            int secondShliefDevicePrevNumber = 0;
+            bool isFirstShliefOrederCorrupt = false;
+            bool isSecondShliefOrederCorrupt = false;
+
+            foreach (var intAddress in device.Children.Where(x => x.Driver.DeviceType == DeviceType.Sequrity).Select(x => x.IntAddress))
+            {
+                shliefNumber = intAddress >> 8;
+                if (shliefNumber == 1)
+                {
+                    ++deviceOnFirstShliefCount;
+                    firstShliefDevicePrevNumber = firstShliefDeviceNumber;
+                    firstShliefDeviceNumber = intAddress & 0xff;
+                    if (isFirstShliefOrederCorrupt == false)
+                    {
+                        if (firstShliefDeviceNumber < 176 || (firstShliefDevicePrevNumber > 0 && (firstShliefDeviceNumber - firstShliefDevicePrevNumber) > 1))
+                            isFirstShliefOrederCorrupt = true;
+                    }
+                }
+                else if (shliefNumber == 2)
+                {
+                    ++deviceOnSecondShliefCount;
+                    secondShliefDevicePrevNumber = secondShliefDeviceNumber;
+                    secondShliefDeviceNumber = intAddress & 0xff;
+                    if (isSecondShliefOrederCorrupt == false)
+                    {
+                        if (secondShliefDeviceNumber < 176 || (secondShliefDevicePrevNumber > 0 && (secondShliefDeviceNumber - secondShliefDevicePrevNumber) > 1))
+                            isSecondShliefOrederCorrupt = true;
+                    }
+                }
+            }
+            if (deviceOnFirstShliefCount > firstShliefMaxCount)
+                DeviceErrors.Add(new DeviceError(device, "Превышено максимальное количество подключаемых охранных устройств на 1-ом шлейфе", ErrorLevel.CannotWrite));
+            if (deviceOnSecondShliefCount > secondShliefMaxCount)
+                DeviceErrors.Add(new DeviceError(device, "Превышено максимальное количество подключаемых охранных устройств на 2-ом шлейфе", ErrorLevel.CannotWrite));
+            if (isFirstShliefOrederCorrupt)
+                DeviceErrors.Add(new DeviceError(device, "Необходима неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
+            if (isSecondShliefOrederCorrupt)
+                DeviceErrors.Add(new DeviceError(device, "Необходима неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
+        }
+
         static void ValidateZones()
         {
             ZoneErrors = new List<ZoneError>();
@@ -235,7 +337,7 @@ namespace FiresecClient.Validation
             int guardZonesCount = 0;
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                List<Device> zoneDevices = GetZoneDevices(zone.No);
+                List<Device> zoneDevices = GetZoneDevices(zone.No).ToList();
 
                 if (zoneDevices.Count == 0)
                 {
@@ -377,7 +479,7 @@ namespace FiresecClient.Validation
             return new string(str.Where(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x) == false).ToArray());
         }
 
-        static List<Device> GetZoneDevices(ulong? zoneNo)
+        static IEnumerable<Device> GetZoneDevices(ulong? zoneNo)
         {
             var zoneDevices = new List<Device>();
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
@@ -385,16 +487,14 @@ namespace FiresecClient.Validation
                 if (device.ZoneNo != null)
                 {
                     if (device.ZoneNo == zoneNo)
-                        zoneDevices.Add(device);
+                        yield return device;
                 }
                 else if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
                 {
                     if (device.ZoneLogic.Clauses.Any(x => x.Zones.Contains(zoneNo)))
-                        zoneDevices.Add(device);
+                        yield return device;
                 }
             }
-
-            return zoneDevices;
         }
     }
 }

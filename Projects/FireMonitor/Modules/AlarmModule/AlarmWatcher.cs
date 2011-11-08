@@ -109,43 +109,39 @@ namespace AlarmModule
                     continue;
 
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-                if (deviceState != null)
-                    foreach (var state in deviceState.States)
+                if (deviceState == null)
+                    continue;
+
+                foreach (var state in deviceState.States)
+                {
+                    if (state.Code == "Bolt_On")
                     {
-                        if (state.Code == "Bolt_On")
+                        if (state.Time.HasValue == false)
+                            continue;
+
+                        var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+                        if (timeoutProperty == null)
+                            continue;
+
+                        int delta = 0;
+                        try
                         {
-                            if (state.Time.HasValue == false)
-                                continue;
-
-                            var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-
-                            if (timeoutProperty == null)
-                                continue;
-
-                            int delta = 0;
-                            try
-                            {
-                                var timeSpan = DateTime.Now - state.Time.Value;
-                                delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
-                            }
-                            catch { continue; }
-
-                            if (delta > 0)
-                            {
-                                ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
-                            }
+                            var timeSpan = DateTime.Now - state.Time.Value;
+                            delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
                         }
+                        catch { continue; }
+
+                        if (delta > 0)
+                            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
                     }
+                }
             }
         }
 
         AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
         {
             AlarmType? alarmType = null;
-
-            var stateType = state.DriverState.StateType;
-
-            switch (stateType)
+            switch (state.DriverState.StateType)
             {
                 case StateType.Fire:
                     return null;
@@ -182,9 +178,7 @@ namespace AlarmModule
             }
 
             if (state.DriverState.IsManualReset && state.DriverState.IsAutomatic)
-            {
                 alarmType = AlarmType.Auto;
-            }
 
             return alarmType;
         }

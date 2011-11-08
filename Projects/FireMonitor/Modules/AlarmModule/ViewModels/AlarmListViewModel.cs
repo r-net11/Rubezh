@@ -11,8 +11,13 @@ namespace AlarmModule.ViewModels
 {
     public class AlarmListViewModel : RegionViewModel
     {
-        public AlarmListViewModel()
+        public AlarmListViewModel(List<Alarm> alarms, AlarmType? alarmType)
         {
+            _alarmType = alarmType;
+            Alarms = new ObservableCollection<AlarmViewModel>(
+                alarms.Select(alarm => new AlarmViewModel(alarm))
+            );
+
             ResetAllCommand = new RelayCommand(OnResetAll, canReset);
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
@@ -20,16 +25,6 @@ namespace AlarmModule.ViewModels
         }
 
         AlarmType? _alarmType;
-
-        public void Initialize(List<Alarm> alarms, AlarmType? alarmType)
-        {
-            _alarmType = alarmType;
-            Alarms = new ObservableCollection<AlarmViewModel>();
-            foreach (var alarm in alarms)
-            {
-                Alarms.Add(new AlarmViewModel(alarm));
-            }
-        }
 
         public ObservableCollection<AlarmViewModel> Alarms { get; set; }
 
@@ -54,7 +49,6 @@ namespace AlarmModule.ViewModels
         void OnResetAll()
         {
             var resetItems = new List<ResetItem>();
-
             foreach (var alarmViewModel in Alarms)
             {
                 var resetItem = alarmViewModel.Alarm.GetResetItem();
@@ -66,9 +60,7 @@ namespace AlarmModule.ViewModels
                         foreach (string stateName in resetItem.StateNames)
                         {
                             if (existringResetItem.StateNames.Contains(stateName) == false)
-                            {
                                 existringResetItem.StateNames.Add(stateName);
-                            }
                         }
                     }
                     else
@@ -84,29 +76,23 @@ namespace AlarmModule.ViewModels
         void OnAlarmAdded(Alarm alarm)
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
-            {
                 Alarms.Insert(0, new AlarmViewModel(alarm));
-            }
         }
 
         void OnResetAlarm(Alarm alarm)
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
-                var alarmViewModel = Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID);
-                Alarms.Remove(alarmViewModel);
+                Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
                 if (Alarms.Count == 0)
-                {
                     ServiceFactory.Layout.Close();
-                }
             }
         }
 
         void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
         {
             int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Description == alarmViewModel.Description));
-            int newIndex = Alarms.Count;
-            Alarms.Move(oldIndex, newIndex - 1);
+            Alarms.Move(oldIndex, Alarms.Count - 1);
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System.Linq;
-using System.Windows;
+using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.UnityExtensions;
-using FireAdministrator.ViewModels;
 
 namespace FireAdministrator
 {
@@ -18,11 +16,11 @@ namespace FireAdministrator
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
-
             var loginViewModel = new LoginViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
             {
                 preLoadWindow.Show();
+
                 FiresecManager.SelectiveFetch();
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
