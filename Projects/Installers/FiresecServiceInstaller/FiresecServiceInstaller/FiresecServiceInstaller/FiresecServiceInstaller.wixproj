@@ -14,7 +14,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug</DefineConstants>
+    <DefineConstants>Debug;</DefineConstants>
     <Cultures>
     </Cultures>
     <CompilerAdditionalOptions>
@@ -26,17 +26,18 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutoGenOutputFiles\OutputFilesComDlls.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesIcons.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesSounds.wxs" />
-    <Compile Include="CustomActions.wxs" />
-    <Compile Include="Features.wxs" />
-    <Compile Include="Files.wxs" />
+    <Compile Include="CustomActions\CustomActions.wxs" />
+    <Compile Include="Features_FiresecService.wxs" />
+    <Compile Include="Files_FiresecService.wxs" />
     <Compile Include="FiresecServiceInstaller.wxs" />
     <Compile Include="Output.wxs" />
-    <Compile Include="UsersDirectory.wxs" />
-    <Compile Include="Shortcuts.wxs" />
+    <Compile Include="Shortcuts_FiresecService.wxs" />
+    <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="WixUI_Shortcut.wxs" />
     <Compile Include="WixUI_Wizard.wxs" />
   </ItemGroup>
@@ -49,6 +50,14 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Name>FiresecClient</Name>
+      <Project>{f46953e0-ca12-4659-ae8c-88241b541f6c}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Name>FiresecAPI</Name>
       <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
@@ -56,6 +65,22 @@
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Name>Infrastructure.Common</Name>
+      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FireAdministrator\Infrastructure\Infrastructure.csproj">
+      <Name>Infrastructure</Name>
+      <Project>{7e982f7a-e8b8-4b63-a204-9fc7e5f97170}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
       <Name>FiresecService</Name>
@@ -107,7 +132,7 @@
   <ItemGroup>
     <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
-    <Content Include="Variables.wxi" />
+    <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixXmlConfig.xslt" />
     <Content Include="Xslt\WixIcons.xslt" />
     <Content Include="Xslt\WixReportTemplates.xslt" />
@@ -116,13 +141,15 @@
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="AutoGenOutputFiles" />
+    <Folder Include="CustomActions" />
     <Folder Include="Xslt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
     <PreBuildEvent>"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Icons" -t "$(ProjectDir)Xslt\WixIcons.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesIcons.wxs" -gg –sfrag
 "%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag</PreBuildEvent>
+"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag
+"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)ComDlls" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesComDlls.wxs" -gg -sfrag</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

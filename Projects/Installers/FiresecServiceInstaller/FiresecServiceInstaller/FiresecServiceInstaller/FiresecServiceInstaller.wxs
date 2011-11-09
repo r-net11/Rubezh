@@ -42,7 +42,7 @@
     <Property Id="CHECKSQLSERVER" Value="0"></Property>
 
     <InstallExecuteSequence>
-      <Custom Action="StartAppOnExit" After="InstallFinalize"/>
+      <!--<Custom Action="StartAppOnExit" After="InstallFinalize"/>-->
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

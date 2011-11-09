@@ -3,6 +3,8 @@ using System.Windows;
 using FiresecService;
 using FiresecService.Imitator;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace FiresecServiceRunner
 {
@@ -50,6 +52,11 @@ namespace FiresecServiceRunner
             var commandLineArgs = Environment.GetCommandLineArgs();
             bool start = false;
             bool convertConfiguration = false;
+            bool exit = false;
+            bool convertJournal = false;
+            bool hide = false;
+            DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
+            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
@@ -60,6 +67,12 @@ namespace FiresecServiceRunner
                     case "/Convert":
                         convertConfiguration = true;
                         break;
+                    case "/Exit":
+                        exit = true;
+                        break;
+                    case "/Hide":
+                        hide = true;
+                        break;
                     default:
                         break;
                 }
@@ -69,10 +82,14 @@ namespace FiresecServiceRunner
                 FiresecManager.ConnectFiresecCOMServer("adm", "");
                 FiresecServiceManager.Open();
             }
-            if (convertConfiguration)
-            {
+            if (start && convertConfiguration)
                 ConfigurationConverter.Convert();
-            }
+            if (start && convertJournal)
+                JournalDataConverter.Convert();
+            if (hide)
+                this.Hide();
+            if (exit)
+                this.Close();
         }
     }
 }
