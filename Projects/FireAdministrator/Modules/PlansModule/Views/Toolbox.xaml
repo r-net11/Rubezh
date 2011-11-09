@@ -3,21 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Background="Gray">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Name="ElementRectangle" Text="Прямоугольник" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementEllipse" Text="Эллипс" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementPolygon" Text="Многоугольник" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementTextBlock" Text="Текст" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementRectangleZone" Text="Зона" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementPolygonZone" Text="Зона" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            <TextBlock Name="ElementSubPlan" Text="Подплан" Margin="10" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-
-            <Image Source="/Controls;component/Images/Rectangle.png" Height="24" />
-            <Image Source="/Controls;component/Images/Ellipse.png" Height="24" />
-            <Image Source="/Controls;component/Images/Polygon.png" Height="24" />
-            <Image Source="/Controls;component/Images/Text.png" Height="24" />
-            <Image Source="/Controls;component/Images/ZoneRectangle.png" Height="24" />
-            <Image Source="/Controls;component/Images/ZonePolygon.png" Height="24" />
-            <Image Source="/Controls;component/Images/SubPlanPolygon.png" Height="24" />
+            <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/Ellipse.png" Name="ElementEllipse" ToolTip="Эллипс" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/Polygon.png" Name="ElementPolygon" ToolTip="Многоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/Font.png" Name="ElementTextBlock" ToolTip="Текст" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/ZoneRectangle.png" Name="ElementRectangleZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/ZonePolygon.png" Name="ElementPolygonZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/SubPlanPolygon.png" Name="ElementSubPlan" ToolTip="Подплан" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             
         </StackPanel>
     </Grid>

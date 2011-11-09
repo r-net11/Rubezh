@@ -6,16 +6,19 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Background="Gray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <Button Content="ZoomIn" Command="{Binding PlanDesignerViewModel.ZoomInCommand}" Width="75" />
-                <Button Content="ZoomOut" Command="{Binding PlanDesignerViewModel.ZoomOutCommand}" Width="75" />
-            </StackPanel>
-            <Slider Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
+            <Button Grid.Row="0" Command="{Binding PlanDesignerViewModel.ZoomInCommand}" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
+            </Button>
+            <Slider Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
+            <Button Grid.Row="2" Command="{Binding PlanDesignerViewModel.ZoomOutCommand}" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
+            </Button>
         </Grid>
 
         <ScrollViewer Name="scrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">

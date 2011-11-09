@@ -28,7 +28,7 @@
         <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
             <MenuItem>
                 <MenuItem.Header>
-                    <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+                    <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding AutoDetectCommand}" Header="Автпоиск" />

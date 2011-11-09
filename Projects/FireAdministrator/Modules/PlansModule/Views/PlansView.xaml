@@ -44,9 +44,15 @@
                     <Image Source="/Controls;component/Images/shapes-rotate-clockwise.png" Height="24" />
                 </StackPanel>
 
-                <Button Content="Копировать" Width="100" Command="{Binding CopyCommand}" />
-                <Button Content="Вырезать" Width="100" Command="{Binding CutCommand}" />
-                <Button Content="Вставить" Width="100" Command="{Binding PasteCommand}" />
+                <Button Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}" Margin="2">
+                    <Image Source="/Controls;component/Images/Copy.png" Height="24" />
+                </Button>
+                <Button Command="{Binding CutCommand}" ToolTip="Вырезать" Style="{StaticResource ToolarButtonStyle}" Margin="2">
+                    <Image Source="/Controls;component/Images/Cut.png" Height="24" />
+                </Button>
+                <Button Command="{Binding PasteCommand}" ToolTip="Вставить" Style="{StaticResource ToolarButtonStyle}" Margin="2">
+                    <Image Source="/Controls;component/Images/Paste.png" Height="24" />
+                </Button>
                 
             </StackPanel>
             <s:Toolbox />

@@ -3,23 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
-using CustomWindow;
 using FiresecClient;
 using Infrastructure.Common;
 
 namespace FireAdministrator
 {
-    public partial class ShellView : EssentialWindow, INotifyPropertyChanged
+    public partial class ShellView : Window, INotifyPropertyChanged
     {
         public ShellView()
         {
             InitializeComponent();
             DataContext = this;
-        }
-
-        protected override Decorator GetWindowButtonsPlaceholder()
-        {
-            return WindowButtonsPlaceholder;
         }
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -28,23 +22,53 @@ namespace FireAdministrator
                 this.DragMove();
         }
 
-        void Header_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
-                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
-                else
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
-            }
-        }
-
         void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             if (this.Width + e.HorizontalChange > 10)
                 this.Width += e.HorizontalChange;
             if (this.Height + e.VerticalChange > 10)
                 this.Height += e.VerticalChange;
+        }
+
+        void Header_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                ChangeMaximizedState();
+            }
+        }
+
+        void ChangeMaximizedState()
+        {
+            if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
+                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+            else
+                App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+        }
+
+        private void OnClose(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OnMinimize(object sender, RoutedEventArgs e)
+        {
+            WindowState = System.Windows.WindowState.Minimized;
+        }
+
+        private void OnMaximize(object sender, RoutedEventArgs e)
+        {
+            ChangeMaximizedState();
+        }
+
+        private void OnShowHelp(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnShowAbout(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public IViewPart MainContent
@@ -72,7 +96,7 @@ namespace FireAdministrator
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        void EssentialWindow_Closing(object sender, CancelEventArgs e)
+        void Window_Closing(object sender, CancelEventArgs e)
         {
             AlarmPlayerHelper.Dispose();
 
@@ -99,7 +123,7 @@ namespace FireAdministrator
             }
         }
 
-        void EssentialWindow_Closed(object sender, System.EventArgs e)
+        void Window_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
         }
