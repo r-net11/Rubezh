@@ -105,6 +105,8 @@
     <xs:attribute name="altIntf" type="xs:string" />
     <xs:attribute name="addrPrefix" type="xs:string" />
     <xs:attribute name="res_addr" type="xs:string" />
+    <xs:attribute name="child_id" type="xs:string" />
+    <xs:attribute name="child_count" type="xs:string" />
   </xs:complexType>
 
   <!-- Root Element -->

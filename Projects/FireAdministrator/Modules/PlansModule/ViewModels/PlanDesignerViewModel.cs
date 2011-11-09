@@ -18,15 +18,15 @@ namespace PlansModule.ViewModels
 {
     public class PlanDesignerViewModel : BaseViewModel
     {
+        public DesignerCanvas DesignerCanvas;
+        public Plan Plan;
+
         public PlanDesignerViewModel()
         {
             ZoomInCommand = new RelayCommand(OnZoomIn);
             ZoomOutCommand = new RelayCommand(OnZoomOut);
             ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
         }
-
-        public DesignerCanvas DesignerCanvas;
-        public Plan Plan;
 
         public void Initialize(Plan plan)
         {

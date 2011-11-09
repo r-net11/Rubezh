@@ -87,10 +87,18 @@ namespace FiresecService.Converters
                                         };
 
                                         if (innerElementLayer.brush != null)
-                                            elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.brush[0].color);
+                                            try
+                                            {
+                                                elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.brush[0].color);
+                                            }
+                                            catch { ;}
 
                                         if (innerElementLayer.pen != null)
-                                            elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.pen[0].color);
+                                            try
+                                            {
+                                                elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.pen[0].color);
+                                            }
+                                            catch { ;}
 
                                         plan.ElementTextBlocks.Add(elementTextBlock);
                                         break;

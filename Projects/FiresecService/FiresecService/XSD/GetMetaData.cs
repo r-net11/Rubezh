@@ -391,5 +391,13 @@ namespace Firesec.Metadata
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string res_addr;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string child_id;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string child_count;
     }
 }

@@ -93,9 +93,8 @@ namespace DevicesModule.ViewModels
 
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            var deviceViewModel = new DeviceViewModel();
+            var deviceViewModel = new DeviceViewModel(device, Devices);
             deviceViewModel.Parent = parentDeviceViewModel;
-            deviceViewModel.Initialize(device, Devices);
 
             var indexOf = Devices.IndexOf(parentDeviceViewModel);
             Devices.Insert(indexOf + 1, deviceViewModel);

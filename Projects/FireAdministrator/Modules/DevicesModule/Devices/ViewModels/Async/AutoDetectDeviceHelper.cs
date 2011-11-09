@@ -44,11 +44,10 @@ namespace DevicesModule.ViewModels
                 device.Driver = driver;
             }
 
-            var autodetectionViewModel = new AutoSearchViewModel()
+            var autodetectionViewModel = new AutoSearchViewModel(_autodetectedDeviceConfiguration)
             {
                 DeviceViewModels = _deviceViewModel.Source
             };
-            autodetectionViewModel.Initialize(_autodetectedDeviceConfiguration);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel))
                 RunAutodetection(false);

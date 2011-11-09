@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -105,14 +106,24 @@ namespace DevicesModule.ViewModels
 
         void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            var deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Initialize(device, _parentDeviceViewModel.Source);
+            var deviceViewModel = new DeviceViewModel(device, _parentDeviceViewModel.Source);
             deviceViewModel.Parent = parentDeviceViewModel;
             parentDeviceViewModel.Children.Add(deviceViewModel);
 
             foreach (var childDevice in device.Children)
             {
                 AddDevice(childDevice, deviceViewModel);
+            }
+
+            if (device.Driver.AutoChild != Guid.Empty)
+            {
+                var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
+
+                for (int i = 0; i < device.Driver.AutoChildCount; i++)
+                {    
+                    var autoDevice = device.AddChild(driver, device.IntAddress + i);
+                    AddDevice(autoDevice, deviceViewModel);
+                }
             }
         }
 

@@ -84,6 +84,12 @@ namespace FiresecAPI.Models
         public List<Guid> AutoCreateChildren { get; set; }
 
         [DataMember]
+        public Guid AutoChild { get; set; }
+
+        [DataMember]
+        public int AutoChildCount { get; set; }
+
+        [DataMember]
         public bool IsRangeEnabled { get; set; }
 
         [DataMember]

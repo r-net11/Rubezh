@@ -57,8 +57,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var guardUserDetailsViewModel = new GuardUserDetailsViewModel();
-            guardUserDetailsViewModel.Initialize(SelectedGuardUser.GuardUser);
+            var guardUserDetailsViewModel = new GuardUserDetailsViewModel(SelectedGuardUser.GuardUser);
             if (ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel))
             {
                 SelectedGuardUser.GuardUser = guardUserDetailsViewModel.GuardUser;
@@ -71,7 +70,6 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             var guardUserDetailsViewModel = new GuardUserDetailsViewModel();
-            guardUserDetailsViewModel.Initialize();
             if (ServiceFactory.UserDialogs.ShowModalWindow(guardUserDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.GuardUsers.Add(guardUserDetailsViewModel.GuardUser);

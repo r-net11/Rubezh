@@ -1,38 +1,56 @@
 ﻿using System.Text;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
     public class GuardUserDetailsViewModel : SaveCancelDialogContent
     {
-        public GuardUserDetailsViewModel()
-        {
-            ChangeGuardLevelsCommand = new RelayCommand(OnChangeGuardLevels);
-        }
-
         public GuardUser GuardUser { get; private set; }
         bool _isNew;
 
-        public void Initialize()
+        public GuardUserDetailsViewModel(GuardUser guardUser = null)
         {
-            Title = "Создать пользователя";
-            _isNew = true;
-            GuardUser = new GuardUser();
+            ChangeGuardLevelsCommand = new RelayCommand(OnChangeGuardLevels);
+            ChangeDevicesCommand = new RelayCommand(OnChangeDevices);
+
+            if (guardUser == null)
+            {
+                Title = "Создать пользователя";
+                _isNew = true;
+                GuardUser = new GuardUser();
+            }
+            else
+            {
+                Title = "Редактировать пользователя";
+                _isNew = false;
+                GuardUser = guardUser;
+            }
+
+            CopyProperies();
         }
 
-        public void Initialize(GuardUser guardUser)
+        void CopyProperies()
         {
-            Title = "Редактировать пользователя";
-            _isNew = false;
-            GuardUser = guardUser;
-            Name = guardUser.Name;
-            Password = guardUser.Password;
-            FIO = guardUser.FIO;
-            Function = guardUser.Function;
-            CanSetZone = guardUser.CanSetZone;
-            CanUnSetZone = guardUser.CanUnSetZone;
+            Name = GuardUser.Name;
+            Password = GuardUser.Password;
+            FIO = GuardUser.FIO;
+            Function = GuardUser.Function;
+            CanSetZone = GuardUser.CanSetZone;
+            CanUnSetZone = GuardUser.CanUnSetZone;
+        }
+
+        void SaveProperies()
+        {
+            GuardUser.Name = Name;
+            GuardUser.Password = Password;
+            GuardUser.FIO = FIO;
+            GuardUser.Function = Function;
+            GuardUser.CanSetZone = CanSetZone;
+            GuardUser.CanUnSetZone = CanUnSetZone;
         }
 
         string _name;
@@ -105,20 +123,12 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                var presentationNames = new StringBuilder();
-                if (GuardUser.GuardLevelNames.Count > 0)
+                string presentationNames = "";
+                foreach (var guardLevelName in GuardUser.GuardLevelNames)
                 {
-                    presentationNames.Append(GuardUser.GuardLevelNames[0]);
+                    presentationNames += guardLevelName + ", ";
                 }
-                if (GuardUser.GuardLevelNames.Count > 1)
-                {
-                    for (int i = 1; i < GuardUser.GuardLevelNames.Count; ++i)
-                    {
-                        presentationNames.Append(", ");
-                        presentationNames.Append(GuardUser.GuardLevelNames[i]);
-                    }
-                }
-                return presentationNames.ToString().TrimStart(',');
+                return presentationNames.TrimEnd(',', ' ');
             }
         }
 
@@ -134,14 +144,34 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public string PresentationDevices
+        {
+            get
+            {
+                string presentationNames = "";
+                foreach (var deviceUID in GuardUser.Devices)
+                {
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                    presentationNames += device.Driver.ShortName + " " + device.DottedAddress + ", ";
+                }
+                return presentationNames.TrimEnd(',', ' ');
+            }
+        }
+
+        public RelayCommand ChangeDevicesCommand { get; private set; }
+        void OnChangeDevices()
+        {
+            var guardDevicesSelectationViewModel = new GuardDevicesSelectationViewModel(GuardUser);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(guardDevicesSelectationViewModel))
+            {
+                //GuardUser.GuardLevelNames = guardDevicesSelectationViewModel.GuardLevels;
+                OnPropertyChanged("PresentationDevices");
+            }
+        }
+
         protected override void Save(ref bool cancel)
         {
-            GuardUser.Name = Name;
-            GuardUser.Password = Password;
-            GuardUser.FIO = FIO;
-            GuardUser.Function = Function;
-            GuardUser.CanSetZone = CanSetZone;
-            GuardUser.CanUnSetZone = CanUnSetZone;
+            SaveProperies();
         }
     }
 }

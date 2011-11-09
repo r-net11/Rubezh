@@ -50,8 +50,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var directionDetailsViewModel = new DirectionDetailsViewModel();
-            directionDetailsViewModel.Initialize(SelectedDirection.Direction);
+            var directionDetailsViewModel = new DirectionDetailsViewModel(SelectedDirection.Direction);
             if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
             {
                 SelectedDirection.Update();
@@ -69,7 +68,6 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             var directionDetailsViewModel = new DirectionDetailsViewModel();
-            directionDetailsViewModel.Initialize();
             if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);

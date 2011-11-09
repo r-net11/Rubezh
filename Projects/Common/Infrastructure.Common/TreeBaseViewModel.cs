@@ -100,5 +100,7 @@ namespace Infrastructure.Common
                 OnPropertyChanged("Children");
             }
         }
+
+        public bool IsBold { get; set; }
     }
 }

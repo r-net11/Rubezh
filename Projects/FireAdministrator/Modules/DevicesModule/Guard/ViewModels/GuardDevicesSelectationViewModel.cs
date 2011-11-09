@@ -8,41 +8,42 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
-namespace InstructionsModule.ViewModels
+namespace DevicesModule.ViewModels
 {
-    public class InstructionDevicesViewModel : SaveCancelDialogContent
+    public class GuardDevicesSelectationViewModel : SaveCancelDialogContent
     {
-        public InstructionDevicesViewModel(List<Guid> instructionDevicesList)
+        public GuardUser GuardUser { get; private set; }
+
+        public GuardDevicesSelectationViewModel(GuardUser guardUser)
         {
-            Title = "Выбор устройства";
-
-            InstructionDevicesList = new List<Guid>(instructionDevicesList);
-            InstructionDevices = new ObservableCollection<DeviceViewModel>();
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
-
-            UpdateDevices();
-
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+
+            Title = "Выберите охранное устройство";
+            GuardUser = guardUser;
+
+            DeviceList = new List<Guid>(GuardUser.Devices);
+            Devices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+
+            UpdateDevices();
         }
 
         void UpdateDevices()
         {
             var availableDevices = new HashSet<Device>();
-            var instructionDevices = new HashSet<Device>();
+            var devices = new HashSet<Device>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if ((device.Driver.Category == DeviceCategoryType.Sensor) ||
-                    (device.Driver.Category == DeviceCategoryType.Effector) ||
-                    (device.Driver.Category == DeviceCategoryType.Device))
+                if ((device.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                 {
-                    if (InstructionDevicesList.Contains(device.UID))
+                    if (DeviceList.Contains(device.UID))
                     {
-                        device.AllParents.ForEach(x => { instructionDevices.Add(x); });
-                        instructionDevices.Add(device);
+                        device.AllParents.ForEach(x => { devices.Add(x); });
+                        devices.Add(device);
                     }
                     else
                     {
@@ -52,21 +53,21 @@ namespace InstructionsModule.ViewModels
                 }
             }
 
-            InstructionDevices.Clear();
-            BuildTree(instructionDevices, InstructionDevices);
+            Devices.Clear();
+            BuildTree(devices, Devices);
 
             AvailableDevices.Clear();
             BuildTree(availableDevices, AvailableDevices);
 
-            if (InstructionDevices.IsNotNullOrEmpty())
+            if (Devices.IsNotNullOrEmpty())
             {
-                CollapseChild(InstructionDevices[0]);
-                ExpandChild(InstructionDevices[0]);
-                SelectedInstructionDevice = InstructionDevices[0];
+                CollapseChild(Devices[0]);
+                ExpandChild(Devices[0]);
+                SelectedDevice = Devices[0];
             }
             else
             {
-                SelectedInstructionDevice = null;
+                SelectedDevice = null;
             }
 
             if (AvailableDevices.IsNotNullOrEmpty())
@@ -87,9 +88,7 @@ namespace InstructionsModule.ViewModels
             {
                 var deviceViewModel = new DeviceViewModel(device, devices);
                 deviceViewModel.IsExpanded = true;
-                if ((device.Driver.Category == DeviceCategoryType.Sensor) ||
-                    (device.Driver.Category == DeviceCategoryType.Effector) ||
-                    (device.Driver.Category == DeviceCategoryType.Device))
+                if ((device.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Driver.DriverType == DriverType.USB_Rubezh_2OP))
                     deviceViewModel.IsBold = true;
                 devices.Add(deviceViewModel);
             }
@@ -127,9 +126,9 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public List<Guid> InstructionDevicesList { get; set; }
+        public List<Guid> DeviceList { get; set; }
         public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
-        public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
+        public ObservableCollection<DeviceViewModel> Devices { get; set; }
 
         DeviceViewModel _selectedAvailableDevice;
         public DeviceViewModel SelectedAvailableDevice
@@ -142,14 +141,14 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        DeviceViewModel _selectedInstructionDevice;
-        public DeviceViewModel SelectedInstructionDevice
+        DeviceViewModel _selectedDevice;
+        public DeviceViewModel SelectedDevice
         {
-            get { return _selectedInstructionDevice; }
+            get { return _selectedDevice; }
             set
             {
-                _selectedInstructionDevice = value;
-                OnPropertyChanged("SelectedInstructionDevice");
+                _selectedDevice = value;
+                OnPropertyChanged("SelectedDevice");
             }
         }
 
@@ -165,18 +164,18 @@ namespace InstructionsModule.ViewModels
 
         public bool CanRemoveOne()
         {
-            return ((SelectedInstructionDevice != null) && (SelectedInstructionDevice.IsBold));
+            return ((SelectedDevice != null) && (SelectedDevice.IsBold));
         }
 
         public bool CanRemoveAll()
         {
-            return (InstructionDevices.IsNotNullOrEmpty());
+            return (Devices.IsNotNullOrEmpty());
         }
 
         public RelayCommand AddOneCommand { get; private set; }
         void OnAddOne()
         {
-            InstructionDevicesList.Add(SelectedAvailableDevice.UID);
+            DeviceList.Add(SelectedAvailableDevice.UID);
             UpdateDevices();
         }
 
@@ -186,7 +185,7 @@ namespace InstructionsModule.ViewModels
             foreach (var deviceViewModel in AvailableDevices)
             {
                 if (deviceViewModel.IsBold)
-                    InstructionDevicesList.Add(deviceViewModel.UID);
+                    DeviceList.Add(deviceViewModel.UID);
             }
             UpdateDevices();
         }
@@ -194,15 +193,20 @@ namespace InstructionsModule.ViewModels
         public RelayCommand RemoveAllCommand { get; private set; }
         void OnRemoveAll()
         {
-            InstructionDevicesList.Clear();
+            DeviceList.Clear();
             UpdateDevices();
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
         void OnRemoveOne()
         {
-            InstructionDevicesList.Remove(SelectedInstructionDevice.UID);
+            DeviceList.Remove(SelectedDevice.UID);
             UpdateDevices();
+        }
+
+        protected override void Save(ref bool cancel)
+        {
+            GuardUser.Devices = DeviceList;
         }
     }
 }

@@ -11,6 +11,11 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionDetailsViewModel : SaveCancelDialogContent
     {
+        bool _isNew;
+        public Instruction Instruction { get; private set; }
+        public List<ulong?> InstructionZonesList { get; set; }
+        public List<Guid> InstructionDevicesList { get; set; }
+
         public InstructionDetailsViewModel()
         {
             InstructionZonesList = new List<ulong?>();
@@ -19,44 +24,41 @@ namespace InstructionsModule.ViewModels
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
         }
 
-        bool _isNew;
-        public Instruction Instruction { get; private set; }
-        public List<ulong?> InstructionZonesList { get; set; }
-        public List<Guid> InstructionDevicesList { get; set; }
-
-        public void Initialize()
+        public void Initialize(Instruction instruction = null)
         {
-            _isNew = true;
-            Title = "Новая инструкция";
-
-            InstructionNo = 0;
-            if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-                InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
-
-            Instruction = new Instruction();
-        }
-
-        public void Initialize(Instruction instruction)
-        {
-            _isNew = false;
-            Title = "Редактирование инструкции";
-
-            Instruction = instruction;
-            Text = instruction.Text;
-            StateType = instruction.StateType;
-            InstructionNo = instruction.No;
-            InstructionType = instruction.InstructionType;
-            switch (InstructionType)
+            if (instruction == null)
             {
-                case InstructionType.Details:
-                    if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
-                        InstructionZonesList = new List<ulong?>(Instruction.InstructionZonesList);
-                    if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
-                        InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
-                    break;
+                _isNew = true;
+                Title = "Новая инструкция";
 
-                case InstructionType.General:
-                    break;
+                InstructionNo = 0;
+                if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
+                    InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
+
+                Instruction = new Instruction();
+            }
+            else
+            {
+                _isNew = false;
+                Title = "Редактирование инструкции";
+
+                Instruction = instruction;
+                Text = instruction.Text;
+                StateType = instruction.StateType;
+                InstructionNo = instruction.No;
+                InstructionType = instruction.InstructionType;
+                switch (InstructionType)
+                {
+                    case InstructionType.Details:
+                        if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
+                            InstructionZonesList = new List<ulong?>(Instruction.InstructionZonesList);
+                        if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
+                            InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
+                        break;
+
+                    case InstructionType.General:
+                        break;
+                }
             }
         }
 

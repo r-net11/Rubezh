@@ -65,8 +65,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, AvailableDevices);
+                var deviceViewModel = new DeviceViewModel(device, AvailableDevices);
                 deviceViewModel.IsExpanded = true;
                 AvailableDevices.Add(deviceViewModel);
             }

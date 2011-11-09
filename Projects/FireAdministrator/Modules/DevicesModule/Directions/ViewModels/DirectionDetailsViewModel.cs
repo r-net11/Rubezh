@@ -9,21 +9,18 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionDetailsViewModel : SaveCancelDialogContent
     {
-        public DirectionDetailsViewModel()
+        bool _isNew;
+        public Direction Direction { get; private set; }
+
+        public DirectionDetailsViewModel(Direction direction = null)
         {
             ResetRmCommand = new RelayCommand(OnResetRm);
             ResetButtonCommand = new RelayCommand(OnResetButton);
             ChooseRmCommand = new RelayCommand(OnChooseRm);
             ChooseButtonCommand = new RelayCommand(OnChooseButton);
-        }
 
-        bool _isNew;
-        public Direction Direction { get; private set; }
-
-        public void Initialize(Direction direction = null)
-        {
             _isNew = direction == null;
-            Title = direction == null ? "Создать направление" : "Редактировать направление";
+            Title = _isNew ? "Создать направление" : "Редактировать направление";
             if (direction == null)
                 CreateNew();
             else

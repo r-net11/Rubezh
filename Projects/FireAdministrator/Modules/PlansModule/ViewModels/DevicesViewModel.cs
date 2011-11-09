@@ -19,8 +19,7 @@ namespace PlansModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, Devices);
+                var deviceViewModel = new DeviceViewModel(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);
             }

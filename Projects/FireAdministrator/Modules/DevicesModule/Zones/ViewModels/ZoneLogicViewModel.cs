@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
     {
         Device _device;
 
-        public ZoneLogicViewModel()
+        public ZoneLogicViewModel(Device device)
         {
             Title = "Настройка логики зон";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -20,9 +20,11 @@ namespace DevicesModule.ViewModels
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
             ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Subscribe(OnCurrentClauseStateChanged);
+
+            Initialize(device);
         }
 
-        public void Initialize(Device device)
+        void Initialize(Device device)
         {
             _device = device;
             Clauses = new ObservableCollection<ClauseViewModel>();
@@ -30,8 +32,7 @@ namespace DevicesModule.ViewModels
             {
                 foreach (var clause in device.ZoneLogic.Clauses)
                 {
-                    var clauseViewModel = new ClauseViewModel();
-                    clauseViewModel.Initialize(_device, clause);
+                    var clauseViewModel = new ClauseViewModel(_device, clause);
                     Clauses.Add(clauseViewModel);
                 }
             }
@@ -42,8 +43,7 @@ namespace DevicesModule.ViewModels
 
             if (device.ZoneLogic.Clauses.Count == 0)
             {
-                var clauseViewModel = new ClauseViewModel();
-                clauseViewModel.Initialize(_device, new Clause());
+                var clauseViewModel = new ClauseViewModel(_device, new Clause());
                 Clauses.Add(clauseViewModel);
             }
 
@@ -108,13 +108,12 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            var clauseViewModel = new ClauseViewModel();
             var clause = new Clause()
             {
                 Operation = ZoneLogicOperation.All,
                 State = ZoneLogicState.Fire
             };
-            clauseViewModel.Initialize(_device, clause);
+            var clauseViewModel = new ClauseViewModel(_device, clause);
             Clauses.Add(clauseViewModel);
             OnPropertyChanged("ShowZoneLogicJoinOperator");
         }

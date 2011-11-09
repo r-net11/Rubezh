@@ -196,6 +196,12 @@ namespace FiresecService.Converters
 
             driver.CanAddChildren = driver.AvaliableChildren.Count > 0;
 
+            if (innerDriver.child_id != null)
+            {
+                driver.AutoChild = new Guid(innerDriver.child_id);
+                driver.AutoChildCount = int.Parse(innerDriver.child_count);
+            }
+
             driver.Properties = new List<DriverProperty>();
             if (innerDriver.propInfo != null)
             {

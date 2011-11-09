@@ -12,14 +12,11 @@ namespace DevicesModule.ViewModels
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; set; }
         List<AutoSearchDeviceViewModel> allDevices;
 
-        public AutoSearchViewModel()
+        public AutoSearchViewModel(DeviceConfiguration autodetectedDeviceConfiguration)
         {
             Title = "Добавление устройств";
             ContinueCommand = new RelayCommand(OnContinue);
-        }
 
-        public void Initialize(DeviceConfiguration autodetectedDeviceConfiguration)
-        {
             allDevices = new List<AutoSearchDeviceViewModel>();
             Devices = new List<AutoSearchDeviceViewModel>();
             Devices.Add(AddDevice(autodetectedDeviceConfiguration.RootDevice, null));
@@ -71,8 +68,7 @@ namespace DevicesModule.ViewModels
 
             var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.UID == parentDevice.UID);
 
-            var deviceViewModel = new DeviceViewModel();
-            deviceViewModel.Initialize(device, parentDeviceViewModel.Source);
+            var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source);
             deviceViewModel.Parent = parentDeviceViewModel;
             parentDeviceViewModel.Children.Add(deviceViewModel);
 

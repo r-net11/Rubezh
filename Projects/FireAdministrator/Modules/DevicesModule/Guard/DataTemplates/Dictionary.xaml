@@ -39,4 +39,8 @@
         <Views:GuardLevelsSelectationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesSelectationViewModel}">
+        <Views:GuardDevicesSelectationView />
+    </DataTemplate>
+
 </ResourceDictionary>

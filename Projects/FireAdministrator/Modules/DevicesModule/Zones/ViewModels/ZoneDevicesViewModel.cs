@@ -11,6 +11,8 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneDevicesViewModel : BaseViewModel
     {
+        ulong? _zoneNo;
+
         public ZoneDevicesViewModel()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
@@ -20,8 +22,6 @@ namespace DevicesModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
         }
-
-        ulong? _zoneNo;
 
         public void Initialize(ulong? zoneNo)
         {
@@ -60,8 +60,7 @@ namespace DevicesModule.ViewModels
             Devices.Clear();
             foreach (var device in devices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, Devices);
+                var deviceViewModel = new DeviceViewModel(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);
             }
@@ -76,8 +75,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices.Clear();
             foreach (var device in availableDevices)
             {
-                var deviceViewModel = new DeviceViewModel();
-                deviceViewModel.Initialize(device, AvailableDevices);
+                var deviceViewModel = new DeviceViewModel(device, AvailableDevices);
                 deviceViewModel.IsExpanded = true;
                 AvailableDevices.Add(deviceViewModel);
             }
@@ -173,8 +171,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogic()
         {
-            var zoneLogicViewModel = new ZoneLogicViewModel();
-            zoneLogicViewModel.Initialize(SelectedDevice.Device);
+            var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
                 DevicesModule.HasChanges = true;

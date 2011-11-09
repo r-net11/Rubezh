@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
         public Device Device { get; private set; }
         public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-        public DeviceViewModel()
+        public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Children = new ObservableCollection<DeviceViewModel>();
 
@@ -25,10 +25,7 @@ namespace DevicesModule.ViewModels
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
             ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
-        }
 
-        public void Initialize(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
-        {
             Source = sourceDevices;
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
@@ -132,9 +129,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZoneLogicCommand { get; private set; }
         void OnShowZoneLogic()
         {
-            var zoneLogicViewModel = new ZoneLogicViewModel();
-            zoneLogicViewModel.Initialize(Device);
-
+            var zoneLogicViewModel = new ZoneLogicViewModel(Device);
             DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
         }
 
@@ -149,7 +144,7 @@ namespace DevicesModule.ViewModels
 
         public bool CanAdd()
         {
-            return Driver.CanAddChildren;
+            return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -168,9 +163,7 @@ namespace DevicesModule.ViewModels
 
         bool CanRemove()
         {
-            if (Parent == null || Driver.IsAutoCreate)
-                return false;
-            return true;
+            return !(Parent == null || Driver.IsAutoCreate || Parent.Driver.AutoChild == Driver.UID);
         }
 
         public RelayCommand RemoveCommand { get; private set; }
