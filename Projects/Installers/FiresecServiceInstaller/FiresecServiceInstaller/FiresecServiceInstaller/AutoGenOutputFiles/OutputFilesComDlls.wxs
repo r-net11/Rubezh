@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <DirectoryRef Id="TARGETDIR">
+        <!--<DirectoryRef Id="TARGETDIR">
             <Directory Id="dir2EBECCB4F62905C0D2C99FE3BD0B1DC1" Name="ComDlls">
                 <Component Id="cmp427C76D7B196575BC12650B4C6C22888" Guid="{767EC6DE-10EC-45E1-811C-44FA25250B8B}">
                     <File Id="fil20CCDD3AB401DEDE66B8B49C3F06F1C8" KeyPath="yes" Source="SourceDir\Interop.FS_Types.dll" />
@@ -130,6 +130,6 @@
                     <RegistryValue Root="HKCR" Key="Record\{FB05A067-4AA6-3F48-8B57-3D2249358C00}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
                 </Component>
             </Directory>
-        </DirectoryRef>
+        </DirectoryRef>-->
     </Fragment>
 </Wix>

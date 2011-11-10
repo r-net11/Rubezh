@@ -127,7 +127,7 @@ namespace DevicesModule.ViewModels
             {
                 var devices = FiresecManager.DeviceConfiguration.Devices;
                 var emptyZones = new List<ZoneViewModel>(
-                    Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.No))
+                    Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.No) == false)
                 );
 
                 foreach (var emptyZone in emptyZones)

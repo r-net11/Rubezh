@@ -98,22 +98,6 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecCustomActions\FiresecCustomActions.csproj">
-      <Name>FiresecCustomActions</Name>
-      <Project>{cc11719d-b6b8-4c8f-960d-a58e3019094f}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\InstallerLibrary\InstallerLibrary.csproj">
-      <Name>InstallerLibrary</Name>
-      <Project>{c3899f6d-41d2-45a3-a641-f66010b637fc}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUtilExtension">
@@ -132,6 +116,7 @@
   <ItemGroup>
     <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Pre-Build commands.txt" />
     <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixXmlConfig.xslt" />
     <Content Include="Xslt\WixIcons.xslt" />
@@ -146,10 +131,7 @@
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>
-    <PreBuildEvent>"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Icons" -t "$(ProjectDir)Xslt\WixIcons.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesIcons.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)ComDlls" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesComDlls.wxs" -gg -sfrag</PreBuildEvent>
+    <PreBuildEvent />
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

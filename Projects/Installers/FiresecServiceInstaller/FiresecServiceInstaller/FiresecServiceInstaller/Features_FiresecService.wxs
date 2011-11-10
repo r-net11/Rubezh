@@ -4,7 +4,8 @@
 	<Fragment>
 		<Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="MainExe" />
+			<!--<ComponentRef Id="MainExe" />-->
+			<ComponentRef Id="FiresecServiceExe"/>
 			<ComponentRef Id="FiresecServiceConfig" />
 			<ComponentRef Id="CommonComponent" />
 			<ComponentRef Id="FiresecComponent" />
@@ -18,7 +19,8 @@
 			<ComponentRef Id="ProgramsMenuShortcutUninstall" />
 			<ComponentRef Id="DesktopFolder" />
 			<ComponentRef Id="DesktopShortcut" />
-			<ComponentRef Id="Autorun"/>
+      <ComponentRef Id="StartService"/>
+			<!--<ComponentRef Id="Autorun"/>-->
 			<!--<ComponentRef Id="FiresecServiceService"/>-->
 		</Feature>
 
