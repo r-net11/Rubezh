@@ -2,190 +2,190 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="Output.Icons">
-            <Component Id="cmp28F2CB3051A251FF9EF13A0BDF342F34" Guid="{B3894D8E-4FA7-44DA-9EE1-F57D2A37A6E8}">
+            <Component Id="cmp28F2CB3051A251FF9EF13A0BDF342F34" Guid="{1A2F301A-2AA7-4529-AE50-5BE03849E64F}">
                 <File Id="filAB48AB919CD1BFCAAE411814939A1F61" Source="..\..\source\Configuration\Icons\Device_blackbox.ico" />
             </Component>
-            <Component Id="cmp74F5D80A9AA0814FEB52C8A12F076ECB" Guid="{3422A7CA-8122-485A-BB57-BCFEB7C72251}">
+            <Component Id="cmp74F5D80A9AA0814FEB52C8A12F076ECB" Guid="{9045ADA2-735E-484E-9AE1-0E7D6EA33105}">
                 <File Id="filF6F1AB219611FB0DEE7C72DC9E2A4C56" Source="..\..\source\Configuration\Icons\Device_Bus.ico" />
             </Component>
-            <Component Id="cmp1FBB923EEEB4188DA06EF4A8C6061224" Guid="{5C3D918C-60DE-4458-B631-6AFD47803D45}">
+            <Component Id="cmp1FBB923EEEB4188DA06EF4A8C6061224" Guid="{AE14AF58-0B1A-40F5-A143-A0907DCABA74}">
                 <File Id="filA9C190B86979717EA3B53DB1F032E0F1" Source="..\..\source\Configuration\Icons\Device_Computer.ico" />
             </Component>
-            <Component Id="cmp1E360137DA8C69E0824278E67818A318" Guid="{3C8F4C77-2173-4035-B67B-0B5467FCEDC3}">
+            <Component Id="cmp1E360137DA8C69E0824278E67818A318" Guid="{6B65D6A9-1C49-4EDD-9348-E2AB14817DF6}">
                 <File Id="filDF4DAFC41E37B52F5842246B0A519338" Source="..\..\source\Configuration\Icons\Device_Connector.ico" />
             </Component>
-            <Component Id="cmp5BF6148AEBEF625D4D03D4747958F53E" Guid="{D9C00BC5-342F-45C6-8CD1-815833E35239}">
+            <Component Id="cmp5BF6148AEBEF625D4D03D4747958F53E" Guid="{4CB6063E-69C4-40AD-B701-8B50D00CBB3E}">
                 <File Id="fil21D6B47581517581206725B1516A4D06" Source="..\..\source\Configuration\Icons\Device_Device.ico" />
             </Component>
-            <Component Id="cmp5F58FB698B1CA5C5C6D1D1856B01432E" Guid="{C16C6FA7-0E12-4B1C-8071-AEAC1A2A1FF2}">
+            <Component Id="cmp5F58FB698B1CA5C5C6D1D1856B01432E" Guid="{0CBB5D22-BDFF-444C-880F-D48E9417E025}">
                 <File Id="filD3ED32650DA053C9E12DF2159B773E84" Source="..\..\source\Configuration\Icons\Device_Lamp.ico" />
             </Component>
-            <Component Id="cmp47DD94A5D4170E0A76B8B72DEB285F81" Guid="{777DD3D6-FEFC-4625-ABE4-C931C410064F}">
+            <Component Id="cmp47DD94A5D4170E0A76B8B72DEB285F81" Guid="{AFEFB03B-EAA0-4F27-9641-901A9B61587B}">
                 <File Id="fil34BB32D54D1CBC892FF7E4024E8F8241" Source="..\..\source\Configuration\Icons\Device_Mech.ico" />
             </Component>
-            <Component Id="cmp50A805ADD6C800D02349B137B68D17C5" Guid="{B771892C-2F9F-44EC-824B-F774EC7141EC}">
+            <Component Id="cmp50A805ADD6C800D02349B137B68D17C5" Guid="{3F60CC4D-BB04-4630-8A4B-8818F4886D9E}">
                 <File Id="filC66E7725C73440F39C76B02550F6FC4E" Source="..\..\source\Configuration\Icons\Device_Panel.ico" />
             </Component>
-            <Component Id="cmp3268DD198B0A705FF626A55A1A1985D1" Guid="{DD79FE7E-CF88-4ECE-B301-A4A065E9D33D}">
+            <Component Id="cmp3268DD198B0A705FF626A55A1A1985D1" Guid="{F61265B5-23A2-4BC0-BF00-7E645534585D}">
                 <File Id="fil3FB945AA39537A08F134C1A493BEDEE8" Source="..\..\source\Configuration\Icons\Device_R_AL.ico" />
             </Component>
-            <Component Id="cmp9625EA595DB35BC3C85A2BDC82DD91C8" Guid="{6BE3E93E-11E7-4A2C-93B8-EAD023CE3376}">
+            <Component Id="cmp9625EA595DB35BC3C85A2BDC82DD91C8" Guid="{D4005A11-4C5C-450B-BD45-7F1E9B6973E6}">
                 <File Id="fil8D87680F8004C468FDE271C1632C2667" Source="..\..\source\Configuration\Icons\Device_R_ASPT.ico" />
             </Component>
-            <Component Id="cmpB1D87C8F374EF93935BAE5B2BF37CD83" Guid="{6123B878-B5B2-4FE6-AB0B-D9486EE7D2B2}">
+            <Component Id="cmpB1D87C8F374EF93935BAE5B2BF37CD83" Guid="{C9E64F15-7446-479C-8B1B-8CCF455C35AA}">
                 <File Id="filF61AB3D80B4978E9B81B916B367B7595" Source="..\..\source\Configuration\Icons\Device_R_Combo.ico" />
             </Component>
-            <Component Id="cmp0C642855EEF57AF0C315350B89C8D29D" Guid="{A280BEEE-A573-416C-A347-C9CDBEAAF573}">
+            <Component Id="cmp0C642855EEF57AF0C315350B89C8D29D" Guid="{E13C75DF-1EF4-4727-8639-4C14E8DC6EE4}">
                 <File Id="fil7E0E2169813B55D8EE8236B10B6521BE" Source="..\..\source\Configuration\Icons\Device_R_Man.ico" />
             </Component>
-            <Component Id="cmp6F7A589F652EF01DFB9C2A0C5526313F" Guid="{AE564060-D561-4315-A1A6-3673F9179F6E}">
+            <Component Id="cmp6F7A589F652EF01DFB9C2A0C5526313F" Guid="{ED2070ED-8D25-4F5F-9F59-F55AF5ED1666}">
                 <File Id="fil0644EF6D0B0F87876B20FE47B48CDEC2" Source="..\..\source\Configuration\Icons\Device_R_Smoke.ico" />
             </Component>
-            <Component Id="cmp23285826E5670D52FD4E3101D857A274" Guid="{439535E1-EF9F-4AE5-B24A-B500177DFAE3}">
+            <Component Id="cmp23285826E5670D52FD4E3101D857A274" Guid="{6EBFBEC2-4497-4F1A-9BF0-EC2BF0AD19DF}">
                 <File Id="filA93CCA3FE5E29E0B5FE996D704F85220" Source="..\..\source\Configuration\Icons\Device_R_Temp.ico" />
             </Component>
-            <Component Id="cmp833B383DF8B31027212D92E51CDEDCC4" Guid="{3F03E721-113D-457B-85DC-92178BD1511E}">
+            <Component Id="cmp833B383DF8B31027212D92E51CDEDCC4" Guid="{988E6133-CBDF-4A89-BB8D-7985F017C69C}">
                 <File Id="fil409E5CC626808FEB44DD4386FEB10B08" Source="..\..\source\Configuration\Icons\Device_Speaker.ico" />
             </Component>
-            <Component Id="cmpC65A00595DDE8768CBC6E3522E0A49BF" Guid="{46601595-C32C-4899-A0CD-D64F21AF4072}">
+            <Component Id="cmpC65A00595DDE8768CBC6E3522E0A49BF" Guid="{F1B1AC46-7958-4B19-BE6D-0715DFE71453}">
                 <File Id="fil37A1DD8437F710EADBD15C65932D7E8F" Source="..\..\source\Configuration\Icons\Device_Switch.ico" />
             </Component>
-            <Component Id="cmp7AEA98D62CA2C1158BD0B7F9BA874023" Guid="{DFBACE89-C04A-4692-8CD7-786A0A3238B2}">
+            <Component Id="cmp7AEA98D62CA2C1158BD0B7F9BA874023" Guid="{0A241925-1EB3-480D-89E1-4B5174684A6B}">
                 <File Id="fil2739F2907918D82533AA517B21E35A87" Source="..\..\source\Configuration\Icons\Device_wireless.ico" />
             </Component>
-            <Component Id="cmp2CDF9AD79A1EB53BF8879B78553CD71E" Guid="{A1CE1778-B15F-4C43-827F-CA422781CF24}">
+            <Component Id="cmp2CDF9AD79A1EB53BF8879B78553CD71E" Guid="{72588DB4-435B-4AA6-AB5D-46E6A1C910AE}">
                 <File Id="filE6DEF91E1758503A7C8025ED874AC8B9" Source="..\..\source\Configuration\Icons\DS_Critical.ico" />
             </Component>
-            <Component Id="cmp5399C2C4E9CBC341D7570C394B0EA5E6" Guid="{F53651F8-97BA-4463-A304-D3337266E733}">
+            <Component Id="cmp5399C2C4E9CBC341D7570C394B0EA5E6" Guid="{EBBA5615-F12B-4FA7-B96A-61FD81325926}">
                 <File Id="fil8DE68E6FD8A7223C8C4DC294DC636FE5" Source="..\..\source\Configuration\Icons\DS_Error.ico" />
             </Component>
-            <Component Id="cmpAC82B084C04872C1CBBD1A4A02E1EF27" Guid="{194433E2-2104-4CDE-92EB-6DF4EC02370F}">
+            <Component Id="cmpAC82B084C04872C1CBBD1A4A02E1EF27" Guid="{EFB2AD98-2CEA-4AFF-AE08-F3B2F40DDE81}">
                 <File Id="fil276BFD21B7E0BD4CC14B75F3C15365F2" Source="..\..\source\Configuration\Icons\DS_Mute.ico" />
             </Component>
-            <Component Id="cmp8BE0DB70B9C2ABD37AFDFDF18A49F73E" Guid="{823B80A1-61F1-42DB-BFF2-5058B75B99D9}">
+            <Component Id="cmp8BE0DB70B9C2ABD37AFDFDF18A49F73E" Guid="{14375891-6D33-4636-BDC3-76DB2E320290}">
                 <File Id="fil55BC304EF56B6E70289F06A6F06382F1" Source="..\..\source\Configuration\Icons\DS_Normal.ico" />
             </Component>
-            <Component Id="cmp8E9A843AF98304C9BCCFB188015DFBCA" Guid="{9B31DA00-A00E-45A1-B630-6A5733A1D787}">
+            <Component Id="cmp8E9A843AF98304C9BCCFB188015DFBCA" Guid="{7F48A934-B610-44D4-AAC2-53D331A19EB7}">
                 <File Id="filE1E6C093A0490E332FEFBB5DC61C2BAE" Source="..\..\source\Configuration\Icons\DS_ServiceRequired.ico" />
             </Component>
-            <Component Id="cmpA69D0E35923E1ECDEC72E94F55D99ED9" Guid="{5BE3C831-6947-4EFA-AF39-2D26B2E74368}">
+            <Component Id="cmpA69D0E35923E1ECDEC72E94F55D99ED9" Guid="{B9FE7272-0129-4F17-9C1A-CF7DF1249C43}">
                 <File Id="filDAE4882C6E60862CF4DB6130550E6EA9" Source="..\..\source\Configuration\Icons\DS_ServiceRequired_old.ico" />
             </Component>
-            <Component Id="cmp9B82DB829627216DCB501E1A6E33546E" Guid="{7B417BDF-A2B7-4084-AB53-1640B14659D8}">
+            <Component Id="cmp9B82DB829627216DCB501E1A6E33546E" Guid="{C6253C32-0AA7-40CD-BCB6-70FC53F33E0D}">
                 <File Id="filC3B30B2EB93932D9D4D2196574591F8D" Source="..\..\source\Configuration\Icons\DS_Unknown.ico" />
             </Component>
-            <Component Id="cmp700FAC8733481651E7C6CA4F47D91420" Guid="{0E81EB04-FA47-4353-92E8-F0D7B9DAFCDA}">
+            <Component Id="cmp700FAC8733481651E7C6CA4F47D91420" Guid="{0AC0396E-05DA-426D-A2E3-E61F4D67697A}">
                 <File Id="fil56E6F478801F9B7990C84277D7812701" Source="..\..\source\Configuration\Icons\DS_Warning.ico" />
             </Component>
-            <Component Id="cmp4B2B8F82FD70A8B121F0901736E893F7" Guid="{924A73B9-66A8-464B-9654-9FE4C0FE9FAB}">
+            <Component Id="cmp4B2B8F82FD70A8B121F0901736E893F7" Guid="{A16B224B-68B2-49D9-913D-840A0099F7E3}">
                 <File Id="fil4567FA4ACEFE6E45F0BCB5C2D92B8BAD" Source="..\..\source\Configuration\Icons\АМ-1О.ico" />
             </Component>
-            <Component Id="cmp19A1DC9F391527251DD4EF4851E01136" Guid="{3BD2C124-330B-4DC8-BC84-BDB1BEC3DA58}">
+            <Component Id="cmp19A1DC9F391527251DD4EF4851E01136" Guid="{B749931B-341B-4B0B-BFB6-AF3A802CDA86}">
                 <File Id="filD7460F31EB36681D4A36E49511B3B0AC" Source="..\..\source\Configuration\Icons\АМ-1П.ico" />
             </Component>
-            <Component Id="cmpEA04E9BB6DBD2D8A43F34A21F05DC4CF" Guid="{7D05D4FB-F1B9-4237-8378-B30A76A0ABC2}">
+            <Component Id="cmpEA04E9BB6DBD2D8A43F34A21F05DC4CF" Guid="{5DA357DB-D678-4CDE-9678-EE6F277C82FB}">
                 <File Id="filF3622BB3F1A78A1568A1AF5A11573BA4" Source="..\..\source\Configuration\Icons\АМ-1Т.ico" />
             </Component>
-            <Component Id="cmpFDC97D01E1DDBC19D83277A6D6448512" Guid="{A37C752C-6C01-413B-9FD7-1175DE390357}">
+            <Component Id="cmpFDC97D01E1DDBC19D83277A6D6448512" Guid="{E7653F6F-39CE-4984-ABF0-B77A6E42748F}">
                 <File Id="fil5F9D7AF0F387E8E8A25657F5A2B70F5A" Source="..\..\source\Configuration\Icons\АМО-4.ico" />
             </Component>
-            <Component Id="cmp49EAE3541E079EAA9E1ABE51FC1DEA12" Guid="{4003741B-ECCA-4261-A445-9346C8FDFBDA}">
+            <Component Id="cmp49EAE3541E079EAA9E1ABE51FC1DEA12" Guid="{2B9E6EE4-BDBD-4BFD-90A4-AFDD415E61E2}">
                 <File Id="filCF8E078EC28892D0831B2A5B9E9B3CF6" Source="..\..\source\Configuration\Icons\АМП-4.ico" />
             </Component>
-            <Component Id="cmp2007A27F2BC2D0639BCD23CD039F130E" Guid="{ADF4A63C-6FD4-43FA-B96D-675A9621D31E}">
+            <Component Id="cmp2007A27F2BC2D0639BCD23CD039F130E" Guid="{CD9CF3E7-9104-419B-AE63-533144B79D27}">
                 <File Id="fil16CAC1546D9B43A8B0D601BBDE683C79" Source="..\..\source\Configuration\Icons\АМП-4Т.ico" />
             </Component>
-            <Component Id="cmp7344828A44223FE31F42FB6C1F5E378B" Guid="{23DA9940-F7A4-48AC-A960-6DD64EC1376B}">
+            <Component Id="cmp7344828A44223FE31F42FB6C1F5E378B" Guid="{DEBB7639-D85A-4F51-8F47-7CAF1FF5F1BD}">
                 <File Id="fil38300D299A753CC5AA514484EC3CEFF5" Source="..\..\source\Configuration\Icons\АСПТ.ico" />
             </Component>
-            <Component Id="cmp858B3DAB659F851D9DB214D14E121BAD" Guid="{95F05549-D09A-4C34-B8DF-6B68D9FA8C7C}">
+            <Component Id="cmp858B3DAB659F851D9DB214D14E121BAD" Guid="{2385444F-6ED1-46C2-80E8-AD43680E5FCC}">
                 <File Id="filB3FA121EFF0704F9F5FA69712C8F5B53" Source="..\..\source\Configuration\Icons\БУНС-01-1.ico" />
             </Component>
-            <Component Id="cmp68C16DD60D093DA8BDB0C7C9FBB83543" Guid="{A47D2C50-F0E8-4956-9D95-59D00E866612}">
+            <Component Id="cmp68C16DD60D093DA8BDB0C7C9FBB83543" Guid="{EEB6B9E6-D484-4BAC-A7EF-22C19142C330}">
                 <File Id="fil3DEA99222AA8F9A190D03FC5B33093D1" Source="..\..\source\Configuration\Icons\Емкостной.ico" />
             </Component>
-            <Component Id="cmp80DC8618C533C17ABEC57FA51F047E7B" Guid="{219F7354-9235-4E14-8939-49025020205A}">
+            <Component Id="cmp80DC8618C533C17ABEC57FA51F047E7B" Guid="{5DFF4DA3-186A-43D8-BE68-5547D5B0B84F}">
                 <File Id="filA763BE83AA7B621F75621621D8731397" Source="..\..\source\Configuration\Icons\Задвижка.ico" />
             </Component>
-            <Component Id="cmp0289F69F42AA417AFCA43579C10CDB33" Guid="{593F5909-C3B2-4687-BEE7-265C73B3A919}">
+            <Component Id="cmp0289F69F42AA417AFCA43579C10CDB33" Guid="{864808AA-3135-4713-AFAB-0CDD638803C2}">
                 <File Id="filFA4F51A93E9BA55E19B7334DF9D4C45E" Source="..\..\source\Configuration\Icons\Звуковой.ico" />
             </Component>
-            <Component Id="cmp80328252C8ABF5EE922D888FB4D9AB7B" Guid="{5DC59184-6B47-411C-9E47-6E8F86B25754}">
+            <Component Id="cmp80328252C8ABF5EE922D888FB4D9AB7B" Guid="{AB4EEEE6-239A-4FA5-8CC3-CCF4B82176D5}">
                 <File Id="filACF2B32F56E0E8D4BC41A9EB11F25D31" Source="..\..\source\Configuration\Icons\ИП29-64.ico" />
             </Component>
-            <Component Id="cmp4F54EA48E79FBBB7DA9C0E6CCCFDC35A" Guid="{0AC5E87E-1CB9-4E25-BA26-9742DF213CAC}">
+            <Component Id="cmp4F54EA48E79FBBB7DA9C0E6CCCFDC35A" Guid="{ECCECF63-331A-45BD-8934-8BB68A5A9FEE}">
                 <File Id="filFC50C1FEEA5216636E4E8F646DB75BC3" Source="..\..\source\Configuration\Icons\ИП29.ico" />
             </Component>
-            <Component Id="cmpC339FF3262698126DCD5BDD393738F45" Guid="{440A7119-40E1-4A42-8A17-5F7D17F62BDF}">
+            <Component Id="cmpC339FF3262698126DCD5BDD393738F45" Guid="{77A1494B-B342-4605-962C-F2463F5DAF9C}">
                 <File Id="fil798CC5DC151AD373A9017C814E5786C6" Source="..\..\source\Configuration\Icons\ИП64.ico" />
             </Component>
-            <Component Id="cmp5301CAC06EC0EAC8B25E0C89DEC3FDF6" Guid="{DCDAD720-9294-47B4-9CBE-35EDEF51F2F6}">
+            <Component Id="cmp5301CAC06EC0EAC8B25E0C89DEC3FDF6" Guid="{94ADC46C-1082-49DB-8CA6-39E8120DBD64}">
                 <File Id="fil8EF149D88297BB9B2FB9E7E7E72C501A" Source="..\..\source\Configuration\Icons\ИПР.ico" />
             </Component>
-            <Component Id="cmp6EC3B0B593D8BBFCA522D148B37A771A" Guid="{D80AA20B-D0C5-4666-A897-8BAAE1187DA6}">
+            <Component Id="cmp6EC3B0B593D8BBFCA522D148B37A771A" Guid="{4622F106-26C2-4E16-BD3F-445DE55CD776}">
                 <File Id="fil4EF14AD9FC8E1C88480A200CDCC36A19" Source="..\..\source\Configuration\Icons\Комбинированный.ico" />
             </Component>
-            <Component Id="cmpD07B709906867599F8DDA742D07B3374" Guid="{B249D3D8-38C0-493F-BA7B-202BF4B9E0E7}">
+            <Component Id="cmpD07B709906867599F8DDA742D07B3374" Guid="{DE5DB3EA-5E06-4435-BA97-476189E7921F}">
                 <File Id="filE81EFFEFC6010DB9EF259CBDD02A840E" Source="..\..\source\Configuration\Icons\Магнитоконтактный.ico" />
             </Component>
-            <Component Id="cmpE68AC78345DF96EC7C8973577DEC09EE" Guid="{642AA90F-A5A3-4D7A-B454-4446FECA61C4}">
+            <Component Id="cmpE68AC78345DF96EC7C8973577DEC09EE" Guid="{55270140-AB5B-4A54-9576-479071226C66}">
                 <File Id="fil7130A834CDA80CDD01750EA8D35BFC1A" Source="..\..\source\Configuration\Icons\МДУ.ico" />
             </Component>
-            <Component Id="cmpD7DF81880390BD8994EEF45152F07B9E" Guid="{5E25DDDC-894E-401E-B8E0-C47006F0F713}">
+            <Component Id="cmpD7DF81880390BD8994EEF45152F07B9E" Guid="{0261BF62-B43B-4E6F-A835-C206A12E3C2D}">
                 <File Id="filA281A1539C3E738379AA07AF3EF91326" Source="..\..\source\Configuration\Icons\МПТ.ico" />
             </Component>
-            <Component Id="cmp4A81D930FAFA4E445377E45635863BDC" Guid="{0BC4A64A-96E4-448A-BF34-77B779CCA4FD}">
+            <Component Id="cmp4A81D930FAFA4E445377E45635863BDC" Guid="{24C8E3A2-78D4-472A-AB24-037B4F93C139}">
                 <File Id="fil08F6E65BE79919A0793D3A1F2F60FFBA" Source="..\..\source\Configuration\Icons\МРО.ico" />
             </Component>
-            <Component Id="cmpB5F77C9053DEDB5EF358801A4C1EABF5" Guid="{46CFAEC9-D3B4-4E11-AA64-A47CE251A860}">
+            <Component Id="cmpB5F77C9053DEDB5EF358801A4C1EABF5" Guid="{0A2E3A42-2C99-4D21-8C40-84B64E3A85FC}">
                 <File Id="fil137FBFB9FF576E2CCD30EB81612FC94C" Source="..\..\source\Configuration\Icons\МС.ico" />
             </Component>
-            <Component Id="cmpFC441CC21E67D4AF66B4EB4822DC36C4" Guid="{0D2D3A15-D140-4672-9830-FC150EF6D84B}">
+            <Component Id="cmpFC441CC21E67D4AF66B4EB4822DC36C4" Guid="{F82F51FB-8589-4069-93F7-636C923822E5}">
                 <File Id="fil5A5D7477EBB665487168EE1837D04C8D" Source="..\..\source\Configuration\Icons\насос.ico" />
             </Component>
-            <Component Id="cmp62B4881DF976A15BF9AF085A214A93F0" Guid="{8DFDCE35-69AC-4614-B741-0C5F8E5DD383}">
+            <Component Id="cmp62B4881DF976A15BF9AF085A214A93F0" Guid="{7C58AE5E-FFEE-4F72-BB90-2FD5D70D3CC6}">
                 <File Id="filC9CAA59FA341A7C662363650C7E8126A" Source="..\..\source\Configuration\Icons\Оптико-электронный активный.ico" />
             </Component>
-            <Component Id="cmp0965AF8054E9BBDAEFD49F385B81E804" Guid="{14DDB092-972B-4A4D-A9FC-3AACE2CDA581}">
+            <Component Id="cmp0965AF8054E9BBDAEFD49F385B81E804" Guid="{E59C2F50-789B-4816-BF6F-8C08E12AE97F}">
                 <File Id="fil3ADE9647FE503B212D2E4780D02D69E7" Source="..\..\source\Configuration\Icons\Оптико-электронный пассивный линейный.ico" />
             </Component>
-            <Component Id="cmpC91D0A8721D178564A85BC1963FADAB2" Guid="{C5C5BE59-1DE9-4FBC-9FAE-5493215A4D9C}">
+            <Component Id="cmpC91D0A8721D178564A85BC1963FADAB2" Guid="{74025442-8B87-44A9-AA15-C4EA4D5FE31C}">
                 <File Id="fil34E9910E0859E8ABB04BEB704F56D9A1" Source="..\..\source\Configuration\Icons\Оптико-электронный пассивный объемный.ico" />
             </Component>
-            <Component Id="cmpA5A48D3A8575CC44D4877983DFE0C3D9" Guid="{C218D4EC-D30E-4F3A-96EA-EBDFD518CD09}">
+            <Component Id="cmpA5A48D3A8575CC44D4877983DFE0C3D9" Guid="{38D77D4C-F362-4956-A4F8-C67E87245815}">
                 <File Id="fil8D08D3164F7CF04944F919AAA88A2FE6" Source="..\..\source\Configuration\Icons\Оптико-электронный пассивный поверхностный.ico" />
             </Component>
-            <Component Id="cmpD05E1588B45F15998EA3E1FA6EE56B52" Guid="{572DBA4C-CA43-4602-A812-C33C5394DFF7}">
+            <Component Id="cmpD05E1588B45F15998EA3E1FA6EE56B52" Guid="{46E3EA6A-36DF-476D-B033-6E72768C16F9}">
                 <File Id="fil20594E4366D185E48884CD80FEC8B95D" Source="..\..\source\Configuration\Icons\Пьезоэлектрический.ico" />
             </Component>
-            <Component Id="cmp3F94A73AE5279E0315D2341ADFF18322" Guid="{1ADA19B4-E6A6-4D96-9891-7715E0BD3964}">
+            <Component Id="cmp3F94A73AE5279E0315D2341ADFF18322" Guid="{547ECB32-FA17-4563-AAC4-BA029372B3C3}">
                 <File Id="filA06DFC20E4EE3662387BCB6DB9C65286" Source="..\..\source\Configuration\Icons\Радиоволновой одноблочный.ico" />
             </Component>
-            <Component Id="cmp545F3A2E62DD2E2B9DE795A3346894C8" Guid="{85CB08DC-0527-4489-AE60-C2230E0E658E}">
+            <Component Id="cmp545F3A2E62DD2E2B9DE795A3346894C8" Guid="{F010B38F-2CD1-4A49-BD04-10EEA796C13E}">
                 <File Id="filCE545ACC855A14980E899F2433307C7D" Source="..\..\source\Configuration\Icons\РМ.ico" />
             </Component>
-            <Component Id="cmp77A0E045954CC34D8F19D362C083A198" Guid="{CEFC2DA9-0AEC-416C-A768-79C2D0411696}">
+            <Component Id="cmp77A0E045954CC34D8F19D362C083A198" Guid="{098426D3-334E-4B50-A909-634B28795661}">
                 <File Id="fil4D608EE81EF227F99C35F97975D79776" Source="..\..\source\Configuration\Icons\Рубеж-2А.ico" />
             </Component>
-            <Component Id="cmpF381EEC9B8E3C29A81C009F81BC9A4F7" Guid="{A5A72A10-9509-45E0-96C4-8CADE1573132}">
+            <Component Id="cmpF381EEC9B8E3C29A81C009F81BC9A4F7" Guid="{A459D928-85FA-4EC9-BFA8-FA9617265E54}">
                 <File Id="fil8A598AFBE97DA2FCD126984F973373CE" Source="..\..\source\Configuration\Icons\Рубеж-2АМ.ico" />
             </Component>
-            <Component Id="cmp2A7A4B41D0FCAA48F160894EEBAA40F6" Guid="{F26627F8-9362-4216-859C-99030D77BE3A}">
+            <Component Id="cmp2A7A4B41D0FCAA48F160894EEBAA40F6" Guid="{1E967D7D-1BFB-4697-8C27-7FCBD0545CA5}">
                 <File Id="fil36F0A7C7450A48F003EE656D43B1F2A6" Source="..\..\source\Configuration\Icons\Рубеж-2ОП.ico" />
             </Component>
-            <Component Id="cmpCFCAEC003201A7D1D9FC1E97A21A0A8F" Guid="{12D267CB-921F-4E7C-876B-B060CAF55E66}">
+            <Component Id="cmpCFCAEC003201A7D1D9FC1E97A21A0A8F" Guid="{2FB89AF1-5903-4B53-B6F2-42ADD0487D7B}">
                 <File Id="filB2C187C3C6EA3F9CA8D375A2CE4EB279" Source="..\..\source\Configuration\Icons\Тревожной сигнализации (ножной).ico" />
             </Component>
-            <Component Id="cmp21CC33927EFAEC90B829F883C7E28163" Guid="{6A3D823A-FC96-4821-A998-4DF7261E12E8}">
+            <Component Id="cmp21CC33927EFAEC90B829F883C7E28163" Guid="{4453570E-DD82-486C-9D8D-6C92FA9E447C}">
                 <File Id="filD76BD382894E6F9F1615D5CCE4DC9A5F" Source="..\..\source\Configuration\Icons\Тревожной сигнализации (ручной).ico" />
             </Component>
-            <Component Id="cmp9FBED7693F96708F77FDCD1CB35C3A11" Guid="{10012AA9-5914-4566-AC94-56B1FC6BC6A8}">
+            <Component Id="cmp9FBED7693F96708F77FDCD1CB35C3A11" Guid="{39329845-DE84-4937-978F-DE2485428E0D}">
                 <File Id="fil84E0D8544824DADB4F85BB049A028634" Source="..\..\source\Configuration\Icons\Ударно-контактный.ico" />
             </Component>
-            <Component Id="cmp87ABAD6FB33BB2E5CB0DF498F000C0E0" Guid="{F8AA34B8-A8CB-4FC3-8B73-B999EB71CB83}">
+            <Component Id="cmp87ABAD6FB33BB2E5CB0DF498F000C0E0" Guid="{4AFC94E7-907A-410B-9BAF-B3715A6D08E1}">
                 <File Id="fil6F713F555E9E027392FC678FC1FF06FB" Source="..\..\source\Configuration\Icons\Ультразвуковой.ico" />
             </Component>
-            <Component Id="cmpDC4167C9D26EAA92219A1BB4B4C09DDD" Guid="{B8FCF1F0-7734-4C8E-91B1-BB2232794C49}">
+            <Component Id="cmpDC4167C9D26EAA92219A1BB4B4C09DDD" Guid="{A58E51AF-8BAA-4C07-867A-D951F5CD1AE1}">
                 <File Id="fil3C12579D8FDDC2297C6E18B3A418EDB3" Source="..\..\source\Configuration\Icons\Электроконтактный.ico" />
             </Component>
         </DirectoryRef>

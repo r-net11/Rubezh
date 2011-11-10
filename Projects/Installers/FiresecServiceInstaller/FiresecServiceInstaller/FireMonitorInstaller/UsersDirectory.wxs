@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="DesktopFolder">
+			<Component Id="DesktopFolder" Guid="0ED5A3B1-3DCD-4DBA-B042-1B53FEB7DC56">
+				<RemoveFolder Id="DesktopFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="ProgramMenuDir">
+			<Component Id="ProgramMenuDir" Guid="56046166-6119-4B5B-B1D7-5E070A47E3D0">
+				<RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

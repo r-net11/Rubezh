@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
-		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
 		
@@ -38,21 +37,9 @@
 
 			<Component Id="Autorun" Guid="520FC85A-90A0-4FDB-806B-A5E22657DF7F">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[INSTALLLOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
+					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[INSTALLLOCATION]$(var.FiresecService.TargetFileName)" />
 				</RegistryKey>
 			</Component>
-
-			<!--<Component Id="FiresecServiceService" Guid="1CC17195-2811-4817-A6FA-7FBFBDFA3F94">
-				<File Id="FiresecServiceServiceExe" Name="$(var.FiresecService.TargetFileName)" 
-							Source="$(var.FiresecService.TargetDir)" KeyPath="yes" />
-				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
-												Name="Firesec.Server" DisplayName="Сервер пожарной автоматики" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="no">
-					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
-				</ServiceInstall>
-				<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="FiresecService Serveer" Wait="yes"/>
-			</Component>-->
 
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<Condition> CHECKSQLSERVER = "1" </Condition>
@@ -68,25 +55,20 @@
 		</DirectoryRef>
 		
 		<DirectoryRef Id="ConfigurationFolder">
-			<Component Id="PlansConfiguration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
+			<Component Id="Configuration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
 				<File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1">
 				</File>
-			</Component>
-			<Component Id="SecurityConfiguration" Guid="024037C2-F2FD-4A06-A14B-A23B5179E6DE">
 				<File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1">
 				</File>
-			</Component>
-			<Component Id="DeviceLibrary" Guid="DF7CB00D-27E6-49CA-9CCE-B7B822C14B4A">
 				<File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1">
 				</File>
-			</Component>
-			<Component Id="DeviceConfiguration" Guid="188AAA95-581A-4352-B11E-38C0CDE13C16">
 				<File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1">
 				</File>
+				
 			</Component>
 		</DirectoryRef>
 	</Fragment>

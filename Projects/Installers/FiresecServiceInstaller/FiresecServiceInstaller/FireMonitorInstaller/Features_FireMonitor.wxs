@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<?include Variables_FireMonitor.wxi?>
+	
+	<Fragment>
+		<Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="MainExe" />
+			<ComponentRef Id="FireMonitorConfig" />
+			<ComponentRef Id="CommonComponent" />
+			<ComponentRef Id="ControlsComponent" />
+			<ComponentRef Id="DeviceControlsComponent" />
+			<ComponentRef Id="DialogBoxComponent" />
+			<ComponentRef Id="FiresecAPIComponent" />
+			<ComponentRef Id="FiresecClientComponent" />
+			<ComponentRef Id="UnityComponent" />
+			<ComponentRef Id="PrismComponent"/>
+			<ComponentRef Id="PrismUnityExtensionsComponent"/>
+			<ComponentRef Id="WPFToolkitExtendedComponent"/>
+			<ComponentRef Id="CustomWindowComponent"/>
+			<ComponentRef Id="ServiceLocationComponent"/>
+			<ComponentRef Id="Infrastructure.CommonComponent" />
+			<ComponentRef Id="InfrastructureComponent" />
+			<ComponentRef Id="DevicesModuleComponent" />
+			<ComponentRef Id="PlansModuleComponent" />
+			<ComponentRef Id="JournalModuleComponent" />
+			<ComponentRef Id="ReportsModuleComponent" />
+			<ComponentRef Id="CallModuleComponent"/>
+			<ComponentRef Id="AlarmModuleComponent"/>
+			<ComponentRef Id="ProgramMenuDir" />
+			<ComponentRef Id="ProgramsMenuShortcut" />
+			<ComponentRef Id="ProgramsMenuShortcutUninstall" />
+			<ComponentRef Id="DesktopFolder" />
+			<ComponentRef Id="DesktopShortcut" />
+		</Feature>
+	</Fragment>
+</Wix>

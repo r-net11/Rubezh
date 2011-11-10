@@ -4,9 +4,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
+    <ProjectGuid>{36e9e678-1936-413f-9f37-85714968377d}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>FiresecServiceInstaller</OutputName>
+    <OutputName>FireMonitorInstaller</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -15,10 +15,6 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
-    <Cultures>
-    </Cultures>
-    <CompilerAdditionalOptions>
-    </CompilerAdditionalOptions>
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -26,19 +22,18 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
-    <Compile Include="AutoGenOutputFiles\OutputFilesIcons.wxs" />
-    <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
-    <Compile Include="AutoGenOutputFiles\OutputFilesSounds.wxs" />
-    <Compile Include="CustomActions\CustomActions.wxs" />
-    <Compile Include="Features_FiresecService.wxs" />
-    <Compile Include="Files_FiresecService.wxs" />
-    <Compile Include="FiresecServiceInstaller.wxs" />
-    <Compile Include="Output.wxs" />
-    <Compile Include="Shortcuts_FiresecService.wxs" />
+    <Compile Include="CustomActions.wxs" />
+    <Compile Include="Features_FireMonitor.wxs" />
+    <Compile Include="Files_FireMonitor.wxs" />
+    <Compile Include="FireMonitorInstaller.wxs" />
+    <Compile Include="Shortcuts_FireMonitor.wxs" />
     <Compile Include="UsersDirectory.wxs" />
     <Compile Include="WixUI_Shortcut.wxs" />
     <Compile Include="WixUI_Wizard.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\Firesec.ico" />
+    <Content Include="Variables_FireMonitor.wxi" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
@@ -47,7 +42,31 @@
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\Controls\Controls.csproj">
+      <Name>Controls</Name>
+      <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\DeviceControls\DeviceControls.csproj">
+      <Name>DeviceControls</Name>
+      <Project>{d78cefee-52b2-42bc-9e50-94d990e9dfe2}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\DialogWindow\DialogWindow\DialogBox.csproj">
+      <Name>DialogBox</Name>
+      <Project>{8f228e65-e3d4-4a94-bc30-e5c428fe3493}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Common\FiresecClient\FiresecClient.csproj">
       <Name>FiresecClient</Name>
@@ -63,7 +82,7 @@
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Name>Infrastructure.Common</Name>
@@ -73,45 +92,69 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\FireAdministrator\Infrastructure\Infrastructure.csproj">
-      <Name>Infrastructure</Name>
-      <Project>{7e982f7a-e8b8-4b63-a204-9fc7e5f97170}</Project>
+    <ProjectReference Include="..\..\..\..\FireMonitor\FireMonitor\FireMonitor.csproj">
+      <Name>FireMonitor</Name>
+      <Project>{d1ea90c8-d176-442f-a5dd-8ab97b476821}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
-      <Name>FiresecService</Name>
-      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Infrastructure\Infrastructure.csproj">
+      <Name>Infrastructure _FMonitor\Infrastructure_</Name>
+      <Project>{2a951da3-6221-43e1-8b88-13a591faa53b}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\FiresecService\Firesec\Firesec.csproj">
-      <Name>Firesec</Name>
-      <Project>{d8d5bb16-daa5-4755-a924-34ac8dce19e8}</Project>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\AlarmModule\AlarmModule.csproj">
+      <Name>AlarmModule</Name>
+      <Project>{5994549e-4d3e-40bb-8630-cf696158e4e4}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecCustomActions\FiresecCustomActions.csproj">
-      <Name>FiresecCustomActions</Name>
-      <Project>{cc11719d-b6b8-4c8f-960d-a58e3019094f}</Project>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\CallModule\CallModule.csproj">
+      <Name>CallModule</Name>
+      <Project>{271a7d2e-a74d-4f66-a3e6-5e546209e3f9}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\InstallerLibrary\InstallerLibrary.csproj">
-      <Name>InstallerLibrary</Name>
-      <Project>{c3899f6d-41d2-45a3-a641-f66010b637fc}</Project>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\DevicesModule\DevicesModule.csproj">
+      <Name>DevicesModule _FMonitor\Modules\DevicesModule_</Name>
+      <Project>{408cbbfb-3989-443c-a5a2-3d78310210cd}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\JournalModule\JournalModule.csproj">
+      <Name>JournalModule</Name>
+      <Project>{73fd68c0-a071-4bc1-8299-0edb03b9c119}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\PlansModule\PlansModule.csproj">
+      <Name>PlansModule _FMonitor\Modules\PlansModule_</Name>
+      <Project>{299872b9-b3db-45c0-867b-53f6d49a7e87}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FireMonitor\Modules\ReportsModule\ReportsModule.csproj">
+      <Name>ReportsModule</Name>
+      <Project>{9bbd57d5-52df-4410-b50c-2428a426a805}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -119,36 +162,15 @@
       <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>
     </WixExtension>
-    <WixExtension Include="WixSqlExtension">
-      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
-      <Name>WixSqlExtension</Name>
-    </WixExtension>
     <WixExtension Include="WixUIExtension">
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Firesec.ico" />
-    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
-    <Content Include="Variables_FiresecService.wxi" />
-    <Content Include="Xslt\WixXmlConfig.xslt" />
-    <Content Include="Xslt\WixIcons.xslt" />
-    <Content Include="Xslt\WixReportTemplates.xslt" />
-    <Content Include="Xslt\WixSounds.xslt" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Data" />
-    <Folder Include="AutoGenOutputFiles" />
-    <Folder Include="CustomActions" />
-    <Folder Include="Xslt" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
-  <PropertyGroup>
-    <PreBuildEvent>"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Icons" -t "$(ProjectDir)Xslt\WixIcons.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesIcons.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag</PreBuildEvent>
-  </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.

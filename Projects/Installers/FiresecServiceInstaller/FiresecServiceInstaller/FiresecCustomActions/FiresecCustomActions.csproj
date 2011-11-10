@@ -49,7 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
       <Project>{903CA80D-886E-43AF-A631-BEB260F8F93D}</Project>
-      <Name>FiresecService</Name>
+      <Name>FiresecService %28FiresecService\FiresecService%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables_FireMonitor.wxi?>
+
+  <Fragment>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="33C7F674-40B2-44A9-8703-1C43367C8BA5">
+        <Shortcut Id="desktopShortcut" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FireMonitor.TargetFileName)"
+                  WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FireMonitorIcon"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="Shortcut" Type="integer"
+                       Value="1" KeyPath="yes" />
+        <Condition>SHORTCUT_DESKTOP</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ProgramMenuDir">
+      <!--Ярлык для запуска программы-->
+      <Component Id="ProgramsMenuShortcut" Guid="91C890F9-F024-4FBB-B11B-C5944EA72A82">
+        <Shortcut Id="RunProduct" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FireMonitor.TargetFileName)"
+                  WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FireMonitorIcon"/>
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
+                       Value="1" KeyPath="yes" />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
+      </Component>
+      <!--Ярлык для удаления программы-->
+      <Component Id="ProgramsMenuShortcutUninstall" Guid="C8E191A9-6463-49C0-A35A-B7E33345FE30">
+        <Shortcut Id="UninstallProduct" Name="Удалить $(var.ProductName)" Target="[System64Folder]msiexec.exe"
+                  Arguments="/x [ProductCode]" Description="Удаляет $(var.ProductName) с данного компьютера" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
+                       Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
