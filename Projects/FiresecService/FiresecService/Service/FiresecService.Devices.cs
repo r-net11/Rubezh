@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 
@@ -14,7 +15,8 @@ namespace FiresecService
             ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
             FiresecManager.DeviceConfiguration = deviceConfiguration;
 
-            ConfigurationConverter.ConvertBack(deviceConfiguration, true);
+            //ConfigurationConverter.ConvertBack(deviceConfiguration, true);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationConverter.ConvertBack(deviceConfiguration, true)));
             //FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
         }
 
@@ -31,9 +33,7 @@ namespace FiresecService
             foreach (var device in deviceConfiguration.Devices)
             {
                 if (device.Driver.CanWriteDatabase)
-                {
                     FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
-                }
             }
         }
 
@@ -41,7 +41,7 @@ namespace FiresecService
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int)devicePasswordType);
+            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int) devicePasswordType);
         }
 
         public void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)

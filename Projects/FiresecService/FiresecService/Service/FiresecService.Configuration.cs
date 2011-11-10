@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using FiresecAPI.Models;
 
 namespace FiresecService
@@ -39,7 +40,7 @@ namespace FiresecService
 
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
-            ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration)));
             FiresecManager.SecurityConfiguration = securityConfiguration;
         }
 
@@ -53,7 +54,7 @@ namespace FiresecService
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
-            ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetSystemConfiguration(systemConfiguration)));
             FiresecManager.SystemConfiguration = systemConfiguration;
         }
 
@@ -67,7 +68,7 @@ namespace FiresecService
 
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
-            ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration)));
             FiresecManager.LibraryConfiguration = libraryConfiguration;
         }
 
@@ -81,7 +82,7 @@ namespace FiresecService
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
-            ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetPlansConfiguration(plansConfiguration)));
             FiresecManager.PlansConfiguration = plansConfiguration;
         }
     }
