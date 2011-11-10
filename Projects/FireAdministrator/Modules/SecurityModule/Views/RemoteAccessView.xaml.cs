@@ -28,13 +28,9 @@ namespace SecurityModule.Views
                 return;
 
             if (remoteAccessViewModel.RemoteAccessTypes.Find(x => x.IsActive).RemoteAccessType == RemoteAccessType.SelectivelyAllowed)
-            {
                 _computersList.Visibility = System.Windows.Visibility.Visible;
-            }
             else
-            {
                 _computersList.Visibility = System.Windows.Visibility.Collapsed;
-            }
         }
     }
 }

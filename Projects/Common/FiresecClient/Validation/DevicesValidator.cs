@@ -77,6 +77,7 @@ namespace FiresecClient.Validation
                 ValidateDeviceLoopLines(device);
                 ValidateDeviceMaxExtCount(device);
                 ValidateDeviceSecurityPanel(device);
+                ValidateDeviceRangeAddress(device);
             }
 
             if (pduCount > 10)
@@ -330,6 +331,15 @@ namespace FiresecClient.Validation
                 DeviceErrors.Add(new DeviceError(device, "Необходима неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
         }
 
+        static void ValidateDeviceRangeAddress(Device device)
+        {
+            if (device.Driver.IsChildAddressReservedRange && device.Driver.ChildAddressReserveRangeCount > 0)
+            {
+                if (device.Children.Any(x => x.IntAddress < device.IntAddress || (x.IntAddress - device.IntAddress) > device.Driver.ChildAddressReserveRangeCount))
+                    DeviceErrors.Add(new DeviceError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ErrorLevel.Warning));
+            }
+        }
+
         static void ValidateZones()
         {
             ZoneErrors = new List<ZoneError>();
@@ -386,6 +396,17 @@ namespace FiresecClient.Validation
                     if (fireDevice != null)
                         ZoneErrors.Add(new ZoneError(zone, string.Format("В зону не может быть помещено пожарное устройство ({0})", fireDevice.PresentationAddress), ErrorLevel.CannotSave));
                     break;
+            }
+        }
+
+        static void ValidateDirections()
+        {
+            DirectionErrors = new List<DirectionError>();
+
+            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
+            {
+                if (ValidateDirectionZonesContent(direction))
+                { }
             }
         }
 
@@ -446,17 +467,6 @@ namespace FiresecClient.Validation
         {
             if (string.IsNullOrWhiteSpace(zone.Name))
                 ZoneErrors.Add(new ZoneError(zone, "Не указано наименование зоны", ErrorLevel.CannotWrite));
-        }
-
-        static void ValidateDirections()
-        {
-            DirectionErrors = new List<DirectionError>();
-
-            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
-            {
-                if (ValidateDirectionZonesContent(direction))
-                { }
-            }
         }
 
         static bool ValidateDirectionZonesContent(Direction direction)

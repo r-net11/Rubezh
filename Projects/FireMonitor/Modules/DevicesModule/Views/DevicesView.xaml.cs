@@ -14,9 +14,7 @@ namespace DevicesModule.Views
         void DevicesView_Loaded(object sender, RoutedEventArgs e)
         {
             if (dataGrid.SelectedItem != null)
-            {
                 dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-            }
         }
     }
 }

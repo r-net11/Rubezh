@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 
         public string Address
         {
-            get { return Device.Driver.HasAddress ? Device.PresentationAddress : ""; }
+            get { return Device.PresentationAddress; }
             set
             {
                 if (Device.Parent.Children.Where(x => x != Device).Any(x => x.PresentationAddress == value))

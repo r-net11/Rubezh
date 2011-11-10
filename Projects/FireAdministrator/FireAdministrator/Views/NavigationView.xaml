@@ -124,7 +124,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/filter.png"  />
-                        <TextBlock Text="Фильтры" />
+                        <TextBlock Text="Фильтры журнала" />
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>

@@ -5,10 +5,13 @@ using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecService.Converters;
 using FiresecService.DatabaseConverter;
+using FiresecService.Processor;
 using FiresecServiceRunner;
 
 namespace FiresecService
@@ -74,6 +77,9 @@ namespace FiresecService
 
         public bool MustStopProgress;
         public void StopProgress()
+            //ConfigurationConverter.ConvertBack(deviceConfiguration, true);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationConverter.ConvertBack(deviceConfiguration, true)));
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(o => FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration)));
         {
             MustStopProgress = true;
         }

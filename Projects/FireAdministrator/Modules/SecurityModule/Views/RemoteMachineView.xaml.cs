@@ -22,19 +22,15 @@ namespace SecurityModule.Views
 
             int maxLen = -1;
             IpAddressBytes.ForEach(x => maxLen += x.Len + 1);
-            addressRedactor.MaxLength = maxLen;
+            addressEditor.MaxLength = maxLen;
         }
 
-        void addressRedactor_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if ((bool) e.NewValue)
-            {
-                addressRedactor.Text = "001.000.000.000";
-            }
+                addressEditor.Text = "001.000.000.000";
             else
-            {
-                addressRedactor.Text = "";
-            }
+                addressEditor.Text = "";
         }
 
         bool IsUndesirableKey(Key key)
@@ -92,28 +88,28 @@ namespace SecurityModule.Views
 
         void RighKeytHandle()
         {
-            if (addressRedactor.CaretIndex >= addressRedactor.Text.Length)
+            if (addressEditor.CaretIndex >= addressEditor.Text.Length)
                 return;
 
-            addressRedactor.CaretIndex += 1;
-            if (addressRedactor.Text[addressRedactor.CaretIndex] == DOT)
-                addressRedactor.CaretIndex += 1;
+            addressEditor.CaretIndex += 1;
+            if (addressEditor.Text[addressEditor.CaretIndex] == DOT)
+                addressEditor.CaretIndex += 1;
         }
 
         void LeftKeyHandle()
         {
-            if (addressRedactor.CaretIndex <= 0)
+            if (addressEditor.CaretIndex <= 0)
                 return;
 
-            if (addressRedactor.Text[addressRedactor.CaretIndex - 1] == DOT)
-                addressRedactor.CaretIndex -= 2;
+            if (addressEditor.Text[addressEditor.CaretIndex - 1] == DOT)
+                addressEditor.CaretIndex -= 2;
             else
-                addressRedactor.CaretIndex -= 1;
+                addressEditor.CaretIndex -= 1;
         }
 
         void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (addressRedactor.Text.Length != addressRedactor.MaxLength)
+            if (addressEditor.Text.Length != addressEditor.MaxLength)
                 return;
             try
             {
@@ -125,7 +121,7 @@ namespace SecurityModule.Views
 
         void CheckIpAddressByte(int index)
         {
-            int caretIndex = addressRedactor.CaretIndex;
+            int caretIndex = addressEditor.CaretIndex;
             int ipAddressByte = GetIpAddressByte(index);
             if (ipAddressByte < IpAddressBytes[index].Min)
             {
@@ -134,7 +130,7 @@ namespace SecurityModule.Views
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 SetIpAddressByte(index, IpAddressBytes[index].Min);
-                addressRedactor.CaretIndex = caretIndex;
+                addressEditor.CaretIndex = caretIndex;
             }
             else if (ipAddressByte > IpAddressBytes[index].Max)
             {
@@ -143,7 +139,7 @@ namespace SecurityModule.Views
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                 SetIpAddressByte(index, IpAddressBytes[index].Max);
-                addressRedactor.CaretIndex = caretIndex;
+                addressEditor.CaretIndex = caretIndex;
             }
         }
 
@@ -152,16 +148,16 @@ namespace SecurityModule.Views
             switch (index)
             {
                 case 0:
-                    return int.Parse(addressRedactor.Text.Remove(3));
+                    return int.Parse(addressEditor.Text.Remove(3));
 
                 case 1:
-                    return int.Parse(addressRedactor.Text.Substring(4, 3));
+                    return int.Parse(addressEditor.Text.Substring(4, 3));
 
                 case 2:
-                    return int.Parse(addressRedactor.Text.Substring(8, 3));
+                    return int.Parse(addressEditor.Text.Substring(8, 3));
 
                 case 3:
-                    return int.Parse(addressRedactor.Text.Substring(12, 3));
+                    return int.Parse(addressEditor.Text.Substring(12, 3));
 
                 default:
                     return 0;
@@ -173,19 +169,19 @@ namespace SecurityModule.Views
             switch (index)
             {
                 case 0:
-                    addressRedactor.Text = value.ToString(IpAddressBytes[index].Format) + addressRedactor.Text.Substring(3);
+                    addressEditor.Text = value.ToString(IpAddressBytes[index].Format) + addressEditor.Text.Substring(3);
                     break;
 
                 case 1:
-                    addressRedactor.Text = addressRedactor.Text.Remove(4) + value.ToString(IpAddressBytes[index].Format) + addressRedactor.Text.Substring(7);
+                    addressEditor.Text = addressEditor.Text.Remove(4) + value.ToString(IpAddressBytes[index].Format) + addressEditor.Text.Substring(7);
                     break;
 
                 case 2:
-                    addressRedactor.Text = addressRedactor.Text.Remove(8) + value.ToString(IpAddressBytes[index].Format) + addressRedactor.Text.Substring(11);
+                    addressEditor.Text = addressEditor.Text.Remove(8) + value.ToString(IpAddressBytes[index].Format) + addressEditor.Text.Substring(11);
                     break;
 
                 case 3:
-                    addressRedactor.Text = addressRedactor.Text.Remove(12) + value.ToString(IpAddressBytes[index].Format);
+                    addressEditor.Text = addressEditor.Text.Remove(12) + value.ToString(IpAddressBytes[index].Format);
                     break;
 
                 default:
@@ -195,29 +191,49 @@ namespace SecurityModule.Views
 
         void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (addressRedactor.Text.Length != addressRedactor.MaxLength)
+            if (addressEditor.Text.Length != addressEditor.MaxLength)
                 return;
 
-            if (addressRedactor.SelectionStart >= addressRedactor.Text.Length)
-                addressRedactor.SelectionStart = addressRedactor.Text.Length - 1;
+            if (addressEditor.SelectionStart >= addressEditor.Text.Length)
+                addressEditor.SelectionStart = addressEditor.Text.Length - 1;
 
-            if (addressRedactor.Text[addressRedactor.SelectionStart] == DOT)
-                addressRedactor.SelectionStart += 1;
+            if (addressEditor.Text[addressEditor.SelectionStart] == DOT)
+                addressEditor.SelectionStart += 1;
 
-            if (addressRedactor.SelectionLength != 1)
-                addressRedactor.SelectionLength = 1;
+            if (addressEditor.SelectionLength != 1)
+                addressEditor.SelectionLength = 1;
         }
 
         void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
         {
             try
             {
-                addressRedactor.Text = string.Format("{0}.{1}.{2}.{3}", GetIpAddressByte(0), GetIpAddressByte(1), GetIpAddressByte(2), GetIpAddressByte(3));
+                addressEditor.Text = string.Format("{0}.{1}.{2}.{3}", GetIpAddressByte(0), GetIpAddressByte(1), GetIpAddressByte(2), GetIpAddressByte(3));
             }
             catch
             {
-                addressRedactor.Text = "";
+                addressEditor.Text = "";
             }
+        }
+
+        void OnPreviewDragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        void OnPreviewDragLeave(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        void OnPreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        void OnPreviewDrop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 

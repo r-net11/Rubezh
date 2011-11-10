@@ -20,12 +20,16 @@
                 <TextBox Grid.Column="1" Grid.Row="0" MaxLength="100" Text="{Binding HostNameOrAddress}" IsEnabled="{Binding IsDnsName}" Margin="2" />
                 <RadioButton Grid.Column="0" Grid.Row="1" IsChecked="{Binding IsIpAddress}" Content="IP адрес" Foreground="White" VerticalAlignment="Center" />
                 <TextBox Grid.Column="1" Grid.Row="1" Margin="2"
-                     Name="addressRedactor"
+                     Name="addressEditor"
                      PreviewKeyDown="OnPreviewKeyDown"
                      TextChanged="OnTextChanged"
                      SelectionChanged="OnSelectionChanged"
                      LostFocus="OnLostFocus"
-                     IsEnabledChanged="addressRedactor_IsEnabledChanged"
+                     IsEnabledChanged="OnIsEnabledChanged"
+                     PreviewDragEnter="OnPreviewDragEnter"
+                     PreviewDragLeave="OnPreviewDragLeave"
+                     PreviewDragOver="OnPreviewDragOver"
+                     PreviewDrop="OnPreviewDrop"
                      Text="{Binding HostNameOrAddress}"
                      IsEnabled="{Binding IsIpAddress}">
                     <TextBox.ContextMenu>
