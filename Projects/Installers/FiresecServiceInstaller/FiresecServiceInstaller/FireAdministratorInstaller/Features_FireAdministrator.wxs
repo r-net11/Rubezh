@@ -21,7 +21,7 @@
       <ComponentRef Id="PrismDllComponent"/>
       <ComponentRef Id="PrismUnityExtensionsComponent"/>
       <ComponentRef Id="WPFToolkitExtendedComponent"/>
-      <ComponentRef Id="CustomWindowComponent"/>
+      <!--<ComponentRef Id="CustomWindowComponent"/>-->
       <ComponentRef Id="ServiceLocationComponent"/>
       <ComponentRef Id="InstructionsModuleComponent" />
       <ComponentRef Id="LibraryModuleComponent" />

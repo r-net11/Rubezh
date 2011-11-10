@@ -26,6 +26,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutoGenOutputFiles\OutputFilesComDlls.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesIcons.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
@@ -36,7 +37,7 @@
     <Compile Include="FiresecServiceInstaller.wxs" />
     <Compile Include="Output.wxs" />
     <Compile Include="Shortcuts_FiresecService.wxs" />
-    <Compile Include="UsersDirectory.wxs" />
+    <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="WixUI_Shortcut.wxs" />
     <Compile Include="WixUI_Wizard.wxs" />
   </ItemGroup>
@@ -147,7 +148,8 @@
   <PropertyGroup>
     <PreBuildEvent>"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Icons" -t "$(ProjectDir)Xslt\WixIcons.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesIcons.wxs" -gg –sfrag
 "%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag
-"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag</PreBuildEvent>
+"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag
+"%25WIX%25\bin\heat.exe" dir "$(ProjectDir)ComDlls" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesComDlls.wxs" -gg -sfrag</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

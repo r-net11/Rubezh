@@ -47,10 +47,10 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="CustomWindowComponent" Guid="D5E8AB13-4434-4470-818C-416A487F625A">
+			<!--<Component Id="CustomWindowComponent" Guid="D5E8AB13-4434-4470-818C-416A487F625A">
 				<File Id="CustomWindowDll" Name="CustomWindow.dll" Source="$(var.FireAdministrator.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-			</Component>
+			</Component>-->
 
 			<Component Id="CommonComponent" Guid="AFF7178D-58C7-46A3-A17F-32109A43C8A6">
 				<File Id="CommonDll" Name="$(var.Common.TargetFileName)" Source="$(var.Common.TargetPath)"

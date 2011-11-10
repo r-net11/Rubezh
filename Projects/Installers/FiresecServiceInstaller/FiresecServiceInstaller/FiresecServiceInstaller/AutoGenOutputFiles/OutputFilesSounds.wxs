@@ -2,31 +2,31 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="Sounds">
-            <Component Id="cmp4DC9792E91235EC4720C90FB4944051E" Guid="{A30D4E55-459D-4A68-BC46-617DD50FA383}">
+            <Component Id="cmp4DC9792E91235EC4720C90FB4944051E" Guid="{0D588AB1-06F1-487D-8D59-FE2C44C41079}">
                 <File Id="fil33C7E7CA3A80169C1D231639A24A2CB7" Source="..\..\Configuration\Sounds\Sound1.wav" />
             </Component>
-            <Component Id="cmpB6085DDDF0E536F8018129ECDE15DA58" Guid="{FF2204BB-9E7C-4A4F-B865-58AEFA638A5D}">
+            <Component Id="cmpB6085DDDF0E536F8018129ECDE15DA58" Guid="{FB1701B7-FEFA-495C-821C-AC7BB8992EEB}">
                 <File Id="fil138982943A5632D93F42362ED014A0DA" Source="..\..\Configuration\Sounds\Sound2.wav" />
             </Component>
-            <Component Id="cmp818DB03BD7576D80FD78F1E47EF71603" Guid="{A058F27F-7E7B-495D-9D65-B4257FF5025B}">
+            <Component Id="cmp818DB03BD7576D80FD78F1E47EF71603" Guid="{7902BB59-C9BA-4C13-B2CA-D32C04B394D5}">
                 <File Id="fil56500797DB977C18A830ED3778B3DEED" Source="..\..\Configuration\Sounds\Sound3.wav" />
             </Component>
-            <Component Id="cmp4FE6DEA1A754CBA2B9472BB2FB917217" Guid="{9C7B77FB-F4FE-4D68-A5E1-963DA380233E}">
+            <Component Id="cmp4FE6DEA1A754CBA2B9472BB2FB917217" Guid="{EF88A6C9-F4B8-4BF0-A79B-ACC971A94F67}">
                 <File Id="filFE73557BDEC0995B7665AFD47213E339" Source="..\..\Configuration\Sounds\Sound4.wav" />
             </Component>
-            <Component Id="cmpE50F5A0A07B7D978F1D5772404E979D7" Guid="{DB38413A-32ED-45B9-B7CC-EE2A6C1B1409}">
+            <Component Id="cmpE50F5A0A07B7D978F1D5772404E979D7" Guid="{AAC5E982-A6CC-4B03-8090-EE064377A821}">
                 <File Id="fil25E58E9DAD3F3EB05D3F3B2FF864A126" Source="..\..\Configuration\Sounds\Sound5.wav" />
             </Component>
-            <Component Id="cmpA4249B2D4FEF37F26B53448FE0FBA769" Guid="{E9A9859A-C4DB-480F-9EFA-8426D734D3F2}">
+            <Component Id="cmpA4249B2D4FEF37F26B53448FE0FBA769" Guid="{59FBB8A5-D3EB-47E6-8610-BD54A124BBA0}">
                 <File Id="fil1F45518A2E3A46ABDD7E4E5EFC9EE277" Source="..\..\Configuration\Sounds\Sound6.wav" />
             </Component>
-            <Component Id="cmpB5D015FF1EB082E90773D0F4306579BF" Guid="{7ED99D41-AEA9-466A-A873-70E87E35BDC1}">
+            <Component Id="cmpB5D015FF1EB082E90773D0F4306579BF" Guid="{A1449AF2-F1C9-418D-86F9-51A58111E341}">
                 <File Id="filB7D0AC99AD09533171B3F7FAA4BC65AC" Source="..\..\Configuration\Sounds\Sound7.wav" />
             </Component>
-            <Component Id="cmp0A3FEA899A999D232621FC2AA5A878B5" Guid="{1D9C616B-2815-4C33-8C35-6092EF226A1D}">
+            <Component Id="cmp0A3FEA899A999D232621FC2AA5A878B5" Guid="{CA3B3CE1-3577-4DC7-8332-9F25F0268F04}">
                 <File Id="filB7B412CFD7E94B4D801D294194EB09E3" Source="..\..\Configuration\Sounds\Sound8.wav" />
             </Component>
-            <Component Id="cmp409F481CDB19DC00C543F7D4B600C781" Guid="{3390492B-6A92-48C4-97D7-59170FD369D4}">
+            <Component Id="cmp409F481CDB19DC00C543F7D4B600C781" Guid="{FD8D4D51-26AC-4CDA-9E0D-11B31EA82061}">
                 <File Id="fil9A95A4E666BD32B03D667DAD627FA365" Source="..\..\Configuration\Sounds\Sound9.wav" />
             </Component>
         </DirectoryRef>

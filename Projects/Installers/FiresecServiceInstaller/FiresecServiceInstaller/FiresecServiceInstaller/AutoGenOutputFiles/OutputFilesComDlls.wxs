@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="dir2EBECCB4F62905C0D2C99FE3BD0B1DC1" Name="ComDlls">
+                <Component Id="cmp427C76D7B196575BC12650B4C6C22888" Guid="{767EC6DE-10EC-45E1-811C-44FA25250B8B}">
+                    <File Id="fil20CCDD3AB401DEDE66B8B49C3F06F1C8" KeyPath="yes" Source="SourceDir\Interop.FS_Types.dll" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="Class" Value="FS_Types.FSC_LIBRARY_CLASSClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="Assembly" Value="Interop.FS_Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="CodeBase" Value="file:///[#fil20CCDD3AB401DEDE66B8B49C3F06F1C8]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32" Name="Class" Value="FS_Types.FSC_LIBRARY_CLASSClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32" Name="Assembly" Value="Interop.FS_Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32" Name="CodeBase" Value="file:///[#fil20CCDD3AB401DEDE66B8B49C3F06F1C8]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{19D97E00-0531-4619-BB45-5B582CBC4F3F}\1.0.0.0" Name="Class" Value="FS_Types.EnumEvents" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{19D97E00-0531-4619-BB45-5B582CBC4F3F}\1.0.0.0" Name="Assembly" Value="Interop.FS_Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{19D97E00-0531-4619-BB45-5B582CBC4F3F}\1.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{19D97E00-0531-4619-BB45-5B582CBC4F3F}\1.0.0.0" Name="CodeBase" Value="file:///[#fil20CCDD3AB401DEDE66B8B49C3F06F1C8]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="Class" Value="FS_Types.TFSC_ServerInfo" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="Assembly" Value="Interop.FS_Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="CodeBase" Value="file:///[#fil20CCDD3AB401DEDE66B8B49C3F06F1C8]" Type="string" Action="write" />
+                </Component>
+                <Component Id="cmp432BA525DAEC04B345E818948D5464CC" Guid="{F4E9E463-E5F3-432C-888D-343454A2671E}">
+                    <File Id="fil4DD1889C58AFDD3A42258831ED4D1C0B" KeyPath="yes" Source="SourceDir\Interop.mscoree.dll" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="Class" Value="mscoree.ComCallUnmarshalClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32" Name="Class" Value="mscoree.ComCallUnmarshalClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32\2.0.0.0" Name="Class" Value="mscoree.CLRRuntimeHostClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32" Name="Class" Value="mscoree.CLRRuntimeHostClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{90F1A06E-7712-4762-86B5-7A5EBA6BDB02}\InprocServer32" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32\2.0.0.0" Name="Class" Value="mscoree.TypeNameFactoryClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32" Name="Class" Value="mscoree.TypeNameFactoryClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{B81FF171-20F3-11D2-8DCC-00A0C9B00525}\InprocServer32" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32\2.0.0.0" Name="Class" Value="mscoree.CorRuntimeHostClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32" Name="Class" Value="mscoree.CorRuntimeHostClass" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="CLSID\{CB2F6723-AB3A-11D2-9C40-00C04FA30A3E}\InprocServer32" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0E873E8C-5406-3B9D-A457-3D3C2AE6B854}\2.0.0.0" Name="Class" Value="mscoree._FILETIME" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0E873E8C-5406-3B9D-A457-3D3C2AE6B854}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0E873E8C-5406-3B9D-A457-3D3C2AE6B854}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0E873E8C-5406-3B9D-A457-3D3C2AE6B854}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0FE21660-94B0-31D8-A81D-465B50A6EB3C}\2.0.0.0" Name="Class" Value="mscoree.tag_VerError" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0FE21660-94B0-31D8-A81D-465B50A6EB3C}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0FE21660-94B0-31D8-A81D-465B50A6EB3C}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{0FE21660-94B0-31D8-A81D-465B50A6EB3C}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{25FF722E-AD7C-3781-83AD-F80EB7B15826}\2.0.0.0" Name="Class" Value="mscoree.__MIDL___MIDL_itf_mscoree_tlb_0171_0001" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{25FF722E-AD7C-3781-83AD-F80EB7B15826}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{25FF722E-AD7C-3781-83AD-F80EB7B15826}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{25FF722E-AD7C-3781-83AD-F80EB7B15826}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{341F04E3-B976-3D36-B402-BAA00906500A}\2.0.0.0" Name="Class" Value="mscoree._LARGE_INTEGER" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{341F04E3-B976-3D36-B402-BAA00906500A}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{341F04E3-B976-3D36-B402-BAA00906500A}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{341F04E3-B976-3D36-B402-BAA00906500A}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5509EF02-EAF8-3168-9CD5-0E2BC4CC862E}\2.0.0.0" Name="Class" Value="mscoree.__MIDL___MIDL_itf_mscoree_tlb_0169_0002" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5509EF02-EAF8-3168-9CD5-0E2BC4CC862E}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5509EF02-EAF8-3168-9CD5-0E2BC4CC862E}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5509EF02-EAF8-3168-9CD5-0E2BC4CC862E}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5A352A2E-8D2C-35E2-B982-DD3E4BDD52F6}\2.0.0.0" Name="Class" Value="mscoree._ULARGE_INTEGER" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5A352A2E-8D2C-35E2-B982-DD3E4BDD52F6}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5A352A2E-8D2C-35E2-B982-DD3E4BDD52F6}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5A352A2E-8D2C-35E2-B982-DD3E4BDD52F6}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5EC2C4CE-69D0-317C-9EE1-5AB4DB1D5086}\2.0.0.0" Name="Class" Value="mscoree.tagSTATSTG" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5EC2C4CE-69D0-317C-9EE1-5AB4DB1D5086}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5EC2C4CE-69D0-317C-9EE1-5AB4DB1D5086}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{5EC2C4CE-69D0-317C-9EE1-5AB4DB1D5086}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{61E1904D-3319-3FCB-BF10-BA7264D8E4C8}\2.0.0.0" Name="Class" Value="mscoree.PrivateOptimizationScenario" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{61E1904D-3319-3FCB-BF10-BA7264D8E4C8}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{61E1904D-3319-3FCB-BF10-BA7264D8E4C8}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{61E1904D-3319-3FCB-BF10-BA7264D8E4C8}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{63420201-04F4-3403-A4D5-2E64E5211FDC}\2.0.0.0" Name="Class" Value="mscoree.CorSvcLogLevel" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{63420201-04F4-3403-A4D5-2E64E5211FDC}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{63420201-04F4-3403-A4D5-2E64E5211FDC}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{63420201-04F4-3403-A4D5-2E64E5211FDC}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{71EAA31D-B5AC-362F-B465-C605FD2958A6}\2.0.0.0" Name="Class" Value="mscoree.RepositoryFlags" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{71EAA31D-B5AC-362F-B465-C605FD2958A6}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{71EAA31D-B5AC-362F-B465-C605FD2958A6}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{71EAA31D-B5AC-362F-B465-C605FD2958A6}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{7A0B5F04-031D-3377-8BA2-B5040029C0F3}\2.0.0.0" Name="Class" Value="mscoree._COR_GC_THREAD_STATS" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{7A0B5F04-031D-3377-8BA2-B5040029C0F3}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{7A0B5F04-031D-3377-8BA2-B5040029C0F3}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{7A0B5F04-031D-3377-8BA2-B5040029C0F3}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{815AB1E7-C4A1-38E3-8816-B5EB891600BF}\2.0.0.0" Name="Class" Value="mscoree.NGenPrivateAttributesFlags" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{815AB1E7-C4A1-38E3-8816-B5EB891600BF}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{815AB1E7-C4A1-38E3-8816-B5EB891600BF}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{815AB1E7-C4A1-38E3-8816-B5EB891600BF}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9EA366E8-D3FC-33B5-AA60-D7695F58A96B}\2.0.0.0" Name="Class" Value="mscoree._COR_GC_STATS" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9EA366E8-D3FC-33B5-AA60-D7695F58A96B}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9EA366E8-D3FC-33B5-AA60-D7695F58A96B}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{9EA366E8-D3FC-33B5-AA60-D7695F58A96B}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{C8462A27-F92E-3F8F-8C5D-0EF34458A380}\2.0.0.0" Name="Class" Value="mscoree._SvcWorkerPriority" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{C8462A27-F92E-3F8F-8C5D-0EF34458A380}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{C8462A27-F92E-3F8F-8C5D-0EF34458A380}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{C8462A27-F92E-3F8F-8C5D-0EF34458A380}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{CB1AAC1C-72A6-396B-986E-569266906861}\2.0.0.0" Name="Class" Value="mscoree.__MIDL___MIDL_itf_mscoree_tlb_0170_0001" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{CB1AAC1C-72A6-396B-986E-569266906861}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{CB1AAC1C-72A6-396B-986E-569266906861}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{CB1AAC1C-72A6-396B-986E-569266906861}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{D34EB4B1-037B-3BC6-9AF1-CB1C8497A8F6}\2.0.0.0" Name="Class" Value="mscoree.OptimizationScenario" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{D34EB4B1-037B-3BC6-9AF1-CB1C8497A8F6}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{D34EB4B1-037B-3BC6-9AF1-CB1C8497A8F6}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{D34EB4B1-037B-3BC6-9AF1-CB1C8497A8F6}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{E7F8808E-9BE1-36F7-B7A4-F4433271B7E5}\2.0.0.0" Name="Class" Value="mscoree._NGenPrivateAttributes" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{E7F8808E-9BE1-36F7-B7A4-F4433271B7E5}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{E7F8808E-9BE1-36F7-B7A4-F4433271B7E5}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{E7F8808E-9BE1-36F7-B7A4-F4433271B7E5}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{FB05A067-4AA6-3F48-8B57-3D2249358C00}\2.0.0.0" Name="Class" Value="mscoree.__MIDL___MIDL_itf_mscoree_tlb_0169_0001" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{FB05A067-4AA6-3F48-8B57-3D2249358C00}\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{FB05A067-4AA6-3F48-8B57-3D2249358C00}\2.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+                    <RegistryValue Root="HKCR" Key="Record\{FB05A067-4AA6-3F48-8B57-3D2249358C00}\2.0.0.0" Name="CodeBase" Value="file:///[#fil4DD1889C58AFDD3A42258831ED4D1C0B]" Type="string" Action="write" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

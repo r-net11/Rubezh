@@ -9,13 +9,17 @@
 			<ComponentRef Id="CommonComponent" />
 			<ComponentRef Id="FiresecComponent" />
 			<ComponentRef Id="FiresecAPIComponent" />
-			<ComponentRef Id="Configuration" />
+			<ComponentRef Id="PlansConfiguration"/>
+			<ComponentRef Id="SecurityConfiguration"/>
+			<ComponentRef Id="DeviceLibrary"/>
+			<ComponentRef Id="DeviceConfiguration"/>
 			<ComponentRef Id="ProgramMenuDir" />
 			<ComponentRef Id="ProgramsMenuShortcut" />
 			<ComponentRef Id="ProgramsMenuShortcutUninstall" />
 			<ComponentRef Id="DesktopFolder" />
 			<ComponentRef Id="DesktopShortcut" />
 			<ComponentRef Id="Autorun"/>
+			<!--<ComponentRef Id="FiresecServiceService"/>-->
 		</Feature>
 
 		<Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"

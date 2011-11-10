@@ -2,19 +2,19 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="ReportTemplates">
-            <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="{94F33FCC-B5FC-4DBC-97E8-262D74F470CB}">
+            <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="{FF93082A-FD2B-491F-971B-CE4478730F96}">
                 <File Id="fil7C96A2D9019129A688A92EB7E0C1941B" Source="..\..\Configuration\ReportTemplates\DeviceListCrystalReport.rpt" />
             </Component>
-            <Component Id="cmp184646B4208A7EF081D2E715F0D1EC7D" Guid="{A49CF306-8000-4BB7-9563-1924BA13D31A}">
+            <Component Id="cmp184646B4208A7EF081D2E715F0D1EC7D" Guid="{C47BD840-4EFB-47CC-9F41-2207BB3F921E}">
                 <File Id="fil00318FA41C92751A3B6CB618E2BB2813" Source="..\..\Configuration\ReportTemplates\DeviceParamsCrystalReport.rpt" />
             </Component>
-            <Component Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" Guid="{872E485D-B384-47F3-A1E3-E3F50BB4C011}">
+            <Component Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" Guid="{5EF5762D-9BE6-4850-9B91-4C66BADB20DC}">
                 <File Id="fil27D90654A9BF67C2B3B5C419311D6ACB" Source="..\..\Configuration\ReportTemplates\DriverCounterCrystalReport.rpt" />
             </Component>
-            <Component Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" Guid="{279FE5C5-DDC6-42A1-8AB2-5266D436803D}">
+            <Component Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" Guid="{AF2BE63B-EADC-48B9-94D9-A78017B43A06}">
                 <File Id="fil546B9C94BEAA0D614F307AA8CFFDF82B" Source="..\..\Configuration\ReportTemplates\IndicationBlockCrystalReport.rpt" />
             </Component>
-            <Component Id="cmp56F243B1A7F81AEF57746A22AEF32E73" Guid="{B7CA8F6D-8173-4989-A778-171C05C9CD53}">
+            <Component Id="cmp56F243B1A7F81AEF57746A22AEF32E73" Guid="{E3D0F9AD-1FA8-4DB6-B396-C8D635572074}">
                 <File Id="fil56751F9FBD7862A5160EB89EBF094B48" Source="..\..\Configuration\ReportTemplates\JournalCrystalReport.rpt" />
             </Component>
         </DirectoryRef>
