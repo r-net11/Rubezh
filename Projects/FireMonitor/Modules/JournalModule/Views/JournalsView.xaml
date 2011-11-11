@@ -10,7 +10,6 @@
     <TabControl Name="tabControl" BorderThickness="0"
                 ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Name}"
                 SelectedItem="{Binding SelectedJournal}">
-
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding Name}" />

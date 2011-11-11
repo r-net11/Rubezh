@@ -8,7 +8,7 @@ using JournalModule.Events;
 
 namespace JournalModule.ViewModels
 {
-    public class ArchiveSettingsViewModel : DialogContent
+    public class ArchiveSettingsViewModel : SaveCancelDialogContent
     {
         public ArchiveSettingsViewModel(ArchiveDefaultState archiveDefaultState)
         {
@@ -61,8 +61,6 @@ namespace JournalModule.ViewModels
             EndDate = NowDate;
 
             ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Subscribe(OnArchiveDefaultStateCheckedEvent);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
@@ -124,16 +122,9 @@ namespace JournalModule.ViewModels
             return archiveDefaultState;
         }
 
-        public RelayCommand SaveCommand { get; private set; }
-        void OnSave()
+        protected override void Save(ref bool cancel)
         {
-            Close(true);
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            Close(false);
+            base.Save(ref cancel);
         }
 
         void OnArchiveDefaultStateCheckedEvent(ArchiveDefaultStateViewModel archiveDefaultState)

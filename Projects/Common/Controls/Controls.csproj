@@ -63,6 +63,7 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="DataGridProperties.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />

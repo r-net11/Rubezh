@@ -3,34 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converter="clr-namespace:JournalModule.Converters"
              xmlns:Views="clr-namespace:JournalModule.Views"
-             xmlns:XButtons="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
     <DockPanel>
-        <Border DockPanel.Dock="Top">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0, 0" EndPoint="0,1">
-                    <GradientStop Color="#DF8E2A" Offset="0" />
-                    <GradientStop Color="#F2B352" Offset="1" />
-                </LinearGradientBrush>
-            </Border.Background>
-            <DockPanel Background="White" Margin="5">
+        <Border DockPanel.Dock="Top" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <DockPanel Margin="2">
                 <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
-                    <Button Command="{Binding ShowFilterCommand}"
-                              Content="Задать фильтр"
-                              Padding="5" Margin="7,5" />
+                    <Button Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" Style="{StaticResource ToolarButtonStyle}">
+                        <Image Source="/Controls;component/Images/Filter.png" Height="24" />
+                    </Button>
                     <CheckBox Name="filterActivator"
                               IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
                               IsEnabled="{Binding IsFilterExists, Mode=OneWay}"
-                              Content="Включить фильтр"
-                              Margin="5" Foreground="OrangeRed"
-                              VerticalAlignment="Center"/>
+                              Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />
                 </WrapPanel>
-                <Button DockPanel.Dock="Right" HorizontalAlignment="Right"
-                              Command="{Binding ShowSettingsCommand}"
-                              Content="Настройки"
-                              Padding="5" Margin="7,5" />
+                <Button Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    <Image Source="/Controls;component/Images/Settings.png" Height="24" />
+                </Button>
             </DockPanel>
         </Border>
-        <Views:JournalView />
+        <Views:JournalView Margin="0, 5, 0, 0" />
     </DockPanel>
 </UserControl>
