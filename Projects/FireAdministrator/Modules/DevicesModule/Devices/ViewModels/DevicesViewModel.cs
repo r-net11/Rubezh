@@ -18,10 +18,7 @@ namespace DevicesModule.ViewModels
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
-        }
 
-        public void Initialize()
-        {
             BuildTree();
             if (Devices.Count > 0)
             {

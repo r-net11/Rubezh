@@ -66,15 +66,15 @@
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />
     <Compile Include="Models\AlarmEntityType.cs" />
-    <Compile Include="ViewModels\AlarmListViewModel.cs" />
+    <Compile Include="ViewModels\AlarmsViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupListViewModel.cs" />
     <Compile Include="ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\VideoViewModel.cs" />
     <Compile Include="ViewModels\AlarmViewModel.cs" />
     <Compile Include="AlarmModule.cs" />
-    <Compile Include="Views\AlarmListView.xaml.cs">
-      <DependentUpon>AlarmListView.xaml</DependentUpon>
+    <Compile Include="Views\AlarmsView.xaml.cs">
+      <DependentUpon>AlarmsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AlarmGroupListView.xaml.cs">
       <DependentUpon>AlarmGroupListView.xaml</DependentUpon>
@@ -139,7 +139,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AlarmListView.xaml">
+    <Page Include="Views\AlarmsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

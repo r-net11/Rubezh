@@ -27,7 +27,7 @@ namespace AlarmModule.ViewModels
             var alarms = new List<Alarm>();
             AlarmGroups.ForEach(x => alarms.AddRange(x.Alarms));
 
-            ServiceFactory.Layout.Show(new AlarmListViewModel(alarms, null));
+            ServiceFactory.Layout.Show(new AlarmsViewModel(alarms, null));
         }
     }
 }

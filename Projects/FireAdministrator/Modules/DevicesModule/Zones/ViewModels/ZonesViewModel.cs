@@ -20,10 +20,7 @@ namespace DevicesModule.ViewModels
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanDeleteAll);
             DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
             ZoneDevices = new ZoneDevicesViewModel();
-        }
 
-        public void Initialize()
-        {
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in FiresecManager.DeviceConfiguration.Zones
                 orderby zone.No

@@ -1,5 +1,4 @@
-﻿
-namespace DevicesModule.ViewModels
+﻿namespace DevicesModule.ViewModels
 {
     public class DevicesMenuViewModel
     {

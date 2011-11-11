@@ -1,23 +1,19 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 using PlansModule.ViewModels;
 
 namespace PlansModule
 {
-    public class PlansModule : IModule
+    public class PlansModule
     {
-        static PlansViewModel _plansViewModel;
         public static bool HasChanges { get; set; }
+        static PlansViewModel _plansViewModel;
 
         public PlansModule()
         {
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

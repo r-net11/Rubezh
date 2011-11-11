@@ -1,10 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using FiresecService;
 using FiresecService.Imitator;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 
 namespace FiresecServiceRunner
 {

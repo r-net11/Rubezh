@@ -46,7 +46,7 @@
                 <MenuItem Command="{Binding BindMsCommand}" Header="Привязать" />
                 <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="Другие функции" />
 
-                <MenuItem Header="USB" Margin="12, 0, 0, 0" Visibility="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
+                <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="Считать конфигурацию из устройства" />
                     <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="Информация об устройстве" />
                     <MenuItem Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource True}" Header="Журнал событий" />

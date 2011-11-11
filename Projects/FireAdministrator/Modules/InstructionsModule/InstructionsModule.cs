@@ -3,23 +3,18 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using InstructionsModule.ViewModels;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace InstructionsModule
 {
-    public class InstructionsModule : IModule
+    public class InstructionsModule
     {
-        static InstructionsViewModel _instructionsViewModel;
         public static bool HasChanges { get; set; }
+        static InstructionsViewModel _instructionsViewModel;
 
         public InstructionsModule()
         {
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(OnShowInstructions);
-            HasChanges = false;
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

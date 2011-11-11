@@ -148,10 +148,10 @@
                     return "охранный";
 
                 case DeviceType.Technoligical:
-                    return "";
+                    return "технологический";
 
                 default:
-                    return "технологический";
+                    return "";
             }
         }
 

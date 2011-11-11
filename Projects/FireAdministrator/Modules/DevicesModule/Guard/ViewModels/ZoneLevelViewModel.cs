@@ -10,14 +10,11 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneLevelViewModel : BaseViewModel
     {
-        public ZoneLevelViewModel()
-        {
-            ChooseZonesCommand = new RelayCommand(OnChooseZones);
-        }
+        public ZoneLevel ZoneLevel { get; private set; }
 
         public ZoneLevelViewModel(ZoneLevel zoneLevel)
-            : this()
         {
+            ChooseZonesCommand = new RelayCommand(OnChooseZones);
             ZoneLevel = zoneLevel;
         }
 
@@ -25,8 +22,6 @@ namespace DevicesModule.ViewModels
         {
             get { return new List<ZoneActionType>(Enum.GetValues(typeof(ZoneActionType)).Cast<ZoneActionType>()); }
         }
-
-        public ZoneLevel ZoneLevel { get; private set; }
 
         public string PresentationZone
         {

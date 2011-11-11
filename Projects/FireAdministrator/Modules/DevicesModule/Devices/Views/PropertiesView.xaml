@@ -16,7 +16,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="{Binding Caption}" />
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" />
                     </Grid>
                 </DataTemplate>
@@ -30,7 +30,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="{Binding Caption}"  />
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Margin="2" />
                     </Grid>
                 </DataTemplate>
@@ -44,7 +44,7 @@
                             <ColumnDefinition SharedSizeGroup="group1" />
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="{Binding Caption}" />
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue}" Margin="2" />
                     </Grid>
                 </DataTemplate>

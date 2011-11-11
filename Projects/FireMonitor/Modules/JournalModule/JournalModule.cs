@@ -2,11 +2,10 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace JournalModule
 {
-    public class JournalModule : IModule
+    public class JournalModule
     {
         static JournalsViewModel JournalsViewModel;
         static ArchiveViewModel ArchiveViewModel;
@@ -15,10 +14,7 @@ namespace JournalModule
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
-        }
 
-        public void Initialize()
-        {
             JournalsViewModel = new JournalsViewModel();
             ArchiveViewModel = new ArchiveViewModel();
 

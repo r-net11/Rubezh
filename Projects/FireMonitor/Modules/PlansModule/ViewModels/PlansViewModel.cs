@@ -22,10 +22,7 @@ namespace PlansModule.ViewModels
             MainCanvas = new Canvas();
             PlanCanvasViewModel = new PlanCanvasViewModel(MainCanvas);
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
-        }
 
-        public void Initialize()
-        {
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
             if (Plans.IsNotNullOrEmpty())

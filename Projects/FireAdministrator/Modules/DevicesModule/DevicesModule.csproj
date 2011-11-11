@@ -63,50 +63,50 @@
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
-    <Compile Include="Devices\ViewModels\Async\AsyncInstanceOperationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\DeviceCustomFunctionExecuteHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\DeviceReadConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\DeviceWriteConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\SynchronizeDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\WriteAllDeviceConfigurationHelper.cs" />
-    <Compile Include="Devices\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\FirmwareUpdateHelper.cs" />
-    <Compile Include="Devices\ViewModels\Async\DeviceGetSerialListHelper.cs" />
-    <Compile Include="Devices\ViewModels\AutoSearchDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\AutoSearchViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Async\AutoDetectDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Async\ReadDeviceJournallHelper.cs" />
-    <Compile Include="Devices\ViewModels\DeviceJournalViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Async\DeviceGetInformationHelper.cs" />
-    <Compile Include="Devices\ViewModels\ProgressViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\AsyncInstanceOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\SynchronizeDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\WriteAllDeviceConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\CustomAdminFunctionsCommandViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\AsyncOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\FirmwareUpdateHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetSerialListHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\AutoSearchDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\AutoSearchViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\AutoDetectDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\ReadDeviceJournallHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\ProgressViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Async\SetPasswordHelper.cs" />
-    <Compile Include="Devices\Views\CustomAdminFunctionsCommandView.xaml.cs">
+    <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
+    <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AutoSearchView.xaml.cs">
+    <Compile Include="Devices\Views\Actions\AutoSearchView.xaml.cs">
       <DependentUpon>AutoSearchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\BindMsView.xaml.cs">
+    <Compile Include="Devices\Views\Actions\BindMsView.xaml.cs">
       <DependentUpon>BindMsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\BindMsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\BindMsViewModel.cs" />
     <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
+    <Compile Include="Devices\ViewModels\Actions\SetPasswordViewModel.cs" />
+    <Compile Include="Devices\Views\Actions\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\DeviceJournalView.xaml.cs">
+    <Compile Include="Devices\Views\Actions\DeviceJournalView.xaml.cs">
       <DependentUpon>DeviceJournalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ProgressView.xaml.cs">
+    <Compile Include="Devices\Views\Actions\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
@@ -115,12 +115,8 @@
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml.cs">
       <DependentUpon>IndicatorZoneSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\SetPasswordView.xaml.cs">
+    <Compile Include="Devices\Views\Actions\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\ViewModels\GuardDevicesSelectationViewModel.cs" />
-    <Compile Include="Guard\Views\GuardDevicesSelectationView.xaml.cs">
-      <DependentUpon>GuardDevicesSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
@@ -133,16 +129,15 @@
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardDevicesViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardLevelDetailsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardLevelsMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardLevelsSelectationViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardLevelsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardLevelViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardUserDetailsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardUsersMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardUsersViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardUserViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsSelectationViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UsersMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneSelectationViewModel.cs" />
     <Compile Include="Guard\ViewModels\ZoneLevelViewModel.cs" />
     <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
@@ -229,29 +224,26 @@
     <Compile Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml.cs">
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardDevicesView.xaml.cs">
-      <DependentUpon>GuardDevicesView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\LevelDetailsView.xaml.cs">
+      <DependentUpon>LevelDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardLevelDetailsView.xaml.cs">
-      <DependentUpon>GuardLevelDetailsView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\LevelsMenuView.xaml.cs">
+      <DependentUpon>LevelsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardLevelsMenuView.xaml.cs">
-      <DependentUpon>GuardLevelsMenuView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\LevelsSelectationView.xaml.cs">
+      <DependentUpon>LevelsSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardLevelsSelectationView.xaml.cs">
-      <DependentUpon>GuardLevelsSelectationView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\LevelsView.xaml.cs">
+      <DependentUpon>LevelsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardLevelsView.xaml.cs">
-      <DependentUpon>GuardLevelsView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardUserDetailsView.xaml.cs">
-      <DependentUpon>GuardUserDetailsView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\UsersMenuView.xaml.cs">
+      <DependentUpon>UsersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardUsersMenuView.xaml.cs">
-      <DependentUpon>GuardUsersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\GuardUsersView.xaml.cs">
-      <DependentUpon>GuardUsersView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
       <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
@@ -324,15 +316,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Devices\Views\CustomAdminFunctionsCommandView.xaml">
+    <Page Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\AutoSearchView.xaml">
+    <Page Include="Devices\Views\Actions\AutoSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\BindMsView.xaml">
+    <Page Include="Devices\Views\Actions\BindMsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,15 +332,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\DeviceDescriptionView.xaml">
+    <Page Include="Devices\Views\Actions\DeviceDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DeviceJournalView.xaml">
+    <Page Include="Devices\Views\Actions\DeviceJournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\ProgressView.xaml">
+    <Page Include="Devices\Views\Actions\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,7 +360,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\SetPasswordView.xaml">
+    <Page Include="Devices\Views\Actions\SetPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -428,39 +420,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Guard\Views\GuardDevicesSelectationView.xaml">
+    <Page Include="Guard\Views\LevelDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardDevicesView.xaml">
+    <Page Include="Guard\Views\LevelsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardLevelDetailsView.xaml">
+    <Page Include="Guard\Views\LevelsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardLevelsMenuView.xaml">
+    <Page Include="Guard\Views\LevelsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardLevelsSelectationView.xaml">
+    <Page Include="Guard\Views\UserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardLevelsView.xaml">
+    <Page Include="Guard\Views\UsersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardUserDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\GuardUsersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\GuardUsersView.xaml">
+    <Page Include="Guard\Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

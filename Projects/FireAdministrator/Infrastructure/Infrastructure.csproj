@@ -69,7 +69,6 @@
     <Compile Include="Events\GuardVisibilityChangedEvent.cs" />
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowDirectionsEvent.cs" />
-    <Compile Include="Events\ShowGuardDevicesEvent.cs" />
     <Compile Include="Events\ShowGuardLevelsEvent.cs" />
     <Compile Include="Events\ShowGuardUsersEvent.cs" />
     <Compile Include="Events\ShowInstructionsEvent.cs" />

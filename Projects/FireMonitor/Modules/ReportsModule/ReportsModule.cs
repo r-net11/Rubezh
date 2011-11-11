@@ -1,20 +1,18 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 using ReportsModule.ViewModels;
 
 namespace ReportsModule
 {
-    public class ReportsModule : IModule
+    public class ReportsModule
     {
+        static ReportsViewModel ReportsViewModel;
+
         public ReportsModule()
         {
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
-        }
-        
-        public void Initialize()
-        {
+
             RegisterResources();
             CreateViewModels();
         }
@@ -26,15 +24,12 @@ namespace ReportsModule
 
         static void CreateViewModels()
         {
-            reportsViewModel = new ReportsViewModel();
+            ReportsViewModel = new ReportsViewModel();
         }
-
-        static ReportsViewModel reportsViewModel;
 
         static void OnShowReports(object obj)
         {
-            reportsViewModel.Initialize();
-            ServiceFactory.Layout.Show(reportsViewModel);
+            ServiceFactory.Layout.Show(ReportsViewModel);
         }
     }
 }

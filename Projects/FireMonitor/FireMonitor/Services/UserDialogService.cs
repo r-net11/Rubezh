@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using Infrastructure.Common;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using System.Windows;
 using DevicesModule.ViewModels;
-using System.Windows.Controls;
+using Infrastructure.Common;
 
 namespace FireMonitor
 {

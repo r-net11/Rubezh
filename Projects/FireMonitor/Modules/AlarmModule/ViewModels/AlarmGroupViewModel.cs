@@ -38,7 +38,7 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowCommand { get; private set; }
         void OnShowCommand()
         {
-            ServiceFactory.Layout.Show(new AlarmListViewModel(Alarms, AlarmType));
+            ServiceFactory.Layout.Show(new AlarmsViewModel(Alarms, AlarmType));
             ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
         }
 

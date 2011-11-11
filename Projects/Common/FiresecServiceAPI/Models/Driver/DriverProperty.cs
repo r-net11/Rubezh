@@ -18,6 +18,9 @@ namespace FiresecAPI.Models
         public string Caption { get; set; }
 
         [DataMember]
+        public string ToolTip { get; set; }
+
+        [DataMember]
         public string Default { get; set; }
 
         [DataMember]

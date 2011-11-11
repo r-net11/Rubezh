@@ -54,28 +54,13 @@ namespace FireAdministrator
         static void InitializeKnownModules()
         {
             var devicesModule = new DevicesModule.DevicesModule();
-            devicesModule.Initialize();
-
             var libraryModule = new LibraryModule.LibraryModule();
-            libraryModule.Initialize();
-
             var plansModule = new PlansModule.PlansModule();
-            plansModule.Initialize();
-
-            var sequrityModule = new SecurityModule.SecurityModule();
-            sequrityModule.Initialize();
-
+            var securityModule = new SecurityModule.SecurityModule();
             var filtersModule = new FiltersModule.FilterModule();
-            filtersModule.Initialize();
-
             var soundsModule = new SoundsModule.SoundsModule();
-            soundsModule.Initialize();
-
             var instructionsModule = new InstructionsModule.InstructionsModule();
-            instructionsModule.Initialize();
-
             var settingsModule = new SettingsModule.SettingsModule();
-            settingsModule.Initialize();
         }
     }
 }

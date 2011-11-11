@@ -14,10 +14,6 @@ namespace ReportsModule.ViewModels
             ShowDriverCountReportCommand = new RelayCommand(OnShowDriverCountReportCommand);
             ShowIndicationBlockReportCommand = new RelayCommand(OnShowIndicationBlockReportCommand);
         }
-        
-        public void Initialize()
-        {
-        }
 
         public CrystalReportsViewer CrystalReportsViewer { get; set; }
 

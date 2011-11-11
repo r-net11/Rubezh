@@ -44,7 +44,7 @@ namespace FiresecService.Converters
 
                 driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
                 driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
-                driver.CanAutoDetect = innerDriver.options.Contains("CanAutoDetectInstances");
+                driver.CanReadJournal = innerDriver.options.Contains("EventSource");
                 driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
                 driver.CanReboot = innerDriver.options.Contains("RemoteReload");
                 driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
@@ -159,7 +159,7 @@ namespace FiresecService.Converters
             driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);
 
-            var AllChildren = new List<drvType>();
+            var allChildren = new List<drvType>();
             foreach (var childDriver in Metadata.drv)
             {
                 var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
@@ -168,17 +168,17 @@ namespace FiresecService.Converters
                     if (childDriver.lim_parent != null && childDriver.lim_parent != innerDriver.id)
                         continue;
 
-                    AllChildren.Add(childDriver);
+                    allChildren.Add(childDriver);
                 }
             }
 
             driver.Children = new List<Guid>(
-                from drvType childInnerDriver in AllChildren
+                from drvType childInnerDriver in allChildren
                 where (DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id).IgnoreLevel == 0)
                 select new Guid(childInnerDriver.id));
 
             driver.AvaliableChildren = new List<Guid>(
-                from drvType childInnerDriver in AllChildren
+                from drvType childInnerDriver in allChildren
                 where childInnerDriver.acr_enabled != "1"
                 select new Guid(childInnerDriver.id));
 
@@ -189,7 +189,7 @@ namespace FiresecService.Converters
             else
             {
                 driver.AutoCreateChildren = new List<Guid>(
-                from drvType childInnerDriver in AllChildren
+                from drvType childInnerDriver in allChildren
                 where childInnerDriver.acr_enabled == "1"
                 select new Guid(childInnerDriver.id));
             }
@@ -201,6 +201,8 @@ namespace FiresecService.Converters
                 driver.AutoChild = new Guid(innerDriver.child_id);
                 driver.AutoChildCount = int.Parse(innerDriver.child_count);
             }
+
+            driver.CanAutoDetect = allChildren.Any(x => (x.options != null) && (x.options.Contains("CanAutoDetectInstances")));
 
             driver.Properties = new List<DriverProperty>();
             if (innerDriver.propInfo != null)
@@ -216,6 +218,7 @@ namespace FiresecService.Converters
                     {
                         Name = internalProperty.name,
                         Caption = internalProperty.caption,
+                        ToolTip = internalProperty.hint,
                         Default = internalProperty.@default,
                         Visible = internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0",
                         IsHidden = internalProperty.hidden == "1"

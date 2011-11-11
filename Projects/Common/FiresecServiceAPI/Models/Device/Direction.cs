@@ -16,21 +16,18 @@ namespace FiresecAPI.Models
         public int Id { get; set; }
 
         [DataMember]
-        public string Gid { get; set; }
-
-        [DataMember]
         public string Name { get; set; }
 
         [DataMember]
         public string Description { get; set; }
 
         [DataMember]
-        public List<ulong?> Zones { get; set; }
-
-        [DataMember]
         public Guid DeviceRm { get; set; }
 
         [DataMember]
         public Guid DeviceButton { get; set; }
+
+        [DataMember]
+        public List<ulong?> Zones { get; set; }
     }
 }

@@ -1,24 +1,19 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 using SoundsModule.ViewModels;
 
 namespace SoundsModule
 {
-    public class SoundsModule : IModule
+    public class SoundsModule
     {
-
-        static SoundsViewModel _soundsViewModel;
         public static bool HasChanges { get; set; }
+        static SoundsViewModel _soundsViewModel;
 
         public SoundsModule()
         {
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

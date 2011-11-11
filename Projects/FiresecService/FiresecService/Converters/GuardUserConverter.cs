@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
@@ -13,64 +14,63 @@ namespace FiresecService.Converters
 
             if (ConfigurationConverter.FiresecConfiguration.part != null)
             {
-                foreach (var innerDirection in ConfigurationConverter.FiresecConfiguration.part)
+                foreach (var innerGuardUser in ConfigurationConverter.FiresecConfiguration.part)
                 {
-                    if (innerDirection.type == "guarduser")
+                    if (innerGuardUser.type == "guarduser")
                     {
                         var guardUser = new GuardUser()
                         {
-                            Id = int.Parse(innerDirection.id),
-                            Gid = innerDirection.gid,
-                            Name = innerDirection.name
+                            Id = int.Parse(innerGuardUser.id),
+                            Name = innerGuardUser.name
                         };
 
-                        if (innerDirection.PinZ != null)
+                        if (innerGuardUser.PinZ != null)
                         {
-                            foreach (var partZone in innerDirection.PinZ)
+                            foreach (var partZone in innerGuardUser.PinZ)
                             {
-                                guardUser.Zones.Add(partZone.pidz);
+                                //guardUser.Zones.Add(partZone.pidz);
                             }
                         }
 
-                        if (innerDirection.param != null)
+                        if (innerGuardUser.param != null)
                         {
-                            var KeyTMParameter = innerDirection.param.FirstOrDefault(x => x.name == "KeyTM");
+                            var KeyTMParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "KeyTM");
                             if (KeyTMParameter != null)
                             {
                                 guardUser.KeyTM = KeyTMParameter.value;
                             }
 
-                            var DeviceUIDParameter = innerDirection.param.FirstOrDefault(x => x.name == "DeviceUID");
+                            var DeviceUIDParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "DeviceUID");
                             if (DeviceUIDParameter != null)
                             {
                                 guardUser.DeviceUID = DeviceUIDParameter.value;
                             }
 
-                            var PasswordParameter = innerDirection.param.FirstOrDefault(x => x.name == "Password");
+                            var PasswordParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "Password");
                             if (PasswordParameter != null)
                             {
                                 guardUser.Password = PasswordParameter.value;
                             }
 
-                            var FunctionParameter = innerDirection.param.FirstOrDefault(x => x.name == "Function");
+                            var FunctionParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "Function");
                             if (FunctionParameter != null)
                             {
                                 guardUser.Function = FunctionParameter.value;
                             }
 
-                            var FIOParameter = innerDirection.param.FirstOrDefault(x => x.name == "FIO");
+                            var FIOParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "FIO");
                             if (FIOParameter != null)
                             {
                                 guardUser.FIO = FIOParameter.value;
                             }
 
-                            var CanSetZoneParameter = innerDirection.param.FirstOrDefault(x => x.name == "SetZone");
+                            var CanSetZoneParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "SetZone");
                             if (CanSetZoneParameter != null)
                             {
                                 guardUser.CanSetZone = CanSetZoneParameter.value == "1";
                             }
 
-                            var CanUnSetZoneParameter = innerDirection.param.FirstOrDefault(x => x.name == "UnSetZone");
+                            var CanUnSetZoneParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "UnSetZone");
                             if (CanUnSetZoneParameter != null)
                             {
                                 guardUser.CanUnSetZone = CanUnSetZoneParameter.value == "1";
@@ -83,29 +83,48 @@ namespace FiresecService.Converters
             }
         }
 
-        public static void ConvertBack(DeviceConfiguration currentConfiguration)
+        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
             var innerGuardUsers = new List<partType>();
             int no = 0;
 
-            foreach (var guardUser in currentConfiguration.GuardUsers)
+            foreach (var guardUser in deviceConfiguration.GuardUsers)
             {
+                var zones = new HashSet<ulong>();
+                var devices = new HashSet<Guid>();
+                foreach (var levelName in guardUser.LevelNames)
+                {
+                    var guardLevel = deviceConfiguration.GuardLevels.FirstOrDefault(x=>x.Name == levelName);
+                    foreach (var zone in guardLevel.ZoneLevels)
+                    {
+                        zones.Add(zone.ZoneNo.Value);
+                    }
+                }
+                foreach (var zone in zones)
+                {
+                    foreach (var device in deviceConfiguration.Devices)
+                    {
+                        if ((device.ZoneNo.HasValue) && (device.ZoneNo.Value == zone))
+                            devices.Add(device.Parent.UID);
+                    }
+                }
+
                 var innerGuardUser = new partType()
                 {
                     type = "guarduser",
                     no = no.ToString(),
                     id = guardUser.Id.ToString(),
-                    gid = guardUser.Gid,
+                    gid = ConfigurationConverter.Gid++.ToString(),
                     name = guardUser.Name
                 };
                 ++no;
 
-                var zones = new List<partTypePinZ>();
-                foreach (var zone in guardUser.Zones)
+                var innerZones = new List<partTypePinZ>();
+                foreach (var zone in zones)
                 {
-                    zones.Add(new partTypePinZ() { pidz = zone });
+                    innerZones.Add(new partTypePinZ() { pidz = zone.ToString() });
                 }
-                innerGuardUser.PinZ = zones.ToArray();
+                innerGuardUser.PinZ = innerZones.ToArray();
 
                 var innerGuardUsersParameters = new List<paramType>();
 
@@ -159,13 +178,13 @@ namespace FiresecService.Converters
                     });
                 }
 
-                if (string.IsNullOrEmpty(guardUser.DeviceUID) == false)
+                foreach (var deviceUID in devices)
                 {
                     innerGuardUsersParameters.Add(new paramType()
                     {
                         name = "DeviceUID",
                         type = "String",
-                        value = guardUser.DeviceUID
+                        value = deviceUID.ToString()
                     });
                 }
 

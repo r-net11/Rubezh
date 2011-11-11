@@ -4,9 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
-using Infrastructure.Events;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,10 +14,7 @@ namespace DevicesModule.ViewModels
         public DevicesViewModel()
         {
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
-        }
 
-        public void Initialize()
-        {
             BuildDeviceTree();
             if (Devices.Count > 0)
             {

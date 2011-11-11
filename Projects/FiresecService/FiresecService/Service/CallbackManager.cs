@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using System.Threading;
 
 namespace FiresecService
 {

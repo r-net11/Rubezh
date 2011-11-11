@@ -2,21 +2,18 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace FiltersModule
 {
-    public class FilterModule : IModule
+    public class FilterModule
     {
+        public static bool HasChanges { get; set; }
         static FiltersViewModel _filtersViewModel;
 
         public FilterModule()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }
@@ -36,7 +33,5 @@ namespace FiltersModule
         {
             ServiceFactory.Layout.Show(_filtersViewModel);
         }
-
-        public static bool HasChanges { get; set; }
     }
 }

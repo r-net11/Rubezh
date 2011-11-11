@@ -3,44 +3,36 @@
                     xmlns:Views="clr-namespace:DevicesModule.Views"
                     xmlns:ViewModels="clr-namespace:DevicesModule.ViewModels">
     
-    <DataTemplate DataType="{x:Type ViewModels:GuardUsersViewModel}">
-        <Views:GuardUsersView />
+    <DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
+        <Views:UsersView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsViewModel}">
-        <Views:GuardLevelsView />
+    <DataTemplate DataType="{x:Type ViewModels:LevelsViewModel}">
+        <Views:LevelsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesViewModel}">
-        <Views:GuardDevicesView />
+    <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
+        <Views:UserDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardUserDetailsViewModel}">
-        <Views:GuardUserDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
+        <Views:UsersMenuView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardUsersMenuViewModel}">
-        <Views:GuardUsersMenuView />
+    <DataTemplate DataType="{x:Type ViewModels:LevelDetailsViewModel}">
+        <Views:LevelDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardLevelDetailsViewModel}">
-        <Views:GuardLevelDetailsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsMenuViewModel}">
-        <Views:GuardLevelsMenuView />
+    <DataTemplate DataType="{x:Type ViewModels:LevelsMenuViewModel}">
+        <Views:LevelsMenuView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectationViewModel}">
         <Views:GuardZoneSelectationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardLevelsSelectationViewModel}">
-        <Views:GuardLevelsSelectationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesSelectationViewModel}">
-        <Views:GuardDevicesSelectationView />
+    <DataTemplate DataType="{x:Type ViewModels:LevelsSelectationViewModel}">
+        <Views:LevelsSelectationView />
     </DataTemplate>
 
 </ResourceDictionary>

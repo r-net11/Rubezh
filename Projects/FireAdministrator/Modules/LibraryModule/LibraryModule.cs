@@ -2,21 +2,18 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace LibraryModule
 {
-    public class LibraryModule : IModule
+    public class LibraryModule
     {
+        public static bool HasChanges { get; set; }
         static LibraryViewModel _libraryViewModel;
 
         public LibraryModule()
         {
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(OnShowLibrary);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }
@@ -36,7 +33,5 @@ namespace LibraryModule
         {
             ServiceFactory.Layout.Show(_libraryViewModel);
         }
-
-        public static bool HasChanges { get; set; }
     }
 }

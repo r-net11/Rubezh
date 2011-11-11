@@ -4,34 +4,26 @@ using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace DevicesModule
 {
-    public class DevicesModule : IModule
+    public class DevicesModule
     {
         public static bool HasChanges { get; set; }
-
         static DevicesViewModel _devicesViewModel;
         static ZonesViewModel _zonesViewModel;
         static DirectionsViewModel _directionsViewModel;
-        static GuardUsersViewModel _guardUsersViewModel;
-        static GuardLevelsViewModel _guardLevelsViewModel;
-        static GuardDevicesViewModel _guardDevicesViewModel;
+        static UsersViewModel _usersViewModel;
+        static LevelsViewModel _levelsViewModel;
 
         public DevicesModule()
         {
-            HasChanges = false;
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
             ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(OnShowGuardUsers);
             ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(OnShowGuardLevels);
-            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(OnShowGuardDevices);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }
@@ -48,22 +40,10 @@ namespace DevicesModule
         public static void CreateViewModels()
         {
             _devicesViewModel = new DevicesViewModel();
-            _devicesViewModel.Initialize();
-
             _zonesViewModel = new ZonesViewModel();
-            _zonesViewModel.Initialize();
-
             _directionsViewModel = new DirectionsViewModel();
-            _directionsViewModel.Initialize();
-
-            _guardUsersViewModel = new GuardUsersViewModel();
-            _guardUsersViewModel.Initialize();
-
-            _guardLevelsViewModel = new GuardLevelsViewModel();
-            _guardLevelsViewModel.Initialize();
-
-            _guardDevicesViewModel = new GuardDevicesViewModel();
-            _guardDevicesViewModel.Initialize();
+            _usersViewModel = new UsersViewModel();
+            _levelsViewModel = new LevelsViewModel();
         }
 
         static void OnShowDevice(Guid deviceUID)
@@ -89,17 +69,12 @@ namespace DevicesModule
 
         static void OnShowGuardUsers(string obj)
         {
-            ServiceFactory.Layout.Show(_guardUsersViewModel);
-        }
-
-        static void OnShowGuardDevices(string obj)
-        {
-            ServiceFactory.Layout.Show(_guardDevicesViewModel);
+            ServiceFactory.Layout.Show(_usersViewModel);
         }
 
         static void OnShowGuardLevels(string obj)
         {
-            ServiceFactory.Layout.Show(_guardLevelsViewModel);
+            ServiceFactory.Layout.Show(_levelsViewModel);
         }
     }
 }

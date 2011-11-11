@@ -123,9 +123,13 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
-            <Border CornerRadius="5" BorderThickness="0" Margin="1" Background="{DynamicResource BackgroundBrush}">
-                <StackPanel DataContext="{Binding SelectedDevice}" HorizontalAlignment="Left" Margin="5">
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" Margin="0, 10, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" CornerRadius="5" BorderThickness="0" Margin="0" Background="{DynamicResource BackgroundBrush}">
+                <StackPanel HorizontalAlignment="Left" Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
                         <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
@@ -156,8 +160,10 @@
                             </Style>
                         </StackPanel.Style>
                     </StackPanel>
-                    <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
                 </StackPanel>
+            </Border>
+            <Border Grid.Column="1" CornerRadius="5" BorderThickness="0" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
+                <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
             </Border>
         </Grid>
     </Grid>

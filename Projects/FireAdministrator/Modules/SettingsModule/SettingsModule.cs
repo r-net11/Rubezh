@@ -1,24 +1,19 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 using SettingsModule.ViewModels;
 
 namespace SettingsModule
 {
-    public class SettingsModule : IModule
+    public class SettingsModule
     {
-        static SettingsViewModel _settingsViewModel;
         public static bool HasChanges { get; set; }
+        static SettingsViewModel _settingsViewModel;
 
         public SettingsModule()
         {
             ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Subscribe(OnShowSettings);
-            HasChanges = false;
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

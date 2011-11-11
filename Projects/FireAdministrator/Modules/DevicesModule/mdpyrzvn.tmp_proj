@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{948B3C2D-715A-4B65-9847-36B71E90B40A}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DevicesModule</RootNamespace>
+    <AssemblyName>DevicesModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
+    <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
+    <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
+    <Compile Include="Devices\ViewModels\Async\AsyncInstanceOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceCustomFunctionExecuteHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceReadConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceWriteConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\SynchronizeDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\WriteAllDeviceConfigurationHelper.cs" />
+    <Compile Include="Devices\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\AsyncOperationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\FirmwareUpdateHelper.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceGetSerialListHelper.cs" />
+    <Compile Include="Devices\ViewModels\AutoSearchDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\AutoSearchViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\AutoDetectDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDescriptionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\ReadDeviceJournallHelper.cs" />
+    <Compile Include="Devices\ViewModels\DeviceJournalViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\DeviceGetInformationHelper.cs" />
+    <Compile Include="Devices\ViewModels\ProgressViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Async\SetPasswordHelper.cs" />
+    <Compile Include="Devices\Views\CustomAdminFunctionsCommandView.xaml.cs">
+      <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\AutoSearchView.xaml.cs">
+      <DependentUpon>AutoSearchView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\BindMsView.xaml.cs">
+      <DependentUpon>BindMsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\ViewModels\BindMsViewModel.cs" />
+    <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
+      <DependentUpon>AddressEdiotor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\ViewModels\SetPasswordViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceDescriptionView.xaml.cs">
+      <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceJournalView.xaml.cs">
+      <DependentUpon>DeviceJournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
+      <DependentUpon>IndicatorDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.xaml.cs">
+      <DependentUpon>IndicatorZoneSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\SetPasswordView.xaml.cs">
+      <DependentUpon>SetPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
+    <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
+    <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
+    <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
+    <Compile Include="Guard\Converters\GuardZoneTypeToStringConverter.cs" />
+    <Compile Include="Devices\Converters\ValveActionConverter.cs" />
+    <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
+    <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
+    <Compile Include="DevicesModule.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDeviceViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsSelectationViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\LevelViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UsersMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Guard\ViewModels\UserViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneSelectationViewModel.cs" />
+    <Compile Include="Guard\ViewModels\ZoneLevelViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
+    <Compile Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml.cs">
+      <DependentUpon>GroupDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceRangeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
+    <Compile Include="Zones\Events\CurrentClauseStateChangedEvent.cs" />
+    <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
+    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
+      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Directions\Views\DirectionDeviceSelectorView.xaml.cs">
+      <DependentUpon>DirectionDeviceSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Directions\Views\DirectionDetailsView.xaml.cs">
+      <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesSelectionViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneLogicViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Directions\Views\DirectionsMenuView.xaml.cs">
+      <DependentUpon>DirectionsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Directions\Views\DirectionsView.xaml.cs">
+      <DependentUpon>DirectionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDetailsView.xaml.cs">
+      <DependentUpon>IndicatorDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\NewDeviceRangeView.xaml.cs">
+      <DependentUpon>NewDeviceRangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\PumpDetailsView.xaml.cs">
+      <DependentUpon>PumpDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml.cs">
+      <DependentUpon>ValveDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\LevelDetailsView.xaml.cs">
+      <DependentUpon>LevelDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\LevelsMenuView.xaml.cs">
+      <DependentUpon>LevelsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\LevelsSelectationView.xaml.cs">
+      <DependentUpon>LevelsSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\LevelsView.xaml.cs">
+      <DependentUpon>LevelsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\UsersMenuView.xaml.cs">
+      <DependentUpon>UsersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\UsersView.xaml.cs">
+      <DependentUpon>UsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
+      <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
+      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
+      <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneLogicDeviceSelectionView.xaml.cs">
+      <DependentUpon>ZoneLogicDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesSelectionView.xaml.cs">
+      <DependentUpon>ZonesSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneLogicView.xaml.cs">
+      <DependentUpon>ZoneLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
+      <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
+      <Name>DeviceControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\DialogWindow\DialogWindow\DialogBox.csproj">
+      <Project>{8F228E65-E3D4-4A94-BC30-E5C428FE3493}</Project>
+      <Name>DialogBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient %28Common\FiresecClient%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ReferencePath Include="D:\Projects\Projects\Common\Common\bin\Debug\Common.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\Controls\bin\Debug\Controls.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\DeviceControls\bin\Debug\DeviceControls.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\DialogWindow\DialogWindow\bin\Debug\DialogBox.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\FiresecServiceAPI\bin\Debug\FiresecAPI.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\FiresecClient\bin\Debug\FiresecClient.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\Infrastructure.Common\bin\Debug\Infrastructure.Common.dll" />
+    <ReferencePath Include="D:\Projects\Projects\FireAdministrator\Infrastructure\bin\Debug\Infrastructure.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.CSharp.dll" />
+    <ReferencePath Include="D:\Projects\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll" />
+    <ReferencePath Include="D:\Projects\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\WindowsBase.dll" />
+    <ReferencePath Include="D:\Projects\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\CustomAdminFunctionsCommandView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\AutoSearchView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\BindMsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\DeviceDescriptionView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\DeviceJournalView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\ProgressView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\GroupDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\DevicesMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\Indicator\IndicatorZoneSelectionView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\SetPasswordView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\AddressEdiotor.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Directions\Views\DirectionDeviceSelectorView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Directions\Views\DirectionDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\DevicesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Directions\Views\DirectionsMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Directions\Views\DirectionsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\Indicator\IndicatorDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\NewDeviceView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\NewDeviceRangeView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\PumpDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Devices\Views\PropertyDetails\ValveDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\LevelDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\LevelsMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\LevelsSelectationView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\LevelsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\UserDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\UsersMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\UsersView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Guard\Views\GuardZoneSelectationView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Validation\Views\ValidationErrorsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZoneDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZoneDevicesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZoneLogicDeviceSelectionView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZonesMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZonesSelectionView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZoneLogicView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\Zones\Views\ZonesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\DevicesModule\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

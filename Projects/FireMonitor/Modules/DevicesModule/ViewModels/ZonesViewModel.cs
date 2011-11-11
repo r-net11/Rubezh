@@ -17,10 +17,7 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
             FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
-        }
 
-        public void Initialize()
-        {
             FiresecEventSubscriber.ZoneStateChangedEvent += new Action<ulong?>(OnZoneStateChangedEvent);
             Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
                      orderby zone.No

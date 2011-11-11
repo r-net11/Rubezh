@@ -7,8 +7,8 @@
         <Views:AlarmGroupListView />
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type ViewModels:AlarmListViewModel}">
-        <Views:AlarmListView />
+    <DataTemplate DataType="{x:Type ViewModels:AlarmsViewModel}">
+        <Views:AlarmsView />
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type ViewModels:InstructionViewModel}">

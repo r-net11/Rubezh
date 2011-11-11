@@ -4,7 +4,7 @@ namespace CallModule.ViewModels
 {
     public class CallViewModel : RegionViewModel
     {
-        public void Initialize()
+        public CallViewModel()
         {
         }
     }

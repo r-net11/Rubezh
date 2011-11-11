@@ -2,21 +2,17 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace CallModule
 {
-    public class CallModule : IModule
+    public class CallModule
     {
         static CallViewModel CallViewModel;
 
         public CallModule()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }
@@ -29,7 +25,6 @@ namespace CallModule
         static void CreateViewModels()
         {
             CallViewModel = new CallViewModel();
-            CallViewModel.Initialize();
         }
 
         static void OnShowCall(object obj)

@@ -1,8 +1,8 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using System.Windows.Threading;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using System.Windows.Threading;
-using System;
 
 namespace DevicesModule.ViewModels
 {

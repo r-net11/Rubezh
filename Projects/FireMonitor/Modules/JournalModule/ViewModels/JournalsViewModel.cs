@@ -9,11 +9,6 @@ namespace JournalModule.ViewModels
     {
         public JournalsViewModel()
         {
-            Initialize();
-        }
-
-        void Initialize()
-        {
             Journals = new List<FilteredJournalViewModel>();
 
             Journals.Add(new FilteredJournalViewModel(new JournalFilter() { Name = " Все события" }));

@@ -3,11 +3,10 @@ using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace DevicesModule
 {
-    public class DevicesModule : IModule
+    public class DevicesModule
     {
         static DevicesViewModel DevicesViewModel;
         static ZonesViewModel ZonesViewModel;
@@ -17,10 +16,7 @@ namespace DevicesModule
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }
@@ -33,10 +29,7 @@ namespace DevicesModule
         static void CreateViewModels()
         {
             DevicesViewModel = new DevicesViewModel();
-            DevicesViewModel.Initialize();
-
             ZonesViewModel = new ZonesViewModel();
-            ZonesViewModel.Initialize();
         }
 
         static void OnShowDevice(Guid deviceUID)

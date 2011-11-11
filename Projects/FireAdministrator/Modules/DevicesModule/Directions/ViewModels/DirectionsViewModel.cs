@@ -13,10 +13,7 @@ namespace DevicesModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
             AddCommand = new RelayCommand(OnAdd);
-        }
 
-        public void Initialize()
-        {
             Directions = new ObservableCollection<DirectionViewModel>(
                 from direction in FiresecManager.DeviceConfiguration.Directions
                 select new DirectionViewModel(direction));

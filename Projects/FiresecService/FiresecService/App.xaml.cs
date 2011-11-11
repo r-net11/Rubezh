@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using FiresecService;
-using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {

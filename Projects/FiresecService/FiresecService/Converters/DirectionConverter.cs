@@ -22,7 +22,6 @@ namespace FiresecService.Converters
                         var direction = new Direction()
                         {
                             Id = int.Parse(innerDirection.id),
-                            Gid = innerDirection.gid,
                             Name = innerDirection.name,
                             Description = innerDirection.desc
                         };
@@ -64,7 +63,7 @@ namespace FiresecService.Converters
                     type = "direction",
                     no = no.ToString(),
                     id = direction.Id.ToString(),
-                    gid = direction.Gid,
+                    gid = ConfigurationConverter.Gid++.ToString(),
                     name = direction.Name
                 };
                 ++no;

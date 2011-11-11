@@ -7,16 +7,24 @@ namespace DevicesModule.DeviceProperties
 {
     public class BasePropertyViewModel : BaseViewModel
     {
+        protected Device _device;
+        protected DriverProperty _driverProperty;
+
         public BasePropertyViewModel(DriverProperty driverProperty, Device device)
         {
             _driverProperty = driverProperty;
             _device = device;
         }
 
-        protected Device _device;
-        protected DriverProperty _driverProperty;
+        public string Caption
+        {
+            get { return _driverProperty.Caption; }
+        }
 
-        public string Caption { get { return _driverProperty.Caption; } }
+        public string ToolTip
+        {
+            get { return _driverProperty.ToolTip; }
+        }
 
         protected void Save(string value)
         {

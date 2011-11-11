@@ -8,6 +8,7 @@ namespace FiresecService
     {
         public static Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
         public static DeviceConfiguration DeviceConfiguration { get; set; }
+        public static int Gid { get; set; }
 
         public static void Convert()
         {
@@ -54,6 +55,7 @@ namespace FiresecService
                 FiresecConfiguration = new Firesec.CoreConfiguration.config();
             }
 
+            Gid = 0;
             ZoneConverter.ConvertBack(deviceConfiguration);
             DeviceConverter.ConvertBack(deviceConfiguration);
             DirectionConverter.ConvertBack(deviceConfiguration);

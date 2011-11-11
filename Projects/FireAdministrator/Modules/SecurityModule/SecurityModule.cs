@@ -1,12 +1,11 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Practices.Prism.Modularity;
 using SecurityModule.ViewModels;
 
 namespace SecurityModule
 {
-    public class SecurityModule : IModule
+    public class SecurityModule
     {
         static UsersViewModel _usersViewModel;
         static RolesViewModel _groupsViewModel;
@@ -15,10 +14,7 @@ namespace SecurityModule
         {
             ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
             ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

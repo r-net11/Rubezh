@@ -177,6 +177,9 @@ namespace FiresecAPI.Models
         public bool CanReadDatabase { get; set; }
 
         [DataMember]
+        public bool CanReadJournal { get; set; }
+
+        [DataMember]
         public bool CanAutoDetect { get; set; }
 
         [DataMember]

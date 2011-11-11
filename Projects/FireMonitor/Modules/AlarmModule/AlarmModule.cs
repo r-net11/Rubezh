@@ -1,21 +1,17 @@
 ﻿using AlarmModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Microsoft.Practices.Prism.Modularity;
 
 namespace AlarmModule
 {
-    public class AlarmModule : IModule
+    public class AlarmModule
     {
         static AlarmWatcher AlarmWatcher;
 
         public AlarmModule()
         {
             ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
-        }
 
-        public void Initialize()
-        {
             RegisterResources();
             CreateViewModels();
         }

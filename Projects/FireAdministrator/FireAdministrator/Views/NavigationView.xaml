@@ -68,15 +68,6 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsGuardDevicesSelected}" Margin="15, 0, 0, 5"
-                     Visibility="{Binding  ElementName=_guardExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/tree.png" />
-                        <TextBlock Text="Устройства" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
             <TabItem IsSelected="{Binding IsLibrarySelected}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
