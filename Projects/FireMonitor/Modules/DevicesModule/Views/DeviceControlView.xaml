@@ -2,6 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
+        
+        <StackPanel Visibility="{Binding IsTimerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
+            <Label Content="{Binding TimeLeft}" />
+            <Label Content=" сек. " />
+            <Button Content="Отмена пуска" Command="{Binding StopTimerCommand}" />
+        </StackPanel>
+        
         <TabControl>
             <TabItem Header="Положение">
                 <StackPanel Orientation="Horizontal">

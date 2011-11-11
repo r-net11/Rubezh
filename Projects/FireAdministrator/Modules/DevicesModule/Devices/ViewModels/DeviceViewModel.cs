@@ -151,14 +151,20 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceViewModel(this)))
+            {
                 DevicesModule.HasChanges = true;
+                DevicesViewModel.UpdateGuardVisibility();
+            }
         }
 
         public RelayCommand AddManyCommand { get; private set; }
         void OnAddMany()
         {
             if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceRangeViewModel(this)))
+            {
                 DevicesModule.HasChanges = true;
+                DevicesViewModel.UpdateGuardVisibility();
+            }
         }
 
         bool CanRemove()
@@ -176,8 +182,8 @@ namespace DevicesModule.ViewModels
             Parent.IsExpanded = true;
 
             FiresecManager.DeviceConfiguration.Update();
-
             DevicesModule.HasChanges = true;
+            DevicesViewModel.UpdateGuardVisibility();
         }
 
         bool CanShowProperties()

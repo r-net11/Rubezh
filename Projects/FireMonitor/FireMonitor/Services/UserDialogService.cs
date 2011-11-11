@@ -1,10 +1,17 @@
 ﻿using System.Windows;
 using Infrastructure.Common;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using DevicesModule.ViewModels;
+using System.Windows.Controls;
 
 namespace FireMonitor
 {
     public class UserDialogService : IUserDialogService
     {
+        List<DialogWindow> ActiveWindows = new List<DialogWindow>();
+
         public void ShowWindow(IDialogContent model, bool isTopMost = false)
         {
             var dialog = new DialogWindow()
@@ -13,7 +20,38 @@ namespace FireMonitor
             };
             dialog.SetContent(model);
 
+            if (model is DeviceDetailsViewModel)
+            {
+                DeviceDetailsViewModel deviceDetailsViewModel = model as DeviceDetailsViewModel;
+                var deviceUID = deviceDetailsViewModel.DeviceState.UID;
+
+                //foreach (var window in ActiveWindows)
+                //{
+                //    DeviceDetailsViewModel existingDeviceDetailsViewModel = window.ViewModel as DeviceDetailsViewModel;
+                //    if (existingDeviceDetailsViewModel.Device.UID == deviceUID)
+                //    {
+                //        window.Activate();
+                //        return;
+                //    }
+                //}
+
+                DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => (x.ViewModel as DeviceDetailsViewModel).Device.UID == deviceUID);
+                if (existingWindow != null)
+                {
+                    existingWindow.Activate();
+                    return;
+                }
+
+                dialog.Closed += new System.EventHandler(dialog_Closed);
+                ActiveWindows.Add(dialog);
+            }
+
             dialog.Show();
+        }
+
+        void dialog_Closed(object sender, System.EventArgs e)
+        {
+            ActiveWindows.Remove((DialogWindow)sender);
         }
 
         public bool ShowModalWindow(IDialogContent model)

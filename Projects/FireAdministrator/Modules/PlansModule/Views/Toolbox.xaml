@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Background="Gray">
         <StackPanel Orientation="Horizontal">
-            <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" Height="24" Margin="2" />
+            <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/Ellipse.png" Name="ElementEllipse" ToolTip="Эллипс" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/Polygon.png" Name="ElementPolygon" ToolTip="Многоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/Font.png" Name="ElementTextBlock" ToolTip="Текст" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />

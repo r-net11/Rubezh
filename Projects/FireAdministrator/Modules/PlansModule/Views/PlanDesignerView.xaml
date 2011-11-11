@@ -12,11 +12,11 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Command="{Binding PlanDesignerViewModel.ZoomInCommand}" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
+            <Button Grid.Row="0" Click="OnZoomIn" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
                 <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
             </Button>
             <Slider Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
-            <Button Grid.Row="2" Command="{Binding PlanDesignerViewModel.ZoomOutCommand}" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
+            <Button Grid.Row="2" Click="OnZoomOut" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
                 <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
             </Button>
         </Grid>

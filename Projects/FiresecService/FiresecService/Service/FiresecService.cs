@@ -14,7 +14,7 @@ using FiresecServiceRunner;
 namespace FiresecService
 {
     [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
-        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Single)]
     public partial class FiresecService : IFiresecService, IDisposable
     {
         public readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
@@ -48,10 +48,10 @@ namespace FiresecService
 
         public string Reconnect(string login, string password)
         {
-            var oldUserFileName = _userName;
+            var oldUserName = _userName;
             if (CheckLogin(login, password))
             {
-                DatabaseHelper.AddInfoMessage(oldUserFileName, "Дежурство сдал");
+                DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
                 DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
 
                 return null;

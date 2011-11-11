@@ -30,7 +30,7 @@ namespace PlansModule.Designer
 
             if (this.dragStartPoint.HasValue)
             {
-                var designerItemData = CreateDesignerItemData((sender as TextBlock).Name);
+                var designerItemData = CreateDesignerItemData((sender as Image).Name);
 
                 DataObject dataObject = new DataObject("DESIGNER_ITEM", designerItemData);
                 DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);

@@ -23,8 +23,6 @@ namespace PlansModule.ViewModels
 
         public PlanDesignerViewModel()
         {
-            ZoomInCommand = new RelayCommand(OnZoomIn);
-            ZoomOutCommand = new RelayCommand(OnZoomOut);
             ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
         }
 
@@ -364,22 +362,12 @@ namespace PlansModule.ViewModels
             return oddNodes;
         }
 
-        public RelayCommand ZoomInCommand { get; private set; }
-        void OnZoomIn()
-        {
-            Zoom(2);
-        }
-
-        public RelayCommand ZoomOutCommand { get; private set; }
-        void OnZoomOut()
-        {
-            Zoom(0.5);
-        }
-
         double currentZoomFactor = 1;
         public void ChangeZoom(double zoomFactor)
         {
-            Zoom(zoomFactor / currentZoomFactor);
+            double ondZoomFactor = currentZoomFactor;
+            currentZoomFactor = zoomFactor;
+            Zoom(zoomFactor / ondZoomFactor);
             currentZoomFactor = zoomFactor;
         }
 
@@ -425,6 +413,15 @@ namespace PlansModule.ViewModels
                     ElementSubPlan elementSubPlan = designerItem.ElementBase as ElementSubPlan;
                     elementSubPlan.PolygonPoints = pointCollection.Clone();
                 }
+
+                if (designerItem.ElementBase is ElementTextBlock)
+                {
+                    ElementTextBlock elementTextBlock = designerItem.ElementBase as ElementTextBlock;
+                    elementTextBlock.FontSize *= currentZoomFactor;
+                }
+
+                //var scaleTransform = new ScaleTransform(currentZoomFactor, currentZoomFactor);
+                //designerItem.LayoutTransform = scaleTransform;
             }
 
             PolygonResizeChrome.ResetActivePolygons();

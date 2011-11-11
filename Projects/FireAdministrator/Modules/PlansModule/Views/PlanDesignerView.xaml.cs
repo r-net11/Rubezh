@@ -50,6 +50,16 @@ namespace PlansModule.Views
             e.Handled = true;
         }
 
+        private void OnZoomIn(object sender, RoutedEventArgs e)
+        {
+            slider.Value += 1;
+        }
+
+        private void OnZoomOut(object sender, RoutedEventArgs e)
+        {
+            slider.Value -= 1;
+        }
+
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(e.NewValue);

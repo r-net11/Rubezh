@@ -39,6 +39,10 @@ namespace FireAdministrator
                 }
                 preLoadWindow.Close();
             }
+            else
+            {
+                App.Current.Shutdown();
+            }
         }
 
         static void RegisterServices()

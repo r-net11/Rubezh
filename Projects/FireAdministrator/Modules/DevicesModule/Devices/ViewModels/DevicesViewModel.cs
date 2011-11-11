@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -153,6 +154,7 @@ namespace DevicesModule.ViewModels
             FiresecManager.DeviceConfiguration.Update();
 
             DevicesModule.HasChanges = true;
+            UpdateGuardVisibility();
         }
 
         bool CanPaste()
@@ -174,6 +176,7 @@ namespace DevicesModule.ViewModels
 
             FiresecManager.DeviceConfiguration.Update();
             DevicesModule.HasChanges = true;
+            UpdateGuardVisibility();
         }
 
         public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
@@ -187,6 +190,12 @@ namespace DevicesModule.ViewModels
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+        }
+
+        public static void UpdateGuardVisibility()
+        {
+            var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x=>x.Driver.DeviceType == DeviceType.Sequrity);
+            ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
         }
     }
 }

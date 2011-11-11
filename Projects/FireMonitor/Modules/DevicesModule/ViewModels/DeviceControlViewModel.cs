@@ -1,17 +1,17 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Windows.Threading;
+using System;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceControlViewModel
+    public class DeviceControlViewModel : BaseViewModel
     {
         Device _device;
 
         public DeviceControlViewModel(Device device)
         {
-            _device = device;
-
             CloseCommand = new RelayCommand(OnClose);
             StopCommand = new RelayCommand(OnStop);
             OpenCommand = new RelayCommand(OnOpen);
@@ -20,6 +20,9 @@ namespace DevicesModule.ViewModels
             StartCommand = new RelayCommand(OnStart);
             CancelStartCommand = new RelayCommand(OnCancelStart);
             ConfirmCommand = new RelayCommand(OnConfirm);
+            StopTimerCommand = new RelayCommand(OnStopTimer);
+
+            _device = device;
         }
 
         public RelayCommand CloseCommand { get; private set; }
@@ -65,6 +68,52 @@ namespace DevicesModule.ViewModels
         public RelayCommand ConfirmCommand { get; private set; }
         void OnConfirm()
         {
+        }
+
+        bool _isTimerEnabled;
+        public bool IsTimerEnabled
+        {
+            get { return _isTimerEnabled; }
+            set
+            {
+                _isTimerEnabled = value;
+                OnPropertyChanged("IsTimerEnabled");
+            }
+        }
+
+        int _timeLeft;
+        public int TimeLeft
+        {
+            get { return _timeLeft; }
+            set
+            {
+                _timeLeft = value;
+                OnPropertyChanged("TimeLeft");
+
+                if (TimeLeft <= 0)
+                    IsTimerEnabled = false;
+            }
+        }
+
+        public void StartTimer(int timeLeft)
+        {
+            TimeLeft = timeLeft;
+            IsTimerEnabled = true;
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Start();
+        }
+
+        void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            TimeLeft--;
+        }
+
+        public RelayCommand StopTimerCommand { get; private set; }
+        void OnStopTimer()
+        {
+            TimeLeft = 0;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace FireAdministrator
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(x => { _isZonesSelected = true; OnPropertyChanged("IsZonesSelected"); });
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(x => { _isDerectonsSelected = true; OnPropertyChanged("IsDerectonsSelected"); });
 
+            ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Subscribe(x => { IsGuardVisible = x; });
             ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(x => { _isGuardUsersSelected = true; OnPropertyChanged("IsGuardUsersSelected"); });
             ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(x => { _isGuardLevelsSelected = true; OnPropertyChanged("IsGuardLevelsSelected"); });
             ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(x => { _isGuardDevicesSelected = true; OnPropertyChanged("IsGuardDevicesSelected"); });
@@ -31,6 +32,8 @@ namespace FireAdministrator
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(x => { _isSoundsSelected = true; OnPropertyChanged("IsSoundsSelected"); });
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(x => { _isInstructionsSelected = true; OnPropertyChanged("IsInstructionsSelected"); });
             ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Subscribe(x => { _isSettingsSelected = true; OnPropertyChanged("IsSettingsSelected"); });
+
+            DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
         }
 
         private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -74,6 +77,19 @@ namespace FireAdministrator
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Publish(null);
                 OnPropertyChanged("IsDerectonsSelected");
+            }
+        }
+
+        bool _isGuardVisible;
+        public bool IsGuardVisible
+        {
+            get { return _isGuardVisible; }
+            set
+            {
+                _isGuardVisible = value;
+                if (value == false)
+                    _guardExpander.IsExpanded = false;
+                OnPropertyChanged("IsGuardVisible");
             }
         }
 

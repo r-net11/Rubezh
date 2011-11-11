@@ -9,25 +9,25 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceDetailsViewModel : DialogContent
     {
+        public Device Device { get; private set; }
+        public DeviceState DeviceState { get; private set; }
+        public DeviceControlViewModel DeviceControlViewModel { get; private set; }
+        DeviceControls.DeviceControl _deviceControl;
+
         public DeviceDetailsViewModel(Guid deviceUID)
         {
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == _device.UID);
+            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
             if (DeviceState != null)
                 DeviceState.StateChanged += new Action(deviceState_StateChanged);
-            DeviceControlViewModel = new DeviceControlViewModel(_device);
+            DeviceControlViewModel = new DeviceControlViewModel(Device);
 
-            Title = _device.Driver.ShortName + " " + _device.DottedAddress;
+            Title = Device.Driver.ShortName + " " + Device.DottedAddress;
         }
-
-        Device _device;
-        public DeviceState DeviceState { get; private set; }
-        DeviceControls.DeviceControl _deviceControl;
-        public DeviceControlViewModel DeviceControlViewModel { get; private set; }
 
         public Driver Driver
         {
-            get { return _device.Driver; }
+            get { return Device.Driver; }
         }
 
         void deviceState_StateChanged()
@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
                 if (DeviceState != null)
                     _deviceControl = new DeviceControls.DeviceControl()
                     {
-                        DriverId = _device.Driver.UID,
+                        DriverId = Device.Driver.UID,
                         Width = 50,
                         Height = 50,
                         StateType = DeviceState.StateType
@@ -59,19 +59,12 @@ namespace DevicesModule.ViewModels
 
         public string ConnectedTo
         {
-            get
-            {
-                if (_device.Parent != null)
-                {
-                    return _device.Parent.Driver.Name;
-                }
-                return null;
-            }
+            get { return Device.ConnectedTo; }
         }
 
         public string PresentationZone
         {
-            get { return _device.GetPersentationZone(); }
+            get { return Device.GetPersentationZone(); }
         }
 
         public List<string> Parameters
@@ -92,6 +85,23 @@ namespace DevicesModule.ViewModels
                     }
                 return parameters;
             }
+        }
+
+        bool _isValveControlSelected;
+        public bool IsValveControlSelected
+        {
+            get { return _isValveControlSelected; }
+            set
+            {
+                _isValveControlSelected = value;
+                OnPropertyChanged("IsValveControlSelected");
+            }
+        }
+
+        public void StartValveTimer(int timeLeft)
+        {
+            IsValveControlSelected = true;
+            DeviceControlViewModel.StartTimer(timeLeft);
         }
     }
 }

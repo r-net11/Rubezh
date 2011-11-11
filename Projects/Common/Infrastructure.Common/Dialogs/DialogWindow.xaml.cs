@@ -8,6 +8,8 @@ namespace Infrastructure.Common
 {
     public partial class DialogWindow : Window
     {
+        public object ViewModel { get; private set; }
+
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
@@ -75,6 +77,8 @@ namespace Infrastructure.Common
 
             _content.Content = content.InternalViewModel;
             content.Surface = this;
+
+            ViewModel = content.InternalViewModel;
         }
 
         void OnLoaded(object sender, RoutedEventArgs e)

@@ -55,6 +55,8 @@ namespace FireAdministrator
 
                 DevicesModule.DevicesModule.HasChanges = true;
                 PlansModule.PlansModule.HasChanges = true;
+
+                DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
             }
         }
 

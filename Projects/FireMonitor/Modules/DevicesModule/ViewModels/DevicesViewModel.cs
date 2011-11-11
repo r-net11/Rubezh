@@ -5,6 +5,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -78,10 +80,36 @@ namespace DevicesModule.ViewModels
 
         void OnDeviceStateChanged(Guid deviceUID)
         {
-            var deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
             {
                 deviceViewModel.Update();
+            }
+
+            if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
+            {
+                var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.Code == "Bolt_On");
+                if (deviceDriverState != null)
+                {
+                    if (DateTime.Now > deviceDriverState.Time)
+                    {
+                        var timeSpan = deviceDriverState.Time - DateTime.Now;
+
+                        var timeoutProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+                        if (timeoutProperty != null)
+                        {
+                            var timeout = int.Parse(timeoutProperty.Value);
+
+                            int secondsLeft = timeout - timeSpan.Value.Seconds;
+                            if (secondsLeft > 0)
+                            {
+                                var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
+                                ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
+                                deviceDetailsViewModel.StartValveTimer(secondsLeft);
+                            }
+                        }
+                    }
+                }
             }
         }
 

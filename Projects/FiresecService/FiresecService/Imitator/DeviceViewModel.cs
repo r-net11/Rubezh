@@ -48,6 +48,7 @@ namespace FiresecService.Imitator
                     Time = DateTime.Now
                 })
             );
+            deviceStates.Add(DeviceState);
 
             CallbackManager.OnDeviceStatesChanged(deviceStates);
 

@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
+    <Compile Include="Events\GuardVisibilityChangedEvent.cs" />
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowDirectionsEvent.cs" />
     <Compile Include="Events\ShowGuardDevicesEvent.cs" />

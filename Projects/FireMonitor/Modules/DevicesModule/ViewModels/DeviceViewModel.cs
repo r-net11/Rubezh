@@ -160,6 +160,7 @@ namespace DevicesModule.ViewModels
         {
             OnPropertyChanged("StateType");
             OnPropertyChanged("DeviceState");
+            OnPropertyChanged("DeviceState.States");
         }
 
         public bool CanShowOnPlan()
