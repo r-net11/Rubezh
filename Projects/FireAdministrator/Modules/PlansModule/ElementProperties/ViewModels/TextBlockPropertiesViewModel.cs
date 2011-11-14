@@ -17,10 +17,11 @@ namespace PlansModule.ViewModels
 
         void CopyProperties()
         {
+            Text = _elementTextBlock.Text;
             BackgroundColor = _elementTextBlock.BackgroundColor;
+            ForegroundColor = _elementTextBlock.ForegroundColor;
             BorderColor = _elementTextBlock.BorderColor;
             StrokeThickness = _elementTextBlock.BorderThickness;
-            Text = _elementTextBlock.Text;
         }
 
         Color _backgroundColor;
@@ -31,6 +32,17 @@ namespace PlansModule.ViewModels
             {
                 _backgroundColor = value;
                 OnPropertyChanged("BackgroundColor");
+            }
+        }
+
+        Color _foregroundColor;
+        public Color ForegroundColor
+        {
+            get { return _foregroundColor; }
+            set
+            {
+                _foregroundColor = value;
+                OnPropertyChanged("ForegroundColor");
             }
         }
 
@@ -70,6 +82,7 @@ namespace PlansModule.ViewModels
         protected override void Save(ref bool cancel)
         {
             _elementTextBlock.BackgroundColor = BackgroundColor;
+            _elementTextBlock.ForegroundColor = ForegroundColor;
             _elementTextBlock.BorderColor = BorderColor;
             _elementTextBlock.BorderThickness = StrokeThickness;
             _elementTextBlock.Text = Text;

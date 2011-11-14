@@ -141,7 +141,7 @@ namespace PlansModule.Designer
 
         void thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(_designerItem);
         }
     }
 }

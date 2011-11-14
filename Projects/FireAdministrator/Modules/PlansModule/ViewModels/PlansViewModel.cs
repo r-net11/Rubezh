@@ -4,6 +4,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using System.Collections.Generic;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -27,9 +29,14 @@ namespace PlansModule.ViewModels
             CutCommand = new RelayCommand(OnCut);
             PasteCommand = new RelayCommand(OnPaste);
 
+            UndoCommand = new RelayCommand(OnUndo);
+            RedoCommand = new RelayCommand(OnRedo);
+
             DesignerCanvas = new DesignerCanvas();
             PlanDesignerViewModel = new PlanDesignerViewModel();
             PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
+
+            InitializeHistory();
 
             Initialize();
         }
@@ -126,7 +133,7 @@ namespace PlansModule.ViewModels
         {
             var devicesViewModel = new DevicesViewModel();
             devicesViewModel.Initialize();
-            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost:true);
+            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost: true);
         }
 
         bool CanAddEditRemove()

@@ -16,7 +16,7 @@ using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDesignerViewModel : BaseViewModel
+    public partial class PlanDesignerViewModel : BaseViewModel
     {
         public DesignerCanvas DesignerCanvas;
         public Plan Plan;
@@ -153,122 +153,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public void MoveToFront()
-        {
-            int maxZIndex = 0;
-            foreach (var designerItem in DesignerCanvas.Items)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    maxZIndex = System.Math.Max(iZIndexedElement.ZIndex, maxZIndex);
-                }
-            }
-
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    iZIndexedElement.ZIndex = maxZIndex + 1;
-                    Panel.SetZIndex(designerItem, maxZIndex + 1);
-                }
-            }
-        }
-
-        public void SendToBack()
-        {
-            int minZIndex = 0;
-            foreach (var designerItem in DesignerCanvas.Items)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
-                }
-            }
-
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    iZIndexedElement.ZIndex = minZIndex - 1;
-                    Panel.SetZIndex(designerItem, minZIndex - 1);
-                }
-            }
-        }
-
-        public void MoveForward()
-        {
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    iZIndexedElement.ZIndex++;
-                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
-                }
-            }
-        }
-
-        public void MoveBackward()
-        {
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    iZIndexedElement.ZIndex--;
-                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
-                }
-            }
-        }
-
-        void NormalizeZIndex()
-        {
-            int tempZIndex = 300000;
-            while (true)
-            {
-                int minZIndex = 300000;
-                foreach (var designerItem in DesignerCanvas.Items)
-                {
-                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                    if (iZIndexedElement != null)
-                    {
-                        minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
-                    }
-                }
-
-                if (minZIndex >= 300000)
-                    break;
-
-                foreach (var designerItem in DesignerCanvas.Items)
-                {
-                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                    if (iZIndexedElement != null)
-                    {
-                        if (iZIndexedElement.ZIndex == minZIndex)
-                        {
-                            iZIndexedElement.ZIndex = tempZIndex;
-                            tempZIndex++;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            foreach (var designerItem in DesignerCanvas.Items)
-            {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
-                if (iZIndexedElement != null)
-                {
-                    iZIndexedElement.ZIndex -= 3000000;
-                    Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
-                }
-            }
-        }
-
         void UpdateDeviceInZones()
         {
             foreach (var designerItem in DesignerCanvas.Items)
@@ -360,71 +244,6 @@ namespace PlansModule.ViewModels
             }
 
             return oddNodes;
-        }
-
-        double currentZoomFactor = 1;
-        public void ChangeZoom(double zoomFactor)
-        {
-            double ondZoomFactor = currentZoomFactor;
-            currentZoomFactor = zoomFactor;
-            Zoom(zoomFactor / ondZoomFactor);
-            currentZoomFactor = zoomFactor;
-        }
-
-        void Zoom(double zoomFactor)
-        {
-            DesignerCanvas.Width *= zoomFactor;
-            DesignerCanvas.Height *= zoomFactor;
-            foreach (var item in DesignerCanvas.Children)
-            {
-                DesignerItem designerItem = item as DesignerItem;
-                Canvas.SetLeft(designerItem, Canvas.GetLeft(designerItem) * zoomFactor);
-                Canvas.SetTop(designerItem, Canvas.GetTop(designerItem) * zoomFactor);
-                designerItem.Width *= zoomFactor;
-                designerItem.Height *= zoomFactor;
-
-                PointCollection pointCollection = new PointCollection();
-
-                if (designerItem.Content is Polygon)
-                {
-                    Polygon polygon = designerItem.Content as Polygon;
-                    pointCollection = new PointCollection();
-                    foreach (var point in polygon.Points)
-                    {
-                        pointCollection.Add(new System.Windows.Point(point.X * zoomFactor, point.Y * zoomFactor));
-                    }
-                    polygon.Points = pointCollection;
-                }
-
-                if (designerItem.ElementBase is ElementPolygon)
-                {
-                    ElementPolygon elementPolygon = designerItem.ElementBase as ElementPolygon;
-                    elementPolygon.PolygonPoints = pointCollection.Clone();
-                }
-
-                if (designerItem.ElementBase is ElementPolygonZone)
-                {
-                    ElementPolygonZone elementPolygonZone = designerItem.ElementBase as ElementPolygonZone;
-                    elementPolygonZone.PolygonPoints = pointCollection.Clone();
-                }
-
-                if (designerItem.ElementBase is ElementSubPlan)
-                {
-                    ElementSubPlan elementSubPlan = designerItem.ElementBase as ElementSubPlan;
-                    elementSubPlan.PolygonPoints = pointCollection.Clone();
-                }
-
-                if (designerItem.ElementBase is ElementTextBlock)
-                {
-                    ElementTextBlock elementTextBlock = designerItem.ElementBase as ElementTextBlock;
-                    elementTextBlock.FontSize *= currentZoomFactor;
-                }
-
-                //var scaleTransform = new ScaleTransform(currentZoomFactor, currentZoomFactor);
-                //designerItem.LayoutTransform = scaleTransform;
-            }
-
-            PolygonResizeChrome.ResetActivePolygons();
         }
     }
 }

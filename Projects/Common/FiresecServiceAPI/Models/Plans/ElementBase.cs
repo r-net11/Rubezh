@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -8,9 +9,13 @@ namespace FiresecAPI.Models
     {
         public ElementBase()
         {
+            UID = Guid.NewGuid();
             Width = 50;
             Height = 50;
         }
+
+        [DataMember]
+        public Guid UID { get; set; }
 
         [DataMember]
         public double Left { get; set; }
@@ -30,6 +35,7 @@ namespace FiresecAPI.Models
 
         protected virtual void Copy(ElementBase elementBase)
         {
+            elementBase.UID = UID;
             elementBase.Left = Left;
             elementBase.Top = Top;
             elementBase.Height = Height;

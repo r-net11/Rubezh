@@ -21,7 +21,7 @@ namespace PlansModule.Designer
 
         void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(designerItem);
         }
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)

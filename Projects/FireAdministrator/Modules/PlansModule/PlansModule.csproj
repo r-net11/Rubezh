@@ -98,7 +98,10 @@
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="Events\ElementPositionChangedEvent.cs" />
+    <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
+    <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
+    <Compile Include="ViewModels\PlansViewModel.History.cs" />
     <Compile Include="Views\Toolbox.xaml.cs">
       <DependentUpon>Toolbox.xaml</DependentUpon>
     </Compile>

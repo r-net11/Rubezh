@@ -169,7 +169,7 @@ namespace PlansModule.Designer
             }
         }
 
-        void Redraw()
+        public void Redraw()
         {
             var framaworkElement = ElementBase.Draw();
             framaworkElement.IsHitTestVisible = false;

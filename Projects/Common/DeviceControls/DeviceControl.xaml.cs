@@ -100,12 +100,25 @@ namespace DeviceControls
 
         public static Viewbox GetDefaultPicture(Guid DriverId)
         {
-            var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
-            var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.Norm);
-            var canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
-            //canvas.LayoutTransform = new ScaleTransform(0.05, 0.05);
+            Canvas canvas = new Canvas();
 
-            Viewbox viewbox = new Viewbox();
+            var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+            if (device != null)
+            {
+                var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.Norm);
+                canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
+            }
+            else
+            {
+                canvas = new Canvas()
+                {
+                    Width = 500,
+                    Height = 500,
+                    Background = new SolidColorBrush(Colors.Magenta)
+                };
+            }
+
+            var viewbox = new Viewbox();
             viewbox.Child = canvas;
 
             return viewbox;
