@@ -23,5 +23,6 @@
         <ResourceDictionary Source="RadioButtonStyle.xaml" />
         <ResourceDictionary Source="SliderStyle.xaml" />
         <ResourceDictionary Source="ProgressBarStyle.xaml" />
+        <ResourceDictionary Source="ContextMenuStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

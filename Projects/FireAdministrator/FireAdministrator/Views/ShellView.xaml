@@ -14,18 +14,7 @@
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
-                <Border Height="75" MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#ADADAD" Offset="0" />
-                            <GradientStop Color="#676767" Offset="0.3" />
-                            <GradientStop Color="#555555" Offset="0.32" />
-                            <GradientStop Color="#303030" Offset="0.75" />
-                            <GradientStop Color="#303030" Offset="0.85" />
-                            <GradientStop Color="#353535" Offset="0.9" />
-                            <GradientStop Color="#555555" Offset="1" />
-                        </LinearGradientBrush>
-                    </Border.Background>
+                <Border Height="75" MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top" Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -33,15 +22,12 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="Администратор" Foreground="White" FontFamily="Arial" FontSize="15" Margin="0 5" Opacity="0.5" />
-                        <Border Grid.Column="1" Name="WindowButtonsPlaceholder" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" />
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0, 2, 2, 0">
-
                             <Menu Background="Transparent" VerticalAlignment="Center">
                                 <MenuItem>
                                     <MenuItem.Header>
                                         <Image Source="/Controls;component/Images/Help.png" Height="12" Margin="-2" />
                                     </MenuItem.Header>
-
                                     <MenuItem Header="Помощь" Click="OnShowHelp" />
                                     <MenuItem Header="О программе" Click="OnShowAbout" />
                                 </MenuItem>

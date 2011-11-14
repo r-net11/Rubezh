@@ -9,10 +9,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows;
 
 namespace FireMonitor
 {
-    public partial class ShellView : EssentialWindow, INotifyPropertyChanged
+    public partial class ShellView : Window, INotifyPropertyChanged
     {
         public ShellView()
         {
@@ -20,26 +21,10 @@ namespace FireMonitor
             DataContext = this;
         }
 
-        protected override Decorator GetWindowButtonsPlaceholder()
-        {
-            return WindowButtonsPlaceholder;
-        }
-
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
                 this.DragMove();
-        }
-
-        void Header_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
-                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
-                else
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
-            }
         }
 
         void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -50,6 +35,46 @@ namespace FireMonitor
                 this.Height += e.VerticalChange;
         }
 
+        void Header_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                ChangeMaximizedState();
+            }
+        }
+
+        void ChangeMaximizedState()
+        {
+            if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
+                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+            else
+                App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+        }
+
+        private void OnClose(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OnMinimize(object sender, RoutedEventArgs e)
+        {
+            WindowState = System.Windows.WindowState.Minimized;
+        }
+
+        private void OnMaximize(object sender, RoutedEventArgs e)
+        {
+            ChangeMaximizedState();
+        }
+
+        private void OnShowHelp(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnShowAbout(object sender, RoutedEventArgs e)
+        {
+
+        }
         public IViewPart MainContent
         {
             get { return _mainRegionHost.Content as IViewPart; }

@@ -28,4 +28,14 @@
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
     <SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
 
+    <LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1">
+        <GradientStop Color="#ADADAD" Offset="0" />
+        <GradientStop Color="#676767" Offset="0.3" />
+        <GradientStop Color="#555555" Offset="0.32" />
+        <GradientStop Color="#303030" Offset="0.75" />
+        <GradientStop Color="#303030" Offset="0.85" />
+        <GradientStop Color="#353535" Offset="0.9" />
+        <GradientStop Color="#555555" Offset="1" />
+    </LinearGradientBrush>
+
 </ResourceDictionary>
