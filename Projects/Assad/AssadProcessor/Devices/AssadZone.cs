@@ -26,10 +26,10 @@ namespace AssadProcessor.Devices
             deviceType.deviceId = DeviceId;
             var states = new List<Assad.DeviceTypeState>();
 
-            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No == ZoneNo))
+            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.Value.ToString() == ZoneNo))
             {
-                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
+                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
 
                 var mainState = new Assad.DeviceTypeState()
                 {
@@ -46,7 +46,7 @@ namespace AssadProcessor.Devices
                 var state2 = new Assad.DeviceTypeState()
                 {
                     state = "Число датчиков для формирования сигнала Пожар",
-                    value = zone.DetectorCount
+                    value = zone.DetectorCount.ToString()
                 };
                 states.Add(state2);
                 var state3 = new Assad.DeviceTypeState()
@@ -91,9 +91,9 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No == ZoneNo))
+            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.Value.ToString() == ZoneNo))
             {
-                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
 
                 eventType.state = new Assad.CPeventTypeState[1];
                 eventType.state[0] = new Assad.CPeventTypeState();

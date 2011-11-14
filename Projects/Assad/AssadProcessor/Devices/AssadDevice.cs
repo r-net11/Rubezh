@@ -120,11 +120,10 @@ namespace AssadProcessor.Devices
                         var state1 = new Assad.DeviceTypeState();
                         state1.state = "Зона";
 
-                        if ((string.IsNullOrEmpty(device.ZoneNo)) || (device.ZoneNo == "<NULL>"))
-                        {
-                            device.ZoneNo = " ";
-                        }
-                        state1.value = device.ZoneNo;
+                        if (device.ZoneNo.HasValue)
+                            state1.value = device.ZoneNo.Value.ToString();
+                        else
+                            state1.value = " ";
                         states.Add(state1);
                     }
                     else
