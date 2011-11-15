@@ -264,5 +264,21 @@ namespace FireAdministrator
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
+        bool _isAccesRightsExpanded;
+        public bool IsAccesRightsExpanded
+        {
+            get { return _isAccesRightsExpanded; }
+            set
+            {
+                _isAccesRightsExpanded = value;
+                OnPropertyChanged("IsAccesRightsExpanded");
+            }
+        }
+
+        void TabItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IsAccesRightsExpanded = IsAccesRightsExpanded != true;
+        }
     }
 }

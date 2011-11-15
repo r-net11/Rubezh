@@ -20,7 +20,6 @@ namespace FireAdministrator
             if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
             {
                 preLoadWindow.Show();
-
                 FiresecManager.SelectiveFetch();
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)

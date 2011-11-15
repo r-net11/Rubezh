@@ -4,7 +4,7 @@
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             MinWidth="700" MinHeight="500">
+             MinWidth="700" MinHeight="432">
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />

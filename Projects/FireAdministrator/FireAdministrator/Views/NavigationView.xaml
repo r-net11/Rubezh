@@ -37,7 +37,7 @@
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/direction.png" />
-                        <TextBlock Text="Направления пожаротушения" />
+                        <TextBlock Text="Пожаротушение" />
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
@@ -84,17 +84,16 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsSecuritySelected}">
+            <TabItem IsSelected="{Binding IsSecuritySelected}" MouseLeftButtonUp="TabItem_MouseDown">
                 <TabItem.Header>
-                    <Expander Name="_securityExpander" VerticalAlignment="Center">
-                        <Expander.Header>
-                            <TextBlock Text="Права" />
-                        </Expander.Header>
-                    </Expander>
+                    <StackPanel>
+                        <TextBlock Text="Права доступа" />
+                        <TextBlock Text="(Demonstration version)" FontSize="9" />
+                    </StackPanel>
                 </TabItem.Header>
             </TabItem>
             <TabItem IsSelected="{Binding IsUsersSelected}" Margin="15, 0, 0, 5"
-                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                     Visibility="{Binding IsAccesRightsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/user.png" />
@@ -103,7 +102,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem IsSelected="{Binding IsUserGroupsSelected}" Margin="15, 0, 0, 5"
-                     Visibility="{Binding ElementName=_securityExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                     Visibility="{Binding IsAccesRightsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/users.png" />

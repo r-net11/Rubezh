@@ -35,7 +35,7 @@
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/book.png" />
-                    <TextBlock Text="Журнал" />
+                    <TextBlock Text="Журнал событий" />
                     <TextBlock Text="{Binding UnreadJournalCount}" Visibility="{Binding HasUnreadJournal, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" />
                 </StackPanel>
             </TabItem.Header>

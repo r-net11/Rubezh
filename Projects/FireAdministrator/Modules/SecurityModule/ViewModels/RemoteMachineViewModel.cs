@@ -6,7 +6,7 @@ namespace SecurityModule.ViewModels
     {
         public RemoteMachineViewModel()
         {
-            Title = "Удаленный компьютер";
+            Title = "Задайте имя или адрес компьютера";
             IsDnsName = true;
         }
 

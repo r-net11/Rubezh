@@ -48,7 +48,6 @@ namespace DevicesModule.Views
             {
                 if (_isHaveDelimiter)
                     return int.Parse(addressEditor.Text.Remove(LeftPartLen));
-
                 return int.Parse(addressEditor.Text);
             }
             set

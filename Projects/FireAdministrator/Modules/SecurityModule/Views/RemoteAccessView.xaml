@@ -5,11 +5,8 @@
     <UserControl.Resources>
         <Converters:RemoteAccessTypeToStringConverter x:Key="RemoteAccessTypeToStringConverter" />
     </UserControl.Resources>
-    
-    <StackPanel>
-        <TextBlock TextWrapping="Wrap" Margin="0,7,0,0" Foreground="White"
-                   Text="Можно разрешить или запретить пользователю подключаться к серверу с других компьютеров. Подключение с локального компьютера доступно всегда." />
-        <ItemsControl Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
+    <DockPanel LastChildFill="True">
+        <ItemsControl DockPanel.Dock="Top" Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <RadioButton IsChecked="{Binding IsActive}"
@@ -28,13 +25,10 @@
                     <Image Source="/Controls;component/Images/Delete.png" Height="24" />
                 </Button>
             </WrapPanel>
-            <StackPanel>
-                <Label Content="Список компьютеров" />
-                <ListBox ItemsSource="{Binding HostNameOrAddressList}"
-                         SelectedItem="{Binding SelectedHostNameOrAddress}"
-                         DataContextChanged="ListBox_DataContextChanged"
-                         Height="250" Margin="3" BorderThickness="0" />
-            </StackPanel>
+            <ListBox ItemsSource="{Binding HostNameOrAddressList}"
+                     SelectedItem="{Binding SelectedHostNameOrAddress}"
+                     DataContextChanged="ListBox_DataContextChanged"
+                     Margin="3" />
         </DockPanel>
-    </StackPanel>
+    </DockPanel>
 </UserControl>

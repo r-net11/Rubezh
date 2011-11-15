@@ -12,7 +12,7 @@ namespace FireAdministrator
         {
             get
             {
-                return (ShellView)ServiceFactory.ShellView;
+                return (ShellView) ServiceFactory.ShellView;
             }
         }
 

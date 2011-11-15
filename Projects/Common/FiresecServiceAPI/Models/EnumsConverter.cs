@@ -439,13 +439,13 @@
             switch (remoteAccessType)
             {
                 case RemoteAccessType.RemoteAccessBanned:
-                    return "Подключение с удаленных компьютеров запрещено";
+                    return "Запрещен";
 
                 case RemoteAccessType.RemoteAccessAllowed:
-                    return "Подключение разрешено с любых компьютеров";
+                    return "Резрешен с любых компьютеров";
 
                 case RemoteAccessType.SelectivelyAllowed:
-                    return "Подключение разрешено, но только с указанных компьютеров";
+                    return "Разрешен только с указанных компьютеров";
 
                 default:
                     return "";

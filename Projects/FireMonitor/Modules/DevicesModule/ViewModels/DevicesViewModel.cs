@@ -45,9 +45,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 if (value != null)
-                {
                     value.ExpantToThis();
-                }
                 OnPropertyChanged("SelectedDevice");
             }
         }
@@ -55,7 +53,6 @@ namespace DevicesModule.ViewModels
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
-
             foreach (var deviceViewModel in parentDeviceViewModel.Children)
             {
                 CollapseChild(deviceViewModel);
@@ -78,7 +75,6 @@ namespace DevicesModule.ViewModels
         {
             var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
-            {
                 deviceViewModel.Update();
             }
 
@@ -106,39 +102,32 @@ namespace DevicesModule.ViewModels
                         }
                     }
                 }
-            }
         }
 
         void OnDeviceStateChangedEvent(Guid deviceUID)
         {
             DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
-            if (deviceViewModel != null)
-            {
-                deviceViewModel.UpdateParameters();
-            }
+            if (deviceViewModel == null)
+                return;
+            deviceViewModel.UpdateParameters();
         }
 
         void BuildDeviceTree()
         {
             Devices = new ObservableCollection<DeviceViewModel>();
             AllDevices = new List<DeviceViewModel>();
-            var device = FiresecManager.DeviceConfiguration.RootDevice;
-            AddDevice(device, null);
+            AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
         }
 
         DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            var deviceViewModel = new DeviceViewModel(device, Devices);
-            deviceViewModel.Parent = parentDeviceViewModel;
+            var deviceViewModel = new DeviceViewModel(device, Devices) { Parent = parentDeviceViewModel };
             AllDevices.Add(deviceViewModel);
 
-            var indexOf = Devices.IndexOf(parentDeviceViewModel);
-            Devices.Insert(indexOf + 1, deviceViewModel);
-
+            Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
             foreach (var childDevice in device.Children)
             {
-                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-                deviceViewModel.Children.Add(childDeviceViewModel);
+                deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
             }
 
             return deviceViewModel;

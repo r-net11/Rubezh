@@ -32,9 +32,7 @@ namespace FireAdministrator
         void Header_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
                 ChangeMaximizedState();
-            }
         }
 
         void ChangeMaximizedState()
@@ -45,29 +43,27 @@ namespace FireAdministrator
                 App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
         }
 
-        private void OnClose(object sender, RoutedEventArgs e)
+        void OnClose(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnMinimize(object sender, RoutedEventArgs e)
+        void OnMinimize(object sender, RoutedEventArgs e)
         {
             WindowState = System.Windows.WindowState.Minimized;
         }
 
-        private void OnMaximize(object sender, RoutedEventArgs e)
+        void OnMaximize(object sender, RoutedEventArgs e)
         {
             ChangeMaximizedState();
         }
 
-        private void OnShowHelp(object sender, RoutedEventArgs e)
+        void OnShowHelp(object sender, RoutedEventArgs e)
         {
-
         }
 
-        private void OnShowAbout(object sender, RoutedEventArgs e)
+        void OnShowAbout(object sender, RoutedEventArgs e)
         {
-
         }
 
         public IViewPart MainContent
@@ -105,7 +101,6 @@ namespace FireAdministrator
                 InstructionsModule.InstructionsModule.HasChanges || SecurityModule.SecurityModule.HasChanges)
             {
                 var result = DialogBox.DialogBox.Show("Сохранить изменения в настройках?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-
                 switch (result)
                 {
                     case MessageBoxResult.Yes:

@@ -8,7 +8,7 @@ namespace FireAdministrator.ViewModels
     {
         public LoginViewModel()
         {
-            Title = "Firesec. Соединение с сервером";
+            Title = "Администратор. Авторизация";
             ConnectCommand = new RelayCommand(OnConnect);
             CancelCommand = new RelayCommand(OnCancel);
 

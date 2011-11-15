@@ -70,9 +70,7 @@ namespace FireAdministrator
             var openDialog = new OpenFileDialog();
             openDialog.Filter = "firesec2 files|*.fsc2";
             if (openDialog.ShowDialog().Value)
-            {
                 FiresecManager.LoadFromFile(openDialog.FileName);
-            }
 
             DevicesModule.DevicesModule.CreateViewModels();
             ServiceFactory.Layout.Close();
@@ -86,9 +84,7 @@ namespace FireAdministrator
             var saveDialog = new SaveFileDialog();
             saveDialog.Filter = "firesec2 files|*.fsc2";
             if (saveDialog.ShowDialog().Value)
-            {
                 FiresecManager.SaveToFile(saveDialog.FileName);
-            }
         }
 
         void OnValidate(object sender, RoutedEventArgs e)

@@ -4,41 +4,37 @@
              xmlns:Converters="clr-namespace:FiltersModule.Converters"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
-        <SolidColorBrush x:Key="borderBrush">Silver</SolidColorBrush>
         <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal" Background="Gray">
-        <StackPanel>
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Foreground" Value="{StaticResource headerBrush}" />
-                    <Setter Property="FontWeight" Value="Black" />
-                </Style>
-            </StackPanel.Resources>
-            <Label Content="Наименование: " />
-            <Label Content="Тип события: " />
-            <Label Content="Тип устройства: " />
-            <Label Content="Выбрать записи: " />
-        </StackPanel>
-        <TextBlock>
-            <StackPanel DataContext="{Binding JournalFilter}">
-                <Label Content="{Binding Name}" />
-                <Label Content="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
-                <Label Content="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
-                <WrapPanel Margin="2">
-                    <WrapPanel>
-                        <Label Content="{Binding LastRecordsCount}" />
-                        <Label Content=" последних" />
-                    </WrapPanel>
-                    <WrapPanel Visibility="{Binding IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Label Content=" за " />
-                        <Label Content="{Binding LastDaysCount}" />
-                        <Label Content=" дней" />
-                    </WrapPanel>
-                </WrapPanel>
-            </StackPanel>
-        </TextBlock>
-    </StackPanel>
+    <Grid Background="Gray" DataContext="{Binding JournalFilter}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Column="0" Grid.Row="0" Content="Наименование: " />
+        <Label Grid.Column="0" Grid.Row="1" Content="Тип события: " />
+        <Label Grid.Column="0" Grid.Row="2" Content="Тип устройства: " />
+        <Label Grid.Column="0" Grid.Row="3" Content="Выбрать записи: " VerticalAlignment="Center" VerticalContentAlignment="Center" />
+        <Label Grid.Column="1" Grid.Row="0"  Content="{Binding Name}" />
+        <Label Grid.Column="1" Grid.Row="1"  Content="{Binding Events, Converter={StaticResource EventsToStringConverter}}" />
+        <Label Grid.Column="1" Grid.Row="2"  Content="{Binding Categories, Converter={StaticResource CategoriesToStringConverter}}" />
+        <WrapPanel Grid.Column="1" Grid.Row="3"  Margin="2" VerticalAlignment="Center">
+            <WrapPanel VerticalAlignment="Center">
+                <Label Content="{Binding LastRecordsCount}" />
+                <Label Content=" последних" />
+            </WrapPanel>
+            <WrapPanel Visibility="{Binding IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center">
+                <Label Content=" за последние " />
+                <Label Content="{Binding LastDaysCount}" />
+                <Label Content=" дней" />
+            </WrapPanel>
+        </WrapPanel>
+    </Grid>
 </UserControl>

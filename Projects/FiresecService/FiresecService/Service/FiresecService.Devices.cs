@@ -15,7 +15,6 @@ namespace FiresecService
             ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
             FiresecManager.DeviceConfiguration = deviceConfiguration;
 
-            //ConfigurationConverter.ConvertBack(deviceConfiguration, true);
             ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationConverter.ConvertBack(deviceConfiguration, true)));
             //FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
         }

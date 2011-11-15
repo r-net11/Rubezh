@@ -15,16 +15,13 @@ namespace FiresecService
             lock (Locker)
             {
                 var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count);
-                var journalRecords = new List<JournalRecord>();
                 if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
                 {
-                    foreach (var innerJournalRecord in internalJournal.Journal)
-                    {
-                        journalRecords.Add(JournalConverter.Convert(innerJournalRecord));
-                    }
+                    return new List<JournalRecord>(
+                        internalJournal.Journal.Select(x => JournalConverter.Convert(x))
+                    );
                 }
-
-                return journalRecords;
+                return new List<JournalRecord>();
             }
         }
 

@@ -32,11 +32,8 @@ namespace DevicesModule.ViewModels
 
         void deviceState_StateChanged()
         {
-            if ((DeviceState != null) && (_deviceControl != null))
-            {
+            if (DeviceState != null && _deviceControl != null)
                 _deviceControl.StateType = DeviceState.StateType;
-            }
-
             OnPropertyChanged("DeviceControlContent");
         }
 
@@ -45,6 +42,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 if (DeviceState != null)
+                {
                     _deviceControl = new DeviceControls.DeviceControl()
                     {
                         DriverId = Device.Driver.UID,
@@ -52,6 +50,7 @@ namespace DevicesModule.ViewModels
                         Height = 50,
                         StateType = DeviceState.StateType
                     };
+                }
 
                 return _deviceControl;
             }
@@ -72,17 +71,15 @@ namespace DevicesModule.ViewModels
             get
             {
                 var parameters = new List<string>();
-                if ((DeviceState != null) && (DeviceState.Parameters != null))
+                if (DeviceState != null && DeviceState.Parameters != null)
+                {
                     foreach (var parameter in DeviceState.Parameters)
                     {
-                        if (parameter.Visible)
-                        {
-                            if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
-                                continue;
-
-                            parameters.Add(parameter.Caption + " - " + parameter.Value);
-                        }
+                        if (!parameter.Visible || string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+                            continue;
+                        parameters.Add(parameter.Caption + " - " + parameter.Value);
                     }
+                }
                 return parameters;
             }
         }

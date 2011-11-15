@@ -15,7 +15,7 @@ namespace Infrastructure
         }
 
         public static IEventAggregator Events { get; private set; }
-        public static ILayoutService Layout {get;private set;}
+        public static ILayoutService Layout { get; private set; }
         public static IUserDialogService UserDialogs { get; private set; }
         public static IResourceService ResourceService { get; private set; }
 

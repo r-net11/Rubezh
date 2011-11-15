@@ -11,7 +11,7 @@ namespace FireMonitor.ViewModels
 
         public LoginViewModel(PasswordViewType passwordViewType)
         {
-            Title = "Firesec. Соединение с сервером";
+            Title = "Оперативная задача. Авторизация.";
             ConnectCommand = new RelayCommand(OnConnect);
             CancelCommand = new RelayCommand(OnCancel);
 
