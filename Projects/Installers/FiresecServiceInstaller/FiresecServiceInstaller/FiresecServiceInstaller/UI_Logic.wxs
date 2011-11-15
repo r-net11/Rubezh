@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+    
+    The use and distribution terms for this software are covered by the
+    Common Public License 1.0 (http://opensource.org/licenses/cpl1.0.php)
+    which can be found in the file CPL.TXT at the root of this distribution.
+    By using this software in any fashion, you are agreeing to be bound by
+    the terms of this license.
+    
+    You must not remove this notice, or any other, from this software.
+-->
+<!--
+First-time install dialog sequence:
+- WixUI_WelcomeDlg
+- WixUI_LicenseAgreementDlg
+- WixUI_SetupTypeDlg
+- WixUI_VerifyReadyDlg
+- WixUI_CustomizeDlg
+- WixUI_DiskCostDlg
+- WixUI_BrowseDlg
+
+Maintenance dialog sequence:
+- WixUI_MaintenanceWelcomeDlg
+- WixUI_MaintenanceTypeDlg
+- WixUI_CustomizeDlg
+- WixUI_VerifyReadyDlg
+
+Patch dialog sequence:
+ - WixUI_WelcomeDlg
+ - WixUI_VerifyReadyDlg
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <UI Id="WixUI_Wizard">
+      <UIRef Id="UITextStyles"/>
+      <UIRef Id="UIProperties"/>
+      <UIRef Id="UIElements"/>
+      <UIRef Id="UIDialogs"/>
+      <UIRef Id="WixUI_Common"/>
+
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreement">NOT Installed AND NOT PATCH</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+
+      <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="SetupTypeDlg">AgreeToLicense = "Yes"</Publish>
+      <Publish Dialog="LicenseAgreement" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+
+      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">
+        WixUI_InstallMode = "InstallCustom"
+      </Publish>
+      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupTypeDlg" Order="2">
+        WixUI_InstallMode = "InstallTypical" OR WixUI_InstallMode = "InstallComplete"
+      </Publish>
+      <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="SQLLogin">1</Publish>
+
+      <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="SetupTypeDlg" Control="TypicalButton" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+      <Publish Dialog="SetupTypeDlg" Control="CustomButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+      <Publish Dialog="SetupTypeDlg" Control="CompleteButton" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">
+        WixUI_InstallMode = "Change"
+      </Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="SetupTypeDlg" Order="2">
+        WixUI_InstallMode = "InstallCustom"
+      </Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="SQLLogin">1</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">
+        WixUI_InstallMode = "Change"
+      </Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">
+        WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"
+      </Publish>
+
+      <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+      <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Property="IS_SQLSERVER_LIST" Value="[IS_SQLSERVER_SERVER]">1</Publish>
+      <Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Event="SpawnDialog" Value="SQLBrowse">1</Publish>
+      <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      
+      <Publish Dialog="SQLBrowse" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
+      <Publish Dialog="SQLBrowse" Control="OK" Property="IS_SQLSERVER_SERVER" Value="[IS_SQLSERVER_LIST]">1</Publish>
+      <Publish Dialog="SQLBrowse" Control="OK" Event="EndDialog" Value="Return">1</Publish>
+
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+    </UI>
+  </Fragment>
+</Wix>

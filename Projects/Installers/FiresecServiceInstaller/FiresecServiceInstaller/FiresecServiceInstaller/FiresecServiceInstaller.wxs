@@ -11,6 +11,10 @@
     <Media Id="1" Cabinet="FiresecService.cab" EmbedCab="yes" />
 
     <Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
+    <Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />
+    <Binary Id="CustomActions.dll" SourceFile="$(var.CustomActions.TargetDir)$(var.CustomActions.TargetName).CA.dll" />
+
+    <WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />
 
     <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
 

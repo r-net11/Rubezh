@@ -6,11 +6,17 @@
 	<Fragment>
 
 		<DirectoryRef Id="INSTALLLOCATION">
-			<!--<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
+			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
 							Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
 				</File>
-			</Component>-->
+				<!--<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
+												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="yes" Arguments="/service">
+					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100"/>
+				</ServiceInstall>-->
+			</Component>
 
 			<Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
 				<File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
@@ -42,12 +48,12 @@
 				</RegistryKey>
 			</Component>-->
 
-			<Component Id="FiresecServiceExe" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
-				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
-							Source="$(var.FiresecService.TargetDir)" KeyPath="yes" DiskId="1"/>
+			<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
+				<File Id="FiresecWindowsServiceExe" Name="$(var.FiresecWindowsService.TargetFileName)"
+							Source="$(var.FiresecWindowsService.TargetDir)" KeyPath="yes" DiskId="1"/>
 				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
 												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="yes">
+												ErrorControl="ignore" Interactive="no" Arguments="$(var.FiresecService.TargetFileName)">
 					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
 															RestartServiceDelayInSeconds="100"/>
 				</ServiceInstall>

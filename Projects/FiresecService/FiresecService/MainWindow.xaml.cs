@@ -3,6 +3,9 @@ using System.IO;
 using System.Windows;
 using FiresecService;
 using FiresecService.Imitator;
+using System.ServiceProcess;
+using FiresecService.Service;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -14,6 +17,7 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
             Current = this;
+            //System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
             AnalizeCommandLine();
         }
 
@@ -53,8 +57,10 @@ namespace FiresecServiceRunner
             bool exit = false;
             bool convertJournal = false;
             bool hide = false;
-            DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
-            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
+            bool service = false;
+            System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+            //DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
+            //Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
@@ -71,23 +77,34 @@ namespace FiresecServiceRunner
                     case "/Hide":
                         hide = true;
                         break;
+                    case "/service":
+                        service = true;
+                        break;
                     default:
                         break;
                 }
             }
-            if (start)
+            if (service)
             {
-                FiresecManager.ConnectFiresecCOMServer("adm", "");
-                FiresecServiceManager.Open();
-            }
-            if (start && convertConfiguration)
-                ConfigurationConverter.Convert();
-            if (start && convertJournal)
-                JournalDataConverter.Convert();
-            if (hide)
                 this.Hide();
-            if (exit)
-                this.Close();
+                ServiceBase.Run(new WindowsService());
+            }
+            else
+            {
+                if (start)
+                {
+                    FiresecManager.ConnectFiresecCOMServer("adm", "");
+                    FiresecServiceManager.Open();
+                }
+                if (start && convertConfiguration)
+                    ConfigurationConverter.Convert();
+                if (start && convertJournal)
+                    JournalDataConverter.Convert();
+                if (hide)
+                    this.Hide();
+                if (exit)
+                    this.Close();
+            }
         }
     }
 }

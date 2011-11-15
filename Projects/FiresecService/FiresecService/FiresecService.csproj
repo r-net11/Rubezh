@@ -95,6 +95,9 @@
     <Compile Include="Imitator\ImitatorView.xaml.cs">
       <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Service\WindowsService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="XSD\DeviceCustomFunctions.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
       <DependentUpon>GetCoreConfig.xsd</DependentUpon>

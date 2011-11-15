@@ -38,8 +38,11 @@
     <Compile Include="Output.wxs" />
     <Compile Include="Shortcuts_FiresecService.wxs" />
     <Compile Include="RemoveUsersDirectory.wxs" />
-    <Compile Include="WixUI_Shortcut.wxs" />
-    <Compile Include="WixUI_Wizard.wxs" />
+    <Compile Include="UI_Dialogs.wxs" />
+    <Compile Include="UI_Elements.wxs" />
+    <Compile Include="UI_Properties.wxs" />
+    <Compile Include="UI_TextStyle.wxs" />
+    <Compile Include="UI_Logic.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
@@ -98,6 +101,22 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\CustomActions\CustomActions.csproj">
+      <Name>CustomActions</Name>
+      <Project>{04694ed7-40ca-46bf-9174-4bd913788c97}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecWindowsService\FiresecWindowsService.csproj">
+      <Name>FiresecWindowsService</Name>
+      <Project>{c64b0b3a-eb25-4880-8bbb-2c9b1e1e3873}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUtilExtension">
@@ -115,7 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Firesec.ico" />
+    <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Data\License.rtf" />
     <Content Include="Pre-Build commands.txt" />
     <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixXmlConfig.xslt" />
