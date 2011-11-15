@@ -10,6 +10,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
+using PlansModule.Events;
 
 namespace PlansModule.Designer
 {
@@ -79,6 +80,13 @@ namespace PlansModule.Designer
         {
             DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
             designerCanvas.Children.Remove(this);
+            if (ElementBase is ElementDevice)
+            {
+                ElementDevice elementDevice = ElementBase as ElementDevice;
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                device.PlanUIDs.Remove(elementDevice.UID);
+                ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(elementDevice.DeviceUID);
+            }
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -221,6 +229,28 @@ namespace PlansModule.Designer
                         }
                     }
                 }
+            }
+        }
+
+        public void Add()
+        {
+            if (ElementBase is ElementDevice)
+            {
+                var elementDevice = ElementBase as ElementDevice;
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                device.PlanUIDs.Add(elementDevice.UID);
+                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(device.UID);
+            }
+        }
+
+        public void Remove()
+        {
+            if (ElementBase is ElementDevice)
+            {
+                var elementDevice = ElementBase as ElementDevice;
+                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                device.PlanUIDs.Add(elementDevice.UID);
+                ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(device.UID);
             }
         }
     }

@@ -96,8 +96,12 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
+    <Compile Include="Events\DeviceAddedEvent.cs" />
     <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
+    <Compile Include="Events\DeviceRemovedEvent.cs" />
+    <Compile Include="Events\ElementAddedEvent.cs" />
     <Compile Include="Events\ElementPositionChangedEvent.cs" />
+    <Compile Include="Events\ElementRemovedEvent.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />

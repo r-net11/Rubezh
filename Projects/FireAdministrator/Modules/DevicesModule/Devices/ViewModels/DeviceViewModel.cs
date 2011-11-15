@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -25,6 +26,7 @@ namespace DevicesModule.ViewModels
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
             ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+            ShowZoneCommand = new RelayCommand(OnShowZone);
 
             Source = sourceDevices;
             Device = device;
@@ -226,6 +228,12 @@ namespace DevicesModule.ViewModels
                     DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device));
                     break;
             }
+        }
+
+        public RelayCommand ShowZoneCommand { get; private set; }
+        void OnShowZone()
+        {
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
         }
     }
 }

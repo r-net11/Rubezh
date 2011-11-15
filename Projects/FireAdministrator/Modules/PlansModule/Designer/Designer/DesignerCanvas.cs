@@ -148,6 +148,8 @@ namespace PlansModule.Designer
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                 var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
                 designerItem = Create(elementDevice, frameworkElement: devicePicture);
+                device.PlanUIDs.Add(elementBase.UID);
+                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(device.UID);
             }
             else
             {

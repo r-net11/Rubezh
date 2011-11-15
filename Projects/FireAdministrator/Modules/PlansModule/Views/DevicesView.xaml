@@ -19,6 +19,7 @@
                                     <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
+                                    <TextBlock Text="{Binding IsOnPlan}" />
                                     <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
                                                PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>

@@ -132,7 +132,6 @@ namespace PlansModule.ViewModels
         void OnShowDevices()
         {
             var devicesViewModel = new DevicesViewModel();
-            devicesViewModel.Initialize();
             ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost: true);
         }
 

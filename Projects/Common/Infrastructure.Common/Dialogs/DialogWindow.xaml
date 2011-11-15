@@ -5,7 +5,7 @@
 	    FontSize="12"
 	    FontFamily="Arial"
         Loaded="OnLoaded"
-	    WindowStartupLocation="CenterOwner"
+	    WindowStartupLocation="CenterScreen"
 	    SizeToContent="Manual"
 	    ShowInTaskbar="False"
 	    KeyDown="OnKeyDown"

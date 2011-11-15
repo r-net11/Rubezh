@@ -65,6 +65,7 @@ namespace PlansModule.Designer
                 Canvas.SetLeft(thumb, point.X);
                 Canvas.SetTop(thumb, point.Y);
                 this.Children.Add(thumb);
+                thumb.DragStarted += new DragStartedEventHandler(thumb_DragStarted);
                 thumb.DragDelta += new DragDeltaEventHandler(_thumb_DragDelta);
                 thumb.DragCompleted += new DragCompletedEventHandler(thumb_DragCompleted);
                 thumb.PreviewKeyDown += new System.Windows.Input.KeyEventHandler(thumb_PreviewKeyDown);
@@ -137,6 +138,10 @@ namespace PlansModule.Designer
 
             _designerItem.Width = maxLeft - minLeft;
             _designerItem.Height = maxTop - minTop;
+        }
+
+        void thumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
         }
 
         void thumb_DragCompleted(object sender, DragCompletedEventArgs e)

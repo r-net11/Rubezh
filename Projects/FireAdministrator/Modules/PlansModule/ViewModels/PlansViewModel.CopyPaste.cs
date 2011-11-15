@@ -33,6 +33,7 @@ namespace PlansModule.ViewModels
                 var designerItem = DesignerCanvas.Children[i - 1] as DesignerItem;
                 if (designerItem.IsSelected)
                 {
+                    (DesignerCanvas.Children[i - 1] as DesignerItem).Remove();
                     DesignerCanvas.Children.RemoveAt(i - 1);
                 }
             }

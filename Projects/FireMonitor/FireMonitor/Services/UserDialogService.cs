@@ -23,16 +23,6 @@ namespace FireMonitor
                 DeviceDetailsViewModel deviceDetailsViewModel = model as DeviceDetailsViewModel;
                 var deviceUID = deviceDetailsViewModel.DeviceState.UID;
 
-                //foreach (var window in ActiveWindows)
-                //{
-                //    DeviceDetailsViewModel existingDeviceDetailsViewModel = window.ViewModel as DeviceDetailsViewModel;
-                //    if (existingDeviceDetailsViewModel.Device.UID == deviceUID)
-                //    {
-                //        window.Activate();
-                //        return;
-                //    }
-                //}
-
                 DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => (x.ViewModel as DeviceDetailsViewModel).Device.UID == deviceUID);
                 if (existingWindow != null)
                 {

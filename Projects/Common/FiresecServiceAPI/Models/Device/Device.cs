@@ -11,12 +11,12 @@ namespace FiresecAPI.Models
     {
         public Device()
         {
+            UID = Guid.NewGuid();
             Children = new List<Device>();
             Properties = new List<Property>();
             IndicatorLogic = new IndicatorLogic();
             PDUGroupLogic = new PDUGroupLogic();
-            ShapeIds = new List<string>();
-            UID = Guid.NewGuid();
+            PlanUIDs = new List<Guid>();
         }
 
         public Driver Driver { get; set; }
@@ -58,6 +58,9 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool IsRmAlarmDevice { get; set; }
+
+        [DataMember]
+        public List<Guid> PlanUIDs { get; set; }
 
         public string PresentationAddress
         {

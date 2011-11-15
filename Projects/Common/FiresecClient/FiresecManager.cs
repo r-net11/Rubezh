@@ -123,8 +123,11 @@ namespace FiresecClient
 
         public static void Disconnect()
         {
-            FiresecService.StopPing();
-            FiresecService.Disconnect();
+            if (FiresecService != null)
+            {
+                FiresecService.StopPing();
+                FiresecService.Disconnect();
+            }
             FiresecServiceFactory.Dispose();
         }
 

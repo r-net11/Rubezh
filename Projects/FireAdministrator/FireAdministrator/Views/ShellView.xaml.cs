@@ -120,6 +120,8 @@ namespace FireAdministrator
         void Window_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
+            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            App.Current.Shutdown();
         }
     }
 }

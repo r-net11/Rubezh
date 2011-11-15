@@ -175,34 +175,34 @@ namespace FiresecService.Converters
                         {
                             foreach (var innerDevice in innerLayer.elements)
                             {
-                                Guid deviceUID = Guid.Empty;
-                                long idTempL = long.Parse(innerDevice.id);
-                                int idTempI = (int)idTempL;
-
-                                foreach (var device in ConfigurationConverter.DeviceConfiguration.Devices)
-                                {
-                                    foreach (var deviceShapeId in device.ShapeIds)
-                                    {
-                                        if ((deviceShapeId == idTempL.ToString()) ||
-                                            (deviceShapeId == idTempI.ToString()))
-                                        {
-                                            deviceUID = device.UID;
-                                        }
-                                    }
-                                }
-
                                 if (innerDevice.rect != null)
                                 {
                                     var innerRect = innerDevice.rect[0];
+
+                                    long idTempL = long.Parse(innerDevice.id);
+                                    int idTempI = (int)idTempL;
+
                                     var elementDevice = new ElementDevice()
                                     {
-                                        DeviceUID = deviceUID,
                                         Left = Parse(innerRect.left),
                                         Top = Parse(innerRect.top),
                                         Width = Parse(innerRect.right) - Parse(innerRect.left),
                                         Height = Parse(innerRect.bottom) - Parse(innerRect.top)
                                     };
                                     plan.ElementDevices.Add(elementDevice);
+
+                                    foreach (var device in ConfigurationConverter.DeviceConfiguration.Devices)
+                                    {
+                                        foreach (var deviceShapeId in device.ShapeIds)
+                                        {
+                                            if ((deviceShapeId == idTempL.ToString()) ||
+                                                (deviceShapeId == idTempI.ToString()))
+                                            {
+                                                elementDevice.DeviceUID = device.UID;
+                                                device.PlanUIDs.Add(elementDevice.UID);
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -211,7 +211,19 @@ namespace FiresecService.Converters
                 }
             }
 
+            DeleteDirectory(Environment.CurrentDirectory + "\\Pictures");
+
             return plansConfiguration;
+        }
+
+        static void DeleteDirectory(string directoryName)
+        {
+            foreach (string file in Directory.GetFiles(directoryName))
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+            Directory.Delete(directoryName, true);
         }
 
         static Double Parse(string input)

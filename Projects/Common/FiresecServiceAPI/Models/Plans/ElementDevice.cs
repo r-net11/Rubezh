@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
         {
             Width = 20;
             Height = 20;
+            DeviceUID = Guid.Empty;
         }
 
         [DataMember]

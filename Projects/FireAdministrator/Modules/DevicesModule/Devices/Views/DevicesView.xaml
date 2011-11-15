@@ -147,18 +147,37 @@
                             </Style>
                         </StackPanel.Style>
                     </StackPanel>
-                    <StackPanel DataContext="{Binding Zone}" Orientation="Horizontal">
-                        <Label Content="Зона" FontWeight="Bold" />
-                        <Label Content="{Binding PresentationName}" />
-                        <StackPanel.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
+                    
+                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
+                        <Label Content="Зона: " />
+
+                        <Label Content="Зона не указана" IsEnabled="False">
+                            <Label.Style>
+                                <Style>
+                                    <Setter Property="Label.Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
+                                            <Setter Property="Label.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+
+                        <TextBlock VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <TextBlock Margin="2" Text="{Binding PresentationZone}" />
+                            </Hyperlink>
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
+                                            <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </StackPanel>
                 </StackPanel>
             </Border>

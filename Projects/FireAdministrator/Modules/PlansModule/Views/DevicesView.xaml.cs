@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using PlansModule.Designer;
 using PlansModule.ViewModels;
+using FiresecClient;
 
 namespace PlansModule.Views
 {
@@ -34,6 +36,9 @@ namespace PlansModule.Views
             {
                 var device = ((sender as Image).DataContext as DeviceViewModel).Device;
                 if (device.Driver.IsPlaceable == false)
+                    return;
+
+                if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
                     return;
 
                 ElementBase plansElement = new ElementDevice()

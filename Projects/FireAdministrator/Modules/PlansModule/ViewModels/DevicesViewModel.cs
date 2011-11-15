@@ -3,6 +3,9 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using PlansModule.Events;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -11,10 +14,8 @@ namespace PlansModule.ViewModels
         public DevicesViewModel()
         {
             Title = "Устройства";
-        }
-
-        public void Initialize()
-        {
+            ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Subscribe(OnDeviceChanged);
+            ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Subscribe(OnDeviceChanged);
             Devices = new ObservableCollection<DeviceViewModel>();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
@@ -39,6 +40,15 @@ namespace PlansModule.ViewModels
                 CollapseChild(Devices[0]);
                 ExpandChild(Devices[0]);
                 SelectedDevice = Devices[0];
+            }
+        }
+
+        void OnDeviceChanged(Guid deviceUID)
+        {
+            var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+            if (device != null)
+            {
+                device.Update();
             }
         }
 

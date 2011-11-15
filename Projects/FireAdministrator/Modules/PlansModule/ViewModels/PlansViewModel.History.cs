@@ -26,44 +26,73 @@ namespace PlansModule.ViewModels
             if (obj == null)
                 return;
 
-            ElementBase elementBase = (obj as DesignerItem).ElementBase;
+            DesignerItem designerItem = obj as DesignerItem;
+            ElementBase elementBase = designerItem.ElementBase;
+
+            var operationItem = new OperationItem()
+            {
+                ActionType = ActionType.Edited,
+                Item = elementBase.Clone()
+            };
             var historyItem = new HistoryItem();
-            var operationItem = new OperationItem();
-            operationItem.ActionType = ActionType.Edited;
-            operationItem.Item = elementBase.Clone();
-            historyItem.Items = new List<OperationItem>();
-            historyItem.Items.Add(operationItem);
+            historyItem.OperationItems.Add(operationItem);
             History.Add(historyItem);
+
+            elementBase.Left = Canvas.GetLeft(designerItem);
+            elementBase.Top = Canvas.GetTop(designerItem);
+
+            Offset++;
+        }
+
+        public int Offset;
+
+        void Reset()
+        {
+            var historyItem = History[Offset];
+            foreach (var operationItem in historyItem.OperationItems)
+            {
+                ElementBase elementBase = operationItem.Item;
+                var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+                designerItem.ElementBase.Left = elementBase.Left;
+                designerItem.ElementBase.Top = elementBase.Top;
+                Canvas.SetLeft(designerItem, designerItem.ElementBase.Left);
+                Canvas.SetTop(designerItem, designerItem.ElementBase.Top);
+                designerItem.Redraw();
+            }
         }
 
         public RelayCommand UndoCommand { get; private set; }
         void OnUndo()
         {
-            var item = History[History.Count - 1].Items[0].Item;
-            ElementBase elementBase = item as ElementBase;
-            var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
-            designerItem.ElementBase.Left = elementBase.Left;
-            designerItem.ElementBase.Top = elementBase.Top;
-            Canvas.SetLeft(designerItem, designerItem.ElementBase.Left);
-            Canvas.SetTop(designerItem, designerItem.ElementBase.Top);
-            designerItem.Redraw();
+            if (Offset == 0)
+                return;
+            Offset--;
+            Reset();
         }
 
         public RelayCommand RedoCommand { get; private set; }
         void OnRedo()
         {
-
+            if (History.Count < Offset + 1)
+                return;
+            Reset();
+            Offset++;
         }
     }
 
     public class HistoryItem
     {
-        public List<OperationItem> Items { get; set; }
+        public HistoryItem()
+        {
+            OperationItems = new List<OperationItem>();
+        }
+
+        public List<OperationItem> OperationItems { get; set; }
     }
 
     public class OperationItem
     {
-        public object Item { get; set; }
+        public ElementBase Item { get; set; }
         public ActionType ActionType { get; set; }
     }
 

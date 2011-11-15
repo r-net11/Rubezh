@@ -81,9 +81,9 @@ namespace FiresecService.Converters
             device.Description = innerDevice.name;
             SetZone(device, innerDevice);
 
+            device.ShapeIds = new List<string>();
             if (innerDevice.shape != null)
             {
-                device.ShapeIds = new List<string>();
                 foreach (var shape in innerDevice.shape)
                 {
                     device.ShapeIds.Add(shape.id);

@@ -50,21 +50,21 @@
                                     </ComboBox>
 
                                     <TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-                                    <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
-                                        <TextBlock Margin="2">
-                                            <TextBlock.Style>
-                                                <Style>
-                                                    <Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
-                                                    <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding PresenrationZones}" Value="">
-                                                        <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
-                                                    </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>         
-                                    </Hyperlink>
-                                </TextBlock>
+                                        <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+                                            <TextBlock Margin="2">
+                                                <TextBlock.Style>
+                                                    <Style>
+                                                        <Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding PresenrationZones}" Value="">
+                                                                <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>         
+                                        </Hyperlink>
+                                    </TextBlock>
 
                                 </StackPanel>
 

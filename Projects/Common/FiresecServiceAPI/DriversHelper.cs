@@ -94,6 +94,8 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("2D078D43-4D3B-497C-9956-990363D9B19B", 0, "Модуль речевого оповещения", DriverType.MRO));
             DriverDataList.Add(new DriverData("4935848F-0084-4151-A0C8-3A900E3CB5C5", 0, "Задвижка", DriverType.Valve));
             DriverDataList.Add(new DriverData("F5A34CE2-322E-4ED9-A75F-FC8660AE33D8", 0, "Технологическая адресная метка АМ1-Т", DriverType.AM1_T));
+            DriverDataList.Add(new DriverData("C707299B-CAE0-46FD-A68A-4E04755332E4", 2, "Технологическая адресная метка АМТ-4", DriverType.AMT_4));
+            DriverDataList.Add(new DriverData("3C4B8739-A1F4-4241-A760-C6B906A19BF0", 2, "Прибор пожарный управления", DriverType.PPU));
             DriverDataList.Add(new DriverData("FD200EDF-94A4-4560-81AA-78C449648D45", 0, "АСПТ", DriverType.ASPT));
             DriverDataList.Add(new DriverData("043FBBE0-8733-4C8D-BE0C-E5820DBF7039", 0, "Модуль дымоудаления-1.02//3", DriverType.MDU));
             DriverDataList.Add(new DriverData("05323D14-9070-44B8-B91C-BE024F10E267", 0, "Выход", DriverType.Exit));

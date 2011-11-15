@@ -15,7 +15,6 @@ namespace PlansModule.ViewModels
         public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Subscribe(x => { OnPropertyChanged("PresentationZone"); });
-
             Source = sourceDevices;
             Device = device;
         }
@@ -39,6 +38,19 @@ namespace PlansModule.ViewModels
 
                 return "";
             }
+        }
+
+        public bool IsOnPlan
+        {
+            get
+            {
+                return Device.PlanUIDs.Count > 0;
+            }
+        }
+
+        public void Update()
+        {
+            OnPropertyChanged("IsOnPlan");
         }
     }
 }
