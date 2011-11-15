@@ -49,7 +49,7 @@ namespace FireMonitor
 
         void dialog_Closed(object sender, System.EventArgs e)
         {
-            ActiveWindows.Remove((DialogWindow)sender);
+            ActiveWindows.Remove((DialogWindow) sender);
         }
 
         public bool ShowModalWindow(IDialogContent model)

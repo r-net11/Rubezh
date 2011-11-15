@@ -76,7 +76,6 @@ namespace DevicesModule.ViewModels
             var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
                 deviceViewModel.Update();
-            }
 
             if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
             {
@@ -102,6 +101,7 @@ namespace DevicesModule.ViewModels
                         }
                     }
                 }
+            }
         }
 
         void OnDeviceStateChangedEvent(Guid deviceUID)
