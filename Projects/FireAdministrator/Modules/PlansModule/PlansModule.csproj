@@ -106,8 +106,8 @@
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
     <Compile Include="ViewModels\PlansViewModel.History.cs" />
-    <Compile Include="Views\Toolbox.xaml.cs">
-      <DependentUpon>Toolbox.xaml</DependentUpon>
+    <Compile Include="Views\ToolboxView.xaml.cs">
+      <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Designer\Polygon\PolygonResizeAdorner.cs" />
     <Compile Include="Designer\Polygon\PolygonResizeChrome.cs" />
@@ -245,7 +245,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Toolbox.xaml">
+    <Page Include="Views\ToolboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

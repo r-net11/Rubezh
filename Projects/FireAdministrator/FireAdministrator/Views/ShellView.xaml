@@ -53,7 +53,7 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Views:MenuView Grid.Column="0" />
+                                <Views:MenuView Grid.Column="0" Margin="1, 0, 0, 1" />
                                 <ContentControl Grid.Column="1" Name="_menu" MinWidth="400" />
                             </Grid>
                         </Grid>

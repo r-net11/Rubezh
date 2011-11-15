@@ -4,6 +4,7 @@
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -13,7 +14,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TabPanel x:Name="HeaderPanel" Grid.Row="0" Panel.ZIndex="1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent" />
-                        <Border Grid.Row="1" Background="{DynamicResource BackgroundBrush}"
+                        <Border Grid.Row="1" Background="{TemplateBinding Background}"
                                 BorderThickness="0" CornerRadius="2" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="5" />
                         </Border>

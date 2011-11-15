@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="PlansModule.Designer.Toolbox"
+﻿<UserControl x:Class="PlansModule.Designer.ToolboxView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Background="Gray">
+    <Grid>
         <StackPanel Orientation="Horizontal">
             <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/Ellipse.png" Name="ElementEllipse" ToolTip="Эллипс" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
@@ -9,8 +9,7 @@
             <Image Source="/Controls;component/Images/Font.png" Name="ElementTextBlock" ToolTip="Текст" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/ZoneRectangle.png" Name="ElementRectangleZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
             <Image Source="/Controls;component/Images/ZonePolygon.png" Name="ElementPolygonZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
-            <Image Source="/Controls;component/Images/SubPlanPolygon.png" Name="ElementSubPlan" ToolTip="Подплан" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
-            
+            <Image Source="/Controls;component/Images/SubPlanPolygon.png" Name="ElementSubPlan" ToolTip="Подплан" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />   
         </StackPanel>
     </Grid>
 </UserControl>

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
 
-    <TabControl>
+    <TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
         <TabItem Header="Основные">
             <Grid>
                 <Grid.ColumnDefinitions>

@@ -12,15 +12,15 @@ namespace PlansModule.ViewModels
         {
             if (plan != null)
             {
+                _isNew = false;
                 Title = "Редактировать план";
                 Plan = plan;
-                _isNew = false;
             }
             else
             {
+                _isNew = true;
                 Title = "Создать план";
                 Plan = new Plan();
-                _isNew = true;
             }
 
             CopyProperties();

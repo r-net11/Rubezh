@@ -5,9 +5,9 @@ using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {
-    public partial class Toolbox : UserControl
+    public partial class ToolboxView : UserControl
     {
-        public Toolbox()
+        public ToolboxView()
         {
             InitializeComponent();
         }
