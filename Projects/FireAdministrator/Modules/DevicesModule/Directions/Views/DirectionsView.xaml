@@ -12,26 +12,19 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <DataGrid Grid.Column="0" Name="_directionDataGrid" Margin="5" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+                <DataGrid Grid.Column="0" Name="_directionDataGrid" Margin="5" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" SelectionChanged="DataGrid_SelectionChanged" MouseDoubleClick="DataGrid_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Direction.Id}" />
                         <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
                         <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Direction.Description}" />
                     </DataGrid.Columns>
-                    <DataGrid.RowStyle>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-                                        <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
-                                        <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.RowStyle>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
+                            <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                            <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
             <Grid Grid.Column="1" DataContext="{Binding SelectedDirection}">
