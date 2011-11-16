@@ -40,7 +40,20 @@ Patch dialog sequence:
       <UIRef Id="UIElements"/>
       <UIRef Id="UIDialogs"/>
       <UIRef Id="WixUI_Common"/>
+      <!--<UIRef Id="WixUI_InstallDir" />-->
 
+
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+      
+
+      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
+      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
 
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
@@ -48,8 +61,26 @@ Patch dialog sequence:
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
 
       <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
-      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="SetupTypeDlg">AgreeToLicense = "Yes"</Publish>
+      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="InstallDirDlg">AgreeToLicense = "Yes"</Publish>
       <Publish Dialog="LicenseAgreement" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+
+      <!--<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="NewDialog" Value="BrowseDlg">1</Publish>-->
+
+      <Publish Dialog="DestinationFolder" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="DestinationFolder" Control="Next" Event="NewDialog" Value="SetupTypeDlg">1</Publish>
+      <Publish Dialog="DestinationFolder" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
+      <Publish Dialog="DestinationFolder" Control="ChangeFolder" Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+      <Publish Dialog="DestinationFolder" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]">1</Publish>
+
+      <Publish Dialog="InstallChangeFolder" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="InstallChangeFolder" Control="OK" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+      <Publish Dialog="InstallChangeFolder" Control="OK" Event="SpawnDialog" Value="InstallChangeFolderError">PathRoundTripped="No"</Publish>
+      <Publish Dialog="InstallChangeFolder" Control="OK" Event="EndDialog" Value="Return">Not(PathRoundTripped="No")</Publish>
+      <Publish Dialog="InstallChangeFolder" Control="Up" Event="NewDialog" Value="LicenseAgreement">1</Publish>
+      <Publish Dialog="InstallChangeFolder" Control="NewFolder" Event="NewDialog" Value="SetupTypeDlg">1</Publish>
+
 
       <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">
         WixUI_InstallMode = "InstallCustom"
@@ -83,12 +114,13 @@ Patch dialog sequence:
 
       <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
       <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Property="IS_SQLSERVER_LIST" Value="[IS_SQLSERVER_SERVER]">1</Publish>
+      <!--<Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Event="DoAction" Value="CreateSQLInstanceList">1</Publish>-->
+      <!--<Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Property="SQLInstance" Value="[SQLInstance]">1</Publish>-->
       <Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Event="SpawnDialog" Value="SQLBrowse">1</Publish>
       <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       
       <Publish Dialog="SQLBrowse" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
-      <Publish Dialog="SQLBrowse" Control="OK" Property="IS_SQLSERVER_SERVER" Value="[IS_SQLSERVER_LIST]">1</Publish>
+      <Publish Dialog="SQLBrowse" Control="OK" Property="SQLInstance" Value="[SQLINSTANCE_LIST]">1</Publish>
       <Publish Dialog="SQLBrowse" Control="OK" Event="EndDialog" Value="Return">1</Publish>
 
       <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>

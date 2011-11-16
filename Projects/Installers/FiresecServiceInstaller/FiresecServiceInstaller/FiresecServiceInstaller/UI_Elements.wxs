@@ -14,8 +14,9 @@
       <ComboBox Property="IS_SQLSERVER_SERVER">
         <ListItem Value="SQLInstanceList" />
       </ComboBox>
-      <ListBox Property="IS_SQLSERVER_LIST">
-        <ListItem Value="[SQLInstanceList]" />
+      <ListBox Property="SQLINSTANCE_LIST">
+        <ListItem Value="SQLEXPRESS" />
+        <ListItem Value="SQLEXPRESS"/>
       </ListBox>
     </UI>
   </Fragment>

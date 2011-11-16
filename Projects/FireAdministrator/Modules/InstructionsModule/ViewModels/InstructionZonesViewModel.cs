@@ -56,8 +56,28 @@ namespace InstructionsModule.ViewModels
         public List<ulong?> InstructionZonesList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
-        public ZoneViewModel SelectedAvailableZone { get; set; }
-        public ZoneViewModel SelectedInstructionZone { get; set; }
+
+        ZoneViewModel _selectedAvailableZone;
+        public ZoneViewModel SelectedAvailableZone 
+        {
+            get { return _selectedAvailableZone; }
+            set
+            {
+                _selectedAvailableZone = value;
+                OnPropertyChanged("SelectedAvailableZone");
+            }
+        }
+
+        ZoneViewModel _selectedInstructionZone;
+        public ZoneViewModel SelectedInstructionZone
+        {
+            get { return _selectedInstructionZone; }
+            set
+            {
+                _selectedInstructionZone = value;
+                OnPropertyChanged("SelectedInstructionZone");
+            }
+        }
 
         public bool CanAddOne()
         {

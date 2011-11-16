@@ -7,7 +7,7 @@
 			<Property Id="AgreeToLicense" Value="No" />
 			<Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
 			<Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-			<Property Id="SQLInstanceList" Value="0" />
+			<Property Id="SQLInstance" Value="Error" />
 		</UI>
 		<!-- TODO: Put your code here. -->
 	</Fragment>

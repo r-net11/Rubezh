@@ -133,10 +133,14 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Data\InstallFolderError.ico" />
     <Content Include="Data\License.rtf" />
+    <Content Include="Data\NewFolder.ico" />
+    <Content Include="Data\Up.ico" />
     <Content Include="Pre-Build commands.txt" />
     <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixXmlConfig.xslt" />

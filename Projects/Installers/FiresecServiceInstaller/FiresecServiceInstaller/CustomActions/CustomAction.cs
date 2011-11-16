@@ -13,25 +13,39 @@ namespace CustomActions
         [CustomAction]
         public static ActionResult CreateSQLInstanceList(Session session)
         {
-            session.Log("Begin CustomAction1");
-            //Debugger.Break();
-            var a = GenSQLInstanceList();
-            if (a != null)
+            session.Log("Begin CustomAction");
+            Debugger.Break();
+            //InstanceListView instanceListView = new InstanceListView();
+            //var result = instanceListView.ShowDialog();
+            //session["SQLInstanceList"] = "Error";
+            //if (result == true)
+            //{
+            //    session["SQLInstanceList"] = instanceListView.SelectedInstance;
+            //}
+            try
             {
-                session["SQLInstanceList"] = a;
-                return ActionResult.Success;
+                //String val = (String)session["SOME_KEY"];
+                int rowCnt = session.Database.CountRows("ListBox"); //TODO add where's clause
+                View myView = session.Database.OpenView("SELECT * FROM `ListBox` WHERE (`Property`='SQLINSTANCE_LIST')");
+                Record record = new Record("SQLINSTANCE_LIST", rowCnt);
+                record[0] = "SQLINSTANCE_LIST";
+                record[1] = 4;
+                record[2] = "storeName";
+                //record[3] = "storeName";
+                myView.Insert(record);
+                myView.Close();
+                myView.Dispose();
             }
-            else
+            catch (Exception ex)
             {
-                session["SQLInstanceList"] = "0";
-                return ActionResult.Failure;
+                return (ActionResult.Failure);
             }
-            
+            return (ActionResult.Success);
         }
 
-        public static string GenSQLInstanceList()
+        public List<object> GenSQLInstanceList()
         {
-            StringBuilder instances = new StringBuilder();
+            List<object> objects = new List<object>();
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names");
             foreach (string sk in key.GetSubKeyNames())
             {
@@ -39,11 +53,29 @@ namespace CustomActions
 
                 foreach (string s in rkey.GetValueNames())
                 {
-                    instances.Append(s);
-                    instances.Append("|");
+                    objects.Add(s);
                 }
             }
-            return instances.ToString();
+            return objects;
         }
+
+        private static void InsertRecord(Session session, string tableName, Object[] objects)
+        {
+
+            Database db = session.Database;
+
+            string sqlInsertSring = db.Tables[tableName].SqlInsertString + " TEMPORARY";
+
+            View view = db.OpenView(sqlInsertSring);
+
+            view.Execute(new Record(objects));
+
+            view.Close();
+
+
+
+        }
+
+        
     }
 }

@@ -12,6 +12,10 @@
 
     <Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
     <Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />
+    <Binary Id="DestinationFolder.ico" SourceFile="Data\DestinationFolder.ico" />
+    <Binary Id="Up.ico" SourceFile="Data\Up.ico" />
+    <Binary Id="NewFolder.ico" SourceFile="Data\NewFolder.ico" />
+    <Binary Id="InstallFolderError.ico" SourceFile="Data\InstallFolderError.ico" />
     <Binary Id="CustomActions.dll" SourceFile="$(var.CustomActions.TargetDir)$(var.CustomActions.TargetName).CA.dll" />
 
     <WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />
@@ -43,6 +47,7 @@
     <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
     <Property Id="SHORTCUT_DESKTOP">1</Property>
     <Property Id="CHECKSQLSERVER" Value="0"></Property>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
 
     <InstallExecuteSequence>
       <Custom Action="StartAppOnExit" After="InstallFinalize"/>
@@ -52,6 +57,10 @@
       <UIRef Id="WixUI_Wizard" />
       <UIRef Id="WixUI_ErrorProgressText" />
     </UI>
+    <!--<UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <UIRef Id="WixUI_ErrorProgressText" />
+    </UI>-->
 
   </Product>
   

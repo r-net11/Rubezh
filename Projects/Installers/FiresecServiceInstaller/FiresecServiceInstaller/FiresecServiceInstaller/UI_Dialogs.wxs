@@ -4,6 +4,8 @@
 	
 	<Fragment>
 		<UI Id="UIDialogs">
+      <DialogRef Id="InstallDirDlg"/>
+			<DialogRef Id="BrowseDlg"/>
 			<DialogRef Id="ErrorDlg" />
 			<DialogRef Id="FatalError" />
 			<DialogRef Id="FilesInUse" />
@@ -14,9 +16,7 @@
 			<DialogRef Id="UserExit" />
 			
 			<Dialog Id="ShortcutsDlg" Width="370" Height="270" Title="!(loc.WelcomeDlg_Title)">
-				<Control Id="Next" Type="PushButton" X="248" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
-					<Publish Event="DoAction" Value="CreateSQLInstanceList">1</Publish>
-				</Control>
+				<Control Id="Next" Type="PushButton" X="248" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
 				<Control Id="Back" Type="PushButton" X="192" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)" />
 
@@ -51,7 +51,7 @@
 			</Dialog>
 
 			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="[ProductName] - InstallShield Wizard" NoMinimize="yes">
-				<Control Id="cboServers" Type="ComboBox" X="18" Y="106" Width="278" Height="80" Property="IS_SQLSERVER_SERVER" TabSkip="no" Sorted="yes" />
+				<Control Id="cboServers" Type="ComboBox" X="18" Y="106" Width="278" Height="80" Property="SQLInstanceList" TabSkip="no" Sorted="yes" />
 				<Control Id="BtnSQLBrowse" Type="PushButton" X="301" Y="106" Width="66" Height="17" Text="B&amp;rowse..." TabSkip="no" />
 				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Connect using:" TabSkip="no" NoPrefix="yes" />
 				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
@@ -86,7 +86,7 @@
 			</Dialog>
 
 			<Dialog Id="SQLBrowse" X="50" Y="50" Width="272" Height="265" Title="[ProductName] - InstallShield Wizard" NoMinimize="yes">
-				<Control Id="lstSQLServer" Type="ListBox" X="14" Y="45" Width="245" Height="165" Property="IS_SQLSERVER_LIST" TabSkip="no" Sunken="yes" />
+				<Control Id="lstSQLServer" Type="ListBox" X="14" Y="45" Width="245" Height="165" Property="SQLINSTANCE_LIST" TabSkip="no" Sunken="yes" />
 				<Control Id="Cancel" Type="PushButton" X="194" Y="241" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
 				<Control Id="TxtSQLBrowse" Type="Text" X="13" Y="8" Width="245" Height="31" Text="From the list of servers below, select the database server you would like to target." TabSkip="no" Transparent="yes" />
 				<Control Id="OK" Type="PushButton" X="125" Y="241" Width="66" Height="17" Text="OK" TabSkip="no" Default="yes" />
@@ -95,6 +95,75 @@
 				<Control Id="DlgLine" Type="Line" X="48" Y="232" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
 			</Dialog>
 
+			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="[BrandName] - Программа установки" NoMinimize="yes" TrackDiskSpace="yes">
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes">
+					<!--<Publish Event="NewDialog" Value="ReadyToInstall">OutOfNoRbDiskSpace&lt;&gt;1</Publish>
+					<Publish Event="NewDialog" Value="OutOfSpace">OutOfNoRbDiskSpace=1</Publish>
+					<Publish Event="DoAction" Value="ApplicationsInUse">1</Publish>-->
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes">
+					<!--<Publish Event="SpawnDialog" Value="CancelSetup">1</Publish>-->
+				</Control>
+				<Control Id="ChangeFolder" Type="PushButton" X="36" Y="243" Width="126" Height="17" Text="Изменить &amp;папку назначения..." TabSkip="no">
+					<!--<Publish Event="SpawnDialog" Value="InstallChangeFolder">1</Publish>-->
+					<!--<Publish Property="_BrowseProperty" Value="INSTALLDIR">1</Publish>-->
+				</Control>
+				<Control Id="Back" Type="PushButton" X="163" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no">
+					<!--<Condition Action="disable">(NOT(CurrentOwner&gt;&lt;"Adobe")) And (NOT(OutOfNoRbDiskSpace&gt;&lt;1))</Condition>
+					<Publish Event="NewDialog" Value="OutOfSpace">OutOfNoRbDiskSpace=1</Publish>
+					<Publish Event="NewDialog" Value="SetupFileTypes">CurrentOwner&gt;&lt;"Adobe" And (NOT(OutOfNoRbDiskSpace&gt;&lt;1))</Publish>-->
+				</Control>
+				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />
+				<Control Id="DestFolder" Type="Icon" X="18" Y="91" Width="24" Height="25" Text="DestinationFolder.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+				<Control Id="DlgDesc" Type="Text" X="20" Y="62" Width="340" Height="20" Text="Нажмите &quot;Далее&quot;, чтобы установить в данную папку, или &quot;Изменить&quot;, чтобы выбрать другую папку." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle" Type="Text" X="10" Y="50" Width="292" Height="15" Text="{&amp;MSSansBold8}Папка назначения" TabSkip="yes" Transparent="yes" />
+				<Control Id="Copyright" Type="Text" X="20" Y="180" Width="340" Height="25" Text="ПРЕДУПРЕЖДЕНИЕ: Эта программа защищена законом об авторских правах и международными соглашениями." TabSkip="yes" Transparent="yes" />
+				<Control Id="Location" Type="Text" X="54" Y="105" Width="300" Height="26" Property="_BrowseProperty" Text="[INSTALLDIR]" TabSkip="yes" Transparent="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        Adobe" TabSkip="yes" />
+				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        Adobe" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="LocLabel" Type="Text" X="54" Y="91" Width="290" Height="15" Text="Установить [BrandName] в:" TabSkip="yes" Transparent="yes" />
+			</Dialog>
+
+			<Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="[BrandName] - Программа установки" NoMinimize="yes">
+				<Control Id="OkayButton" Type="PushButton" X="142" Y="82" Width="66" Height="17" Text="&amp;ОК" TabSkip="no" Default="yes">
+					<Publish Event="EndDialog" Value="Return">1</Publish>
+				</Control>
+				<Control Id="Text1" Type="Text" X="55" Y="22" Width="298" Height="50" Text="[INSTALLDIR]&#xA;&#xA;- неправильно указан путь к каталогу.  Выберите другой целевой каталог." TabSkip="yes" />
+				<Control Id="Icon1" Type="Icon" X="20" Y="22" Width="24" Height="24" Text="InstallFolderError.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+			</Dialog>
+
+			<Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="[BrandName] - Программа установки" NoMinimize="yes">
+				<Control Id="Tail" Type="PathEdit" X="21" Y="207" Width="332" Height="17" Property="_BrowseProperty" TabSkip="no" Sunken="yes" Indirect="yes" />
+				<Control Id="OK" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;OK" TabSkip="no" Default="yes">
+					<!--<Publish Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+					<Publish Event="DoAction" Value="ValidateInstallPath">1</Publish>
+					<Publish Event="SpawnDialog" Value="InstallChangeFolderError">PathRoundTripped="No"</Publish>
+					<Publish Event="EndDialog" Value="Return">Not(PathRoundTripped="No")</Publish>-->
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes">
+					<!--<Publish Event="Reset" Value="0">1</Publish>
+					<Publish Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>-->
+				</Control>
+				<Control Id="ComboText" Type="Text" X="21" Y="50" Width="99" Height="14" Text="Об&amp;зор:" TabSkip="no" />
+				<Control Id="Combo" Type="DirectoryCombo" X="21" Y="64" Width="277" Height="80" Property="_BrowseProperty" TabSkip="no" Indirect="yes" Removable="yes" Fixed="yes" Remote="yes" CDROM="yes" RAMDisk="yes" Floppy="yes" />
+				<Control Id="Up" Type="PushButton" X="310" Y="63" Width="19" Height="19" Text="Up.ico" ToolTip="На один уровень вверх" TabSkip="no" IconSize="16" FixedSize="yes" Icon="yes">
+					<!--<Publish Event="DirectoryListUp" Value="0">1</Publish>-->
+				</Control>
+				<Control Id="NewFolder" Type="PushButton" X="335" Y="63" Width="19" Height="19" Text="NewFolder.ico" ToolTip="Создать новую папку" TabSkip="no" IconSize="16" FixedSize="yes" Icon="yes">
+					<!--<Publish Event="DirectoryListNew" Value="0">1</Publish>-->
+				</Control>
+				<Control Id="List" Type="DirectoryList" X="21" Y="90" Width="332" Height="97" Property="_BrowseProperty" TabSkip="no" Sunken="yes" Indirect="yes" />
+				<Control Id="TailText" Type="Text" X="21" Y="193" Width="99" Height="13" Text="&amp;Папка:" TabSkip="no" />
+				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="Выбор папки назначения." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle" Type="Text" X="10" Y="6" Width="292" Height="25" Text="{&amp;MSSansBold8}Изменить текущую папку назначения" TabSkip="yes" Transparent="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        Adobe" TabSkip="yes" />
+				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        Adobe" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+			</Dialog>
 		</UI>
 	</Fragment>
 </Wix>
