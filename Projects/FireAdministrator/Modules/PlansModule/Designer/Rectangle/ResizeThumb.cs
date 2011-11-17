@@ -3,33 +3,57 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Collections.Generic;
+using FiresecAPI.Models;
+using Infrastructure;
+using PlansModule.Events;
 
 namespace PlansModule.Designer
 {
     public class ResizeThumb : Thumb
     {
-        private DesignerItem designerItem;
-        private DesignerCanvas designerCanvas;
+        List<ElementBase> initialElements;
+
+        DesignerItem DesignerItem
+        {
+            get { return DataContext as DesignerItem; }
+        }
+
+        DesignerCanvas DesignerCanvas
+        {
+            get { return VisualTreeHelper.GetParent(DesignerItem) as DesignerCanvas; }
+        }
 
         public ResizeThumb()
         {
             DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
             DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDelta);
+            DragCompleted += new DragCompletedEventHandler(ResizeThumb_DragCompleted);
         }
 
         private void ResizeThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            this.designerItem = DataContext as DesignerItem;
-
-            if (this.designerItem != null)
+            initialElements = new List<ElementBase>();
+            foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                this.designerCanvas = VisualTreeHelper.GetParent(this.designerItem) as DesignerCanvas;
+                var elementBase = designerItem.ElementBase;
+                elementBase.Left = Canvas.GetLeft(designerItem);
+                elementBase.Top = Canvas.GetTop(designerItem);
+                elementBase.Width = designerItem.Width;
+                elementBase.Height = designerItem.Height;
+                initialElements.Add(elementBase.Clone());
             }
+        }
+
+        void ResizeThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(DesignerItem);
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
         }
 
         private void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (this.designerItem != null && this.designerCanvas != null && this.designerItem.IsSelected)
+            if (DesignerItem.IsSelected)
             {
                 double minLeft = double.MaxValue;
                 double minTop = double.MaxValue;
@@ -37,7 +61,7 @@ namespace PlansModule.Designer
                 double minDeltaVertical = double.MaxValue;
                 double dragDeltaVertical, dragDeltaHorizontal;
 
-                foreach (DesignerItem designerItem in this.designerCanvas.SelectedItems)
+                foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
                 {
                     minLeft = Math.Min(Canvas.GetLeft(designerItem), minLeft);
                     minTop = Math.Min(Canvas.GetTop(designerItem), minTop);
@@ -46,7 +70,7 @@ namespace PlansModule.Designer
                     minDeltaHorizontal = Math.Min(minDeltaHorizontal, designerItem.ActualWidth - designerItem.MinWidth);
                 }
 
-                foreach (DesignerItem designerItem in this.designerCanvas.SelectedItems)
+                foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
                 {
                     if (designerItem.IsPolygon)
                         continue;

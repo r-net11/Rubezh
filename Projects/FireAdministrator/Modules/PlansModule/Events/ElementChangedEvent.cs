@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PlansModule.Events
 {
-    public class ElementAddedEvent : CompositePresentationEvent<List<ElementBase>>
+    public class ElementChangedEvent : CompositePresentationEvent<List<ElementBase>>
     {
     }
 }

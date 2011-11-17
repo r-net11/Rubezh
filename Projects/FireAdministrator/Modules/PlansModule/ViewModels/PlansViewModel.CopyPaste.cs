@@ -5,6 +5,8 @@ using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using PlansModule.Events;
+using Infrastructure;
 
 namespace PlansModule.ViewModels
 {
@@ -27,16 +29,7 @@ namespace PlansModule.ViewModels
         void OnCut()
         {
             OnCopy();
-
-            for (int i = DesignerCanvas.Items.Count(); i > 0 ; i--)
-            {
-                var designerItem = DesignerCanvas.Children[i - 1] as DesignerItem;
-                if (designerItem.IsSelected)
-                {
-                    (DesignerCanvas.Children[i - 1] as DesignerItem).Remove();
-                    DesignerCanvas.Children.RemoveAt(i - 1);
-                }
-            }
+            DesignerCanvas.RemoveAllSelected();
             PlansModule.HasChanges = true;
         }
 
@@ -50,9 +43,11 @@ namespace PlansModule.ViewModels
                 DesignerCanvas.DeselectAll();
                 foreach (var elementBase in Buffer)
                 {
-                    var designerItem = DesignerCanvas.AddElementBase(elementBase);
+                    elementBase.UID = Guid.NewGuid();
+                    var designerItem = DesignerCanvas.AddElement(elementBase);
                     designerItem.IsSelected = true;
                 }
+                ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
                 PlansModule.HasChanges = true;
             }
         }

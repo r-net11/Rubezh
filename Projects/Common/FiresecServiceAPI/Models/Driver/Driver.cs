@@ -202,5 +202,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool IsAlternativeUSB { get; set; }
+
+        [DataMember]
+        public bool CanMonitoringDisable { get; set; }
     }
 }

@@ -62,6 +62,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<Guid> PlanUIDs { get; set; }
 
+        [DataMember]
+        public bool IsMonitoringDisabled { get; set; }
+
         public string PresentationAddress
         {
             get

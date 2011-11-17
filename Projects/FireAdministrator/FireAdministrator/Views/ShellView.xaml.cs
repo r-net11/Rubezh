@@ -37,10 +37,10 @@ namespace FireAdministrator
 
         void ChangeMaximizedState()
         {
-            if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+            if (Application.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
+                Application.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
             else
-                App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+                Application.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
         }
 
         void OnClose(object sender, RoutedEventArgs e)
@@ -120,8 +120,7 @@ namespace FireAdministrator
         void Window_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
-            App.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }

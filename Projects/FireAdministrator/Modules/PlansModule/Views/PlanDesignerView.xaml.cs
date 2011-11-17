@@ -15,7 +15,12 @@ namespace PlansModule.Views
         public static void Update()
         {
             if (Current != null)
+            {
                 Current.slider.Value = 1;
+                Current.scrollViewer.ScrollToHorizontalOffset(0);
+                Current.scrollViewer.ScrollToVerticalOffset(0);
+                Current.slider.Value = 1;
+            }
         }
 
         public PlanDesignerView()
@@ -63,7 +68,6 @@ namespace PlansModule.Views
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(e.NewValue);
-            Trace.WriteLine("Zooming: " + e.NewValue);
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, _contentControl);

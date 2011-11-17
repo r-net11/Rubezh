@@ -51,6 +51,9 @@ namespace FiresecService.Converters
 
             device.IntAddress = int.Parse(innerDevice.addr);
 
+            if ((innerDevice.disabled != null) && (innerDevice.disabled == "1"))
+                device.IsMonitoringDisabled = true;
+
             if (innerDevice.param != null)
             {
                 var DatabaseIdParam = innerDevice.param.FirstOrDefault(x => x.name == "DB$IDDevices");
@@ -179,6 +182,11 @@ namespace FiresecService.Converters
                 innerDevice.addr = device.IntAddress.ToString();
             else
                 innerDevice.addr = "0";
+
+            if (device.IsMonitoringDisabled == true)
+                innerDevice.disabled = "1";
+            else
+                innerDevice.disabled = null;
 
             if (device.ZoneNo != null)
             {

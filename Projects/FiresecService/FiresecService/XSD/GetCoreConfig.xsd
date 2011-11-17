@@ -154,6 +154,7 @@
     <xs:attribute name="drv" type="xs:integer" />
     <xs:attribute name="addr" type="xs:integer" />
     <xs:attribute name="name" />
+    <xs:attribute name="disabled" />
   </xs:complexType>
 
   <!-- Root element of the document -->

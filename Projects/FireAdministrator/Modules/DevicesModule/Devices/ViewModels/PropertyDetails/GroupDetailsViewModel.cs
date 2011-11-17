@@ -13,7 +13,7 @@ namespace DevicesModule.ViewModels
 
         public GroupDetailsViewModel(Device device)
         {
-            Title = "Свойства группы ПДУ";
+            Title = "Свойства направление ПДУ";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 

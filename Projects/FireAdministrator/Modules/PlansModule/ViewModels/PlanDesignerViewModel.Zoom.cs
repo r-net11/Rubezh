@@ -14,7 +14,6 @@ using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
 
-
 namespace PlansModule.ViewModels
 {
     public partial class PlanDesignerViewModel : BaseViewModel
@@ -39,6 +38,8 @@ namespace PlansModule.ViewModels
                 Canvas.SetTop(designerItem, Canvas.GetTop(designerItem) * zoomFactor);
                 designerItem.Width *= zoomFactor;
                 designerItem.Height *= zoomFactor;
+                designerItem.MinWidth *= zoomFactor;
+                designerItem.MinHeight *= zoomFactor;
 
                 var pointCollection = new PointCollection();
 

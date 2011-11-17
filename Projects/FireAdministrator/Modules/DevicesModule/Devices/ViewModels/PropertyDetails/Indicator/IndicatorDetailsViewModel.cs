@@ -12,17 +12,13 @@ namespace DevicesModule.ViewModels
         Device _indicatorDevice;
         List<ulong?> _zones;
 
-        public IndicatorDetailsViewModel()
+        public IndicatorDetailsViewModel(Device device)
         {
             Title = "Свойства индикатора";
-
             ShowZonesCommand = new RelayCommand(OnShowZones);
             ShowDevicesCommand = new RelayCommand(OnShowDevices);
             ResetDeviceCommand = new RelayCommand(OnResetDevice);
-        }
 
-        public void Initialize(Device device)
-        {
             _zones = new List<ulong?>();
             _indicatorDevice = device;
 

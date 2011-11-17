@@ -54,7 +54,7 @@
     </Style>
 
     <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="16"/>
                 <RowDefinition Height="0.00001*"/>

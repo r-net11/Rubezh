@@ -110,23 +110,18 @@ namespace FiresecService.Converters
                             {
                                 ulong? zoneNo = null;
 
-                                long idTempL = long.Parse(innerZone.id);
-                                int idTempI = (int)idTempL;
+                                long longId = long.Parse(innerZone.id);
+                                int intId = (int)longId;
                                 foreach (var zone in ConfigurationConverter.DeviceConfiguration.Zones)
                                 {
                                     foreach (var zoneShapeId in zone.ShapeIds)
                                     {
-                                        if ((zoneShapeId == idTempL.ToString()) ||
-                                            (zoneShapeId == idTempI.ToString()))
+                                        if ((zoneShapeId == longId.ToString()) ||
+                                            (zoneShapeId == intId.ToString()))
                                         {
                                             zoneNo = zone.No;
                                         }
                                     }
-                                }
-
-                                if (zoneNo == null)
-                                {
-                                    ;
                                 }
 
                                 switch (innerZone.@class)
@@ -179,8 +174,8 @@ namespace FiresecService.Converters
                                 {
                                     var innerRect = innerDevice.rect[0];
 
-                                    long idTempL = long.Parse(innerDevice.id);
-                                    int idTempI = (int)idTempL;
+                                    long longId = long.Parse(innerDevice.id);
+                                    int intId = (int)longId;
 
                                     var elementDevice = new ElementDevice()
                                     {
@@ -195,8 +190,8 @@ namespace FiresecService.Converters
                                     {
                                         foreach (var deviceShapeId in device.ShapeIds)
                                         {
-                                            if ((deviceShapeId == idTempL.ToString()) ||
-                                                (deviceShapeId == idTempI.ToString()))
+                                            if ((deviceShapeId == longId.ToString()) ||
+                                                (deviceShapeId == intId.ToString()))
                                             {
                                                 elementDevice.DeviceUID = device.UID;
                                                 device.PlanUIDs.Add(elementDevice.UID);
@@ -218,12 +213,19 @@ namespace FiresecService.Converters
 
         static void DeleteDirectory(string directoryName)
         {
-            foreach (string file in Directory.GetFiles(directoryName))
+            try
             {
-                File.SetAttributes(file, FileAttributes.Normal);
-                File.Delete(file);
+                if (Directory.Exists(directoryName))
+                {
+                    foreach (string file in Directory.GetFiles(directoryName))
+                    {
+                        File.SetAttributes(file, FileAttributes.Normal);
+                        File.Delete(file);
+                    }
+                    Directory.Delete(directoryName, true);
+                }
             }
-            Directory.Delete(directoryName, true);
+            catch { return; }
         }
 
         static Double Parse(string input)

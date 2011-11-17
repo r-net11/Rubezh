@@ -6,12 +6,14 @@ namespace DevicesModule.DeviceProperties
 {
     public class PropertiesViewModel : BaseViewModel
     {
+        public Device Device { get; private set; }
         public List<StringPropertyViewModel> StringProperties { get; set; }
         public List<BoolPropertyViewModel> BoolProperties { get; set; }
         public List<EnumPropertyViewModel> EnumProperties { get; set; }
 
         public PropertiesViewModel(Device device)
         {
+            Device = device;
             StringProperties = new List<StringPropertyViewModel>();
             BoolProperties = new List<BoolPropertyViewModel>();
             EnumProperties = new List<EnumPropertyViewModel>();

@@ -11,11 +11,17 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.ViewModels;
 using PlansModule.Events;
+using System.Collections.Generic;
 
 namespace PlansModule.Designer
 {
     public class DesignerItem : ContentControl
     {
+        DesignerCanvas DesignerCanvas
+        {
+            get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
+        }
+
         public ElementBase ElementBase { get; set; }
 
         #region Properties
@@ -71,22 +77,13 @@ namespace PlansModule.Designer
         public RelayCommand AddPointCommand { get; private set; }
         void OnAddPoint()
         {
-            DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
-            designerCanvas.IsPointAdding = true;
+            DesignerCanvas.IsPointAdding = true;
         }
 
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
-            designerCanvas.Children.Remove(this);
-            if (ElementBase is ElementDevice)
-            {
-                ElementDevice elementDevice = ElementBase as ElementDevice;
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                device.PlanUIDs.Remove(elementDevice.UID);
-                ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(elementDevice.DeviceUID);
-            }
+            DesignerCanvas.RemoveAllSelected();
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -187,9 +184,8 @@ namespace PlansModule.Designer
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
-            DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
 
-            if (designerCanvas != null)
+            if (DesignerCanvas != null)
             {
                 if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
                 {
@@ -199,7 +195,7 @@ namespace PlansModule.Designer
                 {
                     if (!this.IsSelected)
                     {
-                        designerCanvas.DeselectAll();
+                        DesignerCanvas.DeselectAll();
                         this.IsSelected = true;
                     }
                 }
@@ -250,7 +246,6 @@ namespace PlansModule.Designer
                 var elementDevice = ElementBase as ElementDevice;
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                 device.PlanUIDs.Add(elementDevice.UID);
-                ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(device.UID);
             }
         }
     }

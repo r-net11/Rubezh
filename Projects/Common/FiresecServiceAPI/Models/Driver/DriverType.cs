@@ -19,7 +19,7 @@
         OLD_ComPort_V1,
         Page,
         Indicator,
-        Group,
+        Direction,
         Rubezh_2AM,
         BUNS,
         BUNS_2,

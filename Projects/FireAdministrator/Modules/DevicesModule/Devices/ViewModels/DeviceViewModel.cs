@@ -133,15 +133,15 @@ namespace DevicesModule.ViewModels
         {
             var zoneLogicViewModel = new ZoneLogicViewModel(Device);
             DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+            OnPropertyChanged("PresentationZone");
         }
 
         public RelayCommand ShowIndicatorLogicCommand { get; private set; }
         void OnShowIndicatorLogic()
         {
-            var indicatorDetailsViewModel = new IndicatorDetailsViewModel();
-            indicatorDetailsViewModel.Initialize(Device);
-
+            var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
             DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
+            OnPropertyChanged("PresentationZone");
         }
 
         public bool CanAdd()
@@ -198,7 +198,7 @@ namespace DevicesModule.ViewModels
                 case DriverType.JokeyPump:
                 case DriverType.Compressor:
                 case DriverType.CompensationPump:
-                case DriverType.Group:
+                case DriverType.Direction:
                     return true;
             }
             return false;
@@ -224,10 +224,11 @@ namespace DevicesModule.ViewModels
                     DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new PumpDetailsViewModel(Device));
                     break;
 
-                case DriverType.Group:
+                case DriverType.Direction:
                     DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device));
                     break;
             }
+            OnPropertyChanged("PresentationZone");
         }
 
         public RelayCommand ShowZoneCommand { get; private set; }

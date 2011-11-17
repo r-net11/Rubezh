@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using PlansModule.Designer;
 using System.Collections.Generic;
 using PlansModule.Events;
+using System.Linq;
 
 namespace PlansModule.ViewModels
 {
@@ -29,19 +30,17 @@ namespace PlansModule.ViewModels
             CutCommand = new RelayCommand(OnCut);
             PasteCommand = new RelayCommand(OnPaste);
 
-            UndoCommand = new RelayCommand(OnUndo);
-            RedoCommand = new RelayCommand(OnRedo);
-
             DesignerCanvas = new DesignerCanvas();
             PlanDesignerViewModel = new PlanDesignerViewModel();
             PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 
             InitializeHistory();
 
+            UpdateDevicePlanUIDs();
             Initialize();
         }
 
-        public void Initialize()
+        void Initialize()
         {
             Plans = new ObservableCollection<PlanViewModel>();
             foreach (var plan in FiresecManager.PlansConfiguration.Plans)
@@ -58,6 +57,22 @@ namespace PlansModule.ViewModels
             if (Plans.Count > 0)
             {
                 SelectedPlan = Plans[0];
+            }
+        }
+
+        void UpdateDevicePlanUIDs()
+        {
+            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanUIDs.Clear(); });
+
+            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+            {
+                foreach (var elementDevice in plan.ElementDevices)
+                {
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    if (device != null)
+                        device.PlanUIDs.Add(elementDevice.UID);
+
+                }
             }
         }
 
@@ -111,6 +126,7 @@ namespace PlansModule.ViewModels
                 {
                     PlanDesignerViewModel.Save();
                     PlanDesignerViewModel.Initialize(value.Plan);
+                    ResetHistory();
                 }
             }
         }

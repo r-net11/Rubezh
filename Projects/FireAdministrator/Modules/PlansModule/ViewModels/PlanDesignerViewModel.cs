@@ -35,6 +35,7 @@ namespace PlansModule.ViewModels
             DesignerCanvas.Children.Clear();
             DesignerCanvas.Width = plan.Width;
             DesignerCanvas.Height = plan.Height;
+            PlanDesignerView.Update();
 
             foreach (var elementRectangle in plan.ElementRectangles)
             {

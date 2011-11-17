@@ -31,7 +31,7 @@
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding AutoDetectCommand}" Header="Автпоиск" />
+                <MenuItem Command="{Binding AutoDetectCommand}" Header="Автопоиск" />
                 <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="Считать конфигурацию из устройства" />
                 <MenuItem Header="Синхронизировать охранных пользователей" IsEnabled="False" />
                 <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="Информация об устройстве" />

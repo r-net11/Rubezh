@@ -54,11 +54,36 @@ namespace PlansModule.Designer
             }
         }
 
+        public List<ElementBase> SelectedElements
+        {
+            get
+            {
+                return (from item in this.Children.OfType<DesignerItem>()
+                       where item.IsSelected == true
+                       select item.ElementBase).ToList();
+            }
+        }
+
         public void DeselectAll()
         {
             foreach (DesignerItem item in this.SelectedItems)
             {
                 item.IsSelected = false;
+            }
+        }
+
+        public void RemoveAllSelected()
+        {
+            ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>(SelectedElements));
+
+            for (int i = Items.Count(); i > 0; i--)
+            {
+                var designerItem = Children[i - 1] as DesignerItem;
+                if (designerItem.IsSelected)
+                {
+                    (Children[i - 1] as DesignerItem).Remove();
+                    Children.RemoveAt(i - 1);
+                }
             }
         }
 
@@ -108,17 +133,18 @@ namespace PlansModule.Designer
             elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
             elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
-            var designerItem = AddElementBase(elementBase);
+            var designerItem = AddElement(elementBase);
 
             this.DeselectAll();
             designerItem.IsSelected = true;
             PlanDesignerViewModel.MoveToFront();
-            e.Handled = true;
 
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(null);
+            ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
+
+            e.Handled = true;
         }
 
-        public DesignerItem AddElementBase(ElementBase elementBase)
+        public DesignerItem AddElement(ElementBase elementBase)
         {
             if (elementBase is ElementRectangle)
             {

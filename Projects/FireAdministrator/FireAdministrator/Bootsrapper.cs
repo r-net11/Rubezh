@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -33,14 +34,14 @@ namespace FireAdministrator
 
                     var ShellView = new ShellView();
                     ServiceFactory.ShellView = ShellView;
-                    App.Current.MainWindow = ShellView;
-                    App.Current.MainWindow.Show();
+                    Application.Current.MainWindow = ShellView;
+                    Application.Current.MainWindow.Show();
                 }
                 preLoadWindow.Close();
             }
             else
             {
-                App.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 

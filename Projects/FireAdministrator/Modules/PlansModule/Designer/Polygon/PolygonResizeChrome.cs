@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Infrastructure;
 using PlansModule.Events;
+using FiresecAPI.Models;
 
 namespace PlansModule.Designer
 {
@@ -14,6 +15,12 @@ namespace PlansModule.Designer
     {
         public static PolygonResizeChrome Current { get; private set; }
         static List<PolygonResizeChrome> Polygons = new List<PolygonResizeChrome>();
+
+        ContentControl _designerItem;
+        Polygon _polygon;
+        List<Thumb> thumbs = new List<Thumb>();
+        List<ElementBase> initialElements;
+
         public static void ClearActivePolygons()
         {
             Polygons.Clear();
@@ -25,10 +32,6 @@ namespace PlansModule.Designer
                 polygonResizeChrome.Initialize();
             }
         }
-
-        ContentControl _designerItem;
-        Polygon _polygon;
-        List<Thumb> thumbs = new List<Thumb>();
 
         static PolygonResizeChrome()
         {
@@ -85,6 +88,24 @@ namespace PlansModule.Designer
             }
         }
 
+        void thumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            DesignerItem designerItem = _designerItem as DesignerItem;
+            ElementBasePolygon elementPolygon = designerItem.ElementBase as ElementBasePolygon;
+
+            initialElements = new List<ElementBase>();
+            elementPolygon.Left = Canvas.GetLeft(designerItem);
+            elementPolygon.Top = Canvas.GetTop(designerItem);
+            elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
+            initialElements.Add(elementPolygon.Clone());
+        }
+
+        void thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(_designerItem);
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+        }
+
         private void _thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var currentThumb = sender as Thumb;
@@ -138,15 +159,6 @@ namespace PlansModule.Designer
 
             _designerItem.Width = maxLeft - minLeft;
             _designerItem.Height = maxTop - minTop;
-        }
-
-        void thumb_DragStarted(object sender, DragStartedEventArgs e)
-        {
-        }
-
-        void thumb_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(_designerItem);
         }
     }
 }

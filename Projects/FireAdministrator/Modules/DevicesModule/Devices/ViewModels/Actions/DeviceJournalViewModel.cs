@@ -26,14 +26,14 @@ namespace DevicesModule.ViewModels
                 new FrameworkPropertyMetadata(OnHtmlChanged));
 
         [AttachedPropertyBrowsableForType(typeof(WebBrowser))]
-        public static string GetHtml(WebBrowser d)
+        public static string GetHtml(WebBrowser webBrowser)
         {
-            return (string)d.GetValue(HtmlProperty);
+            return (string)webBrowser.GetValue(HtmlProperty);
         }
 
-        public static void SetHtml(WebBrowser d, string value)
+        public static void SetHtml(WebBrowser webBrowser, string value)
         {
-            d.SetValue(HtmlProperty, value);
+            webBrowser.SetValue(HtmlProperty, value);
         }
 
         static void OnHtmlChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -43,5 +43,4 @@ namespace DevicesModule.ViewModels
                 webBrowser.NavigateToString(e.NewValue as string);
         }
     }
-
 }

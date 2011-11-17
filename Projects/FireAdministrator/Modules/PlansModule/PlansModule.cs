@@ -33,7 +33,6 @@ namespace PlansModule
 
         static void OnShowPlans(string obj)
         {
-            _plansViewModel.Initialize();
             ServiceFactory.Layout.Show(_plansViewModel);
         }
 

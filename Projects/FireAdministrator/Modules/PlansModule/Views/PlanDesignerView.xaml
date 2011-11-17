@@ -19,12 +19,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Click="OnZoomIn" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
+            <Button Grid.Column="0" Click="OnZoomOut" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
             </Button>
             <Slider Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
-            <Button Grid.Column="2" Click="OnZoomOut" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
+            <Button Grid.Column="2" Click="OnZoomIn" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
             </Button>
         </Grid>
     </Grid>
