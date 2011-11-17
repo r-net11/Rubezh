@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-		<Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Full" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="MainExe" />
 			<!--<ComponentRef Id="FiresecServiceExe"/>-->

@@ -137,7 +137,10 @@
     <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Data\InstallChoiceLogo.bmp" />
+    <Content Include="Data\InstallClient.ico" />
     <Content Include="Data\InstallFolderError.ico" />
+    <Content Include="Data\InstallFull.ico" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />

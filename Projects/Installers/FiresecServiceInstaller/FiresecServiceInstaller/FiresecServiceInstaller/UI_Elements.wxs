@@ -14,10 +14,15 @@
       <ComboBox Property="IS_SQLSERVER_SERVER">
         <ListItem Value="SQLInstanceList" />
       </ComboBox>
+      
       <ListBox Property="SQLINSTANCE_LIST">
-        <ListItem Value="SQLEXPRESS" />
         <ListItem Value="SQLEXPRESS"/>
       </ListBox>
+      
+      <RadioButtonGroup Property="SetupChoice">
+        <RadioButton Height="13" Text="{&amp;MSSansBold8}&amp;Установка клиента и сервера" Value="Full" Width="247" X="21" Y="14" />
+        <RadioButton Height="14" Text="{&amp;MSSansBold8}&amp;Установка удаленного клиента" Value="Client" Width="247" X="21" Y="75" />
+      </RadioButtonGroup>
     </UI>
   </Fragment>
 </Wix>

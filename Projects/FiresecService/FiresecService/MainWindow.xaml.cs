@@ -17,7 +17,7 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
             Current = this;
-            //System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+            Debugger.Break();
             AnalizeCommandLine();
         }
 
@@ -58,9 +58,10 @@ namespace FiresecServiceRunner
             bool convertJournal = false;
             bool hide = false;
             bool service = false;
-            System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
-            //DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
-            //Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
+            //System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
+            DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
+            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
+            //Environment.CurrentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
