@@ -119,8 +119,8 @@ namespace DevicesModule.ViewModels
             {
                 var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
 
-                for (int i = 0; i < device.Driver.AutoChildCount; i++)
-                {    
+                for (int i = 0; i < device.Driver.AutoChildCount; ++i)
+                {
                     var autoDevice = device.AddChild(driver, device.IntAddress + i);
                     AddDevice(autoDevice, deviceViewModel);
                 }

@@ -88,9 +88,7 @@ namespace Infrastructure.Common
         void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
-            {
                 CloseContent();
-            }
         }
 
         private void OnCloseButton(object sender, RoutedEventArgs e)
@@ -103,9 +101,7 @@ namespace Infrastructure.Common
         {
             var content = Content as IDialogContent;
             if (content != null)
-            {
                 content.Close(false);
-            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
@@ -11,54 +12,70 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionDetailsViewModel : SaveCancelDialogContent
     {
-        bool _isNew;
         public Instruction Instruction { get; private set; }
-        public List<ulong?> InstructionZonesList { get; set; }
-        public List<Guid> InstructionDevicesList { get; set; }
 
         public InstructionDetailsViewModel()
         {
-            InstructionZonesList = new List<ulong?>();
-            InstructionDevicesList = new List<Guid>();
+            InstructionZones = new ObservableCollection<ulong?>();
+            InstructionDevices = new ObservableCollection<Guid>();
+
             SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
             SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
         }
 
-        public void Initialize(Instruction instruction = null)
+        public void Initialize()
         {
-            if (instruction == null)
+            Title = "Новая инструкция";
+
+            InstructionNo = 0;
+            if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
+                InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
+
+            Instruction = new Instruction();
+        }
+
+        public void Initialize(Instruction instruction)
+        {
+            Title = "Редактирование инструкции";
+
+            Instruction = instruction;
+            Text = instruction.Text;
+            StateType = instruction.StateType;
+            InstructionNo = instruction.No;
+            InstructionType = instruction.InstructionType;
+            switch (InstructionType)
             {
-                _isNew = true;
-                Title = "Новая инструкция";
+                case InstructionType.Details:
+                    if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
+                        InstructionZones = new ObservableCollection<ulong?>(Instruction.InstructionZonesList);
+                    if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
+                        InstructionDevices = new ObservableCollection<Guid>(Instruction.InstructionDevicesList);
+                    break;
 
-                InstructionNo = 0;
-                if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-                    InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
-
-                Instruction = new Instruction();
+                case InstructionType.General:
+                    break;
             }
-            else
+        }
+
+        ObservableCollection<ulong?> _instructionZones;
+        public ObservableCollection<ulong?> InstructionZones
+        {
+            get { return _instructionZones; }
+            set
             {
-                _isNew = false;
-                Title = "Редактирование инструкции";
+                _instructionZones = value;
+                OnPropertyChanged("InstructionZones");
+            }
+        }
 
-                Instruction = instruction;
-                Text = instruction.Text;
-                StateType = instruction.StateType;
-                InstructionNo = instruction.No;
-                InstructionType = instruction.InstructionType;
-                switch (InstructionType)
-                {
-                    case InstructionType.Details:
-                        if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
-                            InstructionZonesList = new List<ulong?>(Instruction.InstructionZonesList);
-                        if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
-                            InstructionDevicesList = new List<Guid>(Instruction.InstructionDevicesList);
-                        break;
-
-                    case InstructionType.General:
-                        break;
-                }
+        ObservableCollection<Guid> _instructionDevices;
+        public ObservableCollection<Guid> InstructionDevices
+        {
+            get { return _instructionDevices; }
+            set
+            {
+                _instructionDevices = value;
+                OnPropertyChanged("InstructionDevices");
             }
         }
 
@@ -116,58 +133,6 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        public string SelectZones
-        {
-            get
-            {
-                string selectZones = "";
-                if (InstructionZonesList.IsNotNullOrEmpty())
-                    selectZones = InstructionZonesList[0].ToString();
-
-                if (InstructionZonesList.Count > 1)
-                {
-                    for (int i = 1; i < InstructionZonesList.Count; ++i)
-                        selectZones += ", " + InstructionZonesList[i];
-                }
-                return selectZones;
-            }
-        }
-
-        public string SelectDevices
-        {
-            get
-            {
-                string selectDevices = "";
-                if (InstructionDevicesList.IsNotNullOrEmpty())
-                {
-                    Device device;
-                    if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-                        device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[0]);
-                    else
-                        device = null;
-
-                    if (device != null)
-                        selectDevices = device.Driver.ShortName + " (" + device.PresentationAddress + ")";
-                }
-
-                if (InstructionDevicesList.Count > 1)
-                {
-                    Device device;
-                    for (int i = 1; i < InstructionDevicesList.Count; ++i)
-                    {
-                        if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-                            device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == InstructionDevicesList[i]);
-                        else
-                            device = null;
-
-                        if (device != null)
-                            selectDevices += ", " + device.Driver.ShortName + " (" + device.PresentationAddress + ")";
-                    }
-                }
-                return selectDevices;
-            }
-        }
-
         bool CanSelect()
         {
             return (InstructionType != InstructionType.General);
@@ -176,22 +141,20 @@ namespace InstructionsModule.ViewModels
         public RelayCommand SelectZoneCommand { get; private set; }
         void OnSelectZoneCommand()
         {
-            var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZonesList);
+            var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel))
             {
-                InstructionZonesList = instructionZonesViewModel.InstructionZonesList;
-                OnPropertyChanged("SelectZones");
+                InstructionZones = new ObservableCollection<ulong?>(instructionZonesViewModel.InstructionZonesList);
             }
         }
 
         public RelayCommand SelectDeviceCommand { get; private set; }
         void OnSelectDeviceCommand()
         {
-            var instructionDevicesViewModel = new InstructionDevicesViewModel(InstructionDevicesList);
+            var instructionDevicesViewModel = new InstructionDevicesViewModel(InstructionDevices.ToList());
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel))
             {
-                InstructionDevicesList = instructionDevicesViewModel.InstructionDevicesList;
-                OnPropertyChanged("SelectDevices");
+                InstructionDevices = new ObservableCollection<Guid>(instructionDevicesViewModel.InstructionDevicesList);
             }
         }
 
@@ -200,7 +163,7 @@ namespace InstructionsModule.ViewModels
             if (string.IsNullOrWhiteSpace(Text))
                 return false;
             else
-                return InstructionType == InstructionType.General ? true : (InstructionDevicesList.IsNotNullOrEmpty() || InstructionZonesList.IsNotNullOrEmpty());
+                return InstructionType == InstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty());
         }
 
         protected override void Save(ref bool cancel)
@@ -209,16 +172,15 @@ namespace InstructionsModule.ViewModels
             Instruction.StateType = StateType;
             Instruction.InstructionType = InstructionType;
             Instruction.No = InstructionNo;
-            if (InstructionType == InstructionType.General)
+            if (InstructionType == InstructionType.Details)
             {
-                InstructionDevicesList.Clear();
-                InstructionZonesList.Clear();
+                Instruction.InstructionDevicesList = InstructionDevices.ToList();
+                Instruction.InstructionZonesList = InstructionZones.ToList();
             }
-            Instruction.InstructionDevicesList = InstructionDevicesList;
-            Instruction.InstructionZonesList = InstructionZonesList;
-            if (_isNew)
+            else
             {
-                FiresecManager.SystemConfiguration.Instructions.Add(Instruction);
+                Instruction.InstructionDevicesList = new List<Guid>();
+                Instruction.InstructionZonesList = new List<ulong?>();
             }
         }
     }

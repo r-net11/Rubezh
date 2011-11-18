@@ -26,7 +26,7 @@ namespace PlansModule.ViewModels
                 AddPlan(plan, null);
             }
 
-            for (int i = 0; i < Plans.Count; i++)
+            for (int i = 0; i < Plans.Count; ++i)
             {
                 CollapseChild(Plans[i]);
                 ExpandChild(Plans[i]);

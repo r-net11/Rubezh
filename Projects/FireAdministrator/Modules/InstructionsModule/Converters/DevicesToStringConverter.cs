@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using Common;
 using FiresecAPI.Models;
+using FiresecClient;
 
-namespace FiltersModule.Converters
+namespace InstructionsModule.Converters
 {
-    public class CategoriesToStringConverter : IValueConverter
+    public class DevicesToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var categories = value as List<DeviceCategoryType>;
-            if (categories.IsNotNullOrEmpty())
+            var devices = value as ICollection<Guid>;
+            if (devices.IsNotNullOrEmpty())
             {
-                var delimString = " или ";
+                var delimString = ", ";
                 var result = new StringBuilder();
 
-                foreach (var category in categories)
+                Device device = null;
+                foreach (var deviceGuid in devices)
                 {
-                    result.Append(EnumsConverter.CategoryTypeToCategoryName(category));
+                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
+                    result.Append(device.PresentationAddressDriver);
                     result.Append(delimString);
                 }
 
                 return result.ToString().Remove(result.Length - delimString.Length);
             }
+
             return null;
         }
 

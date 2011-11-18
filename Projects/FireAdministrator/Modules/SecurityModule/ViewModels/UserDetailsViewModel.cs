@@ -161,17 +161,13 @@ namespace SecurityModule.ViewModels
             foreach (var permissionType in User.Permissions)
             {
                 if (!Permissions.Any(x => x.PermissionType == permissionType))
-                {
                     User.Permissions.Remove(permissionType);
-                }
             }
 
             foreach (var permission in Permissions)
             {
                 if (!User.Permissions.Any(x => x == permission.PermissionType))
-                {
                     permission.IsEnable = false;
-                }
             }
         }
 
@@ -202,18 +198,15 @@ namespace SecurityModule.ViewModels
         {
             User.Login = Login;
             User.Name = Name;
+
             if (IsNew)
-            {
                 User.PasswordHash = HashHelper.GetHashFromString(Password);
-            }
             else if (IsChangePassword)
-            {
                 User.PasswordHash = HashHelper.GetHashFromString(NewPassword);
-            }
+
             User.RoleId = UserRole.Id;
             User.Permissions = new List<PermissionType>(
-                Permissions.Where(x => x.IsEnable).
-                Select(x => x.PermissionType)
+                Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)
             );
             User.RemoreAccess = RemoteAccess.GetModel();
         }

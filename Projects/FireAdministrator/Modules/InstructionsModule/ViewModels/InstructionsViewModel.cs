@@ -53,6 +53,7 @@ namespace InstructionsModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
             {
                 Instructions.Add(new InstructionViewModel(instructionDetailsViewModel.Instruction));
+                FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
                 InstructionsModule.HasChanges = true;
             }
         }

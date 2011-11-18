@@ -3,15 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:InstructionsModule.Converters">
     <UserControl.Resources>
-        <Converters:InstructionTypeConverter  x:Key="InstructionTypeConverter" />
-        <Converters:StateTypeConverter  x:Key="StateTypeConverter" />
+        <Converters:InstructionTypeToStringConverter  x:Key="InstructionTypeToStringConverter" />
+        <Converters:InstructionTypeToVisibilityConverter  x:Key="InstructionTypeToVisibilityConverter" />
+        <Converters:DevicesToStringConverter  x:Key="DevicesToStringConverter" />
+        <Converters:ZonesToStringConverter  x:Key="ZonesToStringConverter" />
     </UserControl.Resources>
-
     <DataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Номер" Binding="{Binding InstructionNo}" Width="1*" />
             <DataGridTextColumn Header="Тип инструкции"  Width="1*" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
             <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
         </DataGrid.Columns>
+        <DataGrid.RowDetailsTemplate>
+            <DataTemplate>
+                <Grid Margin="7">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Описание:   " FontWeight="Black" />
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Зоны:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Устройства:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding InstructionText}" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
+                </Grid>
+            </DataTemplate>
+        </DataGrid.RowDetailsTemplate>
     </DataGrid>
 </UserControl>

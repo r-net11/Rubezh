@@ -1,4 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
@@ -30,6 +32,16 @@ namespace InstructionsModule.ViewModels
         public InstructionType InstructionType
         {
             get { return Instruction.InstructionType; }
+        }
+
+        public List<ulong?> InstructionZones
+        {
+            get { return Instruction.InstructionZonesList; }
+        }
+
+        public List<Guid> InstructionDevices
+        {
+            get { return Instruction.InstructionDevicesList; }
         }
 
         public void Update()

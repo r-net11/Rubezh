@@ -130,10 +130,10 @@ namespace DevicesModule.ViewModels
             {
                 startAddress = endAddress = avaliableAddresses[maxIndex];
 
-                if (avaliableAddresses.Count() > maxIndex + 1)
+                if (avaliableAddresses.Count > maxIndex + 1)
                     startAddress = endAddress = avaliableAddresses[maxIndex + 1];
 
-                if (avaliableAddresses.Count() > maxIndex + 2)
+                if (avaliableAddresses.Count > maxIndex + 2)
                     endAddress = avaliableAddresses[maxIndex + 2];
             }
 
@@ -152,11 +152,11 @@ namespace DevicesModule.ViewModels
             {
                 ;
             }
-            if (startAddress < avaliableAddresses[0])
+            if (startAddress < avaliableAddresses.First())
             {
                 ;
             }
-            if (endAddress > avaliableAddresses[avaliableAddresses.Count() - 1])
+            if (endAddress > avaliableAddresses.Last())
             {
                 ;
             }
@@ -164,24 +164,20 @@ namespace DevicesModule.ViewModels
             for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
                 int address = avaliableAddresses[i];
-
                 if (ParentAddressSystemDevice.Children.Any(x => x.IntAddress == address))
                 {
-                    ;
                 }
 
                 if (ChildAddressSystemDevices.Any(x => x.IntAddress == address))
                 {
-                    ;
                 }
             }
 
             for (int i = 0; i < avaliableAddresses.Count; ++i)
             {
-                int address = avaliableAddresses[i];
-                if (address >= startAddress && address <= endAddress)
+                if (avaliableAddresses[i] >= startAddress && avaliableAddresses[i] <= endAddress)
                 {
-                    Device device = _parent.AddChild(SelectedDriver, address);
+                    Device device = _parent.AddChild(SelectedDriver, avaliableAddresses[i]);
                     AddDevice(device, _parentDeviceViewModel);
 
                     if (SelectedDriver.IsChildAddressReservedRange)

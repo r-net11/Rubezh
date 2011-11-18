@@ -19,13 +19,9 @@ namespace SecurityModule.ViewModels
             Title = "Создание новой роли";
 
             if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
-            {
                 Role = new UserRole() { Id = FiresecManager.SecurityConfiguration.UserRoles.Max(x => x.Id) + 1 };
-            }
             else
-            {
                 Role = new UserRole() { Id = 1 };
-            }
 
             Initialize();
         }

@@ -99,7 +99,7 @@ namespace DevicesModule.ViewModels
         {
             TimeLeft = timeLeft;
             IsTimerEnabled = true;
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            var dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Start();
@@ -107,7 +107,7 @@ namespace DevicesModule.ViewModels
 
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            TimeLeft--;
+            --TimeLeft;
         }
 
         public RelayCommand StopTimerCommand { get; private set; }

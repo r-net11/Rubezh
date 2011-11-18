@@ -49,8 +49,8 @@ namespace PlansModule.Designer
             get
             {
                 return from item in this.Children.OfType<DesignerItem>()
-                    where item.IsSelected == true
-                    select item;
+                       where item.IsSelected == true
+                       select item;
             }
         }
 
@@ -276,11 +276,10 @@ namespace PlansModule.Designer
                 var item = selectedItem;
                 var polygon = item.Content as Polygon;
 
-
                 Point currentPoint = e.GetPosition(selectedItem);
                 var minDistance = double.MaxValue;
                 int minIndex = 0;
-                for (int i = 0; i < polygon.Points.Count; i++)
+                for (int i = 0; i < polygon.Points.Count; ++i)
                 {
                     var polygonPoint = polygon.Points[i];
                     var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
@@ -305,10 +304,10 @@ namespace PlansModule.Designer
         {
             var designerPropertiesViewModel = new DesignerPropertiesViewModel(Plan);
             if (ServiceFactory.UserDialogs.ShowModalWindow(designerPropertiesViewModel))
-                {
-                    Update();
-                    PlansModule.HasChanges = true;
-                }
+            {
+                Update();
+                PlansModule.HasChanges = true;
+            }
         }
 
         public void Update()

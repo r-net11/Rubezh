@@ -170,8 +170,8 @@ namespace PlansModule.ViewModels
                         ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
                         if (elementPolygonZone != null)
                         {
-                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
-                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
+                            var point = new Point((int) Canvas.GetLeft(designerItem) - (int) Canvas.GetLeft(elementPolygonZoneItem),
+                                (int) Canvas.GetTop(designerItem) - (int) Canvas.GetTop(elementPolygonZoneItem));
                             bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
                             if (isInPolygon)
                                 if (elementPolygonZone.ZoneNo.HasValue)
@@ -181,8 +181,8 @@ namespace PlansModule.ViewModels
                         ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.ElementBase as ElementRectangleZone;
                         if (elementRectangleZone != null)
                         {
-                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
-                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
+                            var point = new Point((int) Canvas.GetLeft(designerItem) - (int) Canvas.GetLeft(elementPolygonZoneItem),
+                                (int) Canvas.GetTop(designerItem) - (int) Canvas.GetTop(elementPolygonZoneItem));
 
                             bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
 
@@ -209,7 +209,6 @@ namespace PlansModule.ViewModels
                                 Trace.WriteLine("Устройство отвязано от зоны");
                                 ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                             }
-
                         }
                     }
                     else
@@ -230,7 +229,7 @@ namespace PlansModule.ViewModels
             var j = polygon.Points.Count - 1;
             var oddNodes = false;
 
-            for (var i = 0; i < polygon.Points.Count; i++)
+            for (var i = 0; i < polygon.Points.Count; ++i)
             {
                 if (polygon.Points[i].Y < point.Y && polygon.Points[j].Y >= point.Y ||
                     polygon.Points[j].Y < point.Y && polygon.Points[i].Y >= point.Y)

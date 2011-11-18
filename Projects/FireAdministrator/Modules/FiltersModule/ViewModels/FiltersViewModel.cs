@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Common;
+using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
 
@@ -16,9 +16,9 @@ namespace FiltersModule.ViewModels
 
         public void Initialize()
         {
-            FilterViewModels = new ObservableCollection<FilterViewModel>();
-            if (FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.IsNotNullOrEmpty())
-                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.ForEach(journalFilter => FilterViewModels.Add(new FilterViewModel(journalFilter)));
+            FilterViewModels = new ObservableCollection<FilterViewModel>(
+                FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Select(journalFilter => new FilterViewModel(journalFilter))
+            );
         }
 
         public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }

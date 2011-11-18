@@ -59,9 +59,7 @@ namespace DevicesModule.ViewModels
             {
                 var zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
                 if (zoneViewModel != null)
-                {
                     zoneViewModel.StateType = zoneState.StateType;
-                }
             }
         }
 
@@ -92,9 +90,7 @@ namespace DevicesModule.ViewModels
         public void Select(ulong? zoneNo)
         {
             if (zoneNo.HasValue)
-            {
                 SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
-            }
         }
 
         void InitializeDevices()

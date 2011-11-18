@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
-using Common;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -11,12 +11,9 @@ namespace LibraryModule.ViewModels
     {
         public LibraryViewModel()
         {
-            DeviceViewModels = new ObservableCollection<DeviceViewModel>();
-            if (FiresecManager.LibraryConfiguration.Devices.IsNotNullOrEmpty())
-            {
-                FiresecManager.LibraryConfiguration.Devices.ForEach(
-                    device => DeviceViewModels.Add(new DeviceViewModel(device)));
-            }
+            DeviceViewModels = new ObservableCollection<DeviceViewModel>(
+                FiresecManager.LibraryConfiguration.Devices.Select(device => new DeviceViewModel(device))
+            );
 
             AddDeviceCommand = new RelayCommand(OnAddDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);

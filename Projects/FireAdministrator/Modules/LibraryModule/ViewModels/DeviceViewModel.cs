@@ -21,8 +21,9 @@ namespace LibraryModule.ViewModels
             if (Device.States == null)
                 SetDefaultStateTo(Device);
 
-            StateViewModels = new ObservableCollection<StateViewModel>();
-            Device.States.ForEach(state => StateViewModels.Add(new StateViewModel(state, _driver)));
+            StateViewModels = new ObservableCollection<StateViewModel>(
+                Device.States.Select(state => new StateViewModel(state, _driver))
+            );
 
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnAddAdditionalState);

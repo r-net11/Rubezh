@@ -55,8 +55,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\StateTypeConverter.cs" />
-    <Compile Include="Converters\InstructionTypeConverter.cs" />
+    <Compile Include="Converters\DevicesToStringConverter.cs" />
+    <Compile Include="Converters\InstructionTypeToVisibilityConverter.cs" />
+    <Compile Include="Converters\InstructionTypeToStringConverter.cs" />
+    <Compile Include="Converters\ZonesToStringConverter.cs" />
     <Compile Include="InstructionsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -86,8 +86,6 @@ namespace FireAdministrator
             set
             {
                 _isGuardVisible = value;
-                if (value == false)
-                    _guardExpander.IsExpanded = false;
                 OnPropertyChanged("IsGuardVisible");
             }
         }
@@ -98,9 +96,6 @@ namespace FireAdministrator
             get { return _isGuardSelected; }
             set
             {
-                if (!value && (IsGuardUsersSelected || IsGuardLevelsSelected))
-                    return;
-
                 _isGuardSelected = value;
                 OnPropertyChanged("IsGuardSelected");
             }
@@ -115,8 +110,6 @@ namespace FireAdministrator
                 _isGuardUsersSelected = value;
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Publish(null);
-                else
-                    IsGuardSelected = false;
                 OnPropertyChanged("IsGuardUsersSelected");
             }
         }
@@ -130,8 +123,6 @@ namespace FireAdministrator
                 _isGuardLevelsSelected = value;
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Publish(null);
-                else
-                    IsGuardSelected = false;
                 OnPropertyChanged("IsGuardLevelsSelected");
             }
         }
@@ -168,9 +159,6 @@ namespace FireAdministrator
             get { return _isSecuritySelected; }
             set
             {
-                if (!value && (IsUsersSelected || IsUserGroupsSelected))
-                    return;
-
                 _isSecuritySelected = value;
                 OnPropertyChanged("IsSecuritySelected");
             }
@@ -185,8 +173,6 @@ namespace FireAdministrator
                 _isUsersSelected = value;
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowUsersEvent>().Publish(null);
-                else
-                    IsSecuritySelected = false;
                 OnPropertyChanged("IsUsersSelected");
             }
         }
@@ -200,8 +186,6 @@ namespace FireAdministrator
                 _isUserGroupsSelected = value;
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Publish(null);
-                else
-                    IsSecuritySelected = false;
                 OnPropertyChanged("IsUserGroupsSelected");
             }
         }
@@ -276,9 +260,25 @@ namespace FireAdministrator
             }
         }
 
-        void TabItem_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        bool _isGuardExpanded;
+        public bool IsGuardExpanded
+        {
+            get { return _isGuardExpanded; }
+            set
+            {
+                _isGuardExpanded = value;
+                OnPropertyChanged("IsGuardExpanded");
+            }
+        }
+
+        void AccesRightsMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsAccesRightsExpanded = IsAccesRightsExpanded != true;
+        }
+
+        void GuardMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IsGuardExpanded = IsGuardExpanded != true;
         }
     }
 }

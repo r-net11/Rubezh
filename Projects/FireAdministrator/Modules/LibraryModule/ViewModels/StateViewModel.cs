@@ -20,8 +20,9 @@ namespace LibraryModule.ViewModels
 
             ParentDriver = parentDriver;
 
-            FrameViewModels = new ObservableCollection<FrameViewModel>();
-            State.Frames.ForEach(frame => FrameViewModels.Add(new FrameViewModel(frame)));
+            FrameViewModels = new ObservableCollection<FrameViewModel>(
+                State.Frames.Select(frame => new FrameViewModel(frame))
+            );
             SelectedFrameViewModel = FrameViewModels[0];
 
             AddFrameCommand = new RelayCommand(OnAddFrame);
