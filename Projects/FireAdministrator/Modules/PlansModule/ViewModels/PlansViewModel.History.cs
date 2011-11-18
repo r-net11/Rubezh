@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using Infrastructure;
 using PlansModule.Events;
-using System.Windows.Controls;
-using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
     public partial class PlansViewModel : RegionViewModel
     {
-        List<HistoryItem> History;
-        public int Offset;
+        List<HistoryItem> HistoryItems;
+        int Offset;
 
         void InitializeHistory()
         {
             UndoCommand = new RelayCommand(OnUndo, CanUndo);
             RedoCommand = new RelayCommand(OnRedo, CanRedo);
 
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { OnElementPositionChanged(x); });
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsAdded);
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
@@ -30,117 +26,68 @@ namespace PlansModule.ViewModels
 
         void ResetHistory()
         {
-            History = new List<HistoryItem>();
+            HistoryItems = new List<HistoryItem>();
             Offset = -1;
+        }
+
+        void AddHistoryItem(List<ElementBase> elements, ActionType actionType)
+        {
+            var historyItem = new HistoryItem()
+            {
+                ActionType = actionType
+            };
+
+            foreach (var elementBase in elements)
+            {
+                historyItem.Elements.Add(elementBase.Clone());
+            }
+
+            if (HistoryItems.Count > Offset + 1)
+                HistoryItems.RemoveRange(Offset + 1, HistoryItems.Count - Offset - 1);
+            HistoryItems.Add(historyItem);
+            Offset = HistoryItems.Count - 1;
         }
 
         void OnElementsAdded(List<ElementBase> elements)
         {
-            var historyItem = new HistoryItem();
-
-            foreach (var element in elements)
-            {
-                var operationItem = new OperationItem()
-                {
-                    ActionType = ActionType.Added,
-                    ElementBase = element.Clone()
-                };
-                historyItem.OperationItems.Add(operationItem);
-            }
-
-            if (History.Count > Offset + 1)
-                History.RemoveRange(Offset + 1, History.Count - Offset - 1);
-            History.Add(historyItem);
-            Offset = History.Count - 1;
+            AddHistoryItem(elements, ActionType.Added);
         }
 
         void OnElementsRemoved(List<ElementBase> elements)
         {
-            var historyItem = new HistoryItem();
-
-            foreach (var element in elements)
-            {
-                var operationItem = new OperationItem()
-                {
-                    ActionType = ActionType.Removed,
-                    ElementBase = element.Clone()
-                };
-                historyItem.OperationItems.Add(operationItem);
-            }
-
-            if (History.Count > Offset + 1)
-                History.RemoveRange(Offset + 1, History.Count - Offset - 1);
-            History.Add(historyItem);
-            Offset = History.Count - 1;
+            AddHistoryItem(elements, ActionType.Removed);
         }
 
         void OnElementsChanged(List<ElementBase> elements)
         {
-            var historyItem = new HistoryItem();
+            AddHistoryItem(elements, ActionType.Edited);
 
-            foreach (var element in elements)
+            foreach (var elementBase in elements)
             {
-                var operationItem = new OperationItem()
+                ElementBasePolygon elementBasePolygon = elementBase as ElementBasePolygon;
+                if (elementBasePolygon != null)
                 {
-                    ActionType = ActionType.Edited,
-                    ElementBase = element.Clone()
-                };
-                historyItem.OperationItems.Add(operationItem);
+                    Trace.WriteLine("");
+                    foreach (var point in elementBasePolygon.PolygonPoints)
+                    {
+                        Trace.Write("(" + point.X.ToString() + ";" + point.Y.ToString() + ")");
+                    }
+                }
             }
-
-            if (History.Count > Offset + 1)
-                History.RemoveRange(Offset + 1, History.Count - Offset - 1);
-            History.Add(historyItem);
-            Offset = History.Count - 1;
-        }
-
-        void OnElementPositionChanged(object obj)
-        {
-            return;
-
-            if (obj == null)
-                return;
-
-            DesignerItem designerItem = obj as DesignerItem;
-            ElementBase elementBase = designerItem.ElementBase;
-
-            var operationItem = new OperationItem()
-            {
-                ActionType = ActionType.Edited,
-                ElementBase = elementBase.Clone()
-            };
-            var historyItem = new HistoryItem();
-            historyItem.OperationItems.Add(operationItem);
-
-            elementBase.Left = Canvas.GetLeft(designerItem);
-            elementBase.Top = Canvas.GetTop(designerItem);
-
-            if (History.Count > Offset + 1)
-                History.RemoveRange(Offset + 1, History.Count - Offset - 1);
-            History.Add(historyItem);
-            Offset = History.Count - 1;
         }
 
         void Reset(bool isUndo)
         {
-            var historyItem = History[Offset];
-            foreach (var operationItem in historyItem.OperationItems)
+            var historyItem = HistoryItems[Offset];
+            foreach (var elementBase in historyItem.Elements)
             {
-                ElementBase elementBase = operationItem.ElementBase;
-
-                if (operationItem.ActionType == ActionType.Edited)
+                if (historyItem.ActionType == ActionType.Edited)
                 {
                     var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
-                    designerItem.ElementBase.Left = elementBase.Left;
-                    designerItem.ElementBase.Top = elementBase.Top;
-                    Canvas.SetLeft(designerItem, designerItem.ElementBase.Left);
-                    Canvas.SetTop(designerItem, designerItem.ElementBase.Top);
-                    designerItem.Width = designerItem.ElementBase.Width;
-                    designerItem.Height = designerItem.ElementBase.Height;
+                    designerItem.ElementBase = elementBase.Clone();
                     designerItem.Redraw();
-                    PolygonResizeChrome.ResetActivePolygons();
                 }
-                if (operationItem.ActionType == ActionType.Added)
+                if (historyItem.ActionType == ActionType.Added)
                 {
                     if (isUndo)
                     {
@@ -152,7 +99,7 @@ namespace PlansModule.ViewModels
                         DesignerCanvas.AddElement(elementBase);
                     }
                 }
-                if (operationItem.ActionType == ActionType.Removed)
+                if (historyItem.ActionType == ActionType.Removed)
                 {
                     if (isUndo)
                     {
@@ -170,7 +117,27 @@ namespace PlansModule.ViewModels
         public RelayCommand UndoCommand { get; private set; }
         void OnUndo()
         {
-            // сохранить текущее состояние
+            if (HistoryItems.Count == Offset + 1)
+            {
+                var historyItem = HistoryItems[Offset];
+
+                var beforeUndoHistoryItem = new HistoryItem()
+                {
+                    ActionType = historyItem.ActionType
+                };
+
+                foreach (var element in historyItem.Elements)
+                {
+                    var designerItem = DesignerCanvas.Items.FirstOrDefault(x=>x.ElementBase.UID == element.UID);
+                    //var currentElement = DesignerCanvas.Elements.FirstOrDefault(x=>x.UID == element.UID);
+                    var currentElement = designerItem.ElementBase;
+                    currentElement.Left = DesignerCanvas.GetLeft(designerItem);
+                    currentElement.Top = DesignerCanvas.GetTop(designerItem);
+                    beforeUndoHistoryItem.Elements.Add(currentElement.Clone());
+                }
+
+                HistoryItems.Add(beforeUndoHistoryItem);
+            }
 
             Reset(true);
             Offset--;
@@ -190,28 +157,22 @@ namespace PlansModule.ViewModels
 
         bool CanRedo()
         {
-            Trace.WriteLine(History.Count.ToString() + " - " + Offset.ToString());
-            return History.Count > Offset + 1;
+            return HistoryItems.Count > Offset + 1;
         }
     }
 
-    public class HistoryItem
+    class HistoryItem
     {
         public HistoryItem()
         {
-            OperationItems = new List<OperationItem>();
+            Elements = new List<ElementBase>();
         }
 
-        public List<OperationItem> OperationItems { get; set; }
-    }
-
-    public class OperationItem
-    {
-        public ElementBase ElementBase { get; set; }
         public ActionType ActionType { get; set; }
+        public List<ElementBase> Elements { get; set; }
     }
 
-    public enum ActionType
+    enum ActionType
     {
         Added,
         Removed,

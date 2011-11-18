@@ -101,7 +101,6 @@
     <Compile Include="Events\DeviceRemovedEvent.cs" />
     <Compile Include="Events\ElementAddedEvent.cs" />
     <Compile Include="Events\ElementChangedEvent.cs" />
-    <Compile Include="Events\ElementPositionChangedEvent.cs" />
     <Compile Include="Events\ElementRemovedEvent.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />

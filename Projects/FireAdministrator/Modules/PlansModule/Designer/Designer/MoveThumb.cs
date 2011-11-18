@@ -11,8 +11,6 @@ namespace PlansModule.Designer
 {
     public class MoveThumb : Thumb
     {
-        List<ElementBase> initialElements;
-
         DesignerItem DesignerItem
         {
             get { return DataContext as DesignerItem; }
@@ -32,20 +30,12 @@ namespace PlansModule.Designer
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            initialElements = new List<ElementBase>();
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                var elementBase = designerItem.ElementBase;
-                elementBase.Left = Canvas.GetLeft(designerItem);
-                elementBase.Top = Canvas.GetTop(designerItem);
-                initialElements.Add(elementBase.Clone());
-            }
+            DesignerCanvas.BeginChange();
         }
 
         void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(DesignerItem);
-            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+            DesignerCanvas.EndChange();
         }
 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)

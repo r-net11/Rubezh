@@ -52,6 +52,7 @@ namespace PlansModule.ViewModels
                         pointCollection.Add(new System.Windows.Point(point.X * zoomFactor, point.Y * zoomFactor));
                     }
                     polygon.Points = pointCollection;
+                    designerItem.UpdatePolygonAdorner();
                 }
 
                 if (designerItem.ElementBase is ElementPolygon)
@@ -80,8 +81,6 @@ namespace PlansModule.ViewModels
                     (designerItem.Content as System.Windows.FrameworkElement).LayoutTransform = scaleTransform;
                 }
             }
-
-            PolygonResizeChrome.ResetActivePolygons();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace PlansModule.Designer
 
                 if (adornerLayer != null)
                 {
-                    ContentControl designerItem = this.DataContext as ContentControl;
+                    DesignerItem designerItem = this.DataContext as DesignerItem;
                     this.adorner = new PolygonResizeAdorner(designerItem);
                     adornerLayer.Add(this.adorner);
 

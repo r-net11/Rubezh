@@ -12,8 +12,6 @@ namespace PlansModule.Designer
 {
     public class ResizeThumb : Thumb
     {
-        List<ElementBase> initialElements;
-
         DesignerItem DesignerItem
         {
             get { return DataContext as DesignerItem; }
@@ -21,7 +19,7 @@ namespace PlansModule.Designer
 
         DesignerCanvas DesignerCanvas
         {
-            get { return VisualTreeHelper.GetParent(DesignerItem) as DesignerCanvas; }
+            get { return DesignerItem.DesignerCanvas; }
         }
 
         public ResizeThumb()
@@ -33,22 +31,12 @@ namespace PlansModule.Designer
 
         private void ResizeThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            initialElements = new List<ElementBase>();
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                var elementBase = designerItem.ElementBase;
-                elementBase.Left = Canvas.GetLeft(designerItem);
-                elementBase.Top = Canvas.GetTop(designerItem);
-                elementBase.Width = designerItem.Width;
-                elementBase.Height = designerItem.Height;
-                initialElements.Add(elementBase.Clone());
-            }
+            DesignerCanvas.BeginChange();
         }
 
         void ResizeThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(DesignerItem);
-            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+            DesignerCanvas.EndChange();
         }
 
         private void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)

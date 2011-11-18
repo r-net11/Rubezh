@@ -110,7 +110,7 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel HorizontalAlignment="Stretch">
-                                    <TextBox Text="{Binding Description}" BorderThickness="0" HorizontalAlignment="Stretch" Name="descriptionTextBox" />
+                                    <TextBox Text="{Binding Description}" BorderThickness="0" Foreground="Black" HorizontalAlignment="Stretch" Name="descriptionTextBox" />
                                 </StackPanel>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">

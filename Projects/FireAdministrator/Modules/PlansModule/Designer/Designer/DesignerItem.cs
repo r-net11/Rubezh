@@ -17,13 +17,6 @@ namespace PlansModule.Designer
 {
     public class DesignerItem : ContentControl
     {
-        DesignerCanvas DesignerCanvas
-        {
-            get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
-        }
-
-        public ElementBase ElementBase { get; set; }
-
         #region Properties
         public bool IsSelected
         {
@@ -66,6 +59,17 @@ namespace PlansModule.Designer
         }
         #endregion Properties
 
+        public DesignerCanvas DesignerCanvas
+        {
+            get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
+        }
+
+        public PolygonResizeChrome PolygonResizeChrome { get; set; }
+
+        public bool IsPointAdding { get; set; }
+
+        public ElementBase ElementBase { get; set; }
+
         public DesignerItem()
         {
             AddPointCommand = new RelayCommand(OnAddPoint);
@@ -77,6 +81,7 @@ namespace PlansModule.Designer
         public RelayCommand AddPointCommand { get; private set; }
         void OnAddPoint()
         {
+            IsPointAdding = true;
             DesignerCanvas.IsPointAdding = true;
         }
 
@@ -177,8 +182,25 @@ namespace PlansModule.Designer
         public void Redraw()
         {
             var framaworkElement = ElementBase.Draw();
-            framaworkElement.IsHitTestVisible = false;
-            Content = framaworkElement;
+            if (framaworkElement != null)
+            {
+                framaworkElement.IsHitTestVisible = false;
+                Content = framaworkElement;
+            }
+
+            Canvas.SetLeft(this, ElementBase.Left);
+            Canvas.SetTop(this, ElementBase.Top);
+            Width = ElementBase.Width;
+            Height = ElementBase.Height;
+            UpdatePolygonAdorner();
+        }
+
+        public void UpdatePolygonAdorner()
+        {
+            if (PolygonResizeChrome != null)
+            {
+                PolygonResizeChrome.Initialize();
+            }
         }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)

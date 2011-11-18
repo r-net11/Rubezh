@@ -13,50 +13,44 @@ namespace PlansModule.Designer
 {
     public class PolygonResizeChrome : Canvas
     {
-        public static PolygonResizeChrome Current { get; private set; }
-        static List<PolygonResizeChrome> Polygons = new List<PolygonResizeChrome>();
-
-        ContentControl _designerItem;
-        Polygon _polygon;
-        List<Thumb> thumbs = new List<Thumb>();
-        List<ElementBase> initialElements;
-
-        public static void ClearActivePolygons()
-        {
-            Polygons.Clear();
-        }
-        public static void ResetActivePolygons()
-        {
-            foreach (var polygonResizeChrome in Polygons)
-            {
-                polygonResizeChrome.Initialize();
-            }
-        }
-
         static PolygonResizeChrome()
         {
             FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(PolygonResizeChrome), new FrameworkPropertyMetadata(typeof(PolygonResizeChrome)));
         }
 
-        public PolygonResizeChrome(ContentControl designerItem)
+        DesignerItem DesignerItem;
+        
+        DesignerCanvas DesignerCanvas
         {
-            Current = this;
-            Polygons.Add(this);
+            get { return DesignerItem.DesignerCanvas; }
+        }
 
-            _designerItem = designerItem;
-            _polygon = designerItem.Content as Polygon;
+        Polygon Polygon
+        {
+            get { return DesignerItem.Content as Polygon; }
+        }
 
+        List<Thumb> thumbs = new List<Thumb>();
+
+        public PolygonResizeChrome(DesignerItem designerItem)
+        {
+            DesignerItem = designerItem;
+            designerItem.PolygonResizeChrome = this;
             Initialize();
         }
 
         public void Initialize()
         {
             ArrangeSize();
+            AddThumbs();
+        }
 
+        void AddThumbs()
+        {
             this.Children.Clear();
             thumbs.Clear();
 
-            foreach (var point in _polygon.Points)
+            foreach (var point in Polygon.Points)
             {
                 var thumb = new Thumb()
                 {
@@ -67,12 +61,12 @@ namespace PlansModule.Designer
                 };
                 Canvas.SetLeft(thumb, point.X);
                 Canvas.SetTop(thumb, point.Y);
-                this.Children.Add(thumb);
                 thumb.DragStarted += new DragStartedEventHandler(thumb_DragStarted);
                 thumb.DragDelta += new DragDeltaEventHandler(_thumb_DragDelta);
                 thumb.DragCompleted += new DragCompletedEventHandler(thumb_DragCompleted);
                 thumb.PreviewKeyDown += new System.Windows.Input.KeyEventHandler(thumb_PreviewKeyDown);
                 thumbs.Add(thumb);
+                this.Children.Add(thumb);
             }
         }
 
@@ -82,7 +76,7 @@ namespace PlansModule.Designer
             if (e.Key == System.Windows.Input.Key.Delete)
             {
                 thumbs.Remove(thumb);
-                ResetPolygonPoints();
+                SavePolygonPointsFromThumb();
                 PlansModule.HasChanges = true;
                 Initialize();
             }
@@ -90,20 +84,14 @@ namespace PlansModule.Designer
 
         void thumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            DesignerItem designerItem = _designerItem as DesignerItem;
-            ElementBasePolygon elementPolygon = designerItem.ElementBase as ElementBasePolygon;
-
-            initialElements = new List<ElementBase>();
-            elementPolygon.Left = Canvas.GetLeft(designerItem);
-            elementPolygon.Top = Canvas.GetTop(designerItem);
-            elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
-            initialElements.Add(elementPolygon.Clone());
+            SavePolygonPointsFromThumb();
+            ArrangeSize();
+            DesignerCanvas.BeginChange();
         }
 
         void thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Publish(_designerItem);
-            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+            DesignerCanvas.EndChange();
         }
 
         private void _thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -114,16 +102,16 @@ namespace PlansModule.Designer
             Canvas.SetTop(currentThumb, Canvas.GetTop(currentThumb) + e.VerticalChange);
 
             ArrangeSize();
-            ResetPolygonPoints();
+            SavePolygonPointsFromThumb();
             PlansModule.HasChanges = true;
         }
 
-        void ResetPolygonPoints()
+        void SavePolygonPointsFromThumb()
         {
-            _polygon.Points.Clear();
+            Polygon.Points.Clear();
             foreach (var thumb in thumbs)
             {
-                _polygon.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
+                Polygon.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
             }
         }
 
@@ -133,7 +121,7 @@ namespace PlansModule.Designer
             double minTop = double.MaxValue;
             double maxLeft = 0;
             double maxTop = 0;
-            foreach (var point in _polygon.Points)
+            foreach (var point in Polygon.Points)
             {
                 minLeft = Math.Min(point.X, minLeft);
                 minTop = Math.Min(point.Y, minTop);
@@ -141,8 +129,8 @@ namespace PlansModule.Designer
                 maxTop = Math.Max(point.Y, maxTop);
             }
 
-            Canvas.SetLeft(_designerItem, Canvas.GetLeft(_designerItem) + minLeft);
-            Canvas.SetTop(_designerItem, Canvas.GetTop(_designerItem) + minTop);
+            Canvas.SetLeft(DesignerItem, Canvas.GetLeft(DesignerItem) + minLeft);
+            Canvas.SetTop(DesignerItem, Canvas.GetTop(DesignerItem) + minTop);
 
             foreach (var thumb in thumbs)
             {
@@ -151,14 +139,14 @@ namespace PlansModule.Designer
             }
 
             var points = new PointCollection();
-            foreach (var point in _polygon.Points)
+            foreach (var point in Polygon.Points)
             {
                 points.Add(new Point(point.X - minLeft, point.Y - minTop));
             }
-            _polygon.Points = points;
+            Polygon.Points = points;
 
-            _designerItem.Width = maxLeft - minLeft;
-            _designerItem.Height = maxTop - minTop;
+            DesignerItem.Width = maxLeft - minLeft;
+            DesignerItem.Height = maxTop - minTop;
         }
     }
 }

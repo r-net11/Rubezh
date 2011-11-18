@@ -40,7 +40,8 @@ namespace PlansModule.Designer
         {
             get
             {
-                return from item in this.Children.OfType<DesignerItem>() select item;
+                return from item in this.Children.OfType<DesignerItem>()
+                       select item;
             }
         }
 
@@ -51,6 +52,15 @@ namespace PlansModule.Designer
                 return from item in this.Children.OfType<DesignerItem>()
                        where item.IsSelected == true
                        select item;
+            }
+        }
+
+        public List<ElementBase> Elements
+        {
+            get
+            {
+                return (from item in this.Children.OfType<DesignerItem>()
+                        select item.ElementBase).ToList();
             }
         }
 
@@ -293,7 +303,8 @@ namespace PlansModule.Designer
                 Point point = e.GetPosition(selectedItem);
                 polygon.Points.Insert(minIndex, point);
 
-                PolygonResizeChrome.Current.Initialize();
+                var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
+                designerItem.UpdatePolygonAdorner();
 
                 e.Handled = true;
             }
@@ -318,6 +329,33 @@ namespace PlansModule.Designer
             {
                 Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels);
             }
+        }
+
+        List<ElementBase> initialElements;
+
+        public void BeginChange()
+        {
+            initialElements = new List<ElementBase>();
+
+            foreach (var designerItem in SelectedItems)
+            {
+                var elementBase = designerItem.ElementBase;
+                elementBase.Left = Canvas.GetLeft(designerItem);
+                elementBase.Top = Canvas.GetTop(designerItem);
+                elementBase.Width = designerItem.Width;
+                elementBase.Height = designerItem.Height;
+                if (elementBase is ElementBasePolygon)
+                {
+                    ElementBasePolygon elementPolygon = elementBase as ElementBasePolygon;
+                    elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
+                }
+                initialElements.Add(elementBase.Clone());
+            }
+        }
+
+        public void EndChange()
+        {
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
         }
     }
 }

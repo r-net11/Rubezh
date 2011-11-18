@@ -17,7 +17,6 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
             Current = this;
-            Debugger.Break();
             AnalizeCommandLine();
         }
 

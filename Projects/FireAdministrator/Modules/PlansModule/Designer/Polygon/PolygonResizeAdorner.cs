@@ -18,7 +18,7 @@ namespace PlansModule.Designer
             }
         }
 
-        public PolygonResizeAdorner(ContentControl designerItem)
+        public PolygonResizeAdorner(DesignerItem designerItem)
             : base(designerItem)
         {
             this.chrome = new PolygonResizeChrome(designerItem);

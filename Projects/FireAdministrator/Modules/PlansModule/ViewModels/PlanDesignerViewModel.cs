@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
 
         public PlanDesignerViewModel()
         {
-            ServiceFactory.Events.GetEvent<ElementPositionChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
         }
 
         public void Initialize(Plan plan)
@@ -83,7 +83,6 @@ namespace PlansModule.ViewModels
             }
 
             DesignerCanvas.DeselectAll();
-            PolygonResizeChrome.ClearActivePolygons();
             PlanDesignerView.Update();
         }
 
@@ -200,13 +199,11 @@ namespace PlansModule.ViewModels
                             if (zones.Count > 0)
                             {
                                 device.ZoneNo = zones[0];
-                                Trace.WriteLine("Устройство привязано к новой зоне");
                                 ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                             }
                             else
                             {
                                 device.ZoneNo = null;
-                                Trace.WriteLine("Устройство отвязано от зоны");
                                 ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                             }
                         }
@@ -216,7 +213,6 @@ namespace PlansModule.ViewModels
                         if (zones.Count > 0)
                         {
                             device.ZoneNo = zones[0];
-                            Trace.WriteLine("Устройство привязано к зоне");
                             ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                         }
                     }
