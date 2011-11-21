@@ -70,18 +70,28 @@ namespace PlansModule.Views
             (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(e.NewValue);
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, _contentControl);
+            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
+
+            double zoom = slider.Value;
+            if (zoom == 2)
+            {
+
+            }
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            return;
+
             if (e.ExtentHeightChange == 0 && e.ExtentWidthChange == 0)
                 return;
 
             Point? targetBefore = null;
             Point? targetNow = null;
 
-            if (!lastMousePositionOnTarget.HasValue)
+            double zoom = 1;
+
+            if (lastMousePositionOnTarget.HasValue == false)
             {
                 if (lastCenterPositionOnTarget.HasValue)
                 {
@@ -97,13 +107,15 @@ namespace PlansModule.Views
                 targetBefore = lastMousePositionOnTarget;
                 targetNow = Mouse.GetPosition(grid);
 
+                zoom = slider.Value;
+
                 lastMousePositionOnTarget = null;
             }
 
             if (targetBefore.HasValue)
             {
-                double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
-                double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
+                double dXInTargetPixels = zoom * targetNow.Value.X - targetBefore.Value.X;
+                double dYInTargetPixels = zoom * targetNow.Value.Y - targetBefore.Value.Y;
 
                 double multiplicatorX = e.ExtentWidth / grid.ActualWidth;
                 double multiplicatorY = e.ExtentHeight / grid.ActualHeight;

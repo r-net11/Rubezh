@@ -323,6 +323,9 @@ namespace PlansModule.Designer
 
         public void Update()
         {
+            Width = Plan.Width;
+            Height = Plan.Height;
+
             Background = new SolidColorBrush(Plan.BackgroundColor);
 
             if (Plan.BackgroundPixels != null)
@@ -333,24 +336,22 @@ namespace PlansModule.Designer
 
         List<ElementBase> initialElements;
 
-        public void BeginChange()
+        public List<ElementBase> CloneSelectedElements()
         {
             initialElements = new List<ElementBase>();
 
             foreach (var designerItem in SelectedItems)
             {
-                var elementBase = designerItem.ElementBase;
-                elementBase.Left = Canvas.GetLeft(designerItem);
-                elementBase.Top = Canvas.GetTop(designerItem);
-                elementBase.Width = designerItem.Width;
-                elementBase.Height = designerItem.Height;
-                if (elementBase is ElementBasePolygon)
-                {
-                    ElementBasePolygon elementPolygon = elementBase as ElementBasePolygon;
-                    elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
-                }
-                initialElements.Add(elementBase.Clone());
+                designerItem.SavePropertiesToElementBase();
+                initialElements.Add(designerItem.ElementBase.Clone());
             }
+
+            return initialElements;
+        }
+
+        public void BeginChange()
+        {
+            initialElements = CloneSelectedElements();
         }
 
         public void EndChange()

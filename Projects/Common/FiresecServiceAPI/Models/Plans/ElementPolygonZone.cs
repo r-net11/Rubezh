@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementPolygonZone : ElementBasePolygon
+    public class ElementPolygonZone : ElementBasePolygon, IElementZone
     {
         public ElementPolygonZone()
         {
@@ -33,7 +33,7 @@ namespace FiresecAPI.Models
         {
             ElementBase elementBase = new ElementPolygonZone()
             {
-                ZoneNo = ZoneNo
+                ZoneNo = this.ZoneNo
             };
             Copy(elementBase);
             return elementBase;

@@ -227,6 +227,7 @@ namespace PlansModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
             {
                 SelectedPlan.Update();
+                DesignerCanvas.Update();
                 PlansModule.HasChanges = true;
             }
         }

@@ -8,7 +8,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer Grid.Row="0" Name="scrollViewer" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-            <Grid Name="grid" RenderTransformOrigin="0.5,0.5">
+            <Grid Name="grid">
                 <ContentControl Name="_contentControl" Background="White" HorizontalAlignment="Left" Content="{Binding DesignerCanvas}" />
             </Grid>
         </ScrollViewer>

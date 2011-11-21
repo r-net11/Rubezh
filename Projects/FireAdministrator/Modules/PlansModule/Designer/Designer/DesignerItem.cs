@@ -94,32 +94,23 @@ namespace PlansModule.Designer
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
+            bool result = false;
+            DesignerCanvas.BeginChange();
+
             if (ElementBase is ElementRectangle)
             {
                 var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(ElementBase as ElementRectangle);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel))
-                {
-                    Redraw();
-                    PlansModule.HasChanges = true;
-                }
+                result = ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
             }
             if (ElementBase is ElementEllipse)
             {
                 var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(ElementBase as ElementEllipse);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel))
-                {
-                    Redraw();
-                    PlansModule.HasChanges = true;
-                }
+                result = ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
             }
             if (ElementBase is ElementTextBlock)
             {
                 var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(ElementBase as ElementTextBlock);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel))
-                {
-                    Redraw();
-                    PlansModule.HasChanges = true;
-                }
+                result = ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel);
             }
             if (ElementBase is ElementPolygon)
             {
@@ -127,55 +118,43 @@ namespace PlansModule.Designer
                 elementPolygon.PolygonPoints = new PointCollection((Content as Polygon).Points);
 
                 var polygonPropertiesViewModel = new PolygonPropertiesViewModel(ElementBase as ElementPolygon);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel))
-                {
-                    DesignerCanvas designerCanvas = VisualTreeHelper.GetParent(this) as DesignerCanvas;
-                    designerCanvas.Children.Remove(this);
-                    designerCanvas.Create(ElementBase);
-                    //Redraw();
-                    PlansModule.HasChanges = true;
-                }
+                result = ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel);
             }
             if (ElementBase is ElementPolygonZone)
             {
                 ElementPolygonZone elementPolygonZone = ElementBase as ElementPolygonZone;
-                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone.ZoneNo);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
-                {
-                    elementPolygonZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
-                    PlansModule.HasChanges = true;
-                }
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone);
+                result = ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel);
             }
             if (ElementBase is ElementRectangleZone)
             {
                 ElementRectangleZone elementRectangleZone = ElementBase as ElementRectangleZone;
-                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone.ZoneNo);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel))
-                {
-                    elementRectangleZone.ZoneNo = zonePropertiesViewModel.SelectedZone.No;
-                    PlansModule.HasChanges = true;
-                }
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone);
+                result = ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel);
             }
             if (ElementBase is ElementDevice)
             {
                 var devicePropertiesViewModel = new DevicePropertiesViewModel(ElementBase as ElementDevice);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel))
+                result = ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel);
+                if (result)
                 {
                     var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == (ElementBase as ElementDevice).DeviceUID);
                     var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
                     devicePicture.IsHitTestVisible = false;
                     Content = devicePicture;
-
-                    PlansModule.HasChanges = true;
                 }
             }
             if (ElementBase is ElementSubPlan)
             {
                 var subPlanPropertiesViewModel = new SubPlanPropertiesViewModel(ElementBase as ElementSubPlan);
-                if (ServiceFactory.UserDialogs.ShowModalWindow(subPlanPropertiesViewModel))
-                {
-                    PlansModule.HasChanges = true;
-                }
+                result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanPropertiesViewModel);
+            }
+
+            if (result)
+            {
+                Redraw();
+                PlansModule.HasChanges = true;
+                DesignerCanvas.EndChange();
             }
         }
 
@@ -268,6 +247,19 @@ namespace PlansModule.Designer
                 var elementDevice = ElementBase as ElementDevice;
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                 device.PlanUIDs.Add(elementDevice.UID);
+            }
+        }
+
+        public void SavePropertiesToElementBase()
+        {
+            ElementBase.Left = Canvas.GetLeft(this);
+            ElementBase.Top = Canvas.GetTop(this);
+            ElementBase.Width = this.Width;
+            ElementBase.Height = this.Height;
+            if (ElementBase is ElementBasePolygon)
+            {
+                ElementBasePolygon elementPolygon = ElementBase as ElementBasePolygon;
+                elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((this.Content as Polygon).Points);
             }
         }
     }

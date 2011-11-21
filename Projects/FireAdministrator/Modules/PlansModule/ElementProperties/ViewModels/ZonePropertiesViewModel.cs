@@ -8,12 +8,15 @@ namespace PlansModule.ViewModels
 {
     public class ZonePropertiesViewModel : SaveCancelDialogContent
     {
-        public ZonePropertiesViewModel(ulong? zoneNo)
+        IElementZone IElementZone;
+
+        public ZonePropertiesViewModel(IElementZone iElementZone)
         {
+            IElementZone = iElementZone;
             Title = "Свойства фигуры: Зона";
             Zones = new List<Zone>(FiresecManager.DeviceConfiguration.Zones);
-            if (zoneNo.HasValue)
-                SelectedZone = Zones.FirstOrDefault(x => x.No == zoneNo.Value);
+            if (iElementZone.ZoneNo.HasValue)
+                SelectedZone = Zones.FirstOrDefault(x => x.No == iElementZone.ZoneNo.Value);
         }
 
         public List<Zone> Zones { get; private set; }
@@ -27,6 +30,12 @@ namespace PlansModule.ViewModels
                 _selectedZone = value;
                 OnPropertyChanged("SelectedZone");
             }
+        }
+
+        protected override void Save(ref bool cancel)
+        {
+            if (SelectedZone != null)
+                IElementZone.ZoneNo = SelectedZone.No;
         }
     }
 }

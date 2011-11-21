@@ -68,7 +68,7 @@ namespace PlansModule.Views
         void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var mousePos = e.GetPosition(scrollViewer);
-            if (mousePos.X <= scrollViewer.ViewportWidth && mousePos.Y < scrollViewer.ViewportHeight) //make sure we still can use the scrollbars
+            if (mousePos.X <= scrollViewer.ViewportWidth && mousePos.Y < scrollViewer.ViewportHeight)
             {
                 scrollViewer.Cursor = Cursors.SizeAll;
                 lastDragPoint = mousePos;

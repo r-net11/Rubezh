@@ -20,7 +20,11 @@ namespace PlansModule.ViewModels
             {
                 _isNew = true;
                 Title = "Создать план";
-                Plan = new Plan();
+                Plan = new Plan()
+                {
+                    Width = 400,
+                    Height = 400
+                };
             }
 
             CopyProperties();

@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementRectangleZone : ElementBase
+    public class ElementRectangleZone : ElementBase, IElementZone
     {
         public ElementRectangleZone()
         {
