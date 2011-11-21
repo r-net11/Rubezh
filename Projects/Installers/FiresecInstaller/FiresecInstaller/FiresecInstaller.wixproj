@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Установка Firesec</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <Name>FiresecInstaller</Name>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+    <Cultures>
+    </Cultures>
+    <CompilerAdditionalOptions>
+    </CompilerAdditionalOptions>
+    <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CustomActions.wxs" />
+    <Compile Include="FiresecInstaller.wxs" />
+    <Compile Include="RemoveUsersDirectory.wxs" />
+    <Compile Include="UI\UI_Dialogs.wxs" />
+    <Compile Include="UI\UI_Elements.wxs" />
+    <Compile Include="UI\UI_Logic.wxs" />
+    <Compile Include="UI\UI_Properties.wxs" />
+    <Compile Include="UI\UI_TextStyle.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixSqlExtension">
+      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
+      <Name>WixSqlExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\DestinationFolder.ico" />
+    <Content Include="Data\Firesec.ico" />
+    <Content Include="Data\FiresecBanner.bmp" />
+    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Data\InstallChoiceLogo.bmp" />
+    <Content Include="Data\InstallClient.ico" />
+    <Content Include="Data\InstallFolderError.ico" />
+    <Content Include="Data\InstallFull.ico" />
+    <Content Include="Data\License.rtf" />
+    <Content Include="Data\NewFolder.ico" />
+    <Content Include="Data\Up.ico" />
+    <Content Include="Pre-Build commands.txt" />
+    <Content Include="Variables_FiresecService.wxi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data" />
+    <Folder Include="UI" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixLibrary Include="FiresecServiceLibrary">
+      <HintPath>..\..\Libraries\FiresecServiceLibrary\FiresecServiceLibrary\bin\Debug\FiresecServiceLibrary.wixlib</HintPath>
+      <Name>FiresecServiceLibrary</Name>
+    </WixLibrary>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <PropertyGroup>
+    <PreBuildEvent />
+  </PropertyGroup>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

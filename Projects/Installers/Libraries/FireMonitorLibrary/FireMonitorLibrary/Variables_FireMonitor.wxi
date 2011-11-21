@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define ProductName="FireMonitor" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="12A2C20C-C37B-4E14-8CE8-0CA8EC453A22" ?>
+  <?define UpgradeCode="FFE67ADE-7047-4EC6-B7EA-DD5A86D1AA5F" ?>
+  <?define Manufacturer='Группа компаний "Рубеж"' ?>
+  <?define Codepage="1251" ?>
+</Include>

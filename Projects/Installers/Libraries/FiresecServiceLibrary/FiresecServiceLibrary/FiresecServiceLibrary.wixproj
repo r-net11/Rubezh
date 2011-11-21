@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{63cd35c1-8fd0-4d04-9d03-89f4e2afba70}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>FiresecServiceLibrary</OutputName>
+    <OutputType>Library</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Debug</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AutoGenOutputFiles\OutputFilesComDlls.wxs" />
+    <Compile Include="AutoGenOutputFiles\OutputFilesIcons.wxs" />
+    <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
+    <Compile Include="AutoGenOutputFiles\OutputFilesSounds.wxs" />
+    <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
+    <Compile Include="Features_FiresecService.wxs" />
+    <Compile Include="Files_FiresecService.wxs" />
+    <Compile Include="Output.wxs" />
+    <Compile Include="Shortcuts_FiresecService.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
+      <Name>Common</Name>
+      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Name>FiresecAPI</Name>
+      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
+      <Name>FiresecService</Name>
+      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\FiresecService\Firesec\Firesec.csproj">
+      <Name>Firesec</Name>
+      <Project>{d8d5bb16-daa5-4755-a924-34ac8dce19e8}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AutoGenOutputFiles" />
+    <Folder Include="Data" />
+    <Folder Include="Xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\DestinationFolder.ico" />
+    <Content Include="Data\Firesec.ico" />
+    <Content Include="Data\FiresecBanner.bmp" />
+    <Content Include="Data\FiresecDataBaseStructureSql.sql" />
+    <Content Include="Data\InstallChoiceLogo.bmp" />
+    <Content Include="Data\InstallClient.ico" />
+    <Content Include="Data\InstallFolderError.ico" />
+    <Content Include="Data\InstallFull.ico" />
+    <Content Include="Data\License.rtf" />
+    <Content Include="Data\NewFolder.ico" />
+    <Content Include="Data\Thumbs.db" />
+    <Content Include="Data\Up.ico" />
+    <Content Include="Pre-Build commands.txt" />
+    <Content Include="Variables_FiresecService.wxi" />
+    <Content Include="Xslt\WixIcons.xslt" />
+    <Content Include="Xslt\WixReportTemplates.xslt" />
+    <Content Include="Xslt\WixSounds.xslt" />
+    <Content Include="Xslt\WixXmlConfig.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixSqlExtension">
+      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
+      <Name>WixSqlExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <Import Project="$(WixTargetsPath)" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

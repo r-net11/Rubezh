@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Variables_FiresecService.wxi?>
+	<Fragment>
+		<Feature Id="Full" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="MainExe" />
+			<!--<ComponentRef Id="FiresecServiceExe"/>-->
+			<ComponentRef Id="FiresecServiceConfig" />
+			<ComponentRef Id="CommonComponent" />
+			<ComponentRef Id="FiresecComponent" />
+			<ComponentRef Id="FiresecAPIComponent" />
+			<ComponentRef Id="PlansConfiguration"/>
+			<ComponentRef Id="SecurityConfiguration"/>
+			<ComponentRef Id="DeviceLibrary"/>
+			<ComponentRef Id="DeviceConfiguration"/>
+			<ComponentRef Id="ProgramMenuDir" />
+			<ComponentRef Id="ProgramsMenuShortcut" />
+			<ComponentRef Id="ProgramsMenuShortcutUninstall" />
+			<ComponentRef Id="DesktopFolder" />
+			<ComponentRef Id="DesktopShortcut" />
+			<ComponentRef Id="StartService"/>
+			<!--<ComponentRef Id="Autorun"/>-->
+			<!--<ComponentRef Id="FiresecWindowsService"/>-->
+		</Feature>
+
+		<Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
+						 AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			<Condition Level="0">CHECKSQLSERVER = "1"</Condition>
+			<ComponentRef Id="SqlComponent"/>
+		</Feature>
+
+		<Feature Id="Configuration" Title="Configuration Files" Level="1">
+			<ComponentGroupRef Id="ConfigurationGroup"/>
+		</Feature>
+	</Fragment>
+</Wix>

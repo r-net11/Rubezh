@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<?include Variables_FiresecService.wxi?>
+	<Fragment>
+
+		<DirectoryRef Id="INSTALLLOCATION">
+			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
+				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
+							Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
+				</File>
+				<!--<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
+												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="yes" Arguments="/service">
+					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100"/>
+				</ServiceInstall>-->
+			</Component>
+
+			<Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
+				<File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="CommonComponent" Guid="5B64430A-2E29-4C73-9C40-4823A9DB5709">
+				<File Id="CommonDll" Name="$(var.Common.TargetFileName)" Source="$(var.Common.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
+				<File Id="FiresecDll" Name="$(var.Firesec.TargetFileName)" Source="$(var.Firesec.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+				<File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.Firesec.TargetDir)"
+							DiskId="1"/>
+				<File Id="InteropMscoree" Name="Interop.mscoree.dll" Source="$(var.Firesec.TargetDir)"
+							DiskId="1"/>
+			</Component>
+
+			<Component Id="FiresecAPIComponent" Guid="248BD6FE-8F57-42DF-BAE3-9EFCD5A1CC5A">
+				<File Id="FiresecAPIDll" Name="$(var.FiresecAPI.TargetFileName)" Source="$(var.FiresecAPI.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<!--<Component Id="Autorun" Guid="520FC85A-90A0-4FDB-806B-A5E22657DF7F">
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[INSTALLLOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
+				</RegistryKey>
+			</Component>-->
+			
+			<!--Установка и запуск службы-->
+			<!--<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
+				<File Id="FiresecWindowsServiceExe" Name="$(var.FiresecWindowsService.TargetFileName)"
+							Source="$(var.FiresecWindowsService.TargetDir)" KeyPath="yes" DiskId="1"/>
+				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
+												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="no" Arguments="$(var.FiresecService.TargetFileName)">
+					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100"/>
+				</ServiceInstall>
+			</Component>-->
+			
+			<Component Id="StartService" Guid="FEDE1A08-EEA7-4D39-8011-C871FA84514A">
+				<CreateFolder Directory="INSTALLLOCATION" />
+				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
+			</Component>
+
+			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+				<Condition> CHECKSQLSERVER = "1" </Condition>
+				<CreateFolder Directory="INSTALLLOCATION" />
+				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
+												 Server="(local)\SQLExpress" DropOnUninstall="yes" ContinueOnError="no">
+					<!--<sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
+					<sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />-->
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
+				</sql:SqlDatabase>
+			</Component>
+
+		</DirectoryRef>
+
+		<DirectoryRef Id="ConfigurationFolder">
+			<Component Id="PlansConfiguration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
+				<File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1">
+				</File>
+			</Component>
+			<Component Id="SecurityConfiguration" Guid="024037C2-F2FD-4A06-A14B-A23B5179E6DE">
+				<File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1">
+				</File>
+			</Component>
+			<Component Id="DeviceLibrary" Guid="DF7CB00D-27E6-49CA-9CCE-B7B822C14B4A">
+				<File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1">
+				</File>
+			</Component>
+			<Component Id="DeviceConfiguration" Guid="188AAA95-581A-4352-B11E-38C0CDE13C16">
+				<File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1">
+				</File>
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

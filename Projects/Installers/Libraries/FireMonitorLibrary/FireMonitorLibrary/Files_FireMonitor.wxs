@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="INSTALLLOCATION">
+
+			<Component Id="MainExe" Guid="9F7A8A3F-CAEB-4C63-AEC1-B51B4A8544F2">
+				<File Id="FireMonitorExe" Name="$(var.FireMonitor.TargetFileName)"
+							Source="$(var.FireMonitor.TargetPath)" DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+
+			<Component Id="FireMonitorConfig" Guid="87DE3A14-3B9B-4B3A-A7D6-7F3FAB5394F6">
+				<File Id="FireMonitorConfig" Name="FireMonitor.exe.config" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="PrismComponent" Guid="96941CB8-29AD-48EB-84C7-91961BD8A0DE">
+				<File Id="PrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+				<File Id="PrismXml" Name="Microsoft.Practices.Prism.xml" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" />
+			</Component>
+
+			<Component Id="PrismUnityExtensionsComponent" Guid="4F741C40-A087-4D15-8A08-2A6053FF3ADE">
+				<File Id="PrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+				<File Id="PrismUnityExtensionsXml" Name="Microsoft.Practices.Prism.UnityExtensions.xml" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" />
+			</Component>
+
+			<Component Id="UnityComponent" Guid="896A388E-834C-4210-BBD2-AE93CFC65A22">
+				<File Id="UnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+				<File Id="UnityXml" Name="Microsoft.Practices.Unity.xml" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" />
+			</Component>
+
+			<Component Id="ServiceLocationComponent" Guid="05BC10F0-F448-4DF9-9E17-74167F9B6602">
+				<File Id="ServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+				<File Id="ServiceLocationXml" Name="Microsoft.Practices.ServiceLocation.xml" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" />
+			</Component>
+			
+			<Component Id="WPFToolkitExtendedComponent" Guid="C6CABA51-6169-46BD-93A9-7905325C328E">
+				<File Id="WPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="CustomWindowComponent" Guid="AEC425A8-9F07-472A-A1F4-7B67A0C05851">
+				<File Id="CustomWindowDll" Name="CustomWindow.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="CommonComponent" Guid="1898D56A-2113-4A02-9469-3BE83C3A147F">
+				<File Id="CommonDll" Name="$(var.Common.TargetFileName)" Source="$(var.Common.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="ControlsComponent" Guid="108CA6EF-0489-4DA9-A700-4DD2BDF59FA9">
+				<File Id="ControlsDll" Name="$(var.Controls.TargetFileName)" Source="$(var.Controls.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="DeviceControlsComponent" Guid="45A92F15-F5B3-48F9-91D1-180FDB3493F6">
+				<File Id="DeviceControlsDll" Name="$(var.DeviceControls.TargetFileName)" Source="$(var.DeviceControls.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="DialogBoxComponent" Guid="43F89A18-8D9E-4030-93E0-0238086991C6">
+				<File Id="DialogBoxDll" Name="$(var.DialogBox.TargetFileName)" Source="$(var.DialogBox.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FiresecAPIComponent" Guid="DF810502-686B-4BCF-9A54-61BCA7E502B6">
+				<File Id="FiresecAPIDll" Name="$(var.FiresecAPI.TargetFileName)" Source="$(var.FiresecAPI.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FiresecClientComponent" Guid="4A46CDB4-7268-405F-BAEB-1E38D278A1EB">
+				<File Id="FiresecClientDll" Name="$(var.FiresecClient.TargetFileName)" Source="$(var.FiresecClient.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="Infrastructure.CommonComponent" Guid="39E6D73E-8564-42CF-907D-E0C614DBBF2E">
+				<File Id="Infrastructure.CommonDll" Name="$(var.Infrastructure.Common.TargetFileName)"
+							Source="$(var.Infrastructure.Common.TargetPath)" DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="InfrastructureComponent" Guid="079519E5-376E-4E61-98D5-B91B50CE1328">
+				<File Id="InfrastructureDll" Name="$(var.Infrastructure.TargetFileName)"
+							Source="$(var.Infrastructure.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="PlansModuleComponent" Guid="37BDCE71-82B0-43DD-998A-82AAE306FCC4">
+				<File Id="PlansModuleDll" Name="$(var.PlansModule.TargetFileName)"
+							Source="$(var.PlansModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="DevicesModuleComponent" Guid="8F200952-94F4-4544-9C2E-3C11394B07D1">
+				<File Id="DevicesModuleDll" Name="$(var.DevicesModule.TargetFileName)"
+							Source="$(var.DevicesModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="ReportsModuleComponent" Guid="DA154025-1535-4AFC-9B0B-D2B2F232D367">
+				<File Id="ReportsModuleDll" Name="$(var.ReportsModule.TargetFileName)" Source="$(var.ReportsModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="JournalModuleComponent" Guid="B52D0B74-8059-44A4-8200-88C5C89FA9A4">
+				<File Id="JournalModuleDll" Name="$(var.JournalModule.TargetFileName)" Source="$(var.JournalModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="CallModuleComponent" Guid="F84521AE-BCBF-4663-A199-7F36EFC91468">
+				<File Id="CallModuleDll" Name="$(var.CallModule.TargetFileName)" Source="$(var.CallModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="AlarmModuleComponent" Guid="0FA4B2B4-2C8A-416B-9CF4-AC6F9A5D62D0">
+				<File Id="AlarmModuleDll" Name="$(var.AlarmModule.TargetFileName)" Source="$(var.AlarmModule.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+		</DirectoryRef>
+	</Fragment>
+</Wix>
