@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <DirectoryRef Id="Sounds">
+        <DirectoryRef Id="FiresecServiceSoundsFolder">
             <Component Id="cmp4DC9792E91235EC4720C90FB4944051E" Guid="{0D588AB1-06F1-487D-8D59-FE2C44C41079}">
                 <File Id="fil33C7E7CA3A80169C1D231639A24A2CB7" Source="..\..\Configuration\Sounds\Sound1.wav" />
             </Component>
@@ -32,7 +32,7 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <ComponentGroup Id="Sounds">
+        <ComponentGroup Id="FiresecServiceSoundsFolder">
             <ComponentRef Id="cmp4DC9792E91235EC4720C90FB4944051E" />
             <ComponentRef Id="cmpB6085DDDF0E536F8018129ECDE15DA58" />
             <ComponentRef Id="cmp818DB03BD7576D80FD78F1E47EF71603" />

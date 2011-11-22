@@ -4,8 +4,10 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-
-		<DirectoryRef Id="INSTALLLOCATION">
+		<Property Id="FiresecServiceInstallDirId" Value="$(var.FiresecServiceLocationId)" />
+		<Property Id="FiresecServiceName" Value="$(var.FiresecServiceName)" />
+		
+		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
 							Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
@@ -60,25 +62,25 @@
 				</ServiceInstall>
 			</Component>-->
 			
-			<Component Id="StartService" Guid="FEDE1A08-EEA7-4D39-8011-C871FA84514A">
-				<CreateFolder Directory="INSTALLLOCATION" />
+			<!--<Component Id="StartService" Guid="FEDE1A08-EEA7-4D39-8011-C871FA84514A">
+				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
-			</Component>
+			</Component>-->
 
-			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<Condition> CHECKSQLSERVER = "1" </Condition>
-				<CreateFolder Directory="INSTALLLOCATION" />
+				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
 												 Server="(local)\SQLExpress" DropOnUninstall="yes" ContinueOnError="no">
-					<!--<sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
-					<sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />-->
+					--><!--<sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
+					<sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />--><!--
 					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
 				</sql:SqlDatabase>
-			</Component>
+			</Component>-->
 
 		</DirectoryRef>
 
-		<DirectoryRef Id="ConfigurationFolder">
+		<DirectoryRef Id="FiresecServiceConfigFolder">
 			<Component Id="PlansConfiguration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
 				<File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1">

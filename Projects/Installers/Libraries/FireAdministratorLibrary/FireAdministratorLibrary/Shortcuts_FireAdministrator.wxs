@@ -5,9 +5,9 @@
 	
 	<Fragment>
 		<DirectoryRef Id="DesktopFolder">
-			<Component Id="DesktopShortcut" Guid="908694FD-A06F-45A6-BF06-6E8E57E4A996">
-				<Shortcut Id="desktopShortcut" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FireAdministrator.TargetFileName)"
-									WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FireAdministratorIcon"/>
+			<Component Id="FADesktopShortcut" Guid="908694FD-A06F-45A6-BF06-6E8E57E4A996">
+				<Shortcut Id="FADesktopShortcut" Name="$(var.FireAdministratorName)" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"
+									WorkingDirectory="FIREADMINISTRATORLOCATION" Description="Запускает $(var.FireAdministratorName)" Icon="FireAdministratorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="Shortcut" Type="integer"
 											 Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_DESKTOP</Condition>
@@ -16,17 +16,17 @@
 
 		<DirectoryRef Id="ProgramMenuDir">
 			<!--Ярлык для запуска программы-->
-			<Component Id="ProgramsMenuShortcut" Guid="D7467870-D796-498F-B790-392A73E145A8">
-				<Shortcut Id="RunProduct" Name="$(var.ProductName)" Target="[INSTALLLOCATION]$(var.FireAdministrator.TargetFileName)"
-									WorkingDirectory="INSTALLLOCATION" Description="Запускает $(var.ProductName)" Icon="FireAdministratorIcon"/>
+			<Component Id="FAProgramsMenuShortcut" Guid="D7467870-D796-498F-B790-392A73E145A8">
+				<Shortcut Id="FARunProduct" Name="$(var.FireAdministratorName)" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"
+									WorkingDirectory="FIREADMINISTRATORLOCATION" Description="Запускает $(var.FireAdministratorName)" Icon="FireAdministratorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_PROGRAMMENU</Condition>
 			</Component>
 			<!--Ярлык для удаления программы-->
-			<Component Id="ProgramsMenuShortcutUninstall" Guid="C96053BF-7EF2-4359-B937-424FD1B0DEC8">
-				<Shortcut Id="UninstallProduct" Name="Удалить $(var.ProductName)" Target="[System64Folder]msiexec.exe"
-									Arguments="/x [ProductCode]" Description="Удаляет $(var.ProductName) с данного компьютера" />
+			<Component Id="FAProgramsMenuShortcutUninstall" Guid="C96053BF-7EF2-4359-B937-424FD1B0DEC8">
+				<Shortcut Id="FAUninstallProduct" Name="Удалить $(var.FireAdministratorName)" Target="[System64Folder]msiexec.exe"
+									Arguments="/x [ProductCode]" Description="Удаляет $(var.FireAdministratorName) с данного компьютера" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />
 			</Component>

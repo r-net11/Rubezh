@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <DirectoryRef Id="ReportTemplates">
+        <DirectoryRef Id="FiresecServiceReportTemplatesFolder">
             <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="{FF93082A-FD2B-491F-971B-CE4478730F96}">
                 <File Id="fil7C96A2D9019129A688A92EB7E0C1941B" Source="..\..\Configuration\ReportTemplates\DeviceListCrystalReport.rpt" />
             </Component>
@@ -20,7 +20,7 @@
         </DirectoryRef>
     </Fragment>
     <Fragment>
-        <ComponentGroup Id="ReportTemplates">
+        <ComponentGroup Id="FiresecServiceReportTemplatesFolder">
             <ComponentRef Id="cmp028F14C862340E9295401F5DA8F0FA8C" />
             <ComponentRef Id="cmp184646B4208A7EF081D2E715F0D1EC7D" />
             <ComponentRef Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" />

@@ -52,8 +52,8 @@
 			</Dialog>
 
 			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="[ProductName] - InstallShield Wizard" NoMinimize="yes">
-				<Control Id="cboServers" Type="ComboBox" X="18" Y="106" Width="278" Height="80" Property="SQLInstanceList" TabSkip="no" Sorted="yes" />
-				<Control Id="BtnSQLBrowse" Type="PushButton" X="301" Y="106" Width="66" Height="17" Text="B&amp;rowse..." TabSkip="no" />
+				<Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
+				<!--<Control Id="BtnSQLBrowse" Type="PushButton" X="301" Y="106" Width="66" Height="17" Text="B&amp;rowse..." TabSkip="no" />-->
 				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Connect using:" TabSkip="no" NoPrefix="yes" />
 				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
 				<Control Id="lblLoginID" Type="Text" X="43" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">

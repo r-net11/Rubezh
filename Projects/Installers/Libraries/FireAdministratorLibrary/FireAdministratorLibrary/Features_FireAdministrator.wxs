@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  
-  <?include Variables_FireAdministrator.wxi?>
-  
+	
+	<?include Variables_FireAdministrator.wxi?>
+	
 	<Fragment>
-    <Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-      <ComponentRef Id="MainExe" />
-      <ComponentRef Id="FireAdministratorConfig" />
-      <ComponentRef Id="CommonComponent" />
-      <ComponentRef Id="ControlsComponent" />
-      <ComponentRef Id="DeviceControlsComponent" />
-      <ComponentRef Id="DialogBoxComponent" />
-      <ComponentRef Id="FiresecAPIComponent" />
-      <ComponentRef Id="FiresecClientComponent" />
-      <ComponentRef Id="DevicesModuleComponent" />
-      <ComponentRef Id="Infrastructure.CommonComponent" />
-      <ComponentRef Id="InfrastructureComponent" />
-      <ComponentRef Id="UnityComponent" />
-      <ComponentRef Id="PrismDllComponent"/>
-      <ComponentRef Id="PrismUnityExtensionsComponent"/>
-      <ComponentRef Id="WPFToolkitExtendedComponent"/>
-      <!--<ComponentRef Id="CustomWindowComponent"/>-->
-      <ComponentRef Id="ServiceLocationComponent"/>
-      <ComponentRef Id="InstructionsModuleComponent" />
-      <ComponentRef Id="LibraryModuleComponent" />
-      <ComponentRef Id="PlansModuleComponent" />
-      <ComponentRef Id="SecurityModuleComponent" />
-      <ComponentRef Id="SettingsModuleComponent" />
-      <ComponentRef Id="SoundsModuleComponent" />
-      <ComponentRef Id="FiltersModuleComponent" />
-      <ComponentRef Id="ProgramMenuDir" />
-      <ComponentRef Id="ProgramsMenuShortcut" />
-      <ComponentRef Id="ProgramsMenuShortcutUninstall" />
-      <ComponentRef Id="DesktopFolder" />
-      <ComponentRef Id="DesktopShortcut" />
-    </Feature>
+		<Feature Id="FireAdministratorFeature" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="FireAdministratorExe" />
+			<ComponentRef Id="FireAdministratorConfig" />
+			<ComponentRef Id="FACommonComponent" />
+			<ComponentRef Id="FAControlsComponent" />
+			<ComponentRef Id="FADeviceControlsComponent" />
+			<ComponentRef Id="FADialogBoxComponent" />
+			<ComponentRef Id="FAFiresecAPIComponent" />
+			<ComponentRef Id="FAFiresecClientComponent" />
+			<ComponentRef Id="FADevicesModuleComponent" />
+			<ComponentRef Id="FAInfrastructure.CommonComponent" />
+			<ComponentRef Id="FAInfrastructureComponent" />
+			<ComponentRef Id="FAUnityComponent" />
+			<ComponentRef Id="FAPrismDllComponent"/>
+			<ComponentRef Id="FAPrismUnityExtensionsComponent"/>
+			<ComponentRef Id="FAWPFToolkitExtendedComponent"/>
+			<ComponentRef Id="FAServiceLocationComponent"/>
+			<ComponentRef Id="FAInstructionsModuleComponent" />
+			<ComponentRef Id="FALibraryModuleComponent" />
+			<ComponentRef Id="FAPlansModuleComponent" />
+			<ComponentRef Id="FASecurityModuleComponent" />
+			<ComponentRef Id="FASettingsModuleComponent" />
+			<ComponentRef Id="FASoundsModuleComponent" />
+			<ComponentRef Id="FAFiltersModuleComponent" />
+			<!--<ComponentRef Id="ProgramMenuDir" />-->
+			<ComponentRef Id="FAProgramsMenuShortcut" />
+			<ComponentRef Id="FAProgramsMenuShortcutUninstall" />
+			<!--<ComponentRef Id="DesktopFolder" />-->
+			<ComponentRef Id="FADesktopShortcut" />
+		</Feature>
 	</Fragment>
 </Wix>

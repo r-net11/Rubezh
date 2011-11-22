@@ -2,13 +2,13 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      >
-  <?include Variables_FiresecService.wxi?>
+  <?include Variables_Firesec.wxi?>
   
   <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
     <Package InstallerVersion="200" Compressed="yes" />
 
-    <Media Id="1" Cabinet="FiresecService.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
     <Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
     <Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />
@@ -27,12 +27,26 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="CompanyNameFolder" Name="Rubezh">
-          <Directory Id="INSTALLLOCATION" Name="$(var.ProductName)">
-            <Directory Id="ConfigurationFolder" Name="Configuration">
-              <Directory Id="Icons" Name="Icons" />
-              <Directory Id="Sounds" Name="Sounds" />
-              <Directory Id="ReportTemplates" Name="ReportTemplates" />
+        <Directory Id="INSTALLLOCATION" Name="Rubezh">
+          <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
+            <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
+              <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
+              <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
+              <Directory Id="FiresecServiceReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
+            </Directory>
+          </Directory>
+          <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">
+            <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
+              <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
+              <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
+              <Directory Id="FireAdmReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
+            </Directory>
+          </Directory>
+          <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
+            <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">
+              <Directory Id="FireMonIconsFolder" Name="$(var.IconsFolder)" />
+              <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />
+              <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
           </Directory>
         </Directory>
@@ -45,13 +59,14 @@
       <Directory Id="DesktopFolder" />
     </Directory>
 
-    <FeatureRef Id="Full" />
+    <FeatureRef Id="FiresecFeature" />
 
     <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
     <Property Id="SHORTCUT_DESKTOP">1</Property>
     <Property Id="CHECKSQLSERVER" Value="0"></Property>
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
+    <!--<Property Id="SQLINSTANCE" Value="SQLEXPRESS" />-->
     
     <InstallExecuteSequence>
       <Custom Action="StartAppOnExit" After="InstallFinalize"/>

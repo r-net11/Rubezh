@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define ProductName="FiresecService" ?>
-  <?define ProductVersion="1.0.0.0" ?>
-  <?define ProductCode="D68DA535-FF19-4003-AD31-EB3389BC6941" ?>
-  <?define UpgradeCode="E0FEB494-D0FB-4F3F-8D98-5107DF4C0DFD" ?>
-  <?define Manufacturer='Группа компаний "Рубеж"' ?>
-  <?define Codepage="1251" ?>
-</Include>

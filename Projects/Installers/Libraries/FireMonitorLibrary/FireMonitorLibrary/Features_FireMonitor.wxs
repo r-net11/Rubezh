@@ -4,35 +4,36 @@
 	<?include Variables_FireMonitor.wxi?>
 	
 	<Fragment>
-		<Feature Id="Complete" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="MainExe" />
+		<Feature Id="FireMonitorFeature" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="FireMonitorExe" />
 			<ComponentRef Id="FireMonitorConfig" />
-			<ComponentRef Id="CommonComponent" />
-			<ComponentRef Id="ControlsComponent" />
-			<ComponentRef Id="DeviceControlsComponent" />
-			<ComponentRef Id="DialogBoxComponent" />
-			<ComponentRef Id="FiresecAPIComponent" />
-			<ComponentRef Id="FiresecClientComponent" />
-			<ComponentRef Id="UnityComponent" />
-			<ComponentRef Id="PrismComponent"/>
-			<ComponentRef Id="PrismUnityExtensionsComponent"/>
-			<ComponentRef Id="WPFToolkitExtendedComponent"/>
-			<ComponentRef Id="CustomWindowComponent"/>
-			<ComponentRef Id="ServiceLocationComponent"/>
-			<ComponentRef Id="Infrastructure.CommonComponent" />
-			<ComponentRef Id="InfrastructureComponent" />
-			<ComponentRef Id="DevicesModuleComponent" />
-			<ComponentRef Id="PlansModuleComponent" />
-			<ComponentRef Id="JournalModuleComponent" />
-			<ComponentRef Id="ReportsModuleComponent" />
-			<ComponentRef Id="CallModuleComponent"/>
-			<ComponentRef Id="AlarmModuleComponent"/>
-			<ComponentRef Id="ProgramMenuDir" />
-			<ComponentRef Id="ProgramsMenuShortcut" />
-			<ComponentRef Id="ProgramsMenuShortcutUninstall" />
-			<ComponentRef Id="DesktopFolder" />
-			<ComponentRef Id="DesktopShortcut" />
+			<ComponentRef Id="FMCommonComponent" />
+			<ComponentRef Id="FMControlsComponent" />
+			<ComponentRef Id="FMDeviceControlsComponent" />
+			<ComponentRef Id="FMDialogBoxComponent" />
+			<ComponentRef Id="FMFiresecAPIComponent" />
+			<ComponentRef Id="FMFiresecClientComponent" />
+			<ComponentRef Id="FMUnityComponent" />
+			<ComponentRef Id="FMPrismComponent"/>
+			<ComponentRef Id="FMPrismUnityExtensionsComponent"/>
+			<ComponentRef Id="FMWPFToolkitExtendedComponent"/>
+			<ComponentRef Id="FMCustomWindowComponent"/>
+			<ComponentRef Id="FMServiceLocationComponent"/>
+			<ComponentRef Id="FMInfrastructure.CommonComponent" />
+			<ComponentRef Id="FMInfrastructureComponent" />
+			<ComponentRef Id="FMDevicesModuleComponent" />
+			<ComponentRef Id="FMPlansModuleComponent" />
+			<ComponentRef Id="FMJournalModuleComponent" />
+			<ComponentRef Id="FMReportsModuleComponent" />
+			<ComponentRef Id="FMCallModuleComponent"/>
+			<ComponentRef Id="FMAlarmModuleComponent"/>
+			<ComponentRef Id="FMlog4netComponent"/>
+			<!--<ComponentRef Id="FMProgramMenuDir" />-->
+			<ComponentRef Id="FMProgramsMenuShortcut" />
+			<ComponentRef Id="FMProgramsMenuShortcutUninstall" />
+			<!--<ComponentRef Id="DesktopFolder" />-->
+			<ComponentRef Id="FMDesktopShortcut" />
 		</Feature>
 	</Fragment>
 </Wix>

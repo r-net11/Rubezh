@@ -28,6 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CustomActions.wxs" />
+    <Compile Include="Features_Firesec.wxs" />
+    <Compile Include="Files_Firesec.wxs" />
     <Compile Include="FiresecInstaller.wxs" />
     <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
@@ -51,6 +53,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
@@ -63,13 +66,20 @@
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />
     <Content Include="Pre-Build commands.txt" />
-    <Content Include="Variables_FiresecService.wxi" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
+    <WixLibrary Include="FireMonitorLibrary">
+      <HintPath>..\..\Libraries\FireMonitorLibrary\FireMonitorLibrary\bin\Debug\FireMonitorLibrary.wixlib</HintPath>
+      <Name>FireMonitorLibrary</Name>
+    </WixLibrary>
+    <WixLibrary Include="FireAdministratorLibrary">
+      <HintPath>..\..\Libraries\FireAdministratorLibrary\FireAdministratorLibrary\bin\Debug\FireAdministratorLibrary.wixlib</HintPath>
+      <Name>FireAdministratorLibrary</Name>
+    </WixLibrary>
     <WixLibrary Include="FiresecServiceLibrary">
       <HintPath>..\..\Libraries\FiresecServiceLibrary\FiresecServiceLibrary\bin\Debug\FiresecServiceLibrary.wixlib</HintPath>
       <Name>FiresecServiceLibrary</Name>
