@@ -21,7 +21,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Состояние" Binding="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Width="*" />
+            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

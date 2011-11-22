@@ -75,7 +75,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Состояние" FontWeight="Bold" Foreground="White" />
-                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" />
+                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" Margin="2, 0, 0, 0" />
                     </StackPanel>
                     <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
                         <ItemsControl.ItemTemplate>

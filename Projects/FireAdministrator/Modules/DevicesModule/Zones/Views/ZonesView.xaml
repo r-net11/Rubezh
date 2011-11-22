@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:DevicesModule.Views">
 
-    <Grid>
+    <Grid Margin="2">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" MinWidth="200" Name="leftColumn" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" MinWidth="200" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Margin="2, 2, 10, 2">
+        <Grid Grid.Column="0">
             <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
@@ -27,7 +28,7 @@
             </DataGrid>
         </Grid>
 
-        <Views:ZoneDevicesView Grid.Column="1" DataContext="{Binding ZoneDevices}" />
-
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+        <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" SizeChanged="OnSizeChanged" />
     </Grid>
 </UserControl>

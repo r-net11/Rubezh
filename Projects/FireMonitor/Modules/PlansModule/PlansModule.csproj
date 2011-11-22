@@ -105,9 +105,6 @@
     <Compile Include="Views\FakePresentation\PhoneView.xaml.cs">
       <DependentUpon>PhoneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlanDetailsView.xaml.cs">
-      <DependentUpon>PlanDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
@@ -187,10 +184,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FakePresentation\PhoneView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlanDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -92,6 +92,16 @@ namespace PlansModule.Views
             e.Handled = true;
         }
 
+        private void OnZoomIn(object sender, RoutedEventArgs e)
+        {
+            slider.Value += 1;
+        }
+
+        private void OnZoomOut(object sender, RoutedEventArgs e)
+        {
+            slider.Value -= 1;
+        }
+
         void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             scrollViewer.Cursor = Cursors.Arrow;

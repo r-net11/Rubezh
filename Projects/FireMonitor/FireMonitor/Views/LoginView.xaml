@@ -8,9 +8,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

@@ -4,19 +4,14 @@
              xmlns:Views="clr-namespace:PlansModule.Views">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*" MinWidth="100" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Name="rightColumn" Width="200" MinWidth="100" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Border Grid.Column="0" CornerRadius="5" BorderThickness="0" Margin="0" Padding="5" Background="{DynamicResource BackgroundBrush}" SizeChanged="Border_SizeChanged">
             <Views:CanvasView Grid.Row="0" />
-            <Views:PlanDetailsView Grid.Row="1" DataContext="{Binding SelectedPlan}" />
-        </Grid>
-        <StackPanel Grid.Column="1">
-            <Views:PlanTreeView />
-        </StackPanel>
+        </Border>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+        <Views:PlanTreeView Grid.Column="2" />
     </Grid>
 </UserControl>
