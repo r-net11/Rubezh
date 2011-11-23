@@ -23,6 +23,7 @@ namespace PlansModule.ViewModels
 
         public PlanDesignerViewModel()
         {
+            InitializeZIndexCommands();
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
         }
 

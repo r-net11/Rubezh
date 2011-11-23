@@ -12,6 +12,13 @@ namespace PlansModule.ViewModels
 {
     public partial class PlansViewModel : RegionViewModel
     {
+        void InitializeCopyPaste()
+        {
+            CopyCommand = new RelayCommand(OnCopy);
+            CutCommand = new RelayCommand(OnCut);
+            PasteCommand = new RelayCommand(OnPaste);
+        }
+
         List<ElementBase> Buffer;
 
         public RelayCommand CopyCommand { get; private set; }

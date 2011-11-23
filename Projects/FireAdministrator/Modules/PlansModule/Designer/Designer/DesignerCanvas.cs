@@ -136,8 +136,7 @@ namespace PlansModule.Designer
         protected override void OnDrop(DragEventArgs e)
         {
             base.OnDrop(e);
-            DesignerItemData designerItemData = e.Data.GetData("DESIGNER_ITEM") as DesignerItemData;
-            var elementBase = designerItemData.ElementBase as ElementBase;
+            var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
             Point position = e.GetPosition(this);
             elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
@@ -147,7 +146,7 @@ namespace PlansModule.Designer
 
             this.DeselectAll();
             designerItem.IsSelected = true;
-            PlanDesignerViewModel.MoveToFront();
+            PlanDesignerViewModel.MoveToFrontCommand.Execute();
 
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
 

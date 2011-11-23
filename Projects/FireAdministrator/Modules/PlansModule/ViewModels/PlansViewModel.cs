@@ -14,21 +14,15 @@ namespace PlansModule.ViewModels
     {
         public PlansViewModel()
         {
-            ShowDevicesCommand = new RelayCommand(OnShowDevices);
             AddCommand = new RelayCommand(OnAdd);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+            ShowElementsCommand = new RelayCommand(OnShowElements);
+            ShowDevicesCommand = new RelayCommand(OnShowDevices);
 
-            MoveToFrontCommand = new RelayCommand(OnMoveToFront);
-            SendToBackCommand = new RelayCommand(OnSendToBack);
-            MoveForwardCommand = new RelayCommand(OnMoveForward);
-            MoveBackwardCommand = new RelayCommand(OnMoveBackward);
-
-            CopyCommand = new RelayCommand(OnCopy);
-            CutCommand = new RelayCommand(OnCut);
-            PasteCommand = new RelayCommand(OnPaste);
+            InitializeCopyPaste();
 
             DesignerCanvas = new DesignerCanvas();
             PlanDesignerViewModel = new PlanDesignerViewModel();
@@ -144,13 +138,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public RelayCommand ShowDevicesCommand { get; private set; }
-        void OnShowDevices()
-        {
-            var devicesViewModel = new DevicesViewModel();
-            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost: true);
-        }
-
         bool CanAddEditRemove()
         {
             return SelectedPlan != null;
@@ -232,32 +219,22 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public RelayCommand MoveToFrontCommand { get; private set; }
-        void OnMoveToFront()
+        public RelayCommand ShowElementsCommand { get; private set; }
+        void OnShowElements()
         {
-            PlanDesignerViewModel.MoveToFront();
-            PlansModule.HasChanges = true;
+            //var designerItem = DesignerCanvas.Items.First();
+            //designerItem.IsVisible = false;
+            //return;
+
+            var elementsViewModel = new ElementsViewModel(DesignerCanvas);
+            ServiceFactory.UserDialogs.ShowWindow(elementsViewModel, isTopMost: true);
         }
 
-        public RelayCommand SendToBackCommand { get; private set; }
-        void OnSendToBack()
+        public RelayCommand ShowDevicesCommand { get; private set; }
+        void OnShowDevices()
         {
-            PlanDesignerViewModel.SendToBack();
-            PlansModule.HasChanges = true;
-        }
-
-        public RelayCommand MoveForwardCommand { get; private set; }
-        void OnMoveForward()
-        {
-            PlanDesignerViewModel.MoveForward();
-            PlansModule.HasChanges = true;
-        }
-
-        public RelayCommand MoveBackwardCommand { get; private set; }
-        void OnMoveBackward()
-        {
-            PlanDesignerViewModel.MoveBackward();
-            PlansModule.HasChanges = true;
+            var devicesViewModel = new DevicesViewModel();
+            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost: true);
         }
 
         public override void OnShow()

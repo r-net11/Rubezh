@@ -46,12 +46,7 @@ namespace PlansModule.Views
                     DeviceUID = device.UID
                 };
 
-                var designerItemData = new DesignerItemData()
-                {
-                    ElementBase = plansElement
-                };
-
-                DataObject dataObject = new DataObject("DESIGNER_ITEM", designerItemData);
+                var dataObject = new DataObject("DESIGNER_ITEM", plansElement);
                 DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
             }
 

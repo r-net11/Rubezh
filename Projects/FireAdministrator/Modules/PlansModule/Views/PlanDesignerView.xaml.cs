@@ -9,8 +9,6 @@ namespace PlansModule.Views
     public partial class PlanDesignerView : UserControl
     {
         public static PlanDesignerView Current { get; set; }
-        Point? lastCenterPositionOnTarget;
-        Point? lastMousePositionOnTarget;
 
         public static void Update()
         {
@@ -28,28 +26,19 @@ namespace PlansModule.Views
             Current = this;
             InitializeComponent();
 
-            scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
             scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
             slider.ValueChanged += OnSliderValueChanged;
-
-            this.Loaded += new RoutedEventHandler(CanvasView_Loaded);
-        }
-
-        void CanvasView_Loaded(object sender, RoutedEventArgs e)
-        {
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            lastMousePositionOnTarget = Mouse.GetPosition(grid);
-
             if (e.Delta > 0)
             {
-                slider.Value += 1;
+                slider.Value += 0.2;
             }
             else if (e.Delta < 0)
             {
-                slider.Value -= 1;
+                slider.Value -= 0.2;
             }
 
             e.Handled = true;
@@ -67,68 +56,30 @@ namespace PlansModule.Views
 
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(e.NewValue);
+            double newZoom = e.NewValue;
+            double oldZoom = e.OldValue;
 
-            var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-            lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
-
-            double zoom = slider.Value;
-            if (zoom == 2)
+            if (newZoom < 1)
             {
-
-            }
-        }
-
-        void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            return;
-
-            if (e.ExtentHeightChange == 0 && e.ExtentWidthChange == 0)
-                return;
-
-            Point? targetBefore = null;
-            Point? targetNow = null;
-
-            double zoom = 1;
-
-            if (lastMousePositionOnTarget.HasValue == false)
-            {
-                if (lastCenterPositionOnTarget.HasValue)
-                {
-                    var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
-                    Point centerOfTargetNow = scrollViewer.TranslatePoint(centerOfViewport, grid);
-
-                    targetBefore = lastCenterPositionOnTarget;
-                    targetNow = centerOfTargetNow;
-                }
-            }
-            else
-            {
-                targetBefore = lastMousePositionOnTarget;
-                targetNow = Mouse.GetPosition(grid);
-
-                zoom = slider.Value;
-
-                lastMousePositionOnTarget = null;
+                newZoom = 1 / (- newZoom + 2);
             }
 
-            if (targetBefore.HasValue)
+            if (oldZoom < 1)
             {
-                double dXInTargetPixels = zoom * targetNow.Value.X - targetBefore.Value.X;
-                double dYInTargetPixels = zoom * targetNow.Value.Y - targetBefore.Value.Y;
-
-                double multiplicatorX = e.ExtentWidth / grid.ActualWidth;
-                double multiplicatorY = e.ExtentHeight / grid.ActualHeight;
-
-                double newOffsetX = scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
-                double newOffsetY = scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
-
-                if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
-                    return;
-
-                scrollViewer.ScrollToHorizontalOffset(newOffsetX);
-                scrollViewer.ScrollToVerticalOffset(newOffsetY);
+                oldZoom = 1 / (- oldZoom + 2);
             }
+
+            double deltaZoom = newZoom / oldZoom;
+
+            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(newZoom);
+
+            var position = Mouse.GetPosition(grid);
+
+            double newOffsetX = scrollViewer.HorizontalOffset + (position.X - 25) * (deltaZoom - 1) / deltaZoom;
+            double newOffsetY = scrollViewer.VerticalOffset + (position.Y - 25) * (deltaZoom - 1) / deltaZoom;
+
+            scrollViewer.ScrollToHorizontalOffset(newOffsetX);
+            scrollViewer.ScrollToVerticalOffset(newOffsetY);
         }
     }
 }

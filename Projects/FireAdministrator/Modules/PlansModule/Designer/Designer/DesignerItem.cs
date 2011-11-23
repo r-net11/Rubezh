@@ -9,15 +9,14 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.ViewModels;
 using PlansModule.Events;
-using System.Collections.Generic;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
 {
     public class DesignerItem : ContentControl
     {
-        #region Properties
+        #region Designer Properties
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }
@@ -26,6 +25,17 @@ namespace PlansModule.Designer
 
         public static readonly DependencyProperty IsSelectedProperty =
           DependencyProperty.Register("IsSelected", typeof(bool),
+                                      typeof(DesignerItem),
+                                      new FrameworkPropertyMetadata(false));
+
+        public bool IsSelectable
+        {
+            get { return (bool)GetValue(IsSelectableProperty); }
+            set { SetValue(IsSelectableProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsSelectableProperty =
+          DependencyProperty.Register("IsSelectable", typeof(bool),
                                       typeof(DesignerItem),
                                       new FrameworkPropertyMetadata(false));
 
@@ -64,10 +74,42 @@ namespace PlansModule.Designer
             get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
         }
 
+        bool _isVisibleLayout;
+        public bool IsVisibleLayout
+        {
+            get { return _isVisibleLayout; }
+            set
+            {
+                _isVisibleLayout = value;
+                if (value)
+                {
+                    Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    Visibility = System.Windows.Visibility.Collapsed;
+                    IsSelected = false;
+                }
+            }
+        }
+
+        bool _isSelectableLayout;
+        public bool IsSelectableLayout
+        {
+            get { return _isSelectableLayout; }
+            set
+            {
+                _isSelectableLayout = value;
+                IsSelectable = value;
+                if (value == false)
+                {
+                    IsSelected = false;
+                }
+            }
+        }
+
         public PolygonResizeChrome PolygonResizeChrome { get; set; }
-
         public bool IsPointAdding { get; set; }
-
         public ElementBase ElementBase { get; set; }
 
         public DesignerItem()
@@ -76,6 +118,8 @@ namespace PlansModule.Designer
             DeleteCommand = new RelayCommand(OnDelete);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
+            IsVisibleLayout = true;
+            IsSelectableLayout = true;
         }
 
         public RelayCommand AddPointCommand { get; private set; }

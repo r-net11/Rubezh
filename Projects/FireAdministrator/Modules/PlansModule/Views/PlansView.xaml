@@ -15,6 +15,8 @@
                     <Image Source="/Controls;component/Images/Tree.png" Height="24" />
                 </Button>
 
+                <Button Content="Список элементов" Command="{Binding ShowElementsCommand}" />
+                
                 <Button Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}" Margin="2">
                     <Image Source="/Controls;component/Images/Copy.png" Height="24" />
                 </Button>
@@ -31,19 +33,19 @@
                     <Image Source="/Controls;component/Images/Redo.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding MoveToFrontCommand}" ToolTip="Вверх" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding PlanDesignerViewModel.MoveToFrontCommand}" ToolTip="Вверх" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveForward.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding SendToBackCommand}" ToolTip="Вниз" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding PlanDesignerViewModel.SendToBackCommand}" ToolTip="Вниз" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveBackward.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding MoveForwardCommand}" ToolTip="Выше" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding PlanDesignerViewModel.MoveForwardCommand}" ToolTip="Выше" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveFront.png" Height="24" />
                 </Button>
 
-                <Button Command="{Binding MoveBackwardCommand}" ToolTip="Ниже" Style="{StaticResource ToolarButtonStyle}">
+                <Button Command="{Binding PlanDesignerViewModel.MoveBackwardCommand}" ToolTip="Ниже" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveBack.png" Height="24" />
                 </Button>
 

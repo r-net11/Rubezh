@@ -20,15 +20,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DesignerItem}">
                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
-                        <local:MoveThumb x:Name="PART_MoveThumb" Cursor="SizeAll"
-                                     Template="{StaticResource MoveThumbTemplate}" />
-                        <local:MoveThumb x:Name="PART_MoveThumbPolygon" Cursor="SizeAll"
-                                     Template="{StaticResource MoveThumbPolygonTemplate}"/>
+                        <Grid Name="PART_Adorners">
+                            <local:MoveThumb x:Name="PART_MoveThumb" Cursor="SizeAll" Template="{StaticResource MoveThumbTemplate}" />
+                            <local:MoveThumb x:Name="PART_MoveThumbPolygon" Cursor="SizeAll" Template="{StaticResource MoveThumbPolygonTemplate}" />
+                            <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
+                            <local:PolygonResizeDecorator x:Name="PART_DesignerItemPolygonResizeDecorator" />
+                        </Grid>
                         <ContentPresenter x:Name="PART_ContentPresenter"
                                      Content="{TemplateBinding ContentControl.Content}"
                                      Margin="{TemplateBinding Padding}" />
-                        <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
-                        <local:PolygonResizeDecorator x:Name="PART_DesignerItemPolygonResizeDecorator" />
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Добавить точку" Command="{Binding AddPointCommand}" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -54,6 +54,9 @@
                             <Setter TargetName="PART_MoveThumb" Property="Visibility" Value="Visible" />
                             <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="Visibility" Value="Collapsed" />
                             <Setter TargetName="PART_MoveThumbPolygon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsSelectable" Value="False">
+                            <Setter TargetName="PART_Adorners" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

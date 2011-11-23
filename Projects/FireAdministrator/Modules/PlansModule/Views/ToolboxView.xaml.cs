@@ -30,16 +30,15 @@ namespace PlansModule.Designer
 
             if (this.dragStartPoint.HasValue)
             {
-                var designerItemData = CreateDesignerItemData((sender as Image).Name);
-
-                DataObject dataObject = new DataObject("DESIGNER_ITEM", designerItemData);
+                var elementBase = CreateNewElementBase((sender as Image).Name);
+                var dataObject = new DataObject("DESIGNER_ITEM", elementBase);
                 DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
             }
 
             e.Handled = true;
         }
 
-        DesignerItemData CreateDesignerItemData(string itemType)
+        ElementBase CreateNewElementBase(string itemType)
         {
             ElementBase elementBase = null;
 
@@ -74,12 +73,7 @@ namespace PlansModule.Designer
                     break;
             }
 
-            var designerItemData = new DesignerItemData()
-            {
-                ElementBase = elementBase
-            };
-
-            return designerItemData;
+            return elementBase;
         }
     }
 }

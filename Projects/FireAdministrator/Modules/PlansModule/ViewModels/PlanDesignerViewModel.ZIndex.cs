@@ -7,7 +7,16 @@ namespace PlansModule.ViewModels
 {
     public partial class PlanDesignerViewModel : BaseViewModel
     {
-        public void MoveToFront()
+        void InitializeZIndexCommands()
+        {
+            MoveToFrontCommand = new RelayCommand(OnMoveToFront);
+            SendToBackCommand = new RelayCommand(OnSendToBack);
+            MoveForwardCommand = new RelayCommand(OnMoveForward);
+            MoveBackwardCommand = new RelayCommand(OnMoveBackward);
+        }
+
+        public RelayCommand MoveToFrontCommand { get; private set; }
+        void OnMoveToFront()
         {
             int maxZIndex = 0;
             foreach (var designerItem in DesignerCanvas.Items)
@@ -28,9 +37,12 @@ namespace PlansModule.ViewModels
                     Panel.SetZIndex(designerItem, maxZIndex + 1);
                 }
             }
+
+            PlansModule.HasChanges = true;
         }
 
-        public void SendToBack()
+        public RelayCommand SendToBackCommand { get; private set; }
+        void OnSendToBack()
         {
             int minZIndex = 0;
             foreach (var designerItem in DesignerCanvas.Items)
@@ -51,9 +63,12 @@ namespace PlansModule.ViewModels
                     Panel.SetZIndex(designerItem, minZIndex - 1);
                 }
             }
+
+            PlansModule.HasChanges = true;
         }
 
-        public void MoveForward()
+        public RelayCommand MoveForwardCommand { get; private set; }
+        void OnMoveForward()
         {
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
@@ -64,9 +79,12 @@ namespace PlansModule.ViewModels
                     Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
                 }
             }
+
+            PlansModule.HasChanges = true;
         }
 
-        public void MoveBackward()
+        public RelayCommand MoveBackwardCommand { get; private set; }
+        void OnMoveBackward()
         {
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
@@ -77,6 +95,8 @@ namespace PlansModule.ViewModels
                     Panel.SetZIndex(designerItem, iZIndexedElement.ZIndex);
                 }
             }
+
+            PlansModule.HasChanges = true;
         }
 
         void NormalizeZIndex()

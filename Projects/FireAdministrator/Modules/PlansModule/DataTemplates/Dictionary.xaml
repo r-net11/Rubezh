@@ -15,6 +15,10 @@
         <Views:PlanDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ElementsViewModel}">
+        <Views:ElementsView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
         <Views:DevicesView />
     </DataTemplate>

@@ -27,15 +27,19 @@ namespace PlansModule.Designer
             this.designerCanvas = designerCanvas;
             this.startPoint = dragStartPoint;
 
-            this.adornerCanvas = new Canvas();
-            this.adornerCanvas.Background = Brushes.Transparent;
+            this.adornerCanvas = new Canvas()
+            {
+                Background = Brushes.Transparent
+            };
             this.visuals = new VisualCollection(this);
             this.visuals.Add(this.adornerCanvas);
 
-            this.rubberband = new Rectangle();
-            this.rubberband.Stroke = Brushes.Navy;
-            this.rubberband.StrokeThickness = 1;
-            this.rubberband.StrokeDashArray = new DoubleCollection(new double[] { 2 });
+            this.rubberband = new Rectangle()
+            {
+                Stroke = Brushes.Navy,
+                StrokeThickness = 1,
+                StrokeDashArray = new DoubleCollection(new double[] { 2 })
+            };
 
             this.adornerCanvas.Children.Add(this.rubberband);
         }
@@ -98,18 +102,21 @@ namespace PlansModule.Designer
         private void UpdateSelection()
         {
             Rect rubberBand = new Rect(this.startPoint.Value, this.endPoint.Value);
-            foreach (DesignerItem item in this.designerCanvas.Children)
+            foreach (DesignerItem designerItem in this.designerCanvas.Children)
             {
-                Rect itemRect = VisualTreeHelper.GetDescendantBounds(item);
-                Rect itemBounds = item.TransformToAncestor(designerCanvas).TransformBounds(itemRect);
+                if (designerItem.IsVisibleLayout && designerItem.IsSelectableLayout)
+                {
+                    Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
+                    Rect itemBounds = designerItem.TransformToAncestor(designerCanvas).TransformBounds(itemRect);
 
-                if (rubberBand.Contains(itemBounds))
-                {
-                    item.IsSelected = true;
-                }
-                else
-                {
-                    item.IsSelected = false;
+                    if (rubberBand.Contains(itemBounds))
+                    {
+                        designerItem.IsSelected = true;
+                    }
+                    else
+                    {
+                        designerItem.IsSelected = false;
+                    }
                 }
             }
         }
