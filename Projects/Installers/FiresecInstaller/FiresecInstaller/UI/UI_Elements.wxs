@@ -7,8 +7,8 @@
         <RadioButton Height="15" Text="Я &amp;принимаю условия лицензионного соглашения " Value="Yes" Width="295" X="0" Y="0" />
       </RadioButtonGroup>
       <RadioButtonGroup Property="IS_SQLSERVER_AUTHENTICATION">
-        <RadioButton Height="14" Text="&amp;Windows authentication credentials of current user" Value="0" Width="327" X="0" Y="0" />
-        <RadioButton Height="19" Text="S&amp;erver authentication using the Login ID and password below" Value="1" Width="327" X="0" Y="14" />
+        <RadioButton Height="14" Text="&amp;Режим проверки подлинности Windows" Value="0" Width="327" X="0" Y="0" />
+        <RadioButton Height="19" Text="&amp;Смешанный режим(Режим проверки подлинности Windows и режим проверки подлинности SQL Server)" Value="1" Width="327" X="0" Y="14" />
       </RadioButtonGroup>
       
       <ComboBox Property="IS_SQLSERVER_SERVER">

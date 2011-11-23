@@ -44,6 +44,12 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
+			<Component Id="TrayComponent" Guid="DC1F2F70-E55F-497F-B48E-78BBEB1F6F3D">
+				<File Id="TrayDll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FiresecService.TargetDir)"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+
 			<!--<Component Id="Autorun" Guid="520FC85A-90A0-4FDB-806B-A5E22657DF7F">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
 					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[INSTALLLOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />

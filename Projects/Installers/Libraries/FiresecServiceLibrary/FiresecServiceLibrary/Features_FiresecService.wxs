@@ -10,6 +10,7 @@
 			<ComponentRef Id="CommonComponent" />
 			<ComponentRef Id="FiresecComponent" />
 			<ComponentRef Id="FiresecAPIComponent" />
+			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="PlansConfiguration"/>
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>
@@ -19,7 +20,7 @@
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />
 			<!--<ComponentRef Id="DesktopFolder" />-->
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
-      <ComponentGroupRef Id="ConfigurationGroup"/>
+			<ComponentGroupRef Id="ConfigurationGroup"/>
 			<!--<ComponentRef Id="StartService"/>-->
 			<!--<ComponentRef Id="Autorun"/>-->
 			<!--<ComponentRef Id="FiresecWindowsService"/>-->

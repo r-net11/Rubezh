@@ -1,6 +1,7 @@
 ﻿<Window x:Class="FiresecServiceRunner.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="Сервер Firesec" Height="600" Width="600">
     <Window.Resources>
         <ResourceDictionary>
@@ -19,5 +20,16 @@
             <Button Content="имитатор" Click="OnShowImitator" Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
         </StackPanel>
         <TextBox Name="_textBox" Margin="2" />
+        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Показать" Click="MenuItem_Click" />
+                    <MenuItem Header="Скрыть" Click="MenuItem_Click_1" />
+                    <MenuItem Header="Запустить" Click="MenuItem_Click_2" />
+                    <MenuItem Header="Конвертация конфигурации" Click="MenuItem_Click_3" />
+                    <MenuItem Header="Конвертация журналов" Click="MenuItem_Click_4" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
     </DockPanel>
 </Window>

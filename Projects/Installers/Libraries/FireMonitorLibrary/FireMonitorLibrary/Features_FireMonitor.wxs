@@ -15,11 +15,11 @@
 			<ComponentRef Id="FMFiresecAPIComponent" />
 			<ComponentRef Id="FMFiresecClientComponent" />
 			<ComponentRef Id="FMUnityComponent" />
-			<ComponentRef Id="FMPrismComponent"/>
-			<ComponentRef Id="FMPrismUnityExtensionsComponent"/>
-			<ComponentRef Id="FMWPFToolkitExtendedComponent"/>
-			<ComponentRef Id="FMCustomWindowComponent"/>
-			<ComponentRef Id="FMServiceLocationComponent"/>
+			<ComponentRef Id="FMPrismComponent" />
+			<ComponentRef Id="FMPrismUnityExtensionsComponent" />
+			<ComponentRef Id="FMWPFToolkitExtendedComponent" />
+			<ComponentRef Id="FMCustomWindowComponent" />
+			<ComponentRef Id="FMServiceLocationComponent" />
 			<ComponentRef Id="FMInfrastructure.CommonComponent" />
 			<ComponentRef Id="FMInfrastructureComponent" />
 			<ComponentRef Id="FMDevicesModuleComponent" />

@@ -57,10 +57,8 @@ namespace FiresecServiceRunner
             bool convertJournal = false;
             bool hide = false;
             bool service = false;
-            //System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
             DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
             Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
-            //Environment.CurrentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
@@ -70,6 +68,9 @@ namespace FiresecServiceRunner
                         break;
                     case "/Convert":
                         convertConfiguration = true;
+                        break;
+                    case "/ConvertJournal":
+                        convertJournal = true;
                         break;
                     case "/Exit":
                         exit = true;
@@ -98,13 +99,47 @@ namespace FiresecServiceRunner
                 }
                 if (start && convertConfiguration)
                     ConfigurationConverter.Convert();
-                if (start && convertJournal)
+                if (convertJournal)
                     JournalDataConverter.Convert();
                 if (hide)
                     this.Hide();
                 if (exit)
                     this.Close();
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Show();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            FiresecManager.ConnectFiresecCOMServer("adm", "");
+            FiresecServiceManager.Open();
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            FiresecManager.ConnectFiresecCOMServer("adm", "");
+            FiresecServiceManager.Open();
+            ConfigurationConverter.Convert();
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            JournalDataConverter.Convert();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            MyNotifyIcon.Dispose();
+            base.OnClosing(e);
         }
     }
 }

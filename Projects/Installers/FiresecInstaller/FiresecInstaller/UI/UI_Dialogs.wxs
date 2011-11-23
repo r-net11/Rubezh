@@ -54,7 +54,7 @@
 			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="[ProductName] - InstallShield Wizard" NoMinimize="yes">
 				<Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
 				<!--<Control Id="BtnSQLBrowse" Type="PushButton" X="301" Y="106" Width="66" Height="17" Text="B&amp;rowse..." TabSkip="no" />-->
-				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Connect using:" TabSkip="no" NoPrefix="yes" />
+				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
 				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
 				<Control Id="lblLoginID" Type="Text" X="43" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
@@ -75,13 +75,13 @@
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Back" TabSkip="no" />
 				<Control Id="Next" Type="PushButton" X="229" Y="243" Width="66" Height="17" Text="&amp;Next &gt;" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Database Server:" TabSkip="no" />
-				<Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Select the database server to install to from the list below or click Browse to see a list of all database servers. You can also specify the way to authenticate your login using your current credentials or a SQL Login ID and Password." TabSkip="no" Transparent="yes" />
-				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="Select database server and authentication method" TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgTitle" Type="Text" X="13" Y="7" Width="292" Height="25" Text="{&amp;MSSansBold8}Database Server" TabSkip="yes" Transparent="yes" />
+				<Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
+				<Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
+				<!--<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="Select database server and authentication method" TabSkip="yes" Transparent="yes" />-->
+				<!--<Control Id="DlgTitle" Type="Text" X="13" Y="7" Width="292" Height="25" Text="{&amp;MSSansBold8}Именованный экземпляр" TabSkip="yes" Transparent="yes" />-->
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        Adobe" TabSkip="yes" />
-				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        Adobe" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        Firesec" TabSkip="yes" />
+				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        Firesec" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Banner" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" />
 			</Dialog>

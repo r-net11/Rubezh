@@ -88,7 +88,9 @@ Patch dialog sequence:
 
       <Publish Dialog="SetupType" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
       <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SetupChoice ="Full"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Property="INSTALLLEVEL" Value="3">SetupChoice ="Full"</Publish>
       <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SetupChoice ="Client"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Property="INSTALLLEVEL" Value="2">SetupChoice ="Client"</Publish>
       <Publish Dialog="SetupType" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
 

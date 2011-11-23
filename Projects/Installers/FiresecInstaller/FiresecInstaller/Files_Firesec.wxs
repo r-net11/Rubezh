@@ -11,19 +11,16 @@
 											Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Persons;Integrated Security=True" />
 				<util:XmlFile Id="XmlConnectionSettings2" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="setValue"
 				ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
-				Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Persons;Integrated Security=True" />
+				Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
 			</Component>
 			
-			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
-				--><!--<Condition> CHECKSQLSERVER = "1" </Condition>--><!--
+			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-												 Server="(local)\sqlexpress" DropOnUninstall="yes" ContinueOnError="no">
-					<sql:SqlFileSpec Id="SqlDataFile" Filename="[FIRESECSERVICELOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
-					<sql:SqlLogFileSpec Id="SqlLogFile" Filename="[FIRESECSERVICELOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes"/>
+				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no" ContinueOnError="yes">
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
 				</sql:SqlDatabase>
-			</Component>-->
+			</Component>
 		</DirectoryRef>
 	</Fragment>
 </Wix>

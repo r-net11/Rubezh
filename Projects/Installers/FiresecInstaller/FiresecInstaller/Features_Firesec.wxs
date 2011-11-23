@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<?include Variables_Firesec.wxi?>
-	<Fragment>
-		<Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<FeatureRef Id="FiresecServiceFeature" />
-			<FeatureRef Id="FireAdministratorFeature" />
-			<FeatureRef Id="FireMonitorFeature" />
-			<ComponentRef Id="DesktopFolder"/>
-			<ComponentRef Id="ProgramMenuDir"/>
-			<ComponentRef Id="ChangeConnectionsSettings"/>
-			<!--<ComponentRef Id="SqlComponent"/>-->
-			<!--<Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
-						 AllowAdvertise="no" Absent="allow" InstallDefault="local">
-				--><!--<Condition Level="0">CHECKSQLSERVER = "1"</Condition>--><!--
-				<ComponentRef Id="SqlComponent"/>
-			</Feature>-->
-		</Feature>
-	</Fragment>
+  <?include Variables_Firesec.wxi?>
+  <Fragment>
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="2" Display="expand"
+             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="FiresecService" Level="3" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
+        <FeatureRef Id="FiresecServiceFeature" />
+        <ComponentRef Id="ChangeConnectionsSettings"/>
+        <ComponentRef Id="SqlComponent"/>
+      </Feature>
+      <Feature Id="FiresecClient" Level="2" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
+        <FeatureRef Id="FireAdministratorFeature" />
+        <FeatureRef Id="FireMonitorFeature" />
+      </Feature>
+      <ComponentRef Id="DesktopFolder"/>
+      <ComponentRef Id="ProgramMenuDir"/>
+    </Feature>
+  </Fragment>
 </Wix>
