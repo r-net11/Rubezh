@@ -15,7 +15,7 @@ namespace PlansModule.ViewModels
             Title = "Свойства фигуры: Подплан";
             _elementSubPlan = elementSubPlan;
             Initialize();
-            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == elementSubPlan.UID);
+            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == elementSubPlan.PlanUID);
         }
 
         void Initialize()
@@ -85,7 +85,7 @@ namespace PlansModule.ViewModels
         {
             if (SelectedPlan != null)
             {
-                _elementSubPlan.UID = SelectedPlan.Plan.UID;
+                _elementSubPlan.PlanUID = SelectedPlan.Plan.UID;
             }
         }
     }

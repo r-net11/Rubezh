@@ -101,6 +101,7 @@
     <Compile Include="Events\ElementAddedEvent.cs" />
     <Compile Include="Events\ElementChangedEvent.cs" />
     <Compile Include="Events\ElementRemovedEvent.cs" />
+    <Compile Include="Events\PlanChangedEvent.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />

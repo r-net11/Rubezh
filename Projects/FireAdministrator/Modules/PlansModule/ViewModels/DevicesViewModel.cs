@@ -18,6 +18,13 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Subscribe(OnDeviceChanged);
             Devices = new ObservableCollection<DeviceViewModel>();
 
+            Update();
+        }
+
+        public void Update()
+        {
+            Devices.Clear();
+
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
                 var deviceViewModel = new DeviceViewModel(device, Devices);
@@ -43,15 +50,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void OnDeviceChanged(Guid deviceUID)
-        {
-            var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
-            if (device != null)
-            {
-                device.Update();
-            }
-        }
-
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
         DeviceViewModel _selectedDevice;
@@ -62,6 +60,15 @@ namespace PlansModule.ViewModels
             {
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
+            }
+        }
+
+        void OnDeviceChanged(Guid deviceUID)
+        {
+            var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+            if (device != null)
+            {
+                device.Update();
             }
         }
 

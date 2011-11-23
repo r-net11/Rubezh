@@ -12,19 +12,18 @@ namespace PlansModule.ViewModels
 {
     public class ElementDeviceViewModel : BaseViewModel
     {
+        Device _device;
+        DeviceState _deviceState;
+        ElementDeviceView _elementDeviceView;
+        public Guid DeviceUID { get; private set; }
+
         public ElementDeviceViewModel()
         {
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
         }
-
-        Device _device;
-        DeviceState _deviceState;
-        ElementDeviceView _elementDeviceView;
-        public Guid DeviceUID { get; private set; }
 
         public void Initialize(ElementDevice elementDevice, Canvas canvas)
         {

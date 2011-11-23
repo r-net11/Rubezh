@@ -10,33 +10,54 @@ namespace FireAdministrator
     {
         List<DialogWindow> ActiveWindows = new List<DialogWindow>();
 
-        public void ShowWindow(IDialogContent model, bool isTopMost = false)
+        public void ShowWindow(IDialogContent model, bool isTopMost = false, string name = "none")
         {
-            var dialog = new DialogWindow()
+            if (name != "none")
             {
-                Topmost = isTopMost
-            };
-            dialog.SetContent(model);
-
-            if (model is PlansModule.ViewModels.DevicesViewModel)
-            {
-                DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => x.ViewModel is PlansModule.ViewModels.DevicesViewModel);
-                if (existingWindow != null)
+                var existingDialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+                if (existingDialogWindow != null)
                 {
-                    existingWindow.Activate();
                     return;
                 }
-
-                dialog.Closed += new System.EventHandler(dialog_Closed);
-                ActiveWindows.Add(dialog);
             }
 
-            dialog.Show();
+            var dialogWindow = new DialogWindow()
+            {
+                Topmost = isTopMost,
+                Name = name
+            };
+            dialogWindow.SetContent(model);
+
+            if (name != "none")
+            {
+                dialogWindow.Closed += new System.EventHandler(dialog_Closed);
+                ActiveWindows.Add(dialogWindow);
+            }
+
+            dialogWindow.Show();
         }
 
         void dialog_Closed(object sender, System.EventArgs e)
         {
             ActiveWindows.Remove((DialogWindow)sender);
+        }
+
+        public void HideWindow(string name)
+        {
+            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+            if (dialogWindow != null)
+            {
+                dialogWindow.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void ResetWindow(string name)
+        {
+            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+            if (dialogWindow != null)
+            {
+                dialogWindow.Visibility = Visibility.Visible;
+            }
         }
 
         public bool ShowModalWindow(IDialogContent model)

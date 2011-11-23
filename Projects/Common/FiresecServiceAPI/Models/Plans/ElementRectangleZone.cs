@@ -8,21 +8,16 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ElementRectangleZone : ElementBase, IElementZone
     {
-        public ElementRectangleZone()
-        {
-        }
+        public Zone Zone { get; set; }
 
         [DataMember]
         public ulong? ZoneNo { get; set; }
-
-        [DataMember]
-        public Color BackgroundColor { get; set; }
 
         public override FrameworkElement Draw()
         {
             var rectangle = new Rectangle()
             {
-                Fill = new SolidColorBrush(BackgroundColor),
+                Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
             };
 
             return rectangle;
@@ -32,7 +27,6 @@ namespace FiresecAPI.Models
         {
             ElementBase elementBase = new ElementRectangleZone()
             {
-                BackgroundColor = BackgroundColor,
                 ZoneNo = ZoneNo
             };
             Copy(elementBase);

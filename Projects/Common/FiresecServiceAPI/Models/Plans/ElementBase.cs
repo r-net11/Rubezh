@@ -41,5 +41,7 @@ namespace FiresecAPI.Models
             elementBase.Height = Height;
             elementBase.Width = Width;
         }
+
+        public const int BigIntConstant = 100000;
     }
 }

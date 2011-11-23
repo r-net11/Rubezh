@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
         public Plan Plan { get; set; }
 
         [DataMember]
-        public Guid UID { get; set; }
+        public Guid PlanUID { get; set; }
 
         [DataMember]
         public string Caption { get; set; }
@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
             ElementBase elementBase = new ElementSubPlan()
             {
                 Plan = Plan,
-                UID = UID,
+                PlanUID = PlanUID,
                 Caption = Caption
             };
             Copy(elementBase);

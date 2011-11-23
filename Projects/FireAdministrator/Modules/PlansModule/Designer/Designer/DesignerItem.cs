@@ -182,7 +182,7 @@ namespace PlansModule.Designer
                 result = ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel);
                 if (result)
                 {
-                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == (ElementBase as ElementDevice).DeviceUID);
+                    var device = (ElementBase as ElementDevice).Device;
                     var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
                     devicePicture.IsHitTestVisible = false;
                     Content = devicePicture;
@@ -278,9 +278,8 @@ namespace PlansModule.Designer
             if (ElementBase is ElementDevice)
             {
                 var elementDevice = ElementBase as ElementDevice;
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                device.PlanUIDs.Add(elementDevice.UID);
-                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(device.UID);
+                elementDevice.Device.PlanUIDs.Add(elementDevice.UID);
+                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
             }
         }
 

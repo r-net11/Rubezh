@@ -6,14 +6,9 @@ namespace FireAdministrator
 {
     public class LayoutService : ILayoutService
     {
-        ShellView _shellView;
-
         ShellView Shell
         {
-            get
-            {
-                return (ShellView) ServiceFactory.ShellView;
-            }
+            get { return (ShellView)ServiceFactory.ShellView; }
         }
 
         public void Show(IViewPart model)

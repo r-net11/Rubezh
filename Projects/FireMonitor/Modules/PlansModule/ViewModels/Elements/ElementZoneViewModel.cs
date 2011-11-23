@@ -12,18 +12,17 @@ namespace PlansModule.ViewModels
 {
     public class ElementZoneViewModel : BaseViewModel
     {
+        public ulong? ZoneNo { get; private set; }
+        Zone _zone;
+        ElementZoneView _elementZoneView;
+
         public ElementZoneViewModel()
         {
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             EnableCommand = new RelayCommand(OnEnable);
-
             FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
         }
-
-        public ulong? ZoneNo { get; private set; }
-        Zone _zone;
-        ElementZoneView _elementZoneView;
 
         public void Initialize(ElementPolygonZone elementPolygonZone, Canvas canvas)
         {

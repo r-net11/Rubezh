@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common;
 using FiresecAPI.Models;
-using System.Collections.ObjectModel;
 using FiresecClient;
+using Infrastructure.Common;
 using PlansModule.Designer;
+using PlansModule.Events;
+using Infrastructure;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -18,25 +18,80 @@ namespace PlansModule.ViewModels
         {
             DesignerCanvas = designerCanvas;
             Title = "Элементы на плане";
-
             Devices = new ObservableCollection<ElementViewModel>();
+            Zones = new ObservableCollection<ElementViewModel>();
+            SubPlans = new ObservableCollection<ElementViewModel>();
+            Elements = new ObservableCollection<ElementViewModel>();
 
-            foreach (var designerItem in designerCanvas.Items)
-            {
-                string name = "";
-                if (designerItem.ElementBase is ElementDevice)
-                {
-                    ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
-                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                    name = device.DottedAddress + " " + device.Driver.ShortName;
-                }
-
-                var elementViewModel = new ElementViewModel(designerItem);
-                elementViewModel.Name = name;
-                Devices.Add(elementViewModel);
-            }
+            ServiceFactory.Events.GetEvent<PlanChangedEvent>().Subscribe(OnPlansChanged);
+            Update();   
         }
 
         public ObservableCollection<ElementViewModel> Devices { get; private set; }
+        public ObservableCollection<ElementViewModel> Zones { get; private set; }
+        public ObservableCollection<ElementViewModel> SubPlans { get; private set; }
+        public ObservableCollection<ElementViewModel> Elements { get; private set; }
+
+        void OnPlansChanged(Guid planUID)
+        {
+            Update();
+        }
+
+        public void Update()
+        {
+            Devices.Clear();
+            Zones.Clear();
+            SubPlans.Clear();
+            Elements.Clear();
+
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                string name = "";
+                var elementBase = designerItem.ElementBase;
+
+                if (elementBase is ElementDevice)
+                {
+                    ElementDevice elementDevice = elementBase as ElementDevice;
+                    name = elementDevice.Device.DottedAddress + " " + elementDevice.Device.Driver.ShortName;
+                    Devices.Add(new ElementViewModel(designerItem, name));
+                }
+                if (elementBase is IElementZone)
+                {
+                    IElementZone elementZone = elementBase as IElementZone;
+                    if (elementZone.Zone != null)
+                    {
+                        name = elementZone.Zone.PresentationName;
+                    }
+                    else
+                    {
+                        name = "Несвязанная зона";
+                    }
+                    Zones.Add(new ElementViewModel(designerItem, name));
+                }
+                if (elementBase is ElementSubPlan)
+                {
+                    ElementSubPlan elementSubPlan = elementBase as ElementSubPlan;
+                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
+                    name = plan.Caption;
+                    SubPlans.Add(new ElementViewModel(designerItem, name));
+                }
+                if (elementBase is ElementEllipse)
+                {
+                    Elements.Add(new ElementViewModel(designerItem, "Эллипс"));
+                }
+                if (elementBase is ElementPolygon)
+                {
+                    Elements.Add(new ElementViewModel(designerItem, "Многоугольник"));
+                }
+                if (elementBase is ElementRectangle)
+                {
+                    Elements.Add(new ElementViewModel(designerItem, "Прямоугольник"));
+                }
+                if (elementBase is ElementTextBlock)
+                {
+                    Elements.Add(new ElementViewModel(designerItem, "Надпись"));
+                }
+            }
+        }
     }
 }

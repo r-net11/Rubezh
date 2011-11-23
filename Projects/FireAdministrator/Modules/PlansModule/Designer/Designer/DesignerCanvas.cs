@@ -95,6 +95,8 @@ namespace PlansModule.Designer
                     Children.RemoveAt(i - 1);
                 }
             }
+
+            PlansModule.HasChanges = true;
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -180,7 +182,7 @@ namespace PlansModule.Designer
             if (elementBase is ElementDevice)
             {
                 var elementDevice = elementBase as ElementDevice;
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                var device = elementDevice.Device;
                 var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
                 designerItem = Create(elementDevice, frameworkElement: devicePicture);
                 device.PlanUIDs.Add(elementBase.UID);
@@ -195,17 +197,6 @@ namespace PlansModule.Designer
 
         public DesignerItem Create(ElementBase elementBase, FrameworkElement frameworkElement = null)
         {
-            if (elementBase is ElementPolygonZone)
-            {
-                ElementPolygonZone elementPolygonZone = elementBase as ElementPolygonZone;
-                elementPolygonZone.BackgroundColor = GetZoneColor(elementPolygonZone.ZoneNo);
-            }
-            if (elementBase is ElementRectangleZone)
-            {
-                ElementRectangleZone elementRectangleZone = elementBase as ElementRectangleZone;
-                elementRectangleZone.BackgroundColor = GetZoneColor(elementRectangleZone.ZoneNo);
-            }
-
             if (frameworkElement == null)
             {
                 frameworkElement = elementBase.Draw();
@@ -223,9 +214,7 @@ namespace PlansModule.Designer
                 IsPolygon = elementBase is ElementBasePolygon
             };
 
-            if (elementBase is ElementPolygonZone)
-                designerItem.Opacity = 0.5;
-            if (elementBase is ElementRectangleZone)
+            if (elementBase is IElementZone)
                 designerItem.Opacity = 0.5;
             if (elementBase is ElementSubPlan)
                 designerItem.Opacity = 0.5;
@@ -234,36 +223,37 @@ namespace PlansModule.Designer
             DesignerCanvas.SetTop(designerItem, elementBase.Top);
             this.Children.Add(designerItem);
 
-            if (elementBase is IZIndexedElement)
-                Panel.SetZIndex(designerItem, (elementBase as IZIndexedElement).ZIndex);
-            if (elementBase is ElementDevice)
-                Panel.SetZIndex(designerItem, 200000);
-            if (elementBase is ElementPolygonZone)
-                Panel.SetZIndex(designerItem, 100000);
-            if (elementBase is ElementRectangleZone)
-                Panel.SetZIndex(designerItem, 100000);
-            if (elementBase is ElementSubPlan)
-                Panel.SetZIndex(designerItem, 100000);
+            SetZIndex(designerItem, elementBase);
 
             return designerItem;
         }
 
-        Color GetZoneColor(ulong? zoneNo)
+        void SetZIndex(DesignerItem designerItem, ElementBase elementBase)
         {
-            Color color = Colors.Gray;
-            if (zoneNo.HasValue)
-            {
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo.Value);
-                if (zone != null)
-                {
-                    if (zone.ZoneType == ZoneType.Fire)
-                        color = Colors.Green;
+            int bigConstatnt = 100000;
 
-                    if (zone.ZoneType == ZoneType.Guard)
-                        color = Colors.Brown;
+            if (elementBase is IZIndexedElement)
+                Panel.SetZIndex(designerItem, (elementBase as IZIndexedElement).ZIndex);
+
+            if (elementBase is ElementSubPlan)
+                Panel.SetZIndex(designerItem, 1 * bigConstatnt);
+
+            if (elementBase is IElementZone)
+            {
+                Panel.SetZIndex(designerItem, 2 * bigConstatnt);
+                IElementZone elementZone = elementBase as IElementZone;
+                if (elementZone.Zone != null)
+                {
+                    if (elementZone.Zone.ZoneType == ZoneType.Fire)
+                        Panel.SetZIndex(designerItem, 3 * bigConstatnt);
+
+                    if (elementZone.Zone.ZoneType == ZoneType.Guard)
+                        Panel.SetZIndex(designerItem, 4 * bigConstatnt);
                 }
             }
-            return color;
+
+            if (elementBase is ElementDevice)
+                Panel.SetZIndex(designerItem, 5 * bigConstatnt);
         }
 
         public bool IsPointAdding = false;

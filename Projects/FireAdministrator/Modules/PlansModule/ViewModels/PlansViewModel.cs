@@ -30,7 +30,10 @@ namespace PlansModule.ViewModels
 
             InitializeHistory();
 
-            UpdateDevicePlanUIDs();
+            ElementsViewModel = new ElementsViewModel(DesignerCanvas);
+            DevicesViewModel = new DevicesViewModel();
+
+            UpdateElementModels();
             Initialize();
         }
 
@@ -54,18 +57,42 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void UpdateDevicePlanUIDs()
+        void UpdateElementModels()
         {
             FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanUIDs.Clear(); });
 
             foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
             {
-                foreach (var elementDevice in plan.ElementDevices)
+                for (int i = plan.ElementDevices.Count(); i > 0; i--)
                 {
+                    var elementDevice = plan.ElementDevices[i - 1];
+
                     var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                     if (device != null)
+                    {
                         device.PlanUIDs.Add(elementDevice.UID);
+                        elementDevice.Device = device;
+                    }
+                    else
+                    {
+                        plan.ElementDevices.RemoveAt(i - 1);
+                    }
+                }
 
+                foreach (var elementZone in plan.ElementPolygonZones)
+                {
+                    if (elementZone.ZoneNo.HasValue)
+                    {
+                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
+                    }
+                }
+
+                foreach (var elementZone in plan.ElementRectangleZones)
+                {
+                    if (elementZone.ZoneNo.HasValue)
+                    {
+                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
+                    }
                 }
             }
         }
@@ -121,6 +148,7 @@ namespace PlansModule.ViewModels
                     PlanDesignerViewModel.Save();
                     PlanDesignerViewModel.Initialize(value.Plan);
                     ResetHistory();
+                    ElementsViewModel.Update();
                 }
             }
         }
@@ -219,32 +247,37 @@ namespace PlansModule.ViewModels
             }
         }
 
+        ElementsViewModel ElementsViewModel;
+        DevicesViewModel DevicesViewModel;
+
         public RelayCommand ShowElementsCommand { get; private set; }
         void OnShowElements()
         {
-            //var designerItem = DesignerCanvas.Items.First();
-            //designerItem.IsVisible = false;
-            //return;
-
-            var elementsViewModel = new ElementsViewModel(DesignerCanvas);
-            ServiceFactory.UserDialogs.ShowWindow(elementsViewModel, isTopMost: true);
+            ServiceFactory.UserDialogs.ShowWindow(ElementsViewModel, isTopMost: true, name: "PlanElements");
         }
 
         public RelayCommand ShowDevicesCommand { get; private set; }
         void OnShowDevices()
         {
-            var devicesViewModel = new DevicesViewModel();
-            ServiceFactory.UserDialogs.ShowWindow(devicesViewModel, isTopMost: true);
+            ServiceFactory.UserDialogs.ShowWindow(DevicesViewModel, isTopMost: true, name:"PlanDevices");
         }
 
         public override void OnShow()
         {
             ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
+            UpdateElementModels();
+            DevicesViewModel.Update();
+
+            ServiceFactory.UserDialogs.ResetWindow("PlanElements");
+            ServiceFactory.UserDialogs.ResetWindow("PlanDevices");
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+            ServiceFactory.UserDialogs.HideWindow("PlanElements");
+            ServiceFactory.UserDialogs.HideWindow("PlanDevices");
         }
     }
 }

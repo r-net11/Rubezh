@@ -116,6 +116,7 @@ namespace PlansModule.ViewModels
         protected override void Save(ref bool cancel)
         {
             _elementDevice.DeviceUID = SelectedDevice.Device.UID;
+            _elementDevice.Device = SelectedDevice.Device;
         }
     }
 }

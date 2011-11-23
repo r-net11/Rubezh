@@ -7,9 +7,10 @@ namespace PlansModule.ViewModels
     {
         DesignerItem DesignerItem;
 
-        public ElementViewModel(DesignerItem designerItem)
+        public ElementViewModel(DesignerItem designerItem, string name)
         {
             DesignerItem = designerItem;
+            Name = name;
         }
 
         public string Name { get; set; }

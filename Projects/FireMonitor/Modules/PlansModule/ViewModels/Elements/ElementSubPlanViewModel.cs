@@ -12,20 +12,20 @@ namespace PlansModule.ViewModels
 {
     public class ElementSubPlanViewModel : BaseViewModel
     {
+        public Guid PlanUID { get; private set; }
+        public string PresentationName { get; private set; }
+        ElementSubPlanView _elementSubPlanView;
+
         public ElementSubPlanViewModel()
         {
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
         }
 
-        public Guid PlanUID { get; private set; }
-        public string PresentationName { get; private set; }
-        ElementSubPlanView _elementSubPlanView;
-
         public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
         {
             PlanUID = elementSubPlan.UID;
             var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == PlanUID);
-            PresentationName = plan.Caption;//elementSubPlan.Caption;
+            PresentationName = plan.Caption;
 
             _elementSubPlanView = new ElementSubPlanView()
             {

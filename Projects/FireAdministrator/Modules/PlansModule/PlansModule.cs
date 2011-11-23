@@ -2,12 +2,25 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using PlansModule.ViewModels;
+using PlansModule.Events;
+using System;
 
 namespace PlansModule
 {
     public class PlansModule
     {
-        public static bool HasChanges { get; set; }
+        static bool _hasChanges;
+        public static bool HasChanges
+        {
+            get { return _hasChanges; }
+            set
+            {
+                _hasChanges = value;
+                if (value)
+                    ServiceFactory.Events.GetEvent<PlanChangedEvent>().Publish(Guid.Empty);
+            }
+        }
+
         static PlansViewModel _plansViewModel;
 
         public PlansModule()

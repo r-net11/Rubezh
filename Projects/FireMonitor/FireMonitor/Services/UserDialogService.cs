@@ -10,11 +10,21 @@ namespace FireMonitor
     {
         List<DialogWindow> ActiveWindows = new List<DialogWindow>();
 
-        public void ShowWindow(IDialogContent model, bool isTopMost = false)
+        public void ShowWindow(IDialogContent model, bool isTopMost = false, string name = "none")
         {
+            if (name != "none")
+            {
+                var existingDialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+                if (existingDialogWindow != null)
+                {
+                    return;
+                }
+            }
+
             var dialog = new DialogWindow()
             {
-                Topmost = isTopMost
+                Topmost = isTopMost,
+                Name = name
             };
             dialog.SetContent(model);
 
@@ -40,6 +50,24 @@ namespace FireMonitor
         void dialog_Closed(object sender, System.EventArgs e)
         {
             ActiveWindows.Remove((DialogWindow) sender);
+        }
+
+        public void HideWindow(string name)
+        {
+            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+            if (dialogWindow != null)
+            {
+                dialogWindow.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void ResetWindow(string name)
+        {
+            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
+            if (dialogWindow != null)
+            {
+                dialogWindow.Visibility = Visibility.Visible;
+            }
         }
 
         public bool ShowModalWindow(IDialogContent model)

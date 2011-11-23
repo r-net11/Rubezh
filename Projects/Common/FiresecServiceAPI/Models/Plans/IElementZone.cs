@@ -6,5 +6,7 @@ namespace FiresecAPI.Models
     {
         [DataMember]
         ulong? ZoneNo { get; set; }
+
+        Zone Zone { get; set; }
     }
 }

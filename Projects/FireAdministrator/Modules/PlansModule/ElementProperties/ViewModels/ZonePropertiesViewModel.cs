@@ -35,7 +35,10 @@ namespace PlansModule.ViewModels
         protected override void Save(ref bool cancel)
         {
             if (SelectedZone != null)
+            {
                 IElementZone.ZoneNo = SelectedZone.No;
+                IElementZone.Zone = SelectedZone;
+            }
         }
     }
 }

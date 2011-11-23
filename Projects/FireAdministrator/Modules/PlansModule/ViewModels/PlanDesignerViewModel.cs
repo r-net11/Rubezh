@@ -70,10 +70,9 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in plan.ElementDevices)
             {
-                var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                if (device != null)
+                if (elementDevice.Device != null)
                 {
-                    var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                    var devicePicture = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
                     DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
                 }
             }
@@ -161,7 +160,7 @@ namespace PlansModule.ViewModels
                 ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
                 if (elementDevice != null)
                 {
-                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    var device = elementDevice.Device;
 
                     var zones = new List<ulong>();
 

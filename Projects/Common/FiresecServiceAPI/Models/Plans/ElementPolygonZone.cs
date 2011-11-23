@@ -8,11 +8,7 @@ namespace FiresecAPI.Models
     [DataContract]
     public class ElementPolygonZone : ElementBasePolygon, IElementZone
     {
-        public ElementPolygonZone()
-        {
-            BorderColor = Colors.Blue;
-            BorderThickness = 1;
-        }
+        public Zone Zone { get; set; }
 
         [DataMember]
         public ulong? ZoneNo { get; set; }
@@ -22,9 +18,9 @@ namespace FiresecAPI.Models
             var polygon = new Polygon()
             {
                 Points = new PointCollection(PolygonPoints),
-                Fill = new SolidColorBrush(BackgroundColor),
-                Stroke = new SolidColorBrush(BorderColor),
-                StrokeThickness = BorderThickness
+                Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
+                Stroke = new SolidColorBrush(Colors.Blue),
+                StrokeThickness = 1
             };
             return polygon;
         }
@@ -33,7 +29,7 @@ namespace FiresecAPI.Models
         {
             ElementBase elementBase = new ElementPolygonZone()
             {
-                ZoneNo = this.ZoneNo
+                ZoneNo = ZoneNo
             };
             Copy(elementBase);
             return elementBase;
