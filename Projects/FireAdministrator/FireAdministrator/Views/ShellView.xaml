@@ -11,6 +11,7 @@
         Background="Transparent"
         Closing="Window_Closing"
         Closed="Window_Closed">
+    
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
@@ -59,11 +60,10 @@
                         </Grid>
                     </Grid>
                 </Border>
-                <Thumb DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Margin="0 0 3 3" DockPanel.Dock="Bottom"
-                       Cursor="SizeNWSE" />
+                <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
                 <Grid>
                     <DockPanel>
-                        <Grid DockPanel.Dock="Bottom" >
+                        <Grid DockPanel.Dock="Bottom">
                             <ContentControl Name="_validationArea" />
                         </Grid>
                         <Grid>

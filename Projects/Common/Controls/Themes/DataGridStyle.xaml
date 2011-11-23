@@ -131,11 +131,9 @@
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <DataGridColumnHeadersPresenter
-                                                    Grid.Column="1" Grid.ColumnSpan="2"
-                                                    Name="PART_ColumnHeadersPresenter"
+                                                <DataGridColumnHeadersPresenter Grid.Column="1" Grid.ColumnSpan="2" Name="PART_ColumnHeadersPresenter"
                                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
-                                                <Rectangle Grid.Column="2" Fill="{DynamicResource BackgroundBrush}" />
+                                                <Rectangle Grid.Column="2" Fill="{Binding Path=(local:DataGridProperties.HeaderBrush), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}" />
                                                 <!--DataGrid content-->
                                                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
                                                 <ScrollBar

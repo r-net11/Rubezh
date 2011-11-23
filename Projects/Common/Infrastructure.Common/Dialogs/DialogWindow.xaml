@@ -1,21 +1,21 @@
 ﻿<Window x:Class="Infrastructure.Common.DialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        ResizeMode="CanResizeWithGrip"
 	    FontSize="12"
 	    FontFamily="Arial"
-        Loaded="OnLoaded"
 	    WindowStartupLocation="CenterScreen"
 	    SizeToContent="Manual"
 	    ShowInTaskbar="False"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
 	    KeyDown="OnKeyDown"
-        AllowsTransparency="True" Background="Transparent" WindowStyle="None">
-    <Window.Resources>
-    </Window.Resources>
+        Loaded="OnLoaded">
+
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
-                <Border Height="30" MouseMove="Header_MouseMove" DockPanel.Dock="Top" CornerRadius="11 11 0 0" >
+                <Border DockPanel.Dock="Top" Height="30" MouseMove="Header_MouseMove" CornerRadius="11 11 0 0" >
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="#ADADAD" Offset="0" />
@@ -30,6 +30,7 @@
                         </Button>
                     </Grid>
                 </Border>
+                <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />

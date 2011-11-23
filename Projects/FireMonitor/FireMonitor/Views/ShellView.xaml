@@ -63,8 +63,7 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Thumb DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Margin="0 0 3 3" DockPanel.Dock="Bottom"
-                       Cursor="SizeNWSE" />
+                <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
                 <Grid>
                     <DockPanel>
                         <StackPanel DockPanel.Dock="Bottom">

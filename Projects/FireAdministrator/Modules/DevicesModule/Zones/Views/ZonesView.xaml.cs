@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Microsoft.Windows.Controls;
 using DevicesModule.ViewModels;
+using System.Windows;
 
 namespace DevicesModule.Views
 {
@@ -31,10 +32,17 @@ namespace DevicesModule.Views
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var dataGrid = sender as DataGrid;
-            var zonesViewModel = dataGrid.DataContext as ZonesViewModel;
-            if (zonesViewModel.EditCommand.CanExecute(null))
-                zonesViewModel.EditCommand.Execute();
+            IInputElement element = e.MouseDevice.DirectlyOver;
+            if (element != null && element is FrameworkElement)
+            {
+                if (((FrameworkElement)element).Parent is DataGridCell)
+                {
+                    var dataGrid = sender as DataGrid;
+                    var zonesViewModel = dataGrid.DataContext as ZonesViewModel;
+                    if (zonesViewModel.EditCommand.CanExecute(null))
+                        zonesViewModel.EditCommand.Execute();
+                }
+            }
         }
     }
 }

@@ -37,7 +37,11 @@ namespace FireAdministrator
 
         private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            IsDevicesSelected = true;
+            try
+            {
+                IsDevicesSelected = true;
+            }
+            catch { return; }
         }
 
         bool _isDevicesSelected;

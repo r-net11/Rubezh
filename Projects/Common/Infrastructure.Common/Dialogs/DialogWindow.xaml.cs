@@ -103,5 +103,13 @@ namespace Infrastructure.Common
             if (content != null)
                 content.Close(false);
         }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            if (this.Width + e.HorizontalChange > 10)
+                this.Width += e.HorizontalChange;
+            if (this.Height + e.VerticalChange > 10)
+                this.Height += e.VerticalChange;
+        }
     }
 }
