@@ -12,10 +12,10 @@ namespace FiresecClient.Validation
         public static List<DeviceError> DeviceErrors { get; set; }
         public static List<DirectionError> DirectionErrors { get; set; }
 
-        static readonly Guid NsGuid = new Guid("AF05094E-4556-4CEE-A3F3-981149264E89");
-        static readonly Guid PduGuid = new Guid("B1DF571E-8786-4987-94B2-EC91F7578D20");
-        static readonly Guid IndicatorGuid = new Guid("E486745F-6130-4027-9C01-465DE5415BBF");
-        static readonly Guid ZadvizhkaGuid = new Guid("4935848F-0084-4151-A0C8-3A900E3CB5C5");
+        static readonly DriverType NsDriverType = DriverType.PumpStation;
+        static readonly DriverType PduDriverType = DriverType.PDU;
+        static readonly DriverType IndicatorDriverType = DriverType.Indicator;
+        static readonly DriverType ZadvizhkaDriverType = DriverType.Valve;
 
         static List<Guid> _validateDevicesWithSerialNumber;
 
@@ -46,11 +46,11 @@ namespace FiresecClient.Validation
                 //    ++pduCount;
                 //    --pduCount;
                 //}
-                if (device.DriverUID == PduGuid)
+                if (device.Driver.DriverType == PduDriverType)
                 {
                     ++pduCount;
                 }
-                else if (device.DriverUID == IndicatorGuid)
+                else if (device.Driver.DriverType == IndicatorDriverType)
                 {
                     if (device.IndicatorLogic.IndicatorLogicType == IndicatorLogicType.Zone)
                         ValidateDeviceIndicatorOtherNetworkZone(device);
@@ -418,13 +418,13 @@ namespace FiresecClient.Validation
 
         static void ValidateZoneSingleNS(Zone zone, List<Device> zoneDevices)
         {
-            if (zoneDevices.Where(x => x.DriverUID == NsGuid).Count() > 1)
+            if (zoneDevices.Where(x => x.Driver.DriverType == NsDriverType).Count() > 1)
                 ZoneErrors.Add(new ZoneError(zone, "В одной зоне не может быть несколько внешних НС", ErrorLevel.CannotWrite));
         }
 
         static void ValidateZoneDifferentLine(Zone zone, List<Device> zoneDevices)
         {
-            var zoneAutoCreateDevices = zoneDevices.Where(x => x.Driver.IsAutoCreate).ToList();
+            var zoneAutoCreateDevices = zoneDevices.Where(x => x.Driver.IsAutoCreate && x.Driver.IsDeviceOnShleif).ToList();
             if (zoneAutoCreateDevices.Count > 0)
             {
                 foreach (var device in zoneAutoCreateDevices)
@@ -441,7 +441,7 @@ namespace FiresecClient.Validation
 
         static void ValidateZoneSingleBoltInDirectionZone(Zone zone, List<Device> zoneDevices)
         {
-            if (zoneDevices.Count(x => x.DriverUID == ZadvizhkaGuid) > 1 && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
+            if (zoneDevices.Count(x => x.Driver.DriverType == ZadvizhkaDriverType) > 1 && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
                 ZoneErrors.Add(new ZoneError(zone, "В зоне направления не может быть более одной задвижки", ErrorLevel.CannotWrite));
         }
 
@@ -453,7 +453,7 @@ namespace FiresecClient.Validation
 
         static void ValidateZoneDescriptionLength(Zone zone)
         {
-            if (zone.Description != null && zone.Description.Length > 20)
+            if (zone.Description != null && zone.Description.Length > 256)
                 ZoneErrors.Add(new ZoneError(zone, "Слишком длинное примечание в зоне (более 256 символов)", ErrorLevel.CannotSave));
         }
 

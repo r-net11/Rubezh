@@ -1,15 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
 using Common;
-using CustomWindow;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace FireMonitor
 {
@@ -51,30 +51,31 @@ namespace FireMonitor
                 App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
         }
 
-        private void OnClose(object sender, RoutedEventArgs e)
+        void OnClose(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnMinimize(object sender, RoutedEventArgs e)
+        void OnMinimize(object sender, RoutedEventArgs e)
         {
             WindowState = System.Windows.WindowState.Minimized;
         }
 
-        private void OnMaximize(object sender, RoutedEventArgs e)
+        void OnMaximize(object sender, RoutedEventArgs e)
         {
             ChangeMaximizedState();
         }
 
-        private void OnShowHelp(object sender, RoutedEventArgs e)
+        void OnShowHelp(object sender, RoutedEventArgs e)
         {
-
+            var helperPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec\FS_CL_OPER.HLP");
+            Process.Start(helperPath);
         }
 
-        private void OnShowAbout(object sender, RoutedEventArgs e)
+        void OnShowAbout(object sender, RoutedEventArgs e)
         {
-
         }
+
         public IViewPart MainContent
         {
             get { return _mainRegionHost.Content as IViewPart; }

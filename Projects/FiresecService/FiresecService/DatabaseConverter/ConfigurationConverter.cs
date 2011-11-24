@@ -13,7 +13,6 @@ namespace FiresecService
         public static void Convert()
         {
             FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
-            DeviceConfiguration = new DeviceConfiguration();
             ConvertConfiguration();
 
             ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
@@ -25,6 +24,7 @@ namespace FiresecService
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
 
             FiresecManager.DeviceConfiguration = DeviceConfiguration;
+            FiresecManager.SetValidChars();
         }
 
         static void ConvertConfiguration()

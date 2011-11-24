@@ -1,40 +1,47 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Common;
 using FiresecAPI.Models;
 
 namespace FiresecService.Processor
 {
-    public class ArchiveFilterHelper
+    public static class ArchiveFilterHelper
     {
-        ArchiveFilter _archiveFilter;
-
-        public ArchiveFilterHelper(ArchiveFilter archiveFilter)
+        public static IEnumerable<JournalRecord> RangeJournalByTime(this IEnumerable<JournalRecord> journal, ArchiveFilter archiveFilter)
         {
-            _archiveFilter = archiveFilter;
+            return journal.SkipWhile(record => CheckHighDateBound(record, archiveFilter) == false).
+                           TakeWhile(record => CheckLowDateBound(record, archiveFilter));
         }
 
-        public bool FilterByEvents(JournalRecord record)
+        public static IEnumerable<JournalRecord> FilterJournalByEvents(this IEnumerable<JournalRecord> journal, ArchiveFilter archiveFilter)
         {
-            if (_archiveFilter.Descriptions.IsNotNullOrEmpty())
-                return _archiveFilter.Descriptions.Any(description => description == record.Description);
-            else
-                return true;
+            if (archiveFilter.Descriptions.IsNotNullOrEmpty())
+                return journal.Where(record => archiveFilter.Descriptions.Any(description => description == record.Description));
+            return journal;
         }
 
-        public bool FilterBySubsystems(JournalRecord record)
+        public static IEnumerable<JournalRecord> FilterJournalBySubsystems(this IEnumerable<JournalRecord> journal, ArchiveFilter archiveFilter)
         {
-            if (_archiveFilter.Subsystems.IsNotNullOrEmpty())
-                return _archiveFilter.Subsystems.Any(subsystem => subsystem == record.SubsystemType);
-            else
-                return true;
+            if (archiveFilter.Subsystems.IsNotNullOrEmpty())
+                return journal.Where(record => archiveFilter.Subsystems.Any(subsystem => subsystem == record.SubsystemType));
+            return journal;
         }
 
-        public bool FilterByDevices(JournalRecord record)
+        public static IEnumerable<JournalRecord> FilterJournalByDevices(this IEnumerable<JournalRecord> journal, ArchiveFilter archiveFilter)
         {
-            if (_archiveFilter.IsDeviceFilterOn && _archiveFilter.DeviceDatabaseIds.IsNotNullOrEmpty())
-                return _archiveFilter.DeviceDatabaseIds.Any(id => id == record.PanelDatabaseId);
-            else
-                return true;
+            if (archiveFilter.IsDeviceFilterOn && archiveFilter.DeviceDatabaseIds.IsNotNullOrEmpty())
+                return journal.Where(record => archiveFilter.DeviceDatabaseIds.Any(id => id == record.PanelDatabaseId));
+            return journal;
+        }
+
+        static bool CheckHighDateBound(JournalRecord record, ArchiveFilter archiveFilter)
+        {
+            return (archiveFilter.UseSystemDate ? record.SystemTime : record.DeviceTime) <= archiveFilter.EndDate;
+        }
+
+        static bool CheckLowDateBound(JournalRecord record, ArchiveFilter archiveFilter)
+        {
+            return (archiveFilter.UseSystemDate ? record.SystemTime : record.DeviceTime) >= archiveFilter.StartDate;
         }
     }
 }

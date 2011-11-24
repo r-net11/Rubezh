@@ -22,7 +22,6 @@
                             <RadioButton Margin="5"
                                     Content="{Binding ArchiveDefaultStateType,
                                                   Converter={StaticResource ArchiveDefaultStateTypeToStringConverter}}"
-
                                      IsChecked="{Binding IsActive}"
                                      Checked="RadioButton_Checked"/>
                         </DataTemplate>

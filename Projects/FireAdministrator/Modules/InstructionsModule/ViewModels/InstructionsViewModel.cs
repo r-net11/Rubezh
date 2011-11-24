@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Common;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -24,6 +27,15 @@ namespace InstructionsModule.ViewModels
             {
                 foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
                 {
+                    if (instruction.InstructionType == InstructionType.Details)
+                    {
+                        instruction.InstructionDevicesList = new List<System.Guid>(
+                            instruction.InstructionDevicesList.Where(deviceGuid => FiresecManager.DeviceConfiguration.Devices.Any(x => x.UID == deviceGuid))
+                        );
+                        instruction.InstructionZonesList = new List<ulong?>(
+                            instruction.InstructionZonesList.Where(zoneNumber => FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == zoneNumber))
+                        );
+                    }
                     Instructions.Add(new InstructionViewModel(instruction));
                 }
             }

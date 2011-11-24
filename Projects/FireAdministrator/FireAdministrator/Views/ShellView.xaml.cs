@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Common;
@@ -60,6 +63,8 @@ namespace FireAdministrator
 
         void OnShowHelp(object sender, RoutedEventArgs e)
         {
+            var helperPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec\FS_CL_ADMIN.HLP");
+            Process.Start(helperPath);
         }
 
         void OnShowAbout(object sender, RoutedEventArgs e)

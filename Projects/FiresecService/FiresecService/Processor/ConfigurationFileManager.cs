@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 
@@ -14,7 +15,7 @@ namespace FiresecService
 
         public static string ConfigurationDirectory(string FileNameOrDirectory)
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "Configuration", FileNameOrDirectory);
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", FileNameOrDirectory);
         }
 
         public static DeviceConfiguration GetDeviceConfiguration()

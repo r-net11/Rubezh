@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 
@@ -30,6 +31,7 @@ namespace FiresecService
             if (FiresecInternalClient.Connect(login, password))
             {
                 ConvertMetadataFromFiresec();
+                SetValidChars();
                 Update();
                 DeviceStatesConverter.Convert();
 
@@ -49,7 +51,14 @@ namespace FiresecService
                 Select(firesecDriver => DriverConverter.Convert(firesecDriver)).
                 Where(driver => driver.IsIgnore == false)
             );
-            DeviceConfiguration.ValidChars = DriverConverter.Metadata.drv.Last().validChars;
+        }
+
+        public static void SetValidChars()
+        {
+            DriverConverter.Metadata = FiresecInternalClient.GetMetaData();
+            var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
+            validCharsBuilder.Append('№');
+            DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
         }
 
         public static void Update()

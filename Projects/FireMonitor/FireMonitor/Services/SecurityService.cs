@@ -7,8 +7,7 @@ namespace FireMonitor
     {
         public bool Validate()
         {
-            var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Validate);
-            return ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
+            return ServiceFactory.UserDialogs.ShowModalWindow(new LoginViewModel(LoginViewModel.PasswordViewType.Validate));
         }
     }
 }

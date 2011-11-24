@@ -35,14 +35,11 @@ namespace FiresecService
 
         public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
-            var filterHelper = new ArchiveFilterHelper(archiveFilter);
-
             return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                SkipWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.EndDate : journal.DeviceTime > archiveFilter.EndDate).
-                TakeWhile(journal => archiveFilter.UseSystemDate ? journal.SystemTime > archiveFilter.StartDate : journal.DeviceTime > archiveFilter.StartDate).
-                Where(journal => filterHelper.FilterByEvents(journal)).
-                Where(journal => filterHelper.FilterBySubsystems(journal)).
-                Where(journal => filterHelper.FilterByDevices(journal));
+                    RangeJournalByTime(archiveFilter).
+                    FilterJournalByEvents(archiveFilter).
+                    FilterJournalBySubsystems(archiveFilter).
+                    FilterJournalByDevices(archiveFilter);
         }
 
         public IEnumerable<JournalRecord> GetDistinctRecords()

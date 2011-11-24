@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
 using Common;
 using FiresecClient;
 using Infrastructure.Common;
@@ -16,11 +17,11 @@ namespace FireMonitor.ViewModels
             CancelCommand = new RelayCommand(OnCancel);
 
             _passwordViewType = passwordViewType;
-            Password = "";
+            Password = ConfigurationManager.AppSettings["DefaultPassword"] as string;
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    UserName = "adm";
+                    UserName = ConfigurationManager.AppSettings["DefaultLogin"] as string;
                     IsUserNameEnabled = true;
                     break;
 

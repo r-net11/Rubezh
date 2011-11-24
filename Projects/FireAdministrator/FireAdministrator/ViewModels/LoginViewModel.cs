@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -12,8 +13,8 @@ namespace FireAdministrator.ViewModels
             ConnectCommand = new RelayCommand(OnConnect);
             CancelCommand = new RelayCommand(OnCancel);
 
-            UserName = "adm";
-            Password = "";
+            UserName = ConfigurationManager.AppSettings["DefaultLogin"] as string;
+            Password = ConfigurationManager.AppSettings["DefaultPassword"] as string;
         }
 
         string _userName;

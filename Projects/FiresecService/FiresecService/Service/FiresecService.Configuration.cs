@@ -82,7 +82,7 @@ namespace FiresecService
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetPlansConfiguration(plansConfiguration)));
+            ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
             FiresecManager.PlansConfiguration = plansConfiguration;
         }
     }

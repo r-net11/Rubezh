@@ -23,13 +23,13 @@ namespace InstructionsModule.Converters
                 foreach (var deviceGuid in devices)
                 {
                     device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
+
                     result.Append(device.PresentationAddressDriver);
                     result.Append(delimString);
                 }
 
                 return result.ToString().Remove(result.Length - delimString.Length);
             }
-
             return null;
         }
 
