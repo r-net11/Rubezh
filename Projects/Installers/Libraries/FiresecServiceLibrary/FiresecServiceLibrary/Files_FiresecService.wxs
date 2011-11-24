@@ -5,19 +5,13 @@
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
 		<Property Id="FiresecServiceInstallDirId" Value="$(var.FiresecServiceLocationId)" />
-		<Property Id="FiresecServiceName" Value="$(var.FiresecServiceName)" />
+		<Property Id="FiresecServiceName" Value="$(var.FiresecService.TargetFileName)" />
 		
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
 							Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
 				</File>
-				<!--<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
-												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="yes" Arguments="/service">
-					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
-				</ServiceInstall>-->
 			</Component>
 
 			<Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
@@ -52,7 +46,7 @@
 
 			<!--<Component Id="Autorun" Guid="520FC85A-90A0-4FDB-806B-A5E22657DF7F">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[INSTALLLOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
+					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
 				</RegistryKey>
 			</Component>-->
 			
@@ -66,24 +60,13 @@
 					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
 															RestartServiceDelayInSeconds="100"/>
 				</ServiceInstall>
+				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
 			</Component>-->
 			
 			<!--<Component Id="StartService" Guid="FEDE1A08-EEA7-4D39-8011-C871FA84514A">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
 			</Component>-->
-
-			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
-				<Condition> CHECKSQLSERVER = "1" </Condition>
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-												 Server="(local)\SQLExpress" DropOnUninstall="yes" ContinueOnError="no">
-					--><!--<sql:SqlFileSpec Id="SqlDataFile" Filename="[INSTALLLOCATION]Firesec.mdf" Name="FiresecDatabaseDatafile" />
-					<sql:SqlLogFileSpec Id="SqlLogFile" Filename="[INSTALLLOCATION]WixDatabase.ldf" Name="WixDatabaseLogfile" />--><!--
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" Sequence="1" />
-				</sql:SqlDatabase>
-			</Component>-->
-
 		</DirectoryRef>
 
 		<DirectoryRef Id="FiresecServiceConfigFolder">

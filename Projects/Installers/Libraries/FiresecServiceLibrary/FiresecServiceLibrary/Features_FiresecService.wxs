@@ -15,25 +15,11 @@
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>
 			<ComponentRef Id="DeviceConfiguration"/>
-			<!--<ComponentRef Id="ProgramMenuDir" />-->
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />
-			<!--<ComponentRef Id="DesktopFolder" />-->
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
 			<ComponentGroupRef Id="ConfigurationGroup"/>
-			<!--<ComponentRef Id="StartService"/>-->
 			<!--<ComponentRef Id="Autorun"/>-->
-			<!--<ComponentRef Id="FiresecWindowsService"/>-->
 		</Feature>
-
-		<!--<Feature Id="SqlComponent" Title="SQL Table" Level="1" Display="expand" Description="Создание базы данных"
-						 AllowAdvertise="no" Absent="allow" InstallDefault="local">
-			<Condition Level="0">CHECKSQLSERVER = "1"</Condition>
-			<ComponentRef Id="SqlComponent"/>
-		</Feature>-->
-
-		<!--<Feature Id="Configuration" Title="Configuration Files" Level="1">
-			<ComponentGroupRef Id="ConfigurationGroup"/>
-		</Feature>-->
 	</Fragment>
 </Wix>

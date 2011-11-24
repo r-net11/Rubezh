@@ -2,14 +2,16 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables_Firesec.wxi?>
   <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="2" Display="expand"
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
              ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
-      <Feature Id="FiresecService" Level="3" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
+      <Feature Id="FiresecService" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
+        <Condition Level="0">INSTALLLEVEL=2</Condition>
         <FeatureRef Id="FiresecServiceFeature" />
         <ComponentRef Id="ChangeConnectionsSettings"/>
         <ComponentRef Id="SqlComponent"/>
+        <ComponentRef Id="FiresecWindowsService" />
       </Feature>
-      <Feature Id="FiresecClient" Level="2" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
+      <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FireAdministratorFeature" />
         <FeatureRef Id="FireMonitorFeature" />
       </Feature>

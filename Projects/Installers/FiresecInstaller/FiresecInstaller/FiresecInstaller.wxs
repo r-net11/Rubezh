@@ -66,11 +66,10 @@
     <Property Id="CHECKSQLSERVER" Value="0"></Property>
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
-    <Property Id="INSTALLLEVEL" Value="2" />
-    <SetProperty Id="INSTALLLEVEL" Value="3" Before="CostFinalize">SetupChoise = "Full"</SetProperty>
+    <Property Id="INSTALLLEVEL" Value="1" />
     
     <InstallExecuteSequence>
-      <Custom Action="StartAppOnExit" After="InstallFinalize">SetupChoise = "Full"</Custom>
+      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOISE = "Full"</Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

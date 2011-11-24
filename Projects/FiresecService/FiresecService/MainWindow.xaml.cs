@@ -6,6 +6,7 @@ using FiresecService.Imitator;
 using System.ServiceProcess;
 using FiresecService.Service;
 using System.Diagnostics;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace FiresecServiceRunner
 {
@@ -17,6 +18,8 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
             Current = this;
+            DirectoryInfo dirInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             AnalizeCommandLine();
         }
 
@@ -57,8 +60,6 @@ namespace FiresecServiceRunner
             bool convertJournal = false;
             bool hide = false;
             bool service = false;
-            DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
-            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
@@ -126,14 +127,17 @@ namespace FiresecServiceRunner
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
-            FiresecManager.ConnectFiresecCOMServer("adm", "");
-            FiresecServiceManager.Open();
             ConfigurationConverter.Convert();
         }
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             JournalDataConverter.Convert();
+        }
+        
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

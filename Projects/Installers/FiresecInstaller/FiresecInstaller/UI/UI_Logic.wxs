@@ -87,25 +87,19 @@ Patch dialog sequence:
       <Publish Dialog="InstallChangeFolder" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
 
       <Publish Dialog="SetupType" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SetupChoice ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Property="INSTALLLEVEL" Value="3">SetupChoice ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SetupChoice ="Client"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Property="INSTALLLEVEL" Value="2">SetupChoice ="Client"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SETUPCHOICE ="Full"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="3">SETUPCHOICE ="Full"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SETUPCHOICE ="Client"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="2">SETUPCHOICE ="Client"</Publish>
       <Publish Dialog="SetupType" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
 
       <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupType" Order="1">
-        SetupChoice = "Full"
+        SETUPCHOICE = "Full"
       </Publish>
       <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupType" Order="1">
-        SetupChoice = "Client"
+        SETUPCHOICE = "Client"
       </Publish>
-      <!--<Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">
-        WixUI_InstallMode = "InstallCustom"
-      </Publish>-->
-      <!--<Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupTypeDlg" Order="2">
-        WixUI_InstallMode = "InstallTypical" OR WixUI_InstallMode = "InstallComplete"
-      </Publish>-->
       <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="SQLLogin">1</Publish>
 
@@ -116,19 +110,13 @@ Patch dialog sequence:
       <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">
         WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"
       </Publish>
+      
 
       <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
       <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
-      <!--<Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Event="DoAction" Value="CreateSQLInstanceList">1</Publish>-->
-      <!--<Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Property="SQLInstance" Value="[SQLInstance]">1</Publish>-->
-      <!--<Publish Dialog="SQLLogin" Control="BtnSQLBrowse" Event="SpawnDialog" Value="SQLBrowse">1</Publish>-->
       <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       
-      <Publish Dialog="SQLBrowse" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
-      <Publish Dialog="SQLBrowse" Control="OK" Property="SQLInstance" Value="[SQLINSTANCE_LIST]">1</Publish>
-      <Publish Dialog="SQLBrowse" Control="OK" Event="EndDialog" Value="Return">1</Publish>
-
       <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
 
       <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>

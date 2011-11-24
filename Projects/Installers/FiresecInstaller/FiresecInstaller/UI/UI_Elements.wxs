@@ -19,7 +19,7 @@
         <ListItem Value="SQLEXPRESS"/>
       </ListBox>
       
-      <RadioButtonGroup Property="SetupChoice">
+      <RadioButtonGroup Property="SETUPCHOICE">
         <RadioButton Height="13" Text="{&amp;MSSansBold8}&amp;Установка клиента и сервера" Value="Full" Width="247" X="21" Y="14" />
         <RadioButton Height="14" Text="{&amp;MSSansBold8}&amp;Установка удаленного клиента" Value="Client" Width="247" X="21" Y="75" />
       </RadioButtonGroup>
