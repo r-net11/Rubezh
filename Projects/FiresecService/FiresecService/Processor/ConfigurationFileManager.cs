@@ -101,7 +101,7 @@ namespace FiresecService
                 var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
                 using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
                 {
-                    return (PlansConfiguration) dataContractSerializer.ReadObject(fileStream);
+                    return (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
                 }
             }
             catch

@@ -12,38 +12,26 @@ namespace PlansModule.ViewModels
 {
     public class ElementDeviceViewModel : BaseViewModel
     {
-        Device _device;
-        DeviceState _deviceState;
-        ElementDeviceView _elementDeviceView;
+        public ElementDeviceView ElementDeviceView { get; private set; }
+        Device Device;
+        DeviceState DeviceState;
         public Guid DeviceUID { get; private set; }
 
-        public ElementDeviceViewModel()
+        public ElementDeviceViewModel(ElementDevice elementDevice)
         {
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
-        }
 
-        public void Initialize(ElementDevice elementDevice, Canvas canvas)
-        {
-            _elementDeviceView = new ElementDeviceView()
-            {
-                DataContext = this,
-                Width = elementDevice.Width,
-                Height = elementDevice.Height
-            };
-            _elementDeviceView._deviceControl.PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(OnPreviewMouseButtonDown);
-            Canvas.SetLeft(_elementDeviceView, elementDevice.Left);
-            Canvas.SetTop(_elementDeviceView, elementDevice.Top);
-            canvas.Children.Add(_elementDeviceView);
+            ElementDeviceView = new ElementDeviceView();
 
             DeviceUID = elementDevice.DeviceUID;
-            _device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
-            _deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
-            if (_device != null)
+            Device = elementDevice.Device;
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
+            if (Device != null)
             {
-                _elementDeviceView._deviceControl.DriverId = _device.Driver.UID;
+                ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
                 OnDeviceStateChanged(DeviceUID);
             }
         }
@@ -55,32 +43,25 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
-                _elementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
+                ElementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
             }
         }
 
         public bool IsDisabled
         {
-            get { return _deviceState.IsDisabled; }
-        }
-
-        public event Action Selected;
-        void OnPreviewMouseButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (Selected != null)
-                Selected();
+            get { return DeviceState.IsDisabled; }
         }
 
         public RelayCommand ShowInTreeCommand { get; private set; }
         void OnShowInTree()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.UID);
         }
 
         public bool CanDisable()
         {
-            return _deviceState.CanDisable();
+            return DeviceState.CanDisable();
         }
 
         public RelayCommand DisableCommand { get; private set; }
@@ -88,49 +69,60 @@ namespace PlansModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                _deviceState.ChangeDisabled();
+                DeviceState.ChangeDisabled();
             }
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
+            ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
         }
 
         void OnDeviceStateChanged(Guid deviceUID)
         {
             if (deviceUID == DeviceUID)
             {
-                _elementDeviceView._deviceControl.StateType = _deviceState.StateType;
-                _elementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
-                    from state in _deviceState.States
+                ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
+                ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
+                    from state in DeviceState.States
                     select state.DriverState.Code);
 
                 UpdateTooltip();
             }
         }
 
+        string _toolTip;
+        public string ToolTip
+        {
+            get { return _toolTip; }
+            set
+            {
+                _toolTip = value;
+                OnPropertyChanged("ToolTip");
+            }
+        }
+
         void UpdateTooltip()
         {
             string tooltip = "";
-            tooltip = _device.PresentationAddress + " - " + _device.Driver.ShortName + "\n";
+            tooltip = Device.PresentationAddress + " - " + Device.Driver.ShortName + "\n";
 
-            if (_deviceState.ParentStringStates != null)
+            if (DeviceState.ParentStringStates != null)
             {
-                foreach (var parentState in _deviceState.ParentStringStates)
+                foreach (var parentState in DeviceState.ParentStringStates)
                 {
                     tooltip += parentState + "\n";
                 }
             }
 
-            foreach (var state in _deviceState.States)
+            foreach (var state in DeviceState.States)
             {
                 tooltip += state.DriverState.Name + "\n";
             }
 
-            if (_deviceState.Parameters != null)
-                foreach (var parameter in _deviceState.Parameters)
+            if (DeviceState.Parameters != null)
+                foreach (var parameter in DeviceState.Parameters)
                 {
                     if (parameter.Visible)
                     {
@@ -140,8 +132,7 @@ namespace PlansModule.ViewModels
                     }
                 }
 
-            if (_elementDeviceView != null)
-                _elementDeviceView.ToolTip = tooltip;
+            ToolTip = tooltip;
         }
     }
 }

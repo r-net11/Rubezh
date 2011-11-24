@@ -14,7 +14,7 @@ using FiresecServiceRunner;
 namespace FiresecService
 {
     [ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
-        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Single)]
+        InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService, IDisposable
     {
         public readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();

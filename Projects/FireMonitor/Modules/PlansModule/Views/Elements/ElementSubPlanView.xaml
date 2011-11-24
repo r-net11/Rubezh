@@ -5,15 +5,9 @@
     <UserControl.Resources>
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
+
+    <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
                  ToolTip="{Binding PresentationName}" Fill="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
-                 MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave">
-            <Polygon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                </ContextMenu>
-            </Polygon.ContextMenu>
-        </Polygon>
-    </Grid>
+                 MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
+    </Polygon>
 </UserControl>

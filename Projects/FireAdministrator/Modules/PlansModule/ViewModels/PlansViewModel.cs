@@ -22,18 +22,15 @@ namespace PlansModule.ViewModels
             ShowElementsCommand = new RelayCommand(OnShowElements);
             ShowDevicesCommand = new RelayCommand(OnShowDevices);
 
-            InitializeCopyPaste();
-
             DesignerCanvas = new DesignerCanvas();
             PlanDesignerViewModel = new PlanDesignerViewModel();
             PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 
+            InitializeCopyPaste();
             InitializeHistory();
-
             ElementsViewModel = new ElementsViewModel(DesignerCanvas);
             DevicesViewModel = new DevicesViewModel();
 
-            UpdateElementModels();
             Initialize();
         }
 
@@ -54,46 +51,6 @@ namespace PlansModule.ViewModels
             if (Plans.Count > 0)
             {
                 SelectedPlan = Plans[0];
-            }
-        }
-
-        void UpdateElementModels()
-        {
-            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanUIDs.Clear(); });
-
-            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-            {
-                for (int i = plan.ElementDevices.Count(); i > 0; i--)
-                {
-                    var elementDevice = plan.ElementDevices[i - 1];
-
-                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                    if (device != null)
-                    {
-                        device.PlanUIDs.Add(elementDevice.UID);
-                        elementDevice.Device = device;
-                    }
-                    else
-                    {
-                        plan.ElementDevices.RemoveAt(i - 1);
-                    }
-                }
-
-                foreach (var elementZone in plan.ElementPolygonZones)
-                {
-                    if (elementZone.ZoneNo.HasValue)
-                    {
-                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-                    }
-                }
-
-                foreach (var elementZone in plan.ElementRectangleZones)
-                {
-                    if (elementZone.ZoneNo.HasValue)
-                    {
-                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-                    }
-                }
             }
         }
 
@@ -265,7 +222,7 @@ namespace PlansModule.ViewModels
         public override void OnShow()
         {
             ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
-            UpdateElementModels();
+            FiresecManager.UpdatePlansConfiguration();
             DevicesViewModel.Update();
 
             ServiceFactory.UserDialogs.ResetWindow("PlanElements");

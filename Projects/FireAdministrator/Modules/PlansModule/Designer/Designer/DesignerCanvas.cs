@@ -173,6 +173,18 @@ namespace PlansModule.Designer
             {
                 Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
             }
+            if (elementBase is ElementRectangleZone)
+            {
+                Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
+            }
+            if (elementBase is ElementPolygonZone)
+            {
+                Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
+            }
+            if (elementBase is ElementSubPlan)
+            {
+                Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
+            }
             if (elementBase is ElementDevice)
             {
                 Plan.ElementDevices.Add(elementBase as ElementDevice);
@@ -182,11 +194,15 @@ namespace PlansModule.Designer
             if (elementBase is ElementDevice)
             {
                 var elementDevice = elementBase as ElementDevice;
-                var device = elementDevice.Device;
-                var devicePicture = DeviceControl.GetDefaultPicture(device.Driver.UID);
+                if (elementDevice.Device == null)
+                {
+                    elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    elementDevice.Device.PlanUIDs.Add(elementBase.UID);
+                }
+                var devicePicture = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
                 designerItem = Create(elementDevice, frameworkElement: devicePicture);
-                device.PlanUIDs.Add(elementBase.UID);
-                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(device.UID);
+                
+                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
             }
             else
             {

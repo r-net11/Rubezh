@@ -71,8 +71,14 @@ namespace PlansModule.ViewModels
                 if (elementBase is ElementSubPlan)
                 {
                     ElementSubPlan elementSubPlan = elementBase as ElementSubPlan;
-                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
-                    name = plan.Caption;
+                    if (elementSubPlan.Plan != null)
+                    {
+                        name = elementSubPlan.Plan.Caption;
+                    }
+                    else
+                    {
+                        name = "Несвязанный подплан";
+                    }
                     SubPlans.Add(new ElementViewModel(designerItem, name));
                 }
                 if (elementBase is ElementEllipse)

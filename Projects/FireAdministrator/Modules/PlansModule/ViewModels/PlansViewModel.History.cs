@@ -16,6 +16,7 @@ namespace PlansModule.ViewModels
 
         void InitializeHistory()
         {
+            ResetHistory();
             UndoCommand = new RelayCommand(OnUndo, CanUndo);
             RedoCommand = new RelayCommand(OnRedo, CanRedo);
 

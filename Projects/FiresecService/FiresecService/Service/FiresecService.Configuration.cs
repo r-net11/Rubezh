@@ -40,7 +40,7 @@ namespace FiresecService
 
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration)));
+            ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
             FiresecManager.SecurityConfiguration = securityConfiguration;
         }
 
@@ -54,7 +54,7 @@ namespace FiresecService
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetSystemConfiguration(systemConfiguration)));
+            ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
             FiresecManager.SystemConfiguration = systemConfiguration;
         }
 
@@ -68,7 +68,7 @@ namespace FiresecService
 
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
-            ThreadPool.QueueUserWorkItem(new WaitCallback(o => ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration)));
+            ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
             FiresecManager.LibraryConfiguration = libraryConfiguration;
         }
 

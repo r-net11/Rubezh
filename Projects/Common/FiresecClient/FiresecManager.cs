@@ -48,6 +48,7 @@ namespace FiresecClient
 
             UpdateDrivers();
             UpdateConfiguration();
+            UpdatePlansConfiguration();
             UpdateStates();
 
             FiresecService.Subscribe();
@@ -90,6 +91,51 @@ namespace FiresecClient
                     {
                         clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
                     }
+                }
+            }
+        }
+
+        public static void UpdatePlansConfiguration()
+        {
+            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanUIDs.Clear(); });
+
+            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+            {
+                for (int i = plan.ElementDevices.Count(); i > 0; i--)
+                {
+                    var elementDevice = plan.ElementDevices[i - 1];
+
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    if (device != null)
+                    {
+                        device.PlanUIDs.Add(elementDevice.UID);
+                        elementDevice.Device = device;
+                    }
+                    else
+                    {
+                        plan.ElementDevices.RemoveAt(i - 1);
+                    }
+                }
+
+                foreach (var elementZone in plan.ElementPolygonZones)
+                {
+                    if (elementZone.ZoneNo.HasValue)
+                    {
+                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
+                    }
+                }
+
+                foreach (var elementZone in plan.ElementRectangleZones)
+                {
+                    if (elementZone.ZoneNo.HasValue)
+                    {
+                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
+                    }
+                }
+
+                foreach (var elementSubPlan in plan.ElementSubPlans)
+                {
+                    elementSubPlan.Plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
                 }
             }
         }

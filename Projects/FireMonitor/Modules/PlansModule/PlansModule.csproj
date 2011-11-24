@@ -61,6 +61,8 @@
     <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
+    <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
+    <Compile Include="Events\ElementZoneSelectedEvent.cs" />
     <Compile Include="Views\Elements\ElementSubPlanView.xaml.cs">
       <DependentUpon>ElementSubPlanView.xaml</DependentUpon>
     </Compile>
@@ -69,7 +71,6 @@
     <Compile Include="Views\Elements\ElementZoneView.xaml.cs">
       <DependentUpon>ElementZoneView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\FakePresentation\DoorViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementDeviceViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementSubPlanViewModel.cs" />
     <Compile Include="PlanBuilder.cs" />
@@ -87,12 +88,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\FakePresentation\PhoneViewModel.cs" />
     <Compile Include="ViewModels\PlanCanvasViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementZoneViewModel.cs" />
-    <Compile Include="ViewModels\FakePresentation\VideoViewModel.cs" />
     <Compile Include="Views\Elements\ElementDeviceView.xaml.cs">
       <DependentUpon>ElementDeviceView.xaml</DependentUpon>
     </Compile>

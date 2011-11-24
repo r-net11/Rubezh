@@ -68,6 +68,11 @@ namespace PlansModule.ViewModels
                 DesignerCanvas.Create(ElementPolygonZone);
             }
 
+            foreach (var ElementSubPlan in plan.ElementSubPlans)
+            {
+                DesignerCanvas.Create(ElementSubPlan);
+            }
+
             foreach (var elementDevice in plan.ElementDevices)
             {
                 if (elementDevice.Device != null)
@@ -75,11 +80,6 @@ namespace PlansModule.ViewModels
                     var devicePicture = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
                     DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
                 }
-            }
-
-            foreach (var ElementSubPlan in plan.ElementSubPlans)
-            {
-                DesignerCanvas.Create(ElementSubPlan);
             }
 
             DesignerCanvas.DeselectAll();

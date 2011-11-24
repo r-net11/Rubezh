@@ -5,17 +5,16 @@
     <UserControl.Resources>
         <Converters:StateToColorConverter x:Key="StateToColorConverter" />
     </UserControl.Resources>
-    <Grid>
-        <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
+
+    <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
                  ToolTip="{Binding PresentationName}" Fill="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
-                 MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave">
-            <Polygon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
-                    <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableCommand}" />
-                    <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableCommand}" />
-                </ContextMenu>
-            </Polygon.ContextMenu>
-        </Polygon>
-    </Grid>
+                 MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
+        <Polygon.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
+                <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableCommand}" />
+                <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableCommand}" />
+            </ContextMenu>
+        </Polygon.ContextMenu>
+    </Polygon>
 </UserControl>

@@ -12,37 +12,22 @@ namespace PlansModule.ViewModels
 {
     public class ElementSubPlanViewModel : BaseViewModel
     {
+        public ElementSubPlanView ElementSubPlanView { get; private set; }
         public Guid PlanUID { get; private set; }
         public string PresentationName { get; private set; }
-        ElementSubPlanView _elementSubPlanView;
 
-        public ElementSubPlanViewModel()
-        {
-            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-        }
-
-        public void Initialize(ElementSubPlan elementSubPlan, Canvas canvas)
+        public ElementSubPlanViewModel(ElementSubPlan elementSubPlan)
         {
             PlanUID = elementSubPlan.UID;
-            var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == PlanUID);
-            PresentationName = plan.Caption;
+            if (elementSubPlan.Plan != null)
+                PresentationName = elementSubPlan.Plan.Caption;
 
-            _elementSubPlanView = new ElementSubPlanView()
-            {
-                DataContext = this
-            };
-
-            Canvas.SetLeft(_elementSubPlanView, elementSubPlan.Left);
-            Canvas.SetTop(_elementSubPlanView, elementSubPlan.Top);
-
+            ElementSubPlanView = new ElementSubPlanView();
             foreach (var polygonPoint in elementSubPlan.PolygonPoints)
             {
-                _elementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
+                ElementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-
-            _elementSubPlanView._polygon.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(subPlanPolygon_PreviewMouseLeftButtonDown);
-
-            canvas.Children.Add(_elementSubPlanView);
+            ElementSubPlanView.PlanUID = elementSubPlan.UID;
         }
 
         StateType _stateType;
@@ -54,24 +39,6 @@ namespace PlansModule.ViewModels
                 _stateType = value;
                 OnPropertyChanged("StateType");
             }
-        }
-
-        void subPlanPolygon_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                ServiceFactory.Events.GetEvent<SelectPlanEvent>().Publish(PlanUID);
-            }
-        }
-
-        public RelayCommand ShowPropertiesCommand { get; private set; }
-        void OnShowProperties()
-        {
-        }
-
-        public void Update(StateType stateType)
-        {
-            StateType = stateType;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using PlansModule.Events;
+using Infrastructure;
 
 namespace PlansModule
 {
@@ -18,6 +20,12 @@ namespace PlansModule
         void _polygon_MouseLeave(object sender, MouseEventArgs e)
         {
             _polygon.StrokeThickness = 0;
+        }
+
+        private void _polygon_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Publish(null);
+            _polygon.StrokeThickness = 1;
         }
     }
 }

@@ -12,35 +12,25 @@ namespace PlansModule.ViewModels
 {
     public class ElementZoneViewModel : BaseViewModel
     {
+        public ElementZoneView ElementZoneView { get; private set; }
         public ulong? ZoneNo { get; private set; }
         Zone _zone;
-        ElementZoneView _elementZoneView;
 
-        public ElementZoneViewModel()
+        public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
         {
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             EnableCommand = new RelayCommand(OnEnable);
             FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
-        }
 
-        public void Initialize(ElementPolygonZone elementPolygonZone, Canvas canvas)
-        {
             ZoneNo = elementPolygonZone.ZoneNo;
             _zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-            _elementZoneView = new ElementZoneView()
-            {
-                DataContext = this
-            };
-            Canvas.SetLeft(_elementZoneView, elementPolygonZone.Left);
-            Canvas.SetTop(_elementZoneView, elementPolygonZone.Top);
-            _elementZoneView._polygon.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(zonePolygon_PreviewMouseLeftButtonDown);
+            ElementZoneView = new ElementZoneView();
             foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
             {
-                _elementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
+                ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-            canvas.Children.Add(_elementZoneView);
 
             OnZoneStateChanged(ZoneNo);
         }
@@ -68,16 +58,9 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
+                ElementZoneView._polygon.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
             }
-        }
-
-        public event Action Selected;
-
-        void zonePolygon_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (Selected != null)
-                Selected();
         }
 
         List<Guid> DevicesToIgnore
