@@ -31,15 +31,6 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
-        <TabItem IsSelected="{Binding IsJournalSelected}">
-            <TabItem.Header>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Controls;component/Images/book.png" />
-                    <TextBlock Text="Журнал событий" />
-                    <TextBlock Text="{Binding UnreadJournalCount}" Visibility="{Binding HasUnreadJournal, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" />
-                </StackPanel>
-            </TabItem.Header>
-        </TabItem>
         <TabItem IsSelected="{Binding IsDevicesSelected}">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -56,11 +47,12 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
-        <TabItem IsSelected="{Binding IsReportSelected}">
+        <TabItem IsSelected="{Binding IsJournalSelected}">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/Controls;component/Images/levels.png" />
-                    <TextBlock Text="Отчеты" />
+                    <Image Source="/Controls;component/Images/book.png" />
+                    <TextBlock Text="Журнал событий" />
+                    <TextBlock Text="{Binding UnreadJournalCount}" Visibility="{Binding HasUnreadJournal, Converter={StaticResource BoolToVisibilityConverter}}" Margin="5" />
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
@@ -69,6 +61,14 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/archive.png"  />
                     <TextBlock Text="Архив" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
+        <TabItem IsSelected="{Binding IsReportSelected}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/levels.png" />
+                    <TextBlock Text="Отчеты" />
                 </StackPanel>
             </TabItem.Header>
         </TabItem>

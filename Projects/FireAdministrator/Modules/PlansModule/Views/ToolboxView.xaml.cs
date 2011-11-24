@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 
-namespace PlansModule.Designer
+namespace PlansModule.Views
 {
     public partial class ToolboxView : UserControl
     {

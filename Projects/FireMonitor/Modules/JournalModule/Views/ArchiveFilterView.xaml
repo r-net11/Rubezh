@@ -4,23 +4,20 @@
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             MinWidth="700" MinHeight="432">
+             MinWidth="700" MinHeight="500">
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
+    
     <DockPanel>
         <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
-                    Margin="2"
-                    HorizontalAlignment="Left"
-                    Command="{Binding ClearCommand}"
-                    Content="Сбросить все настройки" />
+            <Button Grid.Column="0" Content="Сбросить все настройки" Command="{Binding ClearCommand}" HorizontalAlignment="Left" Margin="2" Width="200" />
             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
                 <Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
@@ -58,102 +55,88 @@
             </TabItem>
             <TabItem Header="События" Padding="3">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Классы событий" />
-                    <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding JournalTypes,
-                                Converter={StaticResource CollectionViewFactoryConverter},
-                                ConverterParameter=Id}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <CheckBox Margin="2"
-                                              Checked="CheckBox_Checked"
-                                              Indeterminate="CheckBox_Indeterminate"
-                                              IsChecked="{Binding IsEnable}"
-                                              IsThreeState="True"
-                                              Unchecked="CheckBox_Checked" />
-                                    <TextBlock Text="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}" />
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Label Grid.Row="0" Grid.Column="1" Content="События" />
-                    <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding JournalEvents,
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+                        <Label Content="Подсистемы:" />
+                        <ItemsControl ItemsSource="{Binding Subsystems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsEnable}" Margin="20, 0, 0, 0" Foreground="White" VerticalAlignment="Center"
+                                        Content="{Binding Subsystem, Converter={StaticResource SubsystemTypeToStringConverter}}">
+                                    </CheckBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="Классы событий" />
+                        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding JournalTypes, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Id}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <CheckBox Margin="2" Indeterminate="CheckBox_Indeterminate" IsChecked="{Binding IsEnable}" IsThreeState="True"
+                                              Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
+                                        <TextBlock Text="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Label Grid.Row="0" Grid.Column="1" Content="События" />
+                        <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding JournalEvents,
                                 Converter={StaticResource CollectionViewFactoryConverter},
                                 ConverterParameter=ClassId}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <WrapPanel>
-                                    <CheckBox Margin="2"
-                                          Checked="CheckBox_Checked_1"
-                                          IsChecked="{Binding IsEnable}"
-                                          Content="{Binding Name}"
-                                          Unchecked="CheckBox_Checked_1" />
-                                </WrapPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <CheckBox Margin="2" IsChecked="{Binding IsEnable}" Content="{Binding Name}"
+                                          Checked="CheckBox_Checked_1" Unchecked="CheckBox_Checked_1" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Подсистемы" Padding="3">
-                <ListBox ItemsSource="{Binding Subsystems}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        BorderThickness="0" Focusable="False"
-                        Margin="0,30,0,0"
-                        Width="30">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsEnable}"
-                                  Content="{Binding Subsystem, Converter={StaticResource SubsystemTypeToStringConverter}}"
-                                 Margin="0,35">
-                                <CheckBox.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </CheckBox.LayoutTransform>
-                            </CheckBox>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.LayoutTransform>
-                        <RotateTransform Angle="-90" />
-                    </ListBox.LayoutTransform>
-                </ListBox>
-            </TabItem>
             <TabItem Header="Устройства" Padding="3">
-                <GroupBox>
-                    <GroupBox.Header>
-                        <CheckBox Content="Включить фильтр по следующим приборам"
-                                 IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" />
-                    </GroupBox.Header>
-                    <DataGrid ItemsSource="{Binding Devices,
-                                           Converter={StaticResource CollectionViewFactoryConverter},
-                                           ConverterParameter=Name}"
+                <StackPanel>
+                    <CheckBox Content="Включить фильтр по следующим приборам" Margin="5"
+                        IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
 
+                    <DataGrid ItemsSource="{Binding Devices, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Name}"
                               IsEnabled="{Binding IsDeviceFilterOn}"
-                             IsReadOnly="False"
-                             Margin="5">
+                              IsReadOnly="False" Margin="5" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
                         <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Binding="{Binding IsChecked}" IsReadOnly="False" />
                             <DataGridTemplateColumn Header="Тип" IsReadOnly="True" MinWidth="170">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <WrapPanel Margin="1.5">
-                                            <Image Source="{Binding ImageSource}" Margin="0,0,5,0" />
+                                        <WrapPanel>
+                                            <CheckBox IsChecked="{Binding IsChecked}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
+                                            <Image Source="{Binding ImageSource}" Margin="0, 0, 5, 0" />
                                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                                         </WrapPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" IsReadOnly="True" MinWidth="120" />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" IsReadOnly="True" MinWidth="120" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </GroupBox>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>

@@ -201,7 +201,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\deleteCross.png" />
+    <Resource Include="Images\DeleteCross.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Alarm_Main_1_Fire.png" />
@@ -216,7 +216,7 @@
     <Resource Include="Images\Check.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\DeleteAll.png" />
-    <Resource Include="Images\download.png" />
+    <Resource Include="Images\Download.png" />
     <Resource Include="Images\edit.png" />
     <Resource Include="Images\Filter.png" />
     <Resource Include="Images\Information.png" />
@@ -252,8 +252,8 @@
     <Resource Include="Images\Copy.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\left.png" />
-    <Resource Include="Images\leftLeft.png" />
+    <Resource Include="Images\Left.png" />
+    <Resource Include="Images\LeftLeft.png" />
     <Resource Include="Images\Right.png" />
     <Resource Include="Images\RightRight.png" />
   </ItemGroup>
@@ -266,14 +266,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Alarm.png" />
-    <Resource Include="Images\direction.png" />
+    <Resource Include="Images\Direction.png" />
     <Resource Include="Images\Ind_C-C.png" />
     <Resource Include="Images\Ind_C-P.png" />
     <Resource Include="Images\Ind_CxC.png" />
     <Resource Include="Images\Ind_CxP.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\deleteEmpty.png" />
+    <Resource Include="Images\DeleteEmpty.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
@@ -302,16 +302,16 @@
     <Resource Include="Images\ZoneRectangle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\shapes-align-hori-center.png" />
-    <Resource Include="Images\shapes-align-hori-left.png" />
-    <Resource Include="Images\shapes-align-hori-right.png" />
-    <Resource Include="Images\shapes-align-verti-bottom.png" />
-    <Resource Include="Images\shapes-align-verti-middle.png" />
-    <Resource Include="Images\shapes-align-verti-top.png" />
-    <Resource Include="Images\shapes-flip-horizontal.png" />
-    <Resource Include="Images\shapes-flip-vertical.png" />
-    <Resource Include="Images\shapes-rotate-anticlockwise.png" />
-    <Resource Include="Images\shapes-rotate-clockwise.png" />
+    <Resource Include="Images\Shapes-align-hori-center.png" />
+    <Resource Include="Images\Shapes-align-hori-left.png" />
+    <Resource Include="Images\Shapes-align-hori-right.png" />
+    <Resource Include="Images\Shapes-align-verti-bottom.png" />
+    <Resource Include="Images\Shapes-align-verti-middle.png" />
+    <Resource Include="Images\Shapes-align-verti-top.png" />
+    <Resource Include="Images\Shapes-flip-horizontal.png" />
+    <Resource Include="Images\Shapes-flip-vertical.png" />
+    <Resource Include="Images\Shapes-rotate-anticlockwise.png" />
+    <Resource Include="Images\Shapes-rotate-clockwise.png" />
     <Resource Include="Images\SubPlanPolygon.png" />
     <Resource Include="Images\Text.png" />
     <Resource Include="Images\ZoomIn.png" />
@@ -332,6 +332,9 @@
   <ItemGroup>
     <Resource Include="Images\Redo.png" />
     <Resource Include="Images\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Layers.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
