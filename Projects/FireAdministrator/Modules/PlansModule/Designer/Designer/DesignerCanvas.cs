@@ -32,6 +32,7 @@ namespace PlansModule.Designer
             Height = 100;
 
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+            SelectAllCommand = new RelayCommand(OnSelectAll);
             PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
             DataContext = this;
         }
@@ -97,6 +98,13 @@ namespace PlansModule.Designer
             }
 
             PlansModule.HasChanges = true;
+        }
+
+        public RelayCommand SelectAllCommand { get; private set; }
+        void OnSelectAll()
+        {
+            foreach(var designerItem in Items)
+                designerItem.IsSelected = true;
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
