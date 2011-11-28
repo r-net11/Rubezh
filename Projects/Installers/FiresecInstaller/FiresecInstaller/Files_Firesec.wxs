@@ -23,7 +23,7 @@
 					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
 															RestartServiceDelayInSeconds="100"/>
 				</ServiceInstall>
-				<ServiceControl Id="StartService" Start="install" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
+				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
 			</Component>
 			
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
