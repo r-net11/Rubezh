@@ -5,7 +5,7 @@ namespace PlansModule.ViewModels
 {
     public class ElementViewModel : BaseViewModel
     {
-        DesignerItem DesignerItem;
+        public DesignerItem DesignerItem { get; private set; }
 
         public ElementViewModel(DesignerItem designerItem, string name)
         {

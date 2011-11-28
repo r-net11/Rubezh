@@ -61,6 +61,7 @@ namespace PlansModule.ViewModels
 
         void OnElementsRemoved(List<ElementBase> elementsBefore)
         {
+            PlanDesignerViewModel.Save();
             AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
         }
 

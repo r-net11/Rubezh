@@ -74,6 +74,18 @@ namespace PlansModule.Designer
             get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
         }
 
+        double ZoomFactor
+        {
+            get
+            {
+                if (DesignerCanvas != null)
+                {
+                    return DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
+                }
+                return 1;
+            }
+        }
+
         bool _isVisibleLayout;
         public bool IsVisibleLayout
         {
@@ -204,17 +216,46 @@ namespace PlansModule.Designer
 
         public void Redraw()
         {
-            var framaworkElement = ElementBase.Draw();
-            if (framaworkElement != null)
+            if (ElementBase is ElementBasePolygon)
             {
-                framaworkElement.IsHitTestVisible = false;
-                Content = framaworkElement;
+                ElementBasePolygon elementBasePolygon = ElementBase as ElementBasePolygon;
+                var pointCollection = new PointCollection();
+                foreach (var point in elementBasePolygon.PolygonPoints)
+                {
+                    pointCollection.Add(new Point(point.X * ZoomFactor, point.Y * ZoomFactor));
+                }
+                elementBasePolygon.PolygonPoints = pointCollection;
             }
 
-            Canvas.SetLeft(this, ElementBase.Left);
-            Canvas.SetTop(this, ElementBase.Top);
-            Width = ElementBase.Width;
-            Height = ElementBase.Height;
+            if (ElementBase is IElementZone)
+            {
+                IElementZone elementZone = ElementBase as IElementZone;
+                elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
+            }
+
+            FrameworkElement frameworkElement = null;
+            if (ElementBase is ElementDevice)
+            {
+                var elementDevice = ElementBase as ElementDevice;
+                if (elementDevice.Device == null)
+                    elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
+            }
+            else
+            {
+                frameworkElement = ElementBase.Draw();
+            }
+
+            if (frameworkElement != null)
+            {
+                frameworkElement.IsHitTestVisible = false;
+                Content = frameworkElement;
+            }
+
+            Canvas.SetLeft(this, ElementBase.Left * ZoomFactor);
+            Canvas.SetTop(this, ElementBase.Top * ZoomFactor);
+            Width = ElementBase.Width * ZoomFactor;
+            Height = ElementBase.Height * ZoomFactor;
             UpdatePolygonAdorner();
         }
 
@@ -295,14 +336,18 @@ namespace PlansModule.Designer
 
         public void SavePropertiesToElementBase()
         {
-            ElementBase.Left = Canvas.GetLeft(this);
-            ElementBase.Top = Canvas.GetTop(this);
-            ElementBase.Width = this.Width;
-            ElementBase.Height = this.Height;
+            ElementBase.Left = Canvas.GetLeft(this) / ZoomFactor;
+            ElementBase.Top = Canvas.GetTop(this) / ZoomFactor;
+            ElementBase.Width = this.Width / ZoomFactor;
+            ElementBase.Height = this.Height / ZoomFactor;
             if (ElementBase is ElementBasePolygon)
             {
                 ElementBasePolygon elementPolygon = ElementBase as ElementBasePolygon;
-                elementPolygon.PolygonPoints = new System.Windows.Media.PointCollection((this.Content as Polygon).Points);
+                elementPolygon.PolygonPoints = new PointCollection();
+                foreach (var point in (this.Content as Polygon).Points)
+                {
+                    elementPolygon.PolygonPoints.Add(new Point(point.X / ZoomFactor, point.Y / ZoomFactor));
+                }
             }
         }
     }

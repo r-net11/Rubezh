@@ -70,10 +70,14 @@ namespace PlansModule.Designer
                     deltaVertical = Math.Min(0, e.VerticalChange);
                 }
 
-                foreach (DesignerItem item in DesignerCanvas.SelectedItems)
+                foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
                 {
-                    Canvas.SetLeft(item, Canvas.GetLeft(item) + deltaHorizontal);
-                    Canvas.SetTop(item, Canvas.GetTop(item) + deltaVertical);
+                    double left = Canvas.GetLeft(designerItem) + deltaHorizontal;
+                    double top = Canvas.GetTop(designerItem) + deltaVertical;
+                    Canvas.SetLeft(designerItem, left);
+                    Canvas.SetTop(designerItem, top);
+                    designerItem.ElementBase.Left = left / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
+                    designerItem.ElementBase.Top = top / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
                 }
 
                 DesignerCanvas.InvalidateMeasure();

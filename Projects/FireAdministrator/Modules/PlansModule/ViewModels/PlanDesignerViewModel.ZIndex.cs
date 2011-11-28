@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using System.Linq;
 
 namespace PlansModule.ViewModels
 {
@@ -9,10 +10,15 @@ namespace PlansModule.ViewModels
     {
         void InitializeZIndexCommands()
         {
-            MoveToFrontCommand = new RelayCommand(OnMoveToFront);
-            SendToBackCommand = new RelayCommand(OnSendToBack);
-            MoveForwardCommand = new RelayCommand(OnMoveForward);
-            MoveBackwardCommand = new RelayCommand(OnMoveBackward);
+            MoveToFrontCommand = new RelayCommand(OnMoveToFront, CanMoveExecute);
+            SendToBackCommand = new RelayCommand(OnSendToBack, CanMoveExecute);
+            MoveForwardCommand = new RelayCommand(OnMoveForward, CanMoveExecute);
+            MoveBackwardCommand = new RelayCommand(OnMoveBackward, CanMoveExecute);
+        }
+
+        public bool CanMoveExecute(object obj)
+        {
+            return DesignerCanvas.SelectedItems.Count() > 0;
         }
 
         public RelayCommand MoveToFrontCommand { get; private set; }

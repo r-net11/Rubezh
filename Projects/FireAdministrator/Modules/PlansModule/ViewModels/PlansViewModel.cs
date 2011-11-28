@@ -102,6 +102,7 @@ namespace PlansModule.ViewModels
 
                 if (value != null)
                 {
+                    PlanDesignerViewModel.ChangeZoom(1);
                     PlanDesignerViewModel.Save();
                     PlanDesignerViewModel.Initialize(value.Plan);
                     ResetHistory();

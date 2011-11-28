@@ -198,7 +198,8 @@ namespace PlansModule.Designer
                 Plan.ElementDevices.Add(elementBase as ElementDevice);
             }
 
-            DesignerItem designerItem = null;
+            var designerItem = Create(elementBase);
+
             if (elementBase is ElementDevice)
             {
                 var elementDevice = elementBase as ElementDevice;
@@ -206,22 +207,30 @@ namespace PlansModule.Designer
                 {
                     elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                     elementDevice.Device.PlanUIDs.Add(elementBase.UID);
-                }
-                var devicePicture = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
-                designerItem = Create(elementDevice, frameworkElement: devicePicture);
-                
+                }                
                 ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
             }
-            else
-            {
-                designerItem = Create(elementBase);
-            }
+
             return designerItem;
         }
 
-        public DesignerItem Create(ElementBase elementBase, FrameworkElement frameworkElement = null)
+        public DesignerItem Create(ElementBase elementBase)
         {
-            if (frameworkElement == null)
+            if (elementBase is IElementZone)
+            {
+                IElementZone elementZone = elementBase as IElementZone;
+                elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
+            }
+
+            FrameworkElement frameworkElement = null;
+            if (elementBase is ElementDevice)
+            {
+                var elementDevice = elementBase as ElementDevice;
+                if (elementDevice.Device == null)
+                    elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
+            }
+            else
             {
                 frameworkElement = elementBase.Draw();
             }
@@ -229,22 +238,20 @@ namespace PlansModule.Designer
 
             var designerItem = new DesignerItem()
             {
-                MinWidth = 10,
-                MinHeight = 10,
-                Width = elementBase.Width,
-                Height = elementBase.Height,
+                MinWidth = 10 * PlanDesignerViewModel.ZoomFactor,
+                MinHeight = 10 * PlanDesignerViewModel.ZoomFactor,
+                Width = elementBase.Width * PlanDesignerViewModel.ZoomFactor,
+                Height = elementBase.Height * PlanDesignerViewModel.ZoomFactor,
                 Content = frameworkElement,
                 ElementBase = elementBase,
-                IsPolygon = elementBase is ElementBasePolygon
+                IsPolygon = elementBase is ElementBasePolygon,
+                Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
             };
 
-            if (elementBase is IElementZone)
-                designerItem.Opacity = 0.5;
-            if (elementBase is ElementSubPlan)
-                designerItem.Opacity = 0.5;
+            //designerItem.Redraw();
 
-            DesignerCanvas.SetLeft(designerItem, elementBase.Left);
-            DesignerCanvas.SetTop(designerItem, elementBase.Top);
+            DesignerCanvas.SetLeft(designerItem, elementBase.Left * PlanDesignerViewModel.ZoomFactor);
+            DesignerCanvas.SetTop(designerItem, elementBase.Top * PlanDesignerViewModel.ZoomFactor);
             this.Children.Add(designerItem);
 
             SetZIndex(designerItem, elementBase);

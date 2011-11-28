@@ -18,13 +18,14 @@ namespace PlansModule.ViewModels
 {
     public partial class PlanDesignerViewModel : BaseViewModel
     {
-        double currentZoomFactor = 1;
-        public void ChangeZoom(double zoomFactor)
+        public double ZoomFactor = 1;
+
+        public void ChangeZoom(double newZoomFactor)
         {
-            double ondZoomFactor = currentZoomFactor;
-            currentZoomFactor = zoomFactor;
-            Zoom(zoomFactor / ondZoomFactor);
-            currentZoomFactor = zoomFactor;
+            double ondZoomFactor = ZoomFactor;
+            ZoomFactor = newZoomFactor;
+            Zoom(newZoomFactor / ondZoomFactor);
+            ZoomFactor = newZoomFactor;
         }
 
         void Zoom(double zoomFactor)
@@ -77,7 +78,7 @@ namespace PlansModule.ViewModels
                     (designerItem.ElementBase is ElementEllipse) ||
                     (designerItem.ElementBase is ElementTextBlock))
                 {
-                    var scaleTransform = new ScaleTransform(currentZoomFactor, currentZoomFactor);
+                    var scaleTransform = new ScaleTransform(ZoomFactor, ZoomFactor);
                     (designerItem.Content as System.Windows.FrameworkElement).LayoutTransform = scaleTransform;
                 }
             }

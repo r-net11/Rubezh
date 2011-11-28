@@ -63,23 +63,19 @@ namespace PlansModule.ViewModels
                 DesignerCanvas.Create(elementRectangleZone);
             }
 
-            foreach (var ElementPolygonZone in plan.ElementPolygonZones)
+            foreach (var elementPolygonZone in plan.ElementPolygonZones)
             {
-                DesignerCanvas.Create(ElementPolygonZone);
+                DesignerCanvas.Create(elementPolygonZone);
             }
 
-            foreach (var ElementSubPlan in plan.ElementSubPlans)
+            foreach (var elementSubPlan in plan.ElementSubPlans)
             {
-                DesignerCanvas.Create(ElementSubPlan);
+                DesignerCanvas.Create(elementSubPlan);
             }
 
             foreach (var elementDevice in plan.ElementDevices)
             {
-                if (elementDevice.Device != null)
-                {
-                    var devicePicture = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
-                    DesignerCanvas.Create(elementDevice, frameworkElement: devicePicture);
-                }
+                DesignerCanvas.Create(elementDevice);
             }
 
             DesignerCanvas.DeselectAll();
@@ -91,18 +87,16 @@ namespace PlansModule.ViewModels
             if (Plan == null)
                 return;
 
-            ChangeZoom(1);
-
             NormalizeZIndex();
             Plan.ClearElements();
 
             foreach (var designerItem in DesignerCanvas.Items)
             {
                 ElementBase elementBase = designerItem.ElementBase;
-                elementBase.Left = Canvas.GetLeft(designerItem);
-                elementBase.Top = Canvas.GetTop(designerItem);
-                elementBase.Width = designerItem.Width;
-                elementBase.Height = designerItem.Height;
+                elementBase.Left = Canvas.GetLeft(designerItem) / ZoomFactor;
+                elementBase.Top = Canvas.GetTop(designerItem) / ZoomFactor;
+                elementBase.Width = designerItem.Width / ZoomFactor;
+                elementBase.Height = designerItem.Height / ZoomFactor;
 
                 if (elementBase is ElementBasePolygon)
                 {
