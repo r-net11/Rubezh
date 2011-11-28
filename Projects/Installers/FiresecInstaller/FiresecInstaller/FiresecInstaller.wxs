@@ -69,7 +69,7 @@
     <Property Id="INSTALLLEVEL" Value="1" />
     
     <InstallExecuteSequence>
-      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOISE = "Full"</Custom>
+      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

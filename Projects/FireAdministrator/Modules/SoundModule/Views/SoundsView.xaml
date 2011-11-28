@@ -12,7 +12,7 @@
             <DataGridTemplateColumn Header="Состояние" Width="1*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

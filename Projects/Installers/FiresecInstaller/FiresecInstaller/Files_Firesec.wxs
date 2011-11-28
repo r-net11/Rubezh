@@ -14,7 +14,7 @@
 				Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
 			</Component>
 
-			<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
+			<!--<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
 				<File Id="FiresecWindowsServiceExe" Name="$(var.FiresecWindowsService.TargetFileName)"
 							Source="$(var.FiresecWindowsService.TargetDir)" KeyPath="yes" DiskId="1"/>
 				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
@@ -24,13 +24,13 @@
 															RestartServiceDelayInSeconds="100"/>
 				</ServiceInstall>
 				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
-			</Component>
+			</Component>-->
 			
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
-												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="yes" ContinueOnError="yes">
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="yes" ContinueOnError="no">
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="no"/>
 				</sql:SqlDatabase>
 			</Component>
 		</DirectoryRef>

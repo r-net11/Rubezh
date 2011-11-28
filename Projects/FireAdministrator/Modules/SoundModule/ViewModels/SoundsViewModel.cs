@@ -22,6 +22,10 @@ namespace SoundsModule.ViewModels
             Sounds = new ObservableCollection<SoundViewModel>();
             foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
             {
+                if (stateType == StateType.No)
+                {
+                    continue;
+                }
                 var newSound = new Sound() { StateType = stateType };
                 if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
                 {

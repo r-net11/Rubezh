@@ -111,12 +111,12 @@ namespace FiresecServiceRunner
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            this.Show();
+            this.WindowState = WindowState.Normal;
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.WindowState = WindowState.Minimized;
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
@@ -144,6 +144,18 @@ namespace FiresecServiceRunner
         {
             MyNotifyIcon.Dispose();
             base.OnClosing(e);
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+            }
+            if (this.WindowState == WindowState.Normal)
+            {
+                this.ShowInTaskbar = true;
+            }
         }
     }
 }
