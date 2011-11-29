@@ -7,6 +7,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
+using PlansModule.Views;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -30,10 +32,13 @@ namespace PlansModule.ViewModels
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
+            Trace.WriteLine("Copy");
+
             PlanDesignerViewModel.Save();
             Buffer = new List<ElementBase>();
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
+                designerItem.SavePropertiesToElementBase();
                 Buffer.Add(designerItem.ElementBase.Clone());
             }
         }
@@ -60,7 +65,7 @@ namespace PlansModule.ViewModels
             foreach (var elementBase in Buffer)
             {
                 elementBase.UID = Guid.NewGuid();
-                var designerItem = DesignerCanvas.AddElement(elementBase);
+                var designerItem = DesignerCanvas.AddElement(elementBase.Clone());
                 designerItem.IsSelected = true;
             }
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
@@ -82,8 +87,8 @@ namespace PlansModule.ViewModels
             }
             foreach (var elementBase in Buffer)
             {
-                elementBase.Left -= minLeft;
-                elementBase.Top -= minTop;
+                elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.ZoomFactor;
+                elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.ZoomFactor;
             }
             maxRight -= minLeft;
             maxBottom -= minTop;

@@ -11,7 +11,7 @@
         <KeyBinding Key="r" Modifiers="Control" Command="{Binding RedoCommand}" />
         <KeyBinding Key="a" Modifiers="Control" Command="{Binding DesignerCanvas.SelectAllCommand}" />
     </UserControl.InputBindings>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

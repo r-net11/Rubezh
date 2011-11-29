@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace PlansModule.Views
 {
@@ -10,6 +11,7 @@ namespace PlansModule.Views
         public ToolboxView()
         {
             InitializeComponent();
+            Loaded += new RoutedEventHandler(ToolboxView_Loaded);
         }
 
         private Point? dragStartPoint = null;
@@ -74,6 +76,23 @@ namespace PlansModule.Views
             }
 
             return elementBase;
+        }
+
+        void ToolboxView_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusManager.SetIsFocusScope(_stackPanel, true);
+        }
+
+        private void StackPanel_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            Trace.WriteLine("StackPanel_GotKeyboardFocus");
+            FocusManager.SetIsFocusScope(_stackPanel, true);
+        }
+
+        private void StackPanel_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            Trace.WriteLine("StackPanel_LostKeyboardFocus");
+            FocusManager.SetIsFocusScope(_stackPanel, true);
         }
     }
 }

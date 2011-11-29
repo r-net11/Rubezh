@@ -5,12 +5,22 @@
         <KeyBinding Key="c" Modifiers="Control" Command="{Binding CopyCommand}" />
         <KeyBinding Key="x" Modifiers="Control" Command="{Binding CutCommand}" />
         <KeyBinding Key="v" Modifiers="Control" Command="{Binding PasteCommand}" />
-        <KeyBinding Key="u" Modifiers="Control" Command="{Binding UndoCommand}" />
+        <KeyBinding Key="z" Modifiers="Control" Command="{Binding UndoCommand}" />
         <KeyBinding Key="r" Modifiers="Control" Command="{Binding RedoCommand}" />
         <KeyBinding Key="a" Modifiers="Control" Command="{Binding DesignerCanvas.SelectAllCommand}" />
     </UserControl.InputBindings>
 
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal"
+                Name="_stackPanel" GotKeyboardFocus="StackPanel_GotKeyboardFocus" LostKeyboardFocus="StackPanel_LostKeyboardFocus">
+        <StackPanel.InputBindings>
+            <KeyBinding Key="c" Modifiers="Control" Command="{Binding CopyCommand}" />
+            <KeyBinding Key="x" Modifiers="Control" Command="{Binding CutCommand}" />
+            <KeyBinding Key="v" Modifiers="Control" Command="{Binding PasteCommand}" />
+            <KeyBinding Key="u" Modifiers="Control" Command="{Binding UndoCommand}" />
+            <KeyBinding Key="r" Modifiers="Control" Command="{Binding RedoCommand}" />
+            <KeyBinding Key="a" Modifiers="Control" Command="{Binding DesignerCanvas.SelectAllCommand}" />
+        </StackPanel.InputBindings>
+        
         <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding ShowDevicesCommand}" ToolTip="Устройства" Style="{StaticResource ToolarButtonStyle}">

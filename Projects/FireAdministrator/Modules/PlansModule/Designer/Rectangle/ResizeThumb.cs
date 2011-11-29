@@ -92,6 +92,9 @@ namespace PlansModule.Designer
                             break;
                     }
 
+                    width = Math.Min(width, DesignerCanvas.Width - Canvas.GetLeft(designerItem));
+                    height = Math.Min(height, DesignerCanvas.Height - Canvas.GetTop(designerItem));
+
                     designerItem.Width = width;
                     designerItem.Height = height;
                     designerItem.ElementBase.Width = width / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;

@@ -23,6 +23,8 @@ namespace PlansModule.Designer
         public Plan Plan { get; set; }
         public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
         private Point? dragStartPoint = null;
+        public bool IsPointAdding = false;
+        List<ElementBase> initialElements;
 
         public DesignerCanvas()
         {
@@ -132,10 +134,10 @@ namespace PlansModule.Designer
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
                 if (adornerLayer != null)
                 {
-                    RubberbandAdorner adorner = new RubberbandAdorner(this, this.dragStartPoint);
-                    if (adorner != null)
+                    var rubberbandAdorner = new RubberbandAdorner(this, this.dragStartPoint);
+                    if (rubberbandAdorner != null)
                     {
-                        adornerLayer.Add(adorner);
+                        adornerLayer.Add(rubberbandAdorner);
                     }
                 }
 
@@ -149,8 +151,8 @@ namespace PlansModule.Designer
             var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
             Point position = e.GetPosition(this);
-            elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
-            elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
+            elementBase.Left = Math.Max(0, (position.X - elementBase.Height / 2) / PlanDesignerViewModel.ZoomFactor);
+            elementBase.Top = Math.Max(0, (position.Y - elementBase.Height / 2) / PlanDesignerViewModel.ZoomFactor);
 
             var designerItem = AddElement(elementBase);
 
@@ -216,46 +218,18 @@ namespace PlansModule.Designer
 
         public DesignerItem Create(ElementBase elementBase)
         {
-            if (elementBase is IElementZone)
-            {
-                IElementZone elementZone = elementBase as IElementZone;
-                elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
-            }
-
-            FrameworkElement frameworkElement = null;
-            if (elementBase is ElementDevice)
-            {
-                var elementDevice = elementBase as ElementDevice;
-                if (elementDevice.Device == null)
-                    elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
-            }
-            else
-            {
-                frameworkElement = elementBase.Draw();
-            }
-            frameworkElement.IsHitTestVisible = false;
-
             var designerItem = new DesignerItem()
             {
                 MinWidth = 10 * PlanDesignerViewModel.ZoomFactor,
                 MinHeight = 10 * PlanDesignerViewModel.ZoomFactor,
-                Width = elementBase.Width * PlanDesignerViewModel.ZoomFactor,
-                Height = elementBase.Height * PlanDesignerViewModel.ZoomFactor,
-                Content = frameworkElement,
                 ElementBase = elementBase,
                 IsPolygon = elementBase is ElementBasePolygon,
                 Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
             };
 
-            //designerItem.Redraw();
-
-            DesignerCanvas.SetLeft(designerItem, elementBase.Left * PlanDesignerViewModel.ZoomFactor);
-            DesignerCanvas.SetTop(designerItem, elementBase.Top * PlanDesignerViewModel.ZoomFactor);
             this.Children.Add(designerItem);
-
+            designerItem.Redraw();
             SetZIndex(designerItem, elementBase);
-
             return designerItem;
         }
 
@@ -286,8 +260,6 @@ namespace PlansModule.Designer
             if (elementBase is ElementDevice)
                 Panel.SetZIndex(designerItem, 5 * bigConstatnt);
         }
-
-        public bool IsPointAdding = false;
 
         void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -353,8 +325,6 @@ namespace PlansModule.Designer
                 Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels);
             }
         }
-
-        List<ElementBase> initialElements;
 
         public List<ElementBase> CloneSelectedElements()
         {
