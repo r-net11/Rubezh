@@ -70,24 +70,24 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="FiresecServiceConfigFolder">
-			<Component Id="PlansConfiguration" Guid="EDD08A2A-6872-4673-94F8-2A1CF848F36C">
+			<Component Id="PlansConfiguration" Guid="7389E335-B577-4D09-9E36-25A6FA75BDD7">
 				<File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1">
+							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
 			<Component Id="SecurityConfiguration" Guid="024037C2-F2FD-4A06-A14B-A23B5179E6DE">
 				<File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1">
+							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
 			<Component Id="DeviceLibrary" Guid="DF7CB00D-27E6-49CA-9CCE-B7B822C14B4A">
 				<File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1">
+							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
 			<Component Id="DeviceConfiguration" Guid="188AAA95-581A-4352-B11E-38C0CDE13C16">
 				<File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1">
+							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
 		</DirectoryRef>

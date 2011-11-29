@@ -43,6 +43,7 @@
             </Directory>
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
+            <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
             <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireMonIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />

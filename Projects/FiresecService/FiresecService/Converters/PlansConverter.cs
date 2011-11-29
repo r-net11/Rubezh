@@ -42,20 +42,20 @@ namespace FiresecService.Converters
                                             if (string.IsNullOrEmpty(innerPicture.idx))
                                                 innerPicture.idx = pictureIndex++.ToString();
 
-                                            Uri uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-                                            if (File.Exists(uri.AbsolutePath) == false)
+                                            var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+                                            if (File.Exists(directoryInfo.FullName) == false)
                                                 continue;
 
                                             if (innerPicture.ext == "emf")
                                             {
-                                                var metafile = new Metafile(uri.AbsolutePath);
+                                                var metafile = new Metafile(directoryInfo.FullName);
                                                 innerPicture.ext = "bmp";
-                                                uri = new Uri(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-                                                metafile.Save(uri.AbsolutePath, ImageFormat.Bmp);
+                                                directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+                                                metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
                                                 metafile.Dispose();
                                             }
 
-                                            byte[] backgroundPixels = File.ReadAllBytes(uri.AbsolutePath);
+                                            byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
 
                                             var elementRectangle = new ElementRectangle()
                                             {

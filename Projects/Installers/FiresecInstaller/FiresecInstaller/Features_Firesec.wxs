@@ -9,11 +9,14 @@
         <FeatureRef Id="FiresecServiceFeature" />
         <ComponentRef Id="ChangeConnectionsSettings"/>
         <ComponentRef Id="SqlComponent"/>
+        <ComponentRef Id="ClearOnUninstallFiresecService"/>
         <!--<ComponentRef Id="FiresecWindowsService" />-->
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FireAdministratorFeature" />
         <FeatureRef Id="FireMonitorFeature" />
+        <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
+        <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>
       <ComponentRef Id="DesktopFolder"/>
       <ComponentRef Id="ProgramMenuDir"/>

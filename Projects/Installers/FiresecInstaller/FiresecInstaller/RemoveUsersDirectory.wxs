@@ -14,5 +14,48 @@
 				<RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
+
+		<!--<DirectoryRef Id="FIRESECSERVICELOCATION">
+			<Component Id="FiresecServiceRemove" Guid="FEEAF790-BA1F-4B0D-BA1B-0D9F9DD720B5">
+				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" />
+			</Component>
+		</DirectoryRef>
+		<DirectoryRef Id="FIREMONITORLOCATION">
+			<Component Id="FireMonitorRemove" Guid="E430EF93-8DD6-4602-B2B6-27A81142AD81">
+				<RemoveFolder Id="FireMonitorRemove" On="uninstall" />
+			</Component>
+		</DirectoryRef>-->
+		<DirectoryRef Id="INSTALLLOCATION">
+			<Component Id="ClearOnUninstallFireMonitor" Guid="E430EF93-8DD6-4602-B2B6-27A81142AD81">
+				<CreateFolder Directory="INSTALLLOCATION" />
+				<RemoveFile Id="RemoveMonitorIcons" On="uninstall" Name="*.*" Directory="FireMonIconsFolder" />
+				<RemoveFolder Id="RemoveMonitorIconsLocation" On="uninstall" Directory="FireMonIconsFolder"/>
+				<RemoveFile Id="RemoveMonitorSounds" On="uninstall" Name="*.*" Directory="FireMonSoundsFolder" />
+				<RemoveFolder Id="RemoveMonitorSoundsLocation" On="uninstall" Directory="FireMonSoundsFolder"/>
+				<RemoveFile Id="RemoveMonitorReportTemplates" On="uninstall" Name="*.*" Directory="FireMonReportTemplatesFolder" />
+				<RemoveFolder Id="RemoveMonitorReportTemplatesLocation" On="uninstall" Directory="FireMonReportTemplatesFolder"/>
+				<RemoveFolder Id="RemoveFireMonitorConfigLocation" On="uninstall" Directory="FireMonConfigFolder"/>
+				<RemoveFile Id="RemoveMonitorClSettings" On="uninstall" Name="*.*" Directory="ClientSettingsFolder"/>
+				<RemoveFolder Id="RemoveFireMonitorClSettingsLocation" On="uninstall" Property="ClientSettingsFolder"/>
+				<RemoveFolder Id="RemoveFireMonitorLocation" On="uninstall" Directory="FIREMONITORLOCATION"/>
+			</Component>
+
+			<Component Id="ClearOnUninstallFireAdministrator" Guid="05F988F3-055D-4C20-92A5-DBB3C5983C89">
+				<CreateFolder Directory="INSTALLLOCATION" />
+				<RemoveFile Id="RemoveAdmIcons" On="uninstall" Name="*.*" Directory="FireAdmIconsFolder" />
+				<RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder"/>
+				<RemoveFile Id="RemoveAdmSounds" On="uninstall" Name="*.*" Directory="FireAdmSoundsFolder" />
+				<RemoveFolder Id="RemoveAdmSoundsLocation" On="uninstall" Directory="FireAdmSoundsFolder"/>
+				<RemoveFile Id="RemoveAdmReportTemplates" On="uninstall" Name="*.*" Directory="FireAdmReportTemplatesFolder" />
+				<RemoveFolder Id="RemoveAdmReportTemplatesLocation" On="uninstall" Directory="FireAdmReportTemplatesFolder"/>
+				<RemoveFolder Id="RemoveFireAdmConfigLocation" On="uninstall" Directory="FireAdmConfigFolder"/>
+				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION"/>
+			</Component>
+
+			<Component Id="ClearOnUninstallFiresecService" Guid="491AB89B-FE4A-4E99-A8D4-C486E13F2663">
+				<CreateFolder Directory="INSTALLLOCATION" />
+				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" Directory="FIRESECSERVICELOCATION"/>
+			</Component>
+		</DirectoryRef>
 	</Fragment>
 </Wix>
