@@ -11,24 +11,18 @@
         <Grid Grid.Column="1" DataContext="{Binding SelectedDeviceViewModel}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="4*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.ColumnSpan="2">
-                <TextBox AcceptsReturn="True"
-                         AcceptsTab="True"
-                         DataContext="{Binding SelectedStateViewModel.SelectedFrameViewModel.Frame}"
-                         HorizontalScrollBarVisibility="Auto"
-                         Text="{Binding Image}"
-                         VerticalScrollBarVisibility="Auto" />
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" Visibility="Collapsed">
+                <TextBox AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                         DataContext="{Binding SelectedStateViewModel.SelectedFrameViewModel.Frame}" Text="{Binding Image}"/>
             </Grid>
-            <Views:FramesView Grid.Row="1"
-                              Grid.Column="0"
-                              DataContext="{Binding SelectedStateViewModel}" />
-            <Views:DeviceControlView Grid.Row="1" Grid.Column="1" />
+            <Views:FramesView Grid.Row="1" Grid.Column="0" DataContext="{Binding SelectedStateViewModel}" />
+            <Views:DeviceControlView Grid.Row="1" Grid.Column="1" Margin="-150, 50, 0, 0" />
         </Grid>
     </Grid>
 </UserControl>

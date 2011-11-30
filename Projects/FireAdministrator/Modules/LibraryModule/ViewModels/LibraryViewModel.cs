@@ -11,12 +11,15 @@ namespace LibraryModule.ViewModels
     {
         public LibraryViewModel()
         {
+            AddDeviceCommand = new RelayCommand(OnAddDevice);
+            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
+
             DeviceViewModels = new ObservableCollection<DeviceViewModel>(
                 FiresecManager.LibraryConfiguration.Devices.Select(device => new DeviceViewModel(device))
             );
 
-            AddDeviceCommand = new RelayCommand(OnAddDevice);
-            RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
+            if (DeviceViewModels.Count > 0)
+                SelectedDeviceViewModel = DeviceViewModels[0];
         }
 
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; private set; }

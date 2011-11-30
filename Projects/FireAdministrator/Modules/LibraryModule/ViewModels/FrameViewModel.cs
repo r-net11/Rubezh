@@ -16,6 +16,12 @@ namespace LibraryModule.ViewModels
         {
             Frame = frame;
             ImportSvgCommand = new RelayCommand(OnImportSvg);
+            ExportSvgCommand = new RelayCommand(OnExportSvg);
+        }
+
+        public string Test
+        {
+            get { return "FrameViewModel"; }
         }
 
         public LibraryFrame Frame { get; private set; }
@@ -68,6 +74,21 @@ namespace LibraryModule.ViewModels
 
         public RelayCommand ImportSvgCommand { get; private set; }
         void OnImportSvg()
+        {
+            var openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Text Files (.svg)|*.svg";
+
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                Frame.Image = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
+                OnPropertyChanged("XamlOfImage");
+
+                LibraryModule.HasChanges = true;
+            }
+        }
+
+        public RelayCommand ExportSvgCommand { get; private set; }
+        void OnExportSvg()
         {
             var openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Text Files (.svg)|*.svg";

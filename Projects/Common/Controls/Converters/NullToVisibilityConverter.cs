@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace DevicesModule.Converters
+namespace Controls.Converters
 {
     public class NullToVisibilityConverter : IValueConverter
     {

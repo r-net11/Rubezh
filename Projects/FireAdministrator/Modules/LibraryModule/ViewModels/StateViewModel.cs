@@ -29,6 +29,11 @@ namespace LibraryModule.ViewModels
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
         }
 
+        public string Test
+        {
+            get { return "StateViewModel"; }
+        }
+
         public LibraryState State { get; private set; }
         public Driver ParentDriver { get; private set; }
 

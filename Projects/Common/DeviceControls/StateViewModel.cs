@@ -50,15 +50,21 @@ namespace DeviceControls
         public static DispatcherTimer Timer { get; set; }
         void OnTick(object sender, EventArgs e)
         {
-            _startTick++;
-            if (_startTick * 100 < _frames[_tick].Duration) return;
-            _startTick = 0;
-            _tick = (_tick + 1) % _frames.Count;
-            foreach (var canvas in _canvases)
+            try
             {
-                canvas.Visibility = Visibility.Collapsed;
+                _startTick++;
+                if (_startTick * 100 < _frames[_tick].Duration) return;
+                _startTick = 0;
+                _tick = (_tick + 1) % _frames.Count;
+                foreach (var canvas in _canvases)
+                {
+                    canvas.Visibility = Visibility.Collapsed;
+                }
+                if (_canvases.Count > _tick)
+                    _canvases[_tick].Visibility = Visibility.Visible;
+
             }
-            _canvases[_tick].Visibility = Visibility.Visible;
+            catch { return; }
         }
 
         public void Dispose()

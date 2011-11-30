@@ -1,13 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:Converters="clr-namespace:Controls">
-    
-    <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
-    <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
-    <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
-    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
-    <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Style x:Key="TreeExpanderStyle" TargetType="CheckBox">
         <Setter Property="Background" Value="#FF448DCA"/>

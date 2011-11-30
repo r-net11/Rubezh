@@ -95,8 +95,23 @@ namespace PlansModule.Designer
         {
             var currentThumb = sender as Thumb;
 
-            Canvas.SetLeft(currentThumb, Canvas.GetLeft(currentThumb) + e.HorizontalChange);
-            Canvas.SetTop(currentThumb, Canvas.GetTop(currentThumb) + e.VerticalChange);
+            double left = Canvas.GetLeft(DesignerItem) + Canvas.GetLeft(currentThumb) + e.HorizontalChange;
+            double top = Canvas.GetTop(DesignerItem) + Canvas.GetTop(currentThumb) + e.VerticalChange;
+
+            if (left < 0)
+                left = 0;
+            if (top < 0)
+                top = 0;
+            if (left > DesignerCanvas.Width)
+                left = DesignerCanvas.Width;
+            if (top > DesignerCanvas.Height)
+                top = DesignerCanvas.Height;
+
+            left -= Canvas.GetLeft(DesignerItem);
+            top -= Canvas.GetTop(DesignerItem);
+
+            Canvas.SetLeft(currentThumb, left);
+            Canvas.SetTop(currentThumb, top);
 
             ArrangeSize();
             SavePolygonPointsFromThumb();

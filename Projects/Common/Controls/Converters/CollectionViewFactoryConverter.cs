@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Controls
+namespace Controls.Converters
 {
     [ValueConversion(typeof(System.Collections.IList), typeof(System.Collections.IEnumerable))]
     public class CollectionViewFactoryConverter : IValueConverter

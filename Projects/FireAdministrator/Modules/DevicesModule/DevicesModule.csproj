@@ -98,7 +98,6 @@
       <DependentUpon>BindMsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\Actions\BindMsViewModel.cs" />
-    <Compile Include="Devices\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>

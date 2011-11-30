@@ -2,30 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
-    
-    <UserControl.Resources>
-        <ContextMenu x:Key="tabItemContextMenu">
-            <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр" />
-            <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр" />
-        </ContextMenu>
-    </UserControl.Resources>
-    
-    <TabControl ContextMenuOpening="TabControl_ContextMenuOpening"
-                ItemsSource="{Binding FrameViewModels}"
-                SelectedItem="{Binding SelectedFrameViewModel}"
-                TabStripPlacement="Bottom">
-        <TabControl.ItemContainerStyle>
-            <Style TargetType="{x:Type TabItem}">
-                <Style.Setters>
-                    <Setter Property="ContextMenu" Value="{StaticResource tabItemContextMenu}" />
-                </Style.Setters>
-            </Style>
-        </TabControl.ItemContainerStyle>
+
+    <TabControl ItemsSource="{Binding FrameViewModels}" SelectedItem="{Binding SelectedFrameViewModel}">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" ContextMenuOpening="OnContextMenuOpening">
                     <TextBlock Text="Кадр " />
                     <TextBlock Text="{Binding Frame.Id}" />
+                    <StackPanel.ContextMenu>
+                        <ContextMenu ContextMenuOpening="OnContextMenuOpening">
+                            <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр" />
+                            <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр" />
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
                 </StackPanel>
             </DataTemplate>
         </TabControl.ItemTemplate>
@@ -34,20 +23,14 @@
                 <DockPanel>
                     <WrapPanel DockPanel.Dock="Bottom">
                         <Label Content="Слой: " VerticalAlignment="Center" />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" />
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" Width="100" />
                         <Label Content=" Длительность: " VerticalAlignment="Center" />
-                        <ExtToolkit:IntegerUpDown Increment="100"
-                                                  IsEditable="False"
-                                                  Text="{Binding Duration, Mode=TwoWay}"
-                                                  Height="23" />
-                        <Button Margin="10,5,0,0"
-                                Command="{Binding ImportSvgCommand}"
-                                Content="Импорт из .svg" />
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Height="23" Width="100" Minimum="100" Maximum="10000" Increment="100"
+                                                  Text="{Binding Duration, Mode=TwoWay}" />
+                        <Button Margin="10,5,0,0" Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" />
+                        <Button Margin="10,5,0,0" Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" />
                     </WrapPanel>
-                    <ContentControl Width="500"
-                                    Height="500"
-                                    HorizontalAlignment="Center"
-                                    Content="{Binding XamlOfImage}">
+                    <ContentControl Width="500" Height="500" HorizontalAlignment="Center" Content="{Binding XamlOfImage}">
                         <ContentControl.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                         </ContentControl.LayoutTransform>

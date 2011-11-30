@@ -91,8 +91,9 @@ namespace PlansModule.Views
         {
             double scaleX = (_scrollViewer.ActualWidth - 30) / _contentControl.ActualWidth;
             double scaleY = (_scrollViewer.ActualHeight - 30) / _contentControl.ActualHeight;
-            double scale = Math.Min(scaleX, scaleY);
+            double scale = Math.Max(scaleX, scaleY);
 
+            //(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(scale);
             if (scale >= 1)
             {
                 slider.Value = scale;
@@ -101,6 +102,7 @@ namespace PlansModule.Views
             {
                 slider.Value = 2 - 1 / scale;
             }
+            //(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom((DataContext as PlansViewModel).PlanDesignerViewModel.ZoomFactor / scale);
         }
 
         #region Hand Moving

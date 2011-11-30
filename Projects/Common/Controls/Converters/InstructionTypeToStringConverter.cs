@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using FiresecAPI.Models;
 
-namespace Controls
+namespace Controls.Converters
 {
     internal class InstructionTypeToStringConverter : IValueConverter
     {
