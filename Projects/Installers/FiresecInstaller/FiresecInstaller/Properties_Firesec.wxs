@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
+		
 		<!--<Property Id="CLIENTSETTINGSSEARCH">
 			<DirectorySearch Id="DirectorySearchInstallFolder" Path="[FIREMONITORLOCATION]\ClientSettings\" Depth="0" AssignToProperty="yes">
 			</DirectorySearch>

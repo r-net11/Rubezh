@@ -15,16 +15,6 @@
 			</Component>
 		</DirectoryRef>
 
-		<!--<DirectoryRef Id="FIRESECSERVICELOCATION">
-			<Component Id="FiresecServiceRemove" Guid="FEEAF790-BA1F-4B0D-BA1B-0D9F9DD720B5">
-				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" />
-			</Component>
-		</DirectoryRef>
-		<DirectoryRef Id="FIREMONITORLOCATION">
-			<Component Id="FireMonitorRemove" Guid="E430EF93-8DD6-4602-B2B6-27A81142AD81">
-				<RemoveFolder Id="FireMonitorRemove" On="uninstall" />
-			</Component>
-		</DirectoryRef>-->
 		<DirectoryRef Id="INSTALLLOCATION">
 			<Component Id="ClearOnUninstallFireMonitor" Guid="E430EF93-8DD6-4602-B2B6-27A81142AD81">
 				<CreateFolder Directory="INSTALLLOCATION" />

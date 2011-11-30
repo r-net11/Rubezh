@@ -24,6 +24,11 @@
 								 Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
 				<Control Id="ShortcutProgramMenu" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Создать ярлык в меню Пуск"
 								 Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
+				<Control Id="Run" Type="CheckBox" Height="18" Width="295" X="26" Y="100" Text="Конвертация конфигурации"
+								 Property="CONVERTCONFIGURATION" CheckBoxValue="1" >
+					<Condition Action="show">SETUPCHOICE = "Full"</Condition>
+					<Condition Action="hide">1</Condition>
+				</Control>
 
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        Firesec" TabSkip="yes" />
@@ -51,7 +56,7 @@
 				</Control>
 			</Dialog>
 
-			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="[ProductName] - InstallShield Wizard" NoMinimize="yes">
+			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="[BrandName] - Программа установки" NoMinimize="yes">
 				<Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
 				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
 				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
@@ -71,8 +76,8 @@
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
 					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
 				</Control>
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Back" TabSkip="no" />
-				<Control Id="Next" Type="PushButton" X="229" Y="243" Width="66" Height="17" Text="&amp;Next &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<Control Id="Next" Type="PushButton" X="229" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
 				<Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
 				<Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
@@ -145,7 +150,6 @@
 				<Control Id="Bitmap2" Type="Bitmap"  Width="374" Height="44" X="0" Y="0" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>
 				<Control Id="Line2" Type="Line" Width="374" Height="2" X="0" Y="44" Disabled="yes" TabSkip="yes"/>
 			</Dialog>
-			
 		</UI>
 	</Fragment>
 </Wix>
