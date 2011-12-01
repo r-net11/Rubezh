@@ -54,6 +54,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\SetupProgress.ico" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\Firesec.ico" />

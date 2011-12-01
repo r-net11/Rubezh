@@ -19,6 +19,7 @@
     <Binary Id="InstallFolderError.ico" SourceFile="Data\InstallFolderError.ico" />
     <Binary Id="InstallFull.ico" SourceFile="Data\InstallFull.ico" />
     <Binary Id="InstallClient.ico" SourceFile="Data\InstallClient.ico" />
+    <Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
     <!--<Binary Id="CustomActions.dll" SourceFile="$(var.CustomActions.TargetDir)$(var.CustomActions.TargetName).CA.dll" />-->
 
     <WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />
